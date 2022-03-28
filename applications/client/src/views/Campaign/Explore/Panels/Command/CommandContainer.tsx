@@ -10,7 +10,10 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
+// import { Connect16 } from '@carbon/icons-react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
+// import { CarbonIcon } from '~/components';
+import { CheckForAddedLink } from '../../components/Comment/CheckForAddedLink';
 
 type CommandContainerProps = ComponentProps<'div'> & {
 	command?: CommandModel;
@@ -99,12 +102,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 				<div css={[hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
-						css={[
-							interactiveRowStyle,
-							gridFillStyle,
-							{ height: initialCommandRowHeight },
-							state.expanded || state.active ? activeCommandInfoRowStyle : undefined,
-						]}
+						css={[interactiveRowStyle, gridFillStyle, { height: initialCommandRowHeight }]}
 						onClick={state.setCollapsed}
 						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
 					>
@@ -119,7 +117,13 @@ export const CommandContainer = observer<CommandContainerProps>(
 								showPath={showPath}
 							/>
 						</Suspense>
+						{/* This is where the ticket icon comes from, so this is where we add icon for added beacon link */}
 						<MitreTechniqueIcons mitreAttackIds={state.command?.mitreTechniques} />
+						{/* We only want icon to show if this row's linkManual field is true and we are in the beacon view.
+            If we want this link to show when a host is selected, remove the params check.  */}
+						{store.router.params.currentItem === 'beacon' && (
+							<CheckForAddedLink commandID={commandId} containerOrBox="container" toggleLinkedFlag={() => {}} />
+						)}
 					</InfoRow>
 					{!hideCommentButton && (
 						<CommentCount
@@ -135,7 +139,8 @@ export const CommandContainer = observer<CommandContainerProps>(
 						/>
 					)}
 				</div>
-				{(state.expanded || state.active) && <CommandOutput command={state.command} />}
+
+				{state.active && <CommandOutput command={state.command} />}
 			</div>
 		);
 	}
@@ -170,6 +175,6 @@ const interactiveRowStyle = css`
 `;
 export const initialCommandRowHeight = 56;
 
-const activeCommandInfoRowStyle = css`
-	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
-`;
+// const activeCommandInfoRowStyle = css`
+// 	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
+// `;

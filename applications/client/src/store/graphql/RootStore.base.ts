@@ -1,6 +1,4 @@
 /* This is a mk-gql generated file, don't modify it manually */
-import type { MKGQLStore, QueryOptions } from 'mk-gql';
-import { createMKGQLStore } from 'mk-gql';
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -16,13 +14,15 @@ import {
 	prop,
 	Ref,
 } from 'mobx-keystone';
+import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
+import { MergeHelper } from './mergeHelper';
 
 import { AnnotationModel, annotationModelPrimitives, AnnotationModelSelector } from './AnnotationModel';
-import { BeaconMetaModel } from './BeaconMetaModel';
 import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
+import { BeaconMetaModel } from './BeaconMetaModel';
 import { CampaignModel, campaignModelPrimitives, CampaignModelSelector } from './CampaignModel';
-import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
+import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import {
 	CommandTypeCountModel,
 	commandTypeCountModelPrimitives,
@@ -30,12 +30,11 @@ import {
 } from './CommandTypeCountModel';
 import { FileModel, fileModelPrimitives, FileModelSelector } from './FileModel';
 import { GlobalOperatorModel, globalOperatorModelPrimitives, GlobalOperatorModelSelector } from './GlobalOperatorModel';
-import { HostMetaModel } from './HostMetaModel';
 import { HostModel, hostModelPrimitives, HostModelSelector } from './HostModel';
+import { HostMetaModel } from './HostMetaModel';
 import { ImageModel, imageModelPrimitives, ImageModelSelector } from './ImageModel';
 import { LinkModel, linkModelPrimitives, LinkModelSelector } from './LinkModel';
 import { LogEntryModel, logEntryModelPrimitives, LogEntryModelSelector } from './LogEntryModel';
-import { MergeHelper } from './mergeHelper';
 import { OperatorModel, operatorModelPrimitives, OperatorModelSelector } from './OperatorModel';
 import {
 	ParsingProgressModel,
@@ -48,16 +47,16 @@ import {
 	presentationItemModelPrimitives,
 	PresentationItemModelSelector,
 } from './PresentationItemModel';
-import { ServerMetaModel } from './ServerMetaModel';
 import { ServerModel, serverModelPrimitives, ServerModelSelector } from './ServerModel';
+import { ServerMetaModel } from './ServerMetaModel';
 import { ServerParsingProgressModel } from './ServerParsingProgressModel';
+import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
+import { TimelineModel, timelineModelPrimitives, TimelineModelSelector } from './TimelineModel';
+import { TimelineBucketModel } from './TimelineBucketModel';
+import { TimelineCommandCountTupleModel } from './TimelineCommandCountTupleModel';
 import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
-import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
-import { TimelineBucketModel } from './TimelineBucketModel';
-import { TimelineCommandCountTupleModel } from './TimelineCommandCountTupleModel';
-import { TimelineModel, timelineModelPrimitives, TimelineModelSelector } from './TimelineModel';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -140,8 +139,11 @@ export enum RootStoreBaseMutations {
 	mutateAnonymizeCampaign = 'mutateAnonymizeCampaign',
 	mutateCreateCampaign = 'mutateCreateCampaign',
 	mutateCreateGlobalOperator = 'mutateCreateGlobalOperator',
+	mutateCreateLink = 'mutateCreateLink',
 	mutateDeleteAnnotation = 'mutateDeleteAnnotation',
 	mutateDeleteCampaign = 'mutateDeleteCampaign',
+	mutateDeleteLink = 'mutateDeleteLink',
+	mutateEditLink = 'mutateEditLink',
 	mutateRenameCampaign = 'mutateRenameCampaign',
 	mutateServersParse = 'mutateServersParse',
 	mutateToggleBeaconHidden = 'mutateToggleBeaconHidden',
@@ -521,7 +523,7 @@ export class RootStoreBase extends ExtendedModel(
 			!!clean
 		);
 	}
-	// Get log entries by ids
+	// Get all links
 	@modelAction queryLinks(
 		variables: { campaignId: string; hidden?: boolean },
 		resultSelector:
@@ -861,6 +863,22 @@ export class RootStoreBase extends ExtendedModel(
 			optimisticUpdate
 		);
 	}
+	// Create a new link between two beacons
+	@modelAction mutateCreateLink(
+		variables: { campaignId: string; commandId: string; destinationId: string; name: string; originId: string },
+		resultSelector:
+			| string
+			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
+		optimisticUpdate?: () => void
+	) {
+		return this.mutate<{ createLink: LinkModel }>(
+			`mutation createLink($campaignId: String!, $commandId: String!, $destinationId: String!, $name: String!, $originId: String!) { createLink(campaignId: $campaignId, commandId: $commandId, destinationId: $destinationId, name: $name, originId: $originId) {
+        ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
+      } }`,
+			variables,
+			optimisticUpdate
+		);
+	}
 	// Delete existing Annotation
 	@modelAction mutateDeleteAnnotation(
 		variables: { annotationId: string; campaignId: string },
@@ -881,6 +899,45 @@ export class RootStoreBase extends ExtendedModel(
 	@modelAction mutateDeleteCampaign(variables: { campaignId: string }, _?: any, optimisticUpdate?: () => void) {
 		return this.mutate<{ deleteCampaign: boolean }>(
 			`mutation deleteCampaign($campaignId: String!) { deleteCampaign(campaignId: $campaignId)  }`,
+			variables,
+			optimisticUpdate
+		);
+	}
+	// Delete a link
+	@modelAction mutateDeleteLink(
+		variables: { campaignId: string; id: string },
+		resultSelector:
+			| string
+			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
+		optimisticUpdate?: () => void
+	) {
+		return this.mutate<{ deleteLink: LinkModel }>(
+			`mutation deleteLink($campaignId: String!, $id: String!) { deleteLink(campaignId: $campaignId, id: $id) {
+        ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
+      } }`,
+			variables,
+			optimisticUpdate
+		);
+	}
+	// Edit a link
+	@modelAction mutateEditLink(
+		variables: {
+			campaignId: string;
+			commandId: string;
+			destinationId: string;
+			id: string;
+			name: string;
+			originId: string;
+		},
+		resultSelector:
+			| string
+			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
+		optimisticUpdate?: () => void
+	) {
+		return this.mutate<{ editLink: LinkModel }>(
+			`mutation editLink($campaignId: String!, $commandId: String!, $destinationId: String!, $id: String!, $name: String!, $originId: String!) { editLink(campaignId: $campaignId, commandId: $commandId, destinationId: $destinationId, id: $id, name: $name, originId: $originId) {
+        ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
+      } }`,
 			variables,
 			optimisticUpdate
 		);
