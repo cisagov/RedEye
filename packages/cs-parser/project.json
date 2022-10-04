@@ -31,7 +31,7 @@
 				"commands": [
 					"yarn nx release parser --platform mac",
 					"yarn nx release parser --platform linux",
-					"yarn nx release parser --platform windows"
+					"yarn nx release parser --platform win"
 				],
 				"parallel": false
 			}
