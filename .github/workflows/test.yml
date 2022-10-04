@@ -44,7 +44,7 @@ jobs:
    fail-fast: false
    matrix:
     # run copies of the current job in parallel
-    containers: [1, 2, 3]
+    containers: [1, 2, 3, 4, 5]
   steps:
    - name: Checkout
      uses: actions/checkout@v3
@@ -87,7 +87,7 @@ jobs:
    fail-fast: false
    matrix:
     # run copies of the current job in parallel
-    containers: [1, 2, 3]
+    containers: [1, 2, 3, 4, 5]
   steps:
    - name: Checkout
      uses: actions/checkout@v3
@@ -110,49 +110,6 @@ jobs:
       config: baseUrl=http://localhost:3500
       record: true
       parallel: true
-      config-file: cypress.config.js
-     env:
-      CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      # Recommended: pass the GitHub token lets this action correctly
-      # determine the unique run id necessary to re-run the checks
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
- tests-webkit:
-  timeout-minutes: 15
-  runs-on: ubuntu-latest
-  needs: install
-  strategy:
-   fail-fast: false
-  steps:
-   - name: Checkout
-     uses: actions/checkout@v3
-
-   - name: Download the build folders
-     uses: actions/download-artifact@v3
-     with:
-      name: dist
-      path: dist
-
-   - name: Install dependencies
-     uses: cypress-io/github-action@v4
-     with:
-      # install WebKit browser dependencies
-      build: npx playwright install-deps webkit
-      runTests: false
-
-   - name: Cypress run (WebKit)
-     uses: cypress-io/github-action@v4
-     with:
-      start: yarn start
-      wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      wait-on-timeout: 120
-      browser: webkit
-      group: 'Safari'
-      working-directory: applications/redeye-e2e
-      config: baseUrl=http://localhost:3500
-      record: true
-      # parallel: true
       config-file: cypress.config.js
      env:
       CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
