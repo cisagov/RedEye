@@ -1,0 +1,67 @@
+{
+	"sourceRoot": "applications/redeye-e2e/src",
+	"targets": {
+		"e2e": {
+			"executor": "@nrwl/cypress:cypress",
+			"options": {
+				"exit": true,
+				"cypressConfig": "applications/redeye-e2e/cypress.config.js",
+				"devServerTarget": "client:serve"
+			}
+		},
+		"start": {
+			"executor": "@nrwl/cypress:cypress",
+			"options": {
+				"cypressConfig": "applications/redeye-e2e/cypress.config.js",
+				"devServerTarget": "client:serve",
+				"watch": true
+			}
+		},
+		"open-cy": {
+			"builder": "@nrwl/workspace:run-commands",
+			"options": {
+				"commands": [
+					{
+						"command": "nx run server:serve"
+					},
+					{
+						"command": "nx run redeye-e2e:start"
+					}
+				]
+			}
+		},
+		"cy-ci-chrome": {
+			"builder": "@nrwl/workspace:run-commands",
+			"parallel": false,
+			"options": {
+				"commands": [
+					{
+						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=chromium' || exit 0"
+					}
+				]
+			}
+		},
+		"cy-ci-firefox": {
+			"builder": "@nrwl/workspace:run-commands",
+			"parallel": false,
+			"options": {
+				"commands": [
+					{
+						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=firefox' || exit 0"
+					}
+				]
+			}
+		},
+		"cy-ci-safari": {
+			"builder": "@nrwl/workspace:run-commands",
+			"parallel": false,
+			"options": {
+				"commands": [
+					{
+						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=webkit' || exit 0"
+					}
+				]
+			}
+		}
+	}
+}

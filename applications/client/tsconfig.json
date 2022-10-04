@@ -1,0 +1,36 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"noImplicitAny": false,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"module": "esnext",
+		"downlevelIteration": true,
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"resolveJsonModule": true,
+		"noUnusedParameters": false,
+		"noUnusedLocals": false,
+		"noEmit": false,
+		"jsxImportSource": "@emotion/react",
+		"jsx": "react-jsx",
+		"plugins": [
+			{
+				"name": "typescript-styled-plugin",
+				"lint": {
+					"validProperties": ["r", "dominant-baseline"]
+				}
+			}
+		],
+		"types": ["react/next"]
+	},
+	"include": ["src"]
+}

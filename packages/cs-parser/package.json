@@ -1,0 +1,15 @@
+{
+	"name": "@redeye/cs-parser",
+	"version": "0.9.0",
+	"license": "MIT",
+	"bin": "./src/index.js",
+	"pkg": {
+		"assets": [
+			"../../../node_modules/better-sqlite3/**/*.*"
+		],
+		"compress": "GZip"
+	},
+	"files": [
+		"src"
+	]
+}

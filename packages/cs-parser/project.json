@@ -1,0 +1,48 @@
+{
+	"sourceRoot": "packages/cs-parser/src",
+	"projectType": "library",
+	"implicitDependencies": ["models"],
+	"targets": {
+		"build": {
+			"executor": "@nrwl/js:swc",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/packages/cs-parser",
+				"main": "packages/cs-parser/src/index.ts",
+				"tsConfig": "packages/cs-parser/tsconfig.json"
+			}
+		},
+		"release": {
+			"dependsOn": ["build"],
+			"executor": "nx:run-commands",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"commands": [
+					"pkg dist/packages/cs-parser/package.json -t node16-{args.platform} -o release/{args.platform}/parsers/cs-parser"
+				],
+				"parallel": false
+			}
+		},
+		"release-all": {
+			"dependsOn": ["build"],
+			"executor": "nx:run-commands",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"commands": [
+					"yarn nx release parser --platform mac",
+					"yarn nx release parser --platform linux",
+					"yarn nx release parser --platform windows"
+				],
+				"parallel": false
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/packages/cs-parser"],
+			"options": {
+				"jestConfig": "packages/cs-parser/jest.config.ts",
+				"coverage": true
+			}
+		}
+	}
+}

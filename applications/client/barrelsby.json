@@ -1,0 +1,7 @@
+{
+	"delete": true,
+	"location": "all",
+	"verbose": false,
+	"singleQuotes": true,
+	"exclude": ["graphql/[A-Z0-9_\\.-]+", "file-worker"]
+}

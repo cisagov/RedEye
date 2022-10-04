@@ -1,0 +1,26 @@
+{
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["import", "@typescript-eslint"],
+	"rules": {
+		"no-console": [
+			"warn",
+			{
+				"allow": ["info", "error", "warn"]
+			}
+		],
+		"no-debugger": "warn",
+		"@typescript-eslint/no-inferrable-types": "off",
+		"@typescript-eslint/no-unused-vars": [
+			"error",
+			{
+				"argsIgnorePattern": "^_"
+			}
+		],
+		"import/no-anonymous-default-export": ["error"]
+	}
+}

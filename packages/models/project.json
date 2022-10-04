@@ -1,0 +1,23 @@
+{
+	"sourceRoot": "packages/models/src",
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "@nrwl/js:swc",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/packages/models",
+				"main": "packages/models/src/index.ts",
+				"tsConfig": "packages/models/tsconfig.json"
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/packages/models"],
+			"options": {
+				"jestConfig": "packages/models/jest.config.ts",
+				"coverage": true
+			}
+		}
+	}
+}

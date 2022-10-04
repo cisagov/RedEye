@@ -1,0 +1,66 @@
+/* This is a mk-gql generated file, don't modify it manually */
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+
+import { QueryBuilder } from 'mk-gql';
+import type { IObservableArray } from 'mobx';
+import { Model, prop, Ref, tProp } from 'mobx-keystone';
+import type { BeaconModel } from './BeaconModel';
+import { BeaconModelSelector } from './BeaconModel';
+import type { ServerMetaModel } from './ServerMetaModel';
+import { ServerMetaModelSelector } from './ServerMetaModel';
+
+/* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
+type Refs = {
+	beacons: IObservableArray<BeaconModel>;
+	meta: ServerMetaModel;
+};
+
+/**
+ * ServerBase
+ * auto generated base class for the model ServerModel.
+ */
+export class ServerModelBase extends Model({
+	__typename: tProp('Server'),
+	beacons: prop<Ref<BeaconModel>[]>(() => []).withSetter(),
+	displayName: prop<string>().withSetter(),
+	hidden: prop<boolean | null>().withSetter(),
+	id: prop<string>().withSetter(),
+	logsCount: prop<number>().withSetter(),
+	meta: prop<Ref<ServerMetaModel>>().withSetter(),
+	name: prop<string>().withSetter(),
+}) {
+	getRefId() {
+		return String(this.id);
+	}
+}
+
+export class ServerModelSelector extends QueryBuilder {
+	get displayName() {
+		return this.__attr(`displayName`);
+	}
+	get hidden() {
+		return this.__attr(`hidden`);
+	}
+	get id() {
+		return this.__attr(`id`);
+	}
+	get logsCount() {
+		return this.__attr(`logsCount`);
+	}
+	get name() {
+		return this.__attr(`name`);
+	}
+	beacons(builder?: string | BeaconModelSelector | ((selector: BeaconModelSelector) => BeaconModelSelector)) {
+		return this.__child(`beacons`, BeaconModelSelector, builder);
+	}
+	meta(builder?: string | ServerMetaModelSelector | ((selector: ServerMetaModelSelector) => ServerMetaModelSelector)) {
+		return this.__child(`meta`, ServerMetaModelSelector, builder);
+	}
+}
+export function selectFromServer() {
+	return new ServerModelSelector();
+}
+
+export const serverModelPrimitives = selectFromServer().displayName.hidden.logsCount.name;
