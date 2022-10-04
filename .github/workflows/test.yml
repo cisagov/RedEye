@@ -24,7 +24,7 @@ jobs:
      with:
       runTests: false
    # report machine parameters
-   - run: yarn build
+   - run: yarn run build:all
 
    - name: Save build folder
      uses: actions/upload-artifact@v3
