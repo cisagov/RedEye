@@ -76,8 +76,8 @@ ARM support is experimental
 - Install yarn: `npm install -g yarn`
 - Run: `yarn install` // Installs all packages
 - Run either:
-  a. `yarn release:all` to build a binary for Linux, macOS, and Windows
-  b. `yarn release --platform (mac|win|linux)` to build for a specific platform.
+  1. `yarn release:all` to build a binary for Linux, macOS, and Windows
+  2. `yarn release --platform (mac|win|linux)` to build for a specific platform.
     - platform options:
       - mac
       - win
