@@ -33,7 +33,7 @@
 				"commands": [
 					"yarn nx release server --platform mac",
 					"yarn nx release server --platform linux",
-					"yarn nx release server --platform windows"
+					"yarn nx release server --platform win"
 				],
 				"parallel": false
 			}
