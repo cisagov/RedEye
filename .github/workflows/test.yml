@@ -150,7 +150,7 @@ jobs:
       group: 'Safari'
       working-directory: applications/redeye-e2e
       config: baseUrl=http://localhost:3500
-      # record: true
+      record: true
       # parallel: true
       config-file: cypress.config.js
      env:
