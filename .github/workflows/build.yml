@@ -28,15 +28,4 @@ jobs:
           cache: 'yarn'
       - run: |
           yarn install --immutable --inline-builds
-      # Runs a single command using the runners shell
-      - name: Nrwl Nx
-        # You may pin to the exact commit or the version.
-        # uses: MansaGroup/nrwl-nx-action@96194697f74d2e33cb02dbb3ee1dc3eab1f97bd1
-        uses: MansaGroup/nrwl-nx-action@v2
-        with:
-          # Comma-separated list of targets to execute
-          targets: build
-          # Run the targets on all projects
-          all: true
-          # Enable support for Nx Cloud
-          nxCloud: true
+          yarn run build:all
