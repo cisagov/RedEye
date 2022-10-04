@@ -26,7 +26,7 @@ export const configDefinition = object({
 	secret: string().required().default(randomUUID()),
 	password: string().when('blueTeam', {
 		is: true,
-		then: (schema) => schema.required().default(''),
+		then: (schema) => schema.default(''),
 		otherwise: (schema) =>
 			schema.required(
 				'`AUTHENTICATION_PASSWORD` environment variable undefined. Cannot run red team mode without a password'
