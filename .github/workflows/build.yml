@@ -6,9 +6,12 @@ name: Build Check
 on:
   # Triggers the workflow on push or pull request events but only for the "develop" branch
   push:
-    branches: [ "develop" ]
+    branches:
+      - main
+      - develop
   pull_request:
-    branches: [ "develop" ]
+    branches:
+      - '**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -27,6 +30,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: |
-          yarn install --immutable --inline-builds --mode=skip-build
+          yarn install --immutable --inline-builds
+      - name: Configuration for main branch
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          echo "NX_BRANCH=main" >> $GITHUB_ENV
+          echo "NX_CLOUD_ACCESS_TOKEN=${{ secrets.NX_CLOUD_READ_WRITE }}" >> $GITHUB_ENV
+      - name: Configuration for develop branch
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: |
+          echo "NX_CLOUD_ACCESS_TOKEN=${{ secrets.NX_CLOUD_READ_WRITE }}" >> $GITHUB_ENV    
       - run: |    
           yarn nx run-many --target=build --all
