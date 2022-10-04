@@ -1,0 +1,17 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build Check
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  changeset:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - run: npx changeset status
