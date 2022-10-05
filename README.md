@@ -1,6 +1,4 @@
 
-# RedEye ![RedEye Logo](applications/client/public/logos/Logo-Dark.png)
-
 # RedEye
 Red Team C2 Log Visualization
 
@@ -17,7 +15,7 @@ RedEye currently supports uploading [Cobalt Strike](https://www.cobaltstrike.com
 - The "Red Team" version gives a Red Team the ability to upload campaign logs, explore, and create presentations. This mode is started by running the RedEye with the `SERVER_BLUE_TEAM=false` environment variable or the `--redTeam` argument 
 - The "Blue Team" version gives a Blue Team the ability to review a read-only campaign exported by a Red Team. This mode runs by default
 
-### [User Guide](docs/User Guide.md)
+## [User Guide](<docs/User Guide.md>)
 
 ## Quick start
 
@@ -78,8 +76,8 @@ ARM support is experimental
 - Install yarn: `npm install -g yarn`
 - Run: `yarn install` // Installs all packages
 - Run either:
-  a. `yarn release:all` to build a binary for Linux, macOS, and Windows
-  b. `yarn release --platform (mac|win|linux)` to build for a specific platform.
+  1. `yarn release:all` to build a binary for Linux, macOS, and Windows
+  2. `yarn release --platform (mac|win|linux)` to build for a specific platform.
     - platform options:
       - mac
       - win
