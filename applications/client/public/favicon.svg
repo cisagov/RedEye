@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+     viewBox="0 0 32 32">
+  <style>
+    .ribbon {
+      fill: white;
+    }
+
+    .background {
+      fill: black;
+    }
+
+    .cube {
+      fill: red;
+    }
+
+    @media (prefers-color-scheme: light) {
+      .ribbon {
+        fill: black;
+      }
+
+      .background {
+        fill: white;
+      }
+    }
+  </style>
+  <polygon class="background"
+    points="25 13 24.5664 12.2567 27.8722 10.3677 23.5744 3 8.4197 3 3.8483 11 0 11 0 19 7 19 7.4336 19.7433 5.0039 21.1318 4.1278 21.6323 8.4256 29 23.5803 29 28.1517 21 32 21 32 13 25 13" />
+  <g class="ribbon">
+    <polygon points="1 17.125 1 12 3.875 12 1 17.125" />
+    <polygon points="19.7917 10.5 21.25 13 25.625 10.5 19.7917 10.5" />
+    <polygon points="26.5 10 23 4 9 4 1 18 8 18 12.5 10 26.5 10" />
+    <polygon points="28.125 20 31 20 31 14.875 28.125 20" />
+    <polygon points="12.2083 21.5 10.75 19 6.375 21.5 12.2083 21.5" />
+    <polygon points="5.5 22 9 28 23 28 31 14 24 14 19.5 22 5.5 22" />
+  </g>
+  <polygon class="cube" points="17.75 13 14.25 13 12.5 16 14.25 19 17.75 19 19.5 16 17.75 13" />
+</svg>

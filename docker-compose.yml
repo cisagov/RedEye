@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  redeye-core:
+    image: redeye-core:latest
+    environment:
+      - NODE_ENV=production
+      - SERVER_BLUE_TEAM=false
+    ports:
+      - 4000:4000
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: redeye-core
+  redeye-artifacts:
+    image: redeye-builder:latest
+    environment:
+      - NODE_ENV=production
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: redeye-builder

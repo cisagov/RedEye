@@ -1,0 +1,77 @@
+root: true
+parser: '@typescript-eslint/parser'
+plugins:
+  - '@typescript-eslint'
+  - simple-import-sort
+  - optimize-regex
+  - no-use-extend-native
+  - array-func
+  - import
+  - only-warn
+extends:
+  - plugin:no-unsanitized/DOM
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:array-func/all
+  - plugin:no-use-extend-native/recommended
+  - plugin:optimize-regex/recommended
+  - airbnb
+  - airbnb-typescript
+  - prettier
+rules:
+  react-hooks/exhaustive-deps: 0 # Disabled for mobx
+  import/prefer-default-export: 0 # Prefer named exports
+  import/no-default-export: 2 # Prefer named exports
+  no-console: 1 # Warn about console logs, use window.console.log if the log should be available in production
+  import/no-cycle: 0 # import cycling check too aggressive
+  no-empty-pattern: 0
+  'react/jsx-no-useless-fragment': 0
+  '@typescript-eslint/object-curly-spacing': 1
+  '@typescript-eslint/consistent-type-imports':
+    - warn
+    - prefer: type-imports
+      disallowTypeAnnotations: true
+  "react/function-component-definition":
+    - 2
+    - namedComponents: "arrow-function"
+      unnamedComponents: "arrow-function"
+  react/require-default-props: 0 # No default props
+  no-unused-vars: 0 # Disabled for typescript-eslint no-unused-vars rule
+  max-len: 0 # Disable max line length check, prettier takes care of this
+  no-else-return: 0 # Allow return in if statements
+  no-param-reassign: 0 # Allow assigning property of passed object
+  class-methods-use-this: 0 # Don't require all methods to use this
+  no-plusplus: 0 # Allow ++
+  consistent-return: 0 # Can return multiple types from function
+  no-return-assign: 0 # Allow arrow function return
+  prefer-destructuring: 0 # Try not to destructure objects, especially with mobx
+  no-restricted-syntax: 0 # Stops strange eslint errors
+  react/state-in-constructor: 0 # For class components
+  lines-between-class-members: 0 # Prevent new lines being placed between class properties
+  react/jsx-props-no-spreading: 0
+  func-names: 0
+  no-underscore-dangle: 0
+  jsx-a11y/click-events-have-key-events: 0
+  no-nested-ternary: 0
+  '@typescript-eslint/indent': 0
+  '@typescript-eslint/semi': 0
+  react/jsx-indent: 0
+  react/jsx-closing-bracket-location: 0
+  react/jsx-indent-props: 0
+  react/jsx-one-expression-per-line: 0
+  react/jsx-curly-newline: 0
+  react/jsx-wrap-multilines: 0
+  '@typescript-eslint/comma-dangle': 0
+  import/no-extraneous-dependencies: 0
+  import/extensions: 0
+  '@typescript-eslint/lines-between-class-members': 0 # Prevent new lines being placed between class properties
+  react/destructuring-assignment: 0 # Mobx needs non destructuring assignments
+  '@typescript-eslint/no-use-before-define': 0 # Allow styled components to be placed below function
+  '@typescript-eslint/no-unused-vars': 1 # Enable this to replace default eslint option
+  '@typescript-eslint/ban-ts-comment': 0 # Allow ts-ignore, use wisely
+  '@typescript-eslint/no-explicit-any': 0 # Allow explicit any, use wisely
+  '@typescript-eslint/return-await': 0 # Allow returning await for react-query
+  react/react-in-jsx-scope: 0 # React 17 doesn't require react to be imported anymore
+  react/no-children-prop: 0 # children are great!
+parserOptions:
+  project: './tsconfig.json'

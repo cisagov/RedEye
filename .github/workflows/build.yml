@@ -1,0 +1,38 @@
+
+name: Build Check
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn install --immutable --inline-builds
+      - name: Configuration for main branch
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          echo "NX_BRANCH=main" >> $GITHUB_ENV
+          echo "NX_CLOUD_ACCESS_TOKEN=${{ secrets.NX_CLOUD_READ_WRITE }}" >> $GITHUB_ENV
+      - name: Configuration for develop branch
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: echo "NX_CLOUD_ACCESS_TOKEN=${{ secrets.NX_CLOUD_READ_WRITE }}" >> $GITHUB_ENV
+      - run: yarn nx run-many --target=build --all

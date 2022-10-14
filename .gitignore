@@ -1,0 +1,38 @@
+.DS_Store
+node_modules
+*.local
+dist
+build
+@redeye/darwin-x64
+dev-databases
+.eslintcache
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+/.pnp
+.pnp.js
+
+coverage
+junit.xml
+
+.history
+.idea
+.vim
+.nova
+
+server/.env
+[diff]
+    tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+test.sqlite*
+
+junit.*.xml
+release
+tmp

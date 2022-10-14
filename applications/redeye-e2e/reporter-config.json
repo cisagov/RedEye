@@ -1,0 +1,10 @@
+{
+	"reporterEnabled": "mocha-junit-reporter",
+	"reporterOptions": {
+		"mochaFile": "../../dist/applications/redeye-e2e/results/results-[hash].xml",
+		"reportDir": "../../dist/applications/redeye-e2e/results",
+		"overwrite": false,
+		"html": false,
+		"json": true
+	}
+}

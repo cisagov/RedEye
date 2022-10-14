@@ -1,0 +1,12 @@
+{
+	"name": "@redeye/server",
+	"version": "0.9.0",
+	"bin": "./src/index.js",
+	"pkg": {
+		"assets": [
+			"../client/**/*",
+			"../../../node_modules/better-sqlite3/**/*.*"
+		],
+		"compress": "GZip"
+	}
+}
