@@ -1,0 +1,27 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "packages/graph/src",
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "@nxext/vite:package",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/packages/graph",
+				"assets": ["assets"],
+				"entryFile": "src/index.ts",
+				"configFile": "packages/graph/vite.config.ts",
+				"tsConfig": "packages/graph/tsconfig.json"
+			}
+		},
+		"serve": {
+			"executor": "@nxext/vite:dev",
+			"options": {
+				"outputPath": "dist/packages/graph",
+				"baseHref": "/",
+				"configFile": "packages/graph/vite.config.ts",
+				"tsConfig": "packages/graph/tsconfig.json"
+			}
+		}
+	}
+}

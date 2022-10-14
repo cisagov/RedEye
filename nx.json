@@ -1,0 +1,41 @@
+{
+	"npmScope": "redeye",
+	"workspaceLayout": {
+		"appsDir": "applications",
+		"libsDir": "packages"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "@nrwl/nx-cloud",
+			"options": {
+				"cacheableOperations": ["build", "test", "lint"],
+				"accessToken": "ZjIxM2E0OWYtNzNjYy00NDAxLWI4MGEtODM3ZjFiNDQ3NTY5fHJlYWQ="
+			}
+		}
+	},
+	"targetDependencies": {
+		"build": [
+			{
+				"target": "build",
+				"projects": "dependencies"
+			}
+		]
+	},
+	"affected": {
+		"defaultBase": "develop"
+	},
+	"cli": {
+		"defaultCollection": "@nxext/vite"
+	},
+	"generators": {
+		"@nxext/vite": {
+			"application": {
+				"linter": "eslint"
+			},
+			"library": {
+				"linter": "eslint"
+			}
+		}
+	},
+	"defaultProject": "client"
+}

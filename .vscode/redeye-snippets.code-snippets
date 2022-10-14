@@ -1,0 +1,37 @@
+{
+  "RedEye React Function": {
+    "prefix": "rfc",
+    "body": [
+      "import { css } from '@emotion/react';",
+      "import { observer } from 'mobx-react-lite';",
+      "import type { ComponentProps } from 'react';",
+      "",
+      "type ${TM_FILENAME_BASE/(^.)/${1:/upcase}/}Props = ComponentProps<'div'> & {}",
+      "",
+      "export const ${TM_FILENAME_BASE/(^.)/${1:/upcase}/} = observer<${TM_FILENAME_BASE/(^.)/${1:/upcase}/}Props>(({ ...props }) => {",
+      "  return <div cy-test=\"${TM_FILENAME_BASE/(^.)/${1:/downcase}/}-root\" {...props} css={css``}></div>;",
+      "});",
+      ""
+    ],
+    "description": "RedEye React Function"
+  },
+  "RedEye React Function With State": {
+    "prefix": "rsfc",
+    "body": [
+      "import { css } from '@emotion/react';",
+      "import { observer, useLocalObservable } from 'mobx-react-lite';",
+      "import type { ComponentProps } from 'react';",
+      "import { useStore } from '~/store';",
+      "",
+      "type ${TM_FILENAME_BASE/(^.)/${1:/upcase}/}Props = ComponentProps<'div'> & {}",
+      "",
+      "export const ${TM_FILENAME_BASE/(^.)/${1:/upcase}/}: observer<${TM_FILENAME_BASE/(^.)/${1:/upcase}/}Props>(({ ...props }) => {",
+      "  const store = useStore();",
+      "  const state = useLocalObservable(() => ({}));",
+      "  return <div cy-test=\"${TM_FILENAME_BASE/(^.)/${1:/downcase}/}-root\" {...props} css={css``}></div>;",
+      "});",
+      ""
+    ],
+    "description": "RedEye Stateful React Function"
+  }
+}

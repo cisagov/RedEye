@@ -1,0 +1,32 @@
+{
+	"search.exclude": {
+		"**/.yarn": true,
+		"**/yarn.lock": true,
+		"**/.pnp.*": true,
+		"**/*.drawio": true
+	},
+	"eslint.nodePath": ".yarn/sdks",
+	"prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"cSpell.words": ["Checkin", "deconflict", "subprocesses", "xstate"],
+	"yaml.customTags": ["!configurable mapping", "!secret mapping"],
+	"[typescript][typescriptreact][javascript][javascriptreact][json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"cypressHelper.customCommandsFolder": "applications/redeye-e2e/src/support",
+
+	"cypressHelper.commandForOpen": "yarn cypress open",
+
+	"cypressHelper.commandForRun": "yarn cypress run"
+}

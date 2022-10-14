@@ -1,0 +1,30 @@
+{
+	"short_name": "RedEye",
+	"name": "Red Team C2 Log Visualization",
+	"icons": [
+		{
+			"src": "favicon.svg",
+			"sizes": "32x32",
+			"type": "image/svg"
+		},
+		{
+			"src": "favicon.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "favicon.ico",
+			"sizes": "32x32 16x16",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "logos/Logo-Dark.png",
+			"type": "image/svg",
+			"sizes": "512x512"
+		}
+	],
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#000000"
+}

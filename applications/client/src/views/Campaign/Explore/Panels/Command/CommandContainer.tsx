@@ -1,0 +1,155 @@
+import { Classes } from '@blueprintjs/core';
+import { css } from '@emotion/react';
+import { createState } from '@redeye/client/components/mobx-create-state';
+import type { CommandModel } from '@redeye/client/store';
+import { useStore } from '@redeye/client/store';
+import type { UUID } from '@redeye/client/types/uuid';
+import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
+import { hoverRevealChildrenVisibility, Tokens } from '@redeye/ui-styles';
+import { reaction } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import type { ComponentProps } from 'react';
+import { Suspense, useEffect } from 'react';
+import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
+
+type CommandContainerProps = ComponentProps<'div'> & {
+	command?: CommandModel;
+	commandId?: string;
+	commandGroupId?: string | null;
+	annotationId?: string | null;
+	measure?: any;
+	setCommand?: (cmd: any) => any;
+	hideCommentButton?: boolean;
+	showPath?: boolean;
+};
+
+export const CommandContainer = observer<CommandContainerProps>(
+	({
+		annotationId,
+		commandGroupId,
+		command,
+		commandId,
+		setCommand,
+		hideCommentButton = false,
+		showPath = false,
+		...props
+	}) => {
+		const store = useStore();
+		const state = createState({
+			get active() {
+				return store.router.params.activeItem === 'command' && store.router.params.activeItemId === state.commandId;
+			},
+			setCollapsed() {
+				store.router.updateRoute({
+					path: store.router.currentRoute,
+					params: {
+						activeItem: state.active ? undefined : 'command',
+						activeItemId: state.active ? undefined : state.commandId,
+					},
+				});
+			},
+			localCommand: undefined as undefined | CommandModel,
+			get commandId(): UUID | undefined {
+				return (command?.id ?? commandId!) as UUID;
+			},
+			get command(): CommandModel | undefined {
+				return state.commandId || command?.id
+					? store.graphqlStore.commands.get((state.commandId || command?.id)!)
+					: undefined;
+			},
+			get skeletonClass() {
+				return state?.command?.inputText ? undefined : Classes.SKELETON;
+			},
+		});
+
+		useEffect(
+			() =>
+				reaction(
+					() => state.command,
+					() => {
+						state.command?.updateCurrentCommandGroups();
+						setCommand?.(state.command);
+					},
+					{ fireImmediately: true }
+				),
+			[]
+		);
+		return (
+			<div cy-test="command-info" css={wrapperStyle} {...props}>
+				<div css={[hoverRevealChildrenVisibility, gridWrapperStyle]}>
+					<InfoRow
+						cy-test="info-row"
+						css={[
+							interactiveRowStyle,
+							gridFillStyle,
+							{ height: initialCommandRowHeight },
+							state.active ? activeCommandInfoRowStyle : undefined,
+						]}
+						onClick={state.setCollapsed}
+						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
+					>
+						<Suspense fallback={<Command store={store} skeletonClass={Classes.SKELETON} />}>
+							<Command
+								store={store}
+								commandId={state.commandId}
+								skeletonClass={state.skeletonClass}
+								collapsed={!state.active}
+								className={state.skeletonClass}
+								command={state.command}
+								showPath={showPath}
+							/>
+						</Suspense>
+						<MitreTechniqueIcons mitreAttackIds={state.command?.mitreTechniques} />
+					</InfoRow>
+					{!hideCommentButton && (
+						<CommentCount
+							className={state.skeletonClass}
+							command={state.command}
+							commandGroupId={commandGroupId}
+							annotationId={annotationId}
+							css={[
+								gridFillStyle,
+								commentCountStyle,
+								!!store.campaign?.commentStore.groupSelect && !store.campaign?.commentStore.newGroupComment && hideCommentCount,
+							]}
+						/>
+					)}
+				</div>
+				{state.active && <CommandOutput command={state.command} />}
+			</div>
+		);
+	}
+);
+
+const wrapperStyle = css`
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorMuted};
+	min-height: 3rem;
+`;
+const gridWrapperStyle = css`
+	display: grid;
+`;
+const gridFillStyle = css`
+	grid-row: 1/2;
+	grid-column: 1/2;
+`;
+
+const hideCommentCount = css`
+	display: none;
+`;
+const commentCountStyle = css`
+	justify-self: end;
+	align-self: center;
+	margin-right: 0.5rem;
+`;
+const interactiveRowStyle = css`
+	justify-self: stretch;
+	align-self: stretch;
+	padding: 0.5rem 3rem 0.5rem 1rem;
+`;
+export const initialCommandRowHeight = 56;
+
+const activeCommandInfoRowStyle = css`
+	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
+`;

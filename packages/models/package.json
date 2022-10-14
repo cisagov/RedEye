@@ -1,0 +1,7 @@
+{
+	"name": "@redeye/models",
+	"version": "0.9.0",
+	"license": "MIT",
+	"main": "../../../dist/packages/models/src/index.js",
+	"types": "../../../dist/packages/models/src/index.d.ts"
+}
