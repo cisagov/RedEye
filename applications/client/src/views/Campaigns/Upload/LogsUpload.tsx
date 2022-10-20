@@ -252,10 +252,9 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 					<Txt tagName="div" large>
 						{state.multiServerUpload ? (
 							<span>
-								Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike
+								Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
 								<Txt bold>Server Folders</Txt>.<br />
-								Each <Txt bold>Server Folder</Txt>
-								should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>) folders.
+								Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>) folders.
 							</span>
 						) : (
 							<span>
