@@ -19,4 +19,5 @@ To get an overview of the project, read the [README](README.md). Here are some r
 2. [Create a separate branch](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/managing-branches) for your changes
 3. Make your changes, and ensure that it is formatted by [Prettier](https://prettier.io) and lint-checks without errors in [ESLint](https://eslint.org)
 4. Create a changeset by running `yarn changeset`. [More info](https://github.com/atlassian/changesets).
-5. Push your branch and open a PR 🚀
+5. You can run tests locally to validate changes with `yarn run test`. [More info](https://www.cypress.io).
+6. Push your branch and open a PR 🚀
