@@ -19,7 +19,7 @@ export const UserSettingsOverlay = observer<UserSettingsOverlayProps>(({ onSubmi
 					padding: 1rem;
 				`}
 			>
-				<p>Change user.name</p>
+				<p>Change Username</p>
 				<LoginForm submitText="Update" onSubmit={onSubmit} />
 				<Button minimal text="Log out" onClick={() => store.auth.logOut()} />
 			</div>
