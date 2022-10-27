@@ -52,6 +52,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 					store.settings.setShowHidden(e.target.checked);
 					store.reset(false);
 					store.campaign.refetch();
+					store.campaign.search.clearSearch();
 					store.router.updateRoute({
 						path: store.router.currentRoute,
 						params: {

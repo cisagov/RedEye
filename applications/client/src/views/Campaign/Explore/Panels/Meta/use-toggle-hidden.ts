@@ -21,6 +21,7 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 
 			store.reset(false);
 			store.campaign.refetch();
+			store.campaign.search.clearSearch();
 		},
 	});
 
