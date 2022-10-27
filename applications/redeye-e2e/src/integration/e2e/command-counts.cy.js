@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
-describe('Campaign comments', () => {
-	const camp = 'campaigncomments';
+describe('Command counts', () => {
+	const camp = 'commandcounts';
 	const fileName = 'gt.redeye';
 	const cmd = 'dcsync';
 	const comment = 'Another comment';
@@ -10,17 +10,17 @@ describe('Campaign comments', () => {
 	const tag1 = 'test_1';
 	const tag2 = 'test_2';
 
-	it('Add campaign comments and check counts', () => {
+	it('Verify command counts on front page and in campaign details', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		cy.searchForCampaign(camp);
 
 		// Log starting number of campaign comments on campaign card
-		cy.get('[cy-test=comment-count]').then((number1) => {
+		cy.get('[cy-test=command-count]').then((number1) => {
 			const divNumber1 = number1.text().split(' ').shift();
 			cy.get('[cy-test=comment-count]').should('contain', divNumber1);
 
-			// Open campaign and log starting number of comments via Comments tab - should equal campaign card count
+			// Open campaign and log command counts showing under Host tab
 			cy.selectCampaign(camp);
 
 			cy.clickCommentsTab();

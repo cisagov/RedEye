@@ -59,7 +59,7 @@ Cypress.Commands.add('addComment', (index, cmt) => {
 	cy.get('[cy-test=comment-input]').type(cmt);
 });
 
-//HOVER OVER TO ADD NEW COMMENT IF NONE EXIST
+//DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
 	cy.get('[cy-test=add-comment]').eq(index).click({ force: true });
 
@@ -68,7 +68,7 @@ Cypress.Commands.add('deleteComment', (index) => {
 	cy.contains('Delete Comment').click();
 });
 
-Cypress.Co;
+// ADD TO EXISTING COMMENT
 Cypress.Commands.add('addToExistingComment', (index, cmt) => {
 	cy
 		.get('[cy-test=command-info] [cy-test=add-comment]')
@@ -185,7 +185,7 @@ Cypress.Commands.add('closeRawLogs', () => {
 	cy.wait(200);
 });
 
-Cypress.Commands.add('searchCampaignFor', (searchTerm1) => {
-	cy.get('[cy-test=search]').click().clear().type(searchTerm1).type('{enter}');
+Cypress.Commands.add('searchCampaignFor', (searchTerm) => {
+	cy.get('[cy-test=search]').click().clear().type(searchTerm).type('{enter}');
 	cy.wait('@searchAnnotations');
 });

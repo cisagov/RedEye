@@ -12,21 +12,17 @@ describe('Multi-Command Comments', () => {
 		// Open campaign, go to Commands, select command and click multi-command comment
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('ps');
 
 		cy.addMultiCommandComment();
 
 		// Select both commands
-		cy
-			.get('[type=checkbox]')
-			.check({ force: true });
+		cy.get('[type=checkbox]').check({ force: true });
 
 		// Click on "Comment on commands"
-		cy
-			.get('[cy-test=comment-on-commands')
-			.click();
+		cy.get('[cy-test=comment-on-commands').click();
 
 		// Enter comment and tag and save comment
 		cy.favoriteComment();
@@ -50,45 +46,35 @@ describe('Multi-Command Comments', () => {
 
 		cy.clickExplorerMode();
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('runasadmin');
 
 		cy.addToExistingComment(0, comment);
 
 		// Log starting number of commands
-		cy
-			.get('[cy-test=number-commands]')
-			.then((number1) => {
-				const divNumber1 = number1.text().split(' ').shift();
-				cy.get('[cy-test=number-commands]').should('contain', divNumber1);
-				// cy.log(divNumber1);
+		cy.get('[cy-test=number-commands]').then((number1) => {
+			const divNumber1 = number1.text().split(' ').shift();
+			cy.get('[cy-test=number-commands]').should('contain', divNumber1);
+			// cy.log(divNumber1);
 
-				cy
-					.get('[cy-test=add-command-this-comment]')
-					.click();
-				cy.wait('@addCommandToCommandGroup');
-				cy.get('[cy-test=command-added]').should('be.visible');
-				// cy.wait(1000);
+			cy.get('[cy-test=add-command-this-comment]').click();
+			cy.wait('@addCommandToCommandGroup');
+			cy.get('[cy-test=command-added]').should('be.visible');
+			// cy.wait(1000);
 
-				// Log new number of commands - should be 1 more than earlier
-				cy
-					.get('[cy-test=number-commands]')
-					.then((number2) => {
-						const divNumber2 = number2.text().split(' ').shift();
-						cy.get('[cy-test=number-commands]').should('contain', divNumber2);
-						// cy.log(divNumber2);
-						expect(+divNumber2).to
-							.equal(+divNumber1 + +'1');
-					});
+			// Log new number of commands - should be 1 more than earlier
+			cy.get('[cy-test=number-commands]').then((number2) => {
+				const divNumber2 = number2.text().split(' ').shift();
+				cy.get('[cy-test=number-commands]').should('contain', divNumber2);
+				// cy.log(divNumber2);
+				expect(+divNumber2).to.equal(+divNumber1 + +'1');
 			});
+		});
 		cy.get('[cy-test=done-button]').click();
 
 		// Verify new comment is on the command
-		cy
-			.get('[cy-test=add-comment]')
-			.eq(0)
-			.click({ force: true });
+		cy.get('[cy-test=add-comment]').eq(0).click({ force: true });
 		cy.get('[cy-test=existing-comment-display]').should('contain', comment).and('contain', tag);
 	});
 
