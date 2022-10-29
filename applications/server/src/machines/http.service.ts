@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import 'reflect-metadata';
 import { AuthChecker, buildSchema } from 'type-graphql';
-import { asciiArtLogo, consoleFormatting as cf } from '../asciiArt';
+import { asciiArt, consoleFormatting as cf } from '../asciiArt';
 import { isAuth } from '../auth';
 import { addRestRoutes } from '../routes';
 import { ServerMachineContext } from './server.machine';
@@ -32,7 +32,7 @@ const serverStartLogs = async (ctx: ServerMachineContext, clientUrl?: string): P
 	const logLine: string[] = [``];
 
 	// if (ctx.config.production)
-	logLine.push(asciiArtLogo);
+	logLine.push(asciiArt);
 
 	const ver = `v${packageJson.version}`;
 	const helpLink = 'https://github.com/cisagov/redeye';
