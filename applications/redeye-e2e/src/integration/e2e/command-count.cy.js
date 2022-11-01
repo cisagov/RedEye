@@ -6,7 +6,7 @@ describe('Command counts', () => {
 	const camp = 'commandcounts';
 	const fileName = 'gt.redeye';
 
-	it('Verify command counts on campaign card against counts on Hosts tab of campaign', () => {
+	it('Verify command counts on front page against campaign details', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		cy.searchForCampaign(camp);
@@ -16,7 +16,7 @@ describe('Command counts', () => {
 			const commandTotal = number1.text().split(' ').shift();
 			cy.get('[cy-test=command-count]').should('contain', commandTotal);
 
-			// Open campaign and log command counts showing under Host tab - should equal number showing on campaign card
+			// Open campaign and log command counts showing under Host tab
 			cy.selectCampaign(camp);
 			cy
 				.get('[cy-test=row-command-count]')
