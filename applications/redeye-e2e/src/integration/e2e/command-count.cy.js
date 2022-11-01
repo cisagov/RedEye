@@ -11,20 +11,27 @@ describe('Command counts', () => {
 
 		// Log starting number of campaign comments on campaign card
 		cy.get('[cy-test=command-count]').then((number1) => {
-			const divNumber1 = number1.text().split(' ').shift();
-			cy.get('[cy-test=command-count]').should('contain', divNumber1);
+			const commandTotal = number1.text().split(' ').shift();
+			cy.get('[cy-test=command-count]').should('contain', commandTotal);
 
 			// Open campaign and log command counts showing under Host tab
 			cy.selectCampaign(camp);
 			cy
-				.get('[cy-test=info-row]')
-				.eq(1)
+				.get('[cy-test=row-command-count]')
+				.eq(0)
 				.invoke('text')
-				.then((textRow1) => {
-					cy.log(textRow1);
+				.then((countRow1) => {
+					cy.log(countRow1);
 
-					// this logs the text as one long string with no spaces or characters.
-					// Need to find a different way to get just the number of commands
+					cy
+						.get('[cy-test=row-command-count]')
+						.eq(1)
+						.invoke('text')
+						.then((countRow2) => {
+							cy.log(countRow2);
+
+							expect(+countRow1 + +countRow2).to.eq(+commandTotal);
+						});
 				});
 		});
 	});
