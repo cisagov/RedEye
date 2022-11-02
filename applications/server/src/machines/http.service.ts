@@ -7,7 +7,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import 'reflect-metadata';
 import { AuthChecker, buildSchema } from 'type-graphql';
-import { asciiArt } from '../asciiArt';
+import { asciiArt, consoleFormatting as cf } from '../asciiArt';
 import { isAuth } from '../auth';
 import { addRestRoutes } from '../routes';
 import { ServerMachineContext } from './server.machine';
@@ -31,7 +31,8 @@ const serverStartLogs = async (ctx: ServerMachineContext, clientUrl?: string): P
 
 	const logLine: string[] = [``];
 
-	if (ctx.config.production) logLine.push(asciiArt);
+	// if (ctx.config.production)
+	logLine.push(asciiArt);
 
 	const ver = `v${packageJson.version}`;
 	const helpLink = 'https://github.com/cisagov/redeye';
@@ -202,36 +203,3 @@ export const startBlueTeamHttpServerService = (ctx: ServerMachineContext) => {
 		}
 	});
 };
-
-const consoleFormatting = {
-	reset: '\x1b[0m',
-	bold: '\x1b[1m',
-	dim: '\x1b[2m',
-	underlined: '\x1b[4m',
-
-	//text color
-
-	black: '\x1b[30m',
-	red: '\x1b[31m',
-	green: '\x1b[32m',
-	yellow: '\x1b[33m',
-	blue: '\x1b[34m',
-	magenta: '\x1b[35m',
-	cyan: '\x1b[36m',
-
-	white: '\x1b[97m',
-	lightGray: '\x1b[37m',
-	darkGray: '\x1b[90m',
-
-	//background color
-
-	blackBg: '\x1b[40m',
-	redBg: '\x1b[41m',
-	greenBg: '\x1b[42m',
-	yellowBg: '\x1b[43m',
-	blueBg: '\x1b[44m',
-	magentaBg: '\x1b[45m',
-	cyanBg: '\x1b[46m',
-	whiteBg: '\x1b[47m',
-};
-const cf = consoleFormatting;
