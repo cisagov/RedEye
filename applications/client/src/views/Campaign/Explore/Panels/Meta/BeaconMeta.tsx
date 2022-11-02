@@ -144,6 +144,7 @@ export const BeaconMeta = observer(() => {
 			<MetaHeader>Time of Death </MetaHeader>
 			<div cy-test="beacon-time-of-death">
 				<DateInput2
+					key={store.settings.timezone}
 					disabled={!!store.appMeta.blueTeam}
 					value={store.settings.momentTz(state.displayDeath).toISOString()}
 					disableTimezoneSelect
@@ -152,7 +153,7 @@ export const BeaconMeta = observer(() => {
 					fill
 					closeOnSelection={false}
 					canClearSelection={false}
-					formatDate={(date) => (date == null ? '' : store.settings.momentTz(date).format(dateTimeFormat))}
+					formatDate={(date) => (date == null ? '' : moment(date).format(dateTimeFormat))}
 					parseDate={(str) => store.settings.momentTz(str).toDate()}
 					onChange={(datetime) => {
 						const min = store.campaign.timeline.maxRange?.[0];
