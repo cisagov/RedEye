@@ -26,7 +26,9 @@
 		"start:dev": "yarn nx run-many --target=serve --projects=graph,server,client",
 		"start:graph": "yarn nx serve graph",
 		"combine:reports": "jrm dist/applications/redeye-e2e/results/combined-report.xml \"dist/applications/redeye-e2e/results/*.xml\"",
-		"cy:open": "yarn nx open-cy redeye-e2e"
+		"cy:open": "yarn nx open-cy redeye-e2e",
+		"cy:open-blue": "yarn nx run redeye-e2e:open-cy-blue",
+		"start:blue": "SERVER_BLUE_TEAM=true yarn run start:dev"
 	},
 	"dependencies": {
 		"@blueprintjs/core": "^4.9.3",
@@ -151,7 +153,8 @@
 		"@vitejs/plugin-react": "^2.0.1",
 		"barrelsby": "^2.3.0",
 		"builder-util": "^23.0.2",
-		"cypress": "^10.9.0",
+		"cross-env": "^7.0.3",
+		"cypress": "^11.0.1",
 		"cypress-multi-reporters": "^1.6.1",
 		"dotenv": "^8.2.0",
 		"eslint": "^8.22.0",

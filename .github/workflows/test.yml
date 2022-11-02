@@ -1,10 +1,12 @@
 name: Cypress Tests
 
-concurrency: 
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-  
+concurrency:
+ group: ${{ github.workflow }}-${{ github.ref }}
+ cancel-in-progress: true
+
 on:
+ # manual button click from the GitHub UI
+ workflow_dispatch:
  push:
   branches:
    - main
@@ -16,19 +18,16 @@ on:
 jobs:
  install:
   runs-on: ubuntu-latest
-  container:
-   image: cypress/browsers:node16.13.0-chrome95-ff94
-   options: --user 1001
   steps:
    - name: Checkout
      uses: actions/checkout@v3
 
-   - name: Cypress install
-     uses: cypress-io/github-action@v4
+   - name: Cache
+     uses: actions/setup-node@v3
      with:
-      runTests: false
-   # report machine parameters
-   - run: yarn run build:all
+      cache: 'yarn'
+   - run: yarn install
+   - run: yarn build:all
 
    - name: Save build folder
      uses: actions/upload-artifact@v3
@@ -37,21 +36,24 @@ jobs:
       if-no-files-found: error
       path: dist
 
- chrome-tests:
-  timeout-minutes: 15
+ chrome:
   runs-on: ubuntu-latest
   container:
-   image: cypress/browsers:node16.13.0-chrome95-ff94
-   options: --user 1001
+   image: cypress/browsers:node18.12.0-chrome106-ff106
   needs: install
   strategy:
    fail-fast: false
    matrix:
-    # run copies of the current job in parallel
     containers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
   steps:
    - name: Checkout
      uses: actions/checkout@v3
+
+   - name: Cache
+     uses: actions/setup-node@v3
+     with:
+      cache: 'yarn'
 
    - name: Download the build folders
      uses: actions/download-artifact@v3
@@ -64,7 +66,6 @@ jobs:
      with:
       start: yarn start
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      wait-on-timeout: 120
       browser: chrome
       group: 'Chrome'
       working-directory: applications/redeye-e2e
@@ -75,26 +76,26 @@ jobs:
      env:
       CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      # Recommended: pass the GitHub token lets this action correctly
-      # determine the unique run id necessary to re-run the checks
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DEBUG: 'cypress:server:args'
 
- firefox-tests:
-  timeout-minutes: 15
+ firefox:
   runs-on: ubuntu-latest
   container:
-   image: cypress/browsers:node16.13.0-chrome95-ff94
+   image: cypress/browsers:node18.12.0-chrome106-ff106
    options: --user 1001
   needs: install
   strategy:
    fail-fast: false
    matrix:
-    # run copies of the current job in parallel
     containers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   steps:
    - name: Checkout
      uses: actions/checkout@v3
+
+   - name: Cache
+     uses: actions/setup-node@v3
+     with:
+      cache: 'yarn'
 
    - name: Download the build folders
      uses: actions/download-artifact@v3
@@ -107,7 +108,6 @@ jobs:
      with:
       start: yarn start
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      wait-on-timeout: 120
       browser: firefox
       group: 'Firefox'
       working-directory: applications/redeye-e2e
@@ -118,6 +118,4 @@ jobs:
      env:
       CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      # Recommended: pass the GitHub token lets this action correctly
-      # determine the unique run id necessary to re-run the checks
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
