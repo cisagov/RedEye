@@ -24,15 +24,25 @@ export const Operators = observer<OperatorsProps>(({ ...props }) => {
 				<MessageRow>No Operators</MessageRow>
 			) : (
 				operators.map((operator) => (
-					<InfoRow cy-test="operators" key={operator.name} onClick={async () => await operator.select()}>
+					<InfoRow cy-test="operator-row" key={operator.name} onClick={async () => await operator.select()}>
 						<RowTime cy-test="operator-time" state={operator.state}>
 							{store.settings.momentTz(operator.startTime)?.format(dateShortFormat)}&mdash;
 							{store.settings.momentTz(operator.endTime)?.format(dateShortFormat)}
 						</RowTime>
 						<RowTitle>{operator.name}</RowTitle>
 						<FlexSplitter />
-						<IconLabel value={operator.logIds?.length} title="Commands" icon={semanticIcons.commands} />
-						<IconLabel value={operator.beaconIds?.length} title="Beacons" icon={semanticIcons.beacon} />
+						<IconLabel
+							cy-test="row-command-count"
+							value={operator.logIds?.length}
+							title="Commands"
+							icon={semanticIcons.commands}
+						/>
+						<IconLabel
+							cy-test="row-beacon-count"
+							value={operator.beaconIds?.length}
+							title="Beacons"
+							icon={semanticIcons.beacon}
+						/>
 					</InfoRow>
 				))
 			)}
