@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-// PENDING BUG FIX FOR FIRST 2 TESTS BELOW - https://jira.pnnl.gov/jira/browse/BLDSTRIKE-529
+// PENDING BUG FIX FOR FIRST 2 TESTS BELOW
 
 describe('Beacon counts', () => {
 	const camp = 'beaconcounts';
