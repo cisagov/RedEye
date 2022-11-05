@@ -18,6 +18,7 @@
 			"outputs": ["{options.outputPath}"],
 			"options": {
 				"commands": [
+					"pkg-fetch --platform {args.platform} --node-range node16",
 					"pkg dist/packages/cs-parser/package.json -t node16-{args.platform} -o release/{args.platform}/parsers/cs-parser"
 				],
 				"parallel": false
