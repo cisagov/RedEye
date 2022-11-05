@@ -15677,7 +15677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pkg-fetch@npm:3.4.2":
+"pkg-fetch@npm:3.4.2, pkg-fetch@npm:^3.4.2":
   version: 3.4.2
   resolution: "pkg-fetch@npm:3.4.2"
   dependencies:
@@ -17109,6 +17109,7 @@ __metadata:
     open: ^8.4.0
     path-to-regexp: ^6.2.0
     pkg: ^5.8.0
+    pkg-fetch: ^3.4.2
     playwright-webkit: ^1.25.2
     prettier: ^2.2.1
     react: ^18.2.0
