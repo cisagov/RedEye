@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { graphqlRequest } from '../../support/utils';
+
 describe('Command counts', () => {
 	const camp = 'commandcounts';
 	const fileName = 'gt.redeye';
@@ -93,37 +95,84 @@ describe('Command counts', () => {
 		});
 	});
 
-	// IGNORE FOR NOW -- NEED A WAY TO COUNT ALL ROWS. CURRENTLY ONLY COUNTS THOSE THAT SHOW IN THE UI WHEREVER THE SCROLL BAR IS
-	// it.skip('Verify command counts match the total for each Host in campaign', () => {
-	// 	cy.selectCampaign(camp);
+	it('Verify command counts match the total for each Host in campaign', () => {
+		cy.selectCampaign(camp);
 
-	// 	// Open campaign and log command count for first host
-	// 	cy
-	// 		.get('[cy-test=row-command-count]')
-	// 		.eq(0)
-	// 		.invoke('text')
-	// 		.then((countHost1) => {
-	// 			cy.log(countHost1);
+		// Log name and command count for first host
+		cy
+			.get('[cy-test=hostName]')
+			.eq(1)
+			.invoke('text')
+			.then((nameHost1) => {
+				// cy.log(nameHost1);
 
-	// 			// Click host to open details
-	// 			cy.get('[cy-test=info-row]').eq(1).click();
+				cy
+					.get('[cy-test=row-command-count]')
+					.eq(0)
+					.invoke('text')
+					.then((countHost1) => {
+						// cy.log(countHost1);
 
-	// 			// Log number of commands showing - should match umber in host row
-	// 			cy.wait(1000);
-	// 			cy.get('[data-test-id=virtuoso-scroller]').scrollTo('bottom');
-	// 			cy.wait(1000);
+						// Click host to open details
+						cy.get('[cy-test=info-row]').eq(1).click();
 
-	// 			cy
-	// 				.get('[cy-test=command-info]')
+						// Log number of commands showing - should match umber in host row
 
-	// 				.its('length')
-	// 				.then((countCommandsHost1) => {
-	// 					cy.log(countCommandsHost1);
-	// 					expect(+countCommandsHost1).to.eq(+countHost1);
-	// 					// This only counts the commands that are showing in the UI -- doesn't count those that you have to scroll down to see. Figure out how to fix this
-	// 				});
-	// 		});
-	// });
+						cy.url().then((url) => {
+							const returnedUrl = url.split('/')[5];
+							cy.log(returnedUrl);
+
+							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
+						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
+					  }`;
+
+							const variables = `{"campaignId": "${returnedUrl}", "hostId": "${nameHost1}", "sort": { "sortBy": "time", "direction": "ASC"}}`;
+							graphqlRequest(query, variables).then((res) => {
+								cy.log(res.body.data.commandIds);
+								expect(res.body.data.commandIds).length(countHost1);
+							});
+						});
+					});
+			});
+
+		// Go back to Host list; log name and command count for second host
+		cy.get('[cy-test=explorer-mode]').click();
+		cy
+			.get('[cy-test=hostName]')
+			.eq(2)
+			.invoke('text')
+			.then((nameHost2) => {
+				// cy.log(nameHost2);
+
+				cy
+					.get('[cy-test=row-command-count]')
+					.eq(1)
+					.invoke('text')
+					.then((countHost2) => {
+						// cy.log(countHost2);
+
+						// Click host to open details
+						cy.get('[cy-test=info-row]').eq(2).click();
+
+						// Log number of commands showing - should match umber in host row
+
+						cy.url().then((url) => {
+							const returnedUrl = url.split('/')[5];
+							cy.log(returnedUrl);
+
+							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
+						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
+					  }`;
+
+							const variables = `{"campaignId": "${returnedUrl}", "hostId": "${nameHost2}", "sort": { "sortBy": "time", "direction": "ASC"}}`;
+							graphqlRequest(query, variables).then((res) => {
+								cy.log(res.body.data.commandIds);
+								expect(res.body.data.commandIds).length(countHost2);
+							});
+						});
+					});
+			});
+	});
 
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
