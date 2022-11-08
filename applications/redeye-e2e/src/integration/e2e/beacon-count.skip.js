@@ -1,9 +1,5 @@
 /// <reference types="cypress" />
 
-const {
-	exampleE2eProjectTslintJson,
-} = require('@nrwl/linter/src/utils/convert-tslint-to-eslint/example-tslint-configs');
-
 // PENDING BUG FIX FOR FIRST 2 TESTS BELOW - https://jira.pnnl.gov/jira/browse/BLDSTRIKE-529
 
 describe('Beacon counts', () => {
