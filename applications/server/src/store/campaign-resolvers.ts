@@ -129,6 +129,7 @@ export class CampaignResolvers {
 					machine.onDone(() => {
 						// If there is an error during anonymization delete copy and return the error
 						if (machine.state.context.error) {
+							console.debug('Error during export & anonymization ', machine.state.context.error);
 							fs.rmSync(anonymizedDbPath, { recursive: true });
 							return reject(Error(machine.state.context.error));
 						} else {

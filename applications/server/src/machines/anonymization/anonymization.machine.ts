@@ -67,7 +67,7 @@ export const anonymizationMachine = createMachine(
 						target: 'finished',
 					},
 					onError: {
-						target: 'idle',
+						target: 'finished',
 						actions: ['setError'],
 					},
 				},
