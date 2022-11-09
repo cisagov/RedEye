@@ -54,9 +54,7 @@ export const Command = observer<CommandProps>(
 						</>
 					)}
 				</Txt>
-				{!isCollapsed && showPath && (
-					<NavBreadcrumbs cy-test="hostBeaconInfo" command={command} commandId={commandId} hideRoot muted />
-				)}
+				{!isCollapsed && showPath && <NavBreadcrumbs cy-test="hostBeaconInfo" command={command} hideRoot muted />}
 				<Txt title={command?.info.commandTooltip} block ellipsize>
 					<Txt emphasis bold cy-test="command-type">
 						{command?.info.commandType}
