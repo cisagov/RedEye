@@ -96,41 +96,41 @@ export class CampaignResolvers {
 
 	@Authorized()
 	@Mutation(() => String, { description: 'Anonymize campaign for export' })
-	anonymizeCampaign(
+	async anonymizeCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('anonymizeOptions') anonymizeOptions: AnonymizationInput
 	): Promise<string | void> {
-		return new Promise(async (resolve, reject) => {
-			if (ctx.config.blueTeam) return reject(new AuthenticationError('Blue team cannot export'));
-			const tempCampaignFolder = `campaign-${randomUUID()}`;
-			const dbPath = path.join(getDbPath(ctx.config.databaseMode), 'campaign', campaignId);
-			const anonymizedDbPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns', tempCampaignFolder);
-			const exists = existsSync(dbPath);
-			if (!exists) {
-				return reject(Error('Database not found'));
-			} else {
-				try {
-					const filePath = path.join(anonymizedDbPath, 'db.redeye');
+		if (ctx.config.blueTeam) throw new AuthenticationError('Blue team cannot export');
+		const tempCampaignFolder = `campaign-${randomUUID()}`;
+		const dbPath = path.join(getDbPath(ctx.config.databaseMode), 'campaign', campaignId);
+		const anonymizedDbPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns', tempCampaignFolder);
+		const exists = existsSync(dbPath);
+		if (!exists) {
+			throw Error('Database not found');
+		} else {
+			try {
+				const filePath = path.join(anonymizedDbPath, 'db.redeye');
 
-					await fs.copy(dbPath, anonymizedDbPath);
-					const orm = await MikroORM.init({ ...getProjectMikroOrmConfig(filePath) });
-					await orm.em.getDriver().execute('PRAGMA wal_checkpoint');
-					await orm.close();
+				await fs.copy(dbPath, anonymizedDbPath);
+				const orm = await MikroORM.init({ ...getProjectMikroOrmConfig(filePath) });
+				await orm.em.getDriver().execute('PRAGMA wal_checkpoint');
+				await orm.close();
 
-					const machine = interpret(
-						anonymizationMachine.withContext({
-							database: filePath,
-							...anonymizeOptions,
-						})
-					).start();
-					machine.send('ANONYMIZE');
-
+				const machine = interpret(
+					anonymizationMachine.withContext({
+						database: filePath,
+						...anonymizeOptions,
+					})
+				).start();
+				machine.send('ANONYMIZE');
+				return new Promise(async (resolve, reject) => {
 					machine.onDone(() => {
 						// If there is an error during anonymization delete copy and return the error
 						if (machine.state.context.error) {
+							console.debug('Error during export & anonymization ', machine.state.context.error);
 							fs.rmSync(anonymizedDbPath, { recursive: true });
-							return reject(Error(machine.state.context.error));
+							return reject(new Error(machine.state.context.error));
 						} else {
 							// After a minute, delete the folder if it still exists
 							setTimeout(() => {
@@ -141,11 +141,11 @@ export class CampaignResolvers {
 							return resolve(tempCampaignFolder);
 						}
 					});
-				} catch (e) {
-					fs.rmSync(anonymizedDbPath, { recursive: true });
-					return reject(Error((e as Error).message));
-				}
+				});
+			} catch (e) {
+				fs.rmSync(anonymizedDbPath, { recursive: true });
+				throw Error((e as Error).message);
 			}
-		});
+		}
 	}
 }

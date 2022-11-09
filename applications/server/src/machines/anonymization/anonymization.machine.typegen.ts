@@ -2,9 +2,6 @@
 
 export interface Typegen0 {
 	'@@xstate/typegen': true;
-	eventsCausingActions: {
-		setError: 'error.platform.ANONYMIZATION.anonymizing:invocation[0]' | 'SET_ERROR';
-	};
 	internalEvents: {
 		'error.platform.ANONYMIZATION.anonymizing:invocation[0]': {
 			type: 'error.platform.ANONYMIZATION.anonymizing:invocation[0]';
@@ -21,11 +18,14 @@ export interface Typegen0 {
 		guards: never;
 		delays: never;
 	};
+	eventsCausingActions: {
+		setError: 'error.platform.ANONYMIZATION.anonymizing:invocation[0]';
+	};
 	eventsCausingServices: {
 		anonymizeService: 'ANONYMIZE';
 	};
 	eventsCausingGuards: {};
 	eventsCausingDelays: {};
-	matchesStates: 'idle' | 'anonymizing' | 'finished';
+	matchesStates: 'anonymizing' | 'finished' | 'idle';
 	tags: never;
 }
