@@ -133,6 +133,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 									isAscending={store.campaign.sort.direction === SortDirection.ASC}
 									toggleIsAscending={() => store.campaign.toggleIsAscending()}
 									filter={state.filter}
+									isCollapsibleOnly={store.router?.params.tab === Tabs.COMMANDS}
 								/>
 								{store.router?.params.tab === Tabs.COMMANDS &&
 									state.infoPanelType !== InfoType.OVERVIEW &&

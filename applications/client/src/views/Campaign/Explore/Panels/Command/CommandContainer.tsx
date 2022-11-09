@@ -22,7 +22,6 @@ type CommandContainerProps = ComponentProps<'div'> & {
 	hideCommentButton?: boolean;
 	showPath?: boolean;
 	expandedCommandIDs?: string[];
-	addExplandedCommandID?: (commandId: string) => void;
 	removeExplandedCommandID?: (commandId: string) => void;
 };
 
@@ -36,7 +35,6 @@ export const CommandContainer = observer<CommandContainerProps>(
 		hideCommentButton = false,
 		showPath = false,
 		expandedCommandIDs = [],
-		addExplandedCommandID,
 		removeExplandedCommandID,
 		...props
 	}) => {
@@ -46,11 +44,11 @@ export const CommandContainer = observer<CommandContainerProps>(
 				return store.router.params.activeItem === 'command' && store.router.params.activeItemId === state.commandId;
 			},
 			get expanded() {
-				return expandedCommandIDs.includes(state.commandId);
+				return store.router.params.activeItem === 'command' && expandedCommandIDs.includes(state.commandId);
 			},
 			setCollapsed() {
 				if (!state.expanded) {
-					addExplandedCommandID?.(state.commandId);
+					expandedCommandIDs.push(state.commandId);
 					store.router.updateRoute({
 						path: store.router.currentRoute,
 						params: {

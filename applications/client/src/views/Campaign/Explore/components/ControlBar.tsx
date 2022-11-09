@@ -1,6 +1,6 @@
 import { Alignment, Button, Intent, MenuItem } from '@blueprintjs/core';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { CaretDown16, CaretUp16, ChevronSort16, Minimize16 } from '@carbon/icons-react';
+import { CaretDown16, CaretUp16, ChevronSort16, CollapseCategories16, Minimize16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { DropdownItem } from '@redeye/client/components';
 import { CarbonIcon, createSorter, customIconPaths, Dropdown } from '@redeye/client/components';
@@ -19,6 +19,7 @@ type ControlBarProps = ComponentProps<'div'> & {
 	sortBy?: SortOption | null;
 	setSortBy: (sortBy: SortOption) => void;
 	isCollapsible?: boolean;
+	isCollapsibleOnly?: boolean;
 	isAscending: boolean;
 	toggleIsAscending: () => void;
 };
@@ -43,7 +44,17 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 };
 
 export const ControlBar = observer<ControlBarProps>(
-	({ type, sortBy, setSortBy, filter, isCollapsible = false, isAscending, toggleIsAscending, ...props }) => {
+	({
+		type,
+		sortBy,
+		setSortBy,
+		filter,
+		isCollapsible = false,
+		isCollapsibleOnly = false,
+		isAscending,
+		toggleIsAscending,
+		...props
+	}) => {
 		const store = useStore();
 		// TODO: add state for Select.activeItem(s) and sort order?
 		const [expandAll, setExpandAll] = useState(true);
@@ -88,6 +99,23 @@ export const ControlBar = observer<ControlBarProps>(
 							setExpandAll(!expandAll);
 						}}
 						minimal
+					/>
+				)}
+				{isCollapsibleOnly && (
+					<Button
+						icon={<CarbonIcon icon={CollapseCategories16} />}
+						title="Collapse All"
+						onClick={() => {
+							store.router.updateRoute({
+								path: store.router.currentRoute,
+								params: {
+									activeItem: undefined,
+									activeItemId: undefined,
+								},
+							});
+						}}
+						minimal
+						disabled={!store.router.params.activeItem}
 					/>
 				)}
 				<Dropdown
