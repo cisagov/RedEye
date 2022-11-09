@@ -13,6 +13,7 @@ type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 	BreadcrumbsStyledProps & {
 		/** if specified, show a nav from the command, otherwise display nav relative to the current route */
 		command?: CommandModel;
+		commandId?: string | undefined /* handle multi-expanded commands */;
 		// from: ServerModel | HostModel | BeaconModelType | CommandModelType // instead of command
 		/** fire when the component navigates */
 		onNavigate?: (event: MouseEvent<HTMLElement>) => void;
@@ -22,7 +23,7 @@ type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 		showCurrent?: boolean;
 	};
 export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
-	({ command, onNavigate = () => {}, hideRoot = false, showCurrent = false, ...props }) => {
+	({ command, commandId, onNavigate = () => {}, hideRoot = false, showCurrent = false, ...props }) => {
 		// TODO: maybe state.breadCrumbs and state.commandBreadCrumbs could be combined?
 
 		const store = useStore();

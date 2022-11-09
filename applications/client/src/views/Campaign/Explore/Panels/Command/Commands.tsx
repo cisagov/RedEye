@@ -23,6 +23,13 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 			startIndex: 0,
 			endIndex: 0,
 		},
+		expandedCommandIDs: store.router.params.activeItemId ? [store.router.params.activeItemId] : ([] as string[]),
+		addExplandedCommandID(commandId: string) {
+			this.expandedCommandIDs.push(commandId);
+		},
+		removeExplandedCommandID(commandId: string) {
+			this.expandedCommandIDs.splice(this.expandedCommandIDs.indexOf(commandId), 1);
+		},
 		scrollToCommand(commandId: string, commandIds: string[], behavior: ScrollBehavior = 'smooth') {
 			const commandIndex = commandIds.findIndex((id) => commandId === id);
 			if (commandIndex > -1) {
@@ -106,7 +113,15 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 				<MessageRow>No Commands</MessageRow>
 			) : (
 				data?.commandIds?.map((commandId) => (
-					<CommandContainer commandId={commandId} key={commandId} data-command-id={commandId} showPath={showPath} />
+					<CommandContainer
+						commandId={commandId}
+						key={commandId}
+						data-command-id={commandId}
+						showPath={showPath}
+						expandedCommandIDs={state.expandedCommandIDs}
+						addExplandedCommandID={state.addExplandedCommandID}
+						removeExplandedCommandID={state.removeExplandedCommandID}
+					/>
 				))
 			)}
 		</VirtualizedList>
