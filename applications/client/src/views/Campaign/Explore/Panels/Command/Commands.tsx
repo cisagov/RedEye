@@ -27,9 +27,6 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 		expandedCommandIDs: store.router.params.activeItemId
 			? observable.array([store.router.params.activeItemId])
 			: observable.array<string>([]),
-		addExplandedCommandID(commandId: string) {
-			this.expandedCommandIDs.push(commandId);
-		},
 		removeExplandedCommandID(commandId: string) {
 			this.expandedCommandIDs.remove(commandId);
 		},
