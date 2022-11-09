@@ -1,6 +1,6 @@
 import { Alignment, Button, Intent, MenuItem } from '@blueprintjs/core';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { CaretDown16, CaretUp16, ChevronSort16, CollapseCategories16, Minimize16 } from '@carbon/icons-react';
+import { CaretDown16, CaretUp16, CollapseCategories16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { DropdownItem } from '@redeye/client/components';
 import { CarbonIcon, createSorter, customIconPaths, Dropdown } from '@redeye/client/components';
@@ -11,7 +11,6 @@ import { sortOptions } from '@redeye/client/views';
 import { FlexSplitter, Tokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useState } from 'react';
 
 type ControlBarProps = ComponentProps<'div'> & {
 	type: Tabs;
@@ -19,7 +18,6 @@ type ControlBarProps = ComponentProps<'div'> & {
 	sortBy?: SortOption | null;
 	setSortBy: (sortBy: SortOption) => void;
 	isCollapsible?: boolean;
-	isCollapsibleOnly?: boolean;
 	isAscending: boolean;
 	toggleIsAscending: () => void;
 };
@@ -44,20 +42,8 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 };
 
 export const ControlBar = observer<ControlBarProps>(
-	({
-		type,
-		sortBy,
-		setSortBy,
-		filter,
-		isCollapsible = false,
-		isCollapsibleOnly = false,
-		isAscending,
-		toggleIsAscending,
-		...props
-	}) => {
+	({ type, sortBy, setSortBy, filter, isCollapsible = false, isAscending, toggleIsAscending, ...props }) => {
 		const store = useStore();
-		// TODO: add state for Select.activeItem(s) and sort order?
-		const [expandAll, setExpandAll] = useState(true);
 
 		return (
 			<div
@@ -90,18 +76,6 @@ export const ControlBar = observer<ControlBarProps>(
           </Select>
         */}
 				{isCollapsible && (
-					<Button
-						icon={<CarbonIcon icon={expandAll ? ChevronSort16 : Minimize16} />}
-						// TODO: replace Minimize16 with custom icon for CollapseAll
-						title={expandAll ? 'Expand All' : 'Collapse All'}
-						onClick={() => {
-							window.console.log('TODO: expand or collapse all list items');
-							setExpandAll(!expandAll);
-						}}
-						minimal
-					/>
-				)}
-				{isCollapsibleOnly && (
 					<Button
 						icon={<CarbonIcon icon={CollapseCategories16} />}
 						title="Collapse All"
