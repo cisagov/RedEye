@@ -79,6 +79,10 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 							),
 						},
 					});
+				if (!fileName) {
+					this.error = 'Error anonymizing campaign';
+					return (this.isLoading = false);
+				}
 				const res: Response = yield store.auth.protectedFetch(
 					`${store.auth.serverUrl}/api/campaign/download/${fileName.anonymizeCampaign}`,
 					{

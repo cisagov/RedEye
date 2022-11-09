@@ -43,7 +43,7 @@ export interface AnonymizationMachineContext extends AnonymizationInput {
 	error?: string;
 }
 
-type AnonymizationMachineEvent = { type: 'ANONYMIZE' } | { type: 'SET_ERROR'; error: Error };
+type AnonymizationMachineEvent = { type: 'ANONYMIZE' };
 
 export const anonymizationMachine = createMachine(
 	{
@@ -67,13 +67,8 @@ export const anonymizationMachine = createMachine(
 						target: 'finished',
 					},
 					onError: {
+						actions: 'setError',
 						target: 'finished',
-						actions: ['setError'],
-					},
-				},
-				on: {
-					SET_ERROR: {
-						actions: ['setError'],
 					},
 				},
 			},
@@ -85,7 +80,7 @@ export const anonymizationMachine = createMachine(
 	{
 		actions: {
 			setError: assign((_, event) => ({
-				error: 'error' in event ? event.error.message : undefined,
+				error: 'data' in event ? (event.data as Error)?.message : undefined,
 			})),
 		},
 		services: {
