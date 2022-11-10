@@ -3,6 +3,9 @@
 	"version": "0.9.0",
 	"bin": "./src/index.js",
 	"pkg": {
+		"scripts": [
+			"./src/machines/anonymization/anonymization.worker.js"
+		],
 		"assets": [
 			"../client/**/*",
 			"../../../node_modules/better-sqlite3/**/*.*"
