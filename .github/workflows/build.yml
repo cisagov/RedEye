@@ -36,3 +36,10 @@ jobs:
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: echo "NX_CLOUD_ACCESS_TOKEN=${{ secrets.NX_CLOUD_READ_WRITE }}" >> $GITHUB_ENV
       - run: yarn nx run-many --target=build --all
+  release:
+    runs-on: node:16
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn install --immutable --inline-builds      
+      - name: release:all does not fail
+        run: yarn run release:all
