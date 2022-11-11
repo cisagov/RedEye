@@ -21,6 +21,8 @@ type CommandContainerProps = ComponentProps<'div'> & {
 	setCommand?: (cmd: any) => any;
 	hideCommentButton?: boolean;
 	showPath?: boolean;
+	expandedCommandIDs?: string[];
+	removeExplandedCommandID?: (commandId: string) => void;
 };
 
 export const CommandContainer = observer<CommandContainerProps>(
@@ -32,6 +34,8 @@ export const CommandContainer = observer<CommandContainerProps>(
 		setCommand,
 		hideCommentButton = false,
 		showPath = false,
+		expandedCommandIDs = [],
+		removeExplandedCommandID,
 		...props
 	}) => {
 		const store = useStore();
@@ -39,23 +43,39 @@ export const CommandContainer = observer<CommandContainerProps>(
 			get active() {
 				return store.router.params.activeItem === 'command' && store.router.params.activeItemId === state.commandId;
 			},
+			get expanded() {
+				return store.router.params.activeItem === 'command' && expandedCommandIDs.includes(state.commandId);
+			},
 			setCollapsed() {
-				store.router.updateRoute({
-					path: store.router.currentRoute,
-					params: {
-						activeItem: state.active ? undefined : 'command',
-						activeItemId: state.active ? undefined : state.commandId,
-					},
-				});
+				if (!state.expanded) {
+					expandedCommandIDs.push(state.commandId);
+					store.router.updateRoute({
+						path: store.router.currentRoute,
+						params: {
+							activeItem: 'command',
+							activeItemId: state.commandId,
+						},
+					});
+				} else if (expandedCommandIDs?.length >= 1) {
+					if (expandedCommandIDs[expandedCommandIDs.length - 1] === state.commandId) {
+						store.router.updateRoute({
+							path: store.router.currentRoute,
+							params: {
+								activeItem: expandedCommandIDs.length > 1 ? 'command' : undefined,
+								activeItemId:
+									expandedCommandIDs.length > 1 ? (expandedCommandIDs[expandedCommandIDs.length - 2] as UUID) : undefined,
+							},
+						});
+					}
+					removeExplandedCommandID?.(state.commandId);
+				}
 			},
 			localCommand: undefined as undefined | CommandModel,
 			get commandId(): UUID | undefined {
 				return (command?.id ?? commandId!) as UUID;
 			},
 			get command(): CommandModel | undefined {
-				return state.commandId || command?.id
-					? store.graphqlStore.commands.get((state.commandId || command?.id)!)
-					: undefined;
+				return state.commandId ? store.graphqlStore.commands.get(state.commandId!) : undefined;
 			},
 			get skeletonClass() {
 				return state?.command?.inputText ? undefined : Classes.SKELETON;
@@ -83,7 +103,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 							interactiveRowStyle,
 							gridFillStyle,
 							{ height: initialCommandRowHeight },
-							state.active ? activeCommandInfoRowStyle : undefined,
+							state.expanded || state.active ? activeCommandInfoRowStyle : undefined,
 						]}
 						onClick={state.setCollapsed}
 						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
@@ -93,7 +113,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 								store={store}
 								commandId={state.commandId}
 								skeletonClass={state.skeletonClass}
-								collapsed={!state.active}
+								collapsed={!state.expanded}
 								className={state.skeletonClass}
 								command={state.command}
 								showPath={showPath}
@@ -115,7 +135,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 						/>
 					)}
 				</div>
-				{state.active && <CommandOutput command={state.command} />}
+				{(state.expanded || state.active) && <CommandOutput command={state.command} />}
 			</div>
 		);
 	}
