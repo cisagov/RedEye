@@ -186,7 +186,7 @@ export const CommentBox = observer<CommentBoxProps>(
 							favorite: this.favorite,
 							tags: this.tags,
 							text: this.text,
-							user: store.auth.userName!,
+							user: update ? '' : store.auth.userName!,
 						});
 					} else {
 						yield store.graphqlStore.mutateAddAnnotationToCommandGroup({
