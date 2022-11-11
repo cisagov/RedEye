@@ -8,7 +8,7 @@ type PanelHeaderProps = HeaderProps & {
 	secondaryName?: ReactNode;
 };
 
-export const PanelHeader: FC<PanelHeaderProps> = ({ ...props }) => <Header {...props} />;
+export const PanelHeader: FC<PanelHeaderProps> = ({ ...props }) => <Header cy-test="panel-header" {...props} />;
 
 export const DoublePanelHeader: FC<PanelHeaderProps> = ({ primaryName, secondaryName, ...props }) => (
 	<Header h={2} cy-test="beacon-username" {...props}>

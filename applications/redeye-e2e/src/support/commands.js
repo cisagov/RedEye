@@ -23,10 +23,7 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 			body: formData,
 		});
 	}),
-		{
-			cacheAcrossSpecs: true,
-		};
-	cy.visit('http://localhost:3500/#/campaigns/all');
+		cy.visit('http://localhost:3500/#/campaigns/all');
 });
 
 Cypress.Commands.add('loginBlue', (user) => {
