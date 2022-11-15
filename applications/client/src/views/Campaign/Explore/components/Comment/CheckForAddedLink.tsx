@@ -7,7 +7,6 @@ import { BeaconSuggestedRow } from '.';
 export type CheckForAddedLinkProps = ComponentProps<'div'> & {
 	commandID?: string;
 	containerOrBox: string;
-	// is there "officially" a linked beacon
 	toggleLinkedFlag: (linkedFlag, linkedLink) => any;
 };
 

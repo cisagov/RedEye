@@ -116,7 +116,6 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						// This does NOT remove the link from the graph
 						state.flagIfManualLinkHasBeenCreated(false, null);
 					}
 				},
@@ -146,7 +145,6 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						// does NOT move link on graph, stores updated link info
 						state.flagIfManualLinkHasBeenCreated(true, store.graphqlStore.links.get(linkData.editLink.id));
 					}
 				},
@@ -175,7 +173,6 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						// does NOT move link on graph, stores updated link info
 						state.flagIfManualLinkHasBeenCreated(true, store.graphqlStore.links.get(linkData.createLink.id));
 					}
 				},
@@ -184,7 +181,6 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const queryClient = useQueryClient();
 
-		// TODO: Break this up into smaller stores/components
 		const state = createState({
 			editMode: newComment || false,
 			text: annotation?.text || '',
@@ -241,10 +237,9 @@ export const CommentBox = observer<CommentBoxProps>(
 				this.destinationBeacon = newDestBeacon;
 			},
 
-			// Set Flag to False
+			// Doesn't change graph
 			flagIfManualLinkHasBeenCreated(linkExists: boolean, manuallyCreatedLink): void {
 				this.manualLinkFlag = linkExists;
-				// want to store this when a for-real link is found
 				if (manuallyCreatedLink) {
 					this.manuallyCreatedLink = manuallyCreatedLink;
 					this.nameText = manuallyCreatedLink.name;
@@ -275,7 +270,6 @@ export const CommentBox = observer<CommentBoxProps>(
 			deleteAnnotation() {
 				if (this.deleteAnnotationPrompt && annotation?.id) {
 					deleteAnnotation.mutate(annotation.id);
-					// delete link when the comment is deleted
 					if (this.manuallyCreatedLink) {
 						deleteLink.mutate(this.manuallyCreatedLink.id);
 					}
@@ -324,10 +318,10 @@ export const CommentBox = observer<CommentBoxProps>(
 							user: store.auth.userName!,
 						});
 					}
-					// we are editing an existing link
+					// editing an existing link
 					if (state.manualLinkFlag && state.manuallyCreatedLink) {
 						editLink.mutate(this.destinationBeacon.id);
-						// beacon selected but is not a currently existing link
+						// beacon selected not a currently existing link
 					} else if (state.destinationBeacon) {
 						createLink.mutate(this.destinationBeacon.id);
 					}

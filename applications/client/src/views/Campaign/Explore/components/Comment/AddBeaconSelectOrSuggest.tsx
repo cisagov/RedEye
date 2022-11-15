@@ -1,4 +1,4 @@
-import type { ItemPredicate, ItemRenderer } from '@blueprintjs/Select';
+import type { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { Suggest2, Select2 } from '@blueprintjs/select';
 import type { ComponentProps, FC } from 'react';
 import { useState } from 'react';
@@ -44,7 +44,7 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 	const store = useStore();
 	const beacons = Array.from(store.graphqlStore.beacons.values() || []);
 
-	// filtering checks both displayName and beaconName
+	// checks displayName and beaconName
 	const filterFilm: ItemPredicate<BeaconModel> = (query, to_beacon) => {
 		const dispNameText = to_beacon.displayName;
 		const nameText = to_beacon.beaconName;
@@ -80,7 +80,6 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 	};
 
 	const suggestOrSelect = 'suggest';
-	// const suggestOrSelect = 'select';
 
 	return (
 		<ButtonGroup fill css={beaconSelectStyle} style={{ backgroundColor: 'black' }}>
