@@ -85,7 +85,7 @@ export class AnnotationResolvers {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		let annotation = await em.findOneOrFail<Annotation>(Annotation, annotationId);
 		const updatedTags = await Tag.createTags(em, tags ?? []);
-		annotation = em.assign(annotation, { user, text, favorite, tags: updatedTags });
+		annotation = em.assign(annotation, { user: user || annotation.user, text, favorite, tags: updatedTags });
 		await em.persistAndFlush(annotation);
 		ctx.cm.forkProject(campaignId);
 		return annotation;
