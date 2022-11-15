@@ -8,7 +8,7 @@ describe('Query Commands & CommandsIds', () => {
 
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('elevate');
 

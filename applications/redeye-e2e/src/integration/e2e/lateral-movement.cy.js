@@ -23,7 +23,7 @@ describe('Lateral Movement', () => {
 				//  Go to Commands, select command, verify Lateral Movement icon is not there
 				cy.clickExplorerMode();
 
-				cy.clickCommandsTypesTab();
+				cy.clickCommandTypesTab();
 
 				cy.selectCommandType(cmd);
 

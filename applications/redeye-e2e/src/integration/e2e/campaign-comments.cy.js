@@ -45,7 +45,7 @@ describe('Campaign comments', () => {
 							// Add a new comment
 							cy.clickExplorerMode();
 
-							cy.clickCommandsTypesTab();
+							cy.clickCommandTypesTab();
 
 							cy.selectCommandType(cmd);
 
@@ -129,7 +129,7 @@ describe('Campaign comments', () => {
 							// Delete comment
 							cy.clickExplorerMode();
 
-							cy.clickCommandsTypesTab();
+							cy.clickCommandTypesTab();
 
 							cy.selectCommandType(cmd);
 
@@ -186,7 +186,7 @@ describe('Campaign comments', () => {
 		// Open the campaign and add a new comment
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType(cmd);
 

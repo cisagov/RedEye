@@ -21,7 +21,7 @@ describe('Favorite comments', () => {
 
 				cy.selectCampaign(camp);
 
-				cy.clickCommandsTypesTab();
+				cy.clickCommandTypesTab();
 
 				cy.selectCommandType('dcsync');
 

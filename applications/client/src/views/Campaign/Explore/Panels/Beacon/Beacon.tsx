@@ -38,7 +38,13 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			<RowMuted className={skeletonClass}>{beacon.meta?.[0]?.maybeCurrent?.username}</RowMuted>
 			<FlexSplitter />
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />
-			<IconLabel title="Commands" value={beacon.commandsCount} icon={semanticIcons.commands} className={skeletonClass} />
+			<IconLabel
+				cy-test="row-command-count"
+				title="Commands"
+				value={beacon.commandsCount}
+				icon={semanticIcons.commands}
+				className={skeletonClass}
+			/>
 		</InfoRow>
 	);
 });

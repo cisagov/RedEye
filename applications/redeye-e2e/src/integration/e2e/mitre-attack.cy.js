@@ -10,7 +10,7 @@ describe('Mitre attack tests', () => {
 
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType(cmd);
 
