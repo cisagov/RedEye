@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useEffect, useRef } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
+import { observable } from 'mobx';
 
 type CommandsProps = ComponentProps<'div'> & {
 	showPath?: boolean;
@@ -22,6 +23,12 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 		visibleRange: {
 			startIndex: 0,
 			endIndex: 0,
+		},
+		expandedCommandIDs: store.router.params.activeItemId
+			? observable.array([store.router.params.activeItemId])
+			: observable.array<string>([]),
+		removeExplandedCommandID(commandId: string) {
+			this.expandedCommandIDs.remove(commandId);
 		},
 		scrollToCommand(commandId: string, commandIds: string[], behavior: ScrollBehavior = 'smooth') {
 			const commandIndex = commandIds.findIndex((id) => commandId === id);
@@ -94,6 +101,12 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 		}
 	}, [store.campaign.commentStore.commentsOpen]);
 
+	useEffect(() => {
+		if (store.router.params.activeItem !== 'command') {
+			state.expandedCommandIDs.clear();
+		}
+	}, [store.router.params.activeItem]);
+
 	return (
 		<VirtualizedList
 			rangeChanged={(visibleRange) => state.update('visibleRange', visibleRange)}
@@ -106,7 +119,14 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 				<MessageRow>No Commands</MessageRow>
 			) : (
 				data?.commandIds?.map((commandId) => (
-					<CommandContainer commandId={commandId} key={commandId} data-command-id={commandId} showPath={showPath} />
+					<CommandContainer
+						commandId={commandId}
+						key={commandId}
+						data-command-id={commandId}
+						showPath={showPath}
+						expandedCommandIDs={state.expandedCommandIDs}
+						removeExplandedCommandID={state.removeExplandedCommandID}
+					/>
 				))
 			)}
 		</VirtualizedList>

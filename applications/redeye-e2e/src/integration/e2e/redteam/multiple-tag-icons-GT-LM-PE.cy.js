@@ -35,7 +35,7 @@ describe('Testing of Adding Golden Ticket, Privilege Escalation & Lateral Moveme
 								//  Go to Commands, select command, verify icons are not there
 								cy.clickExplorerMode();
 
-								cy.clickCommandsTypesTab();
+								cy.clickCommandTypesTab();
 
 								cy.selectCommandType(cmd);
 								cy.get('[cy-test=GoldenTicket]').should('not.exist');

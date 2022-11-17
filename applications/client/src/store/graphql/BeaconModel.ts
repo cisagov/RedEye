@@ -3,7 +3,7 @@ import { routes } from '@redeye/client/store';
 import { TimeStatus } from '@redeye/client/types/timeline';
 import { computed } from 'mobx';
 import { ExtendedModel, getRoot, model, modelAction } from 'mobx-keystone';
-import type { UUID } from '../../types';
+import type { CurrentItem, UUID } from '../../types';
 import { CampaignViews, Tabs } from '../../types';
 import { BeaconModelBase } from './BeaconModel.base';
 import type { OperatorModel } from './OperatorModel';
@@ -66,19 +66,29 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 		return operators;
 	}
 
-	@modelAction select() {
+	@modelAction select(activeItem?: CurrentItem, activeItemId?: UUID) {
 		const appStore = getRoot<AppStore>(this);
 		const notPrimary =
 			this.id !== appStore.campaign?.interactionState.selectedBeacon?.id ||
 			appStore.router.params.view !== CampaignViews.EXPLORE;
 		appStore.router.updateRoute({
 			path: routes[CampaignViews.EXPLORE],
-			params: {
-				view: CampaignViews.EXPLORE,
-				tab: notPrimary ? Tabs.COMMANDS : Tabs.BEACONS,
-				currentItem: notPrimary ? 'beacon' : 'all',
-				currentItemId: notPrimary ? (this.id as UUID) : undefined,
-			},
+			params:
+				activeItem && activeItemId
+					? {
+							view: CampaignViews.EXPLORE,
+							tab: notPrimary ? Tabs.COMMANDS : Tabs.BEACONS,
+							currentItem: notPrimary ? 'beacon' : 'all',
+							currentItemId: notPrimary ? (this.id as UUID) : undefined,
+							activeItem: notPrimary ? activeItem : undefined,
+							activeItemId: notPrimary ? (activeItemId as UUID) : undefined,
+					  }
+					: {
+							view: CampaignViews.EXPLORE,
+							tab: notPrimary ? Tabs.COMMANDS : Tabs.BEACONS,
+							currentItem: notPrimary ? 'beacon' : 'all',
+							currentItemId: notPrimary ? (this.id as UUID) : undefined,
+					  },
 		});
 	}
 

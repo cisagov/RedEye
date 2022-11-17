@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import type { MouseEvent } from 'react';
 import { useEffect } from 'react';
 import { CampaignViews, Tabs } from '../../../../types';
+import type { UUID } from '../../../../types';
 
 type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 	BreadcrumbsStyledProps & {
@@ -146,7 +147,7 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						onClick: async (e) => {
 							e.stopPropagation();
 							await onNavigate(e);
-							this.command?.beacon?.current?.select();
+							this.command?.beacon?.current?.select('command', this.command?.id as UUID);
 						},
 					},
 					{

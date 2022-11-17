@@ -9,7 +9,7 @@ describe('Check and verify screenshots are available', () => {
 
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('screenshot');
 

@@ -45,14 +45,15 @@ Cypress.Commands.add('clickUserSettings', () => {
 Cypress.Commands.add('clickGeneralSettings', () => {
 	cy.get('[cy-test=general-settings]').click();
 });
-//CLICK GENERAL SETTINGS ON EXPLORER PANEL
+
+//CLICK ABOUT MODAL ON EXPLORER PANEL
 Cypress.Commands.add('clickAboutModal', () => {
 	cy.get('[cy-test=help-btn]').click();
 	cy.get('[cy-test=about-modal]').should('be.visible');
 });
 
-//CLICK SEARCH ON EXPLORER PANEL
-Cypress.Commands.add('clickCommandsTypesTab', () => {
+//CLICK ON COMMAND TYPES TAB
+Cypress.Commands.add('clickCommandTypesTab', () => {
 	cy.get('[cy-test=command-overview]').click();
 });
 
@@ -89,7 +90,7 @@ Cypress.Commands.add('beaconListShouldContain', (text) => {
 	cy.get('div[cy-test=beacons]').should('contain', text);
 });
 
-//SELECT BEACON FROM OVERVIEW PANEL
+//TOTAL BEACONS
 Cypress.Commands.add('totalBeacons', (num) => {
 	cy.get('div[cy-test=beacons]').should('have.length', num);
 });

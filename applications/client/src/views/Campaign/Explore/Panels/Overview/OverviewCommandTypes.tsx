@@ -24,7 +24,12 @@ export const OverviewCommandTypes = observer<OverviewProps>(({ sort }) => {
 					<InfoRow cy-test="commands" key={commandTypeCount.id} onClick={() => commandTypeCount.select()}>
 						<RowTitle>{commandTypeCount.text}</RowTitle>
 						<FlexSplitter />
-						<IconLabel title="Commands" value={commandTypeCount.count} icon={semanticIcons.commands} />
+						<IconLabel
+							cy-test="row-command-count"
+							title="Commands"
+							value={commandTypeCount.count}
+							icon={semanticIcons.commands}
+						/>
 					</InfoRow>
 				))
 			)}

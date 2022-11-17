@@ -12,7 +12,7 @@ describe('Multi-Command Comments', () => {
 		// Open campaign, go to Commands, select command and click multi-command comment
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('ps');
 
@@ -46,7 +46,7 @@ describe('Multi-Command Comments', () => {
 
 		cy.clickExplorerMode();
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('runasadmin');
 

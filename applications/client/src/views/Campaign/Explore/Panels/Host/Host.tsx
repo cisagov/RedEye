@@ -39,8 +39,8 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			<FlexSplitter />
 			{!host.cobaltStrikeServer && (
 				<>
-					<IconLabel title="Commands" value={host.commandsCount} icon={semanticIcons.commands} />
-					<IconLabel value={host.beaconCount} title="Beacons" icon={semanticIcons.beacon} />
+					<IconLabel cy-test="row-command-count" title="Commands" value={host.commandsCount} icon={semanticIcons.commands} />
+					<IconLabel cy-test="row-beacon-count" value={host.beaconCount} title="Beacons" icon={semanticIcons.beacon} />
 				</>
 			)}
 		</InfoRow>
