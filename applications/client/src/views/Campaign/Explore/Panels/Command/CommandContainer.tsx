@@ -10,9 +10,7 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
-// import { Connect16 } from '@carbon/icons-react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
-// import { CarbonIcon } from '~/components';
 import { CheckForAddedLink } from '../../components/Comment/CheckForAddedLink';
 
 type CommandContainerProps = ComponentProps<'div'> & {
@@ -117,10 +115,8 @@ export const CommandContainer = observer<CommandContainerProps>(
 								showPath={showPath}
 							/>
 						</Suspense>
-						{/* This is where the ticket icon comes from, so this is where we add icon for added beacon link */}
+						{/* add icon for added beacon link */}
 						<MitreTechniqueIcons mitreAttackIds={state.command?.mitreTechniques} />
-						{/* We only want icon to show if this row's linkManual field is true and we are in the beacon view.
-            If we want this link to show when a host is selected, remove the params check.  */}
 						{store.router.params.currentItem === 'beacon' && (
 							<CheckForAddedLink commandID={commandId} containerOrBox="container" toggleLinkedFlag={() => {}} />
 						)}
@@ -174,7 +170,3 @@ const interactiveRowStyle = css`
 	padding: 0.5rem 3rem 0.5rem 1rem;
 `;
 export const initialCommandRowHeight = 56;
-
-// const activeCommandInfoRowStyle = css`
-// 	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
-// `;
