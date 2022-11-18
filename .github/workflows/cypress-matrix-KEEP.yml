@@ -1,5 +1,9 @@
 name: Cypress Tests
 
+# concurrency:
+#  group: ${{ github.workflow }}-${{ github.ref }}
+#  cancel-in-progress: true
+
 on:
  # manual button click from the GitHub UI
  workflow_dispatch:
@@ -47,9 +51,13 @@ jobs:
 
  RedTeamChrome:
   runs-on: ubuntu-latest
+  container:
+   image: cypress/browsers:node18.12.0-chrome106-ff106
   needs: [prepare, install]
   strategy:
    fail-fast: false
+   matrix:
+    containers: [1, 2, 3, 4, 5]
 
   steps:
    - name: Checkout
@@ -86,10 +94,14 @@ jobs:
 
  RedTeamFirefox:
   runs-on: ubuntu-latest
+  container:
+   image: cypress/browsers:node18.12.0-chrome106-ff106
+   options: --user 1001
   needs: [prepare, install]
   strategy:
    fail-fast: false
-
+   matrix:
+    containers: [1, 2, 3, 4, 5]
   steps:
    - name: Checkout
      uses: actions/checkout@v3
@@ -125,10 +137,14 @@ jobs:
 
  BlueTeamChrome:
   runs-on: ubuntu-latest
+  container:
+   image: cypress/browsers:node18.12.0-chrome106-ff106
+   options: --user 1001
   needs: [prepare, install]
   strategy:
    fail-fast: false
-
+   matrix:
+    containers: [1, 2, 3, 4, 5]
   steps:
    - name: Checkout
      uses: actions/checkout@v3
@@ -164,10 +180,14 @@ jobs:
 
  BlueTeamFirefox:
   runs-on: ubuntu-latest
+  container:
+   image: cypress/browsers:node18.12.0-chrome106-ff106
+   options: --user 1001
   needs: [prepare, install]
   strategy:
    fail-fast: false
-
+   matrix:
+    containers: [1, 2, 3, 4, 5]
   steps:
    - name: Checkout
      uses: actions/checkout@v3
