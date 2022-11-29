@@ -4,12 +4,12 @@ describe('Check and verify screenshots are available', () => {
 	const camp = 'screenshotcheck';
 	const fileName = 'gt.redeye';
 
-	it('Verify screenshots are viewable in Command Types', () => {
+	it('Verify screenshots are viewable', () => {
 		cy.uploadCampaignBlue(camp, fileName);
 
 		cy.selectCampaign(camp);
 
-		cy.clickCommandsTypesTab();
+		cy.clickCommandTypesTab();
 
 		cy.selectCommandType('screenshot');
 
