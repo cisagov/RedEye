@@ -116,13 +116,14 @@ jobs:
          Pin-Priority: 1001
          ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
         sudo apt install firefox
+        which firefox
 
    - name: 'Red Team Tests - Firefox'
      uses: cypress-io/github-action@v4
      with:
       start: yarn start
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      browser: firefox
+      browser: /usr/bin/firefox
       group: 'Red Team - Firefox'
       working-directory: applications/redeye-e2e
       config: baseUrl=http://localhost:3500
@@ -206,13 +207,14 @@ jobs:
          Pin-Priority: 1001
          ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
         sudo apt install firefox
+        which firefox
 
    - name: 'Blue Team Tests - Firefox'
      uses: cypress-io/github-action@v4
      with:
       start: yarn start:blue
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      browser: firefox
+      browser: /usr/bin/firefox
       group: 'Blue Team - Firefox'
       working-directory: applications/redeye-e2e
       config: baseUrl=http://localhost:3500
