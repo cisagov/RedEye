@@ -1,4 +1,5 @@
 # RedEye
+
 Red Team C2 Log Visualization
 
 ![RedEye Screenshot](docs/images/RedEye-Hero-Screenshot.png)
@@ -7,12 +8,11 @@ RedEye is an open-source analytic tool developed by CISA and DOE’s Pacific Nor
 
 RedEye can assist an operator to efficiently:
 
--	Replay and demonstrate Red Team’s assessment activities as they occurred rather than manually pouring through thousands of lines of log text. 
--	Display and evaluate complex assessment data to enable effective decision making.
--	Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.
+- Replay and demonstrate Red Team’s assessment activities as they occurred rather than manually pouring through thousands of lines of log text.
+- Display and evaluate complex assessment data to enable effective decision making.
+- Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.
 
-
-
+[![RedEye](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/rsybgk/main&style=flat-square&logo=cypress)](https://dashboard.cypress.io/projects/rsybgk/runs)
 
 ## [User Guide](<docs/User Guide.md>)
 
@@ -21,9 +21,10 @@ RedEye can assist an operator to efficiently:
 The fastest way to get up and running is by downloading the latest `RedEye` binaries for your operating system in the [Releases](https://github.com/cisagov/RedEye/releases) section on GitHub.
 
 RedEye currently supports uploading Cobalt Strike logs and offers both Red Team and Blue Team modes.
--	The Red Team mode offers the ability to upload campaign logs, explore, and create presentations. This mode is started by running RedEye with the `SERVER_BLUE_TEAM=false` environment variable or the 
-`--redTeam` argument.  
--	The Blue Team mode enables the ability to review a read-only campaign exported by a Red Team. This mode runs by default.
+
+- The Red Team mode offers the ability to upload campaign logs, explore, and create presentations. This mode is started by running RedEye with the `SERVER_BLUE_TEAM=false` environment variable or the
+  `--redTeam` argument.
+- The Blue Team mode enables the ability to review a read-only campaign exported by a Red Team. This mode runs by default.
 
 Note: Both Red and Blue Team modes can be started from the same `RedEye` application binary.
 
@@ -36,12 +37,14 @@ The Blue Team version can be run by double-clicking the `RedEye` application bin
 If a `campaigns` folder is located in the same directory as the `RedEye` application, RedEye will attempt to import any `.redeye` campaign files within. Campaign files can be exported in the "Red Team" version.
 
 To prepare a version for the Blue Team, follow these two steps:
+
 1. Copy the `RedEye` application binary to an empty folder.
 2. Create a `campaigns` folder in the same directory and place the `.redeye` campaign files you want to send inside.
 
 ### Red Team
 
 The Red Team version comes in two parts:
+
 - The `RedEye` application binary and
 - The `parsers` folder containing the `cs-parser` Cobalt Strike log parser binary.
 
@@ -63,13 +66,13 @@ The application runs by default at `http://127.0.0.1:4000`.
 ## Platform support
 
 - Linux
-    - Ubuntu 18 and newer
-    - Kali Linux 2020.1 and newer
-    - Others may be supported but are untested
+  - Ubuntu 18 and newer
+  - Kali Linux 2020.1 and newer
+  - Others may be supported but are untested
 - macOS
-    - El Capitan and newer
+  - El Capitan and newer
 - Windows
-    - Windows 7 and newer
+  - Windows 7 and newer
 
 ARM support is experimental
 
@@ -86,10 +89,10 @@ _Note: For Mac users, when first running the `RedEye` application (and `cs-parse
 - Run either:
   1. `yarn release:all` to build a binary for Linux, macOS, and Windows
   2. `yarn release --platform (mac|win|linux)` to build for a specific platform.
-    - platform options:
-      - mac
-      - win
-      - linux
+  - platform options:
+    - mac
+    - win
+    - linux
 
 ## Development
 
@@ -98,8 +101,8 @@ _Note: For Mac users, when first running the `RedEye` application (and `cs-parse
 - Install yarn: `npm install -g yarn`
 - Run: `yarn install` // Installs all packages
 
-
 #### Quick Start Development
+
 Runs the project in development mode
 
 ```sh
@@ -107,6 +110,7 @@ yarn run start
 ```
 
 #### Advanced Development
+
 It is recommended to run the server and client in two separate terminals
 
 ```sh
@@ -117,13 +121,12 @@ yarn run start:client
 yarn run start:server
 ```
 
-
 #### Build
 
 `yarn build:all` to build all applications and their dependent libraries
 
-
 #### Server .env example
+
 ```env
 AUTHENTICATION_PASSWORD=937038570
 AUTHENTICATION_SECRET=supertopsecretdonttellanyone

@@ -19,7 +19,8 @@ module.exports = defineConfig({
 	},
 	e2e: {
 		setupNodeEvents(on, config) {},
-		specPattern: './src/integration/**/*.cy.js',
+		experimentalSessionAndOrigin: true,
+		specPattern: '../../**/*.cy.js',
 		supportFile: './src/support/index.js',
 		excludeSpecPattern: '*.skip.js',
 		defaultCommandTimeout: 15000,

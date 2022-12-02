@@ -8,22 +8,29 @@ Cypress.Commands.add('loginLocal', (password, user) => {
 	cy.get('form input').last().type(user).type('{enter}');
 });
 
-// Cypress.Commands.add('loginAPI', (password, failOnStatusCode = false) => {
-//   const formData = new FormData();
-//   formData.append('password', '937038570');
+Cypress.Commands.add('loginAPI', (user = 'cypress') => {
+	const formData = new FormData();
+	formData.append('password', '937038570');
 
-//   cy.request({
-//     url: 'http://localhost:4000/api/login',
-//     method: 'POST',
-//     headers: {
-//       'content-type': 'multipart/form-data',
-//     },
-//     body: formData,
-//   })
-//     .its('status')
-//     .should('be.equal', 200);
-//   cy.visit('http://localhost:3500/#/campaigns/all');
-// });
+	cy.session(user, () => {
+		window.localStorage.setItem('user', 'cypress');
+		cy.request({
+			url: 'http://localhost:4000/api/login',
+			method: 'POST',
+			headers: {
+				'content-type': 'multipart/form-data',
+			},
+			body: formData,
+		});
+	}),
+		cy.visit('http://localhost:3500/#/campaigns/all');
+});
+
+Cypress.Commands.add('loginBlue', (user) => {
+	cy.visit('/');
+	cy.get('[cy-test=password]').clear().type(password);
+	cy.get('form input').last().type(user).type('{enter}');
+});
 
 Cypress.Commands.add('logout', () => {
 	cy.get('[cy-test=logged-in-user]').click();

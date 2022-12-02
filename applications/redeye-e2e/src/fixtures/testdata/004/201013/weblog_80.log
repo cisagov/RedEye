@@ -1,0 +1,2 @@
+192.168.3.108 unknown unknown [10/13 13:10:24 UTC] "GET /download/update.exe" 200 289792 "page Serves /opt/cobaltstrike/uploads/20201013-beacon.exe" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
+192.168.3.108 unknown unknown [10/13 13:10:39 UTC] "GET /download/update.exe" 200 289792 "page Serves /opt/cobaltstrike/uploads/20201013-beacon.exe" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
