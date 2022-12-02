@@ -67,7 +67,7 @@ jobs:
       path: dist
 
    - name: 'Red Team Tests - Chrome'
-     uses: cypress-io/github-action@v4
+     uses: cypress-io/github-action@v5
      with:
       start: yarn start
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
@@ -104,26 +104,26 @@ jobs:
      with:
       name: dist
       path: dist
-      
+
    - name: Ensure Firefox
      run: |
-        sudo snap remove firefox
-        sudo add-apt-repository ppa:mozillateam/ppa
-        sudo rm -rf /etc/firefox
-        echo '
-         Package: *
-         Pin: release o=LP-PPA-mozillateam
-         Pin-Priority: 1001
-         ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
-        sudo apt install firefox
-        which firefox
+      sudo snap remove firefox
+      sudo add-apt-repository ppa:mozillateam/ppa
+      sudo rm -rf /etc/firefox
+      echo '
+       Package: *
+       Pin: release o=LP-PPA-mozillateam
+       Pin-Priority: 1001
+       ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+      sudo apt install firefox
+      which firefox
 
    - name: 'Red Team Tests - Firefox'
-     uses: cypress-io/github-action@v4
+     uses: cypress-io/github-action@v5
      with:
       start: yarn start
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      browser: /snap/bin/firefox
+      browser: firefox
       group: 'Red Team - Firefox'
       working-directory: applications/redeye-e2e
       config: baseUrl=http://localhost:3500
@@ -158,7 +158,7 @@ jobs:
       path: dist
 
    - name: 'Blue Team Tests - Chrome'
-     uses: cypress-io/github-action@v4
+     uses: cypress-io/github-action@v5
      with:
       start: yarn start:blue
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
@@ -195,26 +195,26 @@ jobs:
      with:
       name: dist
       path: dist
-      
+
    - name: Ensure Firefox
      run: |
-        sudo snap remove firefox
-        sudo add-apt-repository ppa:mozillateam/ppa
-        sudo rm -rf /etc/firefox
-        echo '
-         Package: *
-         Pin: release o=LP-PPA-mozillateam
-         Pin-Priority: 1001
-         ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
-        sudo apt install firefox
-        which firefox
+      sudo snap remove firefox
+      sudo add-apt-repository ppa:mozillateam/ppa
+      sudo rm -rf /etc/firefox
+      echo '
+       Package: *
+       Pin: release o=LP-PPA-mozillateam
+       Pin-Priority: 1001
+       ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+      sudo apt install firefox
+      which firefox
 
    - name: 'Blue Team Tests - Firefox'
-     uses: cypress-io/github-action@v4
+     uses: cypress-io/github-action@v5
      with:
       start: yarn start:blue
       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      browser: /snap/bin/firefox
+      browser: firefox
       group: 'Blue Team - Firefox'
       working-directory: applications/redeye-e2e
       config: baseUrl=http://localhost:3500
