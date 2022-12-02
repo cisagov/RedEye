@@ -104,6 +104,16 @@ jobs:
      with:
       name: dist
       path: dist
+      
+   - name: Ensure Firefox
+     run: |
+        sudo snap remove firefox
+        echo '
+         Package: *
+         Pin: release o=LP-PPA-mozillateam
+         Pin-Priority: 1001
+         ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+        sudo apt install firefox
 
    - name: 'Red Team Tests - Firefox'
      uses: cypress-io/github-action@v4
@@ -182,6 +192,16 @@ jobs:
      with:
       name: dist
       path: dist
+      
+   - name: Ensure Firefox
+     run: |
+        sudo snap remove firefox
+        echo '
+         Package: *
+         Pin: release o=LP-PPA-mozillateam
+         Pin-Priority: 1001
+         ' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+        sudo apt install firefox
 
    - name: 'Blue Team Tests - Firefox'
      uses: cypress-io/github-action@v4
