@@ -108,6 +108,8 @@ jobs:
    - name: Ensure Firefox
      run: |
         sudo snap remove firefox
+        sudo add-apt-repository ppa:mozillateam/ppa
+        sudo rm -rf /etc/firefox
         echo '
          Package: *
          Pin: release o=LP-PPA-mozillateam
@@ -196,6 +198,8 @@ jobs:
    - name: Ensure Firefox
      run: |
         sudo snap remove firefox
+        sudo add-apt-repository ppa:mozillateam/ppa
+        sudo rm -rf /etc/firefox
         echo '
          Package: *
          Pin: release o=LP-PPA-mozillateam
