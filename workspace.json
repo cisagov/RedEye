@@ -2,9 +2,10 @@
 	"version": 2,
 	"projects": {
 		"client": "applications/client",
+		"graph": "packages/graph",
+		"migrations": "packages/migrations",
 		"models": "packages/models",
 		"parser": "packages/cs-parser",
-		"graph": "packages/graph",
 		"redeye-e2e": "applications/redeye-e2e",
 		"server": "applications/server"
 	}

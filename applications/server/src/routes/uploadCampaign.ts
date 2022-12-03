@@ -1,4 +1,5 @@
 import { Campaign, getProjectMikroOrmConfig } from '@redeye/models';
+import { migrateCampaignDb } from '@redeye/migrations';
 import { MikroORM } from '@mikro-orm/core';
 import { UploadedFile } from 'express-fileupload';
 import * as path from 'path';
@@ -41,6 +42,8 @@ export async function importCampaign(
 		} else {
 			await (file as UploadedFile).mv(fileName);
 		}
+
+		await migrateCampaignDb(fileName);
 
 		const orm = await MikroORM.init(getProjectMikroOrmConfig(fileName));
 		context.cm.write(campaignId, orm);

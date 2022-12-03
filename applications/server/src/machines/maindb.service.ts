@@ -2,7 +2,8 @@ import 'reflect-metadata';
 import fs from 'fs-extra';
 import { MikroORM, Options, ReflectMetadataProvider } from '@mikro-orm/core';
 import { applicationEntities } from '@redeye/models';
-import { getDbPath, getRootPath } from '../util';
+import { migrateMainDb } from '@redeye/migrations';
+import { getDbPath } from '../util';
 import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import type { Database, Options as BOptions } from 'better-sqlite3';
 import * as path from 'path';
@@ -25,13 +26,6 @@ function getMainMikroOrmConfig(config: ConfigDefinition, dbName: string): Option
 		driverOptions: { useNullAsDefault: true, transaction: true } as BOptions,
 		debug: !config.production,
 		allowGlobalContext: true,
-		migrations: {
-			tableName: 'mikro_orm_migrations', // name of database table with log of executed transactions
-			path: path.join(getRootPath(), 'migrations'), // path to the folder with migrations
-			transactional: true, // wrap each migration in a transaction
-			disableForeignKeys: true, // wrap statements with `set foreign_key_checks = 0` or equivalent
-			emit: 'ts', // migration generation mode
-		},
 	};
 }
 
@@ -48,6 +42,12 @@ export const connectOrCreateDatabase = async (config: ConfigDefinition) => {
 		const generator = orm.getSchemaGenerator();
 		await generator.dropSchema();
 		await generator.createSchema();
+	} else {
+		try {
+			await migrateMainDb(mainDbPath);
+		} catch (e) {
+			console.error('Error migrating main database ', e);
+		}
 	}
 	return orm;
 };

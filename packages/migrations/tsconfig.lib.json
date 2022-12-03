@@ -1,0 +1,14 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"module": "esnext",
+		"target": "esnext",
+		"lib": ["esnext"],
+		"moduleResolution": "node",
+		"outDir": "../../dist/out-tsc",
+		"declaration": true,
+		"types": []
+	},
+	"include": ["**/*.ts"],
+	"exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+}

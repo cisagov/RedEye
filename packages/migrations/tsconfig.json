@@ -1,0 +1,22 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"module": "esnext",
+		"target": "esnext",
+		"lib": ["esnext"],
+		"moduleResolution": "node",
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"files": [],
+	"include": ["src"],
+	"references": [
+		{
+			"path": "./tsconfig.lib.json"
+		}
+	]
+}
