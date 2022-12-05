@@ -13,7 +13,7 @@ describe('Command counts', () => {
 
 		// Log starting number of campaign commands on campaign card
 		cy.get('[cy-test=command-count]').then((number1) => {
-			const commandTotal = number1.text().split(' ').shift();
+			let commandTotal = number1.text().split(' ').shift();
 			cy.get('[cy-test=command-count]').should('contain', commandTotal);
 
 			// Open campaign and log command counts showing under Host tab - should equal number showing on campaign card
@@ -43,12 +43,12 @@ describe('Command counts', () => {
 
 		// Log starting number of campaign commands on campaign card
 		cy.get('[cy-test=command-count]').then((number1) => {
-			const commandTotal = number1.text().split(' ').shift();
+			let commandTotal = number1.text().split(' ').shift();
 			cy.get('[cy-test=command-count]').should('contain', commandTotal);
 
 			// Open campaign and go to Beacons tab
 			cy.selectCampaign(camp);
-			cy.get('[cy-test=beacons]').click();
+			cy.clickBeaconsTab();
 
 			// Log number of commands for each beacon - should equal number on campaign card
 			cy
@@ -119,7 +119,7 @@ describe('Command counts', () => {
 						// Log number of commands showing - should match umber in host row
 
 						cy.url().then((url) => {
-							const returnedUrl = url.split('/')[5];
+							let returnedUrl = url.split('/')[5];
 							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
@@ -136,7 +136,7 @@ describe('Command counts', () => {
 			});
 
 		// Go back to Host list; log name and command count for second host
-		cy.get('[cy-test=explorer-mode]').click();
+		cy.clickExplorerMode();
 		cy
 			.get('[cy-test=hostName]')
 			.eq(2)
@@ -157,7 +157,7 @@ describe('Command counts', () => {
 						// Log number of commands showing - should match umber in host row
 
 						cy.url().then((url) => {
-							const returnedUrl = url.split('/')[5];
+							let returnedUrl = url.split('/')[5];
 							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {

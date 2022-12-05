@@ -103,7 +103,7 @@ Cypress.Commands.add('addNewTags', { prevSubject: false }, (...term) => {
 
 //MARK COMMENT AS FAVORITE
 Cypress.Commands.add('favoriteComment', (index) => {
-	cy.get('[cy-test=fav-comment]').should('be.visible').click({ force: true });
+	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).click({ force: true });
 });
 
 //ADD NEW COMMENT WITH IF-ELSE LOGIC
@@ -154,6 +154,7 @@ Cypress.Commands.add('addNewComment', (index, comment, tag) => {
 		});
 });
 
+// Delete campaign using GraphQL
 Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
 	const query = `query campaigns {
     campaigns {
@@ -180,12 +181,22 @@ Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
 	});
 });
 
+// Close raw logs
 Cypress.Commands.add('closeRawLogs', () => {
 	cy.get('[cy-test=close-log]').click();
 	cy.wait(200);
 });
 
+// Search campaign for specific term
 Cypress.Commands.add('searchCampaignFor', (searchTerm) => {
 	cy.get('[cy-test=search]').click().clear().type(searchTerm).type('{enter}');
 	cy.wait('@searchAnnotations');
+});
+
+// Edit an existing comment; do not edit tags
+Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
+	cy.get('[cy-test=edit-comment]').eq(index).click();
+	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
+	cy.get('[cy-test=save-comment]').click();
+	cy.wait('@updateAnnotation');
 });

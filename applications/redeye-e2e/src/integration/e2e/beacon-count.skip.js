@@ -68,7 +68,7 @@ describe('Beacon counts', () => {
 			.eq(0)
 			.invoke('text')
 			.then((countHost1) => {
-				cy.log(countHost1);
+				// cy.log(countHost1);
 
 				// Click host to open details
 				cy.get('[cy-test=info-row]').eq(1).click();
@@ -84,13 +84,13 @@ describe('Beacon counts', () => {
 					});
 			});
 		// Go back to Hosts and log beacon count for second host
-		cy.get('[cy-test=explorer-mode]').click();
+		cy.clickExporerMode();
 		cy
 			.get('[cy-test=row-beacon-count]')
 			.eq(1)
 			.invoke('text')
 			.then((countHost2) => {
-				cy.log(countHost2);
+				// cy.log(countHost2);
 
 				// Click host to open deatails
 				cy.get('[cy-test=info-row]').eq(2).click();
@@ -111,23 +111,22 @@ describe('Beacon counts', () => {
 		cy.selectCampaign(camp);
 
 		// Open campaign and go to Operator tab; log beacon count
-		cy.get('[cy-test=operators]').click();
+		cy.clickOperatorsTab();
 		cy
 			.get('[cy-test=row-beacon-count]')
 			.invoke('text')
 			.then((countRow) => {
-				cy.log(countRow);
+				// cy.log(countRow);
 
 				// Open operator and go to Beacons tab
 				cy.get('[cy-test=operator-row]').click();
-				cy.get('[cy-test=beacons]').click();
-
+				cy.clickBeaconsTab();
 				// Log number of beacons showing - should match number from Operator tab count
 				cy
 					.get('[cy-test=info-row]')
 					.its('length')
 					.then((countOperatorBeacons) => {
-						cy.log(countOperatorBeacons);
+						// cy.log(countOperatorBeacons);
 						expect(+countOperatorBeacons).to.eq(+countRow);
 					});
 			});

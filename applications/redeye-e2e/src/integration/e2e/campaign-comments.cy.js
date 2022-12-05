@@ -17,7 +17,7 @@ describe('Campaign comments', () => {
 
 		// Log starting number of campaign comments on campaign card
 		cy.get('[cy-test=comment-count]').then((number1) => {
-			const divNumber1 = number1.text().split(' ').shift();
+			let divNumber1 = number1.text().split(' ').shift();
 			cy.get('[cy-test=comment-count]').should('contain', divNumber1);
 
 			// Open campaign and log starting number of comments via Comments tab - should equal campaign card count
@@ -39,8 +39,9 @@ describe('Campaign comments', () => {
 						.invoke('text')
 						.then((commentCountAll1) => {
 							// cy.log(commentCountAll1);
-							expect(+commentCountAll1).to.eq(+divNumber1);
-							expect(+commentCountAll1).to.eq(+commentsTab1);
+							expect(+commentCountAll1)
+								.to.eq(+divNumber1)
+								.and.to.eq(+commentsTab1);
 
 							// Add a new comment
 							cy.clickExplorerMode();
@@ -84,9 +85,10 @@ describe('Campaign comments', () => {
 												cy.get('[cy-test=comment-count]').should('contain', divNumber2);
 
 												expect(+divNumber2).to.equal(+divNumber1 + +'1');
-												expect(+commentsTab2).to.equal(+divNumber2);
+												expect(+commentsTab2)
+													.to.equal(+divNumber2)
+													.and.to.equal(+commentCountAll2);
 												expect(+commentCountAll2).to.equal(+divNumber2);
-												expect(+commentsTab2).to.equal(+commentCountAll2);
 											});
 
 											cy.get('[cy-test=search]').click().clear();
@@ -102,7 +104,7 @@ describe('Campaign comments', () => {
 		cy.searchForCampaign(camp);
 
 		cy.get('[cy-test=comment-count]').then((number1) => {
-			const divNumber1 = number1.text().split(' ').shift();
+			let divNumber1 = number1.text().split(' ').shift();
 
 			// Open campaign and log starting number of comments via Comments tab - should equal campaign card count
 			cy.selectCampaign(camp);
@@ -123,8 +125,9 @@ describe('Campaign comments', () => {
 						.invoke('text')
 						.then((commentCountAll1) => {
 							// cy.log(commentCountAll1);
-							expect(+commentCountAll1).to.eq(+divNumber1);
-							expect(+commentCountAll1).to.eq(+commentsTab1);
+							expect(+commentCountAll1)
+								.to.eq(+divNumber1)
+								.and.to.eq(+commentsTab1);
 
 							// Delete comment
 							cy.clickExplorerMode();
@@ -170,9 +173,10 @@ describe('Campaign comments', () => {
 												cy.get('[cy-test=comment-count]').should('contain', divNumber3);
 												// cy.log(divNumber3);
 												expect(+divNumber3).to.equal(+divNumber1 - +'1');
-												expect(+commentsTab2).to.equal(+divNumber3);
+												expect(+commentsTab2)
+													.to.equal(+divNumber3)
+													.and.to.equal(+commentCountAll2);
 												expect(+commentCountAll2).to.equal(+divNumber3);
-												expect(+commentsTab2).to.equal(+commentCountAll2);
 											});
 										});
 								});
@@ -204,13 +208,7 @@ describe('Campaign comments', () => {
 		cy.get('[cy-test=add-comment]').eq(0).click({ force: true });
 
 		// After saving comment, edit the comment text
-		cy.get('[cy-test=edit-comment]').eq(0).click();
-
-		cy.get('[cy-test=comment-input]').click().clear().type(editedComment);
-
-		cy.get('[cy-test=save-comment]').click();
-
-		cy.wait('@updateAnnotation');
+		cy.editExistingComment(0, editedComment);
 
 		// Verify edited text was saved
 		cy.get('[cy-test=add-comment]').eq(0).should('be.visible').click({ force: true });

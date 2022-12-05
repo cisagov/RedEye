@@ -4,7 +4,31 @@ describe('Timeline tests', () => {
 	const camp = 'timeline';
 	const fileName = 'testdata.redeye';
 
-	it.only('Verify timeline features', () => {
+	it('Verify timeline dates match on campaign card and in campaign', () => {
+		// Upload campaign and log dates on the campaign card
+		cy.uploadCampaign(camp, fileName);
+		cy.searchForCampaign(camp);
+
+		cy
+			.get('[cy-test=campaign-dates]')
+			.invoke('text')
+			.then((campaignCardDates) => {
+				cy.log(campaignCardDates);
+
+				// Open campaign and log dates showing in the timeline; compare to campaign card
+				cy.selectCampaign(camp);
+
+				cy
+					.get('[cy-test=timeline-dates]')
+					.invoke('text')
+					.then((timelineDates) => {
+						cy.log(timelineDates);
+						expect(timelineDates).to.eq(campaignCardDates);
+					});
+			});
+	});
+
+	it('Verify timeline features', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		cy.selectCampaign(camp);
@@ -19,11 +43,11 @@ describe('Timeline tests', () => {
 				// cy.log(position1);
 
 				// Click Play and let the timeline run for a few seconds
-				cy.get('[cy-test=timeline-play-pause]').click();
-				cy.get('[cy-test=timeline-play-pause]').click();
+				cy.timelinePlayPause();
+				cy.timelinePlayPause();
 
 				// Pause the timeline and log its new position - should be different than the starting position
-				cy.get('[cy-test=timeline-play-pause]').click();
+				cy.timelinePlayPause();
 				cy
 					.get('[cy-test=timeline-animated-line]')
 					.invoke('attr', 'x1')
