@@ -200,3 +200,22 @@ Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
 	cy.get('[cy-test=save-comment]').click();
 	cy.wait('@updateAnnotation');
 });
+
+// Delete files from the Downloads folder
+Cypress.Commands.add('deleteDownloadsFolderContent', () => {
+	cy.task('readdir', { dirPath: 'cypress\\downloads' }).then((arr) => {
+		if (arr.length > 0) {
+			cy.log('Found ' + arr.length + ' file(s) in ' + 'cypress\\downloads' + ':' + '\n' + arr);
+			cy.task('deleteDownloads', { dirPath: 'cypress\\downloads' });
+			cy.task('readdir', { dirPath: 'cypress\\downloads' }).then((newArr) => {
+				if (newArr.length == 0) {
+					cy.log('Cleared contents of ' + 'cypress\\downloads');
+				} else {
+					throw new Error('Did not clear all files from ' + 'cypress\\downloads');
+				}
+			});
+		} else {
+			cy.log('No files were found to delete in ' + 'cypress\\downloads');
+		}
+	});
+});
