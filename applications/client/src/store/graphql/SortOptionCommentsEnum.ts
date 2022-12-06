@@ -8,15 +8,15 @@ import { types, prop, tProp, Model, Ref } from 'mobx-keystone';
  * Typescript enum
  */
 
-export enum SortOption {
-	name = 'name',
-	text = 'text',
+export enum SortOptionComments {
+	fav = 'fav',
 	time = 'time',
+	user = 'user',
 }
 
 /**
- * SortOption
+ * SortOptionComments
  *
- * The desired property to sort on
+ * The desired property to sort Comments on
  */
-export const SortOptionEnumType = types.enum(SortOption);
+export const SortOptionCommentsEnumType = types.enum(SortOptionComments);
