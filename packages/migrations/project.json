@@ -17,7 +17,20 @@
 			"executor": "nx:run-commands",
 			"outputs": ["{options.outputPath}"],
 			"options": {
-				"commands": ["yarn ts-node-transpile-only packages/migrations/src/create-migrations.ts"]
+				"commands": ["yarn nx run migrations:build", "yarn node dist/packages/migrations/src/create-migrations.js"],
+				"parallel": false
+			}
+		},
+		"migrate-dbs": {
+			"executor": "nx:run-commands",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"commands": [
+					"yarn nx run migrations:build",
+					"yarn node dist/packages/migrations/src/migrate-schema-dbs.js",
+					"yarn node dist/packages/migrations/src/migrate-test-db.js"
+				],
+				"parallel": false
 			}
 		},
 		"lint": {

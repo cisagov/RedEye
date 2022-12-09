@@ -4,7 +4,7 @@ import { rmSync } from 'fs-extra';
 import path from 'path';
 import { createMachine, interpret, actions, spawn, StateMachine } from 'xstate';
 import { Campaign, ParsingProgress } from '@redeye/models';
-import { migrateCampaignDb } from '@redeye/migrations';
+import { getMigratedCampaignORM } from '@redeye/migrations';
 import { getDbPath, getFullCampaignDbPath } from '../util';
 
 // Services
@@ -151,7 +151,7 @@ const serverMachine = createMachine(
 				const campaignList = await ctx.cm.em.find(Campaign, {});
 				for (const campaign of campaignList) {
 					try {
-						await migrateCampaignDb(getFullCampaignDbPath(campaign.id, ctx.config.databaseMode));
+						await getMigratedCampaignORM(getFullCampaignDbPath(campaign.id, ctx.config.databaseMode));
 						if (campaign.migrationError) {
 							campaign.migrationError = false;
 							await ctx.cm.em.persistAndFlush(campaign);

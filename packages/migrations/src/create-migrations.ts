@@ -1,17 +1,26 @@
-import * as path from 'path';
-import { getCampaignOrm, getMainOrm } from './db-configs';
+import path from 'path';
+import { getCampaignOrm, getMainOrm, ORM } from './db-configs';
 
 export const createCampaignDbMigration = async () => {
-	const orm = await getCampaignOrm(path.join(__dirname, '..', 'dbs', 'campaign.redeye'));
+	const orm = await getCampaignOrm(
+		path.join(__dirname, '..', 'dbs', 'campaign.redeye'),
+		path.join(process.cwd(), 'packages', 'migrations', 'src', 'campaign-migrations')
+	);
 
-	const migrator = orm.getMigrator();
-	await migrator.createMigration();
-	await orm.close(true);
+	await createMigration(orm);
 };
 
 export const createMainDbMigration = async () => {
-	const orm = await getMainOrm(path.join(__dirname, '..', 'dbs', 'main.sqlite'));
+	const orm = await getMainOrm(
+		false,
+		path.join(__dirname, '..', 'dbs', 'main.sqlite'),
+		path.join(process.cwd(), 'packages', 'migrations', 'src', 'main-migrations')
+	);
 
+	await createMigration(orm);
+};
+
+const createMigration = async (orm: ORM) => {
 	const migrator = orm.getMigrator();
 	await migrator.createMigration();
 	await orm.close(true);

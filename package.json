@@ -20,6 +20,7 @@
 		"format": "prettier --ignore-path .gitignore \"**/*.+(ts|tsx|json)\" --write",
 		"lint": "yarn nx run-many --target=lint --all --fix",
 		"husky:init": "husky install && husky set .husky/pre-commit \"yarn lint-staged --relative\"",
+		"create-migrations": "yarn nx create-migrations migrations && yarn nx migrate-dbs migrations",
 		"add-changeset": "yarn changeset",
 		"start:client": "yarn nx serve client",
 		"start:server": "yarn nx serve server",

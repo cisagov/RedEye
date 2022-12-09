@@ -5,6 +5,7 @@
 		"target": "esnext",
 		"lib": ["esnext"],
 		"moduleResolution": "node",
+		"esModuleInterop": true,
 		"outDir": "../../dist/out-tsc",
 		"declaration": true,
 		"types": []

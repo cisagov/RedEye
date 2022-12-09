@@ -1,1 +1,1 @@
-export * from './migrate-dbs';
+export * from './get-migrated-orm';
