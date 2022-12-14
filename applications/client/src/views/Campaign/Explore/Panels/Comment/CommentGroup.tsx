@@ -66,7 +66,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 						/>
 					))}
 					{newComment === state.commandGroup?.id && (
-						<CommentBox newComment commandGroupId={commandGroupId} cancel={toggleNewComment} css={commentBoxStyle} />
+						<CommentBox newComment commandGroupId={state.commandGroupId} cancel={toggleNewComment} css={commentBoxStyle} />
 					)}
 				</Flex>
 				<Flex column>
@@ -84,7 +84,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 					{!hideCommands &&
 						state.commandGroup?.commandIds?.map((commandId) => (
 							<CommandContainer
-								commandGroupId={commandGroupId}
+								commandGroupId={state.commandGroupId}
 								commandId={commandId}
 								css={css`
 									border-bottom: none !important;

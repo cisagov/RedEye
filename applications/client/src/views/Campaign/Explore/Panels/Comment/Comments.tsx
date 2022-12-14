@@ -1,13 +1,13 @@
 import { Intent, ProgressBar } from '@blueprintjs/core';
-import { VirtualizedList } from '@redeye/client/components';
+import { isDefined, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel, SortDirection } from '@redeye/client/store';
-import { commandGroupModelPrimitives, SortOptionComments, useStore } from '@redeye/client/store';
+import { commandQuery, commandGroupModelPrimitives, SortOptionComments, useStore } from '@redeye/client/store';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
 
 type CommentsProps = ComponentProps<'div'> & {
@@ -17,7 +17,7 @@ type CommentsProps = ComponentProps<'div'> & {
 	};
 };
 
-const pageSize = 4;
+const pageSize = 8;
 
 export const Comments = observer<CommentsProps>(({ sort }) => {
 	const store = useStore();
@@ -73,7 +73,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
 				const start = index * pageSize;
 				const ids = data.commandGroupIds.slice(start, start + pageSize);
-				await store.graphqlStore.queryCommandGroups(
+				// query commands as temp solution
+				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
 					{
 						campaignId: store.campaign?.id!,
 						commandGroupIds: ids,
@@ -90,12 +91,48 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						.annotations((anno) => anno.text.user.commandIds.commandGroupId.date.favorite.tags((tag) => tag.text))
 						.toString()
 				);
+
+				// query commands as temp solution
+				const commandIds = commandGroupsQuery?.commandGroups.flatMap((cg) => cg.commandIds).filter<string>(isDefined);
+				await store.graphqlStore.queryCommands(
+					{
+						campaignId: store.campaign?.id!,
+						commandIds,
+						hidden: store.settings.showHidden,
+					},
+					commandQuery
+				);
+				// query commands as temp solution
 			}
 		},
 		{
 			enabled: !!data?.commandGroupIds?.length,
 		}
 	);
+
+	useEffect(() => {
+		if (store.campaign?.commentStore.scrollToComment) {
+			state.update(
+				'scrollToIndex',
+				Object.values(store.graphqlStore.commandGroups?.items).findIndex(
+					(commandGroup) => commandGroup.id === store.campaign?.commentStore.scrollToComment
+				)
+			);
+			if (state.scrollToIndex !== -1) {
+				setTimeout(() => {
+					listRef?.current?.scrollToIndex({
+						index: state.scrollToIndex!,
+						align: 'start',
+						behavior: 'smooth',
+					});
+					setTimeout(() => {
+						state.update('scrollToIndex', undefined);
+						store.campaign.commentStore.setScrollToComment(undefined);
+					}, 1000);
+				}, 250);
+			}
+		}
+	}, [data]);
 
 	return (
 		<VirtualizedList
