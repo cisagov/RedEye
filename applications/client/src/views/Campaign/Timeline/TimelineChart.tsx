@@ -95,7 +95,7 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 			`}
 		>
 			<div {...props} css={safetyOverflowDiv}>
-				<svg height={height} width={width}>
+				<svg height={(height || 110) + 20} width={width}>
 					{state.start && state.end && width && height && state.xScale && (
 						<>
 							<Bars
@@ -114,6 +114,8 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 									xScale={state.xScale}
 									bars={state.bars}
 									dimensions={{ width, height }}
+									start={state.start}
+									end={state.end}
 								/>
 							)}
 						</>
@@ -125,7 +127,6 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 });
 
 const safetyOverflowDiv = css`
-	overflow: hidden;
 	flex: 1 1 auto;
 	height: 100%;
 `;
