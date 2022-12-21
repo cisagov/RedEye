@@ -50,7 +50,7 @@ export const ControlBar = observer<ControlBarProps>(
 				css={css`
 					display: flex;
 					border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
-					padding: 0.4rem 0.5rem;
+					padding: 2px 0.5rem;
 					align-items: center;
 				`}
 				{...props}

@@ -221,7 +221,6 @@ const timelineWrapperStyles = css`
 	display: flex;
 	flex-direction: column;
 	background-color: ${TIMELINE_BG_COLOR};
-	padding-bottom: 0.4rem;
 `;
 const controlPanelStyles = css`
 	display: flex;
@@ -253,6 +252,7 @@ const headerStyle = css`
 	/* flex: 1 0 auto; */
 `;
 const timelinePanelStyles = css`
+	overflow: hidden;
 	height: ${PANEL_HEIGHT}px;
 	flex: 1 1 auto;
 	margin: 0.5rem 0.25rem 0.5rem 0.5rem; // TODO: support top/bottom margin in timeline

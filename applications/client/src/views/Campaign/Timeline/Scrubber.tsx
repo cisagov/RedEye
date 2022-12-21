@@ -5,11 +5,10 @@ import type { ScaleTime } from 'd3';
 import { debounce } from 'throttle-debounce';
 import { observer } from 'mobx-react-lite';
 import type { MutableRefObject } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import type { AnimatedValue, ForwardedProps, SetUpdateFn } from 'react-spring';
 import { animated, useSpring } from 'react-spring';
 import { useGesture } from 'react-use-gesture';
-import { durationFormatter } from '@redeye/client/components';
 import { PARTIAL_HEIGHT_LINE, X_AXIS_LABELS_HEIGHT } from './timeline-static-vars';
 import type { IBar, IDimensions } from './TimelineChart';
 
@@ -19,20 +18,23 @@ type ScrubberProps = {
 	scrubberTime: Date;
 	xScale: ScaleTime<number, number>;
 	dimensions: IDimensions;
-	start: Date;
-	end: Date;
+	setGrabberTime: any;
+	setGrabberTimeMarginLeft: (number) => void;
+	grabberTimeLabel: string;
 };
 
 export const Scrubber = observer<ScrubberProps>(
-	({ setScrubberTime, bars, scrubberTime, xScale, dimensions, start, end }) => {
+	({
+		setScrubberTime,
+		bars,
+		scrubberTime,
+		xScale,
+		dimensions,
+		setGrabberTime,
+		grabberTimeLabel,
+		setGrabberTimeMarginLeft,
+	}) => {
 		const store = useStore();
-		const grabberTimeFormatter = durationFormatter(start, end);
-		const [grabberTime, setGrabberTime] = useState<Date | undefined>(undefined);
-
-		const grabberTimeStr = useMemo(
-			() => store.settings.momentTz(grabberTime).format(grabberTimeFormatter) || '',
-			[grabberTime, grabberTimeFormatter]
-		);
 
 		// Debounced is not really needed since the value is only updated when the user is done dragging
 		const setScrubberTimeDebounced = useMemo(
@@ -74,8 +76,9 @@ export const Scrubber = observer<ScrubberProps>(
 
 				// Update the spring
 				// @ts-ignore
-				set({ x: rounded, xTxt: rounded - grabberTimeStr.length * 3.3, immediate: true });
+				set({ x: rounded, immediate: true });
 				setGrabberTime(xScale.invert(rounded as unknown as number));
+				setGrabberTimeMarginLeft((rounded as unknown as number) - (grabberTimeLabel.length || 8) * 4);
 			},
 			onDragEnd: ({ movement: [xDelta] }) => {
 				const rounded = calculateNewX(currentX, xDelta, bars, xScale);
@@ -110,16 +113,6 @@ export const Scrubber = observer<ScrubberProps>(
 					<animated.circle cx={spring.x} cy={circleY} r={1} css={smallCircleStyles} />
 					<animated.circle cx={spring.x} cy={circleY} r={10} css={grabberCircleStyles} />
 				</g>
-				{grabberTime && (
-					<animated.text
-						// @ts-ignore
-						x={spring.xTxt || spring.x}
-						y={circleY + 25}
-						css={grabberTxtStyles}
-					>
-						{grabberTimeStr}
-					</animated.text>
-				)}
 			</>
 		);
 	}
@@ -173,9 +166,4 @@ const grabberCircleStyles = css`
 
 const grabberWrapperStyles = css`
 	cursor: ew-resize;
-`;
-
-const grabberTxtStyles = css`
-	stroke: ${Tokens.TextColors.PtTextColorMuted};
-	font-size: 0.7rem;
 `;
