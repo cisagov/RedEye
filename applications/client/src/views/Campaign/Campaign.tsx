@@ -253,6 +253,7 @@ type CollapsedContentProps = ComponentProps<'div'> & ButtonProps & {};
 export const CollapsedContent: FC<CollapsedContentProps> = ({ children, icon, ...props }) => (
 	<div {...props} css={collapsedContentWrapperStyle}>
 		<Button
+			cy-test="expand-panel"
 			icon={icon}
 			// onClick={onClick}
 			minimal

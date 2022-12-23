@@ -43,10 +43,12 @@ export const Command = observer<CommandProps>(
 				/>
 			)}
 			<div className={skeletonClass} css={rowTextStyle}>
-				<Txt ellipsize small muted block running title={command?.info.contextTooltipText}>
-					<Txt monospace>{command?.info.time.format(`${dateShortFormat} ${timeFormat}`)}</Txt>
+				<Txt cy-test="command-header" ellipsize small muted block running title={command?.info.contextTooltipText}>
+					<Txt cy-test="command-date-time" monospace>
+						{command?.info.time.format(`${dateShortFormat} ${timeFormat}`)}
+					</Txt>
 					<Spacer />
-					<Txt>{command?.info.operator}</Txt>
+					<Txt cy-test="operator-info">{command?.info.operator}</Txt>
 					{isCollapsed && showPath && (
 						<>
 							<Spacer>{' • '}</Spacer>
@@ -55,7 +57,7 @@ export const Command = observer<CommandProps>(
 					)}
 				</Txt>
 				{!isCollapsed && showPath && <NavBreadcrumbs cy-test="hostBeaconInfo" command={command} hideRoot muted />}
-				<Txt title={command?.info.commandTooltip} block ellipsize>
+				<Txt cy-test="command-info" title={command?.info.commandTooltip} block ellipsize>
 					<Txt emphasis bold cy-test="command-type">
 						{command?.info.commandType}
 					</Txt>{' '}

@@ -174,6 +174,33 @@ describe('Command counts', () => {
 			});
 	});
 
+	it('Verify command counts from Search modal', () => {
+		// Open campaign and go to Search modal
+		cy.selectCampaign(camp);
+		cy.clickSearch();
+
+		// Enter search term
+		cy.searchCampaignFor('exit');
+
+		// Log the number of commands showing for the Command Type result
+		cy
+			.get('[cy-test=command-count]')
+			.invoke('text')
+			.then((commandCount1) => {
+				// cy.log(commandCount1);
+
+				// Click the Command Type to go to the list of commands; verify count matches number in search
+				cy.get('[cy-test=search-result-item]').contains('Command Type').click();
+				cy
+					.get('[cy-test=info-row]')
+					.its('length')
+					.then((commandCount2) => {
+						// cy.log(commandCount2);
+						expect(+commandCount2).to.eq(+commandCount1);
+					});
+			});
+	});
+
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
 	});

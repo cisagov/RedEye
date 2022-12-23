@@ -132,6 +132,34 @@ describe('Beacon counts', () => {
 			});
 	});
 
+	it('Verify beacon counts from Search modal', () => {
+		// Open campaign and go to Search modal
+		cy.selectCampaign(camp);
+		cy.clickSearch();
+
+		// Enter search term
+		cy.searchCampaignFor('analyst');
+
+		// Log the number of commands showing for the Operator result
+		cy
+			.get('[cy-test=beacon-count]')
+			.invoke('text')
+			.then((beaconCount1) => {
+				cy.log(beaconCount1);
+
+				// Click the Operator, go to list of beacons; verify count matches number in search
+				cy.get('[cy-test=search-result-item]').contains('Operator').click();
+				cy.clickBeaconsTab();
+				cy
+					.get('[cy-test=info-row]')
+					.its('length')
+					.then((beaconCount2) => {
+						cy.log(beaconCount2);
+						expect(+beaconCount2).to.eq(+beaconCount1);
+					});
+			});
+	});
+
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
 	});

@@ -219,3 +219,18 @@ Cypress.Commands.add('deleteDownloadsFolderContent', () => {
 		}
 	});
 });
+
+// Reply to a comment (only adds text, no tags)
+Cypress.Commands.add('replyToComment', (index, cmt) => {
+	cy.get('[cy-test=reply]').eq(index).click();
+	cy.get('[cy-test=comment-input]').type(cmt);
+});
+
+// Add existing tag to a comment REPLY
+Cypress.Commands.add('addExistingTagsToReply', (...term) => {
+	term.forEach((tags) => {
+		cy.get('[cy-test=tag-input]').type(tags);
+		cy.get('[cy-test=tag-list-item]').contains(tags).click();
+	});
+	cy.get('[cy-test=save-comment]').should('be.visible').click();
+});
