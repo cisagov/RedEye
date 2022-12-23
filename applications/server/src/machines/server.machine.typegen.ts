@@ -8,6 +8,11 @@ export interface Typegen0 {
 			data: unknown;
 			__tip: 'See the XState TS docs to learn how to strongly type this.';
 		};
+		'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]': {
+			type: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
+			data: unknown;
+			__tip: 'See the XState TS docs to learn how to strongly type this.';
+		};
 		'done.invoke.SERVER_MACHINE.moveBlueTeamDatabases:invocation[0]': {
 			type: 'done.invoke.SERVER_MACHINE.moveBlueTeamDatabases:invocation[0]';
 			data: unknown;
@@ -30,6 +35,7 @@ export interface Typegen0 {
 	invokeSrcNameMap: {
 		createCacheService: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
 		importLocalCampaignsDatabasesService: 'done.invoke.SERVER_MACHINE.moveBlueTeamDatabases:invocation[0]';
+		migrateCampaignsService: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
 		startBlueTeamHttpServerService: 'done.invoke.SERVER_MACHINE.initializeBlueHTTPServerService:invocation[0]';
 		startHttpServerService: 'done.invoke.SERVER_MACHINE.initializeHTTPServer:invocation[0]';
 	};
@@ -50,12 +56,13 @@ export interface Typegen0 {
 	};
 	eventsCausingServices: {
 		createCacheService: 'xstate.init';
-		importLocalCampaignsDatabasesService: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
+		importLocalCampaignsDatabasesService: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
+		migrateCampaignsService: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
 		startBlueTeamHttpServerService: 'done.invoke.SERVER_MACHINE.moveBlueTeamDatabases:invocation[0]';
-		startHttpServerService: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
+		startHttpServerService: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
 	};
 	eventsCausingGuards: {
-		isBlueTeam: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
+		isBlueTeam: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
 	};
 	eventsCausingDelays: {};
 	matchesStates:
@@ -64,6 +71,7 @@ export interface Typegen0 {
 		| 'initializeBlueHTTPServerService'
 		| 'initializeHTTPServer'
 		| 'loadDatabase'
+		| 'migrateCampaigns'
 		| 'moveBlueTeamDatabases'
 		| 'ready';
 	tags: never;
