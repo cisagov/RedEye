@@ -23,9 +23,9 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 	const yMax = max(bars.map((bar) => bar.beaconCount)) ?? 0;
 	const yScale = scaleLinear([0, yMax], [0, dimensions.height]);
 	const state = createState({
-		interaction: Popover2InteractionKind.HOVER as Popover2InteractionKind,
-		setInteraction(interaction: Popover2InteractionKind) {
-			this.interaction = interaction;
+		isHover: true as boolean,
+		toggleIsHover() {
+			this.isHover = !this.isHover;
 		},
 	});
 
@@ -41,7 +41,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						interactionKind={Popover2InteractionKind.HOVER}
 						content={
 							bar.beaconCount ? (
-								state.interaction === Popover2InteractionKind.HOVER ? (
+								state.isHover ? (
 									<BarLabelOnHover bar={bar} dateFormatter={durationFormatter(start, end)} />
 								) : (
 									<BarLabelOnClick bar={bar} dateFormatter={durationFormatter(start, end)} />
@@ -49,15 +49,24 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 							) : undefined
 						}
 						placement="bottom"
+						modifiers={{
+							arrow: { enabled: false },
+							offset: {
+								enabled: true,
+								options: {
+									offset: [0, 20],
+								},
+							},
+						}}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g
 								ref={ref}
 								{...targetProps}
 								onMouseDown={(e) => {
 									e.preventDefault();
-									state.setInteraction(Popover2InteractionKind.CLICK);
+									state.toggleIsHover();
 								}}
-								onMouseOut={() => state.setInteraction(Popover2InteractionKind.HOVER)}
+								// onMouseOut={() => state.toggleIsHover()}
 							>
 								{/* Interaction Beacon Bar for color */}
 								{bar.beaconCount && (
@@ -96,7 +105,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 									/>
 								)}
 								{/* Interaction Beacon Bar for Functionality */}
-								<rect x={x} width={width} y={0} height={dimensions.height} css={[baseBarStyles, interactionBarFnStyles]} />
+								<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
 							</g>
 						)}
 					/>
@@ -130,6 +139,7 @@ const selectedBarStyles = css`
 
 const interactionBarStyles = (hover: boolean) => css`
 	fill: ${hover ? Tokens.CoreTokens.BeaconInteracted : 'transparent'};
+	opacity: 0.3;
 `;
 
 const interactionBarFnStyles = css`

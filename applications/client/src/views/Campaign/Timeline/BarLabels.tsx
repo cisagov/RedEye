@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
-import { dateFormat, dateTimeFormat } from '@redeye/client/components';
-import { useStore } from '@redeye/client/store';
-import { Txt, FlexSplitter } from '@redeye/ui-styles';
+import { dateFormat, dateTimeFormat, Flex } from '@redeye/client/components';
+import { routes, useStore } from '@redeye/client/store';
+import { CampaignViews, Tabs } from '@redeye/client/types';
+import type { UUID } from '@redeye/client/types';
+import { Txt, FlexSplitter, Tokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import type { IBar } from './TimelineChart';
@@ -29,39 +31,82 @@ export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) =>
 });
 
 export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter }) => (
-	<div css={barLabelStyles}>
+	<div css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<Txt muted small>
-			Beacons
-		</Txt>
-		<Txt small css={{ float: 'right' }}>
-			{bar?.beaconCount}
-		</Txt>
+		<Flex>
+			<Txt muted small>
+				Beacons
+			</Txt>
+			<FlexSplitter />
+			<Txt small>{bar?.beaconNumbers}</Txt>
+		</Flex>
+		<Flex>
+			<Txt muted small>
+				Total commands
+			</Txt>
+			<FlexSplitter />
+			<Txt small>{bar?.beaconCount}</Txt>
+		</Flex>
+		<Flex>
+			<Txt muted small>
+				Active Beacon commands
+			</Txt>
+			<FlexSplitter />
+			<Txt small>{bar?.activeBeaconCount}</Txt>
+		</Flex>
 	</div>
 ));
 
-export const BarLabelOnClick = observer<BarLabelsProps>(({ bar, dateFormatter }) => (
-	<div css={barLabelStyles}>
-		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
-		<FlexSplitter />
-		<Txt muted small>
-			Beacons
-		</Txt>
-		<Txt small css={{ float: 'right' }}>
-			{bar?.beaconCount}
-		</Txt>
-		<FlexSplitter />
-		<Txt muted small>
-			Active Beacons
-		</Txt>
-		<Txt small css={{ float: 'right' }}>
-			{bar?.activeBeaconCount}
-		</Txt>
-	</div>
-));
+export const BarLabelOnClick = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
+	const store = useStore();
+	const routeToBeacon = (beaconId: string) => {
+		store.router.updateRoute({
+			path: routes[CampaignViews.EXPLORE],
+			params: {
+				view: CampaignViews.EXPLORE,
+				currentItem: 'beacon',
+				currentItemId: beaconId as UUID,
+				tab: Tabs.COMMANDS,
+				activeItem: undefined,
+				activeItemId: undefined,
+			},
+		});
+	};
+	return (
+		<div css={barPopoverStyles}>
+			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
+			<FlexSplitter />
+			<Flex css={{ 'padding-top': '0.2rem' }}>
+				<Txt small bold>
+					Beacons
+				</Txt>
+				<FlexSplitter />
+				<Txt small bold>
+					Commands
+				</Txt>
+			</Flex>
+			{bar.beaconCommands.map((beaconCommand) => (
+				<Flex key={beaconCommand[0]} css={barPopoverRowStyles} onClick={() => routeToBeacon(beaconCommand[0] as string)}>
+					<Txt muted small>
+						{beaconCommand[0]}
+					</Txt>
+					<FlexSplitter />
+					<Txt small>{beaconCommand[1]}</Txt>
+				</Flex>
+			))}
+		</div>
+	);
+});
 
-const barLabelStyles = css`
+const barPopoverStyles = css`
 	padding: 0.4rem;
-	min-width: 140px;
+	min-width: 200px;
+`;
+
+const barPopoverRowStyles = css`
+	&:hover {
+		cursor: pointer;
+		background: ${Tokens.Components.MinimalButtonBackgroundColorHover};
+	}
 `;

@@ -21,6 +21,8 @@ export interface IBar {
 	beaconCount: number;
 	activeBeaconCount: number;
 	selectedBeaconCount: number;
+	beaconNumbers: number;
+	beaconCommands: Array<Array<string | number>>;
 }
 
 export interface IDimensions {
