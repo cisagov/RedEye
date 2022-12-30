@@ -21,13 +21,6 @@ export class CommandGroupModel extends ExtendedModel(CommandGroupModelBase, {}) 
 	@observable minTime: Moment | undefined;
 	@observable maxTime: Moment | undefined;
 
-	// @computed get commands(): CommandModel[] {
-	// 	const appStore = getRoot<AppStore>(this);
-	// 	return this.commandIds
-	// 		?.map((commandId) => appStore.graphqlStore.commands.get(commandId))
-	// 		.filter(Boolean) as CommandModel[];
-	// }
-
 	@computed get minMaxTime() {
 		this.annotations?.forEach?.((annotation: Ref<AnnotationModel>) => {
 			if (annotation.maybeCurrent?.date) getMinMaxTime(this, annotation.maybeCurrent.date);

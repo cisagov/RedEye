@@ -2,7 +2,7 @@ import { Intent, ProgressBar } from '@blueprintjs/core';
 import { isDefined, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel, SortDirection } from '@redeye/client/store';
-import { commandQuery, commandGroupModelPrimitives, SortOptionComments, useStore } from '@redeye/client/store';
+import { commandQuery, SortOptionComments, useStore, commandGroupCommentsQuery } from '@redeye/client/store';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
@@ -17,7 +17,7 @@ type CommentsProps = ComponentProps<'div'> & {
 	};
 };
 
-const pageSize = 8;
+const pageSize = 10;
 
 export const Comments = observer<CommentsProps>(({ sort }) => {
 	const store = useStore();
@@ -34,7 +34,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			endIndex: 0,
 		},
 	});
-	const { data, isLoading } = useQuery(
+	const { data } = useQuery(
 		[
 			'commandGroups',
 			store.campaign?.id,
@@ -60,7 +60,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			})
 	);
 
-	useQuery(
+	const { isLoading } = useQuery(
 		[
 			'commandGroupsById',
 			'commandGroups',
@@ -80,21 +80,12 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						commandGroupIds: ids,
 						hidden: store.settings.showHidden,
 					},
-					commandGroupModelPrimitives
-						.commands((command) =>
-							command
-								.beacon((beacon) => beacon.meta((meta) => meta.ip.pid.startTime.endTime).host((host) => host.beaconIds))
-								.input((commandInput) => commandInput.dateTime.blob.logType)
-								.operator((operator) => operator)
-								.output((log) => log.blob)
-						)
-						.annotations((anno) => anno.text.user.commandIds.commandGroupId.date.favorite.tags((tag) => tag.text))
-						.toString()
+					commandGroupCommentsQuery // command cache issue?
 				);
 
 				// query commands as temp solution
 				const commandIds = commandGroupsQuery?.commandGroups.flatMap((cg) => cg.commandIds).filter<string>(isDefined);
-				await store.graphqlStore.queryCommands(
+				return store.graphqlStore.queryCommands(
 					{
 						campaignId: store.campaign?.id!,
 						commandIds,
