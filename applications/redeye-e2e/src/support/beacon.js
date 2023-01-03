@@ -8,10 +8,7 @@
  */
 //SELECT A BEACON
 Cypress.Commands.add('clickBeacon', (index) => {
-	cy
-		.get('[cy-test=beacon]')
-		.eq(index)
-		.click({ force: true });
+	cy.get('[cy-test=beacon]').eq(index).click({ force: true });
 	cy.wait(500);
 });
 
@@ -57,7 +54,7 @@ Cypress.Commands.add('verifyTotalCommands', (num) => {
 });
 
 //ADD COMMENTS
-Cypress.Commands.add('addComments', (index) => {
+Cypress.Commands.add('clickAddComments', (index) => {
 	cy.get('[cy-test=add-comment]').eq(index).click();
 });
 
