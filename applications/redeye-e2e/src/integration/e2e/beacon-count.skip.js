@@ -145,7 +145,7 @@ describe('Beacon counts', () => {
 			.get('[cy-test=beacon-count]')
 			.invoke('text')
 			.then((beaconCount1) => {
-				cy.log(beaconCount1);
+				// cy.log(beaconCount1);
 
 				// Click the Operator, go to list of beacons; verify count matches number in search
 				cy.get('[cy-test=search-result-item]').contains('Operator').click();
@@ -154,7 +154,7 @@ describe('Beacon counts', () => {
 					.get('[cy-test=info-row]')
 					.its('length')
 					.then((beaconCount2) => {
-						cy.log(beaconCount2);
+						// cy.log(beaconCount2);
 						expect(+beaconCount2).to.eq(+beaconCount1);
 					});
 			});
