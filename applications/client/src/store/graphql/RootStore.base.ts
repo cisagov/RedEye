@@ -1,4 +1,6 @@
 /* This is a mk-gql generated file, don't modify it manually */
+import type { MKGQLStore, QueryOptions } from 'mk-gql';
+import { createMKGQLStore } from 'mk-gql';
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -14,15 +16,13 @@ import {
 	prop,
 	Ref,
 } from 'mobx-keystone';
-import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
-import { MergeHelper } from './mergeHelper';
 
 import { AnnotationModel, annotationModelPrimitives, AnnotationModelSelector } from './AnnotationModel';
-import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
 import { BeaconMetaModel } from './BeaconMetaModel';
+import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
 import { CampaignModel, campaignModelPrimitives, CampaignModelSelector } from './CampaignModel';
-import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
 import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
+import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
 import {
 	CommandTypeCountModel,
 	commandTypeCountModelPrimitives,
@@ -30,11 +30,12 @@ import {
 } from './CommandTypeCountModel';
 import { FileModel, fileModelPrimitives, FileModelSelector } from './FileModel';
 import { GlobalOperatorModel, globalOperatorModelPrimitives, GlobalOperatorModelSelector } from './GlobalOperatorModel';
-import { HostModel, hostModelPrimitives, HostModelSelector } from './HostModel';
 import { HostMetaModel } from './HostMetaModel';
+import { HostModel, hostModelPrimitives, HostModelSelector } from './HostModel';
 import { ImageModel, imageModelPrimitives, ImageModelSelector } from './ImageModel';
 import { LinkModel, linkModelPrimitives, LinkModelSelector } from './LinkModel';
 import { LogEntryModel, logEntryModelPrimitives, LogEntryModelSelector } from './LogEntryModel';
+import { MergeHelper } from './mergeHelper';
 import { OperatorModel, operatorModelPrimitives, OperatorModelSelector } from './OperatorModel';
 import {
 	ParsingProgressModel,
@@ -47,16 +48,16 @@ import {
 	presentationItemModelPrimitives,
 	PresentationItemModelSelector,
 } from './PresentationItemModel';
-import { ServerModel, serverModelPrimitives, ServerModelSelector } from './ServerModel';
 import { ServerMetaModel } from './ServerMetaModel';
+import { ServerModel, serverModelPrimitives, ServerModelSelector } from './ServerModel';
 import { ServerParsingProgressModel } from './ServerParsingProgressModel';
-import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
-import { TimelineModel, timelineModelPrimitives, TimelineModelSelector } from './TimelineModel';
-import { TimelineBucketModel } from './TimelineBucketModel';
-import { TimelineCommandCountTupleModel } from './TimelineCommandCountTupleModel';
 import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
+import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
+import { TimelineBucketModel } from './TimelineBucketModel';
+import { TimelineCommandCountTupleModel } from './TimelineCommandCountTupleModel';
+import { TimelineModel, timelineModelPrimitives, TimelineModelSelector } from './TimelineModel';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -467,7 +468,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get all the operators for all campaigns
 	@modelAction queryGlobalOperators(
-		variables?: {},
+		variables: { password: string },
 		resultSelector:
 			| string
 			| ((
@@ -477,7 +478,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ globalOperators: GlobalOperatorModel[] }>(
-			`query globalOperators { globalOperators {
+			`query globalOperators($password: String!) { globalOperators(password: $password) {
         ${
 									typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
 								}
@@ -845,7 +846,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Create a global user
 	@modelAction mutateCreateGlobalOperator(
-		variables: { username: string },
+		variables: { password: string; username: string },
 		resultSelector:
 			| string
 			| ((
@@ -854,7 +855,7 @@ export class RootStoreBase extends ExtendedModel(
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ createGlobalOperator: GlobalOperatorModel }>(
-			`mutation createGlobalOperator($username: String!) { createGlobalOperator(username: $username) {
+			`mutation createGlobalOperator($password: String!, $username: String!) { createGlobalOperator(password: $password, username: $username) {
         ${
 									typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
 								}
