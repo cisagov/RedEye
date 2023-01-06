@@ -971,6 +971,15 @@
 					"nullable": false,
 					"mappedType": "text"
 				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
 				"start_time": {
 					"name": "start_time",
 					"type": "datetime",
@@ -990,6 +999,16 @@
 					"nullable": true,
 					"length": 0,
 					"mappedType": "datetime"
+				},
+				"manual": {
+					"name": "manual",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"default": "false",
+					"mappedType": "integer"
 				},
 				"origin_id": {
 					"name": "origin_id",
