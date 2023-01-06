@@ -100,7 +100,12 @@ export const CommandContainer = observer<CommandContainerProps>(
 				<div css={[hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
-						css={[interactiveRowStyle, gridFillStyle, { height: initialCommandRowHeight }]}
+						css={[
+							interactiveRowStyle,
+							gridFillStyle,
+							{ height: initialCommandRowHeight },
+							state.expanded || state.active ? activeCommandInfoRowStyle : undefined,
+						]}
 						onClick={state.setCollapsed}
 						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
 					>
@@ -135,8 +140,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 						/>
 					)}
 				</div>
-
-				{state.active && <CommandOutput command={state.command} />}
+				{(state.expanded || state.active) && <CommandOutput command={state.command} />}
 			</div>
 		);
 	}
@@ -170,3 +174,7 @@ const interactiveRowStyle = css`
 	padding: 0.5rem 3rem 0.5rem 1rem;
 `;
 export const initialCommandRowHeight = 56;
+
+const activeCommandInfoRowStyle = css`
+	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
+`;
