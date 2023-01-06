@@ -15,6 +15,10 @@ export class Link {
 	@PrimaryKey()
 	id: string = randomUUID();
 
+	@Field(() => String, { nullable: true, description: 'The display name of the link' })
+	@Property({ nullable: true })
+	name?: string;
+
 	@Field(() => Date, {
 		nullable: true,
 		description: "Shouldn't be nullable but it is to handle bad data sets",
@@ -25,6 +29,10 @@ export class Link {
 	@Field(() => Date, { nullable: true })
 	@Property({ nullable: true })
 	endTime?: Date;
+
+	@Field(() => Boolean, { defaultValue: false, description: 'Was this Link manually created' })
+	@Property({ default: false })
+	manual: boolean = false;
 
 	/**
 	 * Relationships

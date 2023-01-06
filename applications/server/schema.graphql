@@ -170,6 +170,12 @@ type Link {
   destination: Beacon
   endTime: DateTime
   id: String!
+
+  """Was this Link manually created"""
+  manual: Boolean
+
+  """The display name of the link"""
+  name: String
   origin: Beacon
 
   """Shouldn't be nullable but it is to handle bad data sets"""
@@ -241,11 +247,42 @@ type Mutation {
   """Create a global user"""
   createGlobalOperator(username: String!): GlobalOperator
 
+  """Create a new link between two beacons"""
+  createLink(
+    campaignId: String!
+
+    """command id to add to link"""
+    commandId: String!
+
+    """destination beacon id"""
+    destinationId: String!
+    name: String!
+
+    """origin beacon id"""
+    originId: String!
+  ): Link!
+
   """Delete existing Annotation"""
   deleteAnnotation(annotationId: String!, campaignId: String!): Annotation!
 
   """Delete a Campaign by id"""
   deleteCampaign(campaignId: String!): Boolean!
+
+  """Edit a link"""
+  editLink(
+    campaignId: String!
+
+    """command id to add to link"""
+    commandId: String!
+
+    """destination beacon id"""
+    destinationId: String!
+    id: String!
+    name: String!
+
+    """origin beacon id"""
+    originId: String!
+  ): Link!
 
   """Rename existing Campaign"""
   renameCampaign(campaignId: String!, name: String!): Campaign!
@@ -379,7 +416,7 @@ type Query {
   """Get images by ids"""
   images(beaconId: String, campaignId: String!, hostId: String): [Image]
 
-  """Get log entries by ids"""
+  """Get all links"""
   links(campaignId: String!, hidden: Boolean = false): [Link]
 
   """Get log entries by ids"""
