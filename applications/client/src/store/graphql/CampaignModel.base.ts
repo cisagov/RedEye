@@ -24,7 +24,6 @@ export class CampaignModelBase extends Model({
 	__typename: tProp('Campaign'),
 	annotationCount: prop<number>().withSetter(),
 	beaconCount: prop<number>().withSetter(),
-	bloodStrikeServerCount: prop<number>().withSetter(),
 	commandCount: prop<number>().withSetter(),
 	computerCount: prop<number>().withSetter(),
 	creator: prop<Ref<GlobalOperatorModel> | null>().withSetter(),
@@ -32,8 +31,10 @@ export class CampaignModelBase extends Model({
 	id: prop<string>().withSetter(),
 	lastLogTime: prop<any | null>().withSetter(),
 	lastOpenedBy: prop<Ref<GlobalOperatorModel> | null>().withSetter(),
+	migrationError: prop<boolean>().withSetter(),
 	name: prop<string>().withSetter(),
 	parsingStatus: prop<ParsingStatus>().withSetter(),
+	serverCount: prop<number>().withSetter(),
 }) {
 	getRefId() {
 		return String(this.id);
@@ -46,9 +47,6 @@ export class CampaignModelSelector extends QueryBuilder {
 	}
 	get beaconCount() {
 		return this.__attr(`beaconCount`);
-	}
-	get bloodStrikeServerCount() {
-		return this.__attr(`bloodStrikeServerCount`);
 	}
 	get commandCount() {
 		return this.__attr(`commandCount`);
@@ -65,11 +63,17 @@ export class CampaignModelSelector extends QueryBuilder {
 	get lastLogTime() {
 		return this.__attr(`lastLogTime`);
 	}
+	get migrationError() {
+		return this.__attr(`migrationError`);
+	}
 	get name() {
 		return this.__attr(`name`);
 	}
 	get parsingStatus() {
 		return this.__attr(`parsingStatus`);
+	}
+	get serverCount() {
+		return this.__attr(`serverCount`);
 	}
 	creator(
 		builder?:
@@ -93,5 +97,5 @@ export function selectFromCampaign() {
 }
 
 export const campaignModelPrimitives =
-	selectFromCampaign().annotationCount.beaconCount.bloodStrikeServerCount.commandCount.computerCount.firstLogTime
-		.lastLogTime.name.parsingStatus;
+	selectFromCampaign().annotationCount.beaconCount.commandCount.computerCount.firstLogTime.lastLogTime.migrationError
+		.name.parsingStatus.serverCount;

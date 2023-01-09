@@ -1,0 +1,44 @@
+10/13 13:47:47 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell; process: update (1).exe; pid: 2592; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/13 13:48:34 UTC [input] <analyst01> shell whoami /groups
+10/13 13:48:34 UTC [task] <T1059> Tasked beacon to run: whoami /groups
+10/13 13:48:39 UTC [checkin] host called home, sent: 45 bytes
+10/13 13:48:40 UTC [output]
+received output:
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID                                           Attributes                                        
+========================================== ================ ============================================= ==================================================
+Everyone                                   Well-known group S-1-1-0                                       Mandatory group, Enabled by default, Enabled group
+BUILTIN\Administrators                     Alias            S-1-5-32-544                                  Group used for deny only                          
+BUILTIN\Remote Desktop Users               Alias            S-1-5-32-555                                  Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                              Alias            S-1-5-32-545                                  Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\REMOTE INTERACTIVE LOGON      Well-known group S-1-5-14                                      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\INTERACTIVE                   Well-known group S-1-5-4                                       Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11                                      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15                                      Mandatory group, Enabled by default, Enabled group
+LOCAL                                      Well-known group S-1-2-0                                       Mandatory group, Enabled by default, Enabled group
+EXAMPLE\management-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3183 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\Test-distlist                 Group            S-1-5-21-784237421-1172847891-1752287046-3073 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\web-admingroup               Group            S-1-5-21-784237421-1172847891-1752287046-3141 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test002-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3097 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test003-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3042 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test004-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3151 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test005-admingroup               Group            S-1-5-21-784237421-1172847891-1752287046-3168 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test006-distlist                 Group            S-1-5-21-784237421-1172847891-1752287046-3120 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test007-distlist                 Group            S-1-5-21-784237421-1172847891-1752287046-3148 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test008-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3146 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test009-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3088 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test010-distlist                 Group            S-1-5-21-784237421-1172847891-1752287046-3037 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test011-admingroup         Group            S-1-5-21-784237421-1172847891-1752287046-3090 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test012-distlist                 Group            S-1-5-21-784237421-1172847891-1752287046-3205 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test013-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3143 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test014-distlist           Group            S-1-5-21-784237421-1172847891-1752287046-3076 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test015-admingroup         Group            S-1-5-21-784237421-1172847891-1752287046-3133 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test016-distlist                 Group            S-1-5-21-784237421-1172847891-1752287046-3016 Mandatory group, Enabled by default, Enabled group
+EXAMPLE\test017-admingroup         Group            S-1-5-21-784237421-1172847891-1752287046-3117 Mandatory group, Enabled by default, Enabled group
+Authentication authority asserted identity Well-known group S-1-18-1                                      Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192                                                                                     
+
+

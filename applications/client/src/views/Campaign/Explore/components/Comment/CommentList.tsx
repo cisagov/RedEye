@@ -60,6 +60,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 							key={`${annotation.id}`}
 							popoverRef={popoverRef}
 							commandId={command?.id}
+							commandText={command?.inputText}
 							annotation={annotation.maybeCurrent}
 							commandGroup={commandGroup.maybeCurrent}
 							css={css`
@@ -83,6 +84,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					popoverRef={popoverRef}
 					newComment={!!state.isAddingNewComment}
 					commandId={command?.id}
+					commandText={command?.inputText}
 					cancel={state.toggleNewComment}
 					css={css`
 						border-top: 1px solid ${TokensAll.BorderColorEmphasis};

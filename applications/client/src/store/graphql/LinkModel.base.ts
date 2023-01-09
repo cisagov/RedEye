@@ -28,6 +28,10 @@ export class LinkModelBase extends Model({
 	destination: prop<Ref<BeaconModel> | null>().withSetter(),
 	endTime: prop<any | null>().withSetter(),
 	id: prop<string>().withSetter(),
+	/** Was this Link manually created */
+	manual: prop<boolean | null>().withSetter(),
+	/** The display name of the link */
+	name: prop<string | null>().withSetter(),
 	origin: prop<Ref<BeaconModel> | null>().withSetter(),
 	/** Shouldn't be nullable but it is to handle bad data sets */
 	startTime: prop<any | null>().withSetter(),
@@ -43,6 +47,12 @@ export class LinkModelSelector extends QueryBuilder {
 	}
 	get id() {
 		return this.__attr(`id`);
+	}
+	get manual() {
+		return this.__attr(`manual`);
+	}
+	get name() {
+		return this.__attr(`name`);
 	}
 	get startTime() {
 		return this.__attr(`startTime`);
@@ -61,4 +71,4 @@ export function selectFromLink() {
 	return new LinkModelSelector();
 }
 
-export const linkModelPrimitives = selectFromLink().endTime.startTime;
+export const linkModelPrimitives = selectFromLink().endTime.manual.name.startTime;

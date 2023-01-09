@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
+import { durationFormatter } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
+import { Tokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
 import { scaleTime } from 'd3';
 import { observable } from 'mobx';
@@ -54,6 +56,19 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 					[TIMELINE_PADDING.LEFT, newWidth - TIMELINE_PADDING.LEFT - TIMELINE_PADDING.RIGHT]
 				);
 			},
+			grabberTime: undefined as Date | undefined,
+			setGrabberTime(date: Date | undefined) {
+				this.grabberTime = date;
+			},
+			grabberTimeMarginLeft: 0 as number,
+			setGrabberTimeMarginLeft(num: number) {
+				this.grabberTimeMarginLeft = num;
+			},
+			get grabberTimeLabel() {
+				return state.grabberTime
+					? store.settings.momentTz(state.grabberTime).format(durationFormatter(this.start, this.end))
+					: '';
+			},
 			get start() {
 				return store.campaign?.timeline.startTime;
 			},
@@ -95,6 +110,7 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 			`}
 		>
 			<div {...props} css={safetyOverflowDiv}>
+				{state.grabberTime && <div css={labelStyles(state.grabberTimeMarginLeft)}>{state?.grabberTimeLabel}</div>}
 				<svg height={height} width={width}>
 					{state.start && state.end && width && height && state.xScale && (
 						<>
@@ -114,6 +130,9 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 									xScale={state.xScale}
 									bars={state.bars}
 									dimensions={{ width, height }}
+									grabberTimeLabel={state.grabberTimeLabel}
+									setGrabberTime={state.setGrabberTime}
+									setGrabberTimeMarginLeft={state.setGrabberTimeMarginLeft}
 								/>
 							)}
 						</>
@@ -128,4 +147,14 @@ const safetyOverflowDiv = css`
 	overflow: hidden;
 	flex: 1 1 auto;
 	height: 100%;
+`;
+
+const labelStyles = (margin?: number) => css`
+	position: absolute;
+	margin-top: 110px;
+	margin-left: ${margin}px;
+	font-size: 0.8rem;
+	padding: 0.2rem;
+	background-color: ${Tokens.CoreTokens.BackgroundColor3};
+	border: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
 `;

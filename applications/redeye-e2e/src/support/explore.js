@@ -94,3 +94,8 @@ Cypress.Commands.add('beaconListShouldContain', (text) => {
 Cypress.Commands.add('totalBeacons', (num) => {
 	cy.get('div[cy-test=beacons]').should('have.length', num);
 });
+
+//SELECT BEACON FROM OVERVIEW PANEL
+Cypress.Commands.add('selectHostName', (host) => {
+	cy.get('[cy-test=hostName]').contains(host).click();
+});

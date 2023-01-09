@@ -1,0 +1,4 @@
+10/13 14:24:27 UTC [metadata] beacon_1352360866 -> 192.168.3.108; computer: COMPUTER001; user: allison_powell; process: WinProcess.exe; pid: 1368; os: Windows; version: 10.0; build: 14393; beacon arch: x64 (x64)
+10/13 14:24:21 UTC [output]
+established link to parent beacon: 192.168.3.108
+

@@ -19,12 +19,13 @@ export const commandQuery = commandModelPrimitives
 	.commandGroups((cG) =>
 		cG.annotations((anno) => anno.text.user.commandIds.commandGroupId.date.favorite.tags((tag) => tag.text))
 	)
+	// .link((link) => link.manual)
 	.operator((operator) => operator)
 	.output((log) => log.blob)
 	.toString();
 
 export const linkQuery = linkModelPrimitives
-	// .command((command) => command)
+	.command((command) => command)
 	.origin((or) => or.host((comp) => comp.cobaltStrikeServer))
 	.destination((dest) => dest.host((comp) => comp.cobaltStrikeServer))
 	.toString();
