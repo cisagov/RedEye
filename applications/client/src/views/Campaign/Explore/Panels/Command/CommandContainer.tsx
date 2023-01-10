@@ -11,6 +11,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
+import { CheckForAddedLink } from '../../components/Comment/CheckForAddedLink';
 
 type CommandContainerProps = ComponentProps<'div'> & {
 	command?: CommandModel;
@@ -119,7 +120,11 @@ export const CommandContainer = observer<CommandContainerProps>(
 								showPath={showPath}
 							/>
 						</Suspense>
+						{/* add icon for added beacon link */}
 						<MitreTechniqueIcons mitreAttackIds={state.command?.mitreTechniques} />
+						{store.router.params.currentItem === 'beacon' && (
+							<CheckForAddedLink commandID={commandId} containerOrBox="container" toggleLinkedFlag={() => {}} />
+						)}
 					</InfoRow>
 					{!hideCommentButton && (
 						<CommentCount

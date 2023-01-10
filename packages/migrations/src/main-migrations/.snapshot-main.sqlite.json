@@ -1,0 +1,199 @@
+{
+	"namespaces": [],
+	"tables": [
+		{
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				}
+			},
+			"name": "global_operator",
+			"indexes": [
+				{
+					"keyName": "primary",
+					"columnNames": ["id"],
+					"composite": false,
+					"primary": true,
+					"unique": true
+				}
+			],
+			"checks": [],
+			"foreignKeys": {}
+		},
+		{
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				},
+				"annotation_count": {
+					"name": "annotation_count",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "integer"
+				},
+				"beacon_count": {
+					"name": "beacon_count",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "integer"
+				},
+				"server_count": {
+					"name": "server_count",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "integer"
+				},
+				"computer_count": {
+					"name": "computer_count",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "integer"
+				},
+				"command_count": {
+					"name": "command_count",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "integer"
+				},
+				"migration_error": {
+					"name": "migration_error",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"default": "false",
+					"mappedType": "integer"
+				},
+				"first_log_time": {
+					"name": "first_log_time",
+					"type": "datetime",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"length": 0,
+					"mappedType": "datetime"
+				},
+				"last_log_time": {
+					"name": "last_log_time",
+					"type": "datetime",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"length": 0,
+					"mappedType": "datetime"
+				},
+				"parsing_status": {
+					"name": "parsing_status",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				},
+				"last_opened_by_id": {
+					"name": "last_opened_by_id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
+				"creator_id": {
+					"name": "creator_id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				}
+			},
+			"name": "campaign",
+			"indexes": [
+				{
+					"columnNames": ["last_opened_by_id"],
+					"composite": false,
+					"keyName": "campaign_last_opened_by_id_index",
+					"primary": false,
+					"unique": false
+				},
+				{
+					"columnNames": ["creator_id"],
+					"composite": false,
+					"keyName": "campaign_creator_id_index",
+					"primary": false,
+					"unique": false
+				},
+				{
+					"keyName": "primary",
+					"columnNames": ["id"],
+					"composite": false,
+					"primary": true,
+					"unique": true
+				}
+			],
+			"checks": [],
+			"foreignKeys": {
+				"campaign_last_opened_by_id_foreign": {
+					"constraintName": "campaign_last_opened_by_id_foreign",
+					"columnNames": ["last_opened_by_id"],
+					"localTableName": "campaign",
+					"referencedColumnNames": ["id"],
+					"referencedTableName": "global_operator",
+					"deleteRule": "set null",
+					"updateRule": "cascade"
+				},
+				"campaign_creator_id_foreign": {
+					"constraintName": "campaign_creator_id_foreign",
+					"columnNames": ["creator_id"],
+					"localTableName": "campaign",
+					"referencedColumnNames": ["id"],
+					"referencedTableName": "global_operator",
+					"deleteRule": "set null",
+					"updateRule": "cascade"
+				}
+			}
+		}
+	]
+}

@@ -62,7 +62,7 @@ export class AnnotationResolvers {
 		const commands = await em.find<Command>(Command, commandIds);
 		const commandGroup = new CommandGroup({});
 		em.persist(commandGroup);
-		commandGroup.commands.add(...commands);
+		commandGroup.commands.add(commands);
 		commandGroup.annotations.add(annotation);
 		await em.flush();
 		await updateAnnotationCount(campaignId, em, ctx.cm.em);

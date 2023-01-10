@@ -1,6 +1,6 @@
 import { Campaign, ParsingStatus } from '@redeye/models';
 import { actions, ActorRefFrom, createMachine } from 'xstate';
-import { ConfigDefinition } from '../config';
+import { ConfigDefinition, DatabaseMode } from '../config';
 import { getDatabaseFolderPath, getFullCampaignDbPath, getRuntimeDir } from '../util';
 import { connectOrCreateDatabase } from './maindb.service';
 import { updateProjectMetadata } from './updateProjectMetadata.service';
@@ -18,6 +18,12 @@ type ParserContext = {
 type Events = { type: 'ADD_CAMPAIGN'; campaignId: string; context: GraphQLContext };
 
 export type SpawnedParsingMachine = ActorRefFrom<typeof parsingMachine>;
+
+const connectMainDb = (ctx: ParserContext) =>
+	connectOrCreateDatabase({
+		...ctx.config,
+		databaseMode: ctx.config.production ? DatabaseMode.PRODUCTION : DatabaseMode.DEV_PERSIST,
+	});
 
 export const parsingMachine = createMachine(
 	{
@@ -83,7 +89,7 @@ export const parsingMachine = createMachine(
 			popNextCampaign: actions.assign((ctx) => {
 				const nextCampaign = ctx.queuedCampaigns.pop();
 				if (nextCampaign) {
-					connectOrCreateDatabase(ctx.config).then((orm) =>
+					connectMainDb(ctx).then((orm) =>
 						orm.em.nativeUpdate(
 							Campaign,
 							{ id: nextCampaign },
@@ -96,7 +102,7 @@ export const parsingMachine = createMachine(
 				return { currentCampaign: nextCampaign };
 			}),
 			addCampaign: actions.assign((ctx, event) => {
-				connectOrCreateDatabase(ctx.config).then((orm) =>
+				connectMainDb(ctx).then((orm) =>
 					orm.em.nativeUpdate(
 						Campaign,
 						{ id: event.campaignId },
@@ -108,7 +114,7 @@ export const parsingMachine = createMachine(
 				return { currentCampaign: event.campaignId };
 			}),
 			addCampaignWhileParsing: (ctx, event) => {
-				connectOrCreateDatabase(ctx.config).then((orm) =>
+				connectMainDb(ctx).then((orm) =>
 					orm.em.nativeUpdate(
 						Campaign,
 						{ id: event.campaignId },

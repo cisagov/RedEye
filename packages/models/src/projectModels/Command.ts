@@ -42,7 +42,7 @@ export class Command {
 		this.inputText = inputText;
 		this.beacon = beacon;
 		this.commandFailed = commandFailed;
-		this.output.add(...output);
+		this.output.set(output);
 		Object.assign(this, optionals);
 	}
 
