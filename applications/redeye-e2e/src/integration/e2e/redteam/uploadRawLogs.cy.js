@@ -6,7 +6,7 @@ describe('Timeline tests', () => {
 	const camp = 'timeline';
 	const fileName = 'gt.redeye';
 
-	it.only('Verify timeline features', () => {
+	it('Verify timeline features', () => {
 		cy.get('[cy-test=add-campaign-btn]').click();
 
 		cy.uploadLogs('seb', '200817');

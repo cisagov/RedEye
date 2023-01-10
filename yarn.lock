@@ -15742,26 +15742,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.25.2":
-  version: 1.25.2
-  resolution: "playwright-core@npm:1.25.2"
-  bin:
-    playwright: cli.js
-  checksum: 24ada61e2132bd7278cf0aa0ef711280e1519c437efa0088a99c47ef994202f4c9880521d8c0c51ab854bef08806f372477d754aac1e790ea64f18cd346b5b2f
-  languageName: node
-  linkType: hard
-
-"playwright-webkit@npm:^1.25.2":
-  version: 1.25.2
-  resolution: "playwright-webkit@npm:1.25.2"
-  dependencies:
-    playwright-core: 1.25.2
-  bin:
-    playwright: cli.js
-  checksum: 0aaf537021e75aed2bc339c2a8a1eb7632885c2da99d21ef8171f4b76454b1ba1b44959c0656d4fa6d5dd79b7532269712a7764528af8d01bcca50747ad10ef6
-  languageName: node
-  linkType: hard
-
 "please-upgrade-node@npm:^3.2.0":
   version: 3.2.0
   resolution: "please-upgrade-node@npm:3.2.0"
@@ -17129,7 +17109,6 @@ __metadata:
     path-to-regexp: ^6.2.0
     pkg: ^5.8.0
     pkg-fetch: ^3.4.2
-    playwright-webkit: ^1.25.2
     prettier: ^2.2.1
     react: ^18.2.0
     react-dom: ^18.2.0
