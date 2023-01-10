@@ -22,7 +22,7 @@ type CommandContainerProps = ComponentProps<'div'> & {
 	hideCommentButton?: boolean;
 	showPath?: boolean;
 	expandedCommandIDs?: string[];
-	removeExplandedCommandID?: (commandId: string) => void;
+	removeExpandedCommandID?: (commandId: string) => void;
 };
 
 export const CommandContainer = observer<CommandContainerProps>(
@@ -35,7 +35,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 		hideCommentButton = false,
 		showPath = false,
 		expandedCommandIDs = [],
-		removeExplandedCommandID,
+		removeExpandedCommandID,
 		...props
 	}) => {
 		const store = useStore();
@@ -67,7 +67,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 							},
 						});
 					}
-					removeExplandedCommandID?.(state.commandId);
+					removeExpandedCommandID?.(state.commandId);
 				}
 			},
 			localCommand: undefined as undefined | CommandModel,

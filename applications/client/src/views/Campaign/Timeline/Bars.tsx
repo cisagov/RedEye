@@ -6,7 +6,7 @@ import { max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { animated } from 'react-spring';
-import { BarLabelOnHover, BarLabelOnClick } from './BarLabels';
+import { BarLabelOnHover, BarLabelBeaconList } from './BarLabels';
 import { TIMELINE_BG_COLOR } from './timeline-static-vars';
 import type { IBar, IDimensions, TimeScale } from './TimelineChart';
 
@@ -44,7 +44,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 								state.isHover ? (
 									<BarLabelOnHover bar={bar} dateFormatter={durationFormatter(start, end)} />
 								) : (
-									<BarLabelOnClick bar={bar} dateFormatter={durationFormatter(start, end)} />
+									<BarLabelBeaconList bar={bar} dateFormatter={durationFormatter(start, end)} />
 								)
 							) : undefined
 						}
@@ -66,7 +66,6 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 									e.preventDefault();
 									state.toggleIsHover();
 								}}
-								// onMouseOut={() => state.toggleIsHover()}
 							>
 								{/* Interaction Beacon Bar for color */}
 								{bar.beaconCount && (
@@ -95,17 +94,17 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 									css={[baseBarStyles, aliveBarStyles]}
 								/>
 								{/* Selected Beacon Bar */}
-								{!!bar.beaconCount && (
-									<animated.rect
-										x={x}
-										width={width}
-										y={dimensions.height - yScale(bar.selectedBeaconCount)}
-										height={yScale(bar.selectedBeaconCount)}
-										css={[baseBarStyles, selectedBarStyles]}
-									/>
-								)}
+								<animated.rect
+									x={x}
+									width={width}
+									y={dimensions.height - yScale(bar.selectedBeaconCount)}
+									height={yScale(bar.selectedBeaconCount)}
+									css={[baseBarStyles, selectedBarStyles]}
+								/>
 								{/* Interaction Beacon Bar for Functionality */}
-								<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
+								{!!bar.beaconCount && (
+									<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
+								)}
 							</g>
 						)}
 					/>
@@ -144,4 +143,5 @@ const interactionBarStyles = (hover: boolean) => css`
 
 const interactionBarFnStyles = css`
 	fill: transparent;
+	cursor: pointer;
 `;

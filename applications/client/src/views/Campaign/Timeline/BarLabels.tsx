@@ -34,22 +34,22 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter })
 	<div css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<Flex>
-			<Txt muted small>
+		<Flex css={{ 'padding-top': '0.2rem' }}>
+			<Txt muted small css={marginStyles(1)}>
 				Beacons
 			</Txt>
 			<FlexSplitter />
 			<Txt small>{bar?.beaconNumbers}</Txt>
 		</Flex>
 		<Flex>
-			<Txt muted small>
+			<Txt muted small css={marginStyles(1)}>
 				Total commands
 			</Txt>
 			<FlexSplitter />
 			<Txt small>{bar?.beaconCount}</Txt>
 		</Flex>
 		<Flex>
-			<Txt muted small>
+			<Txt muted small css={marginStyles(1)}>
 				Active Beacon commands
 			</Txt>
 			<FlexSplitter />
@@ -58,7 +58,7 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter })
 	</div>
 ));
 
-export const BarLabelOnClick = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
+export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
 	const store = useStore();
 	const routeToBeacon = (beaconId: string) => {
 		store.router.updateRoute({
@@ -77,7 +77,7 @@ export const BarLabelOnClick = observer<BarLabelsProps>(({ bar, dateFormatter })
 		<div css={barPopoverStyles}>
 			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 			<FlexSplitter />
-			<Flex css={{ 'padding-top': '0.2rem' }}>
+			<Flex css={{ padding: '0.2rem 0' }}>
 				<Txt small bold>
 					Beacons
 				</Txt>
@@ -87,12 +87,19 @@ export const BarLabelOnClick = observer<BarLabelsProps>(({ bar, dateFormatter })
 				</Txt>
 			</Flex>
 			{bar.beaconCommands.map((beaconCommand) => (
-				<Flex key={beaconCommand[0]} css={barPopoverRowStyles} onClick={() => routeToBeacon(beaconCommand[0] as string)}>
-					<Txt muted small>
-						{beaconCommand[0]}
+				<Flex
+					key={beaconCommand.beaconId}
+					css={barPopoverRowStyles}
+					onClick={() => routeToBeacon(beaconCommand.beaconId as string)}
+				>
+					<Txt small css={marginStyles(0.5)}>
+						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.displayName}
+					</Txt>
+					<Txt muted small css={marginStyles(4)}>
+						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0].maybeCurrent?.username}
 					</Txt>
 					<FlexSplitter />
-					<Txt small>{beaconCommand[1]}</Txt>
+					<Txt small>{beaconCommand.commandCount}</Txt>
 				</Flex>
 			))}
 		</div>
@@ -101,7 +108,10 @@ export const BarLabelOnClick = observer<BarLabelsProps>(({ bar, dateFormatter })
 
 const barPopoverStyles = css`
 	padding: 0.4rem;
-	min-width: 200px;
+`;
+
+const marginStyles = (num: number) => css`
+	margin-right: ${num}rem;
 `;
 
 const barPopoverRowStyles = css`

@@ -27,7 +27,7 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 		expandedCommandIDs: store.router.params.activeItemId
 			? observable.array([store.router.params.activeItemId])
 			: observable.array<string>([]),
-		removeExplandedCommandID(commandId: string) {
+		removeExpandedCommandID(commandId: string) {
 			this.expandedCommandIDs.remove(commandId);
 		},
 		scrollToCommand(commandId: string, commandIds: string[], behavior: ScrollBehavior = 'smooth') {
@@ -125,7 +125,7 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 						data-command-id={commandId}
 						showPath={showPath}
 						expandedCommandIDs={state.expandedCommandIDs}
-						removeExplandedCommandID={state.removeExplandedCommandID}
+						removeExpandedCommandID={state.removeExpandedCommandID}
 					/>
 				))
 			)}

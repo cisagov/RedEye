@@ -117,7 +117,13 @@ export class TimelineStore extends ExtendedModel(() => ({
 					0
 				),
 				beaconCommands: bucket?.beaconCommandCountPair.reduce(
-					(commands: Array<Array<string | number>>, pair) => [...commands, [pair?.beaconId, pair?.commandCount]],
+					(commands: Array<Record<string, string | number>>, pair) => [
+						...commands,
+						{
+							beaconId: pair?.beaconId,
+							commandCount: pair?.commandCount,
+						},
+					],
 					[]
 				),
 				beaconNumbers: bucket?.beaconCommandCountPair.length,
