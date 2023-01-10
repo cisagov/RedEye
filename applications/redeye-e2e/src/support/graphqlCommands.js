@@ -22,7 +22,7 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
         name
       }
 		}`;
-		const variables1 = `{"campaignId": "${camp}", "name": "200817", "path": "/Users/angd742/Projects/redeye/applications/redeye-e2e/src/fixtures/TestDataSet/200817"}`;
+		const variables1 = `{"campaignId": "${camp}", "name": "200817", "path": "applications/redeye-e2e/src/fixtures/testdata"}`;
 		mutRequest(mutation2, variables1).then((res) => {
 			cy.log(res);
 		});
@@ -35,16 +35,15 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
 		graphqlRequest(query).then((res) => {
 			cy.log(res);
 		});
-		// 	const mutation1 = `
-		//     mutation serversParse($campaignId: String!) {
-		//       serversParse(campaignId: $campaignId)
-		//   }`;
+		const mutation1 = `
+		    mutation serversParse($campaignId: String!) {
+		      serversParse(campaignId: $campaignId)
+		  }`;
 
-		// 	const variables = `{"campaignId": "${camp}"}`;
-		// 	mutRequest(mutation1, variables).then((res) => {
-		// 		cy.log(res);
-		// 	});
-		// });
+		const variables = `{"campaignId": "${camp}"}`;
+		mutRequest(mutation1, variables).then((res) => {
+			cy.log(res);
+		});
 	});
 });
 
@@ -127,3 +126,4 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
 // 				});
 // 		});
 // 	cy.reload();
+// });

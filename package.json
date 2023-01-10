@@ -155,7 +155,7 @@
 		"barrelsby": "^2.3.0",
 		"builder-util": "^23.0.2",
 		"cross-env": "^7.0.3",
-		"cypress": "^11.2.0",
+		"cypress": "^12.3.0",
 		"cypress-multi-reporters": "^1.6.1",
 		"dotenv": "^8.2.0",
 		"eslint": "^8.22.0",
