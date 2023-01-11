@@ -131,10 +131,10 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			listRef={listRef}
 			cy-test="comments-view"
 		>
-			{isLoading ? (
-				<ProgressBar intent={Intent.PRIMARY} />
-			) : data?.commandGroupIds.length === 0 ? (
+			{data?.commandGroupIds.length === 0 ? (
 				<MessageRow>No comments</MessageRow>
+			) : isLoading ? (
+				<ProgressBar intent={Intent.PRIMARY} />
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
