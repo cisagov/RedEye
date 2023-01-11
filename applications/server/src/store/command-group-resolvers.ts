@@ -62,7 +62,7 @@ export class CommandGroupResolvers {
 		if (commandGroupIds?.length) {
 			const query: FilterQuery<CommandGroup> = {
 				id: commandGroupIds,
-				...beaconHidden(hidden),
+				commands: { ...beaconHidden(hidden) },
 			};
 			commandGroups = await em.find(CommandGroup, query, {
 				populate: relationPaths,
