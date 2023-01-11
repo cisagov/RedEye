@@ -3,15 +3,14 @@
 /* tslint:disable */
 // @ts-nocheck
 
-import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import { Model, prop, Ref, tProp } from 'mobx-keystone';
 import type { BeaconLineType } from './BeaconLineTypeEnum';
 import type { BeaconModel } from './BeaconModel';
+import { BeaconModelSelector } from './BeaconModel';
 import type { CommandModel } from './CommandModel';
+import { CommandModelSelector } from './CommandModel';
 import type { LogType } from './LogTypeEnum';
-
-import { BeaconModelSelector, beaconModelPrimitives } from './BeaconModel';
-import { CommandModelSelector, commandModelPrimitives } from './CommandModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {

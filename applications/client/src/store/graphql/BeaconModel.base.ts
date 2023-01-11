@@ -3,15 +3,14 @@
 /* tslint:disable */
 // @ts-nocheck
 
-import type { IObservableArray } from 'mobx';
-import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import type { IObservableArray } from 'mobx';
+import { Model, prop, Ref, tProp } from 'mobx-keystone';
 import type { BeaconMetaModel } from './BeaconMetaModel';
+import { BeaconMetaModelSelector } from './BeaconMetaModel';
 import type { HostModel } from './HostModel';
+import { HostModelSelector } from './HostModel';
 import type { MitreTechniques } from './MitreTechniquesEnum';
-
-import { BeaconMetaModelSelector, beaconMetaModelPrimitives } from './BeaconMetaModel';
-import { HostModelSelector, hostModelPrimitives } from './HostModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {

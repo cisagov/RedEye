@@ -2,7 +2,7 @@
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
-import { types, prop, tProp, Model, Ref } from 'mobx-keystone';
+import { types } from 'mobx-keystone';
 
 /**
  * Typescript enum

@@ -3,12 +3,11 @@
 /* tslint:disable */
 // @ts-nocheck
 
-import type { IObservableArray } from 'mobx';
-import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import type { IObservableArray } from 'mobx';
+import { Model, prop, Ref, tProp } from 'mobx-keystone';
 import type { HostMetaModel } from './HostMetaModel';
-
-import { HostMetaModelSelector, hostMetaModelPrimitives } from './HostMetaModel';
+import { HostMetaModelSelector } from './HostMetaModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {

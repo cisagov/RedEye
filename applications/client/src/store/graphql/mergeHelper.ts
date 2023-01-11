@@ -3,7 +3,7 @@
 /* tslint:disable */
 // @ts-nocheck
 import { toJS } from 'mobx';
-import { detach, Model, model, modelAction, findParent, applySnapshot, getSnapshot } from 'mobx-keystone';
+import { applySnapshot, detach, findParent, getSnapshot, model, Model, modelAction } from 'mobx-keystone';
 import { RootStore } from './RootStore';
 import { rootRefs } from './RootStore.base';
 

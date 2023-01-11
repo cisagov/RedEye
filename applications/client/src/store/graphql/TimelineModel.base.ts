@@ -3,11 +3,10 @@
 /* tslint:disable */
 // @ts-nocheck
 
-import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import { Model, prop, tProp } from 'mobx-keystone';
 import type { TimelineBucketModel } from './TimelineBucketModel';
-
-import { TimelineBucketModelSelector, timelineBucketModelPrimitives } from './TimelineBucketModel';
+import { TimelineBucketModelSelector } from './TimelineBucketModel';
 
 /**
  * TimelineBase

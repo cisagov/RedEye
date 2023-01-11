@@ -3,13 +3,12 @@
 /* tslint:disable */
 // @ts-nocheck
 
-import type { IObservableArray } from 'mobx';
-import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import type { IObservableArray } from 'mobx';
+import { Model, prop, Ref, tProp } from 'mobx-keystone';
 import type { GenerationType } from './GenerationTypeEnum';
 import type { TagModel } from './TagModel';
-
-import { TagModelSelector, tagModelPrimitives } from './TagModel';
+import { TagModelSelector } from './TagModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {
