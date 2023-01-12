@@ -50,7 +50,7 @@
 		"apollo-server-express": "^3.10.2",
 		"blueprint-styler": "4.0.0-alpha.7",
 		"chokidar": "^3.4.1",
-		"class-validator": "^0.13.1",
+		"class-validator": "^0.14.0",
 		"commander": "^8.3.0",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
