@@ -23,6 +23,8 @@ export interface IBar {
 	beaconCount: number;
 	activeBeaconCount: number;
 	selectedBeaconCount: number;
+	beaconNumbers: number;
+	beaconCommands: Array<Record<string, string | number>>;
 }
 
 export interface IDimensions {
