@@ -1,5 +1,6 @@
 import type { ButtonGroupProps } from '@blueprintjs/core';
-import { Button, ButtonGroup } from '@blueprintjs/core';
+import { Button, ButtonGroup, AnchorButton } from '@blueprintjs/core';
+import { Popover2 } from '@blueprintjs/popover2';
 import { Help16, Help24, Settings16, Settings24, User16, User24 } from '@carbon/icons-react';
 import {
 	CarbonIcon,
@@ -11,6 +12,7 @@ import {
 import type { AppStore } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
+import { css } from '@emotion/react';
 import type { UseCreateState } from '../mobx-create-state';
 import { createState } from '../mobx-create-state';
 
@@ -103,35 +105,97 @@ const HeaderOptions = ({
 	</ButtonGroup>
 );
 
-const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => (
-	<>
-		<NavButton
-			cy-test="user-settings"
-			icon={<CarbonIcon icon={User24} />}
-			title="User Settings"
-			onClick={() => {
-				state.update('isUserSettingsOpen', true);
-			}}
-			active={state.isUserSettingsOpen}
-		/>
-		<NavButton
-			cy-test="general-settings"
-			icon={<CarbonIcon icon={Settings24} />}
-			title="General Settings"
-			onClick={() => {
-				state.update('isGeneralSettingsOpen', true);
-			}}
-			active={state.isGeneralSettingsOpen}
-		/>
-		<NavButton
-			cy-test="help-btn"
-			icon={<CarbonIcon icon={Help24} />}
-			title="Help"
-			onClick={() => {
-				state.update('isHelpPanelOpen', true);
-			}}
-			active={state.isHelpPanelOpen}
-		/>
-		{/* <NavButton icon={<CarbonIcon icon={DataCheck24} />} title="Server Connection Status..." disabled /> */}
-	</>
-);
+const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => {
+	const store = useStore();
+	const isRedTeam = !store.appMeta.blueTeam;
+
+	return (
+		<>
+			<NavButton
+				cy-test="user-settings"
+				icon={<CarbonIcon icon={User24} />}
+				title="User Settings"
+				onClick={() => {
+					state.update('isUserSettingsOpen', true);
+				}}
+				active={state.isUserSettingsOpen}
+			/>
+			<NavButton
+				cy-test="general-settings"
+				icon={<CarbonIcon icon={Settings24} />}
+				title="General Settings"
+				onClick={() => {
+					state.update('isGeneralSettingsOpen', true);
+				}}
+				active={state.isGeneralSettingsOpen}
+			/>
+			<NavButton
+				cy-test="help-btn"
+				icon={<CarbonIcon icon={Help24} />}
+				title="Help"
+				onClick={() => {
+					state.update('isHelpPanelOpen', true);
+				}}
+				active={state.isHelpPanelOpen}
+			/>
+			<div css={dividerStyle} />
+			<div css={dividerStyle2} />
+			{isRedTeam ? (
+				<Popover2
+					position="right"
+					autoFocus={false}
+					interactionKind="hover"
+					content={
+						<div css={hoverInfoStyle}>
+							<b>Blue Team </b> Mode <br />
+							<hr style={{ height: '3px', visibility: 'hidden' }} />
+							Restricted RedEye functionality. Editing and commenting features are note available.
+						</div>
+					}
+				>
+					<AnchorButton intent="primary" small>
+						BT
+					</AnchorButton>
+				</Popover2>
+			) : (
+				<Popover2
+					position="right"
+					autoFocus={false}
+					interactionKind="hover"
+					content={
+						<div css={hoverInfoStyle}>
+							<b>Red Team </b> Mode <br />
+							<hr style={{ height: '3px', visibility: 'hidden' }} />
+							Full RedEye functionality. Editing and commenting is not restricted.
+						</div>
+					}
+				>
+					<AnchorButton intent="danger" small>
+						RT
+					</AnchorButton>
+				</Popover2>
+			)}
+		</>
+	);
+};
+
+const dividerStyle = css`
+	width: 15px;
+	height: 1px;
+	align-content: top;
+	padding-bottom: 1px;
+	background-color: grey;
+`;
+
+const dividerStyle2 = css`
+	width: 15px;
+	height: 1px;
+	align-content: top;
+	padding-bottom: 10px;
+	/* background-color: black; */
+`;
+
+const hoverInfoStyle = css`
+	padding: 15px;
+	width: 24em;
+`;
