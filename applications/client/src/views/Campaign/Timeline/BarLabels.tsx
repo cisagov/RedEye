@@ -34,22 +34,22 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter })
 	<div css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<Flex css={{ 'padding-top': '0.2rem' }}>
-			<Txt muted small css={marginStyles(1)}>
+		<Flex cy-test="timeline-tooltip-static" css={{ 'padding-top': '0.2rem' }}>
+			<Txt cy-test="timeline-beacon-count" muted small css={marginStyles(1)}>
 				Beacons
 			</Txt>
 			<FlexSplitter />
 			<Txt small>{bar?.beaconNumbers}</Txt>
 		</Flex>
 		<Flex>
-			<Txt muted small css={marginStyles(1)}>
+			<Txt cy-test="timeline-total-command-count" muted small css={marginStyles(1)}>
 				Total commands
 			</Txt>
 			<FlexSplitter />
 			<Txt small>{bar?.beaconCount}</Txt>
 		</Flex>
 		<Flex>
-			<Txt muted small css={marginStyles(1)}>
+			<Txt cy-test="timeline-active-beacon-count" muted small css={marginStyles(1)}>
 				Active Beacon commands
 			</Txt>
 			<FlexSplitter />
@@ -77,12 +77,12 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 		<div css={barPopoverStyles}>
 			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 			<FlexSplitter />
-			<Flex css={{ padding: '0.2rem 0' }}>
-				<Txt small bold>
+			<Flex cy-test="timeline-tooltip-clickable" css={{ padding: '0.2rem 0' }}>
+				<Txt cy-test="timeline-beacon-name" small bold>
 					Beacons
 				</Txt>
 				<FlexSplitter />
-				<Txt small bold>
+				<Txt cy-test="timeline-command-count" small bold>
 					Commands
 				</Txt>
 			</Flex>
