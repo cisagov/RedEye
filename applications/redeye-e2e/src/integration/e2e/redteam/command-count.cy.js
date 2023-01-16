@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { graphqlRequest } from '../../support/utils';
+import { graphqlRequest } from '../../../support/utils';
 
 describe('Command counts', () => {
 	const camp = 'commandcounts';

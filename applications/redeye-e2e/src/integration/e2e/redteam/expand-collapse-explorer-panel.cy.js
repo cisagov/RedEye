@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { graphqlRequest } from '../../support/utils';
+import { graphqlRequest } from '../../../support/utils';
 
 describe('Expand/collapse explorer panel', () => {
 	const camp = 'expandcollapse';
