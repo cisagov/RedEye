@@ -5,6 +5,7 @@ import './explore';
 import './beacon';
 import './computer';
 import './campaignCard';
+import './utils';
 
 Cypress.on('uncaught:exception', (err, runnable) => {
 	return false;
@@ -83,5 +84,5 @@ beforeEach(() => {
 		aliasMutation(req, 'updateHostMetadata');
 		aliasMutation(req, 'updateServerMetadata');
 	});
-	cy.loginLocal('937038570', 'cypress');
+	cy.loginAPI();
 });

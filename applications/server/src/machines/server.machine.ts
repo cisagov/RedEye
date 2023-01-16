@@ -3,8 +3,9 @@ import { existsSync } from 'fs';
 import { rmSync } from 'fs-extra';
 import path from 'path';
 import { createMachine, interpret, actions, spawn, StateMachine } from 'xstate';
-import { ParsingProgress } from '@redeye/models';
-import { getDbPath } from '../util';
+import { Campaign, ParsingProgress } from '@redeye/models';
+import { getMigratedCampaignORM } from '@redeye/migrations';
+import { getDbPath, getFullCampaignDbPath } from '../util';
 
 // Services
 import { importLocalCampaignsDatabasesService } from './importLocalCampaigns.service';
@@ -47,18 +48,25 @@ const serverMachine = createMachine(
 			loadDatabase: {
 				invoke: {
 					src: 'createCacheService',
+					onDone: {
+						target: 'migrateCampaigns',
+						actions: ['assignCacheManager', 'spawnMessagingService'],
+					},
+					onError: 'critical_failure',
+				},
+			},
+			migrateCampaigns: {
+				invoke: {
+					src: 'migrateCampaignsService',
 					onDone: [
 						{
 							target: 'moveBlueTeamDatabases',
 							cond: 'isBlueTeam',
-							actions: ['assignCacheManager', 'spawnMessagingService'],
 						},
 						{
 							target: 'initializeHTTPServer',
-							actions: ['assignCacheManager', 'spawnMessagingService'],
 						},
 					],
-					onError: 'critical_failure',
 				},
 			},
 			moveBlueTeamDatabases: {
@@ -108,12 +116,13 @@ const serverMachine = createMachine(
 					let anonymizedPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns');
 					if (existsSync(anonymizedPath)) rmSync(anonymizedPath, { recursive: true });
 					ctx.messagingService?.stop?.();
-					ctx.server.close(() => {
-						console.info('HTTP server closed');
+					ctx.server.close((err) => {
+						if (err) console.error('HTTP server closed', err);
+						else console.info('HTTP server closed');
 						process.exit();
 					});
-				} catch {
-					console.info('HTTP server closed');
+				} catch (err) {
+					console.error('HTTP server closed', err);
 					process.exit();
 				}
 			},
@@ -136,6 +145,21 @@ const serverMachine = createMachine(
 					return cacheManager;
 				} catch {
 					return Promise.reject();
+				}
+			},
+			migrateCampaignsService: async (ctx): Promise<void> => {
+				const campaignList = await ctx.cm.em.find(Campaign, {});
+				for (const campaign of campaignList) {
+					try {
+						await getMigratedCampaignORM(getFullCampaignDbPath(campaign.id, ctx.config.databaseMode));
+						if (campaign.migrationError) {
+							campaign.migrationError = false;
+							await ctx.cm.em.persistAndFlush(campaign);
+						}
+					} catch {
+						campaign.migrationError = true;
+						await ctx.cm.em.persistAndFlush(campaign);
+					}
 				}
 			},
 			importLocalCampaignsDatabasesService,

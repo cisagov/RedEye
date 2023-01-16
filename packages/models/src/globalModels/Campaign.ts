@@ -54,7 +54,7 @@ export class Campaign {
 
 	@Field(() => Int)
 	@Property()
-	bloodStrikeServerCount: number = 0;
+	serverCount: number = 0;
 
 	@Field(() => Int)
 	@Property()
@@ -63,6 +63,10 @@ export class Campaign {
 	@Field(() => Int)
 	@Property()
 	commandCount: number = 0;
+
+	@Field(() => Boolean)
+	@Property({ default: false })
+	migrationError: boolean = false;
 
 	@Field(() => Date, { nullable: true })
 	@Property({ nullable: true })

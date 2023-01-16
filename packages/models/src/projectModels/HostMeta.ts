@@ -41,7 +41,7 @@ export class HostMeta {
 
 	// TODO: Add more mutable properties like Host type
 
-	@ManyToOne(() => Host,{ onDelete: 'cascade' })
+	@ManyToOne(() => Host, { onDelete: 'cascade' })
 	host: Host;
 }
 

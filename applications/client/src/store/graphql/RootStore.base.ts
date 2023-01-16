@@ -140,8 +140,11 @@ export enum RootStoreBaseMutations {
 	mutateAnonymizeCampaign = 'mutateAnonymizeCampaign',
 	mutateCreateCampaign = 'mutateCreateCampaign',
 	mutateCreateGlobalOperator = 'mutateCreateGlobalOperator',
+	mutateCreateLink = 'mutateCreateLink',
 	mutateDeleteAnnotation = 'mutateDeleteAnnotation',
 	mutateDeleteCampaign = 'mutateDeleteCampaign',
+	mutateDeleteLink = 'mutateDeleteLink',
+	mutateEditLink = 'mutateEditLink',
 	mutateRenameCampaign = 'mutateRenameCampaign',
 	mutateServersParse = 'mutateServersParse',
 	mutateToggleBeaconHidden = 'mutateToggleBeaconHidden',
@@ -465,7 +468,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get all the operators for all campaigns
 	@modelAction queryGlobalOperators(
-		variables?: {},
+		variables: { password: string },
 		resultSelector:
 			| string
 			| ((
@@ -475,7 +478,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ globalOperators: GlobalOperatorModel[] }>(
-			`query globalOperators { globalOperators {
+			`query globalOperators($password: String!) { globalOperators(password: $password) {
         ${
 									typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
 								}
@@ -521,7 +524,7 @@ export class RootStoreBase extends ExtendedModel(
 			!!clean
 		);
 	}
-	// Get log entries by ids
+	// Get all links
 	@modelAction queryLinks(
 		variables: { campaignId: string; hidden?: boolean },
 		resultSelector:
@@ -843,7 +846,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Create a global user
 	@modelAction mutateCreateGlobalOperator(
-		variables: { username: string },
+		variables: { password: string; username: string },
 		resultSelector:
 			| string
 			| ((
@@ -852,10 +855,26 @@ export class RootStoreBase extends ExtendedModel(
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ createGlobalOperator: GlobalOperatorModel }>(
-			`mutation createGlobalOperator($username: String!) { createGlobalOperator(username: $username) {
+			`mutation createGlobalOperator($password: String!, $username: String!) { createGlobalOperator(password: $password, username: $username) {
         ${
 									typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
 								}
+      } }`,
+			variables,
+			optimisticUpdate
+		);
+	}
+	// Create a new link between two beacons
+	@modelAction mutateCreateLink(
+		variables: { campaignId: string; commandId: string; destinationId: string; name: string; originId: string },
+		resultSelector:
+			| string
+			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
+		optimisticUpdate?: () => void
+	) {
+		return this.mutate<{ createLink: LinkModel }>(
+			`mutation createLink($campaignId: String!, $commandId: String!, $destinationId: String!, $name: String!, $originId: String!) { createLink(campaignId: $campaignId, commandId: $commandId, destinationId: $destinationId, name: $name, originId: $originId) {
+        ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
       } }`,
 			variables,
 			optimisticUpdate
@@ -881,6 +900,45 @@ export class RootStoreBase extends ExtendedModel(
 	@modelAction mutateDeleteCampaign(variables: { campaignId: string }, _?: any, optimisticUpdate?: () => void) {
 		return this.mutate<{ deleteCampaign: boolean }>(
 			`mutation deleteCampaign($campaignId: String!) { deleteCampaign(campaignId: $campaignId)  }`,
+			variables,
+			optimisticUpdate
+		);
+	}
+	// Delete a link
+	@modelAction mutateDeleteLink(
+		variables: { campaignId: string; id: string },
+		resultSelector:
+			| string
+			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
+		optimisticUpdate?: () => void
+	) {
+		return this.mutate<{ deleteLink: LinkModel }>(
+			`mutation deleteLink($campaignId: String!, $id: String!) { deleteLink(campaignId: $campaignId, id: $id) {
+        ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
+      } }`,
+			variables,
+			optimisticUpdate
+		);
+	}
+	// Edit a link
+	@modelAction mutateEditLink(
+		variables: {
+			campaignId: string;
+			commandId: string;
+			destinationId: string;
+			id: string;
+			name: string;
+			originId: string;
+		},
+		resultSelector:
+			| string
+			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
+		optimisticUpdate?: () => void
+	) {
+		return this.mutate<{ editLink: LinkModel }>(
+			`mutation editLink($campaignId: String!, $commandId: String!, $destinationId: String!, $id: String!, $name: String!, $originId: String!) { editLink(campaignId: $campaignId, commandId: $commandId, destinationId: $destinationId, id: $id, name: $name, originId: $originId) {
+        ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
+      } }`,
 			variables,
 			optimisticUpdate
 		);

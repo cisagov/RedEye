@@ -50,3 +50,13 @@ Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 	cy.get('[cy-test=upload-folder]').selectFile(fileName, { encoding: 'utf8' }, { force: true });
 	cy.wait(1000);
 });
+
+//UPLOAD CAMPAIGN DB FILE
+Cypress.Commands.add('uploadCampaignBlue', (camp, fileName) => {
+	cy.get('[cy-test=add-campaign-btn]').click();
+	cy.get('[cy-test=new-camp-name]').click().type(camp);
+	cy.fixture(fileName, { encoding: null }).as('myFixture');
+	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
+	cy.get('[cy-test=import-database]').click();
+	cy.wait(1000);
+});

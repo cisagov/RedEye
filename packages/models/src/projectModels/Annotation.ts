@@ -90,7 +90,7 @@ export class Annotation {
 	) => {
 		const annotation = new Annotation({ text, user, favorite, generation });
 		const updatedTags = await Tag.createTags(em, tags ?? []);
-		annotation.tags.add(...updatedTags);
+		annotation.tags.set(updatedTags);
 		if (commandGroup) annotation.commandGroup = commandGroup;
 		em.persist(annotation);
 		return annotation;

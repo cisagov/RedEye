@@ -162,6 +162,8 @@ export const linksParser = (ctx: ParsingOrchestratorMachineContext) => {
 					endTime: linkEvidence.endTime, // this is likely frequently wrong since a beacon can be reconnected but we'll address that in future
 					origin,
 					destination: linkEvidence.beacon,
+					// Britt added this to get rid of error - is default to false the correct option?
+					manual: false,
 				});
 				return em.nativeInsert(link);
 			});

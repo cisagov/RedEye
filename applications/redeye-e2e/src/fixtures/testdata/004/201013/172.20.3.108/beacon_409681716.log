@@ -1,0 +1,4 @@
+10/13 13:10:58 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell; process: update.exe; pid: 4148; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/13 13:12:05 UTC [input] <analyst01> sleep 1 20
+10/13 13:12:05 UTC [task] <T1029> Tasked beacon to sleep for 1s (20% jitter)
+10/13 13:12:56 UTC [checkin] host called home, sent: 16 bytes

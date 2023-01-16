@@ -18,10 +18,10 @@ const isDevelop = import.meta.env.DEV;
 
 export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Login', ...props }) => {
 	const store = useStore();
-	const { data, refetch } = useQuery(['users'], async () => await store.graphqlStore.queryGlobalOperators({}));
 	const state = createState({
 		username: isDevelop ? store.auth.userName || 'dev' : store.auth.userName || '',
 		password: '',
+		passwordFocus: false,
 		loading: false,
 		errorMessage: '',
 		*handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -65,6 +65,14 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 		},
 	});
 
+	const { data, refetch } = useQuery(
+		['users', state.password],
+		async () => await store.graphqlStore.queryGlobalOperators({ password: state.password }),
+		{
+			enabled: !!state.password && !state.passwordFocus,
+		}
+	);
+
 	return (
 		<form cy-test="login-form" {...props} onSubmit={state.handleSubmit} autoComplete="on">
 			{!store.appMeta.blueTeam && (
@@ -78,6 +86,8 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 						name="password"
 						placeholder="server password"
 						css={inputSpacingTightStyle}
+						onFocus={() => state.update('passwordFocus', true)}
+						onBlur={() => state.update('passwordFocus', false)}
 						leftIcon={<CarbonIcon icon={Password16} />}
 						large
 					/>
@@ -86,7 +96,9 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 			<UsernameInput
 				cy-test="username"
 				username={state.username}
+				password={state.password}
 				refetch={refetch}
+				disableCreateUser={!data}
 				users={data?.globalOperators}
 				updateUser={(userName) => state.update('username', userName)}
 				css={otherSpacingLooseStyle}

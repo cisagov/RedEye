@@ -1,0 +1,71 @@
+10/13 13:40:42 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell; process: update (1).exe; pid: 2592; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/13 13:41:18 UTC [input] <analyst01> ps
+10/13 13:41:18 UTC [task] <T1057> Tasked beacon to list processes
+10/13 13:41:38 UTC [checkin] host called home, sent: 12 bytes
+10/13 13:41:38 UTC [output]
+[System Process]	0	0
+System	0	4
+smss.exe	4	252
+csrss.exe	332	340
+wininit.exe	332	408
+csrss.exe	400	416
+winlogon.exe	400	468
+services.exe	408	536
+lsass.exe	408	544
+svchost.exe	536	628
+svchost.exe	536	688
+LogonUI.exe	468	780
+svchost.exe	536	828
+svchost.exe	536	836
+dwm.exe	468	848
+svchost.exe	536	936
+svchost.exe	536	944
+svchost.exe	536	960
+svchost.exe	536	308
+svchost.exe	536	1088
+svchost.exe	536	1200
+spoolsv.exe	536	1692
+amazon-ssm-agent.exe	536	1780
+svchost.exe	536	1804
+svchost.exe	536	1876
+msdtc.exe	536	2952
+csrss.exe	2548	2684
+winlogon.exe	2548	144
+dwm.exe	144	1508
+rdpclip.exe	836	956	x64	EXAMPLE\allison_powell	2
+WinProcess.exe	628	1368	x64	EXAMPLE\allison_powell	2
+sihost.exe	828	180	x64	EXAMPLE\allison_powell	2
+svchost.exe	536	2232	x64	EXAMPLE\allison_powell	2
+taskhostw.exe	828	2224	x64	EXAMPLE\allison_powell	2
+explorer.exe	2720	1280	x64	EXAMPLE\allison_powell	2
+ShellExperienceHost.exe	628	3104	x64	EXAMPLE\allison_powell	2
+dllhost.exe	628	3804	x64	EXAMPLE\allison_powell	2
+csrss.exe	4936	4392
+winlogon.exe	4936	4992
+dwm.exe	4992	880
+rdpclip.exe	836	1700
+WinProcess.exe	628	4844
+sihost.exe	828	4452
+svchost.exe	536	748
+taskhostw.exe	828	3136
+rdpinput.exe	1700	3436
+explorer.exe	3536	4164
+ShellExperienceHost.exe	628	2752
+dllhost.exe	628	2620
+mstsc.exe	4164	4944
+SearchUI.exe	628	5800	x64	EXAMPLE\allison_powell	2
+SearchUI.exe	628	4980
+rdpinput.exe	956	3792	x64	EXAMPLE\allison_powell	2
+TabTip.exe	960	1920	x64	EXAMPLE\allison_powell	2
+TabTip32.exe	1920	4644	x86	EXAMPLE\allison_powell	2
+ApplicationFrameHost.exe	628	4424	x64	EXAMPLE\allison_powell	2
+TrustedInstaller.exe	536	4484
+TiWorker.exe	628	3780
+SystemSettingsAdminFlows.exe	4196	1580	x64	EXAMPLE\allison_powell	2
+fontdrvhost.exe	144	5548
+svchost.exe	536	2388
+winproc02.exe	1280	3012	x64	EXAMPLE\allison_powell	2
+winproc02.exe	3012	4044	x86	EXAMPLE\allison_powell	2
+update (1).exe	1280	2592	x64	EXAMPLE\allison_powell	2
+
+
