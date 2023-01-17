@@ -21,7 +21,7 @@ const hoverRevealChildrenDisplay = css`
 	}
 `;
 
-export const TextStyles = {
+export const UtilityStyles = {
 	/** all caps small text - tiny title */
 	textMeta: css`
 		text-transform: uppercase;

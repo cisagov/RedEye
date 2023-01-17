@@ -16,7 +16,7 @@ import {
 import { RedEyeRoutes } from '@redeye/client/store/routing/router';
 import { Graph, RawLogsDialog, Timeline } from '@redeye/client/views';
 import type { TxtProps } from '@redeye/ui-styles';
-import { CoreTokens , CardStyled, TextStyles, Spacer, Txt } from '@redeye/ui-styles';
+import { CoreTokens , CardStyled, UtilityStyles, Spacer, Txt } from '@redeye/ui-styles';
 import { useQueries } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
@@ -215,20 +215,20 @@ const HTMLbodyStyles = css`
 const wrapperStyle = css`
 	display: grid;
 	grid-template-columns: auto 1fr;
-	${TextStyles.fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const navBarStyles = css`
 	border-right: 1px solid ${CoreTokens.BorderNormal};
 `;
 const dragResizeStyle = css`
-	${TextStyles.fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const infoWrapperStyles = css`
 	display: grid;
 	grid-template-columns: auto;
 	grid-template-rows: auto 1fr;
 	background-color: ${CoreTokens.Background1};
-	${TextStyles.fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const titleBarStyles = css`
 	padding: 0.5rem 1rem;
@@ -241,7 +241,7 @@ const titleBarStyles = css`
 const visPanelStyles = css`
 	display: grid;
 	grid-template-rows: auto 1fr;
-	${TextStyles.fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const timelineStyles = css`
 	margin: 1rem 1rem 0 1rem;

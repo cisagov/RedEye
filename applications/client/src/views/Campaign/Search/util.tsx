@@ -1,5 +1,5 @@
 import type { AnyModel, ProcessedSearchItem } from '@redeye/client/types/search';
-import { TextStyles, Txt } from '@redeye/ui-styles';
+import { UtilityStyles, Txt } from '@redeye/ui-styles';
 import type { ReactNode } from 'react';
 import type { AppStore } from '../../../store';
 
@@ -86,7 +86,7 @@ export const highlightPattern = (text?: string, pattern?: string): ReactNode => 
 						...arr,
 						element,
 						// eslint-disable-next-line react/no-array-index-key
-						<Txt key={`${element}-${index}`} css={TextStyles.textHighlight}>
+						<Txt key={`${element}-${index}`} css={UtilityStyles.textHighlight}>
 							{matches[index]}
 						</Txt>,
 				  ]

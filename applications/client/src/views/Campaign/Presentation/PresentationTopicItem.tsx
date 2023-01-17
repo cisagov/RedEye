@@ -5,7 +5,7 @@ import { CarbonIcon } from '@redeye/client/components';
 import type { PresentationItemModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoRow, RowTitle } from '@redeye/client/views';
-import { CoreTokens, TextStyles } from '@redeye/ui-styles';
+import { CoreTokens, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { IconLabel } from '..';
@@ -22,7 +22,7 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 			cy-test={presentationItem.id}
 			key={presentationItem.id}
 			css={[
-				TextStyles.hoverRevealChildrenVisibility,
+				UtilityStyles.hoverRevealChildrenVisibility,
 				css`
 					padding: 0 2.5rem 0 3.5rem;
 					position: relative;
@@ -53,7 +53,7 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 				{presentationItem.key}
 			</RowTitle>
 			<IconLabel cy-test="count" value={presentationItem.count} icon={Chat16} title="Comments" />
-			<PlayIcon icon={Play16} className={TextStyles.hoverRevealClassName} />
+			<PlayIcon icon={Play16} className={UtilityStyles.hoverRevealClassName} />
 		</InfoRow>
 	);
 });

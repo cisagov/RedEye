@@ -5,7 +5,7 @@ import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { CommentPopoverProps } from '@redeye/client/views';
 import { CommentList, CommentPopover } from '@redeye/client/views';
-import { TextStyles, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
+import { UtilityStyles, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
@@ -65,7 +65,7 @@ export const CommentCount = observer<CommentCountProps>(
 						onClick={handleClick}
 						className={[
 							className,
-							!hasComments && !isOpen ? TextStyles.hoverRevealClassName : undefined,
+							!hasComments && !isOpen ? UtilityStyles.hoverRevealClassName : undefined,
 							isOpen ? 'open' : undefined,
 						].join(' ')}
 						{...(targetProps as ComponentProps<'button'>)}
