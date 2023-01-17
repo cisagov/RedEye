@@ -288,15 +288,15 @@ const rootCardStyle = css`
 		z-index: 1;
 	}
 
-	border: 0 solid ${Tokens.CoreTokens.BackgroundColor3};
+	border: 0 solid ${Tokens.CoreTokens.Background2};
 
 	&&& {
-		background-color: ${Tokens.CoreTokens.BackgroundColor2};
+		background-color: ${Tokens.CoreTokens.Background1};
 	}
 
 	// &.${Classes.INTERACTIVE}:hover { // ts-styled-plugin(9999) error !?
 	&.bp4-interactive:hover {
-		background-color: ${Tokens.CoreTokens.BackgroundColor3};
+		background-color: ${Tokens.CoreTokens.Background2};
 	}
 `;
 

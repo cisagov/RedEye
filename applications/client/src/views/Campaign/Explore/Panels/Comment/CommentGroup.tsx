@@ -32,7 +32,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 					`,
 					!hideCommands &&
 						css`
-							border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorMuted}; //ask ryan how to remove this
+							border-bottom: 1px solid ${Tokens.CoreTokens.BorderMuted}; //ask ryan how to remove this
 						`,
 				]}
 				// id={commandGroupId} // @SEBASTIAN: is this a testing hook?
@@ -91,6 +91,6 @@ export const CommentGroup = observer<CommentGroupProps>(
 
 const commentBoxStyle = css`
 	border-bottom: none !important;
-	background: ${TokensAll.BackgroundColor3};
+	background: ${TokensAll.Background2};
 	margin-bottom: 1px;
 `;

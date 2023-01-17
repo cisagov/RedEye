@@ -51,8 +51,8 @@ const dialogHeaderStyles = css`
 	top: 0;
 	z-index: 10;
 	opacity: 0.97; // to see wats scrollin underneath
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
+	background-color: ${Tokens.CoreTokens.Background1};
+	border-bottom: 1px solid ${Tokens.CoreTokens.BorderEmphasis};
 	box-shadow: none;
 	/* display: block; */
 	/* padding: 1rem; */

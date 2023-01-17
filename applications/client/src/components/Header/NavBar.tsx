@@ -100,7 +100,7 @@ const wrapperStyle = css`
 	align-items: center;
 	width: 4rem;
 	padding-bottom: 1rem;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
+	background-color: ${Tokens.CoreTokens.Background1};
 `;
 const logoSize = 48;
 const logoStyle = css`

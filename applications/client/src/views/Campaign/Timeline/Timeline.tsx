@@ -226,7 +226,7 @@ const controlPanelStyles = css`
 	display: flex;
 	/* align-items: center; */
 	/* padding-bottom: 1px; */
-	border-bottom: 1px solid ${TokensAll.BorderColorNormal};
+	border-bottom: 1px solid ${TokensAll.BorderNormal};
 	/* justify-content: space-between; */
 	/* flex-wrap: wrap; */
 `;

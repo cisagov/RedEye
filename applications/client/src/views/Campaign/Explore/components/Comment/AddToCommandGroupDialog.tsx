@@ -120,7 +120,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 									isAddingCommandToComment
 									css={css`
 										padding: 0.5rem;
-										border-bottom: 1px solid ${TokensAll.BorderColorNormal};
+										border-bottom: 1px solid ${TokensAll.BorderNormal};
 									`}
 								/>
 							))

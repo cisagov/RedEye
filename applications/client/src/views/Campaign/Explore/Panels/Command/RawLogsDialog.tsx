@@ -157,7 +157,7 @@ const logModelStyles = css`
 `;
 const preStyles = css`
 	padding: 0.5rem 1rem;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorMuted};
+	border-bottom: 1px solid ${Tokens.CoreTokens.BorderMuted};
 	margin: 0;
 
 	&:first-of-type {
@@ -193,7 +193,7 @@ const messagePaddingStyles = css`
 	padding: 30px;
 `;
 const highlightedStyles = css`
-	background: ${TokensAll.BackgroundColor3};
+	background: ${TokensAll.Background2};
 `;
 
 const AutoScrollPre: FC = (props) => {

@@ -157,7 +157,7 @@ const rootStyle = css`
 
 const controlGroupStyle = css`
 	margin-bottom: 0.5rem;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
+	background-color: ${Tokens.CoreTokens.Background1};
 	box-shadow: ${Tokens.Variables.PtElevationShadow2};
 `;
 const GraphControlButtonGroup = styled(ButtonGroup)`

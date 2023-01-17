@@ -16,7 +16,7 @@ export const globalStyle = css`
 	}
 	html,
 	body {
-		background-color: ${Tokens.CoreTokens.BackgroundColor1};
+		background-color: ${Tokens.CoreTokens.Background0};
 	}
 
 	html,
@@ -67,7 +67,7 @@ export const TabsStyled = styled(Tabs)`
 	.${Classes.TAB_LIST} {
 		flex: 0 0 auto;
 		padding: 0 1.5rem;
-		border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
+		border-bottom: 1px solid ${Tokens.CoreTokens.BorderEmphasis};
 		z-index: 1;
 	}
 	.${Classes.TAB_INDICATOR} {
@@ -88,7 +88,7 @@ export const TabsStyled = styled(Tabs)`
 
 export const CardStyled = styled(Card)`
 	padding: unset;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
+	background-color: ${Tokens.CoreTokens.Background1};
 `;
 
 export const fillNoOverflowStyle = css`

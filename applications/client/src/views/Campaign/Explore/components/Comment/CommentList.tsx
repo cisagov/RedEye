@@ -65,7 +65,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 							commandGroup={commandGroup.maybeCurrent}
 							css={css`
 								&:not(:last-child) {
-									border-bottom: 1px solid ${TokensAll.BorderColorMuted};
+									border-bottom: 1px solid ${TokensAll.BorderMuted};
 								}
 							`}
 						/>
@@ -87,7 +87,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					commandText={command?.inputText}
 					cancel={state.toggleNewComment}
 					css={css`
-						border-top: 1px solid ${TokensAll.BorderColorEmphasis};
+						border-top: 1px solid ${TokensAll.BorderEmphasis};
 					`}
 				/>
 			)}
@@ -96,7 +96,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					vertical
 					fill
 					css={css`
-						border-top: 1px solid ${TokensAll.BorderColorEmphasis};
+						border-top: 1px solid ${TokensAll.BorderEmphasis};
 					`}
 				>
 					{!state.isAddingNewComment && (

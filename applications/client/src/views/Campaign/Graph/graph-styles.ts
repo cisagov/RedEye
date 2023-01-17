@@ -62,7 +62,7 @@ export const graphStyles = css`
 		fill: ${TokensAll.LightGray5};
 		font-family: ${TokensAll.PtFontFamilySans};
 		/* <- Need font and color for SVG Export */
-		stroke: ${TokensAll.BackgroundColor1};
+		stroke: ${TokensAll.Background0};
 		paint-order: stroke;
 		stroke-width: 3px;
 		&.${GCN.selectedFocus} {

@@ -203,17 +203,17 @@ export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({
 const draggerWidth = 5;
 const draggerStyle = css`
 	width: 1px;
-	background-color: ${Tokens.CoreTokens.BorderColorNormal};
+	background-color: ${Tokens.CoreTokens.BorderNormal};
 	cursor: col-resize;
 	display: flex;
 	position: relative;
 	&:before {
 		content: '';
-		background-color: ${Tokens.CoreTokens.BorderColorNormal};
+		background-color: ${Tokens.CoreTokens.BorderNormal};
 		width: ${draggerWidth}px;
 		margin: -2px -${draggerWidth / 2}px;
 		opacity: 0;
-		border: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+		border: 1px solid ${Tokens.CoreTokens.BorderNormal};
 	}
 	&:hover:before {
 		opacity: 0.3;
@@ -248,7 +248,7 @@ const handleStyle = css`
 	justify-content: center;
 	align-items: center;
 	border-radius: 99px;
-	border: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+	border: 1px solid ${Tokens.CoreTokens.BorderNormal};
 	min-height: 23px;
 	max-height: 23px;
 	min-width: 9px;

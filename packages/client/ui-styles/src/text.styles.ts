@@ -25,7 +25,7 @@ export const Styles = {
 	textHighlight: css`
 		font-weight: ${TokensAll.FontWeightBold};
 		text-decoration: underline;
-		color: ${TokensAll.ForegroundColorNormal};
+		color: ${TokensAll.TextBody};
 		background-color: hsla(${TokensAll.PtIntentPrimaryHsl}, 0.6);
 		border-radius: 2px;
 		margin: 0 -1px;

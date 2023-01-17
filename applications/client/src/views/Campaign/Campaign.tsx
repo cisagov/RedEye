@@ -218,7 +218,7 @@ const wrapperStyle = css`
 	${fillNoOverflowStyle}
 `;
 const navBarStyles = css`
-	border-right: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+	border-right: 1px solid ${Tokens.CoreTokens.BorderNormal};
 `;
 const dragResizeStyle = css`
 	${fillNoOverflowStyle}
@@ -227,7 +227,7 @@ const infoWrapperStyles = css`
 	display: grid;
 	grid-template-columns: auto;
 	grid-template-rows: auto 1fr;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
+	background-color: ${Tokens.CoreTokens.Background1};
 	${fillNoOverflowStyle}
 `;
 const titleBarStyles = css`
@@ -235,7 +235,7 @@ const titleBarStyles = css`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+	border-bottom: 1px solid ${Tokens.CoreTokens.BorderNormal};
 `;
 
 const visPanelStyles = css`
@@ -265,7 +265,7 @@ const collapsedContentWrapperStyle = css`
 	flex-direction: column;
 	align-items: center;
 	padding: 0.5rem;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
+	background-color: ${Tokens.CoreTokens.Background1};
 	height: 100%;
 	width: 100%;
 	cursor: pointer;

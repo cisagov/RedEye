@@ -129,7 +129,7 @@ const menuParentStyle = css`
 `;
 
 const newUserStyle = css`
-	border-top: 1px solid ${TokensAll.BorderColorMuted};
+	border-top: 1px solid ${TokensAll.BorderMuted};
 `;
 
 function highlightText(text: string, query: string) {

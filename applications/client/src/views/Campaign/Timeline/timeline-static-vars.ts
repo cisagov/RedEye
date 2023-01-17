@@ -6,4 +6,4 @@ export const PARTIAL_HEIGHT_LINE = {
 	TOP: 8 - 2,
 	BOTTOM: X_AXIS_LABELS_HEIGHT - 2,
 };
-export const TIMELINE_BG_COLOR = Tokens.CoreTokens.BackgroundColor2;
+export const TIMELINE_BG_COLOR = Tokens.CoreTokens.Background1;

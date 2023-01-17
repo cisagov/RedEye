@@ -168,7 +168,7 @@ const largeImgStyles = css`
 const buttonStyles = css`
 	position: absolute;
 	right: 0;
-	/* background-color: ${Tokens.CoreTokens.BackgroundColor3}; */
+	/* background-color: ${Tokens.CoreTokens.Background2}; */
 `;
 
 const imgWrapperStyles = css`

@@ -106,7 +106,7 @@ const EdgeLabel = observer<EdgeLabelProps>(
 );
 
 const lineStyles = css`
-	stroke: ${Tokens.CoreTokens.ForegroundColorDisabled};
+	stroke: ${Tokens.CoreTokens.TextDisabled};
 	stroke-width: ${LINE_WIDTH}px;
 `;
 

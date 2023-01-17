@@ -49,7 +49,7 @@ export const ControlBar = observer<ControlBarProps>(
 			<div
 				css={css`
 					display: flex;
-					border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+					border-bottom: 1px solid ${Tokens.CoreTokens.BorderNormal};
 					padding: 2px 0.5rem;
 					align-items: center;
 				`}

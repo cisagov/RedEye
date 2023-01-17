@@ -87,7 +87,7 @@ export const CommentButton = styled.button`
 	cursor: pointer;
 
 	// Firefox needs this for extra specificity
-	color: ${TokensAll.ForegroundColorNormal};
+	color: ${TokensAll.TextBody};
 
 	&:before {
 		content: '';

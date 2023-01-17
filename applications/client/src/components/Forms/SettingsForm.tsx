@@ -71,11 +71,11 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				}}
 				label="Show Hidden Beacons, Host, and Servers"
 			/>
-			{/* <Switch
+			<Switch
 				checked={state.theme === 'dark'}
-				onChange={state.setTheme}
-				label={'Dark theme'}
-			/> */}
+				// onChange={state.setTheme}
+				label="Dark theme"
+			/>
 		</form>
 	);
 });

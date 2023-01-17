@@ -71,9 +71,9 @@ export const Txt: React.FC<TxtProps> = ({
 		() => [
 			{
 				color: emphasis
-					? Tkn.PtHeadingColor
+					? Tkn.TextHeading
 					: muted
-					? Tkn.PtTextColorMuted
+					? Tkn.TextMuted
 					: disabled
 					? Tkn.PtTextColorDisabled
 					: regular

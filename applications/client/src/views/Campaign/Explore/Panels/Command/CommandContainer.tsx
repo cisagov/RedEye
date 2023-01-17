@@ -149,7 +149,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 const wrapperStyle = css`
 	display: flex;
 	flex-direction: column;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorMuted};
+	border-bottom: 1px solid ${Tokens.CoreTokens.BorderMuted};
 	min-height: 3rem;
 `;
 const gridWrapperStyle = css`

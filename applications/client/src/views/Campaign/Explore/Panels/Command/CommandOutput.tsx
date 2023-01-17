@@ -129,12 +129,12 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 });
 
 const rootWrapperStyle = css`
-	background-color: ${TokensAll.BackgroundColor1b};
+	background-color: ${TokensAll.Background0b};
 `;
 const outputMetaStyle = css`
 	width: 100%;
 	display: flex;
-	/* border-bottom: 1px solid ${Tokens.CoreTokens.BackgroundColor2}; */
+	/* border-bottom: 1px solid ${Tokens.CoreTokens.Background1}; */
 	align-items: baseline;
 	padding: 0 1rem 0 3rem;
 `;
@@ -150,11 +150,11 @@ const preStyles = css`
 	margin: 0;
 	font-size: ${Tokens.CoreTokens.FontSizeSmall};
 	color: ${Tokens.TextColors.PtTextColorMuted};
-	border-top: 1px solid ${Tokens.CoreTokens.BackgroundColor2};
+	border-top: 1px solid ${Tokens.CoreTokens.Background1};
 	white-space: pre;
 `;
 const showMoreWrapperStyle = css`
-	border-top: 1px solid ${Tokens.CoreTokens.BackgroundColor2};
+	border-top: 1px solid ${Tokens.CoreTokens.Background1};
 `;
 const showMoreButtonStyle = css`
 	margin: 0 1rem 0 2.25rem;
