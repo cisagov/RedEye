@@ -13,6 +13,7 @@
 	"scripts": {
 		"postinstall": "yarn run husky:init",
 		"start": "yarn run start:dev",
+		"build": "yarn run build:all",
 		"test": "yarn cy:open",
 		"build:all": "yarn nx run-many --target=build --all",
 		"release": "yarn nx run-many --target=release --all",
