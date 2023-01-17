@@ -5,6 +5,7 @@ import type { CommandGroupModel, SortDirection } from '@redeye/client/store';
 import { commandQuery, SortOptionComments, useStore, commandGroupCommentsQuery } from '@redeye/client/store';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useRef, useEffect } from 'react';
@@ -32,6 +33,12 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		visibleRange: {
 			startIndex: 0,
 			endIndex: 0,
+		},
+		expandedCommandIDs: store.router.params.activeItemId
+			? observable.array([store.router.params.activeItemId])
+			: observable.array<string>([]),
+		removeExpandedCommandID(commandId: string) {
+			this.expandedCommandIDs.remove(commandId);
 		},
 	});
 	const { data } = useQuery(
@@ -143,6 +150,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						commandGroupId={commandGroupId}
 						toggleNewComment={state.toggleNewComment}
 						newComment={state.newComment}
+						expandedCommandIDs={state.expandedCommandIDs}
+						removeExpandedCommandID={state.removeExpandedCommandID}
 					/>
 				))
 			)}

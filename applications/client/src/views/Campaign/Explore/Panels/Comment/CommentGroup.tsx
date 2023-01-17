@@ -18,9 +18,21 @@ export type CommentGroupProps = ComponentProps<'div'> & {
 	measure?: any;
 	showPath?: boolean;
 	hideCommands?: boolean;
+	expandedCommandIDs?: string[];
+	removeExpandedCommandID?: (commandId: string) => void;
 };
 export const CommentGroup = observer<CommentGroupProps>(
-	({ commandGroup, commandGroupId, toggleNewComment, newComment, showPath, hideCommands, ...props }) => {
+	({
+		commandGroup,
+		commandGroupId,
+		toggleNewComment,
+		newComment,
+		showPath,
+		hideCommands,
+		expandedCommandIDs = [],
+		removeExpandedCommandID,
+		...props
+	}) => {
 		const store = useStore();
 		const state = createState({
 			localCommand: undefined as undefined | CommandModel,
@@ -92,6 +104,8 @@ export const CommentGroup = observer<CommentGroupProps>(
 								key={`${state.commandGroup?.id}${commandId}`}
 								hideCommentButton
 								showPath={!showPath} // configurable
+								expandedCommandIDs={expandedCommandIDs}
+								removeExpandedCommandID={removeExpandedCommandID}
 							/>
 						))}
 				</Flex>
