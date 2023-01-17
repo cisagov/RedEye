@@ -25,6 +25,7 @@
 		"plugins": [
 			{
 				"name": "typescript-styled-plugin",
+				"validate": false,
 				"lint": {
 					"validProperties": ["r", "dominant-baseline"]
 				}
