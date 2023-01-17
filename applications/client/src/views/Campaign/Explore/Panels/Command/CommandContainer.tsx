@@ -5,7 +5,7 @@ import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
 import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
-import { hoverRevealChildrenVisibility, Tokens } from '@redeye/ui-styles';
+import { hoverRevealChildrenVisibility, CoreTokens } from '@redeye/ui-styles';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -149,7 +149,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 const wrapperStyle = css`
 	display: flex;
 	flex-direction: column;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderMuted};
+	border-bottom: 1px solid ${CoreTokens.BorderMuted};
 	min-height: 3rem;
 `;
 const gridWrapperStyle = css`
@@ -176,5 +176,5 @@ const interactiveRowStyle = css`
 export const initialCommandRowHeight = 56;
 
 const activeCommandInfoRowStyle = css`
-	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
+	background-color: ${CoreTokens.BeaconDead} !important;
 `;

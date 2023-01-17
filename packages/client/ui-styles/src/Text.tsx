@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Classes } from '@blueprintjs/core';
 import { Styles } from './text.styles';
-import { TokensAll as Tkn } from './tokens';
+import { CoreTokens as Tkn } from './tokens';
 
 export type TxtProps = React.HTMLAttributes<HTMLOrSVGElement> & {
 	// COLOR
@@ -75,13 +75,13 @@ export const Txt: React.FC<TxtProps> = ({
 					: muted
 					? Tkn.TextMuted
 					: disabled
-					? Tkn.PtTextColorDisabled
+					? Tkn.TextDisabled
 					: regular
-					? Tkn.PtTextColor
+					? Tkn.TextBody
 					: undefined,
 			},
 			{
-				fontSize: large ? Tkn.PtFontSizeLarge : small ? Tkn.PtFontSizeSmall : medium ? Tkn.PtFontSize : undefined,
+				fontSize: large ? Tkn.FontSizeLarge : small ? Tkn.FontSizeSmall : medium ? Tkn.FontSizeMedium : undefined,
 			},
 			{
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,11 +92,11 @@ export const Txt: React.FC<TxtProps> = ({
 			},
 			{
 				fontFamily: sans
-					? Tkn.PtFontFamilySans
+					? Tkn.FontFamilySans
 					: mono
-					? Tkn.PtFontFamilyMonospace
+					? Tkn.FontFamilyMonospace
 					: serif
-					? Tkn.PtFontFamilySerif
+					? Tkn.FontFamilySerif
 					: undefined,
 			},
 			{

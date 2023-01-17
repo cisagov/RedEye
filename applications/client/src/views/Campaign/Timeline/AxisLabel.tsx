@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { dateFormat, durationFormatter } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Fragment, useLayoutEffect, useRef, useState } from 'react';
@@ -106,20 +106,20 @@ const EdgeLabel = observer<EdgeLabelProps>(
 );
 
 const lineStyles = css`
-	stroke: ${Tokens.CoreTokens.TextDisabled};
+	stroke: ${CoreTokens.TextDisabled};
 	stroke-width: ${LINE_WIDTH}px;
 `;
 
 const baseLabelStyles = css`
 	dominant-baseline: central;
 	text-anchor: middle;
-	fill: ${Tokens.TextColors.PtTextColorDisabled};
+	fill: ${CoreTokens.TextDisabled};
 	font-weight: 700;
 	font-size: 0.8rem;
 `;
 
 const edgeLabelStyles = css`
-	fill: ${Tokens.TextColors.PtTextColor};
+	fill: ${CoreTokens.TextBody};
 	text-anchor: end;
 `;
 

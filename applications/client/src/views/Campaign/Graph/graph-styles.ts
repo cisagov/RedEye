@@ -1,29 +1,29 @@
 import { css } from '@emotion/react';
 import { RedEyeGraphClassNames as GCN } from '@redeye/graph';
-import { TokensAll } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 
 export const goldenTicketClassName = 'golden-ticket';
 
 export const GraphTokens = {
-	PresentFgColor: TokensAll.Gray3,
-	PresentBgColor: TokensAll.DarkGray3,
+	PresentFgColor: CoreTokens.Colors.Gray3,
+	PresentBgColor: CoreTokens.Colors.DarkGray3,
 
-	FutureFgColor: TokensAll.Black, // Black?
-	FutureBgColor: TokensAll.DarkGray2, // DarkGray2?
+	FutureFgColor: CoreTokens.Colors.Black, // Black?
+	FutureBgColor: CoreTokens.Colors.DarkGray2, // DarkGray2?
 	FutureDasharray: '0px 6px', // Dotted
 
-	PastFgColor: TokensAll.DarkGray5,
-	PastBgColor: TokensAll.DarkGray2,
+	PastFgColor: CoreTokens.Colors.DarkGray5,
+	PastBgColor: CoreTokens.Colors.DarkGray2,
 	PastDasharray: '4px 4.5px', // Dashed
 
-	SelectedFgColor: TokensAll.LightGray2,
+	SelectedFgColor: CoreTokens.Colors.LightGray2,
 	SelectedThickness: '3px',
 
-	PreviewFgColor: TokensAll.White,
+	PreviewFgColor: CoreTokens.Colors.White,
 	PreviewThickness: '2px',
 
-	SelectedFocusFgColor: TokensAll.Primary3,
-	SelectedFocusBgColor: TokensAll.Primary1,
+	SelectedFocusFgColor: CoreTokens.Intent.Primary3,
+	SelectedFocusBgColor: CoreTokens.Intent.Primary1,
 };
 
 export const graphStyles = css`
@@ -57,16 +57,16 @@ export const graphStyles = css`
 	stroke-linejoin: round;
 
 	text {
-		font-size: ${TokensAll.FontSizeSmall};
+		font-size: ${CoreTokens.FontSizeSmall};
 		/* Need font and color for SVG Export -> */
-		fill: ${TokensAll.LightGray5};
-		font-family: ${TokensAll.PtFontFamilySans};
+		fill: ${CoreTokens.Colors.LightGray5};
+		font-family: ${CoreTokens.FontFamilySans};
 		/* <- Need font and color for SVG Export */
-		stroke: ${TokensAll.Background0};
+		stroke: ${CoreTokens.Background0};
 		paint-order: stroke;
 		stroke-width: 3px;
 		&.${GCN.selectedFocus} {
-			font-weight: ${TokensAll.FontWeightBold};
+			font-weight: ${CoreTokens.FontWeightBold};
 			fill: ${GraphTokens.PreviewFgColor};
 		}
 	}
@@ -107,7 +107,7 @@ export const graphStyles = css`
 
 	.${GCN.groupNode} {
 		fill: none;
-		stroke: hsl(${TokensAll.WhiteHsl}, 0.03);
+		stroke: ${CoreTokens.transparentWhite(0.03)};
 	}
 
 	.${GCN.superNode} {
@@ -141,10 +141,10 @@ export const graphStyles = css`
 
 	.${GCN.superNodeCountLabel} {
 		&.${GCN.past} {
-			fill: ${TokensAll.PtTextColorMuted};
+			fill: ${CoreTokens.TextMuted};
 		}
 		&.${GCN.future} {
-			fill: ${TokensAll.PtTextColorDisabled};
+			fill: ${CoreTokens.TextDisabled};
 		}
 	}
 
@@ -177,7 +177,7 @@ export const graphStyles = css`
 			stroke: ${GraphTokens.PreviewFgColor};
 			stroke-width: ${GraphTokens.SelectedThickness};
 			r: 6px;
-			filter: drop-shadow(0 0 1px ${TokensAll.Black});
+			filter: drop-shadow(0 0 1px ${CoreTokens.Colors.Black});
 		}
 	}
 `;

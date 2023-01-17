@@ -2,7 +2,7 @@ import { Divider } from '@blueprintjs/core';
 import type { IDividerProps as DividerProps } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import type { FC } from 'react';
-import { Tokens } from './tokens';
+import { CoreTokens } from './tokens';
 
 export type BorderProps = DividerProps & {
 	emphasis?: boolean;
@@ -23,12 +23,12 @@ export const Border: FC<BorderProps> = ({
 			vertical ? borderVerticalStyle : borderStyle,
 			{
 				borderColor: emphasis
-					? Tokens.CoreTokens.BorderEmphasis
+					? CoreTokens.BorderEmphasis
 					: muted
-					? Tokens.CoreTokens.BorderMuted
+					? CoreTokens.BorderMuted
 					: invert
-					? Tokens.CoreTokens.BorderInvert
-					: Tokens.CoreTokens.BorderNormal,
+					? CoreTokens.BorderInvert
+					: CoreTokens.BorderNormal,
 			},
 		]}
 		{...props}

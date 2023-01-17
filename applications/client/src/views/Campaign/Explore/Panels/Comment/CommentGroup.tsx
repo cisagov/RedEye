@@ -3,7 +3,7 @@ import { Flex } from '@redeye/client/components';
 import type { AnnotationModel, CommandGroupModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { CommandContainer, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
-import { Tokens, TokensAll } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -32,7 +32,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 					`,
 					!hideCommands &&
 						css`
-							border-bottom: 1px solid ${Tokens.CoreTokens.BorderMuted}; //ask ryan how to remove this
+							border-bottom: 1px solid ${CoreTokens.BorderMuted}; //ask ryan how to remove this
 						`,
 				]}
 				// id={commandGroupId} // @SEBASTIAN: is this a testing hook?
@@ -66,7 +66,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 							hideRoot
 							css={css`
 								padding: 0.5rem 1.5rem;
-								font-size: ${TokensAll.PtFontSize};
+								font-size: ${CoreTokens.FontSizeMedium};
 							`}
 						/>
 					)}
@@ -91,6 +91,6 @@ export const CommentGroup = observer<CommentGroupProps>(
 
 const commentBoxStyle = css`
 	border-bottom: none !important;
-	background: ${TokensAll.Background2};
+	background: ${CoreTokens.Background2};
 	margin-bottom: 1px;
 `;

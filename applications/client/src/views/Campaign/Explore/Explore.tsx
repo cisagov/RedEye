@@ -5,7 +5,7 @@ import { CarbonIcon, customIconPaths, Flex, ScrollBox } from '@redeye/client/com
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { TabsStyled, Tokens, TokensAll, Txt } from '@redeye/ui-styles';
+import { TabsStyled, Txt, CoreTokens } from '@redeye/ui-styles';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -79,7 +79,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 				display: flex;
 				flex-direction: column;
 				overflow: hidden;
-				background-color: ${Tokens.CoreTokens.Background1};
+				background-color: ${CoreTokens.Background1};
 			`}
 		>
 			<div css={headerStyles}>
@@ -141,7 +141,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 										<Flex
 											css={css`
 												width: 100%;
-												background: ${TokensAll.Primary1}; // TODO: color: ;
+												background: ${CoreTokens.Intent.Primary1}; // TODO: color: ;
 												justify-content: space-between;
 												align-items: center;
 												padding-left: 1rem;

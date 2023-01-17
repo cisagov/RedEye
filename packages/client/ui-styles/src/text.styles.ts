@@ -1,12 +1,12 @@
 import { css } from '@emotion/react';
-import { TokensAll } from './tokens';
+import { AdvancedTokens, CoreTokens } from './tokens';
 
 export const Styles = {
 	/** all caps small text - tiny title */
 	textMeta: css`
 		text-transform: uppercase;
-		/* font-family: ${TokensAll.PtFontFamilyMonospace}; */
-		font-weight: ${TokensAll.FontWeightBold};
+		/* font-family: ${CoreTokens.FontFamilyMonospace}; */
+		font-weight: ${CoreTokens.FontWeightBold};
 		letter-spacing: 0.05ch;
 	`,
 
@@ -23,16 +23,16 @@ export const Styles = {
 	`,
 
 	textHighlight: css`
-		font-weight: ${TokensAll.FontWeightBold};
+		font-weight: ${CoreTokens.FontWeightBold};
 		text-decoration: underline;
-		color: ${TokensAll.TextBody};
-		background-color: hsla(${TokensAll.PtIntentPrimaryHsl}, 0.6);
+		color: ${CoreTokens.TextBody};
+		background-color: hsla(${AdvancedTokens.PtIntentPrimaryHsl}, 0.6);
 		border-radius: 2px;
 		margin: 0 -1px;
 		padding: 0 1px;
 	`,
 
 	// shadowGradient: (position: "top" | "left" | "right" | "bottom" = "top") => css`
-	//   background-image: linear-gradient(from ${position}, ${TokensAll.ShadowGradientColors});
+	//   background-image: linear-gradient(from ${position}, ${CoreTokens.ShadowGradientColors});
 	// `,
 };

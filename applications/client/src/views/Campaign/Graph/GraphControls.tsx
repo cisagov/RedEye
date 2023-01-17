@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CarbonIcon } from '@redeye/client/components';
 import { RedEyeGraphClassNames as GCN } from '@redeye/graph';
-import { Header, Tokens, Txt } from '@redeye/ui-styles';
+import { CoreTokens, Header, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
@@ -157,8 +157,8 @@ const rootStyle = css`
 
 const controlGroupStyle = css`
 	margin-bottom: 0.5rem;
-	background-color: ${Tokens.CoreTokens.Background1};
-	box-shadow: ${Tokens.Variables.PtElevationShadow2};
+	background-color: ${CoreTokens.Background1};
+	box-shadow: ${CoreTokens.Elevation2};
 `;
 const GraphControlButtonGroup = styled(ButtonGroup)`
 	${controlGroupStyle}

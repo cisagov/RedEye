@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { durationFormatter } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
 import { scaleTime } from 'd3';
 import { observable } from 'mobx';
@@ -157,6 +157,6 @@ const labelStyles = (margin?: number) => css`
 	margin-left: ${margin}px;
 	font-size: 0.8rem;
 	padding: 0.2rem;
-	background-color: ${Tokens.CoreTokens.Background2};
-	border: 1px solid ${Tokens.CoreTokens.BorderEmphasis};
+	background-color: ${CoreTokens.Background2};
+	border: 1px solid ${CoreTokens.BorderEmphasis};
 `;

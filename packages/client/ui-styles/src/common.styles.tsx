@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 // import { plexFontFace } from './font-face-local';
 import { extensionStyles } from './ibm-carbon-extensions';
 import { Styles } from './text.styles';
-import { Tokens } from './tokens';
+import { CoreTokens } from './tokens';
 
 // font import
 import './font-face-local.css';
@@ -16,7 +16,7 @@ export const globalStyle = css`
 	}
 	html,
 	body {
-		background-color: ${Tokens.CoreTokens.Background0};
+		background-color: ${CoreTokens.Background0};
 	}
 
 	html,
@@ -32,7 +32,7 @@ export const globalStyle = css`
 
 	code,
 	pre {
-		font-family: ${Tokens.Variables.PtFontFamilyMonospace};
+		font-family: ${CoreTokens.FontFamilyMonospace};
 	}
 
 	.${Classes.DIALOG_CONTAINER} {
@@ -67,7 +67,7 @@ export const TabsStyled = styled(Tabs)`
 	.${Classes.TAB_LIST} {
 		flex: 0 0 auto;
 		padding: 0 1.5rem;
-		border-bottom: 1px solid ${Tokens.CoreTokens.BorderEmphasis};
+		border-bottom: 1px solid ${CoreTokens.BorderEmphasis};
 		z-index: 1;
 	}
 	.${Classes.TAB_INDICATOR} {
@@ -88,7 +88,7 @@ export const TabsStyled = styled(Tabs)`
 
 export const CardStyled = styled(Card)`
 	padding: unset;
-	background-color: ${Tokens.CoreTokens.Background1};
+	background-color: ${CoreTokens.Background1};
 `;
 
 export const fillNoOverflowStyle = css`

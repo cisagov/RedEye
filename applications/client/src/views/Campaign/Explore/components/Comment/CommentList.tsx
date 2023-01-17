@@ -6,7 +6,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { CommentBox, commentPopoverPadding } from '@redeye/client/views';
-import { TokensAll } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, RefObject } from 'react';
 import { useEffect } from 'react';
@@ -65,7 +65,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 							commandGroup={commandGroup.maybeCurrent}
 							css={css`
 								&:not(:last-child) {
-									border-bottom: 1px solid ${TokensAll.BorderMuted};
+									border-bottom: 1px solid ${CoreTokens.BorderMuted};
 								}
 							`}
 						/>
@@ -87,7 +87,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					commandText={command?.inputText}
 					cancel={state.toggleNewComment}
 					css={css`
-						border-top: 1px solid ${TokensAll.BorderEmphasis};
+						border-top: 1px solid ${CoreTokens.BorderEmphasis};
 					`}
 				/>
 			)}
@@ -96,7 +96,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					vertical
 					fill
 					css={css`
-						border-top: 1px solid ${TokensAll.BorderEmphasis};
+						border-top: 1px solid ${CoreTokens.BorderEmphasis};
 					`}
 				>
 					{!state.isAddingNewComment && (

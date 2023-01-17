@@ -1,7 +1,7 @@
 import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
 import { css } from '@emotion/react';
 import { createState, durationFormatter } from '@redeye/client/components';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -121,23 +121,23 @@ const baseBarStyles = css`
 `;
 
 const deadBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconDead};
+	fill: ${CoreTokens.BeaconDead};
 `;
 
 const futureBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconFuture};
+	fill: ${CoreTokens.BeaconFuture};
 `;
 
 const aliveBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconAlive};
+	fill: ${CoreTokens.BeaconAlive};
 `;
 
 const selectedBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconSelected};
+	fill: ${CoreTokens.BeaconSelected};
 `;
 
 const interactionBarStyles = (hover: boolean) => css`
-	fill: ${hover ? Tokens.CoreTokens.BeaconInteracted : 'transparent'};
+	fill: ${hover ? CoreTokens.BeaconInteracted : 'transparent'};
 	opacity: 0.3;
 `;
 

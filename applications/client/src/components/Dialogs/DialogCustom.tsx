@@ -3,7 +3,7 @@ import { Button, Classes, Dialog } from '@blueprintjs/core';
 import { Close16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { WithConditionalCSSProp } from '@emotion/react/types/jsx-namespace';
-import { Header, Tokens } from '@redeye/ui-styles';
+import { CoreTokens, Header } from '@redeye/ui-styles';
 import type { ComponentProps, FC, ReactNode } from 'react';
 import { CarbonIcon } from '../CarbonIcon';
 
@@ -28,7 +28,7 @@ export const DialogCustom: FC<DialogCustomProps> = ({ children, title, headerPro
 					top: 0;
 					right: 0;
 					margin: 0.25rem;
-					color: ${Tokens.TextColors.PtTextColorMuted};
+					color: ${CoreTokens.TextMuted};
 				`}
 				rightIcon={<CarbonIcon icon={Close16} />}
 				// text={'Cancel'}
@@ -51,8 +51,8 @@ const dialogHeaderStyles = css`
 	top: 0;
 	z-index: 10;
 	opacity: 0.97; // to see wats scrollin underneath
-	background-color: ${Tokens.CoreTokens.Background1};
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderEmphasis};
+	background-color: ${CoreTokens.Background1};
+	border-bottom: 1px solid ${CoreTokens.BorderEmphasis};
 	box-shadow: none;
 	/* display: block; */
 	/* padding: 1rem; */

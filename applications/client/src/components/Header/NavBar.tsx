@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { AppOptions, CarbonIcon, Logo } from '@redeye/client/components';
 import { routes, useStore } from '@redeye/client/store';
 import { Tabs } from '@redeye/client/types/explore';
-import { FlexSplitter, Tokens } from '@redeye/ui-styles';
+import { CoreTokens, FlexSplitter } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
 import { CampaignViews, Views } from '../../types';
@@ -100,7 +100,7 @@ const wrapperStyle = css`
 	align-items: center;
 	width: 4rem;
 	padding-bottom: 1rem;
-	background-color: ${Tokens.CoreTokens.Background1};
+	background-color: ${CoreTokens.Background1};
 `;
 const logoSize = 48;
 const logoStyle = css`
@@ -131,5 +131,5 @@ const navButtonStyles = css`
 `;
 
 const navButtonActiveStyles = css`
-	border-left-color: ${Tokens.IntentColors.PtIntentPrimary};
+	border-left-color: ${CoreTokens.Intent.Primary3};
 `;
