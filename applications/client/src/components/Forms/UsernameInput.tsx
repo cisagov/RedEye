@@ -6,7 +6,7 @@ import { ClassNames, css } from '@emotion/react';
 import { CarbonIcon, createState, escapeRegExpChars } from '@redeye/client/components';
 import type { GlobalOperatorModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
-import { Styles, Txt, CoreTokens } from '@redeye/ui-styles';
+import { TextStyles, Txt, CoreTokens } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 
@@ -156,7 +156,7 @@ function highlightText(text: string, query: string) {
 		}
 		lastIndex = regexp.lastIndex;
 		tokens.push(
-			<Txt css={Styles.textHighlight} key={lastIndex}>
+			<Txt css={TextStyles.textHighlight} key={lastIndex}>
 				{match[0]}
 			</Txt>
 		);

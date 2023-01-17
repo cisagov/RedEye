@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Classes } from '@blueprintjs/core';
-import { Styles } from './text.styles';
+import { TextStyles } from './text.styles';
 import { CoreTokens as Tkn } from './tokens';
 
 export type TxtProps = React.HTMLAttributes<HTMLOrSVGElement> & {
@@ -102,9 +102,9 @@ export const Txt: React.FC<TxtProps> = ({
 			{
 				display: block ? 'block' : undefined,
 			},
-			meta && Styles.textMeta,
-			running && Styles.textRunning,
-			ellipsize && Styles.textEllipsis,
+			meta && TextStyles.textMeta,
+			running && TextStyles.textRunning,
+			ellipsize && TextStyles.textEllipsis,
 		],
 		[
 			block,

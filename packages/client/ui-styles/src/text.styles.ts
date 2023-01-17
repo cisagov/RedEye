@@ -1,7 +1,27 @@
 import { css } from '@emotion/react';
 import { AdvancedTokens, CoreTokens } from './tokens';
 
-export const Styles = {
+/**
+ * Hover to a parent to reveal children
+ * give the parent a css={[hoverRevealChildrenType]} and the child a className={hoverRevealClassName}
+ */
+const hoverRevealClassName = 'hoverReveal';
+const hoverRevealChildrenVisibility = css`
+	&:not(:hover) {
+		.${hoverRevealClassName} {
+			visibility: hidden;
+		}
+	}
+`;
+const hoverRevealChildrenDisplay = css`
+	&:not(:hover) {
+		.${hoverRevealClassName} {
+			display: none;
+		}
+	}
+`;
+
+export const TextStyles = {
 	/** all caps small text - tiny title */
 	textMeta: css`
 		text-transform: uppercase;
@@ -32,7 +52,17 @@ export const Styles = {
 		padding: 0 1px;
 	`,
 
+	fillNoOverflowStyle: css`
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+	`,
+
 	// shadowGradient: (position: "top" | "left" | "right" | "bottom" = "top") => css`
 	//   background-image: linear-gradient(from ${position}, ${CoreTokens.ShadowGradientColors});
 	// `,
+
+	hoverRevealClassName,
+	hoverRevealChildrenVisibility,
+	hoverRevealChildrenDisplay,
 };

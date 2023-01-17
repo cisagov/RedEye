@@ -5,7 +5,7 @@ import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
 import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
-import { hoverRevealChildrenVisibility, CoreTokens } from '@redeye/ui-styles';
+import { TextStyles, CoreTokens } from '@redeye/ui-styles';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -97,7 +97,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 		);
 		return (
 			<div cy-test="command-info" css={wrapperStyle} {...props}>
-				<div css={[hoverRevealChildrenVisibility, gridWrapperStyle]}>
+				<div css={[TextStyles.hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
 						css={[

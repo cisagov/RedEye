@@ -27,26 +27,19 @@ export const CoreTokens = {
 	TextMuted: BpTokens.TextColors.PtTextColorMuted, // 3
 	TextDisabled: BpTokens.TextColors.PtTextColorDisabled, // 4
 
-	/** color of <a/> links */
 	TextLink: BpTokensAll.PtLinkColor,
-	/** color of blueprint icons, typically TextMuted */
 	TextIcon: BpTokensAll.PtIconColor,
-	/** foreground color of text with a intent background-color (White) */
 	OnIntent: BpTokensAll.White,
 
-	/** primary text color  */
 	TextIntentPrimary: BpTokensAll.PtIntentPrimaryTextColor,
-	/** success text color (green) */
 	TextIntentSuccess: BpTokensAll.PtIntentSuccessTextColor,
-	/** primary text color (yellow/orange)  */
 	TextIntentWarning: BpTokensAll.PtIntentWarningTextColor,
-	/** primary text color (red)  */
 	TextIntentDanger: BpTokensAll.PtIntentDangerTextColor,
 
 	BorderEmphasis: BpTokens.Colors.Black,
 	BorderNormal: BpTokens.Colors.DarkGray1,
 	BorderMuted: BpTokens.LayoutColors.PtDividerBlack,
-	BorderInvert: BpTokens.Colors.Gray4, // BpTokens.LayoutColors.PtDividerWhite, ?
+	BorderInvert: BpTokens.Colors.Gray4, // BpTokensAll.PtDividerWhite, // doesn't exist?
 
 	Elevation0: BpTokensAll.PtElevationShadow0,
 	Elevation1: BpTokensAll.PtElevationShadow1,

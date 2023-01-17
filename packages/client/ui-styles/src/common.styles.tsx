@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 // import { plexFontFace } from './font-face-local';
 import { extensionStyles } from './ibm-carbon-extensions';
-import { Styles } from './text.styles';
 import { CoreTokens } from './tokens';
 
 // font import
@@ -48,15 +47,12 @@ export const globalStyle = css`
 		user-select: none;
 	}
 
-	${extensionStyles}// button elipsis
+	${extensionStyles}// button ellipsis
 `;
 
 export const FlexSplitter = styled.div`
 	flex: 1 1 auto;
 `;
-
-/** @deprecated use Styles.textMeta */
-export const textMeta = Styles.textMeta;
 
 export const TabsStyled = styled(Tabs)`
 	overflow: hidden; // ???
@@ -89,30 +85,4 @@ export const TabsStyled = styled(Tabs)`
 export const CardStyled = styled(Card)`
 	padding: unset;
 	background-color: ${CoreTokens.Background1};
-`;
-
-export const fillNoOverflowStyle = css`
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-`;
-
-/**
- * Hover to a parent to reveal children
- * give the parent a css={[hoverRevealChildrenType]} and the child a className={hoverRevealClassName}
- */
-export const hoverRevealClassName = 'hoverReveal';
-export const hoverRevealChildrenVisibility = css`
-	&:not(:hover) {
-		.${hoverRevealClassName} {
-			visibility: hidden;
-		}
-	}
-`;
-export const hoverRevealChildrenDisplay = css`
-	&:not(:hover) {
-		.${hoverRevealClassName} {
-			display: none;
-		}
-	}
 `;

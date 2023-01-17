@@ -2,7 +2,7 @@ import type { BreadcrumbsProps } from '@blueprintjs/core';
 import { Breadcrumb, Classes } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { CoreTokens, Styles } from '@redeye/ui-styles';
+import { CoreTokens, TextStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
 /** BreadcrumbsProps without the OverflowList Props - OverflowList doesn't seem to work */
@@ -38,9 +38,9 @@ export type BreadcrumbsStyledProps = {
 };
 
 export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProps>`
-	/* ${Styles.textMeta} */
+	/* ${TextStyles.textMeta} */
 
-	${Styles.textEllipsis}
+	${TextStyles.textEllipsis}
 	height: auto;
 	display: inline;
 	// all children are display:inline; to get the ellipsis... effect
