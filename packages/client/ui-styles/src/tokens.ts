@@ -24,6 +24,7 @@ const CoreTokens = {
 	BeaconAlive: BpTokens.Colors.Gray2,
 	BeaconFuture: BpTokens.Colors.Black,
 	BeaconSelected: BpTokens.Colors.White,
+	BeaconInteracted: BpTokens.Colors.Black,
 
 	FontWeightBold: '700',
 	FontWeightNormal: '400',
