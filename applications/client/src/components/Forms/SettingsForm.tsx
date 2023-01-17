@@ -8,14 +8,12 @@ import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
 import { createState } from '../mobx-create-state';
 
-type UiTheme = 'light' | 'dark' | 'system';
-
 type SettingsFormProps = ComponentProps<'form'> & {};
 
 export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
-		theme: getAppTheme(),
+		// theme: getAppTheme(),
 		tester: { value: 3 },
 		enableAutoSelect: store.settings.isDefaultTimezone,
 		setEnableAutoSelect(e: ChangeEvent<HTMLInputElement>) {
@@ -72,37 +70,16 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				label="Show Hidden Beacons, Host, and Servers"
 			/>
 			<Switch
-				checked={state.theme === 'dark'}
-				// onChange={state.setTheme}
-				label="Dark theme"
+				checked={store.settings.theme === 'light'}
+				onChange={(event) => {
+					// console.log(event.currentTarget.checked);
+					store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark');
+				}}
+				label="Light Theme (beta)"
 			/>
 		</form>
 	);
 });
-
-export const updateAppTheme = (theme: UiTheme = 'dark') => {
-	// light theme is just the absence of the Classes.DARK class
-	const rootClassList = document.documentElement.classList;
-	switch (theme) {
-		case 'light':
-			rootClassList.remove(Classes.DARK);
-			break;
-		case 'system':
-			// TODO: query the system theme somehow?
-			// set accordingly
-			rootClassList.add(Classes.DARK);
-			break;
-		case 'dark':
-			rootClassList.add(Classes.DARK);
-			break; // fallthrough expected
-		default:
-			rootClassList.add(Classes.DARK);
-			break;
-	}
-};
-
-export const getAppTheme = (): UiTheme =>
-	document.documentElement.classList.contains(Classes.DARK) ? 'dark' : 'light';
 
 const timezonePickerStyle = css`
 	.${Classes.POPOVER_TARGET} {

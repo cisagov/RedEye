@@ -5,9 +5,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import { updateAppTheme } from './components';
 import { CustomRouter } from './CustomRouter';
-import { AppStoreProvider, store } from './store';
+import { AppStoreProvider, store, updateAppTheme } from './store';
 
 // necessary for blueprint to function
 import 'blueprint-styler/base/blueprint-tokens.css';
