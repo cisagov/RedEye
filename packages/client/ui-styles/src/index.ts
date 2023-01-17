@@ -1,8 +1,9 @@
-export * from './global-styles';
-export * from './tokens';
-export * from './utility-styles';
-export * from './Text';
-export * from './SkeletonTxt';
-export * from './Header';
-export * from './Spacer';
-export * from './Border';
+export * from './styles/tokens';
+export * from './styles/global-styles';
+export * from './styles/utility-styles';
+
+export * from './components/Text';
+export * from './components/SkeletonTxt';
+export * from './components/Header';
+export * from './components/Spacer';
+export * from './components/Border';

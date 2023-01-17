@@ -2,8 +2,8 @@ import { Card, Classes, Tabs } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 // import { plexFontFace } from './font-face-local';
-import { extensionStyles } from './ibm-carbon-extensions';
-import { CoreTokens } from './tokens';
+import { extensionStyles } from './ibm-carbon-extension-styles';
+import { CoreTokens } from '../styles/tokens';
 
 // font import
 import './font-face-local.css';

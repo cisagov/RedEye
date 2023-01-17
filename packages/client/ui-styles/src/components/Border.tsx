@@ -2,7 +2,7 @@ import { Divider } from '@blueprintjs/core';
 import type { IDividerProps as DividerProps } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import type { FC } from 'react';
-import { CoreTokens } from './tokens';
+import { CoreTokens } from '../styles/tokens';
 
 export type BorderProps = DividerProps & {
 	emphasis?: boolean;

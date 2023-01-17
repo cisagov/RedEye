@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { CoreTokens } from './tokens';
+import { CoreTokens } from '../styles/tokens';
 
 /** Text Spacer 2x the size of {' '} */
 export const Spacer = styled.span`

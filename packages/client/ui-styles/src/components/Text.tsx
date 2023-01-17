@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Classes } from '@blueprintjs/core';
-import { UtilityStyles } from './utility-styles';
-import { CoreTokens as Tkn } from './tokens';
+import { UtilityStyles } from '../styles/utility-styles';
+import { CoreTokens as Tkn } from '../styles/tokens';
 
 export type TxtProps = React.HTMLAttributes<HTMLOrSVGElement> & {
 	// COLOR
