@@ -5,6 +5,7 @@ import { uploadCampaign } from './uploadCampaign';
 import { downloadCampaign } from './downloadCampaign';
 import { login, loginStatus } from './login';
 import { requestImage } from './images';
+import { health } from './health';
 import type { EndpointContext } from '../types';
 
 export const addRestRoutes = (app: Express, context: EndpointContext) => {
@@ -16,5 +17,6 @@ export const addRestRoutes = (app: Express, context: EndpointContext) => {
 	login(router, context);
 	loginStatus(router, context);
 	appMetadata(router, context);
+	health(router, context);
 	app.use('/api', router);
 };

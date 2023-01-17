@@ -3,6 +3,7 @@ import { hrtime } from 'process';
 import { actions, ActorRefFrom, createMachine } from 'xstate';
 import path from 'path';
 import type { LogLevel } from '../shared/commandOptions';
+import { getRuntimeDir } from '../shared/utils';
 
 import type { LoggerInstance } from '../shared/logging';
 
@@ -20,14 +21,6 @@ type Events = { type: 'START' };
 export type BeaconChildActorDone = { type: 'BEACON_CHILD_ACTOR_DONE'; totalExecutionTime: number };
 
 export type SpawnedBeaconScriptRunnerMachine = ActorRefFrom<typeof beaconScriptRunnerMachine>;
-
-const getRuntimeDir = () => {
-	if (process.pkg) {
-		return path.resolve(process.execPath, '..');
-	} else {
-		return path.join(__dirname, '..');
-	}
-};
 
 export const beaconScriptRunnerMachine = createMachine(
 	{

@@ -31,8 +31,9 @@ type RequiredInsertArgs = Pick<Campaign, 'name'>;
 @ObjectType()
 @Entity()
 export class Campaign {
-	constructor({ name, ...optionals }: RequiredInsertArgs & Partial<Campaign>) {
+	constructor({ name, liveCampaign = false, ...optionals }: RequiredInsertArgs & Partial<Campaign>) {
 		Object.assign(this, optionals);
+		this.liveCampaign = liveCampaign;
 		this.name = name;
 	}
 
@@ -79,6 +80,10 @@ export class Campaign {
 	@Field((_type) => ParsingStatus)
 	@Property({ type: 'string' })
 	parsingStatus: ParsingStatus = ParsingStatus.NOT_READY_TO_PARSE;
+
+	@Field(() => Boolean)
+	@Property()
+	liveCampaign: boolean;
 
 	// relationships
 	@Field(() => GlobalOperator, { nullable: true })

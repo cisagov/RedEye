@@ -22,7 +22,7 @@ export const registerBeaconCommand = (program: Command) => {
 };
 
 const beaconCommandAction = (options: BeaconCallbackOptions) => {
-	const logger = createLoggerInstance(options.loggingFolderPath);
+	const logger = createLoggerInstance(options.loggingFolderPath ?? __dirname);
 	logger('command invocation', { payload: options, tags: ['BEACON_SCRIPT_INVOCATION'], level: 'debug' });
 	const start = hrtime.bigint();
 

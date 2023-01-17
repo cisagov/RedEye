@@ -60,7 +60,7 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 	// log file upload
 	app.post<never, any, requestBody>('/campaign/upload', async (req, res) => {
 		if (!isBlue && !isAuthRest(req, config)) return res.sendStatus(401);
-		if (!req.files) return res.status(500).send({ msg: 'file is not found' });
+		if (!req.files) return res.status(400).send({ msg: 'file is not found' });
 		const name = req.body.name;
 		const dbFile = !Array.isArray(req.files.file) ? req.files.file : req.files.file[0];
 		const campaign = await importCampaign(name, dbFile, context);

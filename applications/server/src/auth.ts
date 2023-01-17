@@ -12,11 +12,6 @@ type AuthObject = {
 	hashKey?: string;
 };
 
-export const isAuthRest = (req: Request<any>, config: ConfigDefinition) => {
-	const authed = isAuth(config, req?.cookies);
-	return authed;
-};
-
 export const isAuth = (config: ConfigDefinition, cookies: ApplicationCookie | undefined) => {
 	if (cookies && cookies.REDEYE) {
 		const decryptedObject = decrypt<AuthObject>(config, cookies.REDEYE);
@@ -27,6 +22,8 @@ export const isAuth = (config: ConfigDefinition, cookies: ApplicationCookie | un
 	}
 	return false;
 };
+
+export const isAuthRest = (req: Request<any>, config: ConfigDefinition) => isAuth(config, req?.cookies);
 
 export const createAuthToken = (config: ConfigDefinition, password: string) => {
 	return encrypt(config, { hashKey: hash(password) });

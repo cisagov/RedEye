@@ -24,7 +24,7 @@ export const uploadServer = (app: Router, context: EndpointContext) => {
 		const campaignId = req.params.campaignId;
 
 		if (!isAuthRest(req, config)) return res.sendStatus(401);
-		if (!req.files) return res.status(500).send({ msg: 'file is not found' });
+		if (!req.files) return res.status(400).send({ msg: 'file is not found' });
 		if (!campaignId) return res.status(400).send({ msg: 'campaignId is not found' });
 
 		const globalEm = await getMainEmOrFail(context);

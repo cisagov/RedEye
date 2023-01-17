@@ -2,10 +2,6 @@
 
 export interface Typegen0 {
 	'@@xstate/typegen': true;
-	eventsCausingActions: {
-		pushTimestamp: 'START';
-		tellParentDone: 'done.invoke.(machine).running:invocation[0]';
-	};
 	internalEvents: {
 		'done.invoke.(machine).running:invocation[0]': {
 			type: 'done.invoke.(machine).running:invocation[0]';
@@ -19,15 +15,19 @@ export interface Typegen0 {
 	};
 	missingImplementations: {
 		actions: never;
-		services: never;
-		guards: never;
 		delays: never;
+		guards: never;
+		services: never;
 	};
+	eventsCausingActions: {
+		pushTimestamp: 'START';
+		tellParentDone: 'done.invoke.(machine).running:invocation[0]';
+	};
+	eventsCausingDelays: {};
+	eventsCausingGuards: {};
 	eventsCausingServices: {
 		runScript: 'START';
 	};
-	eventsCausingGuards: {};
-	eventsCausingDelays: {};
-	matchesStates: 'idle' | 'running' | 'done';
+	matchesStates: 'done' | 'idle' | 'running';
 	tags: never;
 }

@@ -1,0 +1,32 @@
+schema: ./applications/server/schema.graphql
+documents: "./packages/cs-parser/src/*/*.ts"
+generates:
+  ./packages/cs-parser/src/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node
+    config:
+      namingConvention: keep
+      nonOptionalTypename: true
+      scalars:
+        UUID: string
+        Timestamp: string
+        Upload: File
+        GeoJSON: any
+        Void: string
+        Value: string | number | string[]
+        SimpleUnicodeString: string
+        SimpleASCIIString: string
+        PositiveFloat: number
+        UnicodeString: string
+        Markdown: string
+        MGRS: string
+        FileName: string
+        NonNegativeInteger: number
+        JSON: any
+        PositiveInteger: number
+        URLPath: string
+        URL: string
+        Longitude: number
+        Latitude: number

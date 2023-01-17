@@ -16,14 +16,18 @@ export function login(app: Router, context: EndpointContext) {
 	const { config } = context;
 	const correctPassword = config.password;
 	app.post<never, any, requestBody>('/login', async (req, res) => {
-		const password = req.body?.password;
-		if (!password) return res.status(401).send({ auth: false, token: null });
+		try {
+			const password = req.body?.password;
+			if (!password) return res.status(401).send({ auth: false, token: null });
 
-		if (password === correctPassword) {
-			const token = createAuthToken(config, password);
-			return res.status(200).cookie(COOKIE_KEY, token, { httpOnly: true }).send({ auth: true, token });
-		} else {
-			return res.status(401).send({ auth: false, token: null });
+			if (password === correctPassword) {
+				const token = createAuthToken(config, password);
+				return res.status(200).cookie(COOKIE_KEY, token, { httpOnly: true }).send({ auth: true, token });
+			} else {
+				return res.status(401).send({ auth: false, token: null });
+			}
+		} catch {
+			return res.status(400).send({ auth: false, token: null });
 		}
 	});
 	app.post<never, any, requestBody>('/logout', async (_, res) => {

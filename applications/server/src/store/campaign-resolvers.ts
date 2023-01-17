@@ -38,7 +38,13 @@ export class CampaignResolvers {
 	async createCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('name', () => String) name: string,
-		@Arg('creatorName', () => String) creatorName: string
+		@Arg('creatorName', () => String) creatorName: string,
+		@Arg('liveCampaign', () => Boolean, {
+			nullable: true,
+			description:
+				'set true when this campaign is taking in live data at intervals via one of the command line integrations',
+		})
+		liveCampaign: boolean | undefined
 	): Promise<Campaign> {
 		const em = getMainEmOrFail(ctx);
 		let operator: GlobalOperator;
@@ -56,6 +62,7 @@ export class CampaignResolvers {
 			name,
 			lastOpenedBy: operator,
 			creator: operator,
+			liveCampaign,
 		});
 
 		await em.persistAndFlush(campaign);

@@ -6,26 +6,26 @@ export interface Typegen0 {
 		'xstate.init': { type: 'xstate.init' };
 	};
 	invokeSrcNameMap: {
-		databaseCreate: 'done.invoke.(machine).creatingDatabase:invocation[0]';
 		databaseConnect: 'done.invoke.(machine).connectingDatabase:invocation[0]';
+		databaseCreate: 'done.invoke.(machine).creatingDatabase:invocation[0]';
 	};
 	missingImplementations: {
 		actions: never;
-		services: never;
-		guards: never;
 		delays: never;
+		guards: never;
+		services: never;
 	};
 	eventsCausingActions: {
 		sendStart: 'xstate.init';
 	};
-	eventsCausingServices: {
-		databaseCreate: 'START';
-		databaseConnect: 'START';
-	};
+	eventsCausingDelays: {};
 	eventsCausingGuards: {
 		databasePathDefined: 'START';
 	};
-	eventsCausingDelays: {};
-	matchesStates: 'determine' | 'creatingDatabase' | 'connectingDatabase' | 'connected';
+	eventsCausingServices: {
+		databaseConnect: 'START';
+		databaseCreate: 'START';
+	};
+	matchesStates: 'connected' | 'connectingDatabase' | 'creatingDatabase' | 'determine';
 	tags: never;
 }

@@ -91,7 +91,7 @@ export const databaseMachine = createMachine(
 					const folderPaths = ctx.folderPaths;
 					try {
 						if (folderPaths) {
-							const databasePath = pathResolve('./test.sqlite');
+							const databasePath = pathResolve(__dirname, 'live.sqlite');
 							MikroORM.init(getProjectMikroOrmConfig(databasePath)).then(async (orm) => {
 								const generator = orm.getSchemaGenerator();
 								await generator.dropSchema();

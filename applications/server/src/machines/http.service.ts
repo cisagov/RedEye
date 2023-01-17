@@ -1,7 +1,7 @@
 import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express from 'express';
+import express, { json, urlencoded } from 'express';
 import fileUpload from 'express-fileupload';
 import fs from 'fs-extra';
 import path from 'path';
@@ -40,6 +40,7 @@ const serverStartLogs = async (ctx: ServerMachineContext, clientUrl?: string): P
 	logLine.push(
 		`  ${cf.bold}${cf.white}RedEye Server${cf.reset} ${cf.dim}${ver}${cf.reset}`,
 		`  RedEye Client ${cf.blue}${cf.underlined}${usedClientUrl}${cf.reset}`,
+		`  RedEye Server ${cf.blue}${cf.underlined}${`http://localhost:${ctx.config.port}`}${cf.reset}`,
 		`  Visit ${cf.underlined}${helpLink}${cf.reset} for help`,
 		`  To quit, close terminal window or press ^C`,
 		``
@@ -102,6 +103,8 @@ export const startHttpServerService = (ctx: ServerMachineContext) => {
 			app.use(fileUpload({ createParentPath: true }));
 			app.use(cors(corsOptions));
 			app.use(cookieParser());
+			app.use(json({ limit: '200mb' }));
+			app.use(urlencoded({ extended: false }));
 			addRestRoutes(app, endpointContext);
 			await apolloServer.start();
 			apolloServer.applyMiddleware({ app, path: graphqlPath, cors: corsOptions });

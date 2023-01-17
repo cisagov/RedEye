@@ -1,10 +1,22 @@
-import { Arg, Resolver, Query, Authorized, Ctx, Mutation } from 'type-graphql';
+import { Arg, Resolver, Query, Authorized, Ctx, Mutation, InputType, Field } from 'type-graphql';
 import { Beacon, Campaign, Host, GlobalOperator, Server, ServerType } from '@redeye/models';
 import { connectToProjectEmOrFail, getMainEmOrFail } from './utils/project-db';
 import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
 import { OperatorResolvers } from './operator-resolvers';
+
+@InputType()
+class ServerUpdateInput {
+	@Field(() => String, { nullable: true })
+	parsingPath?: string;
+
+	@Field(() => String, { nullable: true })
+	name?: string;
+
+	@Field(() => String, { nullable: true })
+	displayName?: string;
+}
 
 @Resolver(Server)
 export class ServerResolvers {
@@ -14,8 +26,7 @@ export class ServerResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('username', () => String) username: string,
-
-		@Arg('hidden', () => Boolean, { defaultValue: false, description: 'Should show hidden values' })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Server>
 	): Promise<Server[]> {
@@ -103,10 +114,10 @@ export class ServerResolvers {
 
 	@Authorized()
 	@Mutation(() => Server, {
-		description: 'Add a server from folder already accessible from the server',
-		deprecationReason: 'FOR CYPRESS TESTING PURPOSES ONLY',
+		description:
+			'Add a server to a campaign without uploading the files to the server. Intended specifically for live parsing.',
 	})
-	async addLocalServerFolder(
+	async serverFolderCreate(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: UUID,
 		@Arg('name', () => String) name: string,
@@ -116,6 +127,31 @@ export class ServerResolvers {
 		const server = new Server({ name, parsingPath: path });
 		await em.persistAndFlush(server);
 
+		return server;
+	}
+
+	@Authorized()
+	@Mutation(() => Server, {
+		description:
+			'Add a server to a campaign without uploading the files to the server. Intended specifically for live parsing.',
+	})
+	async serverUpdate(
+		@Ctx() ctx: GraphQLContext,
+		@Arg('campaignId', () => String) campaignId: UUID,
+		@Arg('serverId', () => String) serverId: UUID,
+		@Arg('input', () => ServerUpdateInput) input: ServerUpdateInput
+	): Promise<Server> {
+		const em = await connectToProjectEmOrFail(campaignId, ctx);
+		const server = await em.findOneOrFail(Server, serverId, { populate: false });
+
+		const { displayName, name, parsingPath } = input;
+
+		if (parsingPath) server.parsingPath = parsingPath;
+		if (name) server.name = name;
+		if (displayName) server.displayName = displayName;
+
+		await em.persistAndFlush(server);
+		ctx.cm.forkProject(campaignId);
 		return server;
 	}
 }

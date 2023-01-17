@@ -36,6 +36,7 @@ export class Server {
 	@Property()
 	name: string;
 
+	@Field(() => String, { description: 'Intended for use in parsing only' })
 	@Property()
 	parsingPath: string;
 
