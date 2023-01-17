@@ -1,6 +1,5 @@
 /* This is a mk-gql generated file, don't modify it manually */
-import type { MKGQLStore, QueryOptions } from 'mk-gql';
-import { createMKGQLStore } from 'mk-gql';
+import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
@@ -53,6 +52,7 @@ import { ServerModel, serverModelPrimitives, ServerModelSelector } from './Serve
 import { ServerParsingProgressModel } from './ServerParsingProgressModel';
 import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
+import type { SortOptionComments } from './SortOptionCommentsEnum';
 import type { SortOption } from './SortOptionEnum';
 import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
 import { TimelineBucketModel } from './TimelineBucketModel';
@@ -76,6 +76,10 @@ export type FindReplaceInput = {
 export type SortType = {
 	direction?: SortDirection;
 	sortBy?: SortOption;
+};
+export type SortTypeComments = {
+	direction?: SortDirection;
+	sortBy?: SortOptionComments;
 };
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 
@@ -112,6 +116,7 @@ export enum RootStoreBaseQueries {
 	queryCampaign = 'queryCampaign',
 	queryCampaigns = 'queryCampaigns',
 	queryCommandGroup = 'queryCommandGroup',
+	queryCommandGroupIds = 'queryCommandGroupIds',
 	queryCommandGroups = 'queryCommandGroups',
 	queryCommandIds = 'queryCommandIds',
 	queryCommandTypes = 'queryCommandTypes',
@@ -346,16 +351,42 @@ export class RootStoreBase extends ExtendedModel(
 			!!clean
 		);
 	}
-	// Get command groups by ids
-	@modelAction queryCommandGroups(
+	// Get command groups ids
+	@modelAction queryCommandGroupIds(
 		variables: {
 			beaconId?: string;
 			campaignId: string;
+			commandGroupIds?: string[];
 			commandIds?: string[];
 			commandType?: string;
 			hidden?: boolean;
 			hostId?: string;
 			operatorId?: string;
+			sort?: SortTypeComments;
+		},
+		_?: any,
+		options: QueryOptions = {},
+		clean?: boolean
+	) {
+		return this.query<{ commandGroupIds: any }>(
+			`query commandGroupIds($beaconId: String, $campaignId: String!, $commandGroupIds: [String!], $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortTypeComments) { commandGroupIds(beaconId: $beaconId, campaignId: $campaignId, commandGroupIds: $commandGroupIds, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
+			variables,
+			options,
+			!!clean
+		);
+	}
+	// Get command groups by ids
+	@modelAction queryCommandGroups(
+		variables: {
+			beaconId?: string;
+			campaignId: string;
+			commandGroupIds?: string[];
+			commandIds?: string[];
+			commandType?: string;
+			hidden?: boolean;
+			hostId?: string;
+			operatorId?: string;
+			sort?: SortTypeComments;
 		},
 		resultSelector:
 			| string
@@ -366,7 +397,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandGroups: CommandGroupModel[] }>(
-			`query commandGroups($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String) { commandGroups(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId) {
+			`query commandGroups($beaconId: String, $campaignId: String!, $commandGroupIds: [String!], $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortTypeComments) { commandGroups(beaconId: $beaconId, campaignId: $campaignId, commandGroupIds: $commandGroupIds, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
         ${typeof resultSelector === 'function' ? resultSelector(CommandGroupModelSelector).toString() : resultSelector}
       } }`,
 			variables,

@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import { Flex } from '@redeye/client/components';
-import type { AnnotationModel, CommandGroupModel } from '@redeye/client/store';
+import { createState } from '@redeye/client/components/mobx-create-state';
+import type { AnnotationModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
+import type { UUID } from '@redeye/client/types/uuid';
 import { CommandContainer, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
 import { Tokens, TokensAll } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
@@ -9,18 +11,39 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
 export type CommentGroupProps = ComponentProps<'div'> & {
-	commandGroup: CommandGroupModel;
+	commandGroup?: CommandGroupModel;
+	commandGroupId?: string | null;
 	toggleNewComment: (id?: string) => void;
 	newComment: string | undefined;
 	measure?: any;
 	showPath?: boolean;
 	hideCommands?: boolean;
+	expandedCommandIDs?: string[];
+	removeExpandedCommandID?: (commandId: string) => void;
 };
 export const CommentGroup = observer<CommentGroupProps>(
-	({ commandGroup, toggleNewComment, newComment, showPath, hideCommands, ...props }) => {
+	({
+		commandGroup,
+		commandGroupId,
+		toggleNewComment,
+		newComment,
+		showPath,
+		hideCommands,
+		expandedCommandIDs = [],
+		removeExpandedCommandID,
+		...props
+	}) => {
 		const store = useStore();
-		const commandGroupId = commandGroup?.id;
-		const firstCommandId = commandGroup?.commandIds?.[0];
+		const state = createState({
+			localCommand: undefined as undefined | CommandModel,
+			get commandGroupId(): UUID | undefined {
+				return (commandGroup?.id ?? commandGroupId!) as UUID;
+			},
+			get commandGroup(): CommandGroupModel | undefined {
+				return state.commandGroupId ? store.graphqlStore.commandGroups.get(state.commandGroupId!) : undefined;
+			},
+		});
+		const firstCommandId = state.commandGroup?.commandIds?.[0];
 		const firstCommand = firstCommandId && store.graphqlStore.commands.get(firstCommandId);
 
 		return (
@@ -44,18 +67,18 @@ export const CommentGroup = observer<CommentGroupProps>(
 						margin: 1rem;
 					`}
 				>
-					{commandGroup?.annotations?.map((annotation: Ref<AnnotationModel>) => (
+					{state.commandGroup?.annotations?.map((annotation: Ref<AnnotationModel>) => (
 						<CommentBox
 							key={annotation.id}
 							css={commentBoxStyle}
-							reply={() => toggleNewComment(commandGroup.id)}
+							reply={() => toggleNewComment(state.commandGroup?.id)}
 							annotation={annotation?.maybeCurrent}
-							commandGroup={commandGroup}
+							commandGroup={state.commandGroup}
 							isFullList
 						/>
 					))}
-					{newComment === commandGroup?.id && (
-						<CommentBox newComment commandGroupId={commandGroupId} cancel={toggleNewComment} css={commentBoxStyle} />
+					{newComment === state.commandGroup?.id && (
+						<CommentBox newComment commandGroupId={state.commandGroupId} cancel={toggleNewComment} css={commentBoxStyle} />
 					)}
 				</Flex>
 				<Flex column>
@@ -71,16 +94,18 @@ export const CommentGroup = observer<CommentGroupProps>(
 						/>
 					)}
 					{!hideCommands &&
-						commandGroup?.commandIds?.map((commandId) => (
+						state.commandGroup?.commandIds?.map((commandId) => (
 							<CommandContainer
-								commandGroupId={commandGroupId}
+								commandGroupId={state.commandGroupId}
 								commandId={commandId}
 								css={css`
 									border-bottom: none !important;
 								`}
-								key={`${commandGroup.id}${commandId}`}
+								key={`${state.commandGroup?.id}${commandId}`}
 								hideCommentButton
 								showPath={!showPath} // configurable
+								expandedCommandIDs={expandedCommandIDs}
+								removeExpandedCommandID={removeExpandedCommandID}
 							/>
 						))}
 				</Flex>
