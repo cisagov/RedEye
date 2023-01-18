@@ -69,14 +69,11 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				}}
 				label="Show Hidden Beacons, Host, and Servers"
 			/>
-			<Switch
+			{/* <Switch // Uncomment to test light theme
 				checked={store.settings.theme === 'light'}
-				onChange={(event) => {
-					// console.log(event.currentTarget.checked);
-					store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark');
-				}}
+				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
 				label="Light Theme (beta)"
-			/>
+			/> */}
 		</form>
 	);
 });
