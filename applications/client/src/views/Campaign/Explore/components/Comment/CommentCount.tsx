@@ -5,7 +5,7 @@ import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { CommentPopoverProps } from '@redeye/client/views';
 import { CommentList, CommentPopover } from '@redeye/client/views';
-import { hoverRevealClassName, Tokens, TokensAll } from '@redeye/ui-styles';
+import { UtilityStyles, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
@@ -65,7 +65,7 @@ export const CommentCount = observer<CommentCountProps>(
 						onClick={handleClick}
 						className={[
 							className,
-							!hasComments && !isOpen ? hoverRevealClassName : undefined,
+							!hasComments && !isOpen ? UtilityStyles.hoverRevealClassName : undefined,
 							isOpen ? 'open' : undefined,
 						].join(' ')}
 						{...(targetProps as ComponentProps<'button'>)}
@@ -87,7 +87,7 @@ export const CommentButton = styled.button`
 	cursor: pointer;
 
 	// Firefox needs this for extra specificity
-	color: ${TokensAll.ForegroundColorNormal};
+	color: ${CoreTokens.TextBody};
 
 	&:before {
 		content: '';
@@ -97,21 +97,21 @@ export const CommentButton = styled.button`
 		bottom: 0;
 		left: 0;
 		border-radius: 99px;
-		background-color: ${Tokens.IntentColors.PtIntentPrimary};
+		background-color: ${AdvancedTokens.PtIntentPrimary};
 		z-index: -1;
 		transform: scale(0.8);
 		transform-origin: center;
 		transition-property: transform, opacity, box-shadow;
 		transition: 150ms ease;
 		opacity: 0;
-		box-shadow: ${Tokens.Variables.PtElevationShadow0};
+		box-shadow: ${CoreTokens.Elevation0};
 	}
 
 	&:hover,
 	&.open {
 		&:before {
 			transform: scale(1);
-			box-shadow: ${Tokens.Variables.PtElevationShadow4};
+			box-shadow: ${CoreTokens.Elevation4};
 			opacity: 1;
 		}
 	}
@@ -119,7 +119,7 @@ export const CommentButton = styled.button`
 	&:active {
 		&:before {
 			transform: scale(0.9);
-			background-color: ${Tokens.IntentColors.PtIntentPrimaryActive};
+			background-color: ${AdvancedTokens.PtIntentPrimaryActive};
 			transition-duration: 50ms;
 		}
 	}

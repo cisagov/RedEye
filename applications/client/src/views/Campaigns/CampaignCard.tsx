@@ -10,7 +10,7 @@ import { routes } from '@redeye/client/store/routing/router';
 import { CampaignViews, Views } from '@redeye/client/types';
 import { Tabs } from '@redeye/client/types/explore';
 import { RenameDialog } from '@redeye/client/views/Campaigns/RenameDialog';
-import { Header, Spacer, Tokens, Txt } from '@redeye/ui-styles';
+import { Header, Spacer, CoreTokens, Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -288,15 +288,15 @@ const rootCardStyle = css`
 		z-index: 1;
 	}
 
-	border: 0 solid ${Tokens.CoreTokens.BackgroundColor3};
+	border: 0 solid ${CoreTokens.Background2};
 
 	&&& {
-		background-color: ${Tokens.CoreTokens.BackgroundColor2};
+		background-color: ${CoreTokens.Background1};
 	}
 
 	// &.${Classes.INTERACTIVE}:hover { // ts-styled-plugin(9999) error !?
 	&.bp4-interactive:hover {
-		background-color: ${Tokens.CoreTokens.BackgroundColor3};
+		background-color: ${CoreTokens.Background2};
 	}
 `;
 

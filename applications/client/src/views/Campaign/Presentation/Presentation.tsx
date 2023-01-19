@@ -7,7 +7,7 @@ import {
 	useStore,
 } from '@redeye/client/store';
 import { PresentationItem, PresentationNavBar, SlideSelector } from '@redeye/client/views';
-import { Header, TokensAll } from '@redeye/ui-styles';
+import { Header, CoreTokens } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -65,7 +65,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 			<div
 				css={css`
 					flex: 0 0 auto;
-					border-bottom: 1px solid ${TokensAll.PtDividerBlack};
+					border-bottom: 1px solid ${CoreTokens.BorderNormal};
 				`}
 			>
 				{store.campaign.presentation.isPresenting ? (

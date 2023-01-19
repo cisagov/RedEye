@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { dateShortFormat, semanticIcons as icons } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import type { AnyModel } from '@redeye/client/types/search';
-import { SkeletonTxt, Spacer, Tokens, Txt } from '@redeye/ui-styles';
+import { AdvancedTokens, CoreTokens, SkeletonTxt, Spacer, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { MomentInput } from 'moment-timezone';
 import type { ComponentProps, ReactNode } from 'react';
@@ -94,13 +94,13 @@ export const SearchRow = observer<SearchRowProps>(
 );
 
 const wrapperStyles = css`
-	border-bottom: 1px solid ${Tokens.LayoutColors.PtDividerBlack};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	padding: 1rem 1.5rem;
 	cursor: pointer;
 	position: relative;
 
 	&:hover {
-		background: ${Tokens.Components.MinimalButtonBackgroundColorHover};
+		background: ${AdvancedTokens.MinimalButtonBackgroundColorHover};
 	}
 `;
 

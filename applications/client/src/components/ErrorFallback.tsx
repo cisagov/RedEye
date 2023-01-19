@@ -2,7 +2,7 @@ import { Button, NonIdealState } from '@blueprintjs/core';
 import { Warning16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { useCallback } from 'react';
 import type { FallbackProps } from 'react-error-boundary';
 
@@ -25,7 +25,7 @@ export const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
 				<CarbonIcon
 					icon={Warning16}
 					css={css`
-						color: ${Tokens.IntentColors.PtIntentDangerTextColor};
+						color: ${CoreTokens.TextIntentDanger};
 
 						& svg {
 							height: 2rem;
