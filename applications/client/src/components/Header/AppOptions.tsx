@@ -149,7 +149,7 @@ const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> 
 						<div css={hoverInfoStyle}>
 							<b>Blue Team </b> Mode <br />
 							<hr style={{ height: '3px', visibility: 'hidden' }} />
-							Restricted RedEye functionality. Editing and commenting features are note available.
+							Restricted RedEye functionality. Editing and commenting features are not available.
 						</div>
 					}
 				>
