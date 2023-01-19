@@ -1,13 +1,12 @@
 import { Global } from '@emotion/react';
-import { globalStyle } from '@redeye/ui-styles';
+import { customCssVars, globalStyle } from '@redeye/ui-styles';
 import { QueryClientProvider } from '@tanstack/react-query';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import { updateAppTheme } from './components';
 import { CustomRouter } from './CustomRouter';
-import { AppStoreProvider, store } from './store';
+import { AppStoreProvider, store, updateAppTheme } from './store';
 
 // necessary for blueprint to function
 import 'blueprint-styler/base/blueprint-tokens.css';
@@ -19,7 +18,7 @@ updateAppTheme();
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<Global styles={globalStyle} />
+		<Global styles={[customCssVars, globalStyle]} />
 		<AppStoreProvider store={store}>
 			<QueryClientProvider client={store.queryClient}>
 				<CustomRouter history={store.router.history}>

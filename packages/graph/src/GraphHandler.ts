@@ -22,7 +22,7 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
-import { TokensAll } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -237,7 +237,7 @@ export class GraphHandler {
 				width: `${viewbox?.[2]}`,
 				height: `${viewbox?.[3]}`,
 				encoderOptions: 1,
-				backgroundColor: `${TokensAll.BackgroundColor1}`,
+				backgroundColor: `${CoreTokens.Background0}`,
 			} //viewBox
 		);
 	}

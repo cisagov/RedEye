@@ -11,11 +11,13 @@ export const getMigratedMainORM = async (production: boolean, dbPath: string) =>
 };
 
 const migrate = async (orm: ORM) => {
-	try {
-		const migrator = orm.getMigrator();
-		await migrator.up();
-	} catch (e) {
-		console.error(`Error migrating database ${orm.config.get('dbName')}`, e);
+	const migrator = orm.getMigrator();
+	if (await migrator.checkMigrationNeeded()) {
+		try {
+			await migrator.up();
+		} catch (e) {
+			console.error(`Error migrating database ${orm.config.get('dbName')}`, e);
+		}
 	}
 	return orm;
 };

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { useStore } from '@redeye/client/store';
-import { Tokens } from '@redeye/ui-styles';
+import { AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
 import { debounce } from 'throttle-debounce';
 import { observer } from 'mobx-react-lite';
@@ -141,23 +141,23 @@ function calculateNewX(
 }
 
 const fullHeightLine = css`
-	stroke: ${Tokens.TextColors.PtTextColorMuted};
+	stroke: ${CoreTokens.TextMuted};
 	stroke-width: 1px;
 `;
 
 const partialHeightLine = css`
-	stroke: ${Tokens.TextColors.PtTextColor};
+	stroke: ${CoreTokens.TextBody};
 	stroke-width: 1px;
 `;
 
 const bigCircleStyles = css`
 	stroke-width: 1px;
-	stroke: ${Tokens.IntentColors.PtIntentPrimaryActive};
-	fill: ${Tokens.IntentColors.PtIntentPrimary};
+	stroke: ${AdvancedTokens.PtIntentPrimaryActive};
+	fill: ${AdvancedTokens.PtIntentPrimary};
 `;
 
 const smallCircleStyles = css`
-	fill: ${Tokens.IntentColors.PtIntentPrimary};
+	fill: ${AdvancedTokens.PtIntentPrimary};
 `;
 
 const grabberCircleStyles = css`

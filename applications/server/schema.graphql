@@ -8,6 +8,7 @@ type Annotation {
   commandIds: [String]
   date: DateTime!
   favorite: Boolean!
+  generation: GenerationType!
   id: String!
   tags: [Tag!]
   text: String!
@@ -15,10 +16,14 @@ type Annotation {
 }
 
 input AnonymizationInput {
+  findReplace: [FindReplaceInput!] = []
   removeHidden: Boolean = false
   removeKeystrokes: Boolean = false
   removePasswordsHashes: Boolean = false
   removeScreenshots: Boolean = false
+  replaceDomainsAndIps: Boolean = false
+  replaceHostnames: Boolean = false
+  replaceUsernames: Boolean = false
 }
 
 type Beacon {
@@ -61,6 +66,9 @@ type BeaconMeta {
   """Process Identifier the beacon is running on"""
   pid: Int
 
+  """The log line from which the BeaconMeta was extracted"""
+  source: LogEntry!
+
   """The start time of the beacon"""
   startTime: DateTime
 
@@ -71,7 +79,6 @@ type BeaconMeta {
 type Campaign {
   annotationCount: Int!
   beaconCount: Int!
-  bloodStrikeServerCount: Int!
   commandCount: Int!
   computerCount: Int!
   creator: GlobalOperator
@@ -79,13 +86,16 @@ type Campaign {
   id: String!
   lastLogTime: DateTime
   lastOpenedBy: GlobalOperator
+  migrationError: Boolean!
   name: String!
   parsingStatus: ParsingStatus!
+  serverCount: Int!
 }
 
 type Command {
   attackIds: [String!]
   beacon: Beacon!
+  commandFailed: Boolean!
   commandGroups: [CommandGroup!]!
   id: String!
   input: LogEntry!
@@ -98,6 +108,7 @@ type Command {
 type CommandGroup {
   annotations: [Annotation!]!
   commandIds: [String!]!
+  generation: GenerationType!
   id: String!
 }
 
@@ -137,6 +148,18 @@ enum FileFlag {
   UPLOAD
 }
 
+input FindReplaceInput {
+  find: String = ""
+  replace: String = ""
+}
+
+"""How the entity was generated"""
+enum GenerationType {
+  MANUAL
+  PROCEDURAL
+  PROCEDURAL_MODIFIED
+}
+
 type GlobalOperator {
   id: String!
   name: String!
@@ -144,7 +167,7 @@ type GlobalOperator {
 
 type Host {
   beaconIds: [String!]!
-  cobaltStrikeServer: Boolean!
+  cobaltStrikeServer: Boolean
   displayName: String
   hidden: Boolean
   hostName: String!
@@ -245,7 +268,7 @@ type Mutation {
   createCampaign(creatorName: String!, name: String!): Campaign!
 
   """Create a global user"""
-  createGlobalOperator(username: String!): GlobalOperator
+  createGlobalOperator(password: String!, username: String!): GlobalOperator
 
   """Create a new link between two beacons"""
   createLink(
@@ -267,6 +290,9 @@ type Mutation {
 
   """Delete a Campaign by id"""
   deleteCampaign(campaignId: String!): Boolean!
+
+  """Delete a link"""
+  deleteLink(campaignId: String!, id: String!): Link!
 
   """Edit a link"""
   editLink(
@@ -327,9 +353,13 @@ type ParsingProgress {
 
 """The current state of Campaign parsing"""
 enum ParsingStatus {
+  LIVE_PARSING_CS
+  NOT_READY_TO_PARSE
   PARSING_COMPLETED
+  PARSING_FAILURE
   PARSING_IN_PROGRESS
   PARSING_NOT_STARTED
+  PARSING_QUEUED
 }
 
 type PresentationCommandGroup {
@@ -408,7 +438,7 @@ type Query {
   files(beaconId: String, campaignId: String!, hostId: String): [File]
 
   """Get all the operators for all campaigns"""
-  globalOperators: [GlobalOperator]
+  globalOperators(password: String!): [GlobalOperator]
 
   """Get all the hosts for a project"""
   hosts(campaignId: String!, hidden: Boolean = false): [Host]
@@ -436,6 +466,9 @@ type Query {
   """Get categories for presentation mode"""
   presentationItems(campaignId: String!, hidden: Boolean = false): [PresentationItem]
 
+  """Search Annotations from textQuery"""
+  searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
+
   """Search Commands from textQuery"""
   searchCommands(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Command!]
 
@@ -457,7 +490,7 @@ type Query {
 
 type Server {
   beacons: [Beacon!]!
-  displayName: String
+  displayName: String!
   hidden: Boolean
   id: String!
   logsCount: Float!

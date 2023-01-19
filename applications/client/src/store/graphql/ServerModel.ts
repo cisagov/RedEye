@@ -1,6 +1,6 @@
 import { computed, observable } from 'mobx';
 import type { AnyModel, ObjectMap, Ref } from 'mobx-keystone';
-import { findParent, ExtendedModel, getRoot, model, modelAction, objectMap, prop } from 'mobx-keystone';
+import { ExtendedModel, findParent, getRoot, model, modelAction, objectMap, prop } from 'mobx-keystone';
 import type { Moment } from 'moment-timezone';
 import { CampaignViews, Tabs } from '../../types';
 import type { UUID } from '../../types/uuid';

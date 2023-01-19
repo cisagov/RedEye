@@ -12,7 +12,7 @@ enum SortOption {
 	text = 'text',
 }
 
-enum SortDirection {
+export enum SortDirection {
 	ASC = 'ASC',
 	DESC = 'DESC',
 }

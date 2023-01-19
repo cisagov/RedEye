@@ -1,5 +1,6 @@
 {
 	"name": "@redeye/migrations",
 	"version": "0.0.1",
-	"type": "commonjs"
+	"main": "../../../dist/packages/migrations/src/index.js",
+	"types": "../../../dist/packages/migrations/src/index.d.ts"
 }
