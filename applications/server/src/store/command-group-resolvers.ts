@@ -60,10 +60,12 @@ export class CommandGroupResolvers {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		let commandGroups: CommandGroup[] = [];
 		if (commandGroupIds?.length) {
-			const query: FilterQuery<CommandGroup> = {
-				id: commandGroupIds,
-				commands: { ...beaconHidden(hidden) },
-			};
+			const query: FilterQuery<CommandGroup> = hidden
+				? { id: commandGroupIds }
+				: {
+						id: commandGroupIds,
+						commands: { ...beaconHidden(hidden) },
+				  };
 			commandGroups = await em.find(CommandGroup, query, {
 				populate: relationPaths,
 				orderBy: filter,
