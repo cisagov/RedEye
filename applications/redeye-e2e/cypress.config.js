@@ -19,7 +19,6 @@ module.exports = defineConfig({
 	},
 	e2e: {
 		setupNodeEvents(on, config) {},
-		experimentalSessionAndOrigin: true,
 		specPattern: '../../**/*.cy.js',
 		supportFile: './src/support/index.js',
 		excludeSpecPattern: '*.skip.js',

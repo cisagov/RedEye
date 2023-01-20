@@ -22,7 +22,7 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
         name
       }
 		}`;
-		const variables1 = `{"campaignId": "${camp}", "name": "200817", "path": "applications/redeye-e2e/src/fixtures/testdata"}`;
+		const variables1 = `{"campaignId": "${camp}", "name": "200817", "path": "applications/redeye-e2e/src/fixtures/smalldata"}`;
 		mutRequest(mutation2, variables1).then((res) => {
 			cy.log(res);
 		});

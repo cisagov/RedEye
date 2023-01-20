@@ -1,14 +1,25 @@
 /// <reference types="cypress" />
 
-const { Cyclist16 } = require('@carbon/icons-react');
-
 describe('Timeline tests', () => {
-	const camp = 'timeline';
-	const fileName = 'gt.redeye';
+	const camp = '200817';
 
 	it('Verify timeline features', () => {
 		cy.get('[cy-test=add-campaign-btn]').click();
 
-		cy.uploadLogs('seb', '200817');
+		cy.uploadLogs('seb', camp);
+
+		cy.wait(500);
+
+		cy.get('[cy-test=close-log]').click();
+
+		cy.reload();
+
+		cy.get('[cy-test=beacon-count]').invoke('text').should('contain', '4');
+
+		cy.get('[cy-test=command-count]').invoke('text').should('contain', '7');
+	});
+
+	after(() => {
+		cy.deleteCampaignGraphQL(camp);
 	});
 });
