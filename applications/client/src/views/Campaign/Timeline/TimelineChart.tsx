@@ -124,7 +124,12 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 								dimensions={{ height: height - X_AXIS_LABELS_HEIGHT, width }}
 								scrubberTime={store.campaign?.timeline.scrubberTime ?? null}
 							/>
-							<AxisLabels xScale={state.xScale} yTop={height - X_AXIS_LABELS_HEIGHT} start={state.start} end={state.end} />
+							<AxisLabels
+								xScale={state.xScale}
+								yTop={height - X_AXIS_LABELS_HEIGHT}
+								start={state.start}
+								end={state.end}
+							/>
 							{store.campaign?.timeline.scrubberTime && state.bars.length !== 0 && (
 								<Scrubber
 									scrubberTime={store.campaign?.timeline.scrubberTime}

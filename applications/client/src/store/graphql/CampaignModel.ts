@@ -56,7 +56,10 @@ export class CampaignModel extends ExtendedModel(CampaignModelBase, {}) {
 				clearInterval(this.checkParsingProgressInterval);
 			} else {
 				await this.checkParsingProgress();
-				if (this.parsingStatus === ParsingStatus.PARSING_COMPLETED || this.parsingStatus === ParsingStatus.PARSING_FAILURE)
+				if (
+					this.parsingStatus === ParsingStatus.PARSING_COMPLETED ||
+					this.parsingStatus === ParsingStatus.PARSING_FAILURE
+				)
 					clearInterval(this.checkParsingProgressInterval);
 			}
 		}, 5000);

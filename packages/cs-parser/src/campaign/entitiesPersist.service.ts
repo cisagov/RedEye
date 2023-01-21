@@ -78,7 +78,9 @@ const findAllUniqueBeacons = async (
 			const newBeacon = new Beacon({ id: hostName + '-' + beaconName, beaconName, host, server: serverData.server });
 			serverLogParsingData.beacons.push(newBeacon);
 			const beaconPromise = em.nativeInsert(newBeacon);
-			beaconData.operators.forEach((operator) => operatorPromises.push(insertBeaconOperators(em, newBeacon.id, operator)));
+			beaconData.operators.forEach((operator) =>
+				operatorPromises.push(insertBeaconOperators(em, newBeacon.id, operator))
+			);
 
 			allPromises.push(beaconPromise);
 		});

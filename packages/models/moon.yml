@@ -1,0 +1,12 @@
+tasks:
+  test:
+    deps:
+      - ~:test-jest
+  build:
+    deps:
+      - ~:build-node
+  start-dev:
+    deps:
+      - ~:start-node
+    options:
+      runInCI: false

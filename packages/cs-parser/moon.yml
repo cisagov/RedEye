@@ -1,0 +1,37 @@
+dependsOn:
+  - 'models'
+tasks:
+  build:
+    deps:
+      - ~:build-node
+  test:
+    deps:
+      - ~:test-jest
+  release-mac:
+    deps:
+      - ~:build
+    outputs:
+      - /release/mac/parsers/cs-parser
+    options:
+      runInCI: false
+  release-linux:
+    deps:
+      - ~:build
+    outputs:
+      - /release/linux/parsers/cs-parser
+    options:
+      runInCI: false
+  release-windows:
+    deps:
+      - ~:build
+    outputs:
+      - /release/windows/parsers/cs-parser
+    options:
+      runInCI: false
+  release-all:
+    deps:
+      - ~:release-mac
+      - ~:release-linux
+      - ~:release-windows
+    options:
+      runInCI: false

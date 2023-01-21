@@ -3,5 +3,5 @@ semi: true
 singleQuote: true
 trailingComma: "es5"
 endOfLine: "lf"
-tabWidth: 1
+tabWidth: 2
 useTabs: true

@@ -101,7 +101,12 @@ const findOrigin = (
 				// This is probably not a perfect assumption but seems safe
 				if (hostMappingValue.hosts[0].beacons.length === 0) return hostMappingValue.hosts[0].beacons[0];
 			} else {
-				const bestGuessOrigin = findBestGuessOrigin(linkEvidence, hostMappingValue.hosts[0], originEvidences, jumpInputs);
+				const bestGuessOrigin = findBestGuessOrigin(
+					linkEvidence,
+					hostMappingValue.hosts[0],
+					originEvidences,
+					jumpInputs
+				);
 				if (bestGuessOrigin) return bestGuessOrigin;
 			}
 		}

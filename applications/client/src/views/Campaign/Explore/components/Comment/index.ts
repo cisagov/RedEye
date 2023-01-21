@@ -9,4 +9,3 @@ export * from './CheckForAddedLink';
 export * from './CommentBox';
 export * from './CommentList';
 export * from './CommentPopover';
-export * from './ShowAddedBeaconLink';

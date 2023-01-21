@@ -48,20 +48,21 @@ export const ToggleHiddenDialog = observer<Props>(
 							</Txt>
 							<Txt tagName="p">
 								To unhide {infoType.toLowerCase()}s, toggle
-								<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings, and go select
+								<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings, and go
+								select
 								<Txt bold> &quot;Show {infoType}&quot;</Txt> on one of the hidden {infoType.toLowerCase()}s.
 							</Txt>
 						</>
 					) : (
 						<>
 							<Txt cy-test="dialog-text-line1" tagName="p">
-								{plural} this {infoType.toLowerCase()} will make it {isHiddenToggled ? 'appear' : 'disappear from display'} in
-								the UI.
+								{plural} this {infoType.toLowerCase()} will make it{' '}
+								{isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
 							</Txt>
 							{!isHiddenToggled && (
 								<Txt cy-test="dialog-text-line2" tagName="p">
-									{plural} this {infoType.toLowerCase()} will NOT delete it. Hidden {infoType.toLowerCase()}s can be shown again
-									by toggling the
+									{plural} this {infoType.toLowerCase()} will NOT delete it. Hidden {infoType.toLowerCase()}s can be
+									shown again by toggling the
 									<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
 								</Txt>
 							)}

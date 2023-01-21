@@ -1,7 +1,7 @@
 import type { RouteParams } from '@redeye/client/types/routing';
 import { CampaignViews, Views } from '@redeye/client/types/routing';
-import type { Location as UnknownStateLocation, Update, History } from 'history';
-import { createHashHistory } from 'history';
+import type { Location as UnknownStateLocation, Update } from 'history';
+import { createHashHistory, History } from 'history';
 import { observable } from 'mobx';
 import { ExtendedModel, model, modelAction, prop } from 'mobx-keystone';
 import { compile } from 'path-to-regexp';
@@ -73,7 +73,9 @@ export class Router extends ExtendedModel(RedEyeModel, {
 				this.setPathname(history.location.pathname);
 				this.setParams(params as any);
 				this.setCurrentRoute(route);
-				this.setQueryParams(Object.fromEntries(new URLSearchParams(decodeURIComponent(history.location.search)).entries()));
+				this.setQueryParams(
+					Object.fromEntries(new URLSearchParams(decodeURIComponent(history.location.search)).entries())
+				);
 			}
 		});
 	};

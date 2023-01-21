@@ -75,7 +75,9 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 			<Card
 				cy-test="campaign-card"
 				onClick={
-					!campaign.isParsing && campaign.parsingStatus !== ParsingStatus.PARSING_FAILURE ? state.viewCampaign : () => {}
+					!campaign.isParsing && campaign.parsingStatus !== ParsingStatus.PARSING_FAILURE
+						? state.viewCampaign
+						: () => {}
 				}
 				interactive={!campaign.isParsing && campaign.parsingStatus !== ParsingStatus.PARSING_FAILURE}
 				tabIndex={0}
@@ -218,7 +220,12 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 									</Menu>
 								}
 							>
-								<Button cy-test="campaign-options" icon={<CarbonIcon icon={OverflowMenuHorizontal16} />} minimal large />
+								<Button
+									cy-test="campaign-options"
+									icon={<CarbonIcon icon={OverflowMenuHorizontal16} />}
+									minimal
+									large
+								/>
 							</Popover2>
 							{!campaign.isParsing && (
 								<HoverButton

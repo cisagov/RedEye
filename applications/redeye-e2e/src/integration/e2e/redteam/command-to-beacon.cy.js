@@ -16,8 +16,7 @@ describe('Navigate to beacon through command details', () => {
 		cy.wait(1000);
 
 		// Log the beacon name
-		cy
-			.get('[cy-test=hostBeaconInfo]')
+		cy.get('[cy-test=hostBeaconInfo]')
 			.eq(0)
 			.children()
 			.eq(2)
@@ -27,14 +26,12 @@ describe('Navigate to beacon through command details', () => {
 				cy.get('[cy-test=hostBeaconInfo]').contains(text).click();
 
 				// Verify that the page directed to the appropriate beacon
-				cy
-					.get('[cy-test=beaconName]')
+				cy.get('[cy-test=beaconName]')
 					.invoke('text')
 					.then((beaconName) => {
 						// cy.log(beaconName);
 
-						cy
-							.get('[cy-test=userName]')
+						cy.get('[cy-test=userName]')
 							.invoke('text')
 							.then((userName) => {
 								// cy.log(userName);

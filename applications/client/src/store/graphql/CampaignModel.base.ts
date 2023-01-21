@@ -3,11 +3,12 @@
 /* tslint:disable */
 // @ts-nocheck
 
+import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
-import { Model, prop, Ref, tProp } from 'mobx-keystone';
 import type { GlobalOperatorModel } from './GlobalOperatorModel';
-import { GlobalOperatorModelSelector } from './GlobalOperatorModel';
 import type { ParsingStatus } from './ParsingStatusEnum';
+
+import { GlobalOperatorModelSelector, globalOperatorModelPrimitives } from './GlobalOperatorModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {

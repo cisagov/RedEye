@@ -2,10 +2,12 @@
 	"extends": "../../tsconfig.json",
 	"include": ["src", "types", "config.yaml"],
 	"compilerOptions": {
-		"outDir": "../../dist/out-tsc",
+		"outDir": "./dist",
+		"rootDir": "./src",
 		"module": "esnext",
 		"target": "esnext",
 		"lib": ["esnext"],
+		"composite": true,
 		"importHelpers": true,
 		"declaration": true,
 		"declarationMap": true,
@@ -18,6 +20,25 @@
 		"experimentalDecorators": true,
 		"noFallthroughCasesInSwitch": true,
 		"moduleResolution": "node",
-		"esModuleInterop": true
-	}
+		"esModuleInterop": true,
+		"paths": {
+			"@redeye/cs-parser": ["../../packages/cs-parser/src/index.ts"],
+			"@redeye/cs-parser/*": ["../../packages/cs-parser/src/*"],
+			"@redeye/migrations": ["../../packages/migrations/src/index.ts"],
+			"@redeye/migrations/*": ["../../packages/migrations/src/*"],
+			"@redeye/models": ["../../packages/models/src/index.ts"],
+			"@redeye/models/*": ["../../packages/models/src/*"]
+		}
+	},
+	"references": [
+		{
+			"path": "../../packages/cs-parser"
+		},
+		{
+			"path": "../../packages/migrations"
+		},
+		{
+			"path": "../../packages/models"
+		}
+	]
 }

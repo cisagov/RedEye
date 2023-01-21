@@ -19,10 +19,7 @@
 // });
 
 Cypress.Commands.add('selectHost', (index) => {
-	cy
-		.get('[cy-test=graph-group]')
-		.eq(index)
-		.click({ force: true });
+	cy.get('[cy-test=graph-group]').eq(index).click({ force: true });
 });
 
 Cypress.Commands.add('numberOfBeacons', (num) => {

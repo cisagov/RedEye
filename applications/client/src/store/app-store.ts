@@ -39,7 +39,8 @@ export class AppStore extends Model({
 		// Setup graphql store
 		this.graphqlStore.middleWare = (resp: Promise<Response>) => {
 			resp.catch((e) => {
-				if (e.message.startsWith('Access denied! You need to be authorized to perform this action!')) this.auth.logOut();
+				if (e.message.startsWith('Access denied! You need to be authorized to perform this action!'))
+					this.auth.logOut();
 				return e;
 			});
 		};

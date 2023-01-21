@@ -19,7 +19,9 @@ export class PresentationStore extends ExtendedModel(RedEyeModel, {}) {
 	}
 
 	@computed get currentSlide(): undefined | PresentationCommandGroupModel {
-		return this.appStore?.router.params.slide ? this.selectedItem?.commandGroups?.[this.index]?.maybeCurrent : undefined;
+		return this.appStore?.router.params.slide
+			? this.selectedItem?.commandGroups?.[this.index]?.maybeCurrent
+			: undefined;
 	}
 
 	@computed get isPresenting(): boolean {

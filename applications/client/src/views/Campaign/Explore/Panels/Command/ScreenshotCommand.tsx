@@ -119,7 +119,11 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 					<div css={multiImageWrapperStyles}>
 						{data?.images?.map((image) => (
 							<Button key={image.id} onClick={() => state.openModal(image.id)} css={imgButtonStyles}>
-								<img css={[imgDimensions, imgStyles]} src={`${store.auth.serverUrl}${image.url}`} alt="Command Screenshot" />
+								<img
+									css={[imgDimensions, imgStyles]}
+									src={`${store.auth.serverUrl}${image.url}`}
+									alt="Command Screenshot"
+								/>
 							</Button>
 						))}
 						{/* Secondary dialog (if multiple images are found) */}
@@ -133,7 +137,11 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 							}
 						>
 							{!!state.selectedImage && (
-								<img css={largeImgStyles} src={`${store.auth.serverUrl}${state.selectedImage.url}`} alt="Command Screenshot" />
+								<img
+									css={largeImgStyles}
+									src={`${store.auth.serverUrl}${state.selectedImage.url}`}
+									alt="Command Screenshot"
+								/>
 							)}
 						</DialogCustom>
 					</div>

@@ -15,8 +15,7 @@ describe('Lateral Movement', () => {
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=LateralMovement] [cy-test=count]')
+		cy.get('[cy-test=LateralMovement] [cy-test=count]')
 			.invoke('text')
 			.as('LMTagCount')
 			.then((resultLMCount1) => {

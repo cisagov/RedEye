@@ -16,13 +16,11 @@ describe('Testing of Adding Golden Ticket & Privilege Escalation Tags', () => {
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
 			.invoke('text')
 			.as('GTTagCount')
 			.then((resultGTCount1) => {
-				cy
-					.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+				cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
 					.invoke('text')
 					.as('PETagCount')
 					.then((resultPECount1) => {

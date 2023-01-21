@@ -97,7 +97,12 @@ const EdgeLabel = observer<EdgeLabelProps>(
 					/>
 				)}
 				<line x1={x} x2={x} y1={axisY} y2={axisY + 4} css={lineStyles} />
-				<text ref={ref} y={yMiddle} x={x} css={[baseLabelStyles, edgeLabelStyles, isLeft && leftEdgeLabelOverrideStyles]}>
+				<text
+					ref={ref}
+					y={yMiddle}
+					x={x}
+					css={[baseLabelStyles, edgeLabelStyles, isLeft && leftEdgeLabelOverrideStyles]}
+				>
 					{store.settings.momentTz(time).format(formatter)}
 				</text>
 			</>

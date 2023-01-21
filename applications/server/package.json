@@ -1,15 +1,20 @@
 {
 	"name": "@redeye/server",
 	"version": "0.9.0",
-	"bin": "./src/index.js",
+	"bin": "./dist/index.js",
 	"pkg": {
 		"scripts": [
-			"./src/machines/anonymization/anonymization.worker.js"
+			"./dist/machines/anonymization/anonymization.worker.js"
 		],
 		"assets": [
-			"../client/**/*",
+			"../client/dist/**/*",
 			"../../../node_modules/better-sqlite3/**/*.*"
 		],
 		"compress": "GZip"
+	},
+	"dependencies": {
+		"@redeye/cs-parser": "workspace:*",
+		"@redeye/migrations": "workspace:*",
+		"@redeye/models": "workspace:*"
 	}
 }

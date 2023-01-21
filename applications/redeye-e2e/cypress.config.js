@@ -4,17 +4,17 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = defineConfig({
-	fixturesFolder: './src/fixtures',
+	fixturesFolder: path.join(__dirname, 'src', 'fixtures'),
 	modifyObstructiveCode: false,
 	videoUploadOnPasses: false,
-	videosFolder: '../../dist/applications/redeye-e2e/videos',
-	screenshotsFolder: '../../dist/applications/redeye-e2e/screenshots',
+	videosFolder: path.join(__dirname, '../../dist/applications/redeye-e2e/videos'),
+	screenshotsFolder: path.join(__dirname, '../../dist/applications/redeye-e2e/screenshots'),
 	failOnStatusCode: false,
 	viewportWidth: 1920,
 	viewportHeight: 1080,
-	reporter: '../../node_modules/cypress-multi-reporters',
+	reporter: path.join(__dirname, '../../node_modules/cypress-multi-reporters'),
 	reporterOptions: {
-		configFile: './reporter-config.json',
+		configFile: path.join(__dirname, 'reporter-config.json'),
 	},
 	e2e: {
 		setupNodeEvents(on, config) {
@@ -44,7 +44,7 @@ module.exports = defineConfig({
 			});
 		},
 		specPattern: '**/**/e2e/**/*.cy.js',
-		supportFile: '**/**/src/support/e2e.js',
+		supportFile: path.join(__dirname, 'src', 'support', 'e2e.js'),
 		excludeSpecPattern: '*.skip.js',
 		defaultCommandTimeout: 15000,
 	},

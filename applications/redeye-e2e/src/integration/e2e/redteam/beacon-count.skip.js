@@ -17,15 +17,13 @@ describe('Beacon counts', () => {
 
 			// Open campaign and add up counts of beacons by host - should equal number showing on campaign
 			cy.selectCampaign(camp);
-			cy
-				.get('[cy-test=row-beacon-count]')
+			cy.get('[cy-test=row-beacon-count]')
 				.eq(0)
 				.invoke('text')
 				.then((countRow1) => {
 					// cy.log(countRow1);
 
-					cy
-						.get('[cy-test=row-beacon-count]')
+					cy.get('[cy-test=row-beacon-count]')
 						.eq(1)
 						.invoke('text')
 						.then((countRow2) => {
@@ -48,8 +46,7 @@ describe('Beacon counts', () => {
 			// Open campaign and count number of beacons showing under Beacons tab - should equal number showing on campaign card
 			cy.selectCampaign(camp);
 			cy.clickBeaconsTab();
-			cy
-				.get('[cy-test=beacons-row]')
+			cy.get('[cy-test=beacons-row]')
 				.its('length')
 				.then((countBeaconRows) => {
 					// cy.log(countBeaconRows);
@@ -63,8 +60,7 @@ describe('Beacon counts', () => {
 		cy.selectCampaign(camp);
 
 		// Open campaign and log beacon count for first host
-		cy
-			.get('[cy-test=row-beacon-count]')
+		cy.get('[cy-test=row-beacon-count]')
 			.eq(0)
 			.invoke('text')
 			.then((countHost1) => {
@@ -75,8 +71,7 @@ describe('Beacon counts', () => {
 
 				// Go to Beacons tab and log number of beacons showing - should match count in host row
 				cy.clickBeaconsTab();
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((countBeaconsHost1) => {
 						// cy.log(countBeaconsHost1);
@@ -85,8 +80,7 @@ describe('Beacon counts', () => {
 			});
 		// Go back to Hosts and log beacon count for second host
 		cy.clickExplorerMode();
-		cy
-			.get('[cy-test=row-beacon-count]')
+		cy.get('[cy-test=row-beacon-count]')
 			.eq(1)
 			.invoke('text')
 			.then((countHost2) => {
@@ -97,8 +91,7 @@ describe('Beacon counts', () => {
 
 				// Go to Beacons tab and log number of beacons showing - should match count in host row
 				cy.clickBeaconsTab();
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((countBeaconsHost2) => {
 						// cy.log(countBeaconsHost2);
@@ -112,8 +105,7 @@ describe('Beacon counts', () => {
 
 		// Open campaign and go to Operator tab; log beacon count
 		cy.clickOperatorsTab();
-		cy
-			.get('[cy-test=row-beacon-count]')
+		cy.get('[cy-test=row-beacon-count]')
 			.invoke('text')
 			.then((countRow) => {
 				// cy.log(countRow);
@@ -122,8 +114,7 @@ describe('Beacon counts', () => {
 				cy.get('[cy-test=operator-row]').click();
 				cy.clickBeaconsTab();
 				// Log number of beacons showing - should match number from Operator tab count
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((countOperatorBeacons) => {
 						// cy.log(countOperatorBeacons);
@@ -141,8 +132,7 @@ describe('Beacon counts', () => {
 		cy.searchCampaignFor('analyst');
 
 		// Log the number of commands showing for the Operator result
-		cy
-			.get('[cy-test=beacon-count]')
+		cy.get('[cy-test=beacon-count]')
 			.invoke('text')
 			.then((beaconCount1) => {
 				// cy.log(beaconCount1);
@@ -150,8 +140,7 @@ describe('Beacon counts', () => {
 				// Click the Operator, go to list of beacons; verify count matches number in search
 				cy.get('[cy-test=search-result-item]').contains('Operator').click();
 				cy.clickBeaconsTab();
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((beaconCount2) => {
 						// cy.log(beaconCount2);
