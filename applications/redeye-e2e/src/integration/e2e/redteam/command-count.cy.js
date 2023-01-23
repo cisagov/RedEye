@@ -174,7 +174,7 @@ describe('Command counts', () => {
 			});
 	});
 
-	// after(() => {
-	// 	cy.deleteCampaignGraphQL(camp);
-	// });
+	after(() => {
+		cy.deleteCampaignGraphQL(camp);
+	});
 });
