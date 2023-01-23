@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { graphqlRequest } from '../../support/utils';
+import { graphqlRequest } from '../../../support/utils.js';
 
 describe('Command counts', () => {
 	const camp = 'commandcounts';
@@ -174,7 +174,7 @@ describe('Command counts', () => {
 			});
 	});
 
-	after(() => {
-		cy.deleteCampaignGraphQL(camp);
-	});
+	// after(() => {
+	// 	cy.deleteCampaignGraphQL(camp);
+	// });
 });
