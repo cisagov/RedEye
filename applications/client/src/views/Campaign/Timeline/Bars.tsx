@@ -67,43 +67,43 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 									state.toggleIsHover();
 								}}
 							>
-								{/* Interaction Beacon Bar for color */}
 								{bar.beaconCount && (
-									<rect
-										x={x}
-										width={width}
-										y={0}
-										height={dimensions.height}
-										css={[baseBarStyles, interactionBarStyles(isOpen)]}
-									/>
-								)}
-								{/* Dead & Future Beacon Bar */}
-								<rect
-									x={x}
-									width={width}
-									y={dimensions.height - yScale(bar.beaconCount)}
-									height={yScale(bar.beaconCount)}
-									css={[baseBarStyles, scrubberTime && bar.end <= scrubberTime ? deadBarStyles : futureBarStyles]}
-								/>
-								{/* Active Beacon Bar */}
-								<rect
-									x={x}
-									width={width}
-									y={dimensions.height - yScale(bar.activeBeaconCount)}
-									height={yScale(bar.activeBeaconCount)}
-									css={[baseBarStyles, aliveBarStyles]}
-								/>
-								{/* Selected Beacon Bar */}
-								<animated.rect
-									x={x}
-									width={width}
-									y={dimensions.height - yScale(bar.selectedBeaconCount)}
-									height={yScale(bar.selectedBeaconCount)}
-									css={[baseBarStyles, selectedBarStyles]}
-								/>
-								{/* Interaction Beacon Bar for Functionality */}
-								{!!bar.beaconCount && (
-									<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
+									<>
+										{/* Interaction Beacon Bar for color */}
+										<rect
+											x={x}
+											width={width}
+											y={0}
+											height={dimensions.height}
+											css={[baseBarStyles, interactionBarStyles(isOpen)]}
+										/>
+										{/* Dead & Future Beacon Bar */}
+										<rect
+											x={x}
+											width={width}
+											y={dimensions.height - yScale(bar.beaconCount)}
+											height={yScale(bar.beaconCount)}
+											css={[baseBarStyles, scrubberTime && bar.end <= scrubberTime ? deadBarStyles : futureBarStyles]}
+										/>
+										{/* Active Beacon Bar */}
+										<rect
+											x={x}
+											width={width}
+											y={dimensions.height - yScale(bar.activeBeaconCount)}
+											height={yScale(bar.activeBeaconCount)}
+											css={[baseBarStyles, aliveBarStyles]}
+										/>
+										{/* Selected Beacon Bar */}
+										<animated.rect
+											x={x}
+											width={width}
+											y={dimensions.height - yScale(bar.selectedBeaconCount)}
+											height={yScale(bar.selectedBeaconCount)}
+											css={[baseBarStyles, selectedBarStyles]}
+										/>
+										{/* Interaction Beacon Bar for Functionality */}
+										<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
+									</>
 								)}
 							</g>
 						)}

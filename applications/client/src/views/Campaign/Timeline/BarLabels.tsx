@@ -96,7 +96,7 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.displayName}
 					</Txt>
 					<Txt muted small css={marginStyles(4)}>
-						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0].maybeCurrent?.username}
+						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0]?.maybeCurrent?.username}
 					</Txt>
 					<FlexSplitter />
 					<Txt small>{beaconCommand.commandCount}</Txt>

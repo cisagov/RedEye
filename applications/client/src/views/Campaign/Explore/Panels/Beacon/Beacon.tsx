@@ -3,12 +3,13 @@ import { dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { TimeStatus } from '@redeye/client/types/timeline';
-import { IconLabel, InfoRow, RowMuted, RowTime, RowTitle } from '@redeye/client/views';
+import { IconLabel, InfoRow, RowMuted, RowTime, RowTitle, useToggleHidden } from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
+import { QuickMeta } from '../QuickMeta';
 
 type BeaconProps = ComponentProps<'div'> & {
 	beacon: BeaconModel;
@@ -21,6 +22,13 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 		[beacon.displayName, beacon.server?.displayName]
 	);
 
+	const [, mutateToggleHidden] = useToggleHidden(
+		async () =>
+			await store.graphqlStore.mutateToggleBeaconHidden({
+				campaignId: store.campaign?.id!,
+				beaconId: beacon?.id!,
+			})
+	);
 	return (
 		<InfoRow
 			cy-test="info-row"
@@ -45,6 +53,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				icon={semanticIcons.commands}
 				className={skeletonClass}
 			/>
+			<QuickMeta modal={beacon} mutateToggleHidden={mutateToggleHidden} />
 		</InfoRow>
 	);
 });
