@@ -2,15 +2,16 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"module": "ESNext",
-		"lib": ["ESNext", "DOM"],
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
 		"outDir": "./dist",
 		"rootDir": "./src",
-		"baseUrl": ".",
 		"moduleResolution": "Node",
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"strict": true,
-		"composite": true,
 		"sourceMap": true,
 		"declaration": true,
 		"resolveJsonModule": true,
@@ -19,17 +20,10 @@
 		"skipLibCheck": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"noImplicitReturns": true,
-		"paths": {
-			"@redeye/ui-styles": ["../ui-styles/src/index.ts"],
-			"@redeye/ui-styles/*": ["../ui-styles/src/*"]
-		}
+		"noImplicitReturns": true
 	},
 	"files": [],
-	"include": ["src/**/*"],
-	"references": [
-		{
-			"path": "../ui-styles"
-		}
+	"include": [
+		"src"
 	]
 }

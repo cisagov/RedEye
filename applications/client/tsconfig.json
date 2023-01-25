@@ -2,15 +2,16 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"target": "ESNext",
-		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"lib": [
+			"DOM",
+			"DOM.Iterable",
+			"ESNext"
+		],
 		"paths": {
-			"@redeye/client/*": ["./src/*"],
-			"@redeye/graph": ["../../packages/graph/src/index.ts"],
-			"@redeye/graph/*": ["../../packages/graph/src/*"],
-			"@redeye/ui-styles": ["../../packages/ui-styles/src/index.ts"],
-			"@redeye/ui-styles/*": ["../../packages/ui-styles/src/*"]
+			"@redeye/client/*": [
+				"./src/*"
+			]
 		},
-		"composite": true,
 		"baseUrl": ".",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
@@ -36,19 +37,18 @@
 				"name": "typescript-styled-plugin",
 				"validate": false,
 				"lint": {
-					"validProperties": ["r", "dominant-baseline"]
+					"validProperties": [
+						"r",
+						"dominant-baseline"
+					]
 				}
 			}
 		],
-		"types": ["react/next"]
+		"types": [
+			"react/next"
+		]
 	},
-	"include": ["src"],
-	"references": [
-		{
-			"path": "../../packages/graph"
-		},
-		{
-			"path": "../../packages/ui-styles"
-		}
+	"include": [
+		"src"
 	]
 }

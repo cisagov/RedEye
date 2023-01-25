@@ -3,29 +3,23 @@
 	"compilerOptions": {
 		"module": "esnext",
 		"target": "esnext",
-		"lib": ["esnext"],
+		"lib": [
+			"esnext"
+		],
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
-		"composite": true,
 		"noImplicitOverride": true,
 		"noPropertyAccessFromIndexSignature": true,
 		"noImplicitReturns": true,
 		"declaration": true,
 		"noFallthroughCasesInSwitch": true,
 		"rootDir": "src",
-		"outDir": "dist",
-		"paths": {
-			"@redeye/models": ["../models/src/index.ts"],
-			"@redeye/models/*": ["../models/src/*"]
-		}
+		"outDir": "dist"
 	},
 	"files": [],
-	"include": ["src"],
-	"references": [
-		{
-			"path": "../models"
-		}
+	"include": [
+		"src"
 	]
 }

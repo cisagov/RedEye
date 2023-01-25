@@ -1,13 +1,16 @@
 {
 	"extends": "../../tsconfig.json",
-	"include": ["src"],
+	"include": [
+		"src"
+	],
 	"compilerOptions": {
 		"rootDir": "src",
 		"outDir": "dist",
 		"module": "esnext",
 		"target": "es2018",
-		"lib": ["esnext"],
-		"composite": true,
+		"lib": [
+			"esnext"
+		],
 		"importHelpers": true,
 		"declaration": true,
 		"sourceMap": true,
@@ -20,15 +23,6 @@
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"emitDeclarationOnly": true,
-		"skipLibCheck": true,
-		"paths": {
-			"@redeye/models": ["../models/src/index.ts"],
-			"@redeye/models/*": ["../models/src/*"]
-		}
-	},
-	"references": [
-		{
-			"path": "../models"
-		}
-	]
+		"skipLibCheck": true
+	}
 }

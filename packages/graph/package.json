@@ -5,13 +5,13 @@
 	"files": [
 		"dist"
 	],
-	"main": "./src/index.ts",
-	"module": "./dist/index.js",
+	"main": "./dist/redeye-graph.umd.js",
+	"module": "./dist/redeye-graph.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.js",
-			"require": "./dist/index.js"
+			"import": "./dist/redeye-graph.js",
+			"require": "./dist/redeye-graph.umd.js"
 		}
 	},
 	"dependencies": {
