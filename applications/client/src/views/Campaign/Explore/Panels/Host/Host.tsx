@@ -1,3 +1,4 @@
+import { ViewOff16 } from '@carbon/icons-react';
 import { CarbonIcon, dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -47,6 +48,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					{host.displayName}
 				</Txt>
 			</RowTitle>
+			{host?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<FlexSplitter />
 			{!host.cobaltStrikeServer && (
 				<>

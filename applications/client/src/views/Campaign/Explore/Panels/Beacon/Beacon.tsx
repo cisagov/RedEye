@@ -1,4 +1,5 @@
 import { Classes } from '@blueprintjs/core';
+import { ViewOff16 } from '@carbon/icons-react';
 import { dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -44,6 +45,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			</RowTime>
 			<RowTitle className={skeletonClass}>{beacon?.displayName || `${beacon.server?.displayName}`}</RowTitle>
 			<RowMuted className={skeletonClass}>{beacon.meta?.[0]?.maybeCurrent?.username}</RowMuted>
+			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<FlexSplitter />
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />
 			<IconLabel
