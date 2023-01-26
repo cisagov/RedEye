@@ -3,6 +3,7 @@ import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { sortOptions } from '@redeye/client/views';
+import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
@@ -13,7 +14,6 @@ type SettingsFormProps = ComponentProps<'form'> & {};
 export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
-		// theme: getAppTheme(),
 		tester: { value: 3 },
 		enableAutoSelect: store.settings.isDefaultTimezone,
 		setEnableAutoSelect(e: ChangeEvent<HTMLInputElement>) {
@@ -24,7 +24,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 
 	return (
 		<form {...props}>
-			<span>Timezone</span>
+			<Txt small>Timezone</Txt>
 			<Switch
 				inline
 				alignIndicator="right"
@@ -69,11 +69,11 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				}}
 				label="Show Hidden Beacons, Host, and Servers"
 			/>
-			{/* <Switch // Uncomment to test light theme
+			<Switch // Uncomment to test light theme
 				checked={store.settings.theme === 'light'}
 				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
 				label="Light Theme (beta)"
-			/> */}
+			/>
 		</form>
 	);
 });
