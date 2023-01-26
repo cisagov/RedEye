@@ -13,7 +13,7 @@ describe('Command counts', () => {
 
 		// Log starting number of campaign commands on campaign card
 		cy.get('[cy-test=command-count]').then((number1) => {
-			let commandTotal = number1.text().split(' ').shift();
+			const commandTotal = number1.text().split(' ').shift();
 			cy.get('[cy-test=command-count]').should('contain', commandTotal);
 
 			// Open campaign and log command counts showing under Host tab - should equal number showing on campaign card
@@ -43,7 +43,7 @@ describe('Command counts', () => {
 
 		// Log starting number of campaign commands on campaign card
 		cy.get('[cy-test=command-count]').then((number1) => {
-			let commandTotal = number1.text().split(' ').shift();
+			const commandTotal = number1.text().split(' ').shift();
 			cy.get('[cy-test=command-count]').should('contain', commandTotal);
 
 			// Open campaign and go to Beacons tab
@@ -119,7 +119,7 @@ describe('Command counts', () => {
 						// Log number of commands showing - should match umber in host row
 
 						cy.url().then((url) => {
-							let returnedUrl = url.split('/')[5];
+							const returnedUrl = url.split('/')[5];
 							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
@@ -157,7 +157,7 @@ describe('Command counts', () => {
 						// Log number of commands showing - should match umber in host row
 
 						cy.url().then((url) => {
-							let returnedUrl = url.split('/')[5];
+							const returnedUrl = url.split('/')[5];
 							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {

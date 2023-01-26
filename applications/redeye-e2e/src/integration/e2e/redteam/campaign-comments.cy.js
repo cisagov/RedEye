@@ -17,7 +17,7 @@ describe('Campaign comments', () => {
 
 		// Log starting number of campaign comments on campaign card
 		cy.get('[cy-test=comment-count]').then((number1) => {
-			let divNumber1 = number1.text().split(' ').shift();
+			const divNumber1 = number1.text().split(' ').shift();
 			cy.get('[cy-test=comment-count]').should('contain', divNumber1);
 
 			// Open campaign and log starting number of comments via Comments tab - should equal campaign card count
@@ -104,7 +104,7 @@ describe('Campaign comments', () => {
 		cy.searchForCampaign(camp);
 
 		cy.get('[cy-test=comment-count]').then((number1) => {
-			let divNumber1 = number1.text().split(' ').shift();
+			const divNumber1 = number1.text().split(' ').shift();
 
 			// Open campaign and log starting number of comments via Comments tab - should equal campaign card count
 			cy.selectCampaign(camp);
@@ -222,7 +222,7 @@ describe('Campaign comments', () => {
 
 	// 	// Log the total number of comments showing on the campaign card
 	// 	cy.get('[cy-test=comment-count]').then((cardCount1) => {
-	// 		let campaignCardCount1 = cardCount1.text().split(' ').shift();
+	// 		const campaignCardCount1 = cardCount1.text().split(' ').shift();
 	// 		cy.get('[cy-test=comment-count]').should('contain', campaignCardCount1);
 
 	// 		// Open campaign and verify Presentation mode shows the same number of comments; log number with Golden Ticket tag
@@ -270,7 +270,7 @@ describe('Campaign comments', () => {
 	// 								cy.searchForCampaign(camp);
 
 	// 								cy.get('[cy-test=comment-count]').then((cardCount2) => {
-	// 									let campaignCardCount2 = cardCount2.text().split(' ').shift();
+	// 									const campaignCardCount2 = cardCount2.text().split(' ').shift();
 	// 									cy.get('[cy-test=comment-count]').should('contain', campaignCardCount2);
 
 	// 									expect(+campaignCardCount2)
