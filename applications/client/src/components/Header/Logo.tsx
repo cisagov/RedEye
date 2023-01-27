@@ -1,5 +1,8 @@
+import { css } from '@emotion/react';
+import { ThemeClasses } from '@redeye/ui-styles';
 import type { ComponentProps, FC } from 'react';
 import LogoDark from './Logo-Dark.svg';
+import LogoLight from './Logo-Light.svg';
 
 type LogoProps = ComponentProps<'img'> & {};
 
@@ -9,24 +12,22 @@ export const Logo: FC<LogoProps> = ({ ...props }) => (
 		<img
 			{...props}
 			src={LogoDark}
-			alt="RedEye Dark Logo"
-			// css={css`
-			//   display: none;
-			//   .${Classes.DARK} & {
-			//     display: block;
-			//   }
-			// `}
+			alt="RedEye Logo"
+			css={css`
+				.${ThemeClasses.LIGHT} & {
+					display: none;
+				}
+			`}
 		/>
-		{/* <img
-        {...props}
-        src="/logos/Logo-Light.svg"
-        alt={'RedEye Light Logo'}
-        css={css`
-          display: block;
-          .${Classes.DARK} & {
-            display: none;
-          }
-        `}
-      /> */}
+		<img
+			{...props}
+			src={LogoLight}
+			alt="RedEye Logo"
+			css={css`
+				.${ThemeClasses.DARK} & {
+					display: none;
+				}
+			`}
+		/>
 	</>
 );

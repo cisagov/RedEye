@@ -1,4 +1,4 @@
-import { Classes } from '@blueprintjs/core';
+import { ThemeClasses } from '@redeye/ui-styles';
 import { computed } from 'mobx';
 import { Model, model, modelAction, prop } from 'mobx-keystone';
 import { computedFn } from 'mobx-utils';
@@ -8,9 +8,9 @@ import moment from 'moment-timezone';
 export const defaultTimeZone = moment.tz.guess();
 
 export type UiTheme = 'light' | 'dark' | 'system';
+
 const defaultTheme: UiTheme = 'dark';
 const getAppTheme = () => (window.localStorage.getItem('theme') as UiTheme) || (defaultTheme as UiTheme);
-// const getAppTheme = (): UiTheme => (document.documentElement.classList.contains(Classes.DARK) ? 'dark' : 'light');
 
 @model('Settings')
 export class Settings extends Model({
@@ -43,23 +43,17 @@ export class Settings extends Model({
 // @Austin, does this belong here?
 export const updateAppTheme = (theme?: UiTheme) => {
 	theme = theme || getAppTheme()
-	// light theme is just the absence of the Classes.DARK class
 	const rootClassList = document.documentElement.classList;
-	switch (theme) {
-		case 'light':
-			rootClassList.remove(Classes.DARK);
-			break;
-		case 'system':
-			// TODO: query the system theme somehow?
-			// set accordingly
-			rootClassList.add(Classes.DARK);
-			break;
-		case 'dark':
-			rootClassList.add(Classes.DARK);
-			break; // fallthrough expected
-		default:
-			rootClassList.add(Classes.DARK);
-			break;
+	if (theme === 'system') {
+		// TODO: query the system theme somehow?
+		theme = 'dark'
+	}
+	if (theme === 'dark') {
+		rootClassList.remove(ThemeClasses.LIGHT);
+		rootClassList.add(ThemeClasses.DARK);
+	} else if (theme === 'light') {
+		rootClassList.remove(ThemeClasses.DARK);
+		rootClassList.add(ThemeClasses.LIGHT);
 	}
 };
 

@@ -3,6 +3,11 @@ import { css } from '@emotion/react';
 import { Tokens as BpTokens, TokensAll as BpTokensAll } from 'blueprint-styler/base/tokens';
 import { declareCssVars } from './tokenUtils';
 
+export const ThemeClasses = {
+	DARK: Classes.DARK,
+	LIGHT: 'bpx-light'
+}
+
 const transparentWhite = (opacity: number) => `hsla(${BpTokens.ColorsHsl.WhiteHsl}, ${opacity})`;
 const transparentBlack = (opacity: number) => `hsla(${BpTokens.ColorsHsl.BlackHsl}, ${opacity})`;
 
@@ -218,7 +223,7 @@ export const customCssVars = css`
 		${lightThemeCssVars}
 		${lightThemeGraphAndTimelineCssVars}
 	}
-	.${Classes.DARK} {
+	.${ThemeClasses.DARK} {
 		${darkThemeCssVars}
 		${darkThemeGraphAndTimelineCssVars}
 	}
