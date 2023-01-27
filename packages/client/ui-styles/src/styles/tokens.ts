@@ -15,11 +15,10 @@ const transparentWhite = (opacity: number) => `hsla(${BpTokens.ColorsHsl.WhiteHs
 const transparentBlack = (opacity: number) => `hsla(${BpTokens.ColorsHsl.BlackHsl}, ${opacity})`;
 
 const CustomTokens = {
-	Background0: `var(--Background0)`,
-	Background0b: `var(--Background0b)`,
 	Background1: `var(--Background1)`,
 	Background2: `var(--Background2)`,
 	Background3: `var(--Background3)`,
+	Background3b: `var(--Background3b)`,
 
 	TextHeading: `var(--TextHeading)`,
 	TextBody: `var(--TextBody)`,
@@ -100,11 +99,13 @@ export const AdvancedTokens = {
 };
 
 const lightThemeCssVars = declareCssVars([
-	[CustomTokens.Background0, BpTokensAll.LightGray5],
-	[CustomTokens.Background0b, transparentBlack(0.05)],
+	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.White],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.White],
+	
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
 	[CustomTokens.Background3, BpTokensAll.LightGray5],
+	[CustomTokens.Background3b, transparentBlack(0.05)],
 
 	[CustomTokens.TextHeading, BpTokens.TextColors.PtHeadingColor],
 	[CustomTokens.TextBody, BpTokens.TextColors.PtTextColor],
@@ -131,11 +132,13 @@ const lightThemeCssVars = declareCssVars([
 ]);
 
 const darkThemeCssVars = declareCssVars([
-	[CustomTokens.Background0, BpTokensAll.DarkGray1],
-	[CustomTokens.Background0b, transparentBlack(0.3)],
+	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.DarkGray2],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.DarkGray2],
+	
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
-	[CustomTokens.Background3, BpTokensAll.DarkGray4],
+	[CustomTokens.Background3, BpTokensAll.DarkGray1],
+	[CustomTokens.Background3b, transparentBlack(0.3)],
 
 	[CustomTokens.OnIntent, BpTokensAll.White],
 
@@ -149,7 +152,28 @@ const darkThemeCssVars = declareCssVars([
 ]);
 
 export const customCssVars = css`
+
+
+
 	:root {
+		/* --black-hsl: 0,0%,0%;
+		--dark-gray1-hsl: 0,0%,9%;
+		--dark-gray2-hsl: 0,0%,13%;
+		--dark-gray3-hsl: 0,0%,17%;
+		--dark-gray4-hsl: 0,0%,21%;
+		--dark-gray5-hsl: 0,0%,26%;
+		--gray1-hsl: 0,0%,32%;
+		--gray2-hsl: 0,0%,38%;
+		--gray3-hsl: 0,0%,45%;
+		--gray4-hsl: 0,0%,52%;
+		--gray5-hsl: 0,0%,59%;
+		--light-gray1-hsl: 0,0%,65%;
+		--light-gray2-hsl: 0,0%,73%;
+		--light-gray3-hsl: 0,0%,79%;
+		--light-gray4-hsl: 0,0%,92%;
+		--light-gray5-hsl: 0,0%,97%;
+		--white-hsl: 0,0%,100%; */
+
 		${lightThemeCssVars}
 	}
 

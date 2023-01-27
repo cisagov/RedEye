@@ -129,7 +129,7 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 });
 
 const rootWrapperStyle = css`
-	background-color: ${CoreTokens.Background0b};
+	background-color: ${CoreTokens.Background3b};
 `;
 const outputMetaStyle = css`
 	width: 100%;

@@ -15,7 +15,7 @@ export const globalStyle = css`
 	}
 	html,
 	body {
-		background-color: ${CoreTokens.Background0};
+		background-color: ${CoreTokens.Background3};
 	}
 
 	html,

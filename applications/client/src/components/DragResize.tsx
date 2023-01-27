@@ -253,7 +253,7 @@ const handleStyle = css`
 	max-width: 9px;
 	margin: 0.75rem -4px;
 	color:  ${CoreTokens.TextIcon};
-	background-color: ${CoreTokens.Background3};
+	background-color: ${CoreTokens.Background1};
 `;
 const handleStyleIsDraggingStyle = css`
 	background-color: ${CoreTokens.Intent.Primary3};

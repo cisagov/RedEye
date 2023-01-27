@@ -79,7 +79,6 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 				display: flex;
 				flex-direction: column;
 				overflow: hidden;
-				background-color: ${CoreTokens.Background1};
 			`}
 		>
 			<div css={headerStyles}>

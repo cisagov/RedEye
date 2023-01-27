@@ -193,7 +193,7 @@ const messagePaddingStyles = css`
 	padding: 30px;
 `;
 const highlightedStyles = css`
-	background: ${CoreTokens.Background2};
+	background: ${CoreTokens.Background1};
 `;
 
 const AutoScrollPre: FC = (props) => {
