@@ -158,5 +158,5 @@ const labelStyles = (margin?: number) => css`
 	font-size: 0.8rem;
 	padding: 0.2rem;
 	background-color: ${CoreTokens.Background2};
-	border: 1px solid ${CoreTokens.BorderEmphasis};
+	border: 1px solid ${CoreTokens.BorderNormal};
 `;

@@ -140,7 +140,7 @@ const darkThemeCssVars = declareCssVars([
 	[CustomTokens.OnIntent, BpTokensAll.White],
 
 	[CustomTokens.BorderEmphasis, BpTokens.Colors.Black],
-	[CustomTokens.BorderNormal, BpTokens.Colors.DarkGray1],
+	[CustomTokens.BorderNormal, BpTokens.Colors.Black],
 	[CustomTokens.BorderMuted, BpTokens.LayoutColors.PtDividerBlack],
 	[CustomTokens.BorderInvert, BpTokens.Colors.Gray4], 
 

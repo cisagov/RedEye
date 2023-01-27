@@ -87,7 +87,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					commandText={command?.inputText}
 					cancel={state.toggleNewComment}
 					css={css`
-						border-top: 1px solid ${CoreTokens.BorderEmphasis};
+						border-top: 1px solid ${CoreTokens.BorderNormal};
 					`}
 				/>
 			)}
@@ -96,7 +96,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					vertical
 					fill
 					css={css`
-						border-top: 1px solid ${CoreTokens.BorderEmphasis};
+						border-top: 1px solid ${CoreTokens.BorderNormal};
 					`}
 				>
 					{!state.isAddingNewComment && (

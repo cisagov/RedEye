@@ -52,7 +52,7 @@ const dialogHeaderStyles = css`
 	z-index: 10;
 	opacity: 0.97; // to see wats scrollin underneath
 	background-color: ${CoreTokens.Background1};
-	border-bottom: 1px solid ${CoreTokens.BorderEmphasis};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	box-shadow: none;
 	/* display: block; */
 	/* padding: 1rem; */

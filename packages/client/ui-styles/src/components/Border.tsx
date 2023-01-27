@@ -23,7 +23,7 @@ export const Border: FC<BorderProps> = ({
 			vertical ? borderVerticalStyle : borderStyle,
 			{
 				borderColor: emphasis
-					? CoreTokens.BorderEmphasis
+					? CoreTokens.BorderNormal
 					: muted
 					? CoreTokens.BorderMuted
 					: invert

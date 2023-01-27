@@ -196,7 +196,7 @@ const searchSettingsBarStyles = css`
 `;
 
 const scrollBoxStyles = css`
-	border-top: 1px solid ${CoreTokens.BorderEmphasis};
+	border-top: 1px solid ${CoreTokens.BorderNormal};
 	flex: 1 1 auto;
 `;
 
