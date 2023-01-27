@@ -8,7 +8,7 @@ import type { SortOption } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { Tabs } from '@redeye/client/types/explore';
 import { sortOptions } from '@redeye/client/views';
-import { FlexSplitter, Tokens } from '@redeye/ui-styles';
+import { FlexSplitter, CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -49,7 +49,7 @@ export const ControlBar = observer<ControlBarProps>(
 			<div
 				css={css`
 					display: flex;
-					border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+					border-bottom: 1px solid ${CoreTokens.BorderNormal};
 					padding: 2px 0.5rem;
 					align-items: center;
 				`}

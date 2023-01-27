@@ -2,9 +2,8 @@ import { Card, Classes, Tabs } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 // import { plexFontFace } from './font-face-local';
-import { extensionStyles } from './ibm-carbon-extensions';
-import { Styles } from './text.styles';
-import { Tokens } from './tokens';
+import { extensionStyles } from './ibm-carbon-extension-styles';
+import { CoreTokens } from '../styles/tokens';
 
 // font import
 import './font-face-local.css';
@@ -16,7 +15,7 @@ export const globalStyle = css`
 	}
 	html,
 	body {
-		background-color: ${Tokens.CoreTokens.BackgroundColor1};
+		background-color: ${CoreTokens.Background0};
 	}
 
 	html,
@@ -32,7 +31,7 @@ export const globalStyle = css`
 
 	code,
 	pre {
-		font-family: ${Tokens.Variables.PtFontFamilyMonospace};
+		font-family: ${CoreTokens.FontFamilyMonospace};
 	}
 
 	.${Classes.DIALOG_CONTAINER} {
@@ -48,15 +47,12 @@ export const globalStyle = css`
 		user-select: none;
 	}
 
-	${extensionStyles}// button elipsis
+	${extensionStyles}// button ellipsis
 `;
 
 export const FlexSplitter = styled.div`
 	flex: 1 1 auto;
 `;
-
-/** @deprecated use Styles.textMeta */
-export const textMeta = Styles.textMeta;
 
 export const TabsStyled = styled(Tabs)`
 	overflow: hidden; // ???
@@ -67,7 +63,7 @@ export const TabsStyled = styled(Tabs)`
 	.${Classes.TAB_LIST} {
 		flex: 0 0 auto;
 		padding: 0 1.5rem;
-		border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
+		border-bottom: 1px solid ${CoreTokens.BorderEmphasis};
 		z-index: 1;
 	}
 	.${Classes.TAB_INDICATOR} {
@@ -88,31 +84,5 @@ export const TabsStyled = styled(Tabs)`
 
 export const CardStyled = styled(Card)`
 	padding: unset;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
-`;
-
-export const fillNoOverflowStyle = css`
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-`;
-
-/**
- * Hover to a parent to reveal children
- * give the parent a css={[hoverRevealChildrenType]} and the child a className={hoverRevealClassName}
- */
-export const hoverRevealClassName = 'hoverReveal';
-export const hoverRevealChildrenVisibility = css`
-	&:not(:hover) {
-		.${hoverRevealClassName} {
-			visibility: hidden;
-		}
-	}
-`;
-export const hoverRevealChildrenDisplay = css`
-	&:not(:hover) {
-		.${hoverRevealClassName} {
-			display: none;
-		}
-	}
+	background-color: ${CoreTokens.Background1};
 `;

@@ -1,7 +1,7 @@
 {
 	"name": "redeye",
 	"productName": "RedEye",
-	"version": "0.8.1",
+	"version": "0.8.2",
 	"private": true,
 	"workspaces": [
 		"applications/**",
@@ -13,6 +13,7 @@
 	"scripts": {
 		"postinstall": "yarn run husky:init",
 		"start": "yarn run start:dev",
+		"build": "yarn run build:all",
 		"test": "yarn cy:open",
 		"build:all": "yarn nx run-many --target=build --all",
 		"release": "yarn nx run-many --target=release --all",
@@ -155,7 +156,7 @@
 		"barrelsby": "^2.3.0",
 		"builder-util": "^23.0.2",
 		"cross-env": "^7.0.3",
-		"cypress": "^11.2.0",
+		"cypress": "^12.3.0",
 		"cypress-multi-reporters": "^1.6.1",
 		"dotenv": "^8.2.0",
 		"eslint": "^8.22.0",
@@ -192,7 +193,6 @@
 		"nx": "^14.6.3",
 		"pkg": "^5.8.0",
 		"pkg-fetch": "^3.4.2",
-		"playwright-webkit": "^1.25.2",
 		"prettier": "^2.2.1",
 		"rollup-plugin-auto-external": "^2.0.0",
 		"save-svg-as-png": "^1.4.17",

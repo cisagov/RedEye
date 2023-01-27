@@ -1,7 +1,7 @@
 import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
 import { css } from '@emotion/react';
 import { createState, durationFormatter } from '@redeye/client/components';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -68,43 +68,43 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 									state.toggleIsHover();
 								}}
 							>
-								{/* Interaction Beacon Bar for color */}
 								{bar.beaconCount && (
-									<rect
-										x={x}
-										width={width}
-										y={0}
-										height={dimensions.height}
-										css={[baseBarStyles, interactionBarStyles(isOpen)]}
-									/>
-								)}
-								{/* Dead & Future Beacon Bar */}
-								<rect
-									x={x}
-									width={width}
-									y={dimensions.height - yScale(bar.beaconCount)}
-									height={yScale(bar.beaconCount)}
-									css={[baseBarStyles, scrubberTime && bar.end <= scrubberTime ? deadBarStyles : futureBarStyles]}
-								/>
-								{/* Active Beacon Bar */}
-								<rect
-									x={x}
-									width={width}
-									y={dimensions.height - yScale(bar.activeBeaconCount)}
-									height={yScale(bar.activeBeaconCount)}
-									css={[baseBarStyles, aliveBarStyles]}
-								/>
-								{/* Selected Beacon Bar */}
-								<animated.rect
-									x={x}
-									width={width}
-									y={dimensions.height - yScale(bar.selectedBeaconCount)}
-									height={yScale(bar.selectedBeaconCount)}
-									css={[baseBarStyles, selectedBarStyles]}
-								/>
-								{/* Interaction Beacon Bar for Functionality */}
-								{!!bar.beaconCount && (
-									<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
+									<>
+										{/* Interaction Beacon Bar for color */}
+										<rect
+											x={x}
+											width={width}
+											y={0}
+											height={dimensions.height}
+											css={[baseBarStyles, interactionBarStyles(isOpen)]}
+										/>
+										{/* Dead & Future Beacon Bar */}
+										<rect
+											x={x}
+											width={width}
+											y={dimensions.height - yScale(bar.beaconCount)}
+											height={yScale(bar.beaconCount)}
+											css={[baseBarStyles, scrubberTime && bar.end <= scrubberTime ? deadBarStyles : futureBarStyles]}
+										/>
+										{/* Active Beacon Bar */}
+										<rect
+											x={x}
+											width={width}
+											y={dimensions.height - yScale(bar.activeBeaconCount)}
+											height={yScale(bar.activeBeaconCount)}
+											css={[baseBarStyles, aliveBarStyles]}
+										/>
+										{/* Selected Beacon Bar */}
+										<animated.rect
+											x={x}
+											width={width}
+											y={dimensions.height - yScale(bar.selectedBeaconCount)}
+											height={yScale(bar.selectedBeaconCount)}
+											css={[baseBarStyles, selectedBarStyles]}
+										/>
+										{/* Interaction Beacon Bar for Functionality */}
+										<rect x={x} width={width} y={0} height={dimensions.height} css={[interactionBarFnStyles]} />
+									</>
 								)}
 							</g>
 						)}
@@ -122,23 +122,23 @@ const baseBarStyles = css`
 `;
 
 const deadBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconDead};
+	fill: ${CoreTokens.BeaconDead};
 `;
 
 const futureBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconFuture};
+	fill: ${CoreTokens.BeaconFuture};
 `;
 
 const aliveBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconAlive};
+	fill: ${CoreTokens.BeaconAlive};
 `;
 
 const selectedBarStyles = css`
-	fill: ${Tokens.CoreTokens.BeaconSelected};
+	fill: ${CoreTokens.BeaconSelected};
 `;
 
 const interactionBarStyles = (hover: boolean) => css`
-	fill: ${hover ? Tokens.CoreTokens.BeaconInteracted : 'transparent'};
+	fill: ${hover ? CoreTokens.BeaconInteracted : 'transparent'};
 	opacity: 0.3;
 `;
 

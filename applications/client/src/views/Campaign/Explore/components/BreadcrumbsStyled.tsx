@@ -2,7 +2,7 @@ import type { BreadcrumbsProps } from '@blueprintjs/core';
 import { Breadcrumb, Classes } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Styles, Tokens } from '@redeye/ui-styles';
+import { CoreTokens, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
 /** BreadcrumbsProps without the OverflowList Props - OverflowList doesn't seem to work */
@@ -38,9 +38,9 @@ export type BreadcrumbsStyledProps = {
 };
 
 export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProps>`
-	/* ${Styles.textMeta} */
+	/* ${UtilityStyles.textMeta} */
 
-	${Styles.textEllipsis}
+	${UtilityStyles.textEllipsis}
 	height: auto;
 	display: inline;
 	// all children are display:inline; to get the ellipsis... effect
@@ -55,12 +55,12 @@ export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProp
 		height: unset;
 		width: unset;
 		display: inline;
-		color: ${Tokens.TextColors.PtTextColorMuted};
+		color: ${CoreTokens.TextMuted};
 
 		${({ muted }) =>
 			muted &&
 			css`
-				color: ${Tokens.TextColors.PtTextColorDisabled};
+				color: ${CoreTokens.TextDisabled};
 			`}
 	}
 
@@ -70,12 +70,12 @@ export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProp
 	}
 
 	a.${Classes.BREADCRUMB} {
-		color: ${Tokens.TextColors.PtTextColorMuted};
+		color: ${CoreTokens.TextMuted};
 		${({ muted }) =>
 			!muted &&
 			css`
-				font-weight: ${Tokens.CoreTokens.FontWeightBold};
-				color: ${Tokens.TextColors.PtLinkColor};
+				font-weight: ${CoreTokens.FontWeightBold};
+				color: ${CoreTokens.TextLink};
 			`};
 
 		&:hover {
@@ -84,7 +84,7 @@ export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProp
 	}
 
 	.${Classes.BREADCRUMB_CURRENT} {
-		color: ${Tokens.TextColors.PtTextColorMuted};
+		color: ${CoreTokens.TextMuted};
 	}
 
 	.${Classes.OVERFLOW_LIST_SPACER} {

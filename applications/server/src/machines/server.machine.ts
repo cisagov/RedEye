@@ -116,7 +116,7 @@ const serverMachine = createMachine(
 					let anonymizedPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns');
 					if (existsSync(anonymizedPath)) rmSync(anonymizedPath, { recursive: true });
 					ctx.messagingService?.stop?.();
-					ctx.server.close((err) => {
+					ctx.server?.close((err) => {
 						if (err) console.error('HTTP server closed', err);
 						else console.info('HTTP server closed');
 						process.exit();

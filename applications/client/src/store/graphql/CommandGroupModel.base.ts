@@ -8,11 +8,14 @@ import type { IObservableArray } from 'mobx';
 import { Model, prop, Ref, tProp } from 'mobx-keystone';
 import type { AnnotationModel } from './AnnotationModel';
 import { AnnotationModelSelector } from './AnnotationModel';
+import type { CommandModel } from './CommandModel';
+import { CommandModelSelector } from './CommandModel';
 import type { GenerationType } from './GenerationTypeEnum';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {
 	annotations: IObservableArray<AnnotationModel>;
+	commands: IObservableArray<CommandModel>;
 };
 
 /**
@@ -23,6 +26,7 @@ export class CommandGroupModelBase extends Model({
 	__typename: tProp('CommandGroup'),
 	annotations: prop<Ref<AnnotationModel>[]>(() => []).withSetter(),
 	commandIds: prop<string[]>().withSetter(),
+	commands: prop<Ref<CommandModel>[]>(() => []).withSetter(),
 	generation: prop<GenerationType>().withSetter(),
 	id: prop<string>().withSetter(),
 }) {
@@ -45,6 +49,9 @@ export class CommandGroupModelSelector extends QueryBuilder {
 		builder?: string | AnnotationModelSelector | ((selector: AnnotationModelSelector) => AnnotationModelSelector)
 	) {
 		return this.__child(`annotations`, AnnotationModelSelector, builder);
+	}
+	commands(builder?: string | CommandModelSelector | ((selector: CommandModelSelector) => CommandModelSelector)) {
+		return this.__child(`commands`, CommandModelSelector, builder);
 	}
 }
 export function selectFromCommandGroup() {
