@@ -185,7 +185,7 @@ const DefaultFixedCollapsedComponent = styled.div`
 const GridCell = styled.div`
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+	overflow: visible; // hidden; 
 `;
 
 export type DraggerRendererProps = ComponentProps<'div'> & {
@@ -202,7 +202,7 @@ export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({
 
 const draggerStyle = css`
 	width: 1px;
-	background-color: ${CoreTokens.BorderNormal};
+	/* background-color: ${CoreTokens.BorderNormal}; */
 	cursor: col-resize;
 	display: flex;
 	position: relative;

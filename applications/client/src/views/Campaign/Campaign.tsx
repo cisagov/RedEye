@@ -16,7 +16,7 @@ import {
 import { RedEyeRoutes } from '@redeye/client/store/routing/router';
 import { Graph, RawLogsDialog, Timeline } from '@redeye/client/views';
 import type { TxtProps } from '@redeye/ui-styles';
-import { CoreTokens , CardStyled, UtilityStyles, Spacer, Txt } from '@redeye/ui-styles';
+import { CoreTokens, CardStyled, UtilityStyles, Spacer, Txt } from '@redeye/ui-styles';
 import { useQueries } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
@@ -154,6 +154,7 @@ const Campaign = observer<CampaignProps>(() => {
 						<CollapsedContent
 							css={css`
 								cursor: e-resize;
+								box-shadow: ${CoreTokens.Elevation2};
 							`}
 							onClick={reset}
 							icon={<CarbonIcon icon={ChevronRight16} />}
@@ -228,6 +229,7 @@ const infoWrapperStyles = css`
 	grid-template-columns: auto;
 	grid-template-rows: auto 1fr;
 	background-color: ${CoreTokens.Background1};
+	box-shadow: ${CoreTokens.Elevation2};
 	${UtilityStyles.fillNoOverflowStyle}
 `;
 const titleBarStyles = css`
