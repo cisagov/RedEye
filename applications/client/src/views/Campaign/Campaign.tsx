@@ -16,7 +16,7 @@ import {
 import { RedEyeRoutes } from '@redeye/client/store/routing/router';
 import { Graph, RawLogsDialog, Timeline } from '@redeye/client/views';
 import type { TxtProps } from '@redeye/ui-styles';
-import { CardStyled, fillNoOverflowStyle, Spacer, Tokens, Txt } from '@redeye/ui-styles';
+import { CoreTokens , CardStyled, UtilityStyles, Spacer, Txt } from '@redeye/ui-styles';
 import { useQueries } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
@@ -215,33 +215,33 @@ const HTMLbodyStyles = css`
 const wrapperStyle = css`
 	display: grid;
 	grid-template-columns: auto 1fr;
-	${fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const navBarStyles = css`
-	border-right: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+	border-right: 1px solid ${CoreTokens.BorderNormal};
 `;
 const dragResizeStyle = css`
-	${fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const infoWrapperStyles = css`
 	display: grid;
 	grid-template-columns: auto;
 	grid-template-rows: auto 1fr;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
-	${fillNoOverflowStyle}
+	background-color: ${CoreTokens.Background1};
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const titleBarStyles = css`
 	padding: 0.5rem 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 `;
 
 const visPanelStyles = css`
 	display: grid;
 	grid-template-rows: auto 1fr;
-	${fillNoOverflowStyle}
+	${UtilityStyles.fillNoOverflowStyle}
 `;
 const timelineStyles = css`
 	margin: 1rem 1rem 0 1rem;
@@ -266,7 +266,7 @@ const collapsedContentWrapperStyle = css`
 	flex-direction: column;
 	align-items: center;
 	padding: 0.5rem;
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
+	background-color: ${CoreTokens.Background1};
 	height: 100%;
 	width: 100%;
 	cursor: pointer;

@@ -49,7 +49,7 @@
 			"options": {
 				"commands": [
 					{
-						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=chromium --spec **/**/e2e/redteam/**/**/**' || exit 0"
+						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=chromium --headed --spec **/**/e2e/redteam/**/**/**' || exit 0"
 					}
 				]
 			}
@@ -60,7 +60,7 @@
 			"options": {
 				"commands": [
 					{
-						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=firefox --spec **/**/e2e/redteam/**/**/**' || exit 0"
+						"command": "start-test 'nx run server:serve' 'http-get://localhost:4000/api/graphql' 'nx e2e redeye-e2e --browser=firefox --headed --spec **/**/e2e/redteam/**/**/**' || exit 0"
 					}
 				]
 			}

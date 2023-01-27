@@ -15,7 +15,12 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 				params: {
 					currentItem: 'all',
 					currentItemId: undefined,
-					tab: Tabs.HOSTS,
+					tab:
+						store.router.params.tab === Tabs.METADATA
+							? store.router.params.currentItem === 'beacon'
+								? Tabs.BEACONS
+								: Tabs.HOSTS
+							: store.router.params.tab || Tabs.HOSTS,
 				},
 			});
 

@@ -1,7 +1,7 @@
 import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -40,7 +40,7 @@ export const scrollBoxShadowsStyle = css`
 	/* top shadow */
 
 	&:before {
-		background-image: linear-gradient(to bottom, ${Tokens.CoreTokens.ShadowGradient});
+		background-image: linear-gradient(to bottom, ${CoreTokens.ShadowGradient});
 		top: 0;
 		left: 0;
 		right: 0;
@@ -49,7 +49,7 @@ export const scrollBoxShadowsStyle = css`
 	/* bottom shadow */
 
 	&:after {
-		background-image: linear-gradient(to top, ${Tokens.CoreTokens.ShadowGradient});
+		background-image: linear-gradient(to top, ${CoreTokens.ShadowGradient});
 		bottom: -1px;
 		left: 0;
 		right: 0;

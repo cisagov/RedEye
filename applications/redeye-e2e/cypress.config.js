@@ -6,11 +6,10 @@ const path = require('path');
 module.exports = defineConfig({
 	fixturesFolder: './src/fixtures',
 	modifyObstructiveCode: false,
-	video: false,
+	videoUploadOnPasses: false,
 	videosFolder: '../../dist/applications/redeye-e2e/videos',
 	screenshotsFolder: '../../dist/applications/redeye-e2e/screenshots',
 	failOnStatusCode: false,
-	experimentalWebKitSupport: true,
 	viewportWidth: 1920,
 	viewportHeight: 1080,
 	reporter: '../../node_modules/cypress-multi-reporters',
@@ -21,7 +20,7 @@ module.exports = defineConfig({
 		runMode: 1,
 	},
 	e2e: {
-		setupNodeEvents(on, config) {},
+		
 		setupNodeEvents(on, config) {
 			on('task', {
 				// ===== task to use node 'fs' (filesystem) to read directory=====

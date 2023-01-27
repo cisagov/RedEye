@@ -1,7 +1,7 @@
 {
 	"sourceRoot": "applications/server/src",
 	"projectType": "application",
-	"implicitDependencies": ["models", "parser", "client"],
+	"implicitDependencies": ["models", "parser", "client", "migrations"],
 	"targets": {
 		"build": {
 			"executor": "@nrwl/js:swc",

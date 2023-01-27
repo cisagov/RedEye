@@ -28,7 +28,7 @@ import type { AnnotationModel, CommandGroupModel, LinkModel } from '@redeye/clie
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
-import { FlexSplitter, Spacer, TokensAll, Txt } from '@redeye/ui-styles';
+import { FlexSplitter, Spacer, AdvancedTokens, Txt, CoreTokens } from '@redeye/ui-styles';
 import { observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
@@ -702,7 +702,7 @@ export const CommentBox = observer<CommentBoxProps>(
 );
 
 const addedStyles = css`
-	color: ${TokensAll.PtIntentSuccessTextColor};
+	color: ${CoreTokens.TextIntentSuccess};
 `;
 
 const headerWrapperStyle = css`

@@ -43,6 +43,8 @@ export class BeaconMeta {
 	@Property({ nullable: true })
 	origin?: string;
 
+	// This is likely to be nullable in future due to different ways we have to extract this data in other C2 tools
+	@Field(() => LogEntry, { description: 'The log line from which the BeaconMeta was extracted' })
 	@OneToOne({ owner: true, entity: () => LogEntry })
 	source: LogEntry;
 

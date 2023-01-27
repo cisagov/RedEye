@@ -3,7 +3,7 @@ import { dateFormat, dateTimeFormat, Flex } from '@redeye/client/components';
 import { routes, useStore } from '@redeye/client/store';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import type { UUID } from '@redeye/client/types';
-import { Txt, FlexSplitter, Tokens } from '@redeye/ui-styles';
+import { Txt, FlexSplitter, AdvancedTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import type { IBar } from './TimelineChart';
@@ -96,7 +96,7 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.displayName}
 					</Txt>
 					<Txt muted small css={marginStyles(4)}>
-						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0].maybeCurrent?.username}
+						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0]?.maybeCurrent?.username}
 					</Txt>
 					<FlexSplitter />
 					<Txt small>{beaconCommand.commandCount}</Txt>
@@ -117,6 +117,6 @@ const marginStyles = (num: number) => css`
 const barPopoverRowStyles = css`
 	&:hover {
 		cursor: pointer;
-		background: ${Tokens.Components.MinimalButtonBackgroundColorHover};
+		background: ${AdvancedTokens.MinimalButtonBackgroundColorHover};
 	}
 `;

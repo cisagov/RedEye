@@ -1,7 +1,7 @@
 import { Events, PanHorizontal, Ticket } from '@carbon/icons-react/next';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import type { FC } from 'react';
 import { MitreTechniques } from '../../../../store/graphql/MitreTechniquesEnum';
 
@@ -16,7 +16,7 @@ const mitreIcons = {
 		<Ticket
 			cy-test="golden-ticket-icon"
 			css={css`
-				color: ${Tokens.Colors.Gold5};
+				color: ${CoreTokens.Colors.Gold5};
 			`}
 		/>
 	),

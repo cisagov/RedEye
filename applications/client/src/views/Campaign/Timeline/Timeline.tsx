@@ -7,7 +7,7 @@ import { CarbonIcon, dateFormat, datePlaceholder } from '@redeye/client/componen
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CampaignViews } from '@redeye/client/types';
-import { Header, Spacer, TokensAll, Txt } from '@redeye/ui-styles';
+import { Header, Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -226,7 +226,7 @@ const controlPanelStyles = css`
 	display: flex;
 	/* align-items: center; */
 	/* padding-bottom: 1px; */
-	border-bottom: 1px solid ${TokensAll.BorderColorNormal};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	/* justify-content: space-between; */
 	/* flex-wrap: wrap; */
 `;
@@ -259,8 +259,8 @@ const timelinePanelStyles = css`
 	display: flex;
 `;
 const dateRangeInputStyle = css`
-	font-family: ${TokensAll.PtFontFamilyMonospace};
-	font-size: ${TokensAll.FontSizeSmall};
+	font-family: ${CoreTokens.FontFamilyMonospace};
+	font-size: ${CoreTokens.FontSizeSmall};
 `;
 const dateInputStyles = {
 	width: 90,
