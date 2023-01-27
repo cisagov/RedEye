@@ -1,7 +1,7 @@
 import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
 import { css } from '@emotion/react';
 import { createState, durationFormatter } from '@redeye/client/components';
-import { CoreTokens, TimelineTokens } from '@redeye/ui-styles';
+import { TimelineTokens } from '@redeye/ui-styles';
 import { max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -75,7 +75,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 											width={width}
 											y={0}
 											height={dimensions.height}
-											css={[baseBarStyles, interactionBarStyles(isOpen)]}
+											css={[baseBarStyles, isOpen && interactionBarStyles]}
 										/>
 										{/* Dead & Future Beacon Bar */}
 										<rect
@@ -117,7 +117,9 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 const baseBarStyles = css`
 	stroke: ${TIMELINE_BG_COLOR};
 	stroke-width: 2px;
-	transition: fill 300ms linear, y 500ms linear, height 500ms linear;
+	fill: transparent;
+	transition: 200ms ease;
+	transition-property: fill, y, height;
 `;
 
 const deadBarStyles = css`
@@ -136,9 +138,8 @@ const selectedBarStyles = css`
 	fill: ${TimelineTokens.SelectedBgTimeline};
 `;
 
-const interactionBarStyles = (hover: boolean) => css`
-	fill: ${hover ? TimelineTokens.PreviewBgTimeline : 'transparent'};
-	opacity: 0.3;
+const interactionBarStyles = css`
+	fill: ${TimelineTokens.PreviewBgTimeline};
 `;
 
 const interactionBarFnStyles = css`

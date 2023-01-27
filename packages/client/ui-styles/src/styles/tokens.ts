@@ -174,11 +174,11 @@ export const GraphTokens = {
 };
 
 const lightThemeGraphAndTimelineCssVars = declareCssVars([
-	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.DarkGray5],
 	[TimelineTokens.PresentBgTimeline, CoreTokens.Colors.Gray2],
-	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.Black],
-	[TimelineTokens.SelectedBgTimeline, CoreTokens.Colors.White],
-	[TimelineTokens.PreviewBgTimeline, CoreTokens.Colors.Black],
+	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.LightGray2],
+	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.LightGray4],
+	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
+	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.1)],
 
 	[GraphTokens.PresentFgColor, CoreTokens.Colors.LightGray1],
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.White],
@@ -194,16 +194,16 @@ const lightThemeGraphAndTimelineCssVars = declareCssVars([
 ]);
 
 const darkThemeGraphAndTimelineCssVars = declareCssVars([
-	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.DarkGray5],
 	[TimelineTokens.PresentBgTimeline, CoreTokens.Colors.Gray2],
+	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.DarkGray5],
 	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.Black],
-	[TimelineTokens.SelectedBgTimeline, CoreTokens.Colors.White],
-	[TimelineTokens.PreviewBgTimeline, CoreTokens.Colors.Black],
+	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
+	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.5)],
 
-	[GraphTokens.PastFgColor, CoreTokens.Colors.DarkGray5],
-	[GraphTokens.PastBgColor, CoreTokens.Colors.DarkGray2],
 	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray3],
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.DarkGray3],
+	[GraphTokens.PastFgColor, CoreTokens.Colors.DarkGray5],
+	[GraphTokens.PastBgColor, CoreTokens.Colors.DarkGray2],
 	[GraphTokens.FutureFgColor, CoreTokens.Colors.Black], // Black?
 	[GraphTokens.FutureBgColor, CoreTokens.Colors.DarkGray2], // DarkGray2?
 	[GraphTokens.SelectedFgColor, CoreTokens.Colors.LightGray2],
