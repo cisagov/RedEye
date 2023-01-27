@@ -1,30 +1,8 @@
 import { css } from '@emotion/react';
 import { RedEyeGraphClassNames as GCN } from '@redeye/graph';
-import { CoreTokens } from '@redeye/ui-styles';
+import { CoreTokens, GraphTokens } from '@redeye/ui-styles';
 
 export const goldenTicketClassName = 'golden-ticket';
-
-export const GraphTokens = {
-	PresentFgColor: CoreTokens.Colors.Gray3,
-	PresentBgColor: CoreTokens.Colors.DarkGray3,
-
-	FutureFgColor: CoreTokens.Colors.Black, // Black?
-	FutureBgColor: CoreTokens.Colors.DarkGray2, // DarkGray2?
-	FutureDasharray: '0px 6px', // Dotted
-
-	PastFgColor: CoreTokens.Colors.DarkGray5,
-	PastBgColor: CoreTokens.Colors.DarkGray2,
-	PastDasharray: '4px 4.5px', // Dashed
-
-	SelectedFgColor: CoreTokens.Colors.LightGray2,
-	SelectedThickness: '3px',
-
-	PreviewFgColor: CoreTokens.Colors.White,
-	PreviewThickness: '2px',
-
-	SelectedFocusFgColor: CoreTokens.Intent.Primary3,
-	SelectedFocusBgColor: CoreTokens.Intent.Primary1,
-};
 
 export const graphStyles = css`
 	/** TEMP */
@@ -59,10 +37,10 @@ export const graphStyles = css`
 	text {
 		font-size: ${CoreTokens.FontSizeSmall};
 		/* Need font and color for SVG Export -> */
-		fill: ${CoreTokens.Colors.LightGray5};
+		fill: ${CoreTokens.TextBody};
 		font-family: ${CoreTokens.FontFamilySans};
 		/* <- Need font and color for SVG Export */
-		stroke: ${CoreTokens.Background3};
+		stroke: ${CoreTokens.Background1};
 		paint-order: stroke;
 		stroke-width: 3px;
 		&.${GCN.selectedFocus} {
@@ -107,7 +85,7 @@ export const graphStyles = css`
 
 	.${GCN.groupNode} {
 		fill: none;
-		stroke: ${CoreTokens.transparentWhite(0.03)};
+		stroke: ${GraphTokens.GroupNodeStrokeColor};
 	}
 
 	.${GCN.superNode} {
