@@ -134,12 +134,7 @@ export const SearchModal = observer<HTMLProps<HTMLDivElement>>(({ ...props }) =>
 					</form>
 				</div>
 				<ProgressBar intent="primary" css={[!store.campaign.search.isSearching && { visibility: 'hidden' }]} />
-				<ScrollBox
-					innerProps={{
-						css: scrollBoxStyles,
-						ref: resultContainer,
-					}}
-				>
+				<ScrollBox ref={resultContainer} css={scrollBoxStyles}>
 					<VirtualizedList
 						cy-test="search-results"
 						initialIndex={store.campaign.search.initialIndex}

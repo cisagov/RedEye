@@ -202,7 +202,7 @@ export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({
 
 const draggerStyle = css`
 	width: 1px;
-	/* background-color: ${CoreTokens.BorderNormal}; */
+	margin: 0 -1px;
 	cursor: col-resize;
 	display: flex;
 	position: relative;
@@ -210,7 +210,7 @@ const draggerStyle = css`
 		content: '';
 		background-color: ${CoreTokens.BorderNormal};
 		width: 5px;
-		margin: -2px;
+		margin: 0 -2px;
 		opacity: 0;
 		border: 1px solid ${CoreTokens.BorderNormal};
 	}

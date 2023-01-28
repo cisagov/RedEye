@@ -176,19 +176,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											/>
 										</Flex>
 									)}
-								<ScrollBox
-									cy-test="info"
-									innerProps={{
-										css: css`
-											will-change: transform;
-
-											& > div {
-												height: 100% !important;
-												width: 100% !important;
-											}
-										`,
-									}}
-								>
+								<ScrollBox cy-test="info">
 									<PanelRenderer type={state.infoPanelType} sort={store.campaign.sort} />
 								</ScrollBox>
 							</>

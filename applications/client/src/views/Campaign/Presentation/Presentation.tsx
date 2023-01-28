@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { ScrollBox } from '@redeye/client/components';
+import { ScrollBox, ScrollChild } from '@redeye/client/components';
 import {
 	presentationCommandGroupModelPrimitives,
 	presentationItemModelPrimitives,
@@ -82,38 +82,34 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 					</Header>
 				)}
 			</div>
-			<ScrollBox
-				innerProps={{
-					css: css`
-						padding: 1rem 0 4rem 0;
-					`,
-				}}
-			>
-				<Routes>
-					<Route
-						path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION_SELECTED}/*`}
-						element={
-							<>
-								<SlideSelector />
-								<PresentationItem
-									commandGroupId={
-										store.campaign.presentation.selectedItem?.commandGroups?.[store.campaign.presentation.index]?.id
-									}
-								/>
-							</>
-						}
-					/>
-					<Route
-						path="*"
-						element={
-							<>
-								{data?.presentationItems?.map((presentationItem) => (
-									<PresentationTopicItem presentationItem={presentationItem} />
-								))}
-							</>
-						}
-					/>
-				</Routes>
+			<ScrollBox>
+				<ScrollChild css={{ padding: '1rem 0 4rem 0' }}>
+					<Routes>
+						<Route
+							path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION_SELECTED}/*`}
+							element={
+								<>
+									<SlideSelector />
+									<PresentationItem
+										commandGroupId={
+											store.campaign.presentation.selectedItem?.commandGroups?.[store.campaign.presentation.index]?.id
+										}
+									/>
+								</>
+							}
+						/>
+						<Route
+							path="*"
+							element={
+								<>
+									{data?.presentationItems?.map((presentationItem) => (
+										<PresentationTopicItem presentationItem={presentationItem} />
+									))}
+								</>
+							}
+						/>
+					</Routes>
+				</ScrollChild>
 			</ScrollBox>
 		</div>
 	);

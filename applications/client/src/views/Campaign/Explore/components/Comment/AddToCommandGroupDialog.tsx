@@ -69,6 +69,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 			css={css`
 				padding: 0;
 			`}
+			fixedHeight
 			{...props}
 			isOpen={isOpen}
 			onClose={onClose}
@@ -97,12 +98,9 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				onChange={state.handleOnChange}
 				leftIcon={<CarbonIcon icon={Search16} />}
 				placeholder="Search comments"
+				large
 			/>
-			<ScrollBox
-				css={css`
-					height: 70vh;
-				`}
-			>
+			<ScrollBox>
 				{isSuccess && (
 					<VirtualizedList>
 						{state.commandGroups.length === 0 ? (
@@ -130,7 +128,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				{/* {isLoading && <LoadingOverlay />} */}
 				{isError && <NonIdealState title="Unable to fetch Comments" icon={<CarbonIcon icon={Error16} />} />}
 			</ScrollBox>
-			<Button cy-test="done-button" text="Done" onClick={onClose} minimal />
+			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" />
 		</DialogCustom>
 	);
 });

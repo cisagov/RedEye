@@ -1,12 +1,12 @@
 import { Button, Intent } from '@blueprintjs/core';
 import { ChevronSort16, Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, scrollBoxShadowsStyle } from '@redeye/client/components';
+import { CarbonIcon } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { ScreenShotCommand } from '@redeye/client/views';
-import { FlexSplitter, Txt, CoreTokens } from '@redeye/ui-styles';
+import { FlexSplitter, Txt, CoreTokens, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
 type CommandOutputProps = {
@@ -42,7 +42,7 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 	});
 
 	return (
-		<div css={[rootWrapperStyle, scrollBoxShadowsStyle]}>
+		<div css={[rootWrapperStyle, UtilityStyles.innerBoxShadowOverlay('vertical')]}>
 			<div css={outputMetaStyle}>
 				<div>
 					{command?.uniqueAttackIds?.length === 0 ? (

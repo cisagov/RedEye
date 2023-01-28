@@ -24,7 +24,7 @@ import {
 	Warning20,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, HoverButton, ScrollBox } from '@redeye/client/components';
+import { CarbonIcon, HoverButton, ScrollBox, ScrollChild } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { Servers } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -363,21 +363,23 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 									max-width: 40rem;
 								`}
 							>
-								<Txt
-									tagName="pre"
-									css={css`
-										padding: 1rem;
-										overflow-x: scroll;
-										margin: 0;
-									`}
-								>
-									{state.invalidFiles.map((file) => (
-										<span key={file.webkitRelativePath}>
-											{file.webkitRelativePath}
-											{'\n'}
-										</span>
-									))}
-								</Txt>
+								<ScrollChild>
+									<Txt
+										tagName="pre"
+										css={css`
+											padding: 1rem;
+											overflow-x: scroll;
+											margin: 0;
+										`}
+									>
+										{state.invalidFiles.map((file) => (
+											<span key={file.webkitRelativePath}>
+												{file.webkitRelativePath}
+												{'\n'}
+											</span>
+										))}
+									</Txt>
+								</ScrollChild>
 							</ScrollBox>
 						}
 					>

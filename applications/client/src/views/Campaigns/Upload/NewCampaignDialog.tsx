@@ -1,8 +1,8 @@
 import { Tab } from '@blueprintjs/core';
 import { css } from '@emotion/react';
-import { DialogCustom, ErrorFallback, scrollBoxShadowsStyle } from '@redeye/client/components';
+import { DialogCustom, ErrorFallback } from '@redeye/client/components';
 import { DbUpload } from '@redeye/client/views';
-import { Header, TabsStyled } from '@redeye/ui-styles';
+import { Header, TabsStyled, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
@@ -72,8 +72,5 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 });
 
 const shadowStyle = css`
-	${scrollBoxShadowsStyle}
-	&:after {
-		content: unset;
-	}
+	${UtilityStyles.innerBoxShadowOverlay('top', 3, false)}
 `;
