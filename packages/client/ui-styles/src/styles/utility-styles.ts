@@ -14,6 +14,13 @@ const hoverRevealChildrenVisibility = css`
 		}
 	}
 `;
+const hoverRevealChildrenOpacity = css`
+	&:not(:hover) {
+		.${hoverRevealClassName} {
+			opacity: 0;
+		}
+	}
+`;
 const hoverRevealChildrenDisplay = css`
 	&:not(:hover) {
 		.${hoverRevealClassName} {
@@ -65,5 +72,6 @@ export const UtilityStyles = {
 
 	hoverRevealClassName,
 	hoverRevealChildrenVisibility,
+	hoverRevealChildrenOpacity,
 	hoverRevealChildrenDisplay,
 };
