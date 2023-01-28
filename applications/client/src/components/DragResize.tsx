@@ -185,7 +185,7 @@ const DefaultFixedCollapsedComponent = styled.div`
 const GridCell = styled.div`
 	height: 100%;
 	width: 100%;
-	overflow: visible; // hidden; 
+	overflow: hidden; 
 `;
 
 export type DraggerRendererProps = ComponentProps<'div'> & {
