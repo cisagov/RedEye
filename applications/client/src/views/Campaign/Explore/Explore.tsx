@@ -5,7 +5,7 @@ import { CarbonIcon, customIconPaths, Flex, ScrollBox } from '@redeye/client/com
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { TabsStyled, Txt, CoreTokens } from '@redeye/ui-styles';
+import { TabsStyled, Txt, CoreTokens, ThemeClasses } from '@redeye/ui-styles';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -137,15 +137,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 								{store.router?.params.tab === Tabs.COMMANDS &&
 									state.infoPanelType !== InfoType.OVERVIEW &&
 									store.campaign?.commentStore.groupSelect && (
-										<Flex
-											css={css`
-												width: 100%;
-												background: ${CoreTokens.Intent.Primary1}; // TODO: color: ;
-												justify-content: space-between;
-												align-items: center;
-												padding-left: 1rem;
-											`}
-										>
+										<div css={modeBarStyle}>
 											<Txt>
 												{state.commandCount} Command{state.commandCount === 1 ? '' : 's'} Selected
 											</Txt>
@@ -174,7 +166,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 													padding: 0 1rem;
 												`}
 											/>
-										</Flex>
+										</div>
 									)}
 								<ScrollBox cy-test="info">
 									<PanelRenderer type={state.infoPanelType} sort={store.campaign.sort} />
@@ -188,6 +180,20 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		</div>
 	);
 });
+
+const modeBarStyle = css`
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 1rem;
+
+	color: ${CoreTokens.OnIntent};
+	background: ${CoreTokens.Intent.Primary4};
+	.${ThemeClasses.DARK} & {
+		background: ${CoreTokens.Intent.Primary1};
+	}
+`;
 
 const headerStyles = css`
 	padding: 0.5rem 1rem 0.75rem;
