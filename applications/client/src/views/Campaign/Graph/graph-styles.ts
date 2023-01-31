@@ -40,7 +40,7 @@ export const graphStyles = css`
 		fill: ${CoreTokens.TextBody};
 		font-family: ${CoreTokens.FontFamilySans};
 		/* <- Need font and color for SVG Export */
-		stroke: ${CoreTokens.Background1};
+		stroke: ${GraphTokens.TextOutlineColor};
 		paint-order: stroke;
 		stroke-width: 3px;
 		&.${GCN.selectedFocus} {
@@ -72,7 +72,7 @@ export const graphStyles = css`
 		}
 
 		&.${GCN.selected} {
-			stroke: ${GraphTokens.SelectedFgColor};
+			stroke: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
 			stroke-width: ${GraphTokens.SelectedThickness};
 		}
 		&.${GCN.previewed} {
@@ -105,15 +105,15 @@ export const graphStyles = css`
 			stroke-width: ${GraphTokens.PreviewThickness};
 		}
 		&.${GCN.selected} {
-			stroke: ${GraphTokens.SelectedFgColor};
+			stroke: ${GraphTokens.PreviewFgColor};
 			stroke-width: ${GraphTokens.SelectedThickness};
 		}
 		&.${GCN.previewed} {
 			stroke: ${GraphTokens.PreviewFgColor};
 		}
 		&.${GCN.selectedFocus} {
-			fill: ${GraphTokens.SelectedFocusBgColor};
-			stroke: ${GraphTokens.PreviewFgColor};
+			fill: ${GraphTokens.SelectedFocusBgColor}; 
+			stroke: ${GraphTokens.PreviewFgColor};// not GraphTokens.SelectedFgColor
 		}
 	}
 
@@ -144,7 +144,7 @@ export const graphStyles = css`
 		}
 
 		&.${GCN.selected} {
-			fill: ${GraphTokens.SelectedFgColor};
+			fill: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
 			r: 5px;
 		}
 		&.${GCN.previewed} {

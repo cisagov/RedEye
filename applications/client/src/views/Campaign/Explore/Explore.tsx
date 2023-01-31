@@ -1,7 +1,7 @@
 import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
 import { Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, customIconPaths, Flex, ScrollBox } from '@redeye/client/components';
+import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
@@ -168,7 +168,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											/>
 										</div>
 									)}
-								<ScrollBox cy-test="info">
+								<ScrollBox cy-test="info" css={{ backgroundColor: CoreTokens.Background2 }}>
 									<PanelRenderer type={state.infoPanelType} sort={store.campaign.sort} />
 								</ScrollBox>
 							</>

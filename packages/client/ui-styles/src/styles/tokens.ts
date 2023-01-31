@@ -5,8 +5,8 @@ import { declareCssVars } from './tokenUtils';
 
 export const ThemeClasses = {
 	DARK: Classes.DARK,
-	LIGHT: 'bpx-light'
-}
+	LIGHT: 'bpx-light',
+};
 
 const transparentWhite = (opacity: number) => `hsla(${BpTokens.ColorsHsl.WhiteHsl}, ${opacity})`;
 const transparentBlack = (opacity: number) => `hsla(${BpTokens.ColorsHsl.BlackHsl}, ${opacity})`;
@@ -96,11 +96,11 @@ export const AdvancedTokens = {
 
 const lightThemeCssVars = declareCssVars([
 	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.White],
-	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.White],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.LightGray5],
 
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
-	[CustomTokens.Background3, BpTokensAll.LightGray5],
+	[CustomTokens.Background3, BpTokensAll.LightGray4],
 	[CustomTokens.Background3b, transparentBlack(0.025)],
 
 	[CustomTokens.TextHeading, BpTokens.TextColors.PtHeadingColor],
@@ -127,7 +127,7 @@ const lightThemeCssVars = declareCssVars([
 ]);
 
 const darkThemeCssVars = declareCssVars([
-	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.DarkGray2],
+	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.DarkGray3],
 	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.DarkGray2],
 
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
@@ -176,6 +176,7 @@ export const GraphTokens = {
 	SelectedFocusBgColor: `var(--SelectedFocusBgColor)`,
 
 	GroupNodeStrokeColor: `var(--GroupNodeStrokeColor)`,
+	TextOutlineColor: `var(--TextOutlineColor)`,
 };
 
 const lightThemeGraphAndTimelineCssVars = declareCssVars([
@@ -185,17 +186,18 @@ const lightThemeGraphAndTimelineCssVars = declareCssVars([
 	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
 	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.1)],
 
-	[GraphTokens.PresentFgColor, CoreTokens.Colors.LightGray1],
+	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray5],
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.White],
 	[GraphTokens.PastFgColor, CoreTokens.Colors.LightGray2],
 	[GraphTokens.PastBgColor, CoreTokens.Colors.LightGray4],
-	[GraphTokens.FutureFgColor, CoreTokens.Colors.LightGray5], 
-	[GraphTokens.FutureBgColor, CoreTokens.Colors.LightGray5], 
-	[GraphTokens.SelectedFgColor, CoreTokens.Colors.DarkGray4],
-	[GraphTokens.PreviewFgColor, CoreTokens.Colors.Black],
+	[GraphTokens.FutureFgColor, CoreTokens.Colors.LightGray5],
+	[GraphTokens.FutureBgColor, CoreTokens.Colors.LightGray5],
+	[GraphTokens.SelectedFgColor, CoreTokens.Colors.Gray2],
+	[GraphTokens.PreviewFgColor, CoreTokens.Colors.DarkGray5],
 	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary4],
 	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary5],
 	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentBlack(0.03)],
+	[GraphTokens.TextOutlineColor, CoreTokens.transparentWhite(0.8)],
 ]);
 
 const darkThemeGraphAndTimelineCssVars = declareCssVars([
@@ -205,21 +207,41 @@ const darkThemeGraphAndTimelineCssVars = declareCssVars([
 	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
 	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.5)],
 
-	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray3],
+	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray2],
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.DarkGray3],
 	[GraphTokens.PastFgColor, CoreTokens.Colors.DarkGray5],
 	[GraphTokens.PastBgColor, CoreTokens.Colors.DarkGray2],
 	[GraphTokens.FutureFgColor, CoreTokens.Colors.Black], // Black?
 	[GraphTokens.FutureBgColor, CoreTokens.Colors.DarkGray2], // DarkGray2?
-	[GraphTokens.SelectedFgColor, CoreTokens.Colors.LightGray2],
+	[GraphTokens.SelectedFgColor, CoreTokens.Colors.LightGray1],
 	[GraphTokens.PreviewFgColor, CoreTokens.Colors.White],
 	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary3],
 	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary1],
 	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentWhite(0.03)],
+	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.6)],
+
 ]);
 
 export const customCssVars = css`
 	:root {
+		--black-hsl: 0, 0%, 0%;
+		--dark-gray1-hsl: 0, 0%, 7%;
+		--dark-gray2-hsl: 0, 0%, 10%;
+		--dark-gray3-hsl: 0, 0%, 12%;
+		--dark-gray4-hsl: 0, 0%, 16%;
+		--dark-gray5-hsl: 0, 0%, 22%;
+		--gray1-hsl: 0, 0%, 31%;
+		--gray2-hsl: 0, 0%, 38%;
+		--gray3-hsl: 0, 0%, 46%;
+		--gray4-hsl: 0, 0%, 54%;
+		--gray5-hsl: 0, 0%, 62%;
+		--light-gray1-hsl: 0, 0%, 69%;
+		--light-gray2-hsl: 0, 0%, 79%;
+		--light-gray3-hsl: 0, 0%, 87%;
+		--light-gray4-hsl: 0, 0%, 93%;
+		--light-gray5-hsl: 0, 0%, 97%;
+		--white-hsl: 0, 0%, 100%;
+
 		${lightThemeCssVars}
 		${lightThemeGraphAndTimelineCssVars}
 	}
