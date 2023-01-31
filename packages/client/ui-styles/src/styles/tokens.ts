@@ -190,7 +190,7 @@ const lightThemeGraphAndTimelineCssVars = declareCssVars([
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.White],
 	[GraphTokens.PastFgColor, CoreTokens.Colors.LightGray2],
 	[GraphTokens.PastBgColor, CoreTokens.Colors.LightGray4],
-	[GraphTokens.FutureFgColor, CoreTokens.Colors.LightGray5],
+	[GraphTokens.FutureFgColor, CoreTokens.Colors.White],
 	[GraphTokens.FutureBgColor, CoreTokens.Colors.LightGray5],
 	[GraphTokens.SelectedFgColor, CoreTokens.Colors.Gray2],
 	[GraphTokens.PreviewFgColor, CoreTokens.Colors.DarkGray5],
