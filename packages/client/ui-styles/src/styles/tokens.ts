@@ -101,7 +101,7 @@ const lightThemeCssVars = declareCssVars([
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
 	[CustomTokens.Background3, BpTokensAll.LightGray4],
-	[CustomTokens.Background3b, transparentBlack(0.025)],
+	[CustomTokens.Background3b, transparentBlack(0.03)],
 
 	[CustomTokens.TextHeading, BpTokens.TextColors.PtHeadingColor],
 	[CustomTokens.TextBody, BpTokens.TextColors.PtTextColor],
@@ -120,7 +120,7 @@ const lightThemeCssVars = declareCssVars([
 
 	[CustomTokens.BorderEmphasis, BpTokensAll.LightGray1],
 	[CustomTokens.BorderNormal, BpTokensAll.PtDividerBlack],
-	[CustomTokens.BorderMuted, BpTokensAll.LightGray2],
+	[CustomTokens.BorderMuted, BpTokensAll.LightGray5],
 	[CustomTokens.BorderInvert, BpTokensAll.LightGray3],
 
 	[CustomTokens.ShadowGradient, `${transparentBlack(0.05)}, ${transparentBlack(0)}`],
@@ -133,13 +133,13 @@ const darkThemeCssVars = declareCssVars([
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
 	[CustomTokens.Background3, BpTokensAll.DarkGray1],
-	[CustomTokens.Background3b, transparentBlack(0.3)],
+	[CustomTokens.Background3b, transparentBlack(0.1)],
 
 	[CustomTokens.OnIntent, BpTokensAll.White],
 
 	[CustomTokens.BorderEmphasis, BpTokens.Colors.Black],
-	[CustomTokens.BorderNormal, BpTokens.Colors.Black],
-	[CustomTokens.BorderMuted, BpTokens.LayoutColors.PtDividerBlack],
+	[CustomTokens.BorderNormal, BpTokensAll.PtDividerBlack],
+	[CustomTokens.BorderMuted, BpTokens.Colors.DarkGray2],
 	[CustomTokens.BorderInvert, BpTokens.Colors.Gray4],
 
 	[CustomTokens.ShadowGradient, `${transparentBlack(0.2)}, ${transparentBlack(0)}`],

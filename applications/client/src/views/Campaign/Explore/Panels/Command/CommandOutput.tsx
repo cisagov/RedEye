@@ -42,7 +42,7 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 	});
 
 	return (
-		<div css={[rootWrapperStyle, UtilityStyles.innerBoxShadowOverlay('vertical')]}>
+		<div css={[rootWrapperStyle, UtilityStyles.innerBoxShadowOverlay('vertical', 2)]}>
 			<div css={outputMetaStyle}>
 				<div>
 					{command?.uniqueAttackIds?.length === 0 ? (
