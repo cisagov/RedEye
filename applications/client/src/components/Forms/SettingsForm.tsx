@@ -1,4 +1,4 @@
-import { Classes, Switch } from '@blueprintjs/core';
+import { Classes, FormGroup, Switch } from '@blueprintjs/core';
 import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
@@ -23,26 +23,33 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	});
 
 	return (
-		<form {...props}>
-			<Txt small>Timezone</Txt>
-			<Switch
-				inline
-				alignIndicator="right"
-				checked={state.enableAutoSelect}
-				onChange={state.setEnableAutoSelect}
-				label="AutoSelect"
-				css={switchStyle}
-			/>
-			<TimezoneSelect
-				css={timezonePickerStyle}
-				buttonProps={{ fill: true, alignText: 'left' }}
-				disabled={state.enableAutoSelect}
-				value={store.settings.timezone}
-				// showLocalTimezone
-				onChange={(timezone) => {
-					store.settings.setTimezone(timezone);
-				}}
-			/>
+		<form css={formStyles} {...props}>
+			{/* <Txt small>Timezone</Txt> */}
+
+			<FormGroup
+				label={'Timezone'}
+				helperText={
+					<Switch
+						// inline
+						// alignIndicator="right"
+						checked={state.enableAutoSelect}
+						onChange={state.setEnableAutoSelect}
+						label="AutoSelect"
+						css={{marginBottom:0}}
+					/>
+				}
+			>
+				<TimezoneSelect
+					css={timezonePickerStyle}
+					buttonProps={{ fill: true, alignText: 'left' }}
+					disabled={state.enableAutoSelect}
+					value={store.settings.timezone}
+					// showLocalTimezone
+					onChange={(timezone) => {
+						store.settings.setTimezone(timezone);
+					}}
+				/>
+			</FormGroup>
 			<Switch
 				cy-test="show-hide-beacons"
 				checked={store.settings.showHidden}
@@ -78,14 +85,24 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	);
 });
 
+const formStyles = css`
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	& > * {
+		margin: 0;
+	}
+`;
+
 const timezonePickerStyle = css`
 	.${Classes.POPOVER_TARGET} {
 		display: block;
-		margin-bottom: 10px;
+		/* margin-bottom: 10px; */
 	}
-	.${Classes.ICON} {
+	/* .${Classes.ICON} {
 		float: right;
-	}
+	} */
 `;
 
 const switchStyle = css`
