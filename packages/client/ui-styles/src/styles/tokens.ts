@@ -96,7 +96,7 @@ export const AdvancedTokens = {
 
 const lightThemeCssVars = declareCssVars([
 	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.White],
-	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.LightGray5],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.White],
 
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
@@ -128,7 +128,7 @@ const lightThemeCssVars = declareCssVars([
 
 const darkThemeCssVars = declareCssVars([
 	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.DarkGray3],
-	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.DarkGray2],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.DarkGray3],
 
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
