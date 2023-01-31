@@ -16,13 +16,17 @@ export const InfoRow: FC<InfoRowProps> = ({ className, active, ...props }) => (
 			// active ? Classes.ACTIVE : '', // selected
 			className,
 		].join(' ')}
-		css={css`
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			padding: 0.25rem 1rem;
-			height: ${defaultInfoRowHeight}px;
-		`}
+		css={[
+			css`
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				padding: 0.25rem 1rem;
+				height: ${defaultInfoRowHeight}px;
+			`,
+			// TODO: add active state
+			// active && activeStyle
+		]}
 		{...props}
 	/>
 );
