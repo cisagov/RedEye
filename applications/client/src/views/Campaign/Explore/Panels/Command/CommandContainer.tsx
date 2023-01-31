@@ -103,7 +103,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 						css={[
 							interactiveRowStyle,
 							gridFillStyle,
-							{ height: initialCommandRowHeight }
+							{ height: state.expanded ? 'auto':initialCommandRowHeight }
 						]}
 						active={state.expanded || state.active}
 						onClick={state.setCollapsed}
