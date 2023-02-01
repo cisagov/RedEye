@@ -25,7 +25,7 @@ describe('Export a campaign', () => {
 
 		// Click the export button
 		cy.get('[cy-test=export-database]').click();
-		cy.readFile('cypress\\downloads\\exportcampaign.redeye');
+		cy.readFile('cypress/downloads/exportcampaign.redeye');
 
 		// Delete the downloaded file
 		cy.deleteDownloadsFolderContent();
@@ -48,7 +48,7 @@ describe('Export a campaign', () => {
 
 		// Click the export button
 		cy.get('[cy-test=export-database]').click();
-		cy.readFile('cypress\\downloads\\exportcampaign.redeye');
+		cy.readFile('cypress/downloads/exportcampaign.redeye');
 
 		// Delete the downloaded file
 		cy.deleteDownloadsFolderContent();
