@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { CarbonIcon, Dropdown, ErrorFallback, ScrollBox, VirtualizedList } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import { SearchFilterOptions, SearchSortOptions } from '@redeye/client/types/search';
-import { Border, FlexSplitter, Header, Tokens, Txt } from '@redeye/ui-styles';
+import { Border, CoreTokens, FlexSplitter, Header, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 import type { HTMLProps } from 'react';
@@ -117,7 +117,7 @@ export const SearchModal = observer<HTMLProps<HTMLDivElement>>(({ ...props }) =>
 								<FlexSplitter />
 								<div>
 									{store.campaign.search.isError ? (
-										<Txt css={{ color: Tokens.IntentColors.PtIntentDangerTextColor }}>Error</Txt>
+										<Txt css={{ color: CoreTokens.TextIntentDanger }}>Error</Txt>
 									) : store.campaign.search.filteredResults ? (
 										<Txt cy-test="results">
 											{store.campaign.search.filteredResults?.length}{' '}
@@ -196,7 +196,7 @@ const searchSettingsBarStyles = css`
 `;
 
 const scrollBoxStyles = css`
-	border-top: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
+	border-top: 1px solid ${CoreTokens.BorderEmphasis};
 	flex: 1 1 auto;
 `;
 

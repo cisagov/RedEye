@@ -3,12 +3,25 @@ import { MikroORM, ReflectMetadataProvider } from '@mikro-orm/core';
 import { applicationEntities, getProjectMikroOrmConfig } from '@redeye/models';
 import { Database, Options as BOptions } from 'better-sqlite3';
 import path from 'path';
+import { Migration20221209003757 } from './campaign-migrations/Migration20221209003757';
+import { Migration20230106014154 } from './campaign-migrations/Migration20230106014154';
+import { Migration20221203042918 } from './main-migrations/Migration20221203042918';
 
 export type ORM = MikroORM<BetterSqliteDriver>;
 export const getCampaignOrm = (campaignDbPath: string, migrationFolder?: string): Promise<ORM> =>
 	MikroORM.init({
 		...getProjectMikroOrmConfig(campaignDbPath),
 		migrations: {
+			migrationsList: [
+				{
+					name: 'Migration20221209003757.ts',
+					class: Migration20221209003757,
+				},
+				{
+					name: 'Migration20230106014154.ts',
+					class: Migration20230106014154,
+				},
+			],
 			glob: '!(*.d).{js,ts}',
 			tableName: 'mikro_orm_migrations',
 			path: migrationFolder || path.join(__dirname, 'campaign-migrations'),
@@ -37,6 +50,12 @@ export const getMainOrm = (production: boolean, dbName: string, migrationFolder?
 		debug: !production,
 		allowGlobalContext: true,
 		migrations: {
+			migrationsList: [
+				{
+					name: 'Migration20221203042918.ts',
+					class: Migration20221203042918,
+				},
+			],
 			glob: '!(*.d).{js,ts}',
 			tableName: 'mikro_orm_migrations',
 			path: migrationFolder || path.join(__dirname, 'main-migrations'),
