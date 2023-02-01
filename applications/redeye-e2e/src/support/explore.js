@@ -71,7 +71,7 @@ Cypress.Commands.add('clickBeaconsTab', () => {
 
 //Return to Campaign Card
 Cypress.Commands.add('returnToCampaignCard', () => {
-	cy.get('[cy-test=return-campaign-menu]').click({ force: true });
+	cy.get('[cy-test=return-campaign-menu]').first().click({ force: true });
 	cy.wait('@campaigns');
 });
 
