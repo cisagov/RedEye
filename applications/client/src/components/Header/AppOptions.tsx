@@ -1,18 +1,17 @@
 import type { ButtonGroupProps } from '@blueprintjs/core';
-import { Button, ButtonGroup, AnchorButton } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
+import { Button, ButtonGroup } from '@blueprintjs/core';
 import { Help16, Help24, Settings16, Settings24, User16, User24 } from '@carbon/icons-react';
 import {
 	CarbonIcon,
 	GeneralSettingsOverlay,
 	HelpOverlay,
+	ModeIndicator,
 	NavButton,
 	UserSettingsOverlay,
 } from '@redeye/client/components';
 import type { AppStore } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
-import { css } from '@emotion/react';
 import type { UseCreateState } from '../mobx-create-state';
 import { createState } from '../mobx-create-state';
 
@@ -138,64 +137,7 @@ const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> 
 				}}
 				active={state.isHelpPanelOpen}
 			/>
-			<div css={dividerStyle} />
-			<div css={dividerStyle2} />
-			{isRedTeam ? (
-				<Popover2
-					position="right"
-					autoFocus={false}
-					interactionKind="hover"
-					content={
-						<div css={hoverInfoStyle}>
-							<b>Blue Team </b> Mode <br />
-							<hr style={{ height: '3px', visibility: 'hidden' }} />
-							Restricted RedEye functionality. Editing and commenting features are not available.
-						</div>
-					}
-				>
-					<AnchorButton intent="primary" small>
-						BT
-					</AnchorButton>
-				</Popover2>
-			) : (
-				<Popover2
-					position="right"
-					autoFocus={false}
-					interactionKind="hover"
-					content={
-						<div css={hoverInfoStyle}>
-							<b>Red Team </b> Mode <br />
-							<hr style={{ height: '3px', visibility: 'hidden' }} />
-							Full RedEye functionality. Editing and commenting is not restricted.
-						</div>
-					}
-				>
-					<AnchorButton intent="danger" small>
-						RT
-					</AnchorButton>
-				</Popover2>
-			)}
+			<ModeIndicator isRedTeam={isRedTeam} />
 		</>
 	);
 };
-
-const dividerStyle = css`
-	width: 15px;
-	height: 1px;
-	align-content: top;
-	padding-bottom: 1px;
-	background-color: grey;
-`;
-
-const dividerStyle2 = css`
-	width: 15px;
-	height: 1px;
-	align-content: top;
-	padding-bottom: 10px;
-	/* background-color: black; */
-`;
-
-const hoverInfoStyle = css`
-	padding: 15px;
-	width: 24em;
-`;
