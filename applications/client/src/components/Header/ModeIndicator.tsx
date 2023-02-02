@@ -1,7 +1,7 @@
 import { Popover2 } from '@blueprintjs/popover2';
 import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
-import { Tokens, Txt } from '@redeye/ui-styles';
+import { CoreTokens, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
 type ModeIndicatorProps = {
@@ -50,7 +50,7 @@ const dividerStyle = css`
 	align-content: middle;
 	padding-top: 1px;
 	padding-bottom: 10px;
-	border-top: 2px solid ${Tokens.Colors.Black};
+	border-top: 2px solid ${CoreTokens.Colors.Black};
 `;
 
 const hoverInfoStyle = css`
@@ -71,8 +71,8 @@ const blueStyle = css`
 	font-weight: 700;
 	font-size: 11px;
 	line-height: 14px;
-	background-color: ${Tokens.Colors.Blue3};
-	color: ${Tokens.Colors.Black};
+	background-color: ${CoreTokens.Colors.Blue3};
+	color: ${CoreTokens.Colors.Black};
 `;
 
 const redStyle = css`
@@ -83,6 +83,6 @@ const redStyle = css`
 	font-weight: 700;
 	font-size: 11px;
 	line-height: 14px;
-	background-color: ${Tokens.Colors.Red3};
-	color: ${Tokens.Colors.Black};
+	background-color: ${CoreTokens.Colors.Red3};
+	color: ${CoreTokens.Colors.Black};
 `;
