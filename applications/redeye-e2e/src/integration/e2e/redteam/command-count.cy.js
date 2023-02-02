@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { graphqlRequest } from '../../../support/utils.js';
+import { graphqlRequest } from '../../../support/utils';
 
 describe('Command counts', () => {
 	const camp = 'commandcounts';
@@ -48,7 +48,7 @@ describe('Command counts', () => {
 
 			// Open campaign and go to Beacons tab
 			cy.selectCampaign(camp);
-			cy.get('[cy-test=beacons]').click();
+			cy.clickBeaconsTab();
 
 			// Log number of commands for each beacon - should equal number on campaign card
 			cy
@@ -136,7 +136,7 @@ describe('Command counts', () => {
 			});
 
 		// Go back to Host list; log name and command count for second host
-		cy.get('[cy-test=explorer-mode]').click();
+		cy.clickExplorerMode();
 		cy
 			.get('[cy-test=hostName]')
 			.eq(2)
@@ -170,6 +170,33 @@ describe('Command counts', () => {
 								expect(res.body.data.commandIds).length(countHost2);
 							});
 						});
+					});
+			});
+	});
+
+	it('Verify command counts from Search modal', () => {
+		// Open campaign and go to Search modal
+		cy.selectCampaign(camp);
+		cy.clickSearch();
+
+		// Enter search term
+		cy.searchCampaignFor('exit');
+
+		// Log the number of commands showing for the Command Type result
+		cy
+			.get('[cy-test=command-count]')
+			.invoke('text')
+			.then((commandCount1) => {
+				// cy.log(commandCount1);
+
+				// Click the Command Type to go to the list of commands; verify count matches number in search
+				cy.get('[cy-test=search-result-item]').contains('Command Type').click();
+				cy
+					.get('[cy-test=info-row]')
+					.its('length')
+					.then((commandCount2) => {
+						// cy.log(commandCount2);
+						expect(+commandCount2).to.eq(+commandCount1);
 					});
 			});
 	});

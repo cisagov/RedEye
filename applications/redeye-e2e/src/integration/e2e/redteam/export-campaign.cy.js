@@ -3,8 +3,7 @@
 describe('Export a campaign', () => {
 	const camp = 'exportcampaign';
 	const fileName = 'gt.redeye';
-
-	// SKIP FOR NOW UNTIL I FIGURE OUT HOW TO ADD IN THE CHECK TO VERIFY A FILE WAS DOWNLOADED.
+	const downloadsDirectory = 'cypress\\downloads';
 
 	it('Red Team - Verify Red Team file is generated when a campaign is exported', () => {
 		cy.uploadCampaign(camp, fileName);
@@ -26,7 +25,10 @@ describe('Export a campaign', () => {
 
 		// Click the export button
 		cy.get('[cy-test=export-database]').click();
-		// // cy.verifyDownload('cypress\\Downlaods\\graph.png').should('exist');
+		cy.readFile('cypress/downloads/exportcampaign.redeye');
+
+		// Delete the downloaded file
+		cy.deleteDownloadsFolderContent();
 	});
 
 	it('Blue Team - Verify Blue Team file is generated when a campaign is exported', () => {
@@ -46,7 +48,10 @@ describe('Export a campaign', () => {
 
 		// Click the export button
 		cy.get('[cy-test=export-database]').click();
-		// // cy.verifyDownload('cypress\\Downlaods\\graph.png').should('exist');
+		cy.readFile('cypress/downloads/exportcampaign.redeye');
+
+		// Delete the downloaded file
+		cy.deleteDownloadsFolderContent();
 	});
 
 	after(() => {

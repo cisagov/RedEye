@@ -11,9 +11,12 @@ describe('Export graph', () => {
 		cy.searchForCampaign(camp);
 		cy.selectCampaign(camp);
 
-		// Click the export button
+		// Click the export button and verify the file is downloaded
 		cy.get('[cy-test=export-graph]').click();
-		// cy.verifyDownload('cypress\\Downlaods\\graph.png').should('exist');
+		cy.readFile('cypress/downloads/graph.png');
+
+		// Delete the downloaded file
+		cy.deleteDownloadsFolderContent();
 	});
 
 	after(() => {

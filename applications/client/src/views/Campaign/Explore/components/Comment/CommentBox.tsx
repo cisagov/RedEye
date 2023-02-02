@@ -397,14 +397,16 @@ export const CommentBox = observer<CommentBoxProps>(
 			<div {...props}>
 				<div css={headerWrapperStyle}>
 					<span>
-						<CarbonIcon icon={Chat16} />
+						<CarbonIcon cy-test="comment-icon" icon={Chat16} />
 						<Spacer />
 						<Txt>
 							{annotation?.user !== undefined ? (
 								annotation?.user
 							) : (
 								<span>
-									<Txt bold>New Comment</Txt>
+									<Txt cy-test="new-comment-header" bold>
+										New Comment
+									</Txt>
 									{state.commandIds.length > 1 && <Txt muted> on {state.commandIds.length} Commands</Txt>}
 								</span>
 							)}
@@ -627,7 +629,7 @@ export const CommentBox = observer<CommentBoxProps>(
 												text="Edit"
 											/>
 										)}
-										{allowReply && <Button minimal small onClick={() => reply?.()} text="Reply" />}
+										{allowReply && <Button cy-test="reply" minimal small onClick={() => reply?.()} text="Reply" />}
 										{allowEdit && (
 											<>
 												<Button
