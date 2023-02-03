@@ -45,8 +45,8 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			</RowTime>
 			<RowTitle className={skeletonClass}>{beacon?.displayName || `${beacon.server?.displayName}`}</RowTitle>
 			<RowMuted className={skeletonClass}>{beacon.meta?.[0]?.maybeCurrent?.username}</RowMuted>
-			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<FlexSplitter />
+			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />
 			<IconLabel
 				cy-test="row-command-count"

@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Position } from '@blueprintjs/core';
+import { Button, Menu, MenuItem, Position } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/popover2';
 import { OverflowMenuVertical16, View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -51,7 +51,7 @@ export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden }) 
 				</Menu>
 			}
 		>
-			<CarbonIcon icon={OverflowMenuVertical16} css={[iconStyle(), hoverStyle]} />
+			<Button icon={<CarbonIcon icon={OverflowMenuVertical16} />} minimal small css={buttonStyle} />
 		</Popover2>
 	);
 });
@@ -61,8 +61,9 @@ const iconStyle = (show?: boolean) => css`
 	color: ${show ? CoreTokens.TextBody : CoreTokens.TextDisabled} !important;
 `;
 
-const hoverStyle = css`
-	:hover {
-		color: ${CoreTokens.TextBody} !important;
+const buttonStyle = css`
+	margin: 0 -8px 0 -4px;
+	&:not(:hover) {
+		opacity: 0.3;
 	}
 `;

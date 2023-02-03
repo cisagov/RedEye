@@ -12,7 +12,7 @@ type TextLabelProps = ComponentProps<'span'> & {
 export const IconLabel = observer<TextLabelProps>(({ value, icon, ...props }) => (
 	<span
 		css={css`
-			margin-right: 1rem;
+			margin-right: 0.5rem;
 		`}
 		{...props}
 	>
@@ -21,7 +21,7 @@ export const IconLabel = observer<TextLabelProps>(({ value, icon, ...props }) =>
 			icon={icon}
 			css={css`
 				color: ${CoreTokens.TextDisabled} !important;
-				margin-left: 0.25rem;
+				margin-left: 2px;
 			`}
 		/>
 	</span>

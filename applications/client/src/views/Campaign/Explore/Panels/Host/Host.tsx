@@ -48,8 +48,8 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					{host.displayName}
 				</Txt>
 			</RowTitle>
-			{host?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<FlexSplitter />
+			{host?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			{!host.cobaltStrikeServer && (
 				<>
 					<IconLabel cy-test="row-command-count" title="Commands" value={host.commandsCount} icon={semanticIcons.commands} />
