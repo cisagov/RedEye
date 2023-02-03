@@ -12,10 +12,12 @@ import type { ComponentProps } from 'react';
 
 type HostRowProps = ComponentProps<'div'> & {
 	modal: HostModel | ServerModel | BeaconModel;
-	mutateToggleHidden: UseMutationResult<any, unknown, void, unknown>;
+	mutateToggleHidden?: UseMutationResult<any, unknown, void, unknown>;
+	disabled?: boolean;
+	click?: () => void;
 };
 
-export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden }) => {
+export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden, click, disabled = false }) => {
 	if (!modal) return null;
 
 	return (
@@ -35,6 +37,7 @@ export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden }) 
 			content={
 				<Menu>
 					<MenuItem
+						disabled={disabled}
 						text={`${modal?.hidden ? 'Show ' : 'Hide '} ${
 							modal instanceof BeaconModel
 								? 'Beacon'
@@ -45,7 +48,8 @@ export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden }) 
 						icon={<CarbonIcon icon={modal?.hidden ? View16 : ViewOff16} css={iconStyle(!!modal?.hidden)} />}
 						onClick={(e) => {
 							e.stopPropagation();
-							mutateToggleHidden.mutate();
+							// mutateToggleHidden?.mutate();
+							click?.();
 						}}
 					/>
 				</Menu>

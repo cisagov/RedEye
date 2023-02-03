@@ -3,8 +3,17 @@ import { ViewOff16 } from '@carbon/icons-react';
 import { dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
+import { InfoType } from '@redeye/client/types';
 import { TimeStatus } from '@redeye/client/types/timeline';
-import { IconLabel, InfoRow, RowMuted, RowTime, RowTitle, useToggleHidden } from '@redeye/client/views';
+import {
+	IconLabel,
+	InfoRow,
+	RowMuted,
+	RowTime,
+	RowTitle,
+	ToggleHiddenDialog,
+	useToggleHidden,
+} from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -23,7 +32,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 		[beacon.displayName, beacon.server?.displayName]
 	);
 
-	const [, mutateToggleHidden] = useToggleHidden(
+	const [toggleHidden, mutateToggleHidden] = useToggleHidden(
 		async () =>
 			await store.graphqlStore.mutateToggleBeaconHidden({
 				campaignId: store.campaign?.id!,
@@ -55,7 +64,22 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				icon={semanticIcons.commands}
 				className={skeletonClass}
 			/>
-			<QuickMeta modal={beacon} mutateToggleHidden={mutateToggleHidden} />
+			<QuickMeta
+				modal={beacon}
+				mutateToggleHidden={mutateToggleHidden}
+				disabled={!!store.appMeta.blueTeam}
+				click={() => toggleHidden.update('showHide', true)}
+			/>
+			<ToggleHiddenDialog
+				isOpen={toggleHidden.showHide}
+				infoType={InfoType.BEACON}
+				isHiddenToggled={!!beacon?.hidden}
+				onClose={(e) => {
+					e.stopPropagation();
+					toggleHidden.update('showHide', false);
+				}}
+				onHide={() => mutateToggleHidden.mutate()}
+			/>
 		</InfoRow>
 	);
 });

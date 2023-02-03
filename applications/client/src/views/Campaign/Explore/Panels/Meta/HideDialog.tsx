@@ -41,7 +41,8 @@ export const ToggleHiddenDialog = observer<Props>(
 							intent={Intent.PRIMARY}
 							rightIcon={<CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
 							loading={loading}
-							onClick={() => {
+							onClick={(e) => {
+								e.stopPropagation();
 								setLoading(true);
 								onHide();
 							}}

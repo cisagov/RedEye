@@ -2,8 +2,8 @@ import { ViewOff16 } from '@carbon/icons-react';
 import { CarbonIcon, dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
-import { TimeStatus } from '@redeye/client/types';
-import { IconLabel, InfoRow, RowTime, RowTitle, useToggleHidden } from '@redeye/client/views';
+import { InfoType, TimeStatus } from '@redeye/client/types';
+import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHidden } from '@redeye/client/views';
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -18,7 +18,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 
 	if (!host) return null;
 
-	const [, mutateToggleHidden] = useToggleHidden(async () =>
+	const [toggleHidden, mutateToggleHidden] = useToggleHidden(async () =>
 		host.cobaltStrikeServer
 			? await store.graphqlStore.mutateToggleServerHidden({
 					campaignId: store.campaign?.id!,
@@ -56,7 +56,22 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					<IconLabel cy-test="row-beacon-count" value={host.beaconCount} title="Beacons" icon={semanticIcons.beacon} />
 				</>
 			)}
-			<QuickMeta modal={host} mutateToggleHidden={mutateToggleHidden} />
+			<QuickMeta
+				modal={host}
+				mutateToggleHidden={mutateToggleHidden}
+				disabled={!!store.appMeta.blueTeam}
+				click={() => toggleHidden.update('showHide', true)}
+			/>
+			<ToggleHiddenDialog
+				isOpen={toggleHidden.showHide}
+				infoType={host.cobaltStrikeServer ? InfoType.SERVER : InfoType.HOST}
+				isHiddenToggled={!!host?.hidden}
+				onClose={(e) => {
+					e.stopPropagation();
+					toggleHidden.update('showHide', false);
+				}}
+				onHide={() => mutateToggleHidden.mutate()}
+			/>
 		</InfoRow>
 	);
 });
