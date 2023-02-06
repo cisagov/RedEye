@@ -20,7 +20,6 @@ module.exports = defineConfig({
 		runMode: 1,
 	},
 	e2e: {
-		
 		setupNodeEvents(on, config) {
 			on('task', {
 				// ===== task to use node 'fs' (filesystem) to read directory=====
@@ -47,7 +46,6 @@ module.exports = defineConfig({
 				},
 			});
 		},
-		experimentalSessionAndOrigin: true,
 		specPattern: '../../**/*.cy.js',
 		supportFile: './src/support/index.js',
 		excludeSpecPattern: '*.skip.js',
