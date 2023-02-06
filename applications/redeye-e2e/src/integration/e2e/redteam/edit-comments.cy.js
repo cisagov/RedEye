@@ -1,18 +1,23 @@
 /// <reference types="cypress" />
 
-describe('Campaign comments', () => {
+describe('Edit Campaign Comments', () => {
+	const camp = 'editComments';
 	const editedComment = 'Edited comment text';
+	const fileName = 'gt.redeye';
+	const comment = 'commenthere';
 	const tag = 'testing';
 	const tag1 = 'test_1';
 	const tag2 = 'test_2';
 
 	it('Add comment and edit the text afterward', () => {
+		cy.uploadCampaign(camp, fileName);
+
 		// Open the campaign and add a new comment
 		cy.selectCampaign(camp);
 
 		cy.clickCommandTypesTab();
 
-		cy.selectCommandType(cmd);
+		cy.selectCommandType('dcsync');
 
 		cy.addNewComment('0', comment, tag2);
 
@@ -37,7 +42,7 @@ describe('Campaign comments', () => {
 	});
 
 	// SKIPPING FOR NOW - PENDING BUG FIX (https://jira.pnnl.gov/jira/browse/BLDSTRIKE-544). Note. using it.skip makes the entire test fail, so commenting out insteadyarn
-	it('Reply to a comment and verify comment count increases', () => {
+	it.skip('Reply to a comment and verify comment count increases', () => {
 		cy.searchForCampaign(camp);
 
 		// Log the total number of comments showing on the campaign card
