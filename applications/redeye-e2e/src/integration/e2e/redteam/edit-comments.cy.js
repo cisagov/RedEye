@@ -71,7 +71,9 @@ describe('Edit Campaign Comments', () => {
 						.get('[cy-test=comment-group]')
 						.its('length')
 						.then((commentsTab1) => {
-							expect(+commentsTab1).to.eq(+commentCountAll1).and.to.eq(+campaignCardCount1);
+							expect(+commentsTab1)
+								.to.eq(+commentCountAll1)
+								.and.to.eq(+campaignCardCount1);
 
 							// Reply to one of the comments with a comment and a tag
 							cy.replyToComment(0, 'Replying to above comment.');
@@ -106,5 +108,9 @@ describe('Edit Campaign Comments', () => {
 						});
 				});
 		});
+	});
+
+	after(() => {
+		cy.deleteCampaignGraphQL(camp);
 	});
 });
