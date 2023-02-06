@@ -4,10 +4,7 @@
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"module": "ESNext",
-		"lib": [
-			"ESNext",
-			"DOM"
-		],
+		"lib": ["ESNext", "DOM"],
 		"moduleResolution": "Node",
 		"target": "ESNext",
 		"useDefineForClassFields": true,
@@ -22,14 +19,11 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
+		"composite": true,
 		"jsxImportSource": "@emotion/react",
 		"jsx": "react-jsx"
 	},
-	"exclude": [
-		"node_modules"
-	],
+	"exclude": ["node_modules"],
 	"files": [],
-	"include": [
-		"src"
-	]
+	"include": ["src"]
 }

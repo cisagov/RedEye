@@ -5956,9 +5956,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^12.5.1":
-  version: 12.6.0
-  resolution: "cypress@npm:12.6.0"
+"cypress@npm:^12.7.0":
+  version: 12.7.0
+  resolution: "cypress@npm:12.7.0"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -6004,7 +6004,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 716afdc7bd83d14d9ad31aba9f757a5dfccc1a693c57273a6b2281ddc1b201a432fae5c5ae8f049088384e3bcc3bda530910870ff8604a0233e1b96abc069850
+  checksum: a9489f7f254dcee1b8a374d14d175c8f8681a3388e4c02181e0486f064f4de59bfc79dec1f401605332d3a5869bf2ba06b3a1653a5c287e447810d756d470078
   languageName: node
   linkType: hard
 
@@ -7304,7 +7304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-cypress@npm:^2.10.3":
+"eslint-plugin-cypress@npm:^2.12.1":
   version: 2.12.1
   resolution: "eslint-plugin-cypress@npm:2.12.1"
   dependencies:
@@ -12962,7 +12962,7 @@ __metadata:
     cors: ^2.8.5
     cross-env: ^7.0.3
     crypto-js: ^4.0.0
-    cypress: ^12.5.1
+    cypress: ^12.7.0
     cypress-multi-reporters: ^1.6.1
     d3: ^6.7.0
     dayjs: ^1.11.7
@@ -12974,7 +12974,7 @@ __metadata:
     eslint-config-standard: ^17.0.0
     eslint-import-resolver-typescript: ^3.5.0
     eslint-plugin-array-func: ^3.1.7
-    eslint-plugin-cypress: ^2.10.3
+    eslint-plugin-cypress: ^2.12.1
     eslint-plugin-flowtype: ^8.0.3
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jest: ^26.8.7

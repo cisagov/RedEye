@@ -19,6 +19,7 @@
 		"noFallthroughCasesInSwitch": true,
 		"moduleResolution": "node",
 		"esModuleInterop": true,
+		"composite": true,
 		"emitDeclarationOnly": true,
 		"skipLibCheck": true
 	}
