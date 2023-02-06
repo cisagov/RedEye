@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
-describe('Campaign comments', () => {
-	const camp = 'campaigncomments';
+describe('Add Delete Campaign Comments', () => {
+	const camp = 'addDeleteComments';
 	const fileName = 'gt.redeye';
 	const cmd = 'dcsync';
 	const comment = 'Another comment';
@@ -42,7 +42,9 @@ describe('Campaign comments', () => {
 		cy.get('@campaignCommentCount').then((campaignCommentCount) => {
 			cy.get('@commentsTabCount').then((commentsTabCount) => {
 				cy.get('@presentationCommentCount').then((presentationCommentCount) => {
-					expect(+campaignCommentCount).to.eq(+commentsTabCount).and.to.eq(+presentationCommentCount);
+					expect(+campaignCommentCount)
+						.to.eq(+commentsTabCount)
+						.and.to.eq(+presentationCommentCount);
 				});
 			});
 		});
@@ -88,6 +90,8 @@ describe('Campaign comments', () => {
 		// Return to campaign menu and log new number of comments - should be one more than original, and all comment counts should match
 		cy.returnToCampaignCard();
 
+		cy.wait(1000);
+
 		cy.get('@campaignCommentCount').then((campaignCommentCount) => {
 			cy
 				.get('[cy-test=comment-count]')
@@ -100,8 +104,6 @@ describe('Campaign comments', () => {
 	});
 
 	it('Delete campaign comments and check counts', () => {
-		// cy.uploadCampaign(camp, fileName);
-
 		cy
 			.get('[cy-test=comment-count]')
 			.find('span')
@@ -146,6 +148,8 @@ describe('Campaign comments', () => {
 
 		// Return to campaign menu and log new number of comments - should be one less than original, and all comment counts should match
 		cy.returnToCampaignCard();
+
+		cy.wait(1000);
 
 		cy
 			.get('[cy-test=comment-count]')
