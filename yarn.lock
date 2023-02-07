@@ -8325,9 +8325,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^12.3.0":
-  version: 12.3.0
-  resolution: "cypress@npm:12.3.0"
+"cypress@npm:^12.5.1":
+  version: 12.5.1
+  resolution: "cypress@npm:12.5.1"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -8373,7 +8373,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 00658996bcca918254348eb42bc03079ccf2d583e5c9c04190267edcbc542d4a22835d7399711c99f7aa7334412104b23cc5a1aa7f02b8b541c12298bf3f63f0
+  checksum: acea08c933084bbdffe8e0d8f24ecdc3be52731824f09cf2e720c974a153d808f5af1c665d977e46f171e275c590065aeadf729022d1338a6a424e5ec8b119af
   languageName: node
   linkType: hard
 
@@ -17048,7 +17048,7 @@ __metadata:
     cors: ^2.8.5
     cross-env: ^7.0.3
     crypto-js: ^4.0.0
-    cypress: ^12.3.0
+    cypress: ^12.5.1
     cypress-multi-reporters: ^1.6.1
     d3: ^6.7.0
     dotenv: ^8.2.0
