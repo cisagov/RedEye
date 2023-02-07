@@ -1,24 +1,20 @@
 /// <reference types="cypress" />
 
-const { Time } = require('@blueprintjs/icons/lib/esm/generated/16px/paths');
-const { time } = require('console');
-
 describe('Timeline tests', () => {
-	const camp = '200817';
-	// const fileName = 'gt.redeye';
+	const camp = 'timelinetests';
 
-	it('Verify timeline navigation features', () => {
-		// cy.uploadCampaign(camp, fileName);
-
+	it.only('Verify timeline navigation features', () => {
 		// Upload campaign and open
 		cy.get('[cy-test=add-campaign-btn]').click();
 		cy.uploadLogs('cypress', camp);
 		cy.wait(500);
 		cy.get('[cy-test=close-log]').click();
 		cy.reload();
-		cy.wait(7000);
+		cy.wait(['@campaign']);
+		cy.reload();
 
-		cy.selectCampaign(camp);
+		cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
+		cy.reload();
 
 		cy.get('[cy-test=timeline]').should('be.visible');
 
@@ -30,19 +26,20 @@ describe('Timeline tests', () => {
 				// cy.log(position1);
 
 				// Click Play and let the timeline run for a few seconds
-				cy.get('[cy-test=timeline-play-pause]').click();
+				cy.timelinePlayPause();
 				cy.wait(1500);
 
 				// Pause the timeline and log its new position - should be different than the starting position
-				cy.get('[cy-test=timeline-play-pause]').click();
+				cy.timelinePlayPause();
 				cy
 					.get('[cy-test=timeline-animated-line]')
 					.invoke('attr', 'x1')
 					.then((position2) => {
 						// cy.log(position2);
-						expect(position1).to.not.equal(position2);
+						expect(+position1).to.not.equal(+position2);
 
-						cy.get('[cy-test=timeline-back]').click();
+						cy.timelineBack();
+						cy.wait(500);
 
 						cy
 							.get('[cy-test=timeline-animated-line]')
@@ -51,8 +48,8 @@ describe('Timeline tests', () => {
 								// cy.log(position3);
 								expect(+position3).to.be.lessThan(+position2);
 
-								// Click the forward button to move the timeline ahead 3 places; verify it is more than the previous position
-								cy.get('[cy-test=timeline-forward]').click().click().click();
+								// Click the forward button to move the timeline ahead; verify it is more than the previous position
+								cy.timelineForward().click();
 								cy
 									.get('[cy-test=timeline-animated-line]')
 									.invoke('attr', 'x1')
@@ -81,7 +78,7 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline-end-date]').invoke('text').should('contain', '10/19/20');
 
 		// Reset dates for next test
-		cy.get('[cy-test=reset-timeline-dates]');
+		cy.resetTimelineDates();
 	});
 
 	it('Timeline tooltip info appears correctly', () => {
@@ -114,7 +111,7 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline-beacon-command-count]').should('be.visible');
 
 		// Reset dates for next test
-		cy.get('[cy-test=reset-timeline-dates]');
+		cy.resetTimelineDates();
 	});
 
 	it('Information mactches in the two tooltip views', () => {
@@ -174,10 +171,10 @@ describe('Timeline tests', () => {
 					});
 			});
 		// Reset dates for next test
-		cy.get('[cy-test=reset-timeline-dates]');
+		cy.resetTimelineDates();
 	});
 
-	it('Clicking beacon info in tooltip opens the correct beacon', () => {
+	it('Clicking beacon info in tooltip displays the correct beacon info', () => {
 		// Open campaign
 		cy.selectCampaign(camp);
 		cy.get('[cy-test=timeline]').should('be.visible');
@@ -193,112 +190,64 @@ describe('Timeline tests', () => {
 		// Click to switch to clickable tooltip
 		cy.get('[cy-test=timeline-bar]').eq(1).click();
 
-		// Log the info showing in the toolip
+		// Click to open beacon info
+		cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
+		cy.wait(1000);
+
+		// Verify timeline beacon name matches beacon info
+		cy
+			.get('[cy-test=timeline-beacon-name]')
+			.eq(1)
+			.invoke('text')
+			.then((timelineBeaconName) => {
+				// cy.log(timelineBeaconName);
+
+				cy
+					.get('[cy-test=beaconName]')
+					.invoke('text')
+					.then((beaconName) => {
+						// cy.log(beaconName);
+						expect(beaconName).to.eq(timelineBeaconName);
+					});
+			});
+
+		// Verify timeline beacon operator matches beacon info
+		cy
+			.get('[cy-test=timeline-beacon-operator]')
+			.eq(1)
+			.invoke('text')
+			.then((timelineBeaconOperator) => {
+				// cy.log(timelineBeaconOperator);
+
+				cy
+					.get('[cy-test=userName]')
+					.invoke('text')
+					.then((userName) => {
+						// cy.log(userName);
+						expect(userName).to.eq(timelineBeaconOperator);
+					});
+			});
+
+		// Verify tooltip date matches beacon info
 		cy
 			.get('[cy-test=timeline-tooltip-date-time]')
 			.invoke('text')
-			.then((month) => {
-				const timelineMonth = month.split('/')[0];
+			.then((tooltipMonth) => {
+				const timelineMonth = tooltipMonth.split('/')[0];
 				cy.log(timelineMonth);
 				cy
 					.get('[cy-test=timeline-tooltip-date-time]')
 					.invoke('text')
-					.then((day) => {
-						const timelineDay = day.split('/')[1];
+					.then((tooltipDay) => {
+						const timelineDay = tooltipDay.split('/')[1];
 						cy.log(timelineDay);
 
-						cy
-							.get('[cy-test=timeline-tooltip-date-time]')
-							.invoke('text')
-							.then((text1) => {
-								const timelineStartTime = text1.split(' ')[1];
-								cy.log(timelineStartTime);
-
-								cy
-									.get('[cy-test=timeline-tooltip-date-time]')
-									.invoke('text')
-									.then((text2) => {
-										const timelineEndTime = text2.split(' ')[3];
-										cy.log(timelineEndTime);
-
-										cy
-											.get('[cy-test=timeline-beacon-name]')
-											.eq(1)
-											.invoke('text')
-											.then((timelineBeaconName) => {
-												// cy.log(timelineBeaconName);
-
-												cy
-													.get('[cy-test=timeline-beacon-operator]')
-													.eq(1)
-													.invoke('text')
-													.then((timelineBeaconOperator) => {
-														// cy.log(timelineBeaconOperator);
-
-														// Click to open beacon info
-														cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
-														cy.wait(1000);
-
-														// Verify information that opens matches tooltip
-														cy
-															.get('[cy-test=beaconName]')
-															.invoke('text')
-															.then((beaconName) => {
-																// cy.log(beaconName);
-																expect(beaconName).to.eq(timelineBeaconName);
-
-																cy
-																	.get('[cy-test=userName]')
-																	.invoke('text')
-																	.then((userName) => {
-																		// cy.log(userName);
-																		expect(userName).to.eq(timelineBeaconOperator);
-
-																		const month = timelineMonth;
-																		const day = timelineDay;
-																		const timelineDate = month.concat('/').concat(day);
-																		cy.get('[cy-test=command-date-time]').each(($date) => {
-																			expect($date.text()).to.contain(timelineDate);
-
-																			// WIP -- want to compare the times showning and make sure they're within the range in the tooltip
-
-																			const start = timelineStartTime;
-																			const end = timelineEndTime;
-
-																			cy
-																				.get('[cy-test=command-date-time]')
-																				.invoke('text')
-																				.then((time) => {
-																					const commandTime = time.split(' ')[1];
-																					cy.log(commandTime);
-																					// }).each(($commandTime) => {
-																					// 	cy.log($times.text());
-																				});
-																			// cy
-																			// 	.get('[cy-test=command-date-time]')
-																			// 	.eq(0)
-																			// 	.invoke('text')
-																			// 	.then((time1) => {
-																			// 		const command1 = time1.split(' ')[1];
-																			// 		cy.log(command1);
-																			// 		// const timeCommand1 = new Date(command1)
-																			// 		// cy.log(timeCommand1)
-																			// 		// expect(timeCommand1).to.be.gte(start).and.to.be.lte(end)
-
-																			// 		cy.log(start)
-																			// 		cy.log(end)
-																			// 		cy.log(timeCommand1)
-
-																			// 		// expect(timeCommand1).to.be.gte(start).and.to.be.lte(end);
-																		});
-
-																		// });
-																	});
-															});
-													});
-											});
-									});
-							});
+						const month = timelineMonth;
+						const day = timelineDay;
+						const timelineDate = month.concat('/').concat(day);
+						cy.get('[cy-test=command-date-time]').each(($date) => {
+							expect($date.text()).to.contain(timelineDate);
+						});
 					});
 			});
 	});

@@ -193,6 +193,12 @@ declare namespace Cypress {
 		 */
 		replyToComment();
 
+		/**Clicks the reset button on the timeline to set dates back to their original configuration.
+		 * @example
+		 * cy.resetTimelineDates()
+		 */
+		resetTimelineDates();
+
 		/**Searches the campaign card menu for a specific campaign using the Search feature at the top of the page.
 		 * @example
 		 * cy.searchForCampaign(campaign)
@@ -210,6 +216,18 @@ declare namespace Cypress {
 		 * cy.SelectCommandType(command)
 		 */
 		selectCommandType();
+
+		/**Clicks the Back button on the timeline once.
+		 * @example
+		 * cy.timelineBack()
+		 */
+		timelineBack();
+
+		/**Clicks the Forward button on the timeline once.
+		 * @example
+		 * cy.timelineForward()
+		 */
+		timelineForward();
 
 		/**Clicks on the Play/Pause button of the timeline.
 		 * @example
