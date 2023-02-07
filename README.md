@@ -12,7 +12,11 @@ RedEye can assist an operator to efficiently:
 - Display and evaluate complex assessment data to enable effective decision making.
 - Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.
 
-[![RedEye](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/rsybgk/main&style=flat-square&logo=cypress)](https://dashboard.cypress.io/projects/rsybgk/runs)
+Red Team:
+[![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&style=flat&logo=cypress)](https://cloud.cypress.io/projects/rsybgk/runs)
+
+Blue Team:
+[![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs)
 
 ## [User Guide](<docs/User Guide.md>)
 

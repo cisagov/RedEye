@@ -68,9 +68,15 @@ Cypress.Commands.add('addComment', (index, cmt) => {
 
 //DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
-	cy.get('[cy-test=add-comment]').eq(index).click({ force: true });
+	cy
+		.get('[cy-test=add-comment]')
+		.eq(index)
+		.click()
+		.wait(100)
+		.then(() => {
+			cy.get('[cy-test=comment-dialog]').should('be.visible');
+		});
 
-	cy.get('[cy-test=comment-dialog]').should('be.visible');
 	cy.get('[cy-test=delete-comment]').click();
 	cy.contains('Delete Comment').click();
 });
