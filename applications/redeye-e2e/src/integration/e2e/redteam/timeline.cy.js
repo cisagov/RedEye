@@ -235,63 +235,64 @@ describe('Timeline tests', () => {
 													.then((timelineBeaconOperator) => {
 														// cy.log(timelineBeaconOperator);
 
+														// Click to open beacon info
+														cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
+														cy.wait(1000);
+
+														// Verify information that opens matches tooltip
 														cy
-															.get('[cy-test=timeline-beacon-command-count]')
-															.eq(1)
+															.get('[cy-test=beaconName]')
 															.invoke('text')
-															.then((timelineCommandCount) => {
-																// cy.log(timelineCommandCount);
+															.then((beaconName) => {
+																// cy.log(beaconName);
+																expect(beaconName).to.eq(timelineBeaconName);
 
-																// Click to open beacon info
-																cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
-																cy.wait(1000);
-
-																// Verify information that opens matches tooltip
 																cy
-																	.get('[cy-test=beaconName]')
+																	.get('[cy-test=userName]')
 																	.invoke('text')
-																	.then((beaconName) => {
-																		// cy.log(beaconName);
-																		expect(beaconName).to.eq(timelineBeaconName);
+																	.then((userName) => {
+																		// cy.log(userName);
+																		expect(userName).to.eq(timelineBeaconOperator);
 
-																		cy
-																			.get('[cy-test=userName]')
-																			.invoke('text')
-																			.then((userName) => {
-																				// cy.log(userName);
-																				expect(userName).to.eq(timelineBeaconOperator);
+																		const month = timelineMonth;
+																		const day = timelineDay;
+																		const timelineDate = month.concat('/').concat(day);
+																		cy.get('[cy-test=command-date-time]').each(($date) => {
+																			expect($date.text()).to.contain(timelineDate);
 
-																				const month = timelineMonth;
-																				const day = timelineDay;
-																				const timelineDate = month.concat('/').concat(day);
-																				cy.get('[cy-test=command-date-time]').each(($menu) => {
-																					expect($menu.text()).to.contain(timelineDate);
+																			// WIP -- want to compare the times showning and make sure they're within the range in the tooltip
 
-																				// WIP -- want to compare the times showning and make sure they're within the range in the tooltip
-																					// cy
-																				// 	.get('[cy-test=command-date-time]')
-																				// 	.eq(0)
-																				// 	.invoke('text')
-																				// 	.then((time1) => {
-																				// 		const command1 = time1.split(' ')[1];
-																				// 		cy.log(command1);
-																				// 		// const timeCommand1 = new Date(command1)
-																				// 		// cy.log(timeCommand1)
-																				// 		// expect(timeCommand1).to.be.gte(start).and.to.be.lte(end)
+																			const start = timelineStartTime;
+																			const end = timelineEndTime;
 
-																				// 		const start = new Time(timelineStartTime);
-																				// 		const end = new Time(timelineEndTime);
-																				// 		const timeCommand1 = new Time(command1);
+																			cy
+																				.get('[cy-test=command-date-time]')
+																				.invoke('text')
+																				.then((time) => {
+																					const commandTime = time.split(' ')[1];
+																					cy.log(commandTime);
+																					// }).each(($commandTime) => {
+																					// 	cy.log($times.text());
+																				});
+																			// cy
+																			// 	.get('[cy-test=command-date-time]')
+																			// 	.eq(0)
+																			// 	.invoke('text')
+																			// 	.then((time1) => {
+																			// 		const command1 = time1.split(' ')[1];
+																			// 		cy.log(command1);
+																			// 		// const timeCommand1 = new Date(command1)
+																			// 		// cy.log(timeCommand1)
+																			// 		// expect(timeCommand1).to.be.gte(start).and.to.be.lte(end)
 
-																				// 		cy.log(start)
-																				// 		cy.log(end)
-																				// 		cy.log(timeCommand1)
+																			// 		cy.log(start)
+																			// 		cy.log(end)
+																			// 		cy.log(timeCommand1)
 
-																				// 		// expect(timeCommand1).to.be.gte(start).and.to.be.lte(end);
-																					});
+																			// 		// expect(timeCommand1).to.be.gte(start).and.to.be.lte(end);
+																		});
 
-																				// });
-																			});
+																		// });
 																	});
 															});
 													});
