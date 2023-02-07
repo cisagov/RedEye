@@ -3,7 +3,7 @@
 describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 
-	it.only('Verify timeline navigation features', () => {
+	it('Verify timeline navigation features', () => {
 		// Upload campaign and open
 		cy.get('[cy-test=add-campaign-btn]').click();
 		cy.uploadLogs('cypress', camp);
