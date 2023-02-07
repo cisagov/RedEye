@@ -22,6 +22,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.clickCommentsTab();
 
+		cy.wait(1000);
+
 		cy
 			.get('[cy-test=comment-group]')
 			.its('length')
@@ -30,6 +32,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		// Log starting number of comments via Presentation Mode - should equal campaign card and Comments tab counts
 		cy.clickPresentationMode();
+
+		cy.wait(1000);
 
 		cy
 			.get('[cy-test=all] [cy-test=count]')
@@ -63,6 +67,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.clickCommentsTab();
 
+		cy.wait(1000);
+
 		cy.get('@commentsTabCount').then((commentsTabCount) => {
 			cy
 				.get('[cy-test=comment-group]')
@@ -75,6 +81,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		// Log new number of comments via Presentation Mode - should be one more
 		cy.clickPresentationMode();
+
+		cy.wait(1000);
 
 		cy.get('@presentationCommentCount').then((presentationCommentCount) => {
 			cy
@@ -126,6 +134,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.clickCommentsTab();
 
+		cy.wait(1000);
+
 		cy
 			.get('[cy-test=comment-group]')
 			.its('length')
@@ -136,6 +146,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		// Log new number of comments via Presentation Mode - should be one less
 		cy.clickPresentationMode();
+
+		cy.wait(1000);
 
 		cy
 			.get('[cy-test=all] [cy-test=count]')
