@@ -5,7 +5,7 @@ describe('Navigate to beacon through command details', () => {
 	const fileName = 'gt.redeye';
 
 	it('Click details in command to go to beacon', () => {
-		// cy.uploadCampaign(camp, fileName);
+		cy.uploadCampaign(camp, fileName);
 
 		// Open campaign and select a host
 		cy.selectCampaign(camp);
@@ -23,10 +23,6 @@ describe('Navigate to beacon through command details', () => {
 			.eq(2)
 			.invoke('text')
 			.then((text) => {
-				// let commandText = text.split('COMPUTER02')[1];
-				// cy.log(commandText);
-				// FIND A BETTER WAY OF DOING THIS SO WE'RE NOT DEPENDENT ON TEXT TO SPLIT THE PIECES OF INFO
-
 				// Click on the beacon name
 				cy.get('[cy-test=hostBeaconInfo]').contains(text).click();
 
@@ -48,7 +44,7 @@ describe('Navigate to beacon through command details', () => {
 			});
 	});
 
-	// after(() => {
-	// 	cy.deleteCampaignGraphQL(camp);
-	// });
+	after(() => {
+		cy.deleteCampaignGraphQL(camp);
+	});
 });
