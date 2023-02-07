@@ -161,10 +161,12 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 								`}
 							>
 								<Txt>Last opened by:</Txt>
-								<Txt bold>{campaign.lastOpenedBy?.id ?? 'None'}</Txt>
+								<Txt cy-test="last-opened-by" bold>
+									{campaign.lastOpenedBy?.id ?? 'None'}
+								</Txt>
 							</Txt>
 							<Txt meta muted small block>
-								<Txt bold skeleton={campaign.isParsing}>
+								<Txt cy-test="campaign-dates" bold skeleton={campaign.isParsing}>
 									{state.startTime}&mdash;{state.endTime}
 								</Txt>
 								<Spacer>•</Spacer>

@@ -77,6 +77,7 @@ export const ControlBar = observer<ControlBarProps>(
         */}
 				{isCollapsible && (
 					<Button
+						cy-test="collapse-all"
 						icon={<CarbonIcon icon={CollapseCategories16} />}
 						title="Collapse All"
 						onClick={() => {

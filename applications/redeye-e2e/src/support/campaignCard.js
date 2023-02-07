@@ -27,7 +27,7 @@ Cypress.Commands.add('searchForCampaign', (camp) => {
 });
 
 //CLICK HELP ON CAMPAIGN CARD SCREEN
-Cypress.Commands.add('clickAboutOnCampaignCard', (camp) => {
+Cypress.Commands.add('clickAboutOnCampaignCard', () => {
 	cy.get('[cy-test=help]').click();
 	cy.get('[cy-test=about-modal]').should('be.visible');
 });

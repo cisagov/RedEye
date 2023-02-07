@@ -39,8 +39,9 @@ describe('Campaign comments', () => {
 						.invoke('text')
 						.then((commentCountAll1) => {
 							// cy.log(commentCountAll1);
-							expect(+commentCountAll1).to.eq(+divNumber1);
-							expect(+commentCountAll1).to.eq(+commentsTab1);
+							expect(+commentCountAll1)
+								.to.eq(+divNumber1)
+								.and.to.eq(+commentsTab1);
 
 							// Add a new comment
 							cy.clickExplorerMode();
@@ -84,9 +85,10 @@ describe('Campaign comments', () => {
 												cy.get('[cy-test=comment-count]').should('contain', divNumber2);
 
 												expect(+divNumber2).to.equal(+divNumber1 + +'1');
-												expect(+commentsTab2).to.equal(+divNumber2);
+												expect(+commentsTab2)
+													.to.equal(+divNumber2)
+													.and.to.equal(+commentCountAll2);
 												expect(+commentCountAll2).to.equal(+divNumber2);
-												expect(+commentsTab2).to.equal(+commentCountAll2);
 											});
 
 											cy.get('[cy-test=search]').click().clear();
@@ -123,8 +125,9 @@ describe('Campaign comments', () => {
 						.invoke('text')
 						.then((commentCountAll1) => {
 							// cy.log(commentCountAll1);
-							expect(+commentCountAll1).to.eq(+divNumber1);
-							expect(+commentCountAll1).to.eq(+commentsTab1);
+							expect(+commentCountAll1)
+								.to.eq(+divNumber1)
+								.and.to.eq(+commentsTab1);
 
 							// Delete comment
 							cy.clickExplorerMode();
@@ -170,9 +173,10 @@ describe('Campaign comments', () => {
 												cy.get('[cy-test=comment-count]').should('contain', divNumber3);
 												// cy.log(divNumber3);
 												expect(+divNumber3).to.equal(+divNumber1 - +'1');
-												expect(+commentsTab2).to.equal(+divNumber3);
+												expect(+commentsTab2)
+													.to.equal(+divNumber3)
+													.and.to.equal(+commentCountAll2);
 												expect(+commentCountAll2).to.equal(+divNumber3);
-												expect(+commentsTab2).to.equal(+commentCountAll2);
 											});
 										});
 								});
@@ -204,19 +208,80 @@ describe('Campaign comments', () => {
 		cy.get('[cy-test=add-comment]').eq(0).click({ force: true });
 
 		// After saving comment, edit the comment text
-		cy.get('[cy-test=edit-comment]').eq(0).click();
-
-		cy.get('[cy-test=comment-input]').click().clear().type(editedComment);
-
-		cy.get('[cy-test=save-comment]').click();
-
-		cy.wait('@updateAnnotation');
+		cy.editExistingComment(0, editedComment);
 
 		// Verify edited text was saved
 		cy.get('[cy-test=add-comment]').eq(0).should('be.visible').click({ force: true });
 
 		cy.get('[cy-test=existing-comment-display]').should('be.visible').and('contain', editedComment).and('contain', tag2);
 	});
+
+	// // SKIPPING FOR NOW - PENDING BUG FIX (https://jira.pnnl.gov/jira/browse/BLDSTRIKE-544). Note. using it.skip makes the entire test fail, so commenting out insteadyarn
+	// it('Reply to a comment and verify comment count increases', () => {
+	// 	cy.searchForCampaign(camp);
+
+	// 	// Log the total number of comments showing on the campaign card
+	// 	cy.get('[cy-test=comment-count]').then((cardCount1) => {
+	// 		const campaignCardCount1 = cardCount1.text().split(' ').shift();
+	// 		cy.get('[cy-test=comment-count]').should('contain', campaignCardCount1);
+
+	// 		// Open campaign and verify Presentation mode shows the same number of comments; log number with Golden Ticket tag
+	// 		cy.selectCampaign(camp);
+
+	// 		cy.clickPresentationMode();
+
+	// 		cy
+	// 			.get('[cy-test=all] [cy-test=count]')
+	// 			.should('be.visible')
+	// 			.invoke('text')
+	// 			.then((commentCountAll1) => {
+	// 				cy.log(commentCountAll1);
+	// 				expect(commentCountAll1).to.eq(campaignCardCount1);
+
+	// 				// Go to Comments and verify total there matches
+	// 				cy.clickExplorerMode();
+
+	// 				cy.clickCommentsTab();
+	// 				cy
+	// 					.get('[cy-test=comment-group]')
+	// 					.its('length')
+	// 					.then((commentsTab1) => {
+	// 						expect(+commentsTab1).to.eq(+commentCountAll1).and.to.eq(+campaignCardCount1);
+
+	// 						// Reply to one of the comments with a comment and a tag
+	// 						cy.replyToComment(0, 'Replying to above comment.');
+	// 						cy.addExistingTagsToReply('Golden');
+
+	// 						// Go back to Presentation mode and verify that the comment count and Golden Ticket count increased by one
+	// 						cy.clickPresentationMode();
+
+	// 						cy
+	// 							.get('[cy-test=all] [cy-test=count]')
+	// 							.should('be.visible')
+	// 							.invoke('text')
+	// 							.then((commentCountAll2) => {
+	// 								cy.log(commentCountAll2);
+	// 								expect(+commentCountAll2)
+	// 									.to.eq(+commentCountAll1 + 1)
+	// 									.and.to.eq(+campaignCardCount1 + 1);
+
+	// 								// Go back to campaign card and verify that the comment count increase by one
+	// 								cy.returnToCampaignCard();
+	// 								cy.searchForCampaign(camp);
+
+	// 								cy.get('[cy-test=comment-count]').then((cardCount2) => {
+	// 									const campaignCardCount2 = cardCount2.text().split(' ').shift();
+	// 									cy.get('[cy-test=comment-count]').should('contain', campaignCardCount2);
+
+	// 									expect(+campaignCardCount2)
+	// 										.to.eq(+campaignCardCount1 + 1)
+	// 										.and.to.eq(+commentCountAll2);
+	// 								});
+	// 							});
+	// 					});
+	// 			});
+	// 	});
+	// });
 
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);

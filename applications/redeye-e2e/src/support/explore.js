@@ -57,6 +57,11 @@ Cypress.Commands.add('clickCommandTypesTab', () => {
 	cy.get('[cy-test=command-overview]').click();
 });
 
+// CLICK ON OPERATORS TAB
+Cypress.Commands.add('clickOperatorsTab', () => {
+	cy.get('[cy-test=operators]').click();
+});
+
 //CLICK COMMENTS ON EXPLORER OVERVIEW PANEL
 Cypress.Commands.add('clickCommentsTab', () => {
 	cy.get('[cy-test=comments]').click();
@@ -95,7 +100,12 @@ Cypress.Commands.add('totalBeacons', (num) => {
 	cy.get('div[cy-test=beacons]').should('have.length', num);
 });
 
-//SELECT BEACON FROM OVERVIEW PANEL
-Cypress.Commands.add('selectHostName', (host) => {
-	cy.get('[cy-test=hostName]').contains(host).click();
+// SELECT HOST BY NAME
+Cypress.Commands.add('selectHostByName', (campaignName) => {
+	cy.get('[cy-test=hostName]').contains(campaignName).click();
+});
+
+// PLAY OR PAUSE THE TIMELINE
+Cypress.Commands.add('timelinePlayPause', () => {
+	cy.get('[cy-test=timeline-play-pause]').click();
 });

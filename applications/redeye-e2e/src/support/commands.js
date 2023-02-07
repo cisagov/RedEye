@@ -110,7 +110,7 @@ Cypress.Commands.add('addNewTags', { prevSubject: false }, (...term) => {
 
 //MARK COMMENT AS FAVORITE
 Cypress.Commands.add('favoriteComment', (index) => {
-	cy.get('[cy-test=fav-comment]').should('be.visible').click({ force: true });
+	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).click({ force: true });
 });
 
 //ADD NEW COMMENT WITH IF-ELSE LOGIC
@@ -161,6 +161,7 @@ Cypress.Commands.add('addNewComment', (index, comment, tag) => {
 		});
 });
 
+// Delete campaign using GraphQL
 Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
 	const query = `query campaigns {
     campaigns {
@@ -187,12 +188,56 @@ Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
 	});
 });
 
+// Close raw logs
 Cypress.Commands.add('closeRawLogs', () => {
 	cy.get('[cy-test=close-log]').click();
 	cy.wait(200);
 });
 
+// Search campaign for specific term
 Cypress.Commands.add('searchCampaignFor', (searchTerm) => {
 	cy.get('[cy-test=search]').click().clear().type(searchTerm).type('{enter}');
 	cy.wait('@searchAnnotations');
+});
+
+// Edit an existing comment; do not edit tags
+Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
+	cy.get('[cy-test=edit-comment]').eq(index).click();
+	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
+	cy.get('[cy-test=save-comment]').click();
+	cy.wait('@updateAnnotation');
+});
+
+// Delete files from the Downloads folder
+Cypress.Commands.add('deleteDownloadsFolderContent', () => {
+	cy.task('readdir', { dirPath: 'cypress/downloads' }).then((arr) => {
+		if (arr.length > 0) {
+			cy.log('Found ' + arr.length + ' file(s) in ' + 'cypress/downloads' + ':' + '\n' + arr);
+			cy.task('deleteDownloads', { dirPath: 'cypress/downloads' });
+			cy.task('readdir', { dirPath: 'cypress/downloads' }).then((newArr) => {
+				if (newArr.length == 0) {
+					cy.log('Cleared contents of ' + 'cypress/downloads');
+				} else {
+					throw new Error('Did not clear all files from ' + 'cypress/downloads');
+				}
+			});
+		} else {
+			cy.log('No files were found to delete in ' + 'cypress/downloads');
+		}
+	});
+});
+
+// Reply to a comment (only adds text, no tags)
+Cypress.Commands.add('replyToComment', (index, cmt) => {
+	cy.get('[cy-test=reply]').eq(index).click();
+	cy.get('[cy-test=comment-input]').type(cmt);
+});
+
+// Add existing tag to a comment REPLY
+Cypress.Commands.add('addExistingTagsToReply', (...term) => {
+	term.forEach((tags) => {
+		cy.get('[cy-test=tag-input]').type(tags);
+		cy.get('[cy-test=tag-list-item]').contains(tags).click();
+	});
+	cy.get('[cy-test=save-comment]').should('be.visible').click();
 });
