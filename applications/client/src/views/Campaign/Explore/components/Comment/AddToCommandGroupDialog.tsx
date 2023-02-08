@@ -66,9 +66,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 
 	return (
 		<DialogCustom
-			css={css`
-				padding: 0;
-			`}
+			css={{ padding: 0 }}
 			fixedHeight
 			{...props}
 			isOpen={isOpen}
@@ -102,7 +100,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 			/>
 			<ScrollBox>
 				{isSuccess && (
-					<VirtualizedList>
+					<VirtualizedList defaultItemHeight={160}>
 						{state.commandGroups.length === 0 ? (
 							<MessageRow>No Commands</MessageRow>
 						) : state.filteredCommandGroups.length === 0 ? (

@@ -55,7 +55,7 @@ const dialogWrapperStyles = css`
 `;
 const fixedHeightStyles = css`
 	margin: auto 3rem;
-	max-height: 90vh;
+	height: 90vh;
 	min-height: 400px;
 `;
 const dialogHeaderStyles = css`

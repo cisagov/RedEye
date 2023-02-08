@@ -3,7 +3,6 @@ import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { sortOptions } from '@redeye/client/views';
-import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
@@ -27,7 +26,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 			{/* <Txt small>Timezone</Txt> */}
 
 			<FormGroup
-				label={'Timezone'}
+				label="Timezone"
 				helperText={
 					<Switch
 						// inline
@@ -35,7 +34,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 						checked={state.enableAutoSelect}
 						onChange={state.setEnableAutoSelect}
 						label="AutoSelect"
-						css={{marginBottom:0}}
+						css={{ marginBottom: 0 }}
 					/>
 				}
 			>
@@ -98,14 +97,5 @@ const formStyles = css`
 const timezonePickerStyle = css`
 	.${Classes.POPOVER_TARGET} {
 		display: block;
-		/* margin-bottom: 10px; */
 	}
-	/* .${Classes.ICON} {
-		float: right;
-	} */
-`;
-
-const switchStyle = css`
-	float: right;
-	margin-right: 0 !important;
 `;
