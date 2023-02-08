@@ -10,7 +10,7 @@ describe('Timeline tests', () => {
 		cy.wait(500);
 		cy.get('[cy-test=close-log]').click();
 		cy.reload();
-		cy.wait(['@campaign']);
+		cy.wait('@campaign');
 		cy.reload();
 
 		cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();

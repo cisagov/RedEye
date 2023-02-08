@@ -7,7 +7,7 @@ describe('Username shows on comments when appropriate', () => {
 	const fileName = 'gt.redeye';
 	const normalizeText = (s) => s.replace(/\s/g, '').toLowerCase();
 
-	it.only('Username should not appear when favoriting a comment', () => {
+	it('Username should not appear when favoriting a comment', () => {
 		// Upload campaign and log username
 		cy.uploadCampaign(camp, fileName);
 
@@ -34,56 +34,50 @@ describe('Username shows on comments when appropriate', () => {
 
 	it('Username should appear when comment is edited', () => {
 		// Log username and open campaign
+		cy.get('[cy-test=user]').then(($name) => {
+			user = normalizeText($name.text());
+		});
+
+		cy.selectCampaign(camp);
+
+		// Find an existing comment and edit it
+		cy.selectHostByName('COMPUTER03');
+		cy.clickCommentsTab();
+		cy.editExistingComment(0, 'Edited comment');
+
+		// Verify username shows in the comment box info
+		cy.wait(500);
 		cy
-			.get('[cy-test=user]')
+			.get('[cy-test=comment-group]')
+			.eq(0)
 			.invoke('text')
-			.then((username) => {
-				// cy.log(username)
-
-				cy.selectCampaign(camp);
-
-				// Find an existing comment and edit it
-				cy.selectHostByName('COMPUTER03');
-				cy.clickCommentsTab();
-				cy.editExistingComment(0, 'Edited comment');
-
-				// Verify username shows in the comment box info
-				cy.wait(500);
-				cy
-					.get('[cy-test=comment-group]')
-					.eq(0)
-					.invoke('text')
-					.then((commentInfo2) => {
-						cy.log(commentInfo2);
-						expect(commentInfo2).to.contain(username);
-					});
+			.then((commentInfo2) => {
+				cy.log(commentInfo2);
+				expect(commentInfo2).to.contain(user);
 			});
 	});
 
 	it('Username should appear when new comment is made', () => {
 		// Log username and open campaign
+		cy.get('[cy-test=user]').then(($name) => {
+			user = normalizeText($name.text());
+		});
+
+		cy.selectCampaign(camp);
+
+		// Add a new comment
+		cy.clickExplorerMode();
+		cy.clickCommandTypesTab();
+		cy.selectCommandType('dcsync');
+		cy.addNewComment('0', 'New comment', 'newtag');
+
+		// Verify username shows in comment box info
 		cy
-			.get('[cy-test=user]')
+			.get('[cy-test=existing-comment-display]')
 			.invoke('text')
-			.then((username) => {
-				// cy.log(username)
-
-				cy.selectCampaign(camp);
-
-				// Add a new comment
-				cy.clickExplorerMode();
-				cy.clickCommandTypesTab();
-				cy.selectCommandType('dcsync');
-				cy.addNewComment('0', 'New comment', 'newtag');
-
-				// Verify username shows in comment box info
-				cy
-					.get('[cy-test=existing-comment-display]')
-					.invoke('text')
-					.then((commentInfo3) => {
-						cy.log(commentInfo3);
-						expect(commentInfo3).to.contain(username);
-					});
+			.then((commentInfo3) => {
+				cy.log(commentInfo3);
+				expect(commentInfo3).to.contain(user);
 			});
 	});
 
