@@ -67,10 +67,10 @@ describe('Timeline tests', () => {
 		cy.selectCampaign(camp);
 		cy.get('[cy-test=timeline]').should('be.visible');
 
-		// Update start and end dates - note: need to add data selectors for start/end dates
-		cy.get('[cy-test=timeline-dates]').click();
-		cy.get('.bp4-input').eq(0).click().clear().type('10/15/20');
-		cy.get('.bp4-input').eq(1).click().clear().type('10/19/20');
+		// Update start and end dates
+		cy.editTimelineDates();
+		cy.changeTimelineStartDate('10/15/20');
+		cy.changeTimelineEndDate('10/19/20');
 
 		// Close date picker; verify new dates stuck
 		cy.get('[cy-test=timeline-header]').click();
@@ -87,9 +87,9 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates to narrow down timeline
-		cy.get('[cy-test=timeline-dates]').click();
-		cy.get('.bp4-input').eq(0).click().clear().type('10/13/20');
-		cy.get('.bp4-input').eq(1).click().clear().type('10/13/20');
+		cy.editTimelineDates();
+		cy.changeTimelineStartDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20');
 
 		// Hover over a bar on the timeline and verify that the first tooltip appears showing beacon/command info
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
@@ -120,9 +120,9 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates to narrow down timeline
-		cy.get('[cy-test=timeline-dates]').click();
-		cy.get('.bp4-input').eq(0).click().clear().type('10/13/20');
-		cy.get('.bp4-input').eq(1).click().clear().type('10/13/20');
+		cy.editTimelineDates();
+		cy.changeTimelineStartDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20');
 
 		// Hover to show the first tooltip
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
@@ -180,9 +180,9 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates to narrow down timeline
-		cy.get('[cy-test=timeline-dates]').click();
-		cy.get('.bp4-input').eq(0).click().clear().type('10/13/20');
-		cy.get('.bp4-input').eq(1).click().clear().type('10/13/20');
+		cy.editTimelineDates();
+		cy.changeTimelineStartDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20');
 
 		// Hover to show the first tooltip
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');

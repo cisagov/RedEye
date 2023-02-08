@@ -45,6 +45,18 @@ declare namespace Cypress {
 		 */
 		addNewTags();
 
+		/**Modifies the end date of the timeline. Note: Date format = MM/DD/YY.
+		 * @example
+		 * cy.changeTimelineEndDate('01/05/23')
+		 */
+		changeTimelineEndDate();
+
+		/**Modifies the start date of the timeline. Note: Date format = MM/DD/YY.
+		 * @example
+		 * cy.changeTimelineStartDate('01/01/23')
+		 */
+		changeTimelineStartDate();
+
 		/**Clicks the 'Help' icon that opens the About modal to provide more information about RedEye.
 		 * @example
 		 * cy.clickAboutModal()
@@ -144,6 +156,12 @@ declare namespace Cypress {
 		 * cy.editExistingComment(index, editedText)
 		 */
 		editExistingComment();
+
+		/**Clicks the dates in the timeline so the start and/or end dates can be modified.
+		 * @example
+		 * cy.editTimelineDates()
+		 */
+		editTimelineDates();
 
 		/**Verifies that the log text contains what you are expecting.
 		 * @example
