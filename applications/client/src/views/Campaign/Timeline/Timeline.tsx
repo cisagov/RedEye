@@ -227,6 +227,7 @@ const controlPanelStyles = css`
 	/* align-items: center; */
 	/* padding-bottom: 1px; */
 	border-bottom: 1px solid ${CoreTokens.BorderNormal};
+	background-color: ${CoreTokens.Background1};
 	/* justify-content: space-between; */
 	/* flex-wrap: wrap; */
 `;
@@ -255,7 +256,7 @@ const timelinePanelStyles = css`
 	overflow: hidden;
 	height: ${PANEL_HEIGHT}px;
 	flex: 1 1 auto;
-	margin: 0.5rem 0.25rem 0.5rem 0.5rem; // TODO: support top/bottom margin in timeline
+	padding: 0.5rem 0.25rem 0.5rem 0.5rem; // TODO: support top/bottom margin in timeline
 	display: flex;
 `;
 const dateRangeInputStyle = css`

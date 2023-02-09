@@ -34,7 +34,7 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter })
 	<div css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<Flex css={{ 'padding-top': '0.2rem' }}>
+		<Flex css={{ paddingTop: '0.2rem' }}>
 			<Txt muted small css={marginStyles(1)}>
 				Beacons
 			</Txt>

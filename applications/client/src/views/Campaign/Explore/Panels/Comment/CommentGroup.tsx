@@ -116,6 +116,6 @@ export const CommentGroup = observer<CommentGroupProps>(
 
 const commentBoxStyle = css`
 	border-bottom: none !important;
-	background: ${CoreTokens.Background2};
+	background: ${CoreTokens.Background1};
 	margin-bottom: 1px;
 `;

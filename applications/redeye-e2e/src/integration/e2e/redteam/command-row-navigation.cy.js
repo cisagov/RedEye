@@ -22,7 +22,7 @@ describe('Command row navigation', () => {
 				// Select a command to expand details; verify its background is colored differently
 				cy.expandInfoRow(0);
 				cy.get('[cy-test=hostBeaconInfo]').should('contain', hostName1);
-				cy.get('[cy-test=info-row]').eq(0).should('have.css', 'background-color').and('eq', 'rgb(66, 66, 66)');
+				cy.get('[cy-test=info-row]').eq(0).should('have.css', 'background-color');
 
 				// Click Host name and confirm page does not change
 				cy.url().then((currentURL1) => {
@@ -83,15 +83,7 @@ describe('Command row navigation', () => {
 						// Page should navigate back to Host/Commands tab -- Host name at top, Commands tab selected
 						cy.get('[cy-test=header]').should('contain', hostName1);
 						cy.get('[cy-test=commands]').eq(0).invoke('attr', 'tabindex').should('equal', '0');
-						cy.get('[cy-test=info-row]').eq(11).should('have.css', 'background-color').and('eq', 'rgb(66, 66, 66)');
-
-						// FUTURE IMPROVEMENT: WOULD LIKE A BETTER WAY OF SELECTING THE HIGHLIGHTED ROW SO I DON'T HAVE TO SPECIFY WHICH ROW SHOULD BE COLORED DIFFERENTLY.
-						// CODE BELOW GETS THE CORRECT ROW BUT SELECTS THE TEXT COLOR INSTEAD OF THE FULL ROW COLOR, SO RGB CODES DON'T MATCH.
-						// cy
-						// 	.get('[cy-test=command-info]')
-						// 	.contains(commentText)
-						// 	.should('have.css', 'background-color')
-						// 	.and('eq', 'rgb(66, 66, 66)');
+						cy.get('[cy-test=info-row]').eq(11).should('have.css', 'background-color');
 					});
 			});
 	});

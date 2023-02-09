@@ -16,7 +16,7 @@ import {
 import { RedEyeRoutes } from '@redeye/client/store/routing/router';
 import { Graph, RawLogsDialog, Timeline } from '@redeye/client/views';
 import type { TxtProps } from '@redeye/ui-styles';
-import { CoreTokens , CardStyled, UtilityStyles, Spacer, Txt } from '@redeye/ui-styles';
+import { CoreTokens, CardStyled, UtilityStyles, Spacer, Txt } from '@redeye/ui-styles';
 import { useQueries } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
@@ -166,6 +166,7 @@ const Campaign = observer<CampaignProps>(() => {
 							css={css`
 								background-color: unset;
 								cursor: w-resize;
+								${UtilityStyles.innerBoxShadowOverlay('left', 2, true)}
 							`}
 							onClick={reset}
 							icon={<CarbonIcon icon={ChevronLeft16} />}
@@ -181,8 +182,8 @@ const Campaign = observer<CampaignProps>(() => {
 							</div>
 							<Suspense fallback={<Spinner />}>
 								<Routes>
-									<Route path={`${RedEyeRoutes.CAMPAIGN_EXPLORE}/*`} element={<Explore />} />
-									<Route path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION}/*`} element={<Presentation />} />
+									<Route path={`${RedEyeRoutes.CAMPAIGN_EXPLORE}/*`} element={<Explore css={routeStyle} />} />
+									<Route path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION}/*`} element={<Presentation css={routeStyle} />} />
 								</Routes>
 							</Suspense>
 							{/* <Search /> */}
@@ -224,28 +225,34 @@ const dragResizeStyle = css`
 	${UtilityStyles.fillNoOverflowStyle}
 `;
 const infoWrapperStyles = css`
-	display: grid;
-	grid-template-columns: auto;
-	grid-template-rows: auto 1fr;
+	display: flex;
+	flex-direction: column;
 	background-color: ${CoreTokens.Background1};
+	box-shadow: ${CoreTokens.Elevation2};
 	${UtilityStyles.fillNoOverflowStyle}
 `;
 const titleBarStyles = css`
 	padding: 0.5rem 1rem;
+	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	border-bottom: 1px solid ${CoreTokens.BorderNormal};
+`;
+const routeStyle = css`
+	flex: 1 1 auto;
 `;
 
 const visPanelStyles = css`
 	display: grid;
 	grid-template-rows: auto 1fr;
 	${UtilityStyles.fillNoOverflowStyle}
+	${UtilityStyles.innerBoxShadowOverlay('left', 2, true)}
 `;
 const timelineStyles = css`
 	margin: 1rem 1rem 0 1rem;
 	overflow: hidden;
+	z-index: 2;
 `;
 
 type CollapsedContentProps = ComponentProps<'div'> & ButtonProps & {};

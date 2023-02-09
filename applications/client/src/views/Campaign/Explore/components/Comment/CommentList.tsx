@@ -1,7 +1,7 @@
 import { Alignment, Button, ButtonGroup, Divider, Intent } from '@blueprintjs/core';
 import { AddComment16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, customIconPaths, ScrollBox, updatePopper } from '@redeye/client/components';
+import { CarbonIcon, customIconPaths, ScrollBox, ScrollChild, updatePopper } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -45,38 +45,38 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 		>
 			<ScrollBox
 				css={css`
-					flex: 1 1 auto;
-
 					&:before {
 						content: none;
 					}
 				`}
 			>
-				{/* TODO: no comments message when array is empty? */}
-				{command?.commandGroups?.flatMap((commandGroup) =>
-					commandGroup?.maybeCurrent?.annotations?.map((annotation) => (
-						<CommentBox
-							cy-test="existing-comment-display"
-							key={`${annotation.id}`}
-							popoverRef={popoverRef}
-							commandId={command?.id}
-							commandText={command?.inputText}
-							annotation={annotation.maybeCurrent}
-							commandGroup={commandGroup.maybeCurrent}
+				<ScrollChild>
+					{/* TODO: no comments message when array is empty? */}
+					{command?.commandGroups?.flatMap((commandGroup) =>
+						commandGroup?.maybeCurrent?.annotations?.map((annotation) => (
+							<CommentBox
+								cy-test="existing-comment-display"
+								key={`${annotation.id}`}
+								popoverRef={popoverRef}
+								commandId={command?.id}
+								commandText={command?.inputText}
+								annotation={annotation.maybeCurrent}
+								commandGroup={commandGroup.maybeCurrent}
+								css={css`
+									&:not(:last-child) {
+										border-bottom: 1px solid ${CoreTokens.BorderMuted};
+									}
+								`}
+							/>
+						))
+					) ?? (
+						<div
 							css={css`
-								&:not(:last-child) {
-									border-bottom: 1px solid ${CoreTokens.BorderMuted};
-								}
+								height: 100vh;
 							`}
 						/>
-					))
-				) ?? (
-					<div
-						css={css`
-							height: 100vh;
-						`}
-					/>
-				)}
+					)}
+				</ScrollChild>
 			</ScrollBox>
 			{state.isAddingNewComment && (
 				<CommentBox
@@ -87,7 +87,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					commandText={command?.inputText}
 					cancel={state.toggleNewComment}
 					css={css`
-						border-top: 1px solid ${CoreTokens.BorderEmphasis};
+						border-top: 1px solid ${CoreTokens.BorderNormal};
 					`}
 				/>
 			)}
@@ -96,7 +96,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 					vertical
 					fill
 					css={css`
-						border-top: 1px solid ${CoreTokens.BorderEmphasis};
+						border-top: 1px solid ${CoreTokens.BorderNormal};
 					`}
 				>
 					{!state.isAddingNewComment && (

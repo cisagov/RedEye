@@ -103,9 +103,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 						css={[
 							interactiveRowStyle,
 							gridFillStyle,
-							{ height: initialCommandRowHeight },
-							state.expanded || state.active ? activeCommandInfoRowStyle : undefined,
+							{ height: state.expanded ? 'auto':initialCommandRowHeight }
 						]}
+						active={state.expanded || state.active}
 						onClick={state.setCollapsed}
 						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
 					>
@@ -174,7 +174,3 @@ const interactiveRowStyle = css`
 	padding: 0.5rem 3rem 0.5rem 1rem;
 `;
 export const initialCommandRowHeight = 56;
-
-const activeCommandInfoRowStyle = css`
-	background-color: ${CoreTokens.BeaconDead} !important;
-`;

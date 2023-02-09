@@ -1,4 +1,4 @@
-import { Classes, Switch } from '@blueprintjs/core';
+import { Classes, FormGroup, Switch } from '@blueprintjs/core';
 import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
@@ -13,7 +13,6 @@ type SettingsFormProps = ComponentProps<'form'> & {};
 export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
-		// theme: getAppTheme(),
 		tester: { value: 3 },
 		enableAutoSelect: store.settings.isDefaultTimezone,
 		setEnableAutoSelect(e: ChangeEvent<HTMLInputElement>) {
@@ -23,26 +22,33 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	});
 
 	return (
-		<form {...props}>
-			<span>Timezone</span>
-			<Switch
-				inline
-				alignIndicator="right"
-				checked={state.enableAutoSelect}
-				onChange={state.setEnableAutoSelect}
-				label="AutoSelect"
-				css={switchStyle}
-			/>
-			<TimezoneSelect
-				css={timezonePickerStyle}
-				buttonProps={{ fill: true, alignText: 'left' }}
-				disabled={state.enableAutoSelect}
-				value={store.settings.timezone}
-				// showLocalTimezone
-				onChange={(timezone) => {
-					store.settings.setTimezone(timezone);
-				}}
-			/>
+		<form css={formStyles} {...props}>
+			{/* <Txt small>Timezone</Txt> */}
+
+			<FormGroup
+				label="Timezone"
+				helperText={
+					<Switch
+						// inline
+						// alignIndicator="right"
+						checked={state.enableAutoSelect}
+						onChange={state.setEnableAutoSelect}
+						label="AutoSelect"
+						css={{ marginBottom: 0 }}
+					/>
+				}
+			>
+				<TimezoneSelect
+					css={timezonePickerStyle}
+					buttonProps={{ fill: true, alignText: 'left' }}
+					disabled={state.enableAutoSelect}
+					value={store.settings.timezone}
+					// showLocalTimezone
+					onChange={(timezone) => {
+						store.settings.setTimezone(timezone);
+					}}
+				/>
+			</FormGroup>
 			<Switch
 				cy-test="show-hide-beacons"
 				checked={store.settings.showHidden}
@@ -69,26 +75,27 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				}}
 				label="Show Hidden Beacons, Host, and Servers"
 			/>
-			{/* <Switch // Uncomment to test light theme
+			<Switch // Uncomment to test light theme
 				checked={store.settings.theme === 'light'}
 				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
 				label="Light Theme (beta)"
-			/> */}
+			/>
 		</form>
 	);
 });
 
-const timezonePickerStyle = css`
-	.${Classes.POPOVER_TARGET} {
-		display: block;
-		margin-bottom: 10px;
-	}
-	.${Classes.ICON} {
-		float: right;
+const formStyles = css`
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	& > * {
+		margin: 0;
 	}
 `;
 
-const switchStyle = css`
-	float: right;
-	margin-right: 0 !important;
+const timezonePickerStyle = css`
+	.${Classes.POPOVER_TARGET} {
+		display: block;
+	}
 `;
