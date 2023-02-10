@@ -114,6 +114,7 @@ export const ServerMeta = observer(() => {
 				typeName="server"
 			/>
 			<ToggleHiddenDialog
+				typeName="server"
 				infoType={InfoType.SERVER}
 				isHiddenToggled={!!server?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}

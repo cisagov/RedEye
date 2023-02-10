@@ -7,6 +7,7 @@ import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHid
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
+import { useState } from 'react';
 import { QuickMeta } from '../QuickMeta';
 
 type HostRowProps = ComponentProps<'div'> & {
@@ -17,7 +18,8 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const store = useStore();
 
 	if (!host) return null;
-
+	const [last, setLast] = useState(false);
+	console.log('last host: ', last);
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(async () =>
 		host.cobaltStrikeServer
 			? await store.graphqlStore.mutateToggleServerHidden({
@@ -63,6 +65,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				click={() => toggleHidden.update('showHide', true)}
 			/>
 			<ToggleHiddenDialog
+				typeName={host.cobaltStrikeServer ? 'server' : 'host'}
 				isOpen={toggleHidden.showHide}
 				infoType={host.cobaltStrikeServer ? InfoType.SERVER : InfoType.HOST}
 				isHiddenToggled={!!host?.hidden}
@@ -71,6 +74,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					toggleHidden.update('showHide', false);
 				}}
 				onHide={() => mutateToggleHidden.mutate()}
+				setLast={setLast}
 			/>
 		</InfoRow>
 	);

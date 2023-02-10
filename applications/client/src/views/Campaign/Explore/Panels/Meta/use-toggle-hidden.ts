@@ -13,8 +13,9 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 			store.router.updateRoute({
 				path: store.router.currentRoute,
 				params: {
-					currentItem: 'all',
-					currentItemId: undefined,
+					// when all hidden, route to all!
+					// currentItem: 'all',
+					// currentItemId: undefined,
 					tab:
 						store.router.params.tab === Tabs.METADATA
 							? store.router.params.currentItem === 'beacon'

@@ -71,6 +71,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				click={() => toggleHidden.update('showHide', true)}
 			/>
 			<ToggleHiddenDialog
+				typeName="beacon"
 				isOpen={toggleHidden.showHide}
 				infoType={InfoType.BEACON}
 				isHiddenToggled={!!beacon?.hidden}

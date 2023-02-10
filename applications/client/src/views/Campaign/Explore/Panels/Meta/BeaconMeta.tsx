@@ -227,6 +227,7 @@ export const BeaconMeta = observer(() => {
 				typeName="beacon"
 			/>
 			<ToggleHiddenDialog
+				typeName="beacon"
 				isOpen={toggleHidden.showHide}
 				infoType={InfoType.BEACON}
 				isHiddenToggled={!!beacon?.hidden}

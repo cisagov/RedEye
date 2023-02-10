@@ -79,6 +79,7 @@ export const HostMeta = observer(() => {
 				typeName="host"
 			/>
 			<ToggleHiddenDialog
+				typeName="host"
 				isOpen={toggleHidden.showHide}
 				infoType={InfoType.HOST}
 				isHiddenToggled={!!host?.current?.hidden}
