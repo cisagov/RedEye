@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { innerBoxShadow, innerBoxShadowOverlay } from './shadow-styles';
 import { AdvancedTokens, CoreTokens } from './tokens';
 
 /**
@@ -13,6 +14,13 @@ const hoverRevealChildrenVisibility = css`
 		}
 	}
 `;
+const hoverRevealChildrenOpacity = css`
+	&:not(:hover) {
+		.${hoverRevealClassName} {
+			opacity: 0;
+		}
+	}
+`;
 const hoverRevealChildrenDisplay = css`
 	&:not(:hover) {
 		.${hoverRevealClassName} {
@@ -20,6 +28,7 @@ const hoverRevealChildrenDisplay = css`
 		}
 	}
 `;
+
 
 export const UtilityStyles = {
 	/** all caps small text - tiny title */
@@ -58,11 +67,11 @@ export const UtilityStyles = {
 		overflow: hidden;
 	`,
 
-	// shadowGradient: (position: "top" | "left" | "right" | "bottom" = "top") => css`
-	//   background-image: linear-gradient(from ${position}, ${CoreTokens.ShadowGradientColors});
-	// `,
+	innerBoxShadow,
+	innerBoxShadowOverlay,
 
 	hoverRevealClassName,
 	hoverRevealChildrenVisibility,
+	hoverRevealChildrenOpacity,
 	hoverRevealChildrenDisplay,
 };

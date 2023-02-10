@@ -50,6 +50,7 @@
 - LINK INTERACTION
   - preview and selection
   - labels
+  - subdue all others while preview or selecting
 
 - zoomToSelection - zoomToFit better
 - graphData.SelectShortestPath()

@@ -290,7 +290,7 @@ const rootCardStyle = css`
 		z-index: 1;
 	}
 
-	border: 0 solid ${CoreTokens.Background2};
+	border: 0 solid ${CoreTokens.Background1};
 
 	&&& {
 		background-color: ${CoreTokens.Background1};
@@ -298,7 +298,7 @@ const rootCardStyle = css`
 
 	// &.${Classes.INTERACTIVE}:hover { // ts-styled-plugin(9999) error !?
 	&.bp4-interactive:hover {
-		background-color: ${CoreTokens.Background2};
+		background-color: ${CoreTokens.Background1};
 	}
 `;
 

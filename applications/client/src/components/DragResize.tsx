@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
 import { useEffect, useRef } from 'react';
@@ -185,7 +185,7 @@ const DefaultFixedCollapsedComponent = styled.div`
 const GridCell = styled.div`
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
+	overflow: hidden; 
 `;
 
 export type DraggerRendererProps = ComponentProps<'div'> & {
@@ -193,25 +193,24 @@ export type DraggerRendererProps = ComponentProps<'div'> & {
 };
 export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({
 	isDragging,
-	children = <DefaultDraggerHandle />, // Not sure this is necessary
 	...props
 }) => (
 	<div css={[draggerStyle, isDragging ? isDraggingStyle : undefined]} {...props}>
-		{children}
+		<DefaultDraggerHandle isDragging={isDragging} />
 	</div>
 );
-const draggerWidth = 5;
+
 const draggerStyle = css`
 	width: 1px;
-	background-color: ${CoreTokens.BorderNormal};
+	margin: 0 -1px;
 	cursor: col-resize;
 	display: flex;
 	position: relative;
 	&:before {
 		content: '';
 		background-color: ${CoreTokens.BorderNormal};
-		width: ${draggerWidth}px;
-		margin: -2px -${draggerWidth / 2}px;
+		width: 5px;
+		margin: 0 -2px;
 		opacity: 0;
 		border: 1px solid ${CoreTokens.BorderNormal};
 	}
@@ -226,7 +225,6 @@ const isDraggingStyle = css`
 	&:active:before {
 		background-color: ${CoreTokens.Intent.Primary3};
 		opacity: 1;
-		z-index: 2;
 	}
 `;
 
@@ -254,18 +252,16 @@ const handleStyle = css`
 	min-width: 9px;
 	max-width: 9px;
 	margin: 0.75rem -4px;
-	background-color: ${AdvancedTokens.ButtonBackgroundColor};
-	&:hover {
-		background-color: ${AdvancedTokens.ButtonBackgroundColorHover};
-	}
-	&:active {
-		background-color: ${AdvancedTokens.ButtonBackgroundColorActive};
-	}
+	color:  ${CoreTokens.TextIcon};
+	background-color: ${CoreTokens.Background1};
 `;
-const handleStyleIsDraggingStyle = css``;
+const handleStyleIsDraggingStyle = css`
+	background-color: ${CoreTokens.Intent.Primary3};
+	color: ${CoreTokens.OnIntent};
+`;
 const DragCircle = styled.div`
 	border-radius: 99px;
-	background-color: ${CoreTokens.TextIcon};
+	background-color: currentColor;
 	height: 1px;
 	width: 1px;
 	margin: 1px;

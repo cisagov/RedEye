@@ -34,7 +34,7 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter })
 	<div cy-test="timeline-tooltip-static" css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<Flex css={{ 'padding-top': '0.2rem' }}>
+		<Flex css={{ paddingTop: '0.2rem' }}>
 			<Txt cy-test="timeline-beacons" muted small css={marginStyles(1)}>
 				Beacons
 			</Txt>

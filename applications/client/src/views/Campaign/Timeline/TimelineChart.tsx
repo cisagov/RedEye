@@ -157,6 +157,6 @@ const labelStyles = (margin?: number) => css`
 	margin-left: ${margin}px;
 	font-size: 0.8rem;
 	padding: 0.2rem;
-	background-color: ${CoreTokens.Background2};
-	border: 1px solid ${CoreTokens.BorderEmphasis};
+	background-color: ${CoreTokens.Background1};
+	border: 1px solid ${CoreTokens.BorderNormal};
 `;

@@ -10,10 +10,17 @@ import { CarbonIcon } from '../CarbonIcon';
 export type DialogCustomProps = DialogProps & {
 	children?: ReactNode;
 	headerProps?: WithConditionalCSSProp<ComponentProps<'div'>>;
+	fixedHeight?: boolean;
 };
 
-export const DialogCustom: FC<DialogCustomProps> = ({ children, title, headerProps, ...props }) => (
-	<Dialog css={dialogWrapperStyles} {...props} title={undefined}>
+export const DialogCustom: FC<DialogCustomProps> = ({
+	children,
+	title,
+	headerProps,
+	fixedHeight = false,
+	...props
+}) => (
+	<Dialog css={[dialogWrapperStyles, fixedHeight && fixedHeightStyles]} {...props} title={undefined}>
 		<div
 			{...headerProps}
 			css={[dialogHeaderStyles, title == null && dialogHeaderEmptyStyles, headerProps?.css]}
@@ -46,13 +53,18 @@ const dialogWrapperStyles = css`
 	max-width: 44rem;
 	/* max-width: unset; */
 `;
+const fixedHeightStyles = css`
+	margin: auto 3rem;
+	height: 90vh;
+	min-height: 400px;
+`;
 const dialogHeaderStyles = css`
 	position: sticky;
 	top: 0;
 	z-index: 10;
 	opacity: 0.97; // to see wats scrollin underneath
 	background-color: ${CoreTokens.Background1};
-	border-bottom: 1px solid ${CoreTokens.BorderEmphasis};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	box-shadow: none;
 	/* display: block; */
 	/* padding: 1rem; */

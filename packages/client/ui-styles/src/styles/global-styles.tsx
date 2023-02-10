@@ -15,7 +15,7 @@ export const globalStyle = css`
 	}
 	html,
 	body {
-		background-color: ${CoreTokens.Background0};
+		background-color: ${CoreTokens.Background3};
 	}
 
 	html,
@@ -63,7 +63,7 @@ export const TabsStyled = styled(Tabs)`
 	.${Classes.TAB_LIST} {
 		flex: 0 0 auto;
 		padding: 0 1.5rem;
-		border-bottom: 1px solid ${CoreTokens.BorderEmphasis};
+		border-bottom: 1px solid ${CoreTokens.BorderNormal};
 		z-index: 1;
 	}
 	.${Classes.TAB_INDICATOR} {

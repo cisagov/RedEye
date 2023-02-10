@@ -237,7 +237,7 @@ export class GraphHandler {
 				width: `${viewbox?.[2]}`,
 				height: `${viewbox?.[3]}`,
 				encoderOptions: 1,
-				backgroundColor: `${CoreTokens.Background0}`,
+				backgroundColor: `${CoreTokens.Background3}`,
 			} //viewBox
 		);
 	}

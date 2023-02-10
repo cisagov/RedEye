@@ -3,23 +3,19 @@ import { css } from '@emotion/react';
 import { Tokens as BpTokens, TokensAll as BpTokensAll } from 'blueprint-styler/base/tokens';
 import { declareCssVars } from './tokenUtils';
 
-const BeaconColors = {
-	BeaconDead: BpTokens.Colors.DarkGray5,
-	BeaconAlive: BpTokens.Colors.Gray2,
-	BeaconFuture: BpTokens.Colors.Black,
-	BeaconSelected: BpTokens.Colors.White,
-	BeaconInteracted: BpTokens.Colors.Black,
+export const ThemeClasses = {
+	DARK: Classes.DARK,
+	LIGHT: 'bpx-light',
 };
 
 const transparentWhite = (opacity: number) => `hsla(${BpTokens.ColorsHsl.WhiteHsl}, ${opacity})`;
 const transparentBlack = (opacity: number) => `hsla(${BpTokens.ColorsHsl.BlackHsl}, ${opacity})`;
 
 const CustomTokens = {
-	Background0: `var(--Background0)`,
-	Background0b: `var(--Background0b)`,
 	Background1: `var(--Background1)`,
 	Background2: `var(--Background2)`,
 	Background3: `var(--Background3)`,
+	Background3b: `var(--Background3b)`,
 
 	TextHeading: `var(--TextHeading)`,
 	TextBody: `var(--TextBody)`,
@@ -62,7 +58,6 @@ export const CoreTokens = {
 	FontSizeMedium: BpTokensAll.PtFontSize, // '14px',
 	FontSizeLarge: BpTokensAll.PtFontSizeLarge, // '18px',
 
-
 	Intent: {
 		Primary1: BpTokensAll.Primary1,
 		Primary2: BpTokensAll.Primary2,
@@ -91,7 +86,7 @@ export const CoreTokens = {
 	transparentWhite,
 	transparentBlack,
 
-	...BeaconColors,
+	// ...BeaconColors,
 };
 
 export const AdvancedTokens = {
@@ -100,11 +95,13 @@ export const AdvancedTokens = {
 };
 
 const lightThemeCssVars = declareCssVars([
-	[CustomTokens.Background0, BpTokensAll.LightGray5],
-	[CustomTokens.Background0b, transparentBlack(0.05)],
+	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.White],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.White],
+
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
-	[CustomTokens.Background3, BpTokensAll.LightGray5],
+	[CustomTokens.Background3, BpTokensAll.LightGray4],
+	[CustomTokens.Background3b, transparentBlack(0.03)],
 
 	[CustomTokens.TextHeading, BpTokens.TextColors.PtHeadingColor],
 	[CustomTokens.TextBody, BpTokens.TextColors.PtTextColor],
@@ -123,37 +120,133 @@ const lightThemeCssVars = declareCssVars([
 
 	[CustomTokens.BorderEmphasis, BpTokensAll.LightGray1],
 	[CustomTokens.BorderNormal, BpTokensAll.PtDividerBlack],
-	[CustomTokens.BorderMuted, BpTokensAll.LightGray2],
+	[CustomTokens.BorderMuted, BpTokensAll.LightGray5],
 	[CustomTokens.BorderInvert, BpTokensAll.LightGray3],
 
-	[CustomTokens.ShadowGradient, transparentBlack(0.1)],
-
+	[CustomTokens.ShadowGradient, `${transparentBlack(0.05)}, ${transparentBlack(0)}`],
 ]);
 
 const darkThemeCssVars = declareCssVars([
-	[CustomTokens.Background0, BpTokensAll.DarkGray1],
-	[CustomTokens.Background0b, transparentBlack(0.3)],
+	[BpTokensAll.PtAppTopBackgroundColor, BpTokensAll.DarkGray3],
+	[BpTokensAll.PtAppBackgroundColor, BpTokensAll.DarkGray3],
+
 	[CustomTokens.Background1, BpTokensAll.PtAppTopBackgroundColor],
 	[CustomTokens.Background2, BpTokensAll.PtAppBackgroundColor],
-	[CustomTokens.Background3, BpTokensAll.DarkGray4],
+	[CustomTokens.Background3, BpTokensAll.DarkGray1],
+	[CustomTokens.Background3b, transparentBlack(0.1)],
 
 	[CustomTokens.OnIntent, BpTokensAll.White],
 
 	[CustomTokens.BorderEmphasis, BpTokens.Colors.Black],
-	[CustomTokens.BorderNormal, BpTokens.Colors.DarkGray1],
-	[CustomTokens.BorderMuted, BpTokens.LayoutColors.PtDividerBlack],
-	[CustomTokens.BorderInvert, BpTokens.Colors.Gray4], 
+	[CustomTokens.BorderNormal, BpTokensAll.PtDividerBlack],
+	[CustomTokens.BorderMuted, BpTokens.Colors.DarkGray2],
+	[CustomTokens.BorderInvert, BpTokens.Colors.Gray4],
 
-	[CustomTokens.ShadowGradient, transparentBlack(0.2)],
+	[CustomTokens.ShadowGradient, `${transparentBlack(0.2)}, ${transparentBlack(0)}`],
+]);
+
+export const TimelineTokens = {
+	PastBgTimeline: `var(--PastBgTimeline)`,
+	PresentBgTimeline: `var(--PresentBgTimeline)`,
+	FutureBgTimeline: `var(--FutureBgTimeline)`,
+	SelectedBgTimeline: `var(--SelectedBgTimeline)`,
+	PreviewBgTimeline: `var(--PreviewBgTimeline)`,
+};
+
+export const GraphTokens = {
+	PastFgColor: `var(--PastFgColor)`,
+	PastBgColor: `var(--PastBgColor)`,
+	PastDasharray: '4px 4.5px', // Dashed
+
+	PresentFgColor: `var(--PresentFgColor)`,
+	PresentBgColor: `var(--PresentBgColor)`,
+	// PresentDasharray: // none,
+
+	FutureFgColor: `var(--FutureFgColor)`,
+	FutureBgColor: `var(--FutureBgColor)`,
+	FutureDasharray: '0px 6px', // Dotted
+
+	SelectedFgColor: `var(--SelectedFgColor)`,
+	SelectedThickness: '3px',
+
+	PreviewFgColor: `var(--PreviewFgColor)`,
+	PreviewThickness: '2px',
+
+	SelectedFocusFgColor: `var(--SelectedFocusFgColor)`,
+	SelectedFocusBgColor: `var(--SelectedFocusBgColor)`,
+
+	GroupNodeStrokeColor: `var(--GroupNodeStrokeColor)`,
+	TextOutlineColor: `var(--TextOutlineColor)`,
+};
+
+const lightThemeGraphAndTimelineCssVars = declareCssVars([
+	[TimelineTokens.PresentBgTimeline, CoreTokens.Colors.Gray2],
+	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.LightGray2],
+	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.LightGray4],
+	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
+	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.1)],
+
+	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray5],
+	[GraphTokens.PresentBgColor, CoreTokens.Colors.White],
+	[GraphTokens.PastFgColor, CoreTokens.Colors.LightGray2],
+	[GraphTokens.PastBgColor, CoreTokens.Colors.LightGray4],
+	[GraphTokens.FutureFgColor, CoreTokens.Colors.White],
+	[GraphTokens.FutureBgColor, CoreTokens.Colors.LightGray5],
+	[GraphTokens.SelectedFgColor, CoreTokens.Colors.Gray2],
+	[GraphTokens.PreviewFgColor, CoreTokens.Colors.DarkGray5],
+	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary4],
+	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary5],
+	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentBlack(0.03)],
+	[GraphTokens.TextOutlineColor, CoreTokens.transparentWhite(0.8)],
+]);
+
+const darkThemeGraphAndTimelineCssVars = declareCssVars([
+	[TimelineTokens.PresentBgTimeline, CoreTokens.Colors.Gray2],
+	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.DarkGray5],
+	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.Black],
+	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
+	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.5)],
+
+	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray2],
+	[GraphTokens.PresentBgColor, CoreTokens.Colors.DarkGray3],
+	[GraphTokens.PastFgColor, CoreTokens.Colors.DarkGray5],
+	[GraphTokens.PastBgColor, CoreTokens.Colors.DarkGray2],
+	[GraphTokens.FutureFgColor, CoreTokens.Colors.Black], // Black?
+	[GraphTokens.FutureBgColor, CoreTokens.Colors.DarkGray2], // DarkGray2?
+	[GraphTokens.SelectedFgColor, CoreTokens.Colors.LightGray1],
+	[GraphTokens.PreviewFgColor, CoreTokens.Colors.White],
+	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary3],
+	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary1],
+	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentWhite(0.03)],
+	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.6)],
 
 ]);
 
 export const customCssVars = css`
 	:root {
-		${lightThemeCssVars}
-	}
+		--black-hsl: 0, 0%, 0%;
+		--dark-gray1-hsl: 0, 0%, 7%;
+		--dark-gray2-hsl: 0, 0%, 10%;
+		--dark-gray3-hsl: 0, 0%, 12%;
+		--dark-gray4-hsl: 0, 0%, 16%;
+		--dark-gray5-hsl: 0, 0%, 22%;
+		--gray1-hsl: 0, 0%, 31%;
+		--gray2-hsl: 0, 0%, 38%;
+		--gray3-hsl: 0, 0%, 46%;
+		--gray4-hsl: 0, 0%, 54%;
+		--gray5-hsl: 0, 0%, 62%;
+		--light-gray1-hsl: 0, 0%, 69%;
+		--light-gray2-hsl: 0, 0%, 79%;
+		--light-gray3-hsl: 0, 0%, 87%;
+		--light-gray4-hsl: 0, 0%, 93%;
+		--light-gray5-hsl: 0, 0%, 97%;
+		--white-hsl: 0, 0%, 100%;
 
-	.${Classes.DARK} {
+		${lightThemeCssVars}
+		${lightThemeGraphAndTimelineCssVars}
+	}
+	.${ThemeClasses.DARK} {
 		${darkThemeCssVars}
+		${darkThemeGraphAndTimelineCssVars}
 	}
 `;
