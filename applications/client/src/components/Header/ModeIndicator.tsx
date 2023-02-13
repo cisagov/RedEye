@@ -38,7 +38,9 @@ export const ModeIndicator = observer<ModeIndicatorProps>(({ isRedTeam }) => {
 					</div>
 				}
 			>
-				<div css={teamCSS}>{teamAcronym}</div>
+				<div cy-test={teamAcronym} css={teamCSS}>
+					{teamAcronym}
+				</div>
 			</Popover2>
 		</>
 	);
