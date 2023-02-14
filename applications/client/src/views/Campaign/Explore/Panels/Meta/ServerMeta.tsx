@@ -1,10 +1,10 @@
 import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
+import { Select2 } from '@blueprintjs/select';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { Select } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import { serverQuery, useStore } from '@redeye/client/store';
+import { HostModel, serverQuery, useStore } from '@redeye/client/store';
 import { ServerType } from '@redeye/client/store/graphql/ServerTypeEnum';
 import { InfoType } from '@redeye/client/types';
 import { ToggleHiddenDialog } from '@redeye/client/views';
@@ -26,6 +26,13 @@ export const ServerMeta = observer(() => {
 			serverMetaUpdate();
 		},
 	});
+
+	const unhiddenServerCount = Array.from(store.graphqlStore?.hosts.values() || [])
+		?.filter<HostModel>(isDefined)
+		.filter((h) => h.cobaltStrikeServer)
+		.filter((h) => !h.hidden).length;
+
+	const last = unhiddenServerCount === 1;
 
 	const { mutate: serverMetaUpdate } = useMutation(
 		async () => {
@@ -91,7 +98,7 @@ export const ServerMeta = observer(() => {
 				rightElement={<SaveInputButton disabled={!state.displayNameNeedsSaving} onClick={() => serverMetaUpdate()} />}
 			/>
 			<MetaHeader>Type</MetaHeader>
-			<Select
+			<Select2
 				disabled={!!store.appMeta.blueTeam}
 				items={serverTypeSelectItems}
 				itemRenderer={renderSort}
@@ -106,10 +113,15 @@ export const ServerMeta = observer(() => {
 					rightIcon={<CarbonIcon icon={CaretDown16} />}
 					fill
 				/>
-			</Select>
+			</Select2>
 			<ToggleHiddenButton
 				disabled={!!store.appMeta.blueTeam}
-				onClick={() => toggleHidden.update('showHide', true)}
+				// onClick={() => toggleHidden.update('showHide', true)}
+				onClick={() =>
+					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && server?.hidden))
+						? mutateToggleHidden.mutate()
+						: toggleHidden.update('showHide', true)
+				}
 				isHiddenToggled={!!server?.hidden}
 				typeName="server"
 			/>
@@ -120,6 +132,7 @@ export const ServerMeta = observer(() => {
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				isOpen={toggleHidden.showHide}
+				last={last}
 			/>
 		</MetaGridLayout>
 	);

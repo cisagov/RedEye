@@ -1,6 +1,7 @@
 import { InputGroup } from '@blueprintjs/core';
+import { isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import { hostQuery, useStore } from '@redeye/client/store';
+import { HostModel, hostQuery, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
@@ -21,6 +22,13 @@ export const HostMeta = observer(() => {
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
+
+	const unhiddenHostCount = Array.from(store.graphqlStore?.hosts.values() || [])
+		?.filter<HostModel>(isDefined)
+		.filter((h) => !h.cobaltStrikeServer)
+		.filter((h) => !h.hidden).length;
+
+	const last = unhiddenHostCount === 1;
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {
@@ -74,7 +82,12 @@ export const HostMeta = observer(() => {
 			</div>
 			<ToggleHiddenButton
 				disabled={!!store.appMeta.blueTeam}
-				onClick={() => toggleHidden.update('showHide', true)}
+				// onClick={() => toggleHidden.update('showHide', true)}
+				onClick={() =>
+					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && host?.current?.hidden))
+						? mutateToggleHidden.mutate()
+						: toggleHidden.update('showHide', true)
+				}
 				isHiddenToggled={!!host?.current?.hidden}
 				typeName="host"
 			/>
@@ -85,6 +98,7 @@ export const HostMeta = observer(() => {
 				isHiddenToggled={!!host?.current?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
+				last={last}
 			/>
 		</MetaGridLayout>
 	);

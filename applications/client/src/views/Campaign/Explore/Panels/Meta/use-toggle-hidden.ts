@@ -12,17 +12,30 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 			this.showHide = false;
 			store.router.updateRoute({
 				path: store.router.currentRoute,
-				params: {
-					// when all hidden, route to all!
-					// currentItem: 'all',
-					// currentItemId: undefined,
-					tab:
-						store.router.params.tab === Tabs.METADATA
-							? store.router.params.currentItem === 'beacon'
-								? Tabs.BEACONS
-								: Tabs.HOSTS
-							: store.router.params.tab || Tabs.HOSTS,
-				},
+				// params: {
+				// 	// when all hidden, route to all!
+				// 	// currentItem: 'all',
+				// 	// currentItemId: undefined,
+				// 	tab:
+				// 		store.router.params.tab === Tabs.METADATA
+				// 			? store.router.params.currentItem === 'beacon'
+				// 				? Tabs.BEACONS
+				// 				: Tabs.HOSTS
+				// 			: store.router.params.tab || Tabs.HOSTS,
+				// },
+				params:
+					store.router.params.tab === Tabs.METADATA
+						? {
+								currentItem: 'all',
+								currentItemId: undefined,
+								tab: store.router.params.currentItem === 'beacon' ? Tabs.BEACONS : Tabs.HOSTS,
+						  }
+						: {
+								// when all hidden, route to all!
+								// currentItem: 'all',
+								// currentItemId: undefined,
+								tab: store.router.params.tab || Tabs.HOSTS,
+						  },
 			});
 
 			store.reset(false);

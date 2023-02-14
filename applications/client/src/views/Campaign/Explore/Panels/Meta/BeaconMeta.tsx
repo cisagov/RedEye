@@ -2,7 +2,7 @@ import { InputGroup } from '@blueprintjs/core';
 import { DateInput2 } from '@blueprintjs/datetime2';
 import { dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/store';
+import type { AppStore, BeaconModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { Spacer, Txt } from '@redeye/ui-styles';
@@ -79,6 +79,12 @@ export const BeaconMeta = observer(() => {
 		displayDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
 		displayDeathNeedsSaving: false,
 	});
+
+	const unhiddenBeaconCount = Array.from(store.graphqlStore?.beacons.values() || [])
+		?.filter((b) => b?.host?.current?.cobaltStrikeServer === false)
+		?.filter<BeaconModel>(isDefined)
+		.filter((b) => !b.hidden).length;
+	const last = unhiddenBeaconCount === 1;
 
 	useEffect(() => {
 		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
@@ -222,7 +228,12 @@ export const BeaconMeta = observer(() => {
 			<ToggleHiddenButton
 				cy-test="show-hide-this-beacon"
 				disabled={!!store.appMeta.blueTeam}
-				onClick={() => toggleHidden.update('showHide', true)}
+				// onClick={() => toggleHidden.update('showHide', true)}
+				onClick={() =>
+					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && beacon?.hidden))
+						? mutateToggleHidden.mutate()
+						: toggleHidden.update('showHide', true)
+				}
 				isHiddenToggled={!!beacon?.hidden}
 				typeName="beacon"
 			/>
@@ -233,6 +244,7 @@ export const BeaconMeta = observer(() => {
 				isHiddenToggled={!!beacon?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
+				last={last}
 			/>
 		</MetaGridLayout>
 	);
