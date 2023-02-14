@@ -1,4 +1,4 @@
-import type { DialogProps } from '@blueprintjs/core';
+import { Checkbox, DialogProps } from '@blueprintjs/core';
 import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -8,7 +8,7 @@ import { useStore } from '@redeye/client/store';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
 import { useState } from 'react';
 
 type Props = DialogProps & {
@@ -16,60 +16,64 @@ type Props = DialogProps & {
 	infoType: InfoType;
 	onHide?: () => void;
 	isHiddenToggled?: boolean;
-	setLast?: Dispatch<SetStateAction<boolean>>;
+	// setLast?: Dispatch<SetStateAction<boolean>>;
+	last?: boolean;
 };
 
 export const ToggleHiddenDialog = observer<Props>(
-	({ typeName, infoType, onClose, isHiddenToggled = true, onHide = () => undefined, setLast, ...props }) => {
+	({ typeName, infoType, onClose, isHiddenToggled = true, onHide = () => undefined, last, ...props }) => {
 		const store = useStore();
 		const [loading, setLoading] = useState(false);
+		const [checked, setChecked] = useState(window.localStorage.getItem('disableDialog') === 'true');
 		const plural = isHiddenToggled ? 'Showing' : 'Hiding';
 		const verb = isHiddenToggled ? 'Show' : 'Hide';
-		// console.log('hide? ', count);
 
-		const totalServerCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.serverCount;
-		const totalBeaconCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.beaconCount;
+		// const totalServerCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.serverCount;
+		// const totalBeaconCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.beaconCount;
 
-		const unhiddenServerCount = Array.from(store.graphqlStore?.hosts.values() || [])
-			?.filter<HostModel>(isDefined)
-			.filter((host) => host.cobaltStrikeServer)
-			.filter((host) => !host.hidden).length;
+		// const unhiddenServerCount = Array.from(store.graphqlStore?.hosts.values() || [])
+		// 	?.filter<HostModel>(isDefined)
+		// 	.filter((host) => host.cobaltStrikeServer)
+		// 	.filter((host) => !host.hidden).length;
 
-		const unhiddenHostCount = Array.from(store.graphqlStore?.hosts.values() || [])
-			?.filter<HostModel>(isDefined)
-			.filter((host) => !host.cobaltStrikeServer)
-			.filter((host) => !host.hidden).length;
+		// const unhiddenHostCount = Array.from(store.graphqlStore?.hosts.values() || [])
+		// 	?.filter<HostModel>(isDefined)
+		// 	.filter((host) => !host.cobaltStrikeServer)
+		// 	.filter((host) => !host.hidden).length;
 
-		const unhiddenBeaconCount = Array.from(store.graphqlStore?.beacons.values() || [])
-			?.filter((b) => b?.host?.current?.cobaltStrikeServer === false)
-			?.filter<BeaconModel>(isDefined)
-			.filter((b) => !b.hidden).length;
+		// const unhiddenBeaconCount = Array.from(store.graphqlStore?.beacons.values() || [])
+		// 	?.filter((b) => b?.host?.current?.cobaltStrikeServer === false)
+		// 	?.filter<BeaconModel>(isDefined)
+		// 	.filter((b) => !b.hidden).length;
 
-		const last =
-			typeName === 'server'
-				? unhiddenServerCount === 1
-				: typeName === 'host'
-				? unhiddenHostCount === 1
-				: typeName === 'beacon'
-				? unhiddenBeaconCount === 1
-				: false;
+		// const last =
+		// 	typeName === 'server'
+		// 		? unhiddenServerCount === 1
+		// 		: typeName === 'host'
+		// 		? unhiddenHostCount === 1
+		// 		: typeName === 'beacon'
+		// 		? unhiddenBeaconCount === 1
+		// 		: false;
 
-		console.log(
-			'beacon: ',
-			totalServerCount,
-			totalBeaconCount,
-			unhiddenServerCount,
-			unhiddenHostCount,
-			unhiddenBeaconCount,
-			typeName,
-			last
-		);
+		// console.log(
+		// 	'beacon: ',
+		// 	totalServerCount,
+		// 	totalBeaconCount,
+		// 	unhiddenServerCount,
+		// 	unhiddenHostCount,
+		// 	unhiddenBeaconCount,
+		// 	typeName,
+		// 	last
+		// );
 
-		const count = unhiddenBeaconCount;
+		const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+			setChecked(e.target.checked);
+			window.localStorage.setItem('disableDialog', e.target.checked.toString());
+		};
 
-		useEffect(() => {
-			if (setLast) setLast(last);
-		}, [last, setLast]);
+		// useEffect(() => {
+		// 	if (setLast) setLast(last);
+		// }, [last, setLast]);
 
 		return (
 			<Dialog
@@ -104,6 +108,7 @@ export const ToggleHiddenDialog = observer<Props>(
 							<Txt tagName="p">
 								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}
 							</Txt>
+							<Checkbox label="Don’t show this warning again" checked={checked} onChange={handleCheck} />
 						</>
 					)}
 				</div>
@@ -112,7 +117,7 @@ export const ToggleHiddenDialog = observer<Props>(
 						<Button onClick={onClose}>Cancel</Button>
 						<Button
 							intent={Intent.PRIMARY}
-							rightIcon={count !== 1 && isHiddenToggled && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
+							rightIcon={!last && isHiddenToggled && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
 							loading={loading}
 							onClick={
 								last && !isHiddenToggled
