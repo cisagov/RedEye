@@ -15,9 +15,10 @@ describe('Query Global Operators', () => {
       }
     }`;
 		const variables = `{"password": "937038570"}`;
-		graphqlRequest(query, variables).then((res) => {
-			expect(res.body.data.globalOperators[0].id).to.eq('analyst');
-			expect(res.body.data.globalOperators[0].name).to.eq('analyst');
+		graphqlRequest(query, variables).then((response) => {
+			const res = response.body.data.globalOperators;
+			const match = Cypress._.find(res, { id: 'cypress' });
+			cy.wrap(match).its('name').should('eq', 'cypress');
 		});
 
 		cy.returnToCampaignCard();

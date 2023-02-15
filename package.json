@@ -57,6 +57,7 @@
 		"cors": "^2.8.5",
 		"crypto-js": "^4.0.0",
 		"d3": "^6.7.0",
+		"dayjs": "^1.11.7",
 		"express": "^4.17.1",
 		"express-fileupload": "^1.2.0",
 		"fs-extra": "^9.0.1",

@@ -19,14 +19,12 @@ describe('Navigate to beacon through command details', () => {
 		cy
 			.get('[cy-test=hostBeaconInfo]')
 			.eq(0)
+			.children()
+			.eq(2)
 			.invoke('text')
 			.then((text) => {
-				let commandText = text.split('COMPUTER02')[1];
-				// cy.log(commandText);
-				// FIND A BETTER WAY OF DOING THIS SO WE'RE NOT DEPENDENT ON TEXT TO SPLIT THE PIECES OF INFO
-
 				// Click on the beacon name
-				cy.get('[cy-test=hostBeaconInfo]').contains(commandText).click();
+				cy.get('[cy-test=hostBeaconInfo]').contains(text).click();
 
 				// Verify that the page directed to the appropriate beacon
 				cy
@@ -40,7 +38,7 @@ describe('Navigate to beacon through command details', () => {
 							.invoke('text')
 							.then((userName) => {
 								// cy.log(userName);
-								expect(beaconName + ' ' + userName).to.eq(commandText);
+								expect(beaconName + ' ' + userName).to.eq(text);
 							});
 					});
 			});

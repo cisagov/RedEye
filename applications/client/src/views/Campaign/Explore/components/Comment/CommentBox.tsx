@@ -399,7 +399,7 @@ export const CommentBox = observer<CommentBoxProps>(
 					<span>
 						<CarbonIcon cy-test="comment-icon" icon={Chat16} />
 						<Spacer />
-						<Txt>
+						<Txt cy-test="user-that-commented">
 							{annotation?.user !== undefined ? (
 								annotation?.user
 							) : (

@@ -60,6 +60,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						}}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g
+								cy-test="timeline-bar"
 								ref={ref}
 								{...targetProps}
 								onMouseDown={(e) => {

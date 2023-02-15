@@ -24,36 +24,42 @@ export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) =>
 			{dateStart}
 		</Txt>
 	) : sameDate && dateFormatter === dateTimeFormat ? (
-		<Txt block bold small>{`${dateStart} - ${dateEnd.split(' ')[1]}`}</Txt>
+		<Txt cy-test="timeline-tooltip-date-time" block bold small>{`${dateStart} - ${dateEnd.split(' ')[1]}`}</Txt>
 	) : (
 		<Txt block bold small>{`${dateStart} - ${dateEnd}`}</Txt>
 	);
 });
 
 export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter }) => (
-	<div css={barPopoverStyles}>
+	<div cy-test="timeline-tooltip-static" css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
 		<Flex css={{ paddingTop: '0.2rem' }}>
-			<Txt muted small css={marginStyles(1)}>
+			<Txt cy-test="timeline-beacons" muted small css={marginStyles(1)}>
 				Beacons
 			</Txt>
 			<FlexSplitter />
-			<Txt small>{bar?.beaconNumbers}</Txt>
+			<Txt cy-test="timeline-beacon-count" small>
+				{bar?.beaconNumbers}
+			</Txt>
 		</Flex>
 		<Flex>
-			<Txt muted small css={marginStyles(1)}>
+			<Txt cy-test="timeline-total-commands" muted small css={marginStyles(1)}>
 				Total commands
 			</Txt>
 			<FlexSplitter />
-			<Txt small>{bar?.beaconCount}</Txt>
+			<Txt cy-test="timeline-total-command-count" small>
+				{bar?.beaconCount}
+			</Txt>
 		</Flex>
 		<Flex>
-			<Txt muted small css={marginStyles(1)}>
+			<Txt cy-test="timeline-active-beacons" muted small css={marginStyles(1)}>
 				Active Beacon commands
 			</Txt>
 			<FlexSplitter />
-			<Txt small>{bar?.activeBeaconCount}</Txt>
+			<Txt cy-test="timeline-active-beacon-count" small>
+				{bar?.activeBeaconCount}
+			</Txt>
 		</Flex>
 	</div>
 ));
@@ -74,15 +80,15 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 		});
 	};
 	return (
-		<div css={barPopoverStyles}>
+		<div cy-test="timeline-tooltip-clickable" css={barPopoverStyles}>
 			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 			<FlexSplitter />
 			<Flex css={{ padding: '0.2rem 0' }}>
-				<Txt small bold>
+				<Txt cy-test="timeline-beacon-header" small bold>
 					Beacons
 				</Txt>
 				<FlexSplitter />
-				<Txt small bold>
+				<Txt cy-test="timeline-command-header" small bold>
 					Commands
 				</Txt>
 			</Flex>
@@ -92,14 +98,16 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 					css={barPopoverRowStyles}
 					onClick={() => routeToBeacon(beaconCommand.beaconId as string)}
 				>
-					<Txt small css={marginStyles(0.5)}>
+					<Txt cy-test="timeline-beacon-name" small css={marginStyles(0.5)}>
 						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.displayName}
 					</Txt>
-					<Txt muted small css={marginStyles(4)}>
-						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0]?.maybeCurrent?.username}
+					<Txt cy-test="timeline-beacon-operator" muted small css={marginStyles(4)}>
+						{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0].maybeCurrent?.username}
 					</Txt>
 					<FlexSplitter />
-					<Txt small>{beaconCommand.commandCount}</Txt>
+					<Txt cy-test="timeline-beacon-command-count" small>
+						{beaconCommand.commandCount}
+					</Txt>
 				</Flex>
 			))}
 		</div>

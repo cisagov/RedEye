@@ -48,7 +48,7 @@ export const Command = observer<CommandProps>(
 						{command?.info.time.format(`${dateShortFormat} ${timeFormat}`)}
 					</Txt>
 					<Spacer />
-					<Txt cy-test="operator-info">{command?.info.operator}</Txt>
+					<Txt cy-test="command-operator">{command?.info.operator}</Txt>
 					{isCollapsed && showPath && (
 						<>
 							<Spacer>{' • '}</Spacer>
