@@ -1,6 +1,6 @@
 import { Classes } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { dateShortFormat, isDefined, semanticIcons } from '@redeye/client/components';
+import { dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -12,6 +12,7 @@ import {
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,
+	useCheckLastUnhidden,
 	useToggleHidden,
 } from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
@@ -40,13 +41,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			})
 	);
 
-	const totalBeaconCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.beaconCount;
-	const unhiddenBeaconCount = Array.from(store.graphqlStore?.beacons.values() || [])
-		?.filter((b) => b?.host?.current?.cobaltStrikeServer === false)
-		?.filter<BeaconModel>(isDefined)
-		.filter((b) => !b.hidden).length;
-	const last = unhiddenBeaconCount === 1;
-	console.log('total beacon: ', totalBeaconCount, 'beacon: ', unhiddenBeaconCount, last);
+	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
 
 	return (
 		<InfoRow
@@ -75,15 +70,10 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			/>
 			<QuickMeta
 				modal={beacon}
-				mutateToggleHidden={mutateToggleHidden}
 				disabled={!!store.appMeta.blueTeam}
-				click={() =>
-					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && beacon.hidden))
-						? mutateToggleHidden.mutate()
-						: toggleHidden.update('showHide', true)
-				}
+				click={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 			/>
-			{!(window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && beacon.hidden))) && (
+			{!isDialogDisabled && (
 				<ToggleHiddenDialog
 					typeName="beacon"
 					isOpen={toggleHidden.showHide}

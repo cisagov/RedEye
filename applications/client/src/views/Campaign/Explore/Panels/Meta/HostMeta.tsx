@@ -1,14 +1,14 @@
 import { InputGroup } from '@blueprintjs/core';
-import { isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import { HostModel, hostQuery, useStore } from '@redeye/client/store';
+import { hostQuery, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
+import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
-import { useToggleHidden } from './use-toggle-hidden';
+import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 export const HostMeta = observer(() => {
 	const store = useStore();
@@ -23,12 +23,7 @@ export const HostMeta = observer(() => {
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
-	const unhiddenHostCount = Array.from(store.graphqlStore?.hosts.values() || [])
-		?.filter<HostModel>(isDefined)
-		.filter((h) => !h.cobaltStrikeServer)
-		.filter((h) => !h.hidden).length;
-
-	const last = unhiddenHostCount === 1;
+	const { last, isDialogDisabled } = useCheckLastUnhidden('host', host?.current?.hidden || false);
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {
@@ -82,12 +77,7 @@ export const HostMeta = observer(() => {
 			</div>
 			<ToggleHiddenButton
 				disabled={!!store.appMeta.blueTeam}
-				// onClick={() => toggleHidden.update('showHide', true)}
-				onClick={() =>
-					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && host?.current?.hidden))
-						? mutateToggleHidden.mutate()
-						: toggleHidden.update('showHide', true)
-				}
+				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!host?.current?.hidden}
 				typeName="host"
 			/>

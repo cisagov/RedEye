@@ -2,7 +2,7 @@ import { InputGroup } from '@blueprintjs/core';
 import { DateInput2 } from '@blueprintjs/datetime2';
 import { dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { AppStore, BeaconModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
+import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { Spacer, Txt } from '@redeye/ui-styles';
@@ -11,10 +11,11 @@ import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
+import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
-import { useToggleHidden } from './use-toggle-hidden';
+import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -80,11 +81,7 @@ export const BeaconMeta = observer(() => {
 		displayDeathNeedsSaving: false,
 	});
 
-	const unhiddenBeaconCount = Array.from(store.graphqlStore?.beacons.values() || [])
-		?.filter((b) => b?.host?.current?.cobaltStrikeServer === false)
-		?.filter<BeaconModel>(isDefined)
-		.filter((b) => !b.hidden).length;
-	const last = unhiddenBeaconCount === 1;
+	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
 
 	useEffect(() => {
 		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
@@ -228,12 +225,7 @@ export const BeaconMeta = observer(() => {
 			<ToggleHiddenButton
 				cy-test="show-hide-this-beacon"
 				disabled={!!store.appMeta.blueTeam}
-				// onClick={() => toggleHidden.update('showHide', true)}
-				onClick={() =>
-					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && beacon?.hidden))
-						? mutateToggleHidden.mutate()
-						: toggleHidden.update('showHide', true)
-				}
+				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!beacon?.hidden}
 				typeName="beacon"
 			/>

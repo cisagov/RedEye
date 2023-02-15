@@ -1,79 +1,33 @@
-import { Checkbox, DialogProps } from '@blueprintjs/core';
-import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
+import type { DialogProps } from '@blueprintjs/core';
+import { Checkbox, Button, Classes, Dialog, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, isDefined } from '@redeye/client/components';
-import type { BeaconModel, HostModel } from '@redeye/client/store';
-import { useStore } from '@redeye/client/store';
+import { CarbonIcon } from '@redeye/client/components';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react';
-import { useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useState, useCallback } from 'react';
 
 type Props = DialogProps & {
 	typeName: string;
 	infoType: InfoType;
 	onHide?: () => void;
 	isHiddenToggled?: boolean;
-	// setLast?: Dispatch<SetStateAction<boolean>>;
 	last?: boolean;
 };
 
 export const ToggleHiddenDialog = observer<Props>(
 	({ typeName, infoType, onClose, isHiddenToggled = true, onHide = () => undefined, last, ...props }) => {
-		const store = useStore();
 		const [loading, setLoading] = useState(false);
 		const [checked, setChecked] = useState(window.localStorage.getItem('disableDialog') === 'true');
 		const plural = isHiddenToggled ? 'Showing' : 'Hiding';
 		const verb = isHiddenToggled ? 'Show' : 'Hide';
 
-		// const totalServerCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.serverCount;
-		// const totalBeaconCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.beaconCount;
-
-		// const unhiddenServerCount = Array.from(store.graphqlStore?.hosts.values() || [])
-		// 	?.filter<HostModel>(isDefined)
-		// 	.filter((host) => host.cobaltStrikeServer)
-		// 	.filter((host) => !host.hidden).length;
-
-		// const unhiddenHostCount = Array.from(store.graphqlStore?.hosts.values() || [])
-		// 	?.filter<HostModel>(isDefined)
-		// 	.filter((host) => !host.cobaltStrikeServer)
-		// 	.filter((host) => !host.hidden).length;
-
-		// const unhiddenBeaconCount = Array.from(store.graphqlStore?.beacons.values() || [])
-		// 	?.filter((b) => b?.host?.current?.cobaltStrikeServer === false)
-		// 	?.filter<BeaconModel>(isDefined)
-		// 	.filter((b) => !b.hidden).length;
-
-		// const last =
-		// 	typeName === 'server'
-		// 		? unhiddenServerCount === 1
-		// 		: typeName === 'host'
-		// 		? unhiddenHostCount === 1
-		// 		: typeName === 'beacon'
-		// 		? unhiddenBeaconCount === 1
-		// 		: false;
-
-		// console.log(
-		// 	'beacon: ',
-		// 	totalServerCount,
-		// 	totalBeaconCount,
-		// 	unhiddenServerCount,
-		// 	unhiddenHostCount,
-		// 	unhiddenBeaconCount,
-		// 	typeName,
-		// 	last
-		// );
-
-		const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+		const handleCheck = useCallback((e: ChangeEvent<HTMLInputElement>) => {
 			setChecked(e.target.checked);
 			window.localStorage.setItem('disableDialog', e.target.checked.toString());
-		};
-
-		// useEffect(() => {
-		// 	if (setLast) setLast(last);
-		// }, [last, setLast]);
+		}, []);
 
 		return (
 			<Dialog

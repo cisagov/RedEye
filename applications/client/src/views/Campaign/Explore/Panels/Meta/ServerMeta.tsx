@@ -2,16 +2,17 @@ import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
 import { Select2 } from '@blueprintjs/select';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
-import { CarbonIcon, isDefined } from '@redeye/client/components';
+import { CarbonIcon } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import { HostModel, serverQuery, useStore } from '@redeye/client/store';
+import { serverQuery, useStore } from '@redeye/client/store';
 import { ServerType } from '@redeye/client/store/graphql/ServerTypeEnum';
 import { InfoType } from '@redeye/client/types';
 import { ToggleHiddenDialog } from '@redeye/client/views';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
-import { useToggleHidden } from './use-toggle-hidden';
+import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 
 export const ServerMeta = observer(() => {
 	const store = useStore();
@@ -27,12 +28,7 @@ export const ServerMeta = observer(() => {
 		},
 	});
 
-	const unhiddenServerCount = Array.from(store.graphqlStore?.hosts.values() || [])
-		?.filter<HostModel>(isDefined)
-		.filter((h) => h.cobaltStrikeServer)
-		.filter((h) => !h.hidden).length;
-
-	const last = unhiddenServerCount === 1;
+	const { last, isDialogDisabled } = useCheckLastUnhidden('server', server?.hidden || false);
 
 	const { mutate: serverMetaUpdate } = useMutation(
 		async () => {
@@ -116,12 +112,7 @@ export const ServerMeta = observer(() => {
 			</Select2>
 			<ToggleHiddenButton
 				disabled={!!store.appMeta.blueTeam}
-				// onClick={() => toggleHidden.update('showHide', true)}
-				onClick={() =>
-					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && server?.hidden))
-						? mutateToggleHidden.mutate()
-						: toggleHidden.update('showHide', true)
-				}
+				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!server?.hidden}
 				typeName="server"
 			/>

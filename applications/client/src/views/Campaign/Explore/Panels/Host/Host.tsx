@@ -1,13 +1,20 @@
 import { ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon, dateShortFormat, dateShortPlaceholder, isDefined, semanticIcons } from '@redeye/client/components';
+import { CarbonIcon, dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType, TimeStatus } from '@redeye/client/types';
-import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHidden } from '@redeye/client/views';
+import {
+	IconLabel,
+	InfoRow,
+	RowTime,
+	RowTitle,
+	ToggleHiddenDialog,
+	useCheckLastUnhidden,
+	useToggleHidden,
+} from '@redeye/client/views';
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useState } from 'react';
 import { QuickMeta } from '../QuickMeta';
 
 type HostRowProps = ComponentProps<'div'> & {
@@ -18,23 +25,11 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const store = useStore();
 
 	if (!host) return null;
-	// const [last, setLast] = useState(false);
 
-	const totalServerCount = store.graphqlStore.campaigns.get(store.router.params?.id as string)?.serverCount;
-
-	const unhiddenServerCount = Array.from(store.graphqlStore?.hosts.values() || [])
-		?.filter<HostModel>(isDefined)
-		.filter((h) => h.cobaltStrikeServer)
-		.filter((h) => !h.hidden).length;
-
-	const unhiddenHostCount = Array.from(store.graphqlStore?.hosts.values() || [])
-		?.filter<HostModel>(isDefined)
-		.filter((h) => !h.cobaltStrikeServer)
-		.filter((h) => !h.hidden).length;
-
-	const last = host.cobaltStrikeServer ? unhiddenServerCount === 1 : unhiddenHostCount === 1;
-
-	console.log('total server: ', totalServerCount, 'host: ', unhiddenServerCount, unhiddenHostCount, last);
+	const { last, isDialogDisabled } = useCheckLastUnhidden(
+		host.cobaltStrikeServer ? 'server' : 'host',
+		host?.hidden || false
+	);
 
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(async () =>
 		host.cobaltStrikeServer
@@ -76,16 +71,10 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			)}
 			<QuickMeta
 				modal={host}
-				mutateToggleHidden={mutateToggleHidden}
 				disabled={!!store.appMeta.blueTeam}
-				// click={() => toggleHidden.update('showHide', true)}
-				click={() =>
-					window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && host.hidden))
-						? mutateToggleHidden.mutate()
-						: toggleHidden.update('showHide', true)
-				}
+				click={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 			/>
-			{!(window.localStorage.getItem('disableDialog') === 'true' && (!last || (last && host.hidden))) && (
+			{!isDialogDisabled && (
 				<ToggleHiddenDialog
 					typeName={host.cobaltStrikeServer ? 'server' : 'host'}
 					isOpen={toggleHidden.showHide}
