@@ -7,13 +7,20 @@ describe('Username shows on comments when appropriate', () => {
 	const fileName = 'gt.redeye';
 	const normalizeText = (s) => s.replace(/\s/g, '').toLowerCase();
 
+	function getUserName() {
+		cy
+			.get('[cy-test=user]')
+			.should('be.visible')
+			.then(($name) => {
+				user = normalizeText($name.text());
+			});
+	}
+
 	it('Username should not appear when favoriting a comment', () => {
 		// Upload campaign and log username
 		cy.uploadCampaign(camp, fileName);
 
-		cy.get('[cy-test=user]').then(($name) => {
-			user = normalizeText($name.text());
-		});
+		getUserName();
 
 		// Open campaign, find an existing comment, and mark it as a favorite
 		cy.selectCampaign(camp);
@@ -34,9 +41,10 @@ describe('Username shows on comments when appropriate', () => {
 
 	it('Username should appear when comment is edited', () => {
 		// Log username and open campaign
-		cy.get('[cy-test=user]').then(($name) => {
-			user = normalizeText($name.text());
-		});
+
+		cy.get('[cy-test=appTitle]').should('be.visible');
+
+		getUserName();
 
 		cy.selectCampaign(camp);
 
@@ -47,6 +55,7 @@ describe('Username shows on comments when appropriate', () => {
 
 		// Verify username shows in the comment box info
 		cy.wait(500);
+
 		cy
 			.get('[cy-test=comment-group]')
 			.eq(0)
@@ -58,10 +67,10 @@ describe('Username shows on comments when appropriate', () => {
 	});
 
 	it('Username should appear when new comment is made', () => {
+		cy.get('[cy-test=appTitle]').should('be.visible');
+
 		// Log username and open campaign
-		cy.get('[cy-test=user]').then(($name) => {
-			user = normalizeText($name.text());
-		});
+		getUserName();
 
 		cy.selectCampaign(camp);
 
