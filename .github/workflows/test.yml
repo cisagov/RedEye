@@ -47,9 +47,13 @@ jobs:
 
  RedTeamChrome:
   runs-on: ubuntu-latest
+  container:
+   image: cypress/browsers:latest
   needs: [prepare, install]
   strategy:
    fail-fast: false
+   matrix:
+    containers: [1, 2]
 
   steps:
    - name: Checkout
@@ -84,50 +88,54 @@ jobs:
       CYPRESS_PROJECT_ID: 'rsybgk'
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_RED }}
 
- RedTeamFirefox:
-  runs-on: ubuntu-latest
-  needs: [prepare, install]
-  strategy:
-   fail-fast: false
+ #  RedTeamFirefox:
+ #   runs-on: ubuntu-latest
+ #   needs: [prepare, install]
+ #   strategy:
+ #    fail-fast: false
 
-  steps:
-   - name: Checkout
-     uses: actions/checkout@v3
+ #   steps:
+ #    - name: Checkout
+ #      uses: actions/checkout@v3
 
-   - name: Cache
-     uses: actions/setup-node@v3
-     with:
-      cache: 'yarn'
+ #    - name: Cache
+ #      uses: actions/setup-node@v3
+ #      with:
+ #       cache: 'yarn'
 
-   - name: Download the build folders
-     uses: actions/download-artifact@v3
-     with:
-      name: dist
-      path: dist
+ #    - name: Download the build folders
+ #      uses: actions/download-artifact@v3
+ #      with:
+ #       name: dist
+ #       path: dist
 
-   - name: 'Red Team Tests - Firefox'
-     uses: cypress-io/github-action@v5.0.0
-     with:
-      start: yarn start
-      wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      browser: firefox
-      group: 'Red Team - Firefox'
-      working-directory: applications/redeye-e2e
-      config: baseUrl=http://localhost:3500
-      record: true
-      parallel: true
-      config-file: cypress.config.js
-      spec: src/integration/e2e/redteam/**/**/**/*.cy.js
-      ci-build-id: ${{ needs.prepare.outputs.uuid }}
-     env:
-      CYPRESS_PROJECT_ID: 'rsybgk'
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_RED1 }}
+ #    - name: 'Red Team Tests - Firefox'
+ #      uses: cypress-io/github-action@v5.0.0
+ #      with:
+ #       start: yarn start
+ #       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
+ #       browser: firefox
+ #       group: 'Red Team - Firefox'
+ #       working-directory: applications/redeye-e2e
+ #       config: baseUrl=http://localhost:3500
+ #       record: true
+ #       parallel: true
+ #       config-file: cypress.config.js
+ #       spec: src/integration/e2e/redteam/**/**/**/*.cy.js
+ #       ci-build-id: ${{ needs.prepare.outputs.uuid }}
+ #      env:
+ #       CYPRESS_PROJECT_ID: 'rsybgk'
+ #       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_RED1 }}
 
  BlueTeamChrome:
   runs-on: ubuntu-latest
+  container:
+   image: cypress/browsers:latest
   needs: [prepare, install]
   strategy:
    fail-fast: false
+   matrix:
+    containers: [1, 2]
 
   steps:
    - name: Checkout
@@ -161,42 +169,41 @@ jobs:
      env:
       CYPRESS_PROJECT_ID: '46ahz3'
       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_BLUE }}
+#  BlueTeamFirefox:
+#   runs-on: ubuntu-latest
+#   needs: [prepare, install]
+#   strategy:
+#    fail-fast: false
 
- BlueTeamFirefox:
-  runs-on: ubuntu-latest
-  needs: [prepare, install]
-  strategy:
-   fail-fast: false
+#   steps:
+#    - name: Checkout
+#      uses: actions/checkout@v3
 
-  steps:
-   - name: Checkout
-     uses: actions/checkout@v3
+#    - name: Cache
+#      uses: actions/setup-node@v3
+#      with:
+#       cache: 'yarn'
 
-   - name: Cache
-     uses: actions/setup-node@v3
-     with:
-      cache: 'yarn'
+#    - name: Download the build folders
+#      uses: actions/download-artifact@v3
+#      with:
+#       name: dist
+#       path: dist
 
-   - name: Download the build folders
-     uses: actions/download-artifact@v3
-     with:
-      name: dist
-      path: dist
-
-   - name: 'Blue Team Tests - Firefox'
-     uses: cypress-io/github-action@v5.0.0
-     with:
-      start: yarn start:blue
-      wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
-      browser: firefox
-      group: 'Blue Team - Firefox'
-      working-directory: applications/redeye-e2e
-      config: baseUrl=http://localhost:3500
-      record: true
-      parallel: true
-      config-file: cypress.config.js
-      spec: src/integration/e2e/blueteam/**/*.cy.js
-      ci-build-id: ${{ needs.prepare.outputs.uuid }}
-     env:
-      CYPRESS_PROJECT_ID: '46ahz3'
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_BLUE1 }}
+#    - name: 'Blue Team Tests - Firefox'
+#      uses: cypress-io/github-action@v5.0.0
+#      with:
+#       start: yarn start:blue
+#       wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
+#       browser: firefox
+#       group: 'Blue Team - Firefox'
+#       working-directory: applications/redeye-e2e
+#       config: baseUrl=http://localhost:3500
+#       record: true
+#       parallel: true
+#       config-file: cypress.config.js
+#       spec: src/integration/e2e/blueteam/**/*.cy.js
+#       ci-build-id: ${{ needs.prepare.outputs.uuid }}
+#      env:
+#       CYPRESS_PROJECT_ID: '46ahz3'
+#       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_BLUE1 }}
