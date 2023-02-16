@@ -1,5 +1,8 @@
 /// <reference types="cypress" />
 
+const dayjs = require('dayjs');
+dayjs().format();
+
 describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 
@@ -248,6 +251,58 @@ describe('Timeline tests', () => {
 						cy.get('[cy-test=command-date-time]').each(($date) => {
 							expect($date.text()).to.contain(timelineDate);
 						});
+					});
+			});
+
+		// Verify commands are within the tooltip start/end times
+
+		// Log the tooltip date:
+		cy
+			.get('[cy-test=timeline-tooltip-date-time]')
+			.invoke('text')
+			.then((ttDate) => {
+				const tooltipDate = ttDate.split(' ')[0];
+				cy.log(tooltipDate);
+
+				// Log the tooltip start time; concatenate with date; convert to Unix:
+				cy
+					.get('[cy-test=timeline-tooltip-date-time]')
+					.invoke('text')
+					.then((text1) => {
+						const timelineStartTime = text1.split(' ')[1];
+						const timelineStart = tooltipDate.concat(' ').concat(timelineStartTime);
+						const timelineStartUnix = dayjs(timelineStart).unix();
+						cy.log(timelineStartUnix);
+
+						// Log the tooltip end time; concatenate with date; convert to Unix:
+						cy
+							.get('[cy-test=timeline-tooltip-date-time]')
+							.invoke('text')
+							.then((text2) => {
+								const timelineEndTime = text2.split(' ')[3];
+								const timelineEnd = tooltipDate.concat(' ').concat(timelineEndTime);
+								const timelineEndUnix = dayjs(timelineEnd).unix();
+								cy.log(timelineEndUnix);
+
+								// Log the date of the first line and convert to unix
+								cy
+									.get('[cy-test=command-header]')
+									.eq(0)
+									.then((row1) => {
+										const row1Date = row1.attr('title').split(' <')[0];
+										const commandDate1 = dayjs(row1Date).unix();
+										expect(commandDate1).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
+
+										// WIP -- cycle through all dates showing
+
+										cy.get('[cy-test=command-header]').each(($lineDate) => {
+											const commandInfo = $lineDate.attr('title').split(' <')[0];
+											cy.log(commandInfo);
+											const commandInfoUnix = dayjs(commandInfo).unix();
+											expect(commandInfoUnix).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
+										});
+									});
+							});
 					});
 			});
 	});
