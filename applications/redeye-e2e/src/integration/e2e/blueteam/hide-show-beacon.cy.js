@@ -11,7 +11,7 @@ describe('Hide a beacon', () => {
 		cy.selectCampaign(camp);
 
 		// Toggle off switch for hidden beacons
-		cy.get('[cy-test=general-settings]').click();
+		cy.get('[cy-test=settings]').click();
 
 		cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 

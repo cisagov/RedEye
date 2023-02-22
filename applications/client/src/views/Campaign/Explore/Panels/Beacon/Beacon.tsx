@@ -52,8 +52,12 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				{store.settings.momentTz(beacon.minTime)?.format(dateShortFormat)}&mdash;
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}
 			</RowTime>
-			<RowTitle className={skeletonClass}>{beacon?.displayName || `${beacon.server?.displayName}`}</RowTitle>
-			<RowMuted className={skeletonClass}>{beacon.meta?.[0]?.maybeCurrent?.username}</RowMuted>
+			<RowTitle cy-test="beacon-display-name" className={skeletonClass}>
+				{beacon?.displayName || `${beacon.server?.displayName}`}
+			</RowTitle>
+			<RowMuted cy-test="beacon-user" className={skeletonClass}>
+				{beacon.meta?.[0]?.maybeCurrent?.username}
+			</RowMuted>
 			<FlexSplitter />
 			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />
