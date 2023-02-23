@@ -109,3 +109,33 @@ Cypress.Commands.add('selectHostByName', (campaignName) => {
 Cypress.Commands.add('timelinePlayPause', () => {
 	cy.get('[cy-test=timeline-play-pause]').click();
 });
+
+// MOVE TIMELIME BACK
+Cypress.Commands.add('timelineBack', () => {
+	cy.get('[cy-test=timeline-back]').click();
+});
+
+// MOVE TIMELINE FORWARD
+Cypress.Commands.add('timelineForward', () => {
+	cy.get('[cy-test=timeline-forward]').click();
+});
+
+// RESET TIMELINE DATES
+Cypress.Commands.add('resetTimelineDates', () => {
+	cy.get('[cy-test=reset-timeline-dates]');
+});
+
+// CLICK TO EDIT TIMELINE DATES
+Cypress.Commands.add('editTimelineDates', () => {
+	cy.get('[cy-test=timeline-dates]').click();
+});
+
+// CHANGE TIMELINE START DATE
+Cypress.Commands.add('changeTimelineStartDate', (newStartDate) => {
+	cy.get('.bp4-input').eq(0).click().clear().type(newStartDate);
+});
+
+// CHANGE TIMELINE END DATE
+Cypress.Commands.add('changeTimelineEndDate', (newEndDate) => {
+	cy.get('.bp4-input').eq(1).click().clear().type(newEndDate);
+});

@@ -110,7 +110,7 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 					<Header small cy-test="timeline-header" css={headerStyle}>
 						Timeline
 					</Header>
-					<ButtonGroup>
+					<ButtonGroup cy-test="timeline-edit-dates">
 						{state.showDateRangeInput && state.dateRange.length === 2 ? (
 							<DateRangeInput2
 								disabled={disableControls}
@@ -149,9 +149,9 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 								css={{ marginRight: `-6px !important` }}
 							>
 								<Txt small monospace>
-									<Txt>{startDateMoment.isValid() ? startDateMoment.format(dateFormat) : datePlaceholder}</Txt>
+									<Txt cy-test="timeline-start-date">{startDateMoment.isValid() ? startDateMoment.format(dateFormat) : datePlaceholder}</Txt>
 									<Spacer>&mdash;</Spacer>
-									<Txt>{endDateMoment.isValid() ? endDateMoment.format(dateFormat) : datePlaceholder}</Txt>
+									<Txt cy-test="timeline-end-date">{endDateMoment.isValid() ? endDateMoment.format(dateFormat) : datePlaceholder}</Txt>
 								</Txt>
 							</Button>
 						)}

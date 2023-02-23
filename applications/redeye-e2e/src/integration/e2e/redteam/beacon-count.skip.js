@@ -84,7 +84,7 @@ describe('Beacon counts', () => {
 					});
 			});
 		// Go back to Hosts and log beacon count for second host
-		cy.clickExporerMode();
+		cy.clickExplorerMode();
 		cy
 			.get('[cy-test=row-beacon-count]')
 			.eq(1)

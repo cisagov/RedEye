@@ -45,6 +45,18 @@ declare namespace Cypress {
 		 */
 		addNewTags();
 
+		/**Modifies the end date of the timeline. Note: Date format = MM/DD/YY.
+		 * @example
+		 * cy.changeTimelineEndDate('01/05/23')
+		 */
+		changeTimelineEndDate();
+
+		/**Modifies the start date of the timeline. Note: Date format = MM/DD/YY.
+		 * @example
+		 * cy.changeTimelineStartDate('01/01/23')
+		 */
+		changeTimelineStartDate();
+
 		/**Clicks the 'Help' icon that opens the About modal to provide more information about RedEye.
 		 * @example
 		 * cy.clickAboutModal()
@@ -145,6 +157,12 @@ declare namespace Cypress {
 		 */
 		editExistingComment();
 
+		/**Clicks the dates in the timeline so the start and/or end dates can be modified.
+		 * @example
+		 * cy.editTimelineDates()
+		 */
+		editTimelineDates();
+
 		/**Verifies that the log text contains what you are expecting.
 		 * @example
 		 * cy.expandedLogsContain(expectedText)
@@ -193,6 +211,12 @@ declare namespace Cypress {
 		 */
 		replyToComment();
 
+		/**Clicks the reset button on the timeline to set dates back to their original configuration.
+		 * @example
+		 * cy.resetTimelineDates()
+		 */
+		resetTimelineDates();
+
 		/**Searches the campaign card menu for a specific campaign using the Search feature at the top of the page.
 		 * @example
 		 * cy.searchForCampaign(campaign)
@@ -210,6 +234,18 @@ declare namespace Cypress {
 		 * cy.SelectCommandType(command)
 		 */
 		selectCommandType();
+
+		/**Clicks the Back button on the timeline once.
+		 * @example
+		 * cy.timelineBack()
+		 */
+		timelineBack();
+
+		/**Clicks the Forward button on the timeline once.
+		 * @example
+		 * cy.timelineForward()
+		 */
+		timelineForward();
 
 		/**Clicks on the Play/Pause button of the timeline.
 		 * @example
