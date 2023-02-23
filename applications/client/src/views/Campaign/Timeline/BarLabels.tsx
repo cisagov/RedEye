@@ -1,16 +1,20 @@
 import { css } from '@emotion/react';
-import { dateFormat, dateTimeFormat, Flex } from '@redeye/client/components';
+import { CarbonIcon, dateFormat, dateTimeFormat, Flex, semanticIcons } from '@redeye/client/components';
 import { routes, useStore } from '@redeye/client/store';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import type { UUID } from '@redeye/client/types';
-import { Txt, FlexSplitter, AdvancedTokens } from '@redeye/ui-styles';
+import { Txt, FlexSplitter, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
+import { Button, Intent, MenuDivider } from '@blueprintjs/core';
 import type { IBar } from './TimelineChart';
+import { IconLabel } from '../Explore';
+import { ChevronUp16 } from '@carbon/icons-react';
 
 type BarLabelsProps = ComponentProps<'div'> & {
 	bar: IBar;
 	dateFormatter: string | undefined;
+	handleClick?: () => void;
 };
 
 export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
@@ -20,51 +24,47 @@ export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) =>
 	const sameDate = dateStart.split(' ')[0] === dateEnd.split(' ')[0];
 
 	return sameDate && dateFormatter === dateFormat ? (
-		<Txt block bold small>
+		<Txt block bold small css={marginStyles(1)}>
 			{dateStart}
 		</Txt>
 	) : sameDate && dateFormatter === dateTimeFormat ? (
-		<Txt cy-test="timeline-tooltip-date-time" block bold small>{`${dateStart} - ${dateEnd.split(' ')[1]}`}</Txt>
+		<Txt cy-test="timeline-tooltip-date-time" block bold small css={marginStyles(1)}>{`${dateStart} - ${
+			dateEnd.split(' ')[1]
+		}`}</Txt>
 	) : (
-		<Txt block bold small>{`${dateStart} - ${dateEnd}`}</Txt>
+		<Txt block bold small css={marginStyles(1)}>{`${dateStart} - ${dateEnd}`}</Txt>
 	);
 });
 
-export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter }) => (
+export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter, handleClick }) => (
 	<div cy-test="timeline-tooltip-static" css={barPopoverStyles}>
-		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
+		<Flex css={headerStyles}>
+			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
+			<FlexSplitter />
+			<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} />
+			<IconLabel
+				title="Commands"
+				value={bar?.beaconCount}
+				icon={semanticIcons.commands}
+				css={{ marginRight: '-0.1rem' }}
+			/>
+		</Flex>
 		<FlexSplitter />
-		<Flex css={{ paddingTop: '0.2rem' }}>
-			<Txt cy-test="timeline-beacons" muted small css={marginStyles(1)}>
-				Beacons
-			</Txt>
-			<FlexSplitter />
-			<Txt cy-test="timeline-beacon-count" small>
-				{bar?.beaconNumbers}
-			</Txt>
-		</Flex>
-		<Flex>
-			<Txt cy-test="timeline-total-commands" muted small css={marginStyles(1)}>
-				Total commands
-			</Txt>
-			<FlexSplitter />
-			<Txt cy-test="timeline-total-command-count" small>
-				{bar?.beaconCount}
-			</Txt>
-		</Flex>
-		<Flex>
-			<Txt cy-test="timeline-active-beacons" muted small css={marginStyles(1)}>
-				Active Beacon commands
-			</Txt>
-			<FlexSplitter />
-			<Txt cy-test="timeline-active-beacon-count" small>
-				{bar?.activeBeaconCount}
-			</Txt>
+		<MenuDivider />
+		<Flex
+			css={listStyles}
+			onClick={() => {
+				console.log('list');
+				handleClick?.();
+			}}
+		>
+			<CarbonIcon cy-test="row-beacon-count" title="Beacons" icon={semanticIcons.beacon} css={marginStyles(0.5)} />
+			<Txt small>List Beacons</Txt>
 		</Flex>
 	</div>
 ));
 
-export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
+export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter, handleClick }) => {
 	const store = useStore();
 	const routeToBeacon = (beaconId: string) => {
 		store.router.updateRoute({
@@ -80,18 +80,21 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 		});
 	};
 	return (
-		<div cy-test="timeline-tooltip-clickable" css={barPopoverStyles}>
-			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
+		<div cy-test="timeline-tooltip-clickable" css={barPopoverStyles} onMouseLeave={handleClick}>
 			<FlexSplitter />
-			<Flex css={{ padding: '0.2rem 0' }}>
-				<Txt cy-test="timeline-beacon-header" small bold>
-					Beacons
-				</Txt>
+			<Flex css={headerStyles}>
+				<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 				<FlexSplitter />
-				<Txt cy-test="timeline-command-header" small bold>
-					Commands
-				</Txt>
+				<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} />
+				<IconLabel
+					title="Commands"
+					value={bar?.beaconCount}
+					icon={semanticIcons.commands}
+					css={{ marginRight: '-0.1rem' }}
+				/>
 			</Flex>
+			<FlexSplitter />
+			<MenuDivider />
 			{bar.beaconCommands.map((beaconCommand) => (
 				<Flex
 					key={beaconCommand.beaconId}
@@ -110,12 +113,28 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 					</Txt>
 				</Flex>
 			))}
+			<MenuDivider />
+			<Flex
+				css={listStyles}
+				onClick={() => {
+					console.log('list');
+					handleClick?.();
+				}}
+			>
+				<CarbonIcon cy-test="row-beacon-count" title="Beacons" icon={ChevronUp16} css={marginStyles(0.5)} />
+				<Txt small>Show Less</Txt>
+			</Flex>
 		</div>
 	);
 });
 
 const barPopoverStyles = css`
 	padding: 0.4rem;
+`;
+
+const headerStyles = css`
+	align-items: baseline;
+	padding-bottom: 0.3rem;
 `;
 
 const marginStyles = (num: number) => css`
@@ -127,4 +146,9 @@ const barPopoverRowStyles = css`
 		cursor: pointer;
 		background: ${AdvancedTokens.MinimalButtonBackgroundColorHover};
 	}
+`;
+
+const listStyles = css`
+	${barPopoverRowStyles};
+	color: ${CoreTokens.Intent.Primary5};
 `;

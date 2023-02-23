@@ -42,15 +42,22 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						content={
 							bar.beaconCount ? (
 								state.isHover ? (
-									<BarLabelOnHover bar={bar} dateFormatter={durationFormatter(start, end)} />
+									<BarLabelOnHover
+										bar={bar}
+										dateFormatter={durationFormatter(start, end)}
+										handleClick={() => state.toggleIsHover()}
+									/>
 								) : (
-									<BarLabelBeaconList bar={bar} dateFormatter={durationFormatter(start, end)} />
+									<BarLabelBeaconList
+										bar={bar}
+										dateFormatter={durationFormatter(start, end)}
+										handleClick={() => state.toggleIsHover()}
+									/>
 								)
 							) : undefined
 						}
 						placement="bottom"
 						modifiers={{
-							arrow: { enabled: false },
 							offset: {
 								enabled: true,
 								options: {
@@ -65,7 +72,8 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 								{...targetProps}
 								onMouseDown={(e) => {
 									e.preventDefault();
-									state.toggleIsHover();
+									// state.toggleIsHover();
+									console.log('clicked bar to trigger scrubber');
 								}}
 							>
 								{bar.beaconCount && (
