@@ -1,10 +1,12 @@
 import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
 import { css } from '@emotion/react';
 import { createState, durationFormatter } from '@redeye/client/components';
+import { useStore } from '@redeye/client/store';
 import { TimelineTokens } from '@redeye/ui-styles';
 import { max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
+import { useMemo } from 'react';
 import { animated } from 'react-spring';
 import { BarLabelOnHover, BarLabelBeaconList } from './BarLabels';
 import { TIMELINE_BG_COLOR } from './timeline-static-vars';
@@ -20,6 +22,7 @@ type BarsProps = ComponentProps<'div'> & {
 };
 
 export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions, scrubberTime }) => {
+	const store = useStore();
 	const yMax = max(bars.map((bar) => bar.beaconCount)) ?? 0;
 	const yScale = scaleLinear([0, yMax], [0, dimensions.height]);
 	const state = createState({
@@ -28,6 +31,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 			this.isHover = !this.isHover;
 		},
 	});
+	const BarLabel = useMemo(() => (state.isHover ? BarLabelOnHover : BarLabelBeaconList), [state.isHover]);
 
 	return (
 		<g>
@@ -41,27 +45,16 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						interactionKind={Popover2InteractionKind.HOVER}
 						content={
 							bar.beaconCount ? (
-								state.isHover ? (
-									<BarLabelOnHover
-										bar={bar}
-										dateFormatter={durationFormatter(start, end)}
-										handleClick={() => state.toggleIsHover()}
-									/>
-								) : (
-									<BarLabelBeaconList
-										bar={bar}
-										dateFormatter={durationFormatter(start, end)}
-										handleClick={() => state.toggleIsHover()}
-									/>
-								)
+								<BarLabel bar={bar} dateFormatter={durationFormatter(start, end)} handleClick={() => state.toggleIsHover()} />
 							) : undefined
 						}
 						placement="bottom"
+						// placement="bottom-end"
 						// modifiers={{
 						// 	offset: {
 						// 		enabled: true,
 						// 		options: {
-						// 			offset: [0, 20],
+						// 			offset: [20, 20],
 						// 		},
 						// 	},
 						// }}
@@ -70,10 +63,8 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 								cy-test="timeline-bar"
 								ref={ref}
 								{...targetProps}
-								onMouseDown={(e) => {
-									e.preventDefault();
-									// state.toggleIsHover();
-									console.log('clicked bar to trigger scrubber');
+								onMouseDown={() => {
+									store.campaign?.timeline.setScrubberTimeExact(bar.end);
 								}}
 							>
 								{bar.beaconCount && (

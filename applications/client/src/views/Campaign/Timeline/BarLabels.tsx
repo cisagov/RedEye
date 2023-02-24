@@ -6,6 +6,7 @@ import type { UUID } from '@redeye/client/types';
 import { Txt, FlexSplitter, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
+import { useCallback } from 'react';
 import { MenuDivider } from '@blueprintjs/core';
 import { ChevronUp16 } from '@carbon/icons-react';
 import type { IBar } from './TimelineChart';
@@ -14,10 +15,10 @@ import { IconLabel } from '../Explore';
 type BarLabelsProps = ComponentProps<'div'> & {
 	bar: IBar;
 	dateFormatter: string | undefined;
-	handleClick?: () => void;
+	handleClick: () => void;
 };
 
-export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
+export const BarLabelDate = observer<Omit<BarLabelsProps, 'handleClick'>>(({ bar, dateFormatter }) => {
 	const store = useStore();
 	const dateStart = store.settings.momentTz(bar?.start).format(dateFormatter);
 	const dateEnd = store.settings.momentTz(bar?.end).format(dateFormatter);
@@ -36,7 +37,7 @@ export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) =>
 	);
 });
 
-export const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter }) => (
+export const BarLabelHeader = observer<Omit<BarLabelsProps, 'handleClick'>>(({ bar, dateFormatter }) => (
 	<Flex css={headerStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
@@ -46,17 +47,11 @@ export const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter }) 
 ));
 
 export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter, handleClick }) => (
-	<div cy-test="timeline-tooltip-static" css={barPopoverStyles}>
+	<div cy-test="timeline-tooltip-static">
 		<BarLabelHeader bar={bar} dateFormatter={dateFormatter} />
-		<FlexSplitter />
+		{/* <FlexSplitter /> */}
 		<MenuDivider />
-		<Flex
-			css={listStyles}
-			onClick={() => {
-				console.log('list');
-				handleClick?.();
-			}}
-		>
+		<Flex css={bottomStyles} onClick={handleClick}>
 			<CarbonIcon title="Beacons" icon={semanticIcons.beacon} css={marginStyles(0.5)} />
 			<Txt small>List Beacons</Txt>
 		</Flex>
@@ -65,7 +60,7 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter, h
 
 export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter, handleClick }) => {
 	const store = useStore();
-	const routeToBeacon = (beaconId: string) => {
+	const routeToBeacon = useCallback((beaconId: string) => {
 		store.router.updateRoute({
 			path: routes[CampaignViews.EXPLORE],
 			params: {
@@ -77,22 +72,11 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 				activeItemId: undefined,
 			},
 		});
-	};
+	}, []);
 	return (
-		<div cy-test="timeline-tooltip-clickable" css={barPopoverStyles} onMouseLeave={handleClick}>
-			<FlexSplitter />
-			<Flex css={headerStyles}>
-				<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
-				<FlexSplitter />
-				<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} />
-				<IconLabel
-					title="Commands"
-					value={bar?.beaconCount}
-					icon={semanticIcons.commands}
-					css={{ marginRight: '-0.1rem' }}
-				/>
-			</Flex>
-			<FlexSplitter />
+		<div cy-test="timeline-tooltip-clickable" onMouseLeave={handleClick}>
+			<BarLabelHeader bar={bar} dateFormatter={dateFormatter} />
+			{/* <FlexSplitter /> */}
 			<MenuDivider />
 			{bar.beaconCommands.map((beaconCommand) => (
 				<Flex
@@ -114,13 +98,7 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 				</Flex>
 			))}
 			<MenuDivider />
-			<Flex
-				css={listStyles}
-				onClick={() => {
-					console.log('list');
-					handleClick?.();
-				}}
-			>
+			<Flex css={bottomStyles} onClick={handleClick}>
 				<CarbonIcon cy-test="row-beacon-count" title="Beacons" icon={ChevronUp16} css={marginStyles(0.5)} />
 				<Txt small>Show Less</Txt>
 			</Flex>
@@ -128,27 +106,31 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 	);
 });
 
-const barPopoverStyles = css`
-	padding: 0.4rem;
-`;
-
 const headerStyles = css`
 	align-items: baseline;
-	padding-bottom: 0.3rem;
+	padding: 0.25rem 0.5rem 0;
 `;
 
 const marginStyles = (num: number) => css`
 	margin-right: ${num}rem;
 `;
 
-const barPopoverRowStyles = css`
+const hoverStyles = css`
 	&:hover {
 		cursor: pointer;
 		background: ${AdvancedTokens.MinimalButtonBackgroundColorHover};
 	}
 `;
 
-const listStyles = css`
-	${barPopoverRowStyles};
+const barPopoverRowStyles = css`
+	${hoverStyles};
+	align-items: baseline;
+	padding: 0 0.5rem;
+`;
+
+const bottomStyles = css`
+	${hoverStyles};
 	color: ${CoreTokens.Intent.Primary5};
+	align-items: center;
+	padding: 0.2rem 0.5rem;
 `;
