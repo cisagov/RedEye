@@ -6,10 +6,10 @@ import type { UUID } from '@redeye/client/types';
 import { Txt, FlexSplitter, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { Button, Intent, MenuDivider } from '@blueprintjs/core';
+import { MenuDivider } from '@blueprintjs/core';
+import { ChevronUp16 } from '@carbon/icons-react';
 import type { IBar } from './TimelineChart';
 import { IconLabel } from '../Explore';
-import { ChevronUp16 } from '@carbon/icons-react';
 
 type BarLabelsProps = ComponentProps<'div'> & {
 	bar: IBar;
@@ -36,19 +36,18 @@ export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) =>
 	);
 });
 
+export const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter }) => (
+	<Flex css={headerStyles}>
+		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
+		<FlexSplitter />
+		<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} />
+		<IconLabel title="Commands" value={bar?.beaconCount} icon={semanticIcons.commands} css={{ marginRight: '-0.1rem' }} />
+	</Flex>
+));
+
 export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter, handleClick }) => (
 	<div cy-test="timeline-tooltip-static" css={barPopoverStyles}>
-		<Flex css={headerStyles}>
-			<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
-			<FlexSplitter />
-			<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} />
-			<IconLabel
-				title="Commands"
-				value={bar?.beaconCount}
-				icon={semanticIcons.commands}
-				css={{ marginRight: '-0.1rem' }}
-			/>
-		</Flex>
+		<BarLabelHeader bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
 		<MenuDivider />
 		<Flex
@@ -58,7 +57,7 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter, h
 				handleClick?.();
 			}}
 		>
-			<CarbonIcon cy-test="row-beacon-count" title="Beacons" icon={semanticIcons.beacon} css={marginStyles(0.5)} />
+			<CarbonIcon title="Beacons" icon={semanticIcons.beacon} css={marginStyles(0.5)} />
 			<Txt small>List Beacons</Txt>
 		</Flex>
 	</div>
@@ -111,6 +110,7 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 					<Txt cy-test="timeline-beacon-command-count" small>
 						{beaconCommand.commandCount}
 					</Txt>
+					<IconLabel title="Commands" icon={semanticIcons.commands} css={{ marginRight: '-0.1rem' }} />
 				</Flex>
 			))}
 			<MenuDivider />

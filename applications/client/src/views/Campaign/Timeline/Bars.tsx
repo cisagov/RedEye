@@ -57,14 +57,14 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 							) : undefined
 						}
 						placement="bottom"
-						modifiers={{
-							offset: {
-								enabled: true,
-								options: {
-									offset: [0, 20],
-								},
-							},
-						}}
+						// modifiers={{
+						// 	offset: {
+						// 		enabled: true,
+						// 		options: {
+						// 			offset: [0, 20],
+						// 		},
+						// 	},
+						// }}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g
 								cy-test="timeline-bar"
