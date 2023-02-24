@@ -108,6 +108,7 @@ export const ServerMeta = observer(() => {
 				/>
 			</Select>
 			<ToggleHiddenButton
+				cy-test="show-hide-this-server"
 				disabled={!!store.appMeta.blueTeam}
 				onClick={() => toggleHidden.update('showHide', true)}
 				isHiddenToggled={!!server?.hidden}

@@ -33,7 +33,7 @@ describe('Multi-Command Comments', () => {
 
 		// Verify comments are saved
 		cy.clickExplorerMode();
-		cy.get('[cy-test=comments]').click();
+		cy.clickCommentsTab();
 		cy.get('[cy-test=comments-view]').should('contain', comment).and('contain', tag);
 		cy.clickPresentationMode();
 		cy.get('[cy-test=favorited]').click();
@@ -54,9 +54,9 @@ describe('Multi-Command Comments', () => {
 
 		// Log starting number of commands
 		cy.get('[cy-test=number-commands]').then((number1) => {
-			const divNumber1 = number1.text().split(' ').shift();
-			cy.get('[cy-test=number-commands]').should('contain', divNumber1);
-			// cy.log(divNumber1);
+			const startingCommands = number1.text().split(' ').shift();
+			cy.get('[cy-test=number-commands]').should('contain', startingCommands);
+			// cy.log(startingCommands);
 
 			cy.get('[cy-test=add-command-this-comment]').click();
 			cy.wait('@addCommandToCommandGroup');
@@ -65,10 +65,10 @@ describe('Multi-Command Comments', () => {
 
 			// Log new number of commands - should be 1 more than earlier
 			cy.get('[cy-test=number-commands]').then((number2) => {
-				const divNumber2 = number2.text().split(' ').shift();
-				cy.get('[cy-test=number-commands]').should('contain', divNumber2);
-				// cy.log(divNumber2);
-				expect(+divNumber2).to.equal(+divNumber1 + +'1');
+				const updatedCommands = number2.text().split(' ').shift();
+				cy.get('[cy-test=number-commands]').should('contain', updatedCommands);
+				// cy.log(updatedCommands);
+				expect(+updatedCommands).to.equal(+startingCommands + +'1');
 			});
 		});
 		cy.get('[cy-test=done-button]').click();

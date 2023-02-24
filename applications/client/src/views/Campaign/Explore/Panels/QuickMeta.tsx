@@ -35,7 +35,7 @@ export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden, cl
 				},
 			}}
 			content={
-				<Menu>
+				<Menu cy-test="show-hide-item">
 					<MenuItem
 						disabled={disabled}
 						text={`${modal?.hidden ? 'Show ' : 'Hide '} ${
@@ -55,7 +55,13 @@ export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden, cl
 				</Menu>
 			}
 		>
-			<Button icon={<CarbonIcon icon={OverflowMenuVertical16} />} minimal small css={buttonStyle} />
+			<Button
+				cy-test="show-hide-hover"
+				icon={<CarbonIcon icon={OverflowMenuVertical16} />}
+				minimal
+				small
+				css={buttonStyle}
+			/>
 		</Popover2>
 	);
 });
