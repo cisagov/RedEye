@@ -120,7 +120,7 @@ const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> 
 				active={state.isUserSettingsOpen}
 			/>
 			<NavButton
-				cy-test="general-settings"
+				cy-test="settings"
 				icon={<CarbonIcon icon={Settings24} />}
 				title="General Settings"
 				onClick={() => {

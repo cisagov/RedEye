@@ -39,7 +39,7 @@ export const ToggleHiddenDialog = observer<Props>(
 				}
 				{...props}
 			>
-				<div className={Classes.DIALOG_BODY}>
+				<div cy-test="show-hide-dialog-text" className={Classes.DIALOG_BODY}>
 					{last && !isHiddenToggled ? (
 						<>
 							<Txt tagName="p">
@@ -54,16 +54,16 @@ export const ToggleHiddenDialog = observer<Props>(
 						</>
 					) : (
 						<>
-							<Txt tagName="p">
+							<Txt cy-test="dialog-text-line1" tagName="p">
 								{plural} this {infoType} will make it {isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
 							</Txt>
 							{!isHiddenToggled && (
-								<Txt tagName="p">
+								<Txt cy-test="dialog-text-line2" tagName="p">
 									{plural} this {infoType} will NOT delete it. Hidden {infoType}s can be shown again by toggling the
 									<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
 								</Txt>
 							)}
-							<Txt tagName="p">
+							<Txt cy-test="dialog-text-line3" tagName="p">
 								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}
 							</Txt>
 							<Checkbox label="Don’t show this warning again" checked={checked} onChange={handleCheck} />
@@ -72,8 +72,11 @@ export const ToggleHiddenDialog = observer<Props>(
 				</div>
 				<div className={Classes.DIALOG_FOOTER}>
 					<div className={Classes.DIALOG_FOOTER_ACTIONS}>
-						<Button onClick={onClose}>Cancel</Button>
+						<Button cy-test="cancel-show-hide" onClick={onClose}>
+							Cancel
+						</Button>
 						<Button
+							cy-test="confirm-show-hide"
 							intent={Intent.PRIMARY}
 							rightIcon={!last && isHiddenToggled && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
 							loading={loading}

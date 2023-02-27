@@ -1,5 +1,8 @@
 /// <reference types="cypress" />
 
+const dayjs = require('dayjs');
+dayjs().format();
+
 describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 
@@ -16,12 +19,11 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
 		cy.reload();
 
-		cy.get('[cy-test=timeline]').should('be.visible');
-
 		// Log the starting position of the timeline bar
 		cy
 			.get('[cy-test=timeline-animated-line]')
 			.invoke('attr', 'x1')
+			.as('timeline')
 			.then((position1) => {
 				// cy.log(position1);
 
@@ -31,41 +33,31 @@ describe('Timeline tests', () => {
 
 				// Pause the timeline and log its new position - should be different than the starting position
 				cy.timelinePlayPause();
-				cy
-					.get('[cy-test=timeline-animated-line]')
-					.invoke('attr', 'x1')
-					.then((position2) => {
-						// cy.log(position2);
-						expect(+position1).to.not.equal(+position2);
+				cy.get('@timeline').then((position2) => {
+					// cy.log(position2);
+					expect(+position1).to.not.equal(+position2);
 
-						cy.timelineBack();
-						cy.wait(500);
+					cy.timelineBack();
+					cy.wait(500);
 
-						cy
-							.get('[cy-test=timeline-animated-line]')
-							.invoke('attr', 'x1')
-							.then((position3) => {
-								// cy.log(position3);
-								expect(+position3).to.be.lessThan(+position2);
+					cy.get('@timeline').then((position3) => {
+						// cy.log(position3);
+						expect(+position3).to.be.lessThan(+position2);
 
-								// Click the forward button to move the timeline ahead; verify it is more than the previous position
-								cy.timelineForward().click();
-								cy
-									.get('[cy-test=timeline-animated-line]')
-									.invoke('attr', 'x1')
-									.then((position4) => {
-										// cy.log(position4);
-										expect(+position4).to.be.greaterThan(+position3);
-									});
-							});
+						// Click the forward button to move the timeline ahead; verify it is more than the previous position
+						cy.timelineForward().click();
+						cy.get('@timeline').then((position4) => {
+							// cy.log(position4);
+							expect(+position4).to.be.greaterThan(+position3);
+						});
 					});
+				});
 			});
 	});
 
 	it('Change timeline dates', () => {
 		// Open campaign
 		cy.selectCampaign(camp);
-		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates
 		cy.editTimelineDates();
@@ -84,7 +76,6 @@ describe('Timeline tests', () => {
 	it('Timeline tooltip info appears correctly', () => {
 		// Open campaign
 		cy.selectCampaign(camp);
-		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
@@ -117,7 +108,6 @@ describe('Timeline tests', () => {
 	it('Information mactches in the two tooltip views', () => {
 		// Open campaign
 		cy.selectCampaign(camp);
-		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
@@ -132,14 +122,10 @@ describe('Timeline tests', () => {
 			.get('[cy-test=timeline-beacon-count]')
 			.invoke('text')
 			.then((beaconCount1) => {
-				// cy.log(beaconCount1);
-
 				cy
 					.get('[cy-test=timeline-total-command-count]')
 					.invoke('text')
 					.then((totalCommandCount1) => {
-						// cy.log(totalCommandCount1);
-
 						// Click to change to second tooltip view
 						cy.get('[cy-test=timeline-bar]').eq(1).click();
 
@@ -148,7 +134,6 @@ describe('Timeline tests', () => {
 							.get('[cy-test=timeline-beacon-name]')
 							.its('length')
 							.then((beaconCount2) => {
-								// cy.log(beaconCount2);
 								expect(+beaconCount2).to.eq(+beaconCount1);
 
 								cy
@@ -156,14 +141,11 @@ describe('Timeline tests', () => {
 									.eq(0)
 									.invoke('text')
 									.then((totalCommandCount2) => {
-										// cy.log(totalCommandCount2);
 										cy
 											.get('[cy-test=timeline-beacon-command-count]')
 											.eq(1)
 											.invoke('text')
 											.then((totalCommandCount3) => {
-												// cy.log(totalCommandCount3);
-
 												expect(+totalCommandCount2 + +totalCommandCount3).to.eq(+totalCommandCount1);
 											});
 									});
@@ -177,7 +159,6 @@ describe('Timeline tests', () => {
 	it('Clicking beacon info in tooltip displays the correct beacon info', () => {
 		// Open campaign
 		cy.selectCampaign(camp);
-		cy.get('[cy-test=timeline]').should('be.visible');
 
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
@@ -228,26 +209,63 @@ describe('Timeline tests', () => {
 					});
 			});
 
-		// Verify tooltip date matches beacon info
+		// Verify tooltip date matches beacon info (log month and day, then concat -- don't want the year for this test)
 		cy
 			.get('[cy-test=timeline-tooltip-date-time]')
 			.invoke('text')
 			.then((tooltipMonth) => {
 				const timelineMonth = tooltipMonth.split('/')[0];
-				cy.log(timelineMonth);
+
 				cy
 					.get('[cy-test=timeline-tooltip-date-time]')
 					.invoke('text')
 					.then((tooltipDay) => {
 						const timelineDay = tooltipDay.split('/')[1];
-						cy.log(timelineDay);
 
 						const month = timelineMonth;
 						const day = timelineDay;
 						const timelineDate = month.concat('/').concat(day);
+
 						cy.get('[cy-test=command-date-time]').each(($date) => {
 							expect($date.text()).to.contain(timelineDate);
 						});
+					});
+			});
+
+		// Verify commands are within the tooltip start/end times
+
+		// Log the tooltip date (incl. year):
+		cy
+			.get('[cy-test=timeline-tooltip-date-time]')
+			.invoke('text')
+			.then((ttDate) => {
+				const tooltipDate = ttDate.split(' ')[0];
+
+				// Log the tooltip start time; concatenate with date; convert to Unix:
+				cy
+					.get('[cy-test=timeline-tooltip-date-time]')
+					.invoke('text')
+					.then((text1) => {
+						const timelineStartTime = text1.split(' ')[1];
+						const timelineStart = tooltipDate.concat(' ').concat(timelineStartTime);
+						const timelineStartUnix = dayjs(timelineStart).unix();
+
+						// Log the tooltip end time; concatenate with date; convert to Unix:
+						cy
+							.get('[cy-test=timeline-tooltip-date-time]')
+							.invoke('text')
+							.then((text2) => {
+								const timelineEndTime = text2.split(' ')[3];
+								const timelineEnd = tooltipDate.concat(' ').concat(timelineEndTime);
+								const timelineEndUnix = dayjs(timelineEnd).unix();
+
+								// Verfy all times are within the appropriate timeframe
+								cy.get('[cy-test=command-header]').each(($lineDate) => {
+									const commandInfo = $lineDate.attr('title').split(' <')[0];
+									const commandInfoUnix = dayjs(commandInfo).unix();
+									expect(commandInfoUnix).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
+								});
+							});
 					});
 			});
 	});

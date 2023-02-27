@@ -76,6 +76,7 @@ export const HostMeta = observer(() => {
 				))}
 			</div>
 			<ToggleHiddenButton
+				cy-test="show-hide-this-host"
 				disabled={!!store.appMeta.blueTeam}
 				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!host?.current?.hidden}

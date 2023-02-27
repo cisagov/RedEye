@@ -43,7 +43,7 @@ Cypress.Commands.add('clickUserSettings', () => {
 
 //CLICK GENERAL SETTINGS ON EXPLORER PANEL
 Cypress.Commands.add('clickGeneralSettings', () => {
-	cy.get('[cy-test=general-settings]').click();
+	cy.get('[cy-test=settings]').click();
 });
 
 //CLICK ABOUT MODAL ON EXPLORER PANEL
