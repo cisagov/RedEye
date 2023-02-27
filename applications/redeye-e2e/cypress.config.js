@@ -44,8 +44,8 @@ module.exports = defineConfig({
 				},
 			});
 		},
-		specPattern: '../../**/*.cy.js',
-		supportFile: './src/support/index.js',
+		specPattern: '**/**/e2e/**/*.cy.js',
+		supportFile: '**/**/src/support/e2e.js',
 		excludeSpecPattern: '*.skip.js',
 		defaultCommandTimeout: 15000,
 	},

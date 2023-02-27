@@ -282,5 +282,7 @@ declare namespace Cypress {
 		 * cy.verifyTotalCommands(expectedCount)
 		 */
 		verifyTotalCommands();
+
+		toggleLightTheme();
 	}
 }
