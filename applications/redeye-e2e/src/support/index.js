@@ -7,8 +7,11 @@ import './computer';
 import './campaignCard';
 import './utils';
 
+const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/;
 Cypress.on('uncaught:exception', (err, runnable) => {
-	return false;
+	if (resizeObserverLoopErrRe.test(err.message)) {
+		return false;
+	}
 });
 
 export const hasOperationName = (req, operationName) => {
