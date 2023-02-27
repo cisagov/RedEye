@@ -2,6 +2,10 @@
 
 import { graphqlRequest, mutRequest } from '../support/utils';
 
+// *******************************************
+// LOGIN / LOGOUT COMMANDS
+// *******************************************
+
 Cypress.Commands.add('loginLocal', (password, user) => {
 	cy.visit('/');
 	cy.get('[cy-test=password]').clear().type(password);
@@ -36,23 +40,9 @@ Cypress.Commands.add('logout', () => {
 	cy.get('[cy-test=logged-in-user]').click();
 });
 
-Cypress.Commands.add('hostNameEquals', (name) => {
-	cy.get('.bp4-heading').first().contains(name);
-});
-
-Cypress.Commands.add('openRawLogs', () => {
-	cy.get('[cy-test=openRawLogs]').click();
-});
-
-Cypress.Commands.add('infoRowTotal', (num) => {
-	cy.get('[cy-test=info-row]').should('have.length', num);
-});
-
-//ACTUAL COMMANDS
-Cypress.Commands.add('selectCommandType', (cmd) => {
-	cy.get('[cy-test=commands]').contains(cmd).click();
-	cy.wait(['@commands', '@commandIds']);
-});
+// *******************************************
+// COMMENTS AND TAGS
+// *******************************************
 
 //HOVER OVER TO ADD NEW COMMENT IF NONE EXIST
 Cypress.Commands.add('addComment', (index, cmt) => {
@@ -167,6 +157,51 @@ Cypress.Commands.add('addNewComment', (index, comment, tag) => {
 		});
 });
 
+// Edit an existing comment; do not edit tags
+Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
+	cy.get('[cy-test=edit-comment]').eq(index).click();
+	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
+	cy.get('[cy-test=save-comment]').click();
+	cy.wait('@updateAnnotation');
+});
+
+// Reply to a comment (only adds text, no tags)
+Cypress.Commands.add('replyToComment', (index, cmt) => {
+	cy.get('[cy-test=reply]').eq(index).click();
+	cy.get('[cy-test=comment-input]').type(cmt);
+});
+
+// Add existing tag to a comment REPLY
+Cypress.Commands.add('addExistingTagsToReply', (...term) => {
+	term.forEach((tags) => {
+		cy.get('[cy-test=tag-input]').type(tags);
+		cy.get('[cy-test=tag-list-item]').contains(tags).click();
+	});
+	cy.get('[cy-test=save-comment]').should('be.visible').click();
+});
+
+// *******************************************
+// OTHER COMMANDS
+// *******************************************
+
+Cypress.Commands.add('hostNameEquals', (name) => {
+	cy.get('.bp4-heading').first().contains(name);
+});
+
+Cypress.Commands.add('openRawLogs', () => {
+	cy.get('[cy-test=openRawLogs]').click();
+});
+
+Cypress.Commands.add('infoRowTotal', (num) => {
+	cy.get('[cy-test=info-row]').should('have.length', num);
+});
+
+//ACTUAL COMMANDS
+Cypress.Commands.add('selectCommandType', (cmd) => {
+	cy.get('[cy-test=commands]').contains(cmd).click();
+	cy.wait(['@commands', '@commandIds']);
+});
+
 // Delete campaign using GraphQL
 Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
 	const query = `query campaigns {
@@ -206,14 +241,6 @@ Cypress.Commands.add('searchCampaignFor', (searchTerm) => {
 	cy.wait('@searchAnnotations');
 });
 
-// Edit an existing comment; do not edit tags
-Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
-	cy.get('[cy-test=edit-comment]').eq(index).click();
-	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
-	cy.get('[cy-test=save-comment]').click();
-	cy.wait('@updateAnnotation');
-});
-
 // Delete files from the Downloads folder
 Cypress.Commands.add('deleteDownloadsFolderContent', () => {
 	cy.task('readdir', { dirPath: 'cypress/downloads' }).then((arr) => {
@@ -231,21 +258,6 @@ Cypress.Commands.add('deleteDownloadsFolderContent', () => {
 			cy.log('No files were found to delete in ' + 'cypress/downloads');
 		}
 	});
-});
-
-// Reply to a comment (only adds text, no tags)
-Cypress.Commands.add('replyToComment', (index, cmt) => {
-	cy.get('[cy-test=reply]').eq(index).click();
-	cy.get('[cy-test=comment-input]').type(cmt);
-});
-
-// Add existing tag to a comment REPLY
-Cypress.Commands.add('addExistingTagsToReply', (...term) => {
-	term.forEach((tags) => {
-		cy.get('[cy-test=tag-input]').type(tags);
-		cy.get('[cy-test=tag-list-item]').contains(tags).click();
-	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
 });
 
 // Show hidden Beacons, Hosts, and Servers

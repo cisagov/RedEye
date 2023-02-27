@@ -22,11 +22,11 @@ describe('Search campaign and open one of the results', () => {
 		cy
 			.get('@list')
 			.its('length')
-			.then((resultSearch1) => {
-				// cy.log(resultSearch1);
+			.then((totalResults) => {
+				// cy.log(totalResults);
 
 				// Close search box
-				cy.get('[cy-test=close-search]').click();
+				cy.closeSearchModal();
 
 				// Re-open search box; verify same results are showing
 				cy.clickSearch();
@@ -35,9 +35,9 @@ describe('Search campaign and open one of the results', () => {
 				cy
 					.get('@list')
 					.its('length')
-					.then((resultSearch2) => {
-						// cy.log(resultSearch2);
-						expect(resultSearch2).to.equal(resultSearch1);
+					.then((verifyResults) => {
+						// cy.log(verifyResults);
+						expect(verifyResults).to.equal(totalResults);
 					});
 			});
 	});
@@ -54,8 +54,8 @@ describe('Search campaign and open one of the results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 		// Filter on Commands only
-		cy.get('[cy-test=filter-search]').click();
-		cy.get('[cy-test=Commands]').click();
+		cy.filterSearchResults();
+		cy.filterToCommands();
 
 		// Log text showing in the first result
 		// line 1 - first part

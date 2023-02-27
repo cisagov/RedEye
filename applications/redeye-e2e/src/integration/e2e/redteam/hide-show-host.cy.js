@@ -21,10 +21,8 @@ describe('Hide a host', () => {
 			.then((hostName) => {
 				// Hide a host via the Meta tab
 				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.get('[cy-test=Metadata]').click();
-
-				cy.get('[cy-test=show-hide-this-host]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideHostMetaTab();
 
 				// Verify host no longer shows
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -39,9 +37,8 @@ describe('Hide a host', () => {
 
 				// Unhide the host
 				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.get('[cy-test=Metadata]').click();
-				cy.get('[cy-test=show-hide-this-host]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideHostMetaTab();
 
 				// Toggle off switch for hidden items
 				cy.doNotShowHiddenItems();
@@ -67,10 +64,8 @@ describe('Hide a host', () => {
 			.then((hostName) => {
 				// Hide the host via the Meta tab
 				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.get('[cy-test=Metadata]').click();
-
-				cy.get('[cy-test=show-hide-this-host]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideHostMetaTab();
 
 				// Verify host no longer shows
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -87,9 +82,8 @@ describe('Hide a host', () => {
 
 				// Unhide the host
 				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.get('[cy-test=Metadata]').click();
-				cy.get('[cy-test=show-hide-this-host]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideHostMetaTab();
 
 				// Toggle switch off to hide hidden items
 				cy.returnToCampaignCard();
@@ -112,8 +106,7 @@ describe('Hide a host', () => {
 			.invoke('text')
 			.then((hostName) => {
 				// Hide the first host (not server) in the list
-				cy.get('[cy-test=show-hide-hover]').eq(1).trigger('mouseover');
-				cy.get('[cy-test=show-hide-item]').click();
+				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
 				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
@@ -134,8 +127,7 @@ describe('Hide a host', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 
 				// Set host to show again
-				cy.get('[cy-test=show-hide-hover]').eq(1).trigger('mouseover');
-				cy.get('[cy-test=show-hide-item]').click();
+				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
 				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
