@@ -34,7 +34,7 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 						: {
 								currentItem: lastTabItem ? 'all' : store.router.params.currentItem,
 								currentItemId: lastTabItem ? undefined : store.router.params.currentItemId,
-								tab: store.router.params.tab || Tabs.HOSTS,
+								tab: lastTabItem ? Tabs.HOSTS : store.router.params.tab || Tabs.HOSTS,
 						  },
 			});
 

@@ -32,7 +32,11 @@ export const ToggleHiddenDialog = observer<Props>(
 		return (
 			<Dialog
 				onClose={onClose}
-				title={last && !isHiddenToggled ? `Can Not Hide Final ${infoType}` : `${verb} This ${infoType}?`}
+				title={
+					last && !isHiddenToggled
+						? `Cannot hide final ${infoType.toLowerCase()}`
+						: `${verb} this ${infoType.toLowerCase()}?`
+				}
 				{...props}
 			>
 				<div className={Classes.DIALOG_BODY}>
