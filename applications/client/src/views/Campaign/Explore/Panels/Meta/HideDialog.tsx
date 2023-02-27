@@ -43,28 +43,30 @@ export const ToggleHiddenDialog = observer<Props>(
 					{last && !isHiddenToggled ? (
 						<>
 							<Txt tagName="p">
-								{plural} this {infoType} will create a state in which the UI has no content. To hide this {infoType}, you must
-								unhide another {infoType}.
+								{plural} this {infoType.toLowerCase()} will create a state in which the UI has no content. To hide this{' '}
+								{infoType}, you must unhide another {infoType.toLowerCase()}.
 							</Txt>
 							<Txt tagName="p">
-								To unhide {infoType}s, toggle
+								To unhide {infoType.toLowerCase()}s, toggle
 								<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings, and go select
-								<Txt bold> &quot;Show {infoType}&quot;</Txt> on one of he hidden {infoType}s.
+								<Txt bold> &quot;Show {infoType}&quot;</Txt> on one of the hidden {infoType.toLowerCase()}s.
 							</Txt>
 						</>
 					) : (
 						<>
 							<Txt cy-test="dialog-text-line1" tagName="p">
-								{plural} this {infoType} will make it {isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
+								{plural} this {infoType.toLowerCase()} will make it {isHiddenToggled ? 'appear' : 'disappear from display'} in
+								the UI.
 							</Txt>
 							{!isHiddenToggled && (
 								<Txt cy-test="dialog-text-line2" tagName="p">
-									{plural} this {infoType} will NOT delete it. Hidden {infoType}s can be shown again by toggling the
+									{plural} this {infoType.toLowerCase()} will NOT delete it. Hidden {infoType.toLowerCase()}s can be shown again
+									by toggling the
 									<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
 								</Txt>
 							)}
 							<Txt cy-test="dialog-text-line3" tagName="p">
-								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}
+								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}.
 							</Txt>
 							<Checkbox label="Don’t show this warning again" checked={checked} onChange={handleCheck} />
 						</>
