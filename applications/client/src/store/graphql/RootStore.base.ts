@@ -1,5 +1,6 @@
 /* This is a mk-gql generated file, don't modify it manually */
-import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
+import type { MKGQLStore, QueryOptions } from 'mk-gql';
+import { createMKGQLStore } from 'mk-gql';
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
