@@ -6,18 +6,16 @@ import { CarbonIcon } from '@redeye/client/components';
 import { BeaconModel, HostModel } from '@redeye/client/store';
 import type { ServerModel } from '@redeye/client/store';
 import { CoreTokens } from '@redeye/ui-styles';
-import type { UseMutationResult } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
 type HostRowProps = ComponentProps<'div'> & {
 	modal: HostModel | ServerModel | BeaconModel;
-	mutateToggleHidden?: UseMutationResult<any, unknown, void, unknown>;
 	disabled?: boolean;
 	click?: () => void;
 };
 
-export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden, click, disabled = false }) => {
+export const QuickMeta = observer<HostRowProps>(({ modal, click, disabled = false }) => {
 	if (!modal) return null;
 
 	return (
@@ -48,7 +46,6 @@ export const QuickMeta = observer<HostRowProps>(({ modal, mutateToggleHidden, cl
 						icon={<CarbonIcon icon={modal?.hidden ? View16 : ViewOff16} css={iconStyle(!!modal?.hidden)} />}
 						onClick={(e) => {
 							e.stopPropagation();
-							// mutateToggleHidden?.mutate();
 							click?.();
 						}}
 					/>

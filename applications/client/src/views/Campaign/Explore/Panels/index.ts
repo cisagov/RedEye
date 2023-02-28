@@ -11,3 +11,4 @@ export * from './Comment/index';
 export * from './Host/index';
 export * from './Meta/index';
 export * from './Overview/index';
+export * from './hooks/use-check-last-unhidden';

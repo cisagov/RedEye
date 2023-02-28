@@ -12,6 +12,7 @@ import {
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,
+	useCheckLastUnhidden,
 	useToggleHidden,
 } from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
@@ -39,10 +40,13 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				beaconId: beacon?.id!,
 			})
 	);
+
+	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
+
 	return (
 		<InfoRow
 			cy-test="info-row"
-			onClick={() => beacon.select()}
+			onClick={() => (!toggleHidden.showHide ? beacon.select() : null)}
 			onMouseEnter={() =>
 				beacon.state !== TimeStatus.FUTURE && store.campaign?.interactionState.onHover(beacon?.hierarchy)
 			}
@@ -70,20 +74,23 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			/>
 			<QuickMeta
 				modal={beacon}
-				mutateToggleHidden={mutateToggleHidden}
 				disabled={!!store.appMeta.blueTeam}
-				click={() => toggleHidden.update('showHide', true)}
+				click={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 			/>
-			<ToggleHiddenDialog
-				isOpen={toggleHidden.showHide}
-				infoType={InfoType.BEACON}
-				isHiddenToggled={!!beacon?.hidden}
-				onClose={(e) => {
-					e.stopPropagation();
-					toggleHidden.update('showHide', false);
-				}}
-				onHide={() => mutateToggleHidden.mutate()}
-			/>
+			{!isDialogDisabled && (
+				<ToggleHiddenDialog
+					typeName="beacon"
+					isOpen={toggleHidden.showHide}
+					infoType={InfoType.BEACON}
+					isHiddenToggled={!!beacon?.hidden}
+					onClose={(e) => {
+						e.stopPropagation();
+						toggleHidden.update('showHide', false);
+					}}
+					onHide={() => mutateToggleHidden.mutate()}
+					last={last}
+				/>
+			)}
 		</InfoRow>
 	);
 });
