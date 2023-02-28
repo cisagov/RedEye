@@ -5,19 +5,13 @@ dayjs().format();
 
 describe('Timeline tests', () => {
 	const camp = 'timelinetests';
+	const fileName = 'smalldata.redeye';
 
 	it('Verify timeline navigation features', () => {
 		// Upload campaign and open
-		cy.get('[cy-test=add-campaign-btn]').click();
-		cy.uploadLogs('cypress', camp);
-		cy.wait(500);
-		cy.get('[cy-test=close-log]').click();
-		cy.reload();
-		cy.wait('@campaign');
-		cy.reload();
+		cy.uploadCampaign(camp, fileName);
 
-		cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
-		cy.reload();
+		cy.selectCampaign(camp);
 
 		// Log the starting position of the timeline bar
 		cy

@@ -283,6 +283,16 @@ declare namespace Cypress {
 		 */
 		verifyTotalCommands();
 
+		/**Toggle on Light Theme
+		 * @example
+		 * cy.toggleLightTheme()
+		 */
 		toggleLightTheme();
+
+		/**Toggle on Dark Theme
+		 * @example
+		 * cy.toggleDarkTheme()
+		 */
+		toggleDarkTheme();
 	}
 }
