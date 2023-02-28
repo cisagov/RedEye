@@ -8,4 +8,4 @@ export * from './HideDialog';
 export * from './HostMeta';
 export * from './Meta.styles';
 export * from './ServerMeta';
-export * from './use-toggle-hidden';
+export * from '../hooks/use-toggle-hidden';

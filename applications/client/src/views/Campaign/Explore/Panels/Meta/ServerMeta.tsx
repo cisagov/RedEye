@@ -1,6 +1,6 @@
 import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
+import { Select2 } from '@blueprintjs/select';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { Select } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
 import { CarbonIcon } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
@@ -11,7 +11,8 @@ import { ToggleHiddenDialog } from '@redeye/client/views';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
-import { useToggleHidden } from './use-toggle-hidden';
+import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 
 export const ServerMeta = observer(() => {
 	const store = useStore();
@@ -26,6 +27,8 @@ export const ServerMeta = observer(() => {
 			serverMetaUpdate();
 		},
 	});
+
+	const { last, isDialogDisabled } = useCheckLastUnhidden('server', server?.hidden || false);
 
 	const { mutate: serverMetaUpdate } = useMutation(
 		async () => {
@@ -91,7 +94,7 @@ export const ServerMeta = observer(() => {
 				rightElement={<SaveInputButton disabled={!state.displayNameNeedsSaving} onClick={() => serverMetaUpdate()} />}
 			/>
 			<MetaHeader>Type</MetaHeader>
-			<Select
+			<Select2
 				disabled={!!store.appMeta.blueTeam}
 				items={serverTypeSelectItems}
 				itemRenderer={renderSort}
@@ -106,19 +109,22 @@ export const ServerMeta = observer(() => {
 					rightIcon={<CarbonIcon icon={CaretDown16} />}
 					fill
 				/>
-			</Select>
+			</Select2>
 			<ToggleHiddenButton
+				cy-test="show-hide-this-server"
 				disabled={!!store.appMeta.blueTeam}
-				onClick={() => toggleHidden.update('showHide', true)}
+				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!server?.hidden}
 				typeName="server"
 			/>
 			<ToggleHiddenDialog
+				typeName="server"
 				infoType={InfoType.SERVER}
 				isHiddenToggled={!!server?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				isOpen={toggleHidden.showHide}
+				last={last}
 			/>
 		</MetaGridLayout>
 	);

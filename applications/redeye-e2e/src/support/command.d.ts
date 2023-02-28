@@ -147,6 +147,12 @@ declare namespace Cypress {
 		 */
 		deleteComment();
 
+		/**Toggles with switch within the Settings menu to make any hidden Beacons, Hosts, and/or Servers not appear in lists.
+		 * @example
+		 * cy.doNotShowHiddenItems()
+		 */
+		doNotShowHiddenItems();
+
 		/**Deletes the contents within the cypress/downloads folder
 		 */
 		deleteDownloadsFolderContent();
@@ -234,6 +240,12 @@ declare namespace Cypress {
 		 * cy.SelectCommandType(command)
 		 */
 		selectCommandType();
+
+		/**Toggles with switch within the Settings menu to make any hidden Beacons, Hosts, and/or Servers visible.
+		 * @example
+		 * cy.showHiddenItems()
+		 */
+		showHiddenItems();
 
 		/**Clicks the Back button on the timeline once.
 		 * @example

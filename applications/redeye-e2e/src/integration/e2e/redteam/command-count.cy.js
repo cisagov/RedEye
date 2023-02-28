@@ -18,23 +18,15 @@ describe('Command counts', () => {
 
 			// Open campaign and log command counts showing under Host tab - should equal number showing on campaign card
 			cy.selectCampaign(camp);
-			cy
-				.get('[cy-test=row-command-count]')
-				.eq(0)
-				.invoke('text')
-				.then((countRow1) => {
-					// cy.log(countRow1);
 
-					cy
-						.get('[cy-test=row-command-count]')
-						.eq(1)
-						.invoke('text')
-						.then((countRow2) => {
-							// cy.log(countRow2);
-
-							expect(+countRow1 + +countRow2).to.eq(+commandTotal);
-						});
+			cy.get('[cy-test=row-command-count]').then(() => {
+				let sum = 0;
+				Cypress.$('[cy-test=row-command-count]').each(function () {
+					sum += +Cypress.$(this).text() || 0;
 				});
+				cy.log(sum);
+				expect(sum).to.eq(+commandTotal);
+			});
 		});
 	});
 
@@ -51,47 +43,15 @@ describe('Command counts', () => {
 			cy.clickBeaconsTab();
 
 			// Log number of commands for each beacon - should equal number on campaign card
-			cy
-				.get('[cy-test=row-command-count]')
-				.eq(0)
-				.invoke('text')
-				.then((countRow1) => {
-					// cy.log(countRow1);
 
-					cy
-						.get('[cy-test=row-command-count]')
-						.eq(1)
-						.invoke('text')
-						.then((countRow2) => {
-							// cy.log(countRow2);
-
-							cy
-								.get('[cy-test=row-command-count]')
-								.eq(2)
-								.invoke('text')
-								.then((countRow3) => {
-									// cy.log(countRow3);
-
-									cy
-										.get('[cy-test=row-command-count]')
-										.eq(3)
-										.invoke('text')
-										.then((countRow4) => {
-											// cy.log(countRow4);
-
-											cy
-												.get('[cy-test=row-command-count]')
-												.eq(4)
-												.invoke('text')
-												.then((countRow5) => {
-													// cy.log(countRow5);
-
-													expect(+countRow1 + +countRow2 + +countRow3 + +countRow4 + +countRow5).to.eq(+commandTotal);
-												});
-										});
-								});
-						});
+			cy.get('[cy-test=row-command-count]').then(() => {
+				let sum = 0;
+				Cypress.$('[cy-test=row-command-count]').each(function () {
+					sum += +Cypress.$(this).text() || 0;
 				});
+				cy.log(sum);
+				expect(sum).to.eq(+commandTotal);
+			});
 		});
 	});
 

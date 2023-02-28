@@ -11,10 +11,11 @@ import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
+import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
-import { useToggleHidden } from './use-toggle-hidden';
+import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -79,6 +80,8 @@ export const BeaconMeta = observer(() => {
 		displayDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
 		displayDeathNeedsSaving: false,
 	});
+
+	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
 
 	useEffect(() => {
 		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
@@ -222,16 +225,18 @@ export const BeaconMeta = observer(() => {
 			<ToggleHiddenButton
 				cy-test="show-hide-this-beacon"
 				disabled={!!store.appMeta.blueTeam}
-				onClick={() => toggleHidden.update('showHide', true)}
+				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!beacon?.hidden}
 				typeName="beacon"
 			/>
 			<ToggleHiddenDialog
+				typeName="beacon"
 				isOpen={toggleHidden.showHide}
 				infoType={InfoType.BEACON}
 				isHiddenToggled={!!beacon?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
+				last={last}
 			/>
 		</MetaGridLayout>
 	);
