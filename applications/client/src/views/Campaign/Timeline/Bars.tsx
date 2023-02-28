@@ -1,6 +1,6 @@
 import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
 import { css } from '@emotion/react';
-import { createState, durationFormatter } from '@redeye/client/components';
+import { createState, durationFormatter, updatePopper } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import { TimelineTokens } from '@redeye/ui-styles';
 import { max, scaleLinear } from 'd3';
@@ -45,19 +45,17 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						interactionKind={Popover2InteractionKind.HOVER}
 						content={
 							bar.beaconCount ? (
-								<BarLabel bar={bar} dateFormatter={durationFormatter(start, end)} handleClick={() => state.toggleIsHover()} />
+								<BarLabel
+									bar={bar}
+									dateFormatter={durationFormatter(start, end)}
+									handleClick={() => {
+										state.toggleIsHover();
+										document.dispatchEvent(updatePopper);
+									}}
+								/>
 							) : undefined
 						}
 						placement="bottom"
-						// placement="bottom-end"
-						// modifiers={{
-						// 	offset: {
-						// 		enabled: true,
-						// 		options: {
-						// 			offset: [20, 20],
-						// 		},
-						// 	},
-						// }}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g
 								cy-test="timeline-bar"
