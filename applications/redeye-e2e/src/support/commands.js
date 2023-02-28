@@ -23,7 +23,10 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 			body: formData,
 		});
 	}),
-		cy.visit('http://localhost:3500/#/campaigns/all');
+		{
+			cacheAcrossSpecs: true,
+		};
+	cy.visit('http://localhost:3500/#/campaigns/all');
 });
 
 Cypress.Commands.add('loginBlue', (user) => {
@@ -261,5 +264,17 @@ Cypress.Commands.add('doNotShowHiddenItems', () => {
 	cy.get('[cy-test=settings]').click();
 	cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 	// cy.wait('@servers');
+	cy.get('[cy-test=close-log]').click();
+});
+
+Cypress.Commands.add('toggleLightTheme', () => {
+	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=toggle-theme]').check({ force: true });
+	cy.get('[cy-test=close-log]').click();
+});
+
+Cypress.Commands.add('toggleDarkTheme', () => {
+	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=toggle-theme]').uncheck({ force: true });
 	cy.get('[cy-test=close-log]').click();
 });

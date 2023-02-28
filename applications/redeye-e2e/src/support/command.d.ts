@@ -282,5 +282,23 @@ declare namespace Cypress {
 		 * cy.verifyTotalCommands(expectedCount)
 		 */
 		verifyTotalCommands();
+
+		/**Toggle on Light Theme
+		 * @example
+		 * cy.toggleLightTheme()
+		 */
+		toggleLightTheme();
+
+		/**Toggle on Dark Theme
+		 * @example
+		 * cy.toggleDarkTheme()
+		 */
+		toggleDarkTheme();
+
+		/**Closes the search modal in explorer
+		 * @example
+		 * cy.toggleDarkTheme()
+		 */
+		closeSearch();
 	}
 }
