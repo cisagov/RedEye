@@ -216,12 +216,12 @@ Cypress.Commands.add('sortByName', () => {
 });
 
 // SORT BY RELEVANCE
-Cypress.Commands.add('sortByName', () => {
+Cypress.Commands.add('sortByRelevance', () => {
 	cy.get('[cy-test=Relevance]').click();
 });
 
 // SORT BY TYPE
-Cypress.Commands.add('sortByName', () => {
+Cypress.Commands.add('sortByType', () => {
 	cy.get('[cy-test=Type]').click();
 });
 
