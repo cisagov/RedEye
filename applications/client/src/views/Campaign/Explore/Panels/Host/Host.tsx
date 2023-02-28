@@ -3,7 +3,15 @@ import { CarbonIcon, dateShortFormat, dateShortPlaceholder, semanticIcons } from
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType, TimeStatus } from '@redeye/client/types';
-import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHidden } from '@redeye/client/views';
+import {
+	IconLabel,
+	InfoRow,
+	RowTime,
+	RowTitle,
+	ToggleHiddenDialog,
+	useCheckLastUnhidden,
+	useToggleHidden,
+} from '@redeye/client/views';
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -18,6 +26,11 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 
 	if (!host) return null;
 
+	const { last, isDialogDisabled } = useCheckLastUnhidden(
+		host.cobaltStrikeServer ? 'server' : 'host',
+		host?.hidden || false
+	);
+
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(async () =>
 		host.cobaltStrikeServer
 			? await store.graphqlStore.mutateToggleServerHidden({
@@ -29,7 +42,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 
 	return (
 		<InfoRow
-			onClick={() => host.select()}
+			onClick={() => (!toggleHidden.showHide ? host.select() : null)}
 			onMouseEnter={() => store.campaign?.interactionState.onHover(host.hierarchy)}
 			{...props}
 		>
@@ -58,20 +71,23 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			)}
 			<QuickMeta
 				modal={host}
-				mutateToggleHidden={mutateToggleHidden}
 				disabled={!!store.appMeta.blueTeam}
-				click={() => toggleHidden.update('showHide', true)}
+				click={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 			/>
-			<ToggleHiddenDialog
-				isOpen={toggleHidden.showHide}
-				infoType={host.cobaltStrikeServer ? InfoType.SERVER : InfoType.HOST}
-				isHiddenToggled={!!host?.hidden}
-				onClose={(e) => {
-					e.stopPropagation();
-					toggleHidden.update('showHide', false);
-				}}
-				onHide={() => mutateToggleHidden.mutate()}
-			/>
+			{!isDialogDisabled && (
+				<ToggleHiddenDialog
+					typeName={host.cobaltStrikeServer ? 'server' : 'host'}
+					isOpen={toggleHidden.showHide}
+					infoType={host.cobaltStrikeServer ? InfoType.SERVER : InfoType.HOST}
+					isHiddenToggled={!!host?.hidden}
+					onClose={(e) => {
+						e.stopPropagation();
+						toggleHidden.update('showHide', false);
+					}}
+					onHide={() => mutateToggleHidden.mutate()}
+					last={last}
+				/>
+			)}
 		</InfoRow>
 	);
 });
