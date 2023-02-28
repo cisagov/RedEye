@@ -205,6 +205,31 @@ Cypress.Commands.add('removeFilter', () => {
 	cy.get('[cy-test=remove-filter]').click();
 });
 
+// OPEN SEARCH MODAL SORT OPTIONS
+Cypress.Commands.add('sortSearchResults', () => {
+	cy.get('[cy-test=sort-search]').click();
+});
+
+// SORT BY NAME
+Cypress.Commands.add('sortByName', () => {
+	cy.get('[cy-test=Name]').click();
+});
+
+// SORT BY RELEVANCE
+Cypress.Commands.add('sortByName', () => {
+	cy.get('[cy-test=Relevance]').click();
+});
+
+// SORT BY TYPE
+Cypress.Commands.add('sortByName', () => {
+	cy.get('[cy-test=Type]').click();
+});
+
+// SEARCH RESULT SHOULD CONTAIN
+Cypress.Commands.add('searchResultContains', (index, term) => {
+	cy.get('[cy-test=search-result-item]').eq(index).should('contain', term);
+});
+
 // CLOSE SEARCH
 Cypress.Commands.add('closeSearchModal', () => {
 	cy.get('[cy-test=close-search]').click();
