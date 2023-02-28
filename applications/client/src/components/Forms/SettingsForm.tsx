@@ -76,6 +76,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				label="Show Hidden Beacons, Hosts, and Servers"
 			/>
 			<Switch // Uncomment to test light theme
+				cy-test="toggle-theme"
 				checked={store.settings.theme === 'light'}
 				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
 				label="Light Theme (beta)"

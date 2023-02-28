@@ -17,19 +17,13 @@ Cypress.Commands.add('clickTab', (name) => {
 	cy.get(`[cy-test="${[name]}"]`).click();
 });
 
-// *******************************************
-// LEFT-HAND NAVIGATION OPTIONS
-// *******************************************
-
-// RETURN TO CAMPAIGN CARD
-Cypress.Commands.add('returnToCampaignCard', () => {
-	cy.get('[cy-test=return-campaign-menu]').first().click({ force: true });
-	cy.wait('@campaigns');
+//CLICK SEARCH ON EXPLORER PANEL
+Cypress.Commands.add('clickSearch', () => {
+	cy.get('[cy-test=search-mode]').click();
 });
 
-// CLICK EXPLORER ON EXPLORER PANEL
-Cypress.Commands.add('clickExplorerMode', () => {
-	cy.get('[cy-test=explorer-mode]').click();
+Cypress.Commands.add('closeSearch', () => {
+	cy.get('[cy-test=close-search]').click();
 });
 
 // CLICK PRESENTATION MODE ON EXPLORER PANEL

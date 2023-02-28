@@ -1,4 +1,5 @@
-// <reference types="cypress" />
+/// <reference types="cypress" />
+let first;
 
 describe('Search campaign and open one of the results', () => {
 	const camp = 'searchcampaign';
@@ -22,23 +23,25 @@ describe('Search campaign and open one of the results', () => {
 		cy
 			.get('@list')
 			.its('length')
-			.then((totalResults) => {
-				// cy.log(totalResults);
+			.then((resultSearch1) => {
+				first = resultSearch1;
+			});
 
-				// Close search box
-				cy.closeSearchModal();
+		// Close search box
+		cy.closeSearch();
 
-				// Re-open search box; verify same results are showing
-				cy.clickSearch();
-				cy.get('[cy-test=search]').invoke('attr', 'value').should('include', searchTerm1);
-				cy.get('@list').should('contain', searchTerm1);
-				cy
-					.get('@list')
-					.its('length')
-					.then((verifyResults) => {
-						// cy.log(verifyResults);
-						expect(verifyResults).to.equal(totalResults);
-					});
+		// Re-open search box; verify same results are showing
+		cy.clickSearch();
+
+		cy.get('[cy-test=search]').invoke('attr', 'value').should('include', searchTerm1);
+
+		cy.get('@list').should('contain', searchTerm1);
+
+		cy
+			.get('@list')
+			.its('length')
+			.then((resultSearch2) => {
+				expect(resultSearch2).to.equal(first);
 			});
 	});
 
