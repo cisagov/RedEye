@@ -22,6 +22,10 @@ Cypress.Commands.add('clickSearch', () => {
 	cy.get('[cy-test=search-mode]').click();
 });
 
+Cypress.Commands.add('closeSearch', () => {
+	cy.get('[cy-test=close-search]').click();
+});
+
 //CLICK PRESENTATION MODE ON EXPLORER PANEL
 Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();

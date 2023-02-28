@@ -294,5 +294,11 @@ declare namespace Cypress {
 		 * cy.toggleDarkTheme()
 		 */
 		toggleDarkTheme();
+
+		/**Closes the search modal in explorer
+		 * @example
+		 * cy.toggleDarkTheme()
+		 */
+		closeSearch();
 	}
 }

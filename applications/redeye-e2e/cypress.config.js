@@ -16,7 +16,6 @@ module.exports = defineConfig({
 	reporterOptions: {
 		configFile: './reporter-config.json',
 	},
-
 	e2e: {
 		setupNodeEvents(on, config) {
 			on('task', {
