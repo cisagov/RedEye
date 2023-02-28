@@ -73,7 +73,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 						clear: true,
 					});
 				}}
-				label="Show Hidden Beacons, Host, and Servers"
+				label="Show Hidden Beacons, Hosts, and Servers"
 			/>
 			<Switch // Uncomment to test light theme
 				cy-test="toggle-theme"
