@@ -140,7 +140,7 @@ const barPopoverRowStyles = css`
 
 const bottomStyles = css`
 	${hoverStyles};
-	color: ${CoreTokens.Intent.Primary5};
+	color: ${CoreTokens.TextIntentPrimary};
 	align-items: center;
 	padding: 0.2rem 0.5rem;
 `;
