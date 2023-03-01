@@ -12,15 +12,22 @@ type AuthCheckProps = Partial<DialogProps> & {};
 
 export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 	const store = useStore();
+
 	// Redirect to login if the app loads with no session/connection to the server
 	useEffect(() => {
 		setTimeout(() => {
 			if (!store.appMeta.blueTeam) store.auth.checkServerConnection();
 		}, 1000);
 	}, []);
-	const close = () => {
+
+	const onClose = () => {
 		store.auth.setPromptAuth(false);
 		store.auth.setHasClickedAuthDialog(true);
+	};
+
+	const onLogin = () => {
+		onClose();
+		store.router.updateRoute({ path: RedEyeRoutes.LOGIN });
 	};
 
 	return (
@@ -28,7 +35,7 @@ export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 			isOpen={store.auth.promptAuth}
 			icon={<CarbonIcon icon={WarningAlt16} />}
 			title="Unable to authenticate"
-			onClose={close}
+			onClose={onClose}
 			{...props}
 		>
 			<DialogBodyEx>
@@ -37,20 +44,8 @@ export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 			<DialogFooterEx
 				actions={
 					<>
-						<Button
-							onClick={() => {
-								close();
-							}}
-							text="Close"
-						/>
-						<Button
-							intent={Intent.PRIMARY}
-							onClick={() => {
-								close();
-								store.router.updateRoute({ path: RedEyeRoutes.LOGIN });
-							}}
-							text="Login"
-						/>
+						<Button onClick={onClose} text="Close" />
+						<Button intent={Intent.PRIMARY} onClick={onLogin} text="Login" />
 					</>
 				}
 			/>
