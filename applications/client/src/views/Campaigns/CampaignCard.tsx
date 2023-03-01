@@ -1,5 +1,5 @@
-import { Alert, Button, ButtonGroup, Card, Classes, Intent, Menu, MenuItem, ProgressBar } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
+import { Alert, Button, ButtonGroup, Card, Classes, Intent, Menu, ProgressBar } from '@blueprintjs/core';
+import { MenuItem2, Popover2 } from '@blueprintjs/popover2';
 import { ArrowRight16, Edit16, Export16, OverflowMenuHorizontal16, TrashCan16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, dateFormat, HoverButton } from '@redeye/client/components';
@@ -194,13 +194,13 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 								`}
 								content={
 									<Menu>
-										<MenuItem
+										<MenuItem2
 											cy-test="delete-campaign"
 											text="Delete"
 											icon={<CarbonIcon icon={TrashCan16} />}
 											onClick={() => state.update('isDeletePromptOpen', true)}
 										/>
-										<MenuItem
+										<MenuItem2
 											cy-test="rename-campaign"
 											text="Rename"
 											disabled={campaign.isParsing}
@@ -208,7 +208,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 											onClick={() => state.update('isRenameOpen', true)}
 											// disabled
 										/>
-										<MenuItem
+										<MenuItem2
 											cy-test="export-campaign"
 											text="Export"
 											disabled={campaign.isParsing}

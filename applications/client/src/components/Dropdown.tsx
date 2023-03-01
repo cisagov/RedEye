@@ -1,6 +1,7 @@
 import type { Intent, MaybeElement } from '@blueprintjs/core';
-import { Button, MenuItem } from '@blueprintjs/core';
-import type { ItemRenderer} from '@blueprintjs/select';
+import { Button } from '@blueprintjs/core';
+import { MenuItem2 } from '@blueprintjs/popover2';
+import type { ItemRenderer } from '@blueprintjs/select';
 import { Select2 } from '@blueprintjs/select';
 import { css } from '@emotion/react';
 import { Txt } from '@redeye/ui-styles';
@@ -11,7 +12,7 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 		return null;
 	}
 	return (
-		<MenuItem
+		<MenuItem2
 			css={css`
 				text-transform: capitalize;
 			`}

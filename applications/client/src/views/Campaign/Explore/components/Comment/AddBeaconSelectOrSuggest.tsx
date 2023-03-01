@@ -2,13 +2,14 @@ import type { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { Suggest2, Select2 } from '@blueprintjs/select';
 import type { ComponentProps, FC } from 'react';
 import { useState } from 'react';
-import { Button, ButtonGroup, InputGroup, MenuItem } from '@blueprintjs/core';
+import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
 import { Connect16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
-import { BeaconSuggestedRow } from '../..';
+import { MenuItem2 } from '@blueprintjs/popover2';
+import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
 export type AddBeaconSelectOrSuggestProps = ComponentProps<'div'> & {
 	onClick: () => any;
@@ -62,7 +63,7 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 			return null;
 		}
 		return (
-			<MenuItem
+			<MenuItem2
 				multiline
 				key={to_beacon.id}
 				onClick={handleClick}
@@ -91,7 +92,7 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					itemRenderer={renderMenuItem}
 					// popoverProps={{ boundary: 'window' }}
 					onItemSelect={handleItemSelect}
-					noResults={<MenuItem disabled text="No results." />}
+					noResults={<MenuItem2 disabled text="No results." />}
 					fill
 					resetOnQuery
 					inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
@@ -105,7 +106,7 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					// popoverProps={{ boundary: 'window' }}
 					onItemSelect={handleItemSelect}
 					// matchTargetWidth
-					noResults={<MenuItem disabled text="No results." />}
+					noResults={<MenuItem2 disabled text="No results." />}
 					resetOnQuery
 					scrollToActiveItem
 				>

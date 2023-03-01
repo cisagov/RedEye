@@ -1,4 +1,5 @@
-import { Alignment, Button, Intent, MenuItem } from '@blueprintjs/core';
+import { Alignment, Button, Intent } from '@blueprintjs/core';
+import { MenuItem2 } from '@blueprintjs/popover2';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { CaretDown16, CaretUp16, CollapseCategories16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -28,7 +29,7 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 		return null;
 	}
 	return (
-		<MenuItem
+		<MenuItem2
 			css={css`
 				text-transform: capitalize;
 			`}

@@ -1,4 +1,5 @@
-import { Button, MenuItem } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
+import { MenuItem2 } from '@blueprintjs/popover2';
 import { Select2 } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -51,7 +52,7 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 					items={Array.from(Array(store.campaign.presentation.selectedItem?.commandGroups?.length).keys(), (x) => x++)}
 					onItemSelect={(item) => store.campaign.presentation.changeIndex(item)}
 					itemRenderer={(item, { handleClick, modifiers }) => (
-						<MenuItem active={modifiers.active} onClick={handleClick} key={item + 1} text={item + 1} />
+						<MenuItem2 active={modifiers.active} onClick={handleClick} key={item + 1} text={item + 1} />
 					)}
 					filterable={false}
 					// matchTargetWidth

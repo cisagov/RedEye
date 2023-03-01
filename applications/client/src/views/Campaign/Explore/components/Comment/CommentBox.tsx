@@ -1,16 +1,6 @@
-import {
-	Alert,
-	Alignment,
-	Button,
-	ButtonGroup,
-	Classes,
-	Intent,
-	MenuItem,
-	Position,
-	TextArea,
-} from '@blueprintjs/core';
+import { Alert, Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
 import type { ItemPredicate } from '@blueprintjs/select';
-import { MultiSelect } from '@blueprintjs/select';
+import { MultiSelect2 } from '@blueprintjs/select';
 import {
 	AddComment16,
 	ArrowRight16,
@@ -34,7 +24,9 @@ import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AddBeaconSelectOrSuggest, CheckForAddedLink } from '.';
+import { MenuItem2 } from '@blueprintjs/popover2';
+import { AddBeaconSelectOrSuggest } from './AddBeaconSelectOrSuggest';
+import { CheckForAddedLink } from './CheckForAddedLink';
 
 type CommentBoxProps = ComponentProps<'div'> & {
 	commandId?: string | null;
@@ -460,7 +452,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								placeholder="..."
 								autoFocus
 							/>
-							<MultiSelect
+							<MultiSelect2
 								cy-test="tag-input1"
 								createNewItemPosition="first"
 								tagInputProps={{
@@ -515,7 +507,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								onItemSelect={state.handleTagsChange}
 								createNewItemFromQuery={(query) => query}
 								createNewItemRenderer={(item, active, handleClick: MouseEventHandler<HTMLElement>) => (
-									<MenuItem
+									<MenuItem2
 										cy-test="add-tag"
 										icon="add"
 										disabled={state.tags.includes(item)}
@@ -526,7 +518,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									/>
 								)}
 								itemRenderer={(item, { modifiers, handleClick }) => (
-									<MenuItem
+									<MenuItem2
 										cy-test="tag-list-item"
 										active={modifiers.active}
 										key={item}
