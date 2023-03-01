@@ -1,9 +1,10 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { DialogBody, Button } from '@blueprintjs/core';
-import { DialogCustom, LoginForm } from '@redeye/client/components';
+import { Button } from '@blueprintjs/core';
+import { DialogEx, LoginForm } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
 import type { FormEventHandler } from 'react';
+import { DialogBodyEx } from './DialogBodyEx';
 
 type UserSettingsOverlayProps = DialogProps & {
 	onSubmit?: FormEventHandler<HTMLFormElement>;
@@ -12,12 +13,12 @@ type UserSettingsOverlayProps = DialogProps & {
 export const UserSettingsOverlay = observer<UserSettingsOverlayProps>(({ onSubmit, ...props }) => {
 	const store = useStore();
 	return (
-		<DialogCustom title="User Settings" {...props}>
-			<DialogBody>
+		<DialogEx title="User Settings" {...props}>
+			<DialogBodyEx>
 				<p>Change Username</p>
 				<LoginForm submitText="Update" cy-test="update" onSubmit={onSubmit} />
 				<Button minimal text="Log out" cy-test="logout" onClick={() => store.auth.logOut()} css={{ marginLeft: -7 }} />
-			</DialogBody>
-		</DialogCustom>
+			</DialogBodyEx>
+		</DialogEx>
 	);
 });

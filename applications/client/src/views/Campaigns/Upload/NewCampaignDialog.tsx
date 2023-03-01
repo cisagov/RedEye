@@ -1,6 +1,6 @@
 import { Tab } from '@blueprintjs/core';
 import { css } from '@emotion/react';
-import { DialogCustom, ErrorFallback } from '@redeye/client/components';
+import { DialogEx, ErrorFallback } from '@redeye/client/components';
 import { DbUpload } from '@redeye/client/views';
 import { Header, TabsStyled, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
@@ -27,7 +27,7 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 	);
 
 	return (
-		<DialogCustom wide isOpen={props.open} onClose={props.onClose} canOutsideClickClose={false} css={{ padding: 0 }}>
+		<DialogEx wide isOpen={props.open} onClose={props.onClose} canOutsideClickClose={false} css={{ padding: 0 }}>
 			<ErrorBoundary FallbackComponent={ErrorFallback}>
 				<div>
 					<Header large css={{ margin: '2rem 1.5rem 1rem' }}>
@@ -55,7 +55,7 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 					</TabsStyled>
 				</div>
 			</ErrorBoundary>
-		</DialogCustom>
+		</DialogEx>
 	);
 });
 

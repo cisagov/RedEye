@@ -4,7 +4,6 @@ import {
 	Classes,
 	Collapse,
 	ControlGroup,
-	DialogBody,
 	Divider,
 	FileInput,
 	FormGroup,
@@ -26,7 +25,8 @@ import {
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, HoverButton, ScrollBox, ScrollChild } from '@redeye/client/components';
-import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { Servers } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -210,7 +210,7 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 
 	return (
 		<form onSubmit={state.submitData} {...props}>
-			<DialogBody css={dialogBodyStyle}>
+			<DialogBodyEx css={dialogBodyStyle}>
 				<FormGroup label="Campaign Name">
 					<InputGroup
 						cy-test="new-camp-name"
@@ -388,9 +388,9 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 						</Popover2>
 					)}
 				</FormGroup>
-			</DialogBody>
-			
-			<CarbonDialogFooter
+			</DialogBodyEx>
+
+			<DialogFooterEx
 				actions={
 					<>
 						<Button text="Cancel" onClick={props.onClose} />

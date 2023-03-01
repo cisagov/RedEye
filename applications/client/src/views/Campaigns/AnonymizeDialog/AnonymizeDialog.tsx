@@ -1,15 +1,16 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { DialogBody, Divider, Button, Callout, Checkbox, ControlGroup, InputGroup, Intent } from '@blueprintjs/core';
+import { Divider, Button, Callout, Checkbox, ControlGroup, InputGroup, Intent } from '@blueprintjs/core';
 import { Export, TrashCan } from '@carbon/icons-react/next';
 import { css } from '@emotion/react';
-import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { AnonymizationInput, CampaignModel, FindReplaceInput } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
-import { DialogCustom, HoverButton } from '../../../components';
+import { DialogEx, HoverButton } from '../../../components';
 import { OptionsSection } from './OptionsSection';
 import { PresetButton } from './PresetButton';
 
@@ -119,7 +120,7 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 	});
 
 	return (
-		<DialogCustom
+		<DialogEx
 			{...props}
 			wide
 			onClose={onClose}
@@ -127,7 +128,7 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 			cy-test="anonymizeDialog-root"
 			title="Export Campaign"
 		>
-			<DialogBody css={dialogBodyStyle} useOverflowScrollContainer={false}>
+			<DialogBodyEx css={dialogBodyStyle} useOverflowScrollContainer={false}>
 				<div>
 					<p>Export Presets</p>
 					<div>
@@ -202,8 +203,8 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 				</div>
 
 				{!!state.error && <Callout intent={Intent.DANGER} children={state.error} />}
-			</DialogBody>
-			<CarbonDialogFooter
+			</DialogBodyEx>
+			<DialogFooterEx
 				actions={
 					<>
 						<Button
@@ -221,7 +222,7 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 					</>
 				}
 			/>
-		</DialogCustom>
+		</DialogEx>
 	);
 });
 

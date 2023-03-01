@@ -1,10 +1,12 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { DialogBody, DialogFooter, Button, Intent } from '@blueprintjs/core';
+import { Button, Intent } from '@blueprintjs/core';
 import { WarningAlt16 } from '@carbon/icons-react';
-import { CarbonIcon, DialogCustom } from '@redeye/client/components';
+import { CarbonIcon, DialogEx } from '@redeye/client/components';
 import { RedEyeRoutes, useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
+import { DialogBodyEx } from './Dialogs/DialogBodyEx';
+import { DialogFooterEx } from './Dialogs/DialogFooterEx';
 
 type AuthCheckProps = Partial<DialogProps> & {};
 
@@ -22,17 +24,17 @@ export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 	};
 
 	return (
-		<DialogCustom
+		<DialogEx
 			isOpen={store.auth.promptAuth}
 			icon={<CarbonIcon icon={WarningAlt16} />}
 			title="Unable to authenticate"
 			onClose={close}
 			{...props}
 		>
-			<DialogBody>
+			<DialogBodyEx>
 				The application was unable to authenticate with the server. Click &quot;Login&quot; to re-authenticate.
-			</DialogBody>
-			<DialogFooter
+			</DialogBodyEx>
+			<DialogFooterEx
 				actions={
 					<>
 						<Button
@@ -52,6 +54,6 @@ export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 					</>
 				}
 			/>
-		</DialogCustom>
+		</DialogEx>
 	);
 });

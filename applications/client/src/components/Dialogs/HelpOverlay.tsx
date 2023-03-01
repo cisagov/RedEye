@@ -4,14 +4,14 @@ import { Header, Spacer, Txt } from '@redeye/ui-styles';
 import type { FC, ReactNode } from 'react';
 import { Logo } from '../Header';
 import { externalLinkAttributes as external } from '../utils';
-import { DialogCustom } from './DialogCustom';
+import { DialogEx } from './DialogEx';
 
 const appVersion = PACKAGE_VERSION;
 
 type HelpOverlayProps = DrawerProps & {};
 
 export const HelpOverlay: FC<HelpOverlayProps> = ({ ...props }) => (
-	<DialogCustom css={layoutStyle} {...props}>
+	<DialogEx css={layoutStyle} {...props}>
 		<section cy-test="about-modal" css={{ padding: '1.5rem 3rem 2rem' }}>
 			<Header cy-test="about-modal-header" large css={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
 				<Logo cy-test="redeye-logo" css={{ height: '4rem', marginLeft: -16 }} />
@@ -39,7 +39,7 @@ export const HelpOverlay: FC<HelpOverlayProps> = ({ ...props }) => (
 				Copyright {new Date().getFullYear()} PNNL &amp; CISA - <ExternalLink muted {...licenseLink} />
 			</Txt>
 		</section>
-	</DialogCustom>
+	</DialogEx>
 );
 
 const layoutStyle = css`

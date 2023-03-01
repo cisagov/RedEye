@@ -1,9 +1,10 @@
 import type { HTMLInputProps } from '@blueprintjs/core';
-import { DialogBody , Button, FileInput, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
+import { Button, FileInput, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
 import { Download16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
-import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import type { DirectoryFile, DirectoryFileList } from '@redeye/client/types/directory';
@@ -74,7 +75,7 @@ export const DbUpload = observer<DbUploadProps>(({ ...props }) => {
 
 	return (
 		<form onSubmit={state.submitData} {...props}>
-			<DialogBody css={dialogBodyStyle}>
+			<DialogBodyEx css={dialogBodyStyle}>
 				<FormGroup label="Campaign Name">
 					<InputGroup
 						cy-test="new-camp-name"
@@ -129,9 +130,9 @@ export const DbUpload = observer<DbUploadProps>(({ ...props }) => {
 						large
 					/>
 				</FormGroup>
-			</DialogBody>
+			</DialogBodyEx>
 
-			<CarbonDialogFooter
+			<DialogFooterEx
 				actions={
 					<>
 						<Button text="Cancel" onClick={props.onClose} />

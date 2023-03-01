@@ -2,7 +2,7 @@ import { Classes, DialogFooter } from '@blueprintjs/core';
 import styled from '@emotion/styled';
 import { AdvancedTokens } from '@redeye/ui-styles';
 
-export const CarbonDialogFooter = styled(DialogFooter)`
+export const DialogFooterEx = styled(DialogFooter)`
 	margin: 0;
 	padding: 0;
 	gap: 0px; // 1px;

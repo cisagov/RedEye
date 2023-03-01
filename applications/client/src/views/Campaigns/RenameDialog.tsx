@@ -1,6 +1,7 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { DialogBody, Button, Dialog, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
-import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
+import { Button, Dialog, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CampaignModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -37,7 +38,7 @@ export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => 
 					state.updateCampaign();
 				}}
 			>
-				<DialogBody>
+				<DialogBodyEx>
 					<FormGroup label="New campaign name" labelFor="text-input">
 						<InputGroup
 							cy-test="new-campaign-name"
@@ -49,8 +50,8 @@ export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => 
 							onChange={state.setCampaignName}
 						/>
 					</FormGroup>
-				</DialogBody>
-				<CarbonDialogFooter
+				</DialogBodyEx>
+				<DialogFooterEx
 					actions={
 						<>
 							<Button text="Cancel" onClick={onClose} />

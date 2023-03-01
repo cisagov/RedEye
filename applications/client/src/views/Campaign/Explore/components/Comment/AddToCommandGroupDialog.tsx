@@ -2,7 +2,7 @@ import type { DialogProps } from '@blueprintjs/core';
 import { Button, InputGroup, NonIdealState } from '@blueprintjs/core';
 import { Error16, Search16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogCustom, escapeRegExpChars, ScrollBox, VirtualizedList } from '@redeye/client/components';
+import { CarbonIcon, DialogEx, escapeRegExpChars, ScrollBox, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel } from '@redeye/client/store';
 import { commandGroupQuery, useStore } from '@redeye/client/store';
@@ -65,7 +65,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 	);
 
 	return (
-		<DialogCustom
+		<DialogEx
 			fixedHeight
 			wide
 			isOpen={isOpen}
@@ -115,6 +115,6 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				{isError && <NonIdealState title="Unable to fetch Comments" icon={<CarbonIcon icon={Error16} />} />}
 			</ScrollBox>
 			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" />
-		</DialogCustom>
+		</DialogEx>
 	);
 });

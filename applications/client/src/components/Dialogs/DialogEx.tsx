@@ -7,7 +7,7 @@ import { CoreTokens, Header } from '@redeye/ui-styles';
 import type { ComponentProps, FC } from 'react';
 import { CarbonIcon } from '../CarbonIcon';
 
-export type DialogCustomProps = DialogProps & {
+export type DialogExProps = DialogProps & {
 	headerProps?: WithConditionalCSSProp<ComponentProps<'div'>>;
 	/** The Dialog will not be larger than the screen height  */
 	fixedHeight?: boolean;
@@ -15,7 +15,7 @@ export type DialogCustomProps = DialogProps & {
 	wide?: boolean;
 };
 
-export const DialogCustom: FC<DialogCustomProps> = ({
+export const DialogEx: FC<DialogExProps> = ({
 	children,
 	title,
 	headerProps,
