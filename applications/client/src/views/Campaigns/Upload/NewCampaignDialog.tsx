@@ -27,22 +27,10 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 	);
 
 	return (
-		<DialogCustom
-			isOpen={props.open}
-			onClose={props.onClose}
-			canOutsideClickClose={false}
-			css={css`
-				padding: 0;
-			`}
-		>
+		<DialogCustom isOpen={props.open} onClose={props.onClose} canOutsideClickClose={false} css={{ padding: 0 }}>
 			<ErrorBoundary FallbackComponent={ErrorFallback}>
 				<div>
-					<Header
-						large
-						css={css`
-							margin: 2rem 1.5rem 1rem;
-						`}
-					>
+					<Header large css={{ margin: '2rem 1.5rem 1rem' }}>
 						Add a Campaign
 					</Header>
 					<TabsStyled

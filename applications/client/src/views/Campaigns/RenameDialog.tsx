@@ -1,10 +1,10 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { Button, Classes, Dialog, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
+import { DialogBody, Button, Dialog, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
+import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CampaignModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 
 type Props = { onClose: () => void; campaign: CampaignModel } & Omit<DialogProps, 'isOpen'>;
 
@@ -30,14 +30,14 @@ export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => 
 	});
 
 	return (
-		<Dialog isOpen onClose={onClose} title={`Rename the "${campaign.name}" campaign`} {...rest}>
+		<Dialog isOpen onClose={onClose} title="Rename Campaign" {...rest}>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
 					state.updateCampaign();
 				}}
 			>
-				<div className={Classes.DIALOG_BODY}>
+				<DialogBody>
 					<FormGroup label="New campaign name" labelFor="text-input">
 						<InputGroup
 							cy-test="new-campaign-name"
@@ -49,20 +49,22 @@ export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => 
 							onChange={state.setCampaignName}
 						/>
 					</FormGroup>
-				</div>
-				<div className={Classes.DIALOG_FOOTER}>
-					<div className={Classes.DIALOG_FOOTER_ACTIONS}>
-						<Button
-							cy-test="rename-button"
-							intent={Intent.PRIMARY}
-							disabled={!state.name || state.nameTaken || state.name === campaign.name}
-							type="submit"
-							loading={state.isLoading}
-						>
-							Rename
-						</Button>
-					</div>
-				</div>
+				</DialogBody>
+				<CarbonDialogFooter
+					actions={
+						<>
+							<Button text="Cancel" onClick={onClose} />
+							<Button
+								cy-test="rename-button"
+								intent={Intent.PRIMARY}
+								disabled={!state.name || state.nameTaken || state.name === campaign.name}
+								type="submit"
+								loading={state.isLoading}
+								text="Rename"
+							/>
+						</>
+					}
+				/>
 			</form>
 		</Dialog>
 	);

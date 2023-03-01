@@ -1,14 +1,15 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { Button, Callout, Checkbox, Classes, ControlGroup, Dialog, H2, InputGroup, Intent } from '@blueprintjs/core';
-import { Close, Export, TrashCan } from '@carbon/icons-react/next';
+import { DialogBody, Divider, Button, Callout, Checkbox, ControlGroup, InputGroup, Intent } from '@blueprintjs/core';
+import { Export, TrashCan } from '@carbon/icons-react/next';
 import { css } from '@emotion/react';
+import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { AnonymizationInput, CampaignModel, FindReplaceInput } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
-import { HoverButton } from '../../../components';
+import { DialogCustom, HoverButton } from '../../../components';
 import { OptionsSection } from './OptionsSection';
 import { PresetButton } from './PresetButton';
 
@@ -118,24 +119,29 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 	});
 
 	return (
-		<Dialog {...props} onClose={onClose} isCloseButtonShown={false} cy-test="anonymizeDialog-root" css={dialogStyle}>
-			<div className={Classes.DIALOG_HEADER} css={dialogHeaderGroupStyle}>
-				<div css={dialogHeaderStyle}>
-					<H2>Export campaign</H2>
-					<Button cy-test="cancel-export" minimal text="Cancel" onClick={onClose} rightIcon={<Close />} />
-				</div>
-				<p>Export Presets</p>
+		<DialogCustom
+			{...props}
+			onClose={onClose}
+			isCloseButtonShown={false}
+			cy-test="anonymizeDialog-root"
+			title="Export Campaign"
+		>
+			<DialogBody css={dialogBodyStyle} useOverflowScrollContainer={false}>
 				<div>
-					<PresetButton onClick={state.setRedTeam} title="Red Team" subText="Keep All Data" cy-test="red-team-export" />
-					<PresetButton
-						onClick={state.setBlueTeam}
-						title="Blue Team"
-						subText="Sanitize Passwords"
-						cy-test="blue-team-export"
-					/>
+					<p>Export Presets</p>
+					<div>
+						<PresetButton onClick={state.setRedTeam} title="Red Team" subText="Keep All Data" cy-test="red-team-export" />
+						<PresetButton
+							onClick={state.setBlueTeam}
+							title="Blue Team"
+							subText="Sanitize Passwords"
+							cy-test="blue-team-export"
+						/>
+					</div>
 				</div>
-			</div>
-			<div className={Classes.DIALOG_BODY} css={sectionStyle}>
+
+				<Divider />
+
 				{Object.entries(anonymizeOptions).map(([title, options]) => (
 					<OptionsSection title={title} key={title}>
 						{options.map(({ variable, label }) => (
@@ -149,119 +155,78 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 						))}
 					</OptionsSection>
 				))}
-				{state.findReplace?.map((findReplace: FindReplaceInput, i) => (
-					<ControlGroup
-						/* eslint-disable-next-line react/no-array-index-key */
-						key={i}
-						css={css`
-							margin: 0.25rem 0;
-						`}
-						fill
-					>
-						<InputGroup
-							cy-test="find"
-							placeholder="Find"
-							value={findReplace.find}
-							onChange={(e) => (findReplace.find = e.target.value)}
-							css={findReplaceInputStyle}
-							large
+
+				<div>
+					{state.findReplace?.map((findReplace: FindReplaceInput, i) => (
+						<ControlGroup
+							/* eslint-disable-next-line react/no-array-index-key */
+							key={i}
 							fill
-						/>
-						<InputGroup
-							cy-test="replace"
-							placeholder="Replace"
-							value={findReplace.replace}
-							onChange={(e) => (findReplace.replace = e.target.value)}
-							css={findReplaceInputStyle}
+							css={{ marginBottom: 2 }}
+						>
+							<InputGroup
+								cy-test="find"
+								placeholder="Find"
+								value={findReplace.find}
+								onChange={(e) => (findReplace.find = e.target.value)}
+								large
+								fill
+							/>
+							<InputGroup
+								cy-test="replace"
+								placeholder="Replace"
+								value={findReplace.replace}
+								onChange={(e) => (findReplace.replace = e.target.value)}
+								large
+								fill
+							/>
+							<HoverButton
+								cy-test="remove-find-replace"
+								onClick={() => state.findReplace.remove(findReplace)}
+								icon={<TrashCan />}
+								disabled={state.findReplace.length <= 1}
+								large
+								hoverProps={state.findReplace.length <= 1 ? undefined : { intent: 'danger' }}
+							/>
+						</ControlGroup>
+					))}
+
+					<Button
+						cy-test="add-find-replace"
+						text="+ Add Find & Replace"
+						intent={Intent.PRIMARY}
+						minimal
+						onClick={() => state.findReplace.push({ find: '', replace: '' })}
+					/>
+				</div>
+
+				{!!state.error && <Callout intent={Intent.DANGER} children={state.error} />}
+			</DialogBody>
+			<CarbonDialogFooter
+				actions={
+					<>
+						<Button
+							cy-test="export-database"
+							// css={buttonStyle}
 							large
-							fill
+							intent={Intent.PRIMARY}
+							onClick={state.downloadCampaign}
+							loading={state.isLoading}
+							disabled={state.isLoading}
+							rightIcon={<Export />}
+							text="Export Database"
 						/>
-						<HoverButton
-							cy-test="remove-find-replace"
-							onClick={() => state.findReplace.remove(findReplace)}
-							icon={<TrashCan />}
-							disabled={state.findReplace.length <= 1}
-							large
-							hoverProps={state.findReplace.length <= 1 ? undefined : { intent: 'danger' }}
-						/>
-					</ControlGroup>
-				))}
-				<Button
-					cy-test="add-find-replace"
-					text="+ Add Find & Replace"
-					intent={Intent.PRIMARY}
-					minimal
-					onClick={() => state.findReplace.push({ find: '', replace: '' })}
-				/>
-			</div>
-			<div className={Classes.DIALOG_FOOTER} css={sectionStyle}>
-				{!!state.error && <Callout css={errorCalloutStyle} intent={Intent.DANGER} children={state.error} />}
-				<Button
-					cy-test="export-database"
-					css={buttonStyle}
-					large
-					intent={Intent.PRIMARY}
-					onClick={state.downloadCampaign}
-					loading={state.isLoading}
-					disabled={state.isLoading}
-					rightIcon={<Export />}
-				>
-					Export Database
-				</Button>
-				<Button cy-test="save-duplicate-to-server" large disabled>
-					Save duplicate to server
-				</Button>
-			</div>
-		</Dialog>
+						<Button cy-test="save-duplicate-to-server" text="Save duplicate to server" large disabled />
+					</>
+				}
+			/>
+		</DialogCustom>
 	);
 });
 
-const dialogStyle = css`
-	--anonymize-dialog-y-margin: 64px;
-
-	max-width: 95vw;
-	min-width: 40vw;
-	margin: var(--anonymize-dialog-y-margin) auto;
-	height: calc(100vh - var(--anonymize-dialog-y-margin) * 2);
-	border-bottom: 0 !important;
-`;
-
-const dialogHeaderGroupStyle = css`
-	flex-direction: column;
-	align-items: flex-start;
-	padding: 16px 24px;
-`;
-
-const dialogHeaderStyle = css`
-	width: 100%;
+const dialogBodyStyle = css`
+	/* padding: 1.5rem; */
 	display: flex;
-	justify-content: space-between;
-	padding-bottom: 1rem;
-	align-items: flex-start;
-`;
-
-const buttonStyle = css`
-	width: 184px;
-	display: inline-flex;
-	justify-content: space-between;
-	margin-right: 1px;
-`;
-
-const sectionStyle = css`
-	overflow-y: auto;
-	padding: 16px 24px;
-	margin: 0;
-`;
-
-const errorCalloutStyle = css`
-	margin-bottom: 1rem;
-`;
-
-const findReplaceInputStyle = css`
-	.${Classes.INPUT_ACTION} {
-		display: flex;
-		height: 100%;
-		padding: 0 1rem;
-		align-items: center;
-	}
+	flex-direction: column;
+	gap: 1rem;
 `;

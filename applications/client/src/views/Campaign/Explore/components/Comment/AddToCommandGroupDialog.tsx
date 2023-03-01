@@ -68,27 +68,15 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 		<DialogCustom
 			css={{ padding: 0 }}
 			fixedHeight
-			{...props}
 			isOpen={isOpen}
 			onClose={onClose}
 			transitionDuration={0}
 			title={
-				<div
-					css={css`
-						display: flex;
-						justify-content: space-between;
-					`}
-				>
-					<Header
-						medium
-						css={css`
-							margin: 1rem;
-						`}
-					>
-						Add Command to Existing Comment
-					</Header>
-				</div>
+				<Header medium>
+					Add Command to Existing Comment
+				</Header>
 			}
+			{...props}
 		>
 			<InputGroup
 				cy-test="search-comments"
