@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
-import { dateFormat, dateTimeFormat, Flex } from '@redeye/client/components';
+import { dateFormat, dateTimeFormat } from '@redeye/client/components';
 import { routes, useStore } from '@redeye/client/store';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import type { UUID } from '@redeye/client/types';
-import { Txt, FlexSplitter, AdvancedTokens } from '@redeye/ui-styles';
+import { Txt, FlexSplitter, AdvancedTokens, Flex } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import type { IBar } from './TimelineChart';
@@ -34,7 +34,7 @@ export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter })
 	<div cy-test="timeline-tooltip-static" css={barPopoverStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<Flex css={{ paddingTop: '0.2rem' }}>
+		<Flex css={{ paddingTop: 4 }}>
 			<Txt cy-test="timeline-beacons" muted small css={marginStyles(1)}>
 				Beacons
 			</Txt>
