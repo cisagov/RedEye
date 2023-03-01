@@ -83,6 +83,7 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 	return (
 		<DialogCustom
 			{...props}
+			wide
 			isOpen={state.isOpen}
 			onClose={state.onClose}
 			css={logModelStyles}
@@ -150,10 +151,11 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 });
 
 const logModelStyles = css`
-	max-width: 95vw;
+	max-width: unset;
+	/* max-width: 95vw;
 	min-width: 40vw;
 	width: unset;
-	padding: 0;
+	padding: 0; */
 `;
 const preStyles = css`
 	padding: 0.5rem 1rem;

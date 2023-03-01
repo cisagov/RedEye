@@ -121,6 +121,7 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 	return (
 		<DialogCustom
 			{...props}
+			wide
 			onClose={onClose}
 			isCloseButtonShown={false}
 			cy-test="anonymizeDialog-root"

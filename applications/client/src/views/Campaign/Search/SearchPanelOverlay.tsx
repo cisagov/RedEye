@@ -2,14 +2,14 @@ import type { DialogProps } from '@blueprintjs/core';
 import { Button, Dialog } from '@blueprintjs/core';
 import { Close16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, DialogCustom } from '@redeye/client/components';
 import { observer } from 'mobx-react-lite';
 import { SearchModal } from './SearchModal';
 
 export const SearchPanelOverlay = observer<DialogProps>(({ ...props }) => (
-	<Dialog css={dialogWrapperStyles} {...props}>
+	<DialogCustom wide fixedHeight css={dialogWrapperStyles} {...props}>
 		<SearchModal />
-		<Button
+		{/* <Button
 			cy-test="close-search"
 			minimal
 			onClick={props.onClose}
@@ -20,15 +20,15 @@ export const SearchPanelOverlay = observer<DialogProps>(({ ...props }) => (
 				margin: 0.25rem;
 			`}
 			icon={<CarbonIcon icon={Close16} />}
-		/>
-	</Dialog>
+		/> */}
+	</DialogCustom>
 ));
 
 const dialogWrapperStyles = css`
-	position: relative;
+	/* position: relative;
 	width: 100%;
 	max-width: 700px;
 	height: calc(100vh - 4rem);
 	margin: 2rem;
-	padding: 0;
+	padding: 0; */
 `;

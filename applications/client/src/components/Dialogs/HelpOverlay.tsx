@@ -12,7 +12,7 @@ type HelpOverlayProps = DrawerProps & {};
 
 export const HelpOverlay: FC<HelpOverlayProps> = ({ ...props }) => (
 	<DialogCustom css={layoutStyle} {...props}>
-		<section cy-test="about-modal" css={{ padding: '1.5rem 3rem' }}>
+		<section cy-test="about-modal" css={{ padding: '1.5rem 3rem 2rem' }}>
 			<Header cy-test="about-modal-header" large css={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
 				<Logo cy-test="redeye-logo" css={{ height: '4rem', marginLeft: -16 }} />
 				<Spacer />

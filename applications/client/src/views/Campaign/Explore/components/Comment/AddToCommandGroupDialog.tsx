@@ -66,8 +66,8 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 
 	return (
 		<DialogCustom
-			css={{ padding: 0 }}
 			fixedHeight
+			wide
 			isOpen={isOpen}
 			onClose={onClose}
 			transitionDuration={0}

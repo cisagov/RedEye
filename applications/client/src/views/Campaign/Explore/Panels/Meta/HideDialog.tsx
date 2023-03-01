@@ -1,7 +1,7 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { DialogBody, Checkbox, Button, Dialog, Intent } from '@blueprintjs/core';
+import { DialogBody, Checkbox, Button, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, DialogCustom } from '@redeye/client/components';
 import { CarbonDialogFooter } from '@redeye/client/components/Dialogs/CarbonDialogFooter';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
@@ -42,7 +42,7 @@ export const ToggleHiddenDialog = observer<Props>(
 			last && !isHiddenToggled ? `Cannot hide final ${infoType.toLowerCase()}` : `${verb} this ${infoType.toLowerCase()}?`;
 
 		return (
-			<Dialog onClose={onClose} title={dialogTitle} {...props}>
+			<DialogCustom onClose={onClose} title={dialogTitle} {...props}>
 				<DialogBody cy-test="show-hide-dialog-text">
 					{last && !isHiddenToggled ? (
 						<>
@@ -92,7 +92,7 @@ export const ToggleHiddenDialog = observer<Props>(
 						</>
 					}
 				/>
-			</Dialog>
+			</DialogCustom>
 		);
 	}
 );

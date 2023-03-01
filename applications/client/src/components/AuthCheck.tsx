@@ -1,7 +1,7 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { DialogBody, DialogFooter, Button, Dialog, Intent } from '@blueprintjs/core';
+import { DialogBody, DialogFooter, Button, Intent } from '@blueprintjs/core';
 import { WarningAlt16 } from '@carbon/icons-react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, DialogCustom } from '@redeye/client/components';
 import { RedEyeRoutes, useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
@@ -22,7 +22,7 @@ export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 	};
 
 	return (
-		<Dialog
+		<DialogCustom
 			isOpen={store.auth.promptAuth}
 			icon={<CarbonIcon icon={WarningAlt16} />}
 			title="Unable to authenticate"
@@ -52,6 +52,6 @@ export const AuthCheck = observer<AuthCheckProps>(({ ...props }) => {
 					</>
 				}
 			/>
-		</Dialog>
+		</DialogCustom>
 	);
 });
