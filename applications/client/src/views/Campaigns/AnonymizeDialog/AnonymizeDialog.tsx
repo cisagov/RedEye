@@ -209,7 +209,6 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 					<>
 						<Button
 							cy-test="export-database"
-							// css={buttonStyle}
 							large
 							intent={Intent.PRIMARY}
 							onClick={state.downloadCampaign}

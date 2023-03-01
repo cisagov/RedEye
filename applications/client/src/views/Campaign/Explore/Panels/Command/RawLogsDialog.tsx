@@ -152,10 +152,6 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 
 const logModelStyles = css`
 	max-width: unset;
-	/* max-width: 95vw;
-	min-width: 40vw;
-	width: unset;
-	padding: 0; */
 `;
 const preStyles = css`
 	padding: 0.5rem 1rem;

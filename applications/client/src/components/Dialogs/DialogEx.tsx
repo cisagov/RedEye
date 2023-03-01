@@ -23,11 +23,7 @@ export const DialogEx: FC<DialogExProps> = ({
 	wide = false,
 	...props
 }) => (
-	<Dialog
-		css={[dialogStyles, wide && wideStyles, fixedHeight && fixedHeightStyles]}
-		{...props}
-		// title={undefined}
-	>
+	<Dialog css={[dialogStyles, wide && wideStyles, fixedHeight && fixedHeightStyles]} {...props}>
 		<div
 			{...headerProps}
 			css={[dialogHeaderStyles, title == null && dialogHeaderEmptyStyles, headerProps?.css]}
