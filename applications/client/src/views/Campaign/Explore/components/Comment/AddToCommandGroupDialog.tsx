@@ -7,7 +7,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel } from '@redeye/client/store';
 import { commandGroupQuery, useStore } from '@redeye/client/store';
 import { CommentBox, MessageRow } from '@redeye/client/views';
-import { Header, CoreTokens } from '@redeye/ui-styles';
+import { Header, CoreTokens, Flex } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
@@ -71,21 +71,22 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 			isOpen={isOpen}
 			onClose={onClose}
 			transitionDuration={0}
+			headerProps={{ css: { padding: 16 } }}
 			title={
-				<Header medium>
-					Add Command to Existing Comment
-				</Header>
+				<Flex column align="stretch" gap={12} css={{ width: '100%' }}>
+					<Header>Add Command to Existing Comment</Header>
+					<InputGroup
+						cy-test="search-comments"
+						value={state.searchVal}
+						onChange={state.handleOnChange}
+						leftIcon={<CarbonIcon icon={Search16} />}
+						placeholder="Search comments"
+						large
+					/>
+				</Flex>
 			}
 			{...props}
 		>
-			<InputGroup
-				cy-test="search-comments"
-				value={state.searchVal}
-				onChange={state.handleOnChange}
-				leftIcon={<CarbonIcon icon={Search16} />}
-				placeholder="Search comments"
-				large
-			/>
 			<ScrollBox>
 				{isSuccess && (
 					<VirtualizedList defaultItemHeight={160}>
@@ -114,7 +115,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				{/* {isLoading && <LoadingOverlay />} */}
 				{isError && <NonIdealState title="Unable to fetch Comments" icon={<CarbonIcon icon={Error16} />} />}
 			</ScrollBox>
-			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" />
+			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" large />
 		</DialogEx>
 	);
 });
