@@ -89,7 +89,7 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					items={beacons}
 					itemPredicate={filterFilm}
 					itemRenderer={renderMenuItem}
-					popoverProps={{ boundary: 'window' }}
+					// popoverProps={{ boundary: 'window' }}
 					onItemSelect={handleItemSelect}
 					noResults={<MenuItem disabled text="No results." />}
 					fill
@@ -102,9 +102,9 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					filterable
 					itemPredicate={filterFilm}
 					itemRenderer={renderMenuItem}
-					popoverProps={{ boundary: 'window' }}
+					// popoverProps={{ boundary: 'window' }}
 					onItemSelect={handleItemSelect}
-					matchTargetWidth
+					// matchTargetWidth
 					noResults={<MenuItem disabled text="No results." />}
 					resetOnQuery
 					scrollToActiveItem
