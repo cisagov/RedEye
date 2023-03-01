@@ -56,25 +56,25 @@ export const ControlBar = observer<ControlBarProps>(
 				{...props}
 			>
 				{/*
-          <Select // TODO: Filter things?
-            popoverProps={{ minimal: true }}
-            filterable={false}
-            activeItem={null}
-            itemRenderer={renderSort}
-            items={[]}
-            onItemSelect={() => null}
-          >
-            <Button
-              icon={<CarbonIcon icon={Filter16} />}
-              // rightIcon={<CarbonIcon icon={ChevronDown16} />}
-              text={<Txt>
-                <Txt css={labelStyle}>Filter:</Txt>
-                <Txt css={valueStyle}>{filter}</Txt>
-              </Txt>}
-              minimal
-            />
-          </Select>
-        */}
+					<Select2 // TODO: Filter things?
+						popoverProps={{ minimal: true }}
+						filterable={false}
+						activeItem={null}
+						itemRenderer={renderSort}
+						items={[]}
+						onItemSelect={() => null}
+					>
+						<Button
+						icon={<CarbonIcon icon={Filter16} />}
+						// rightIcon={<CarbonIcon icon={ChevronDown16} />}
+						text={<Txt>
+							<Txt css={labelStyle}>Filter:</Txt>
+							<Txt css={valueStyle}>{filter}</Txt>
+						</Txt>}
+						minimal
+						/>
+					</Select2>
+				*/}
 				{isCollapsible && (
 					<Button
 						cy-test="collapse-all"
