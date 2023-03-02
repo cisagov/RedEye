@@ -1,8 +1,8 @@
 /* This is a mk-gql generated file, don't modify it manually */
-import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
+import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
 import type { ObservableMap } from 'mobx';
 import {
 	AbstractModelClass,
