@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { defineConfig } = require('cypress');
 
 const fs = require('fs');
@@ -31,21 +33,22 @@ module.exports = defineConfig({
 					});
 				},
 				// ===== task to use node 'fs' (filesystem) to delete downloaded files from cypress/downloads
-				deleteDownloads({ dirPath }) {
-					fs.readdir(dirPath, (err, files) => {
-						for (const file of files) {
-							fs.unlink(path.join(dirPath, file), (err) => {
-								console.log('Removed ' + file);
-							});
-						}
-					});
-					return null;
-				},
+				// deleteDownloads({ dirPath }) {
+				// 	fs.readdir(dirPath, (err, files) => {
+				// 		for (const file of files) {
+				// 			fs.unlink(path.join(dirPath, file), (err) => {
+				// 				console.log('Removed ' + file);
+				// 			});
+				// 		}
+				// 	});
+				// 	return null;
+				// },
 			});
 		},
 		specPattern: '**/**/e2e/**/*.cy.js',
 		supportFile: path.join(__dirname, 'src', 'support', 'e2e.js'),
 		excludeSpecPattern: '*.skip.js',
 		defaultCommandTimeout: 15000,
+		trashAssetsBeforeRuns: true,
 	},
 });
