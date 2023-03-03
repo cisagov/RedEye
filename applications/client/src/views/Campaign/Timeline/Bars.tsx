@@ -7,7 +7,6 @@ import { max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
-import { animated } from 'react-spring';
 import { BarLabelOnHover, BarLabelBeaconList } from './BarLabels';
 import { TIMELINE_BG_COLOR } from './timeline-static-vars';
 import type { IBar, IDimensions, TimeScale } from './TimelineChart';
@@ -43,6 +42,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 					<Popover2
 						key={`${start.valueOf()}-${bar.start.valueOf()}`}
 						interactionKind={Popover2InteractionKind.HOVER}
+						placement="bottom"
 						content={
 							bar.beaconCount ? (
 								<BarLabel
@@ -55,7 +55,6 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 								/>
 							) : undefined
 						}
-						placement="bottom"
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g
 								cy-test="timeline-bar"
@@ -92,7 +91,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 											css={[baseBarStyles, aliveBarStyles]}
 										/>
 										{/* Selected Beacon Bar */}
-										<animated.rect
+										<rect
 											x={x}
 											width={width}
 											y={dimensions.height - yScale(bar.selectedBeaconCount)}
