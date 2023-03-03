@@ -32,6 +32,16 @@ module.exports = defineConfig({
 						}
 					});
 				},
+				getPath({ dirPath }) {
+					return new Promise((resolve, reject) => {
+						try {
+							const dirData = path.resolve(dirPath);
+							resolve(dirData);
+						} catch (e) {
+							reject(e);
+						}
+					});
+				},
 				// ===== task to use node 'fs' (filesystem) to delete downloaded files from cypress/downloads
 				// deleteDownloads({ dirPath }) {
 				// 	fs.readdir(dirPath, (err, files) => {
