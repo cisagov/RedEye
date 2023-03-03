@@ -2,9 +2,10 @@
 	"extends": "../../tsconfig.json",
 	"include": ["src"],
 	"compilerOptions": {
-		"outDir": "../../dist/out-tsc",
 		"target": "esnext",
 		"lib": ["esnext"],
+		"rootDir": "./src",
+		"outDir": "./dist",
 		"importHelpers": true,
 		"declaration": true,
 		"sourceMap": true,
@@ -12,11 +13,13 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
 		"strictPropertyInitialization": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"moduleResolution": "node",
 		"esModuleInterop": true,
+		"composite": true,
 		"emitDeclarationOnly": true,
 		"skipLibCheck": true
 	}

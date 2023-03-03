@@ -22,8 +22,7 @@ describe('Reply to  Campaign Comments', () => {
 
 			cy.clickPresentationMode();
 
-			cy
-				.get('[cy-test=all] [cy-test=count]')
+			cy.get('[cy-test=all] [cy-test=count]')
 				.should('be.visible')
 				.invoke('text')
 				.then((commentCountAll1) => {
@@ -34,8 +33,7 @@ describe('Reply to  Campaign Comments', () => {
 					cy.clickExplorerMode();
 
 					cy.clickCommentsTab();
-					cy
-						.get('[cy-test=comment-group]')
+					cy.get('[cy-test=comment-group]')
 						.its('length')
 						.then((commentsTab1) => {
 							expect(+commentsTab1)
@@ -49,8 +47,7 @@ describe('Reply to  Campaign Comments', () => {
 							// Go back to Presentation mode and verify that the comment count and Golden Ticket count increased by one
 							cy.clickPresentationMode();
 
-							cy
-								.get('[cy-test=all] [cy-test=count]')
+							cy.get('[cy-test=all] [cy-test=count]')
 								.should('be.visible')
 								.invoke('text')
 								.then((commentCountAll2) => {

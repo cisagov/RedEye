@@ -58,15 +58,19 @@ async function findAndReplaceUsernames(
 				ipUpdates.origin = ips[beaconMeta.origin];
 			}
 
-			await em.nativeUpdate(BeaconMeta, { id: beaconMeta.id }, { username: userNames[beaconMeta.username], ...ipUpdates });
+			await em.nativeUpdate(
+				BeaconMeta,
+				{ id: beaconMeta.id },
+				{ username: userNames[beaconMeta.username], ...ipUpdates }
+			);
 		}
 	}
 }
 
 async function replaceValuesInLogEntries(em: EntityManager, options: Omit<AnonymizationMachineContext, 'database'>) {
-	let userNames: Record<string, string> = {};
-	let hostNames: Record<string, string> = {};
-	let domainIpsMatchedStrings: Record<string, string> = {};
+	const userNames: Record<string, string> = {};
+	const hostNames: Record<string, string> = {};
+	const domainIpsMatchedStrings: Record<string, string> = {};
 	if (options.replaceUsernames) {
 		await findAndReplaceUsernames(em, userNames, domainIpsMatchedStrings);
 	}
@@ -75,7 +79,7 @@ async function replaceValuesInLogEntries(em: EntityManager, options: Omit<Anonym
 	}
 
 	const logEntries = await em.find(LogEntry, {});
-	let hashMatchedStrings = {};
+	const hashMatchedStrings = {};
 
 	for (const logEntry of logEntries) {
 		if (options.removePasswordsHashes) {

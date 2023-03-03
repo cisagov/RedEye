@@ -55,10 +55,9 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 								cy-test="mitre-attack-link"
 								aria-label="Mitre attack links"
 								key={mitreAttack}
-								href={`https://attack.mitre.org/${mitreAttack.includes('TA') ? 'tactics' : 'techniques'}/${mitreAttack.replace(
-									/\./g,
-									'/'
-								)}/`}
+								href={`https://attack.mitre.org/${
+									mitreAttack.includes('TA') ? 'tactics' : 'techniques'
+								}/${mitreAttack.replace(/\./g, '/')}/`}
 								target="_blank"
 								rel="noopener noreferrer"
 								css={css`

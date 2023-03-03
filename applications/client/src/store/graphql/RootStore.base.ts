@@ -1,27 +1,32 @@
 /* This is a mk-gql generated file, don't modify it manually */
-import { createMKGQLStore, MKGQLStore, QueryOptions } from 'mk-gql';
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
 import type { ObservableMap } from 'mobx';
 import {
-	AbstractModelClass,
-	customRef,
-	detach,
-	ExtendedModel,
-	findParent,
+	types,
+	prop,
+	tProp,
+	Ref,
+	Model,
 	modelAction,
 	objectMap,
-	prop,
-	Ref,
+	detach,
+	model,
+	findParent,
+	customRef,
+	ExtendedModel,
+	AbstractModelClass,
 } from 'mobx-keystone';
+import { MKGQLStore, createMKGQLStore, QueryOptions } from 'mk-gql';
+import { MergeHelper } from './mergeHelper';
 
 import { AnnotationModel, annotationModelPrimitives, AnnotationModelSelector } from './AnnotationModel';
-import { BeaconMetaModel } from './BeaconMetaModel';
 import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
+import { BeaconMetaModel, beaconMetaModelPrimitives, BeaconMetaModelSelector } from './BeaconMetaModel';
 import { CampaignModel, campaignModelPrimitives, CampaignModelSelector } from './CampaignModel';
-import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
+import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import {
 	CommandTypeCountModel,
 	commandTypeCountModelPrimitives,
@@ -29,35 +34,53 @@ import {
 } from './CommandTypeCountModel';
 import { FileModel, fileModelPrimitives, FileModelSelector } from './FileModel';
 import { GlobalOperatorModel, globalOperatorModelPrimitives, GlobalOperatorModelSelector } from './GlobalOperatorModel';
-import { HostMetaModel } from './HostMetaModel';
 import { HostModel, hostModelPrimitives, HostModelSelector } from './HostModel';
+import { HostMetaModel, hostMetaModelPrimitives, HostMetaModelSelector } from './HostMetaModel';
 import { ImageModel, imageModelPrimitives, ImageModelSelector } from './ImageModel';
 import { LinkModel, linkModelPrimitives, LinkModelSelector } from './LinkModel';
 import { LogEntryModel, logEntryModelPrimitives, LogEntryModelSelector } from './LogEntryModel';
-import { MergeHelper } from './mergeHelper';
 import { OperatorModel, operatorModelPrimitives, OperatorModelSelector } from './OperatorModel';
 import {
 	ParsingProgressModel,
 	parsingProgressModelPrimitives,
 	ParsingProgressModelSelector,
 } from './ParsingProgressModel';
-import { PresentationCommandGroupModel } from './PresentationCommandGroupModel';
+import {
+	PresentationCommandGroupModel,
+	presentationCommandGroupModelPrimitives,
+	PresentationCommandGroupModelSelector,
+} from './PresentationCommandGroupModel';
 import {
 	PresentationItemModel,
 	presentationItemModelPrimitives,
 	PresentationItemModelSelector,
 } from './PresentationItemModel';
-import { ServerMetaModel } from './ServerMetaModel';
 import { ServerModel, serverModelPrimitives, ServerModelSelector } from './ServerModel';
-import { ServerParsingProgressModel } from './ServerParsingProgressModel';
+import { ServerMetaModel, serverMetaModelPrimitives, ServerMetaModelSelector } from './ServerMetaModel';
+import {
+	ServerParsingProgressModel,
+	serverParsingProgressModelPrimitives,
+	ServerParsingProgressModelSelector,
+} from './ServerParsingProgressModel';
+import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
+import { TimelineModel, timelineModelPrimitives, TimelineModelSelector } from './TimelineModel';
+import { TimelineBucketModel, timelineBucketModelPrimitives, TimelineBucketModelSelector } from './TimelineBucketModel';
+import {
+	TimelineCommandCountTupleModel,
+	timelineCommandCountTupleModelPrimitives,
+	TimelineCommandCountTupleModelSelector,
+} from './TimelineCommandCountTupleModel';
+
+import type { BeaconLineType } from './BeaconLineTypeEnum';
+import type { FileFlag } from './FileFlagEnum';
+import type { GenerationType } from './GenerationTypeEnum';
+import type { LogType } from './LogTypeEnum';
+import type { MitreTechniques } from './MitreTechniquesEnum';
+import type { ParsingStatus } from './ParsingStatusEnum';
 import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
-import type { SortOptionComments } from './SortOptionCommentsEnum';
 import type { SortOption } from './SortOptionEnum';
-import { TagModel, tagModelPrimitives, TagModelSelector } from './TagModel';
-import { TimelineBucketModel } from './TimelineBucketModel';
-import { TimelineCommandCountTupleModel } from './TimelineCommandCountTupleModel';
-import { TimelineModel, timelineModelPrimitives, TimelineModelSelector } from './TimelineModel';
+import type { SortOptionComments } from './SortOptionCommentsEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -442,10 +465,10 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ commandTypes: CommandTypeCountModel[] }>(
 			`query commandTypes($campaignId: String!, $hidden: Boolean) { commandTypes(campaignId: $campaignId, hidden: $hidden) {
         ${
-									typeof resultSelector === 'function'
-										? resultSelector(CommandTypeCountModelSelector).toString()
-										: resultSelector
-								}
+					typeof resultSelector === 'function'
+						? resultSelector(CommandTypeCountModelSelector).toString()
+						: resultSelector
+				}
       } }`,
 			variables,
 			options,
@@ -511,8 +534,8 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ globalOperators: GlobalOperatorModel[] }>(
 			`query globalOperators($password: String!) { globalOperators(password: $password) {
         ${
-									typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
-								}
+					typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
+				}
       } }`,
 			variables,
 			options,
@@ -641,8 +664,10 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ parsingProgress: ParsingProgressModel }>(
 			`query parsingProgress { parsingProgress {
         ${
-									typeof resultSelector === 'function' ? resultSelector(ParsingProgressModelSelector).toString() : resultSelector
-								}
+					typeof resultSelector === 'function'
+						? resultSelector(ParsingProgressModelSelector).toString()
+						: resultSelector
+				}
       } }`,
 			variables,
 			options,
@@ -663,10 +688,10 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
 			`query presentationItems($campaignId: String!, $hidden: Boolean) { presentationItems(campaignId: $campaignId, hidden: $hidden) {
         ${
-									typeof resultSelector === 'function'
-										? resultSelector(PresentationItemModelSelector).toString()
-										: resultSelector
-								}
+					typeof resultSelector === 'function'
+						? resultSelector(PresentationItemModelSelector).toString()
+						: resultSelector
+				}
       } }`,
 			variables,
 			options,
@@ -888,8 +913,8 @@ export class RootStoreBase extends ExtendedModel(
 		return this.mutate<{ createGlobalOperator: GlobalOperatorModel }>(
 			`mutation createGlobalOperator($password: String!, $username: String!) { createGlobalOperator(password: $password, username: $username) {
         ${
-									typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
-								}
+					typeof resultSelector === 'function' ? resultSelector(GlobalOperatorModelSelector).toString() : resultSelector
+				}
       } }`,
 			variables,
 			optimisticUpdate

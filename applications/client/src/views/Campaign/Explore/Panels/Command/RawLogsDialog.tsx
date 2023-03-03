@@ -138,7 +138,11 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 							const scrollToCommand = state.commandLogEntryIds?.includes?.(logEntry.id);
 							const Component = scrollToCommand ? AutoScrollPre : 'pre';
 							return (
-								<Component key={logEntry.id} cy-test="log-entry" css={[preStyles, scrollToCommand && highlightedStyles]}>
+								<Component
+									key={logEntry.id}
+									cy-test="log-entry"
+									css={[preStyles, scrollToCommand && highlightedStyles]}
+								>
 									{getTextFromLog(logEntry)}
 								</Component>
 							);

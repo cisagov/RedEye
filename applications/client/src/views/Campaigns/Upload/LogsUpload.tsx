@@ -84,9 +84,13 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 			const server = { ...defaultServer, name: serverName };
 			const data = new FormData();
 			files.forEach((file: DirectoryFile) => {
-				const f: File = new File([file.blob], file.webkitRelativePath.replace(/\//g, ':').split(':').slice(1).join(':'), {
-					type: file.type,
-				});
+				const f: File = new File(
+					[file.blob],
+					file.webkitRelativePath.replace(/\//g, ':').split(':').slice(1).join(':'),
+					{
+						type: file.type,
+					}
+				);
 				data.append('file', f);
 			});
 			server.fileCount = files.length;
@@ -254,7 +258,8 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 							<span>
 								Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
 								<Txt bold>Server Folders</Txt>.<br />
-								Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>) folders.
+								Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>)
+								folders.
 							</span>
 						) : (
 							<span>

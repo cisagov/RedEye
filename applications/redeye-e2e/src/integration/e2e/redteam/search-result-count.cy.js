@@ -18,8 +18,7 @@ describe('Search campaign and verify total results match count', () => {
 		cy.searchCampaignFor(searchTerm1);
 
 		// Log summarized number of results near top
-		cy
-			.get('[cy-test=results]')
+		cy.get('[cy-test=results]')
 			.invoke('text')
 			.then((text) => {
 				let resultText = text.split(' ')[0];
@@ -29,8 +28,7 @@ describe('Search campaign and verify total results match count', () => {
 				cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 				// Log total number of results
-				cy
-					.get('@list')
+				cy.get('@list')
 					.its('length')
 					.then((resultSearch1) => {
 						// cy.log(resultSearch1);

@@ -19,7 +19,8 @@ export const useHosts = (props?: HostsProps) => {
 				.filter((host) => !current(host).cobaltStrikeServer) // remove servers from 'Hosts' list
 				.sort(
 					createSorter(
-						(host: HostModel | Ref<HostModel>) => ('current' in host ? host?.current[props.sort.sortBy || 'id'] : host.id),
+						(host: HostModel | Ref<HostModel>) =>
+							'current' in host ? host?.current[props.sort.sortBy || 'id'] : host.id,
 						props.sort.direction === SortDirection.ASC
 					)
 				)

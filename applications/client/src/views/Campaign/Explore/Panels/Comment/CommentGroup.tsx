@@ -78,7 +78,12 @@ export const CommentGroup = observer<CommentGroupProps>(
 						/>
 					))}
 					{newComment === state.commandGroup?.id && (
-						<CommentBox newComment commandGroupId={state.commandGroupId} cancel={toggleNewComment} css={commentBoxStyle} />
+						<CommentBox
+							newComment
+							commandGroupId={state.commandGroupId}
+							cancel={toggleNewComment}
+							css={commentBoxStyle}
+						/>
 					)}
 				</Flex>
 				<Flex column>

@@ -203,7 +203,9 @@ export const BeaconMeta = observer(() => {
 								direction="From"
 								host={link.origin?.current?.host?.current.displayName || link.origin?.current?.server?.displayName}
 								beacon={link.origin?.current?.displayName}
-								onClick={() => !link.origin?.current?.host?.maybeCurrent?.cobaltStrikeServer && link.origin?.current?.select()}
+								onClick={() =>
+									!link.origin?.current?.host?.maybeCurrent?.cobaltStrikeServer && link.origin?.current?.select()
+								}
 								command={link.command?.current?.inputText || 'unknown'}
 							/>
 						))}
@@ -211,10 +213,13 @@ export const BeaconMeta = observer(() => {
 							<BeaconLinkRow
 								key={link.id}
 								direction="To"
-								host={link.destination?.current?.host?.current.displayName || link.destination?.current?.server?.displayName}
+								host={
+									link.destination?.current?.host?.current.displayName || link.destination?.current?.server?.displayName
+								}
 								beacon={link.destination?.current?.displayName}
 								onClick={() =>
-									!link.destination?.current?.host?.maybeCurrent?.cobaltStrikeServer && link.destination?.current?.select()
+									!link.destination?.current?.host?.maybeCurrent?.cobaltStrikeServer &&
+									link.destination?.current?.select()
 								}
 								command={link.command?.current?.inputText || 'unknown'}
 							/>

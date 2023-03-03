@@ -11,8 +11,7 @@ describe('Add Delete Campaign Comments', () => {
 	it('Add campaign comments and check counts', () => {
 		cy.uploadCampaign(camp, fileName);
 
-		cy
-			.get('[cy-test=comment-count]')
+		cy.get('[cy-test=comment-count]')
 			.find('span')
 			.then((num) => num.text().split(' ').shift())
 			.as('campaignCommentCount');
@@ -24,8 +23,7 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.wait(1000);
 
-		cy
-			.get('[cy-test=comment-group]')
+		cy.get('[cy-test=comment-group]')
 			.its('length')
 			.then((num) => parseInt(num))
 			.as('commentsTabCount');
@@ -35,8 +33,7 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.wait(1000);
 
-		cy
-			.get('[cy-test=all] [cy-test=count]')
+		cy.get('[cy-test=all] [cy-test=count]')
 			.find('span')
 			.first()
 			.should('be.visible')
@@ -70,8 +67,7 @@ describe('Add Delete Campaign Comments', () => {
 		cy.wait(1000);
 
 		cy.get('@commentsTabCount').then((commentsTabCount) => {
-			cy
-				.get('[cy-test=comment-group]')
+			cy.get('[cy-test=comment-group]')
 				.its('length')
 				.then((num) => {
 					const commentsTabCount2 = parseInt(num);
@@ -85,8 +81,7 @@ describe('Add Delete Campaign Comments', () => {
 		cy.wait(1000);
 
 		cy.get('@presentationCommentCount').then((presentationCommentCount) => {
-			cy
-				.get('[cy-test=all] [cy-test=count]')
+			cy.get('[cy-test=all] [cy-test=count]')
 				.find('span')
 				.first()
 				.then((num) => {
@@ -101,8 +96,7 @@ describe('Add Delete Campaign Comments', () => {
 		cy.wait(1000);
 
 		cy.get('@campaignCommentCount').then((campaignCommentCount) => {
-			cy
-				.get('[cy-test=comment-count]')
+			cy.get('[cy-test=comment-count]')
 				.find('span')
 				.then((num) => {
 					const campaignCommentCount2 = num.text();
@@ -112,8 +106,7 @@ describe('Add Delete Campaign Comments', () => {
 	});
 
 	it('Delete campaign comments and check counts', () => {
-		cy
-			.get('[cy-test=comment-count]')
+		cy.get('[cy-test=comment-count]')
 			.find('span')
 			.invoke('text')
 			.then((num) => {
@@ -136,8 +129,7 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.wait(1000);
 
-		cy
-			.get('[cy-test=comment-group]')
+		cy.get('[cy-test=comment-group]')
 			.its('length')
 			.then((num) => parseInt(num))
 			.then((commentsTabCount) => {
@@ -149,8 +141,7 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.wait(1000);
 
-		cy
-			.get('[cy-test=all] [cy-test=count]')
+		cy.get('[cy-test=all] [cy-test=count]')
 			.find('span')
 			.first()
 			.then((num) => {
@@ -163,8 +154,7 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.wait(1000);
 
-		cy
-			.get('[cy-test=comment-count]')
+		cy.get('[cy-test=comment-count]')
 			.find('span')
 			.invoke('text')
 			.then((newCount) => {

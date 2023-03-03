@@ -64,7 +64,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 							params: {
 								activeItem: expandedCommandIDs.length > 1 ? 'command' : undefined,
 								activeItemId:
-									expandedCommandIDs.length > 1 ? (expandedCommandIDs[expandedCommandIDs.length - 2] as UUID) : undefined,
+									expandedCommandIDs.length > 1
+										? (expandedCommandIDs[expandedCommandIDs.length - 2] as UUID)
+										: undefined,
 							},
 						});
 					}
@@ -100,14 +102,12 @@ export const CommandContainer = observer<CommandContainerProps>(
 				<div css={[UtilityStyles.hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
-						css={[
-							interactiveRowStyle,
-							gridFillStyle,
-							{ height: state.expanded ? 'auto':initialCommandRowHeight }
-						]}
+						css={[interactiveRowStyle, gridFillStyle, { height: state.expanded ? 'auto' : initialCommandRowHeight }]}
 						active={state.expanded || state.active}
 						onClick={state.setCollapsed}
-						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
+						onMouseEnter={() =>
+							store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})
+						}
 					>
 						<Suspense fallback={<Command store={store} skeletonClass={Classes.SKELETON} />}>
 							<Command
@@ -135,7 +135,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 							css={[
 								gridFillStyle,
 								commentCountStyle,
-								!!store.campaign?.commentStore.groupSelect && !store.campaign?.commentStore.newGroupComment && hideCommentCount,
+								!!store.campaign?.commentStore.groupSelect &&
+									!store.campaign?.commentStore.newGroupComment &&
+									hideCommentCount,
 							]}
 						/>
 					)}

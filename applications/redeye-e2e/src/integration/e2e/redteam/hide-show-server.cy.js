@@ -14,8 +14,7 @@ describe('Hide a server', () => {
 		cy.doNotShowHiddenItems();
 
 		// Get the name of the server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName) => {
@@ -58,8 +57,7 @@ describe('Hide a server', () => {
 		cy.selectCampaign(camp);
 
 		// Get the name of the server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.as('hiddenHost')
@@ -103,8 +101,7 @@ describe('Hide a server', () => {
 		cy.selectCampaign(camp);
 
 		// Get the name of the first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName) => {

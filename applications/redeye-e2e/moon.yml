@@ -1,0 +1,25 @@
+dependsOn:
+  - 'server'
+  - 'client'
+tasks:
+  open-cy:
+    command: 'npx -c "moon run @redeye/client:start-dev @redeye/server:start-dev & moon run @redeye/e2e:start-cypress"'
+    local: true
+    platform: node
+  open-cy-blue:
+    command: 'npx -c "SERVER_BLUE_TEAM=true moon run @redeye/client:start-dev @redeye/server:start-dev & moon run @redeye/e2e:start-cypress"'
+    local: true
+    env:
+      SERVER_BLUE_TEAM: 'true'
+  cy-ci-chrome-redteam:
+    local: true
+    command: 'npx -c "moon run @redeye/e2e:run-cypress -- --headed --browser=chrome --spec **/**/e2e/redteam/**/**/** & moon run @redeye/client:start-dev @redeye/server:start-dev || exit 0"'
+  cy-ci-firefox-redteam:
+    local: true
+    command: 'npx -c "moon run @redeye/e2e:run-cypress -- --browser=firefox --headed --spec **/**/e2e/redteam/**/**/** & moon run @redeye/client:start-dev @redeye/server:start-dev || exit 0"'
+  cy-ci-safari-redteam:
+    local: true
+    command: 'npx -c "moon run @redeye/e2e:run-cypress -- --browser=webkit --headed --spec **/**/e2e/redteam/**/**/** & moon run @redeye/client:start-dev @redeye/server:start-dev || exit 0"'
+  cy-ci-chrome-blueteam:
+    local: true
+    command: 'npx -c "moon run @redeye/e2e:run-cypress -- --headed --browser=chrome --spec **/**/e2e/blueteam/**/**/** & SERVER_BLUE_TEAM=true moon run @redeye/client:start-dev @redeye/server:start-dev || exit 0"'

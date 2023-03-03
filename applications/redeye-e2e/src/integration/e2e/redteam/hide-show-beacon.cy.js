@@ -15,8 +15,7 @@ describe('Hide a beacon', () => {
 
 		// Get the name of the first beacon
 		cy.clickBeaconsTab();
-		cy
-			.get('[cy-test=beacon-display-name]')
+		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName) => {
@@ -64,8 +63,7 @@ describe('Hide a beacon', () => {
 
 		// Get the name of the first beacon
 		cy.clickBeaconsTab();
-		cy
-			.get('[cy-test=beacon-display-name]')
+		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName) => {
@@ -114,8 +112,7 @@ describe('Hide a beacon', () => {
 
 		// Get the name of the first beacon
 		cy.clickBeaconsTab();
-		cy
-			.get('[cy-test=beacon-display-name]')
+		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName) => {

@@ -8,8 +8,7 @@ describe('Username shows on comments when appropriate', () => {
 	const normalizeText = (s) => s.replace(/\s/g, '').toLowerCase();
 
 	function getUserName() {
-		cy
-			.get('[cy-test=user]')
+		cy.get('[cy-test=user]')
 			.should('be.visible')
 			.then(($name) => {
 				user = normalizeText($name.text());
@@ -30,8 +29,7 @@ describe('Username shows on comments when appropriate', () => {
 		cy.favoriteComment(0);
 
 		// Verify username does not show anywhere in the comment box info
-		cy
-			.get('[cy-test="user-that-commented"]')
+		cy.get('[cy-test="user-that-commented"]')
 			.eq(0)
 			.should(($commentInfo1) => {
 				const name = normalizeText($commentInfo1.text());
@@ -56,8 +54,7 @@ describe('Username shows on comments when appropriate', () => {
 		// Verify username shows in the comment box info
 		cy.wait(500);
 
-		cy
-			.get('[cy-test=comment-group]')
+		cy.get('[cy-test=comment-group]')
 			.eq(0)
 			.invoke('text')
 			.then((commentInfo2) => {
@@ -81,8 +78,7 @@ describe('Username shows on comments when appropriate', () => {
 		cy.addNewComment('0', 'New comment', 'newtag');
 
 		// Verify username shows in comment box info
-		cy
-			.get('[cy-test=existing-comment-display]')
+		cy.get('[cy-test=existing-comment-display]')
 			.invoke('text')
 			.then((commentInfo3) => {
 				cy.log(commentInfo3);

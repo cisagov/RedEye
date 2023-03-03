@@ -3,18 +3,38 @@
 		"experimentalDecorators": true,
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
+		"skipLibCheck": true,
 		"module": "esnext",
 		"target": "esnext",
-		"baseUrl": ".",
-		"rootDir": ".",
-		"paths": {
-			"@redeye/client/*": ["applications/client/src/*"],
-			"@redeye/cobalt-strike-parser": ["packages/cs-parser/src/index.ts"],
-			"@redeye/graph": ["packages/graph/src/index.ts"],
-			"@redeye/migrations": ["packages/migrations/src/index.ts"],
-			"@redeye/models": ["packages/models/src/index.ts"],
-			"@redeye/ui-styles": ["packages/client/ui-styles/src/index.ts"]
-		}
+		"baseUrl": "."
 	},
-	"exclude": ["applications/redeye-e2e/*", "tmp", "applications/redeye-e2e/cypress.config.js", "node_modules"]
+	"exclude": [
+		"applications/redeye-e2e/*",
+		"tmp",
+		"applications/redeye-e2e/cypress.config.js",
+		"node_modules"
+	],
+	"references": [
+		{
+			"path": "applications/client"
+		},
+		{
+			"path": "applications/server"
+		},
+		{
+			"path": "packages/cs-parser"
+		},
+		{
+			"path": "packages/graph"
+		},
+		{
+			"path": "packages/migrations"
+		},
+		{
+			"path": "packages/models"
+		},
+		{
+			"path": "packages/ui-styles"
+		}
+	]
 }

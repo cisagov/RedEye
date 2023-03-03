@@ -15,14 +15,12 @@ describe('Testing of Adding Golden Ticket & Lateral Movement Tags', () => {
 		cy.selectCampaign(camp);
 
 		cy.clickPresentationMode();
-		cy
-			.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
 			.invoke('text')
 			.as('GTTagCount')
 			.then((resultGTCount1) => {
 				// cy.log(resultGTCount1);
-				cy
-					.get('[cy-test=LateralMovement] [cy-test=count]')
+				cy.get('[cy-test=LateralMovement] [cy-test=count]')
 					.invoke('text')
 					.as('LMTagCount')
 					.then((resultLMCount1) => {

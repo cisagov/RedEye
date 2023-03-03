@@ -14,8 +14,7 @@ describe('Timeline tests', () => {
 		cy.selectCampaign(camp);
 
 		// Log the starting position of the timeline bar
-		cy
-			.get('[cy-test=timeline-animated-line]')
+		cy.get('[cy-test=timeline-animated-line]')
 			.invoke('attr', 'x1')
 			.as('timeline')
 			.then((position1) => {
@@ -204,14 +203,12 @@ describe('Timeline tests', () => {
 		// 	});
 
 		// Verify tooltip date matches beacon info (log month and day, then concat -- don't want the year for this test)
-		cy
-			.get('[cy-test=timeline-tooltip-date-time]')
+		cy.get('[cy-test=timeline-tooltip-date-time]')
 			.invoke('text')
 			.then((tooltipMonth) => {
 				const timelineMonth = tooltipMonth.split('/')[0];
 
-				cy
-					.get('[cy-test=timeline-tooltip-date-time]')
+				cy.get('[cy-test=timeline-tooltip-date-time]')
 					.invoke('text')
 					.then((tooltipDay) => {
 						const timelineDay = tooltipDay.split('/')[1];
@@ -229,15 +226,13 @@ describe('Timeline tests', () => {
 		// Verify commands are within the tooltip start/end times
 
 		// Log the tooltip date (incl. year):
-		cy
-			.get('[cy-test=timeline-tooltip-date-time]')
+		cy.get('[cy-test=timeline-tooltip-date-time]')
 			.invoke('text')
 			.then((ttDate) => {
 				const tooltipDate = ttDate.split(' ')[0];
 
 				// Log the tooltip start time; concatenate with date; convert to Unix:
-				cy
-					.get('[cy-test=timeline-tooltip-date-time]')
+				cy.get('[cy-test=timeline-tooltip-date-time]')
 					.invoke('text')
 					.then((text1) => {
 						const timelineStartTime = text1.split(' ')[1];
@@ -245,8 +240,7 @@ describe('Timeline tests', () => {
 						const timelineStartUnix = dayjs(timelineStart).unix();
 
 						// Log the tooltip end time; concatenate with date; convert to Unix:
-						cy
-							.get('[cy-test=timeline-tooltip-date-time]')
+						cy.get('[cy-test=timeline-tooltip-date-time]')
 							.invoke('text')
 							.then((text2) => {
 								const timelineEndTime = text2.split(' ')[3];
