@@ -214,7 +214,7 @@ tasks:
   start-node:
     env:
       NODE_ENV: development
-    command: 'nodemon --watch src --exec "swc src -d dist && yarn node ./dist/index.js" --ignore "src/**/*.test.ts"'
+    command: 'nodemon --ext ts --watch src --exec "swc src -d dist && yarn node ./dist/index.js" --ignore "src/**/*.test.ts"'
     local: true
     inputs:
       - '@globs(sources)'
