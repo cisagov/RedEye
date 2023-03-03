@@ -1,6 +1,6 @@
 import type { TabId } from '@blueprintjs/core';
 import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
-import { Launch16 } from '@carbon/icons-react';
+import { Edit16, Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
@@ -30,6 +30,12 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		infoPanelType: InfoType.OVERVIEW,
 		get commandCount() {
 			return store.campaign?.commentStore.selectedCommands.size || 0;
+		},
+		get hostCount() {
+			return store.campaign?.hostGroupSelect.selectedHosts.length || 0;
+		},
+		get beaconCount() {
+			return store.campaign?.beaconGroupSelect.selectedBeacons.length || 0;
 		},
 	});
 
@@ -168,6 +174,32 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											/>
 										</div>
 									)}
+
+								{store.router?.params.tab === Tabs.BEACONS && store.campaign?.beaconGroupSelect.groupSelect && (
+									<div css={modeBarStyle}>
+										<Txt>
+											{state.beaconCount} Beacon{state.beaconCount === 1 ? '' : 's'} Selected
+										</Txt>
+										<Button
+											disabled={state.beaconCount === 0}
+											onClick={() => {
+												// show/hide for now
+												// console.log('bulk editing: ', store.campaign?.beaconGroupSelect.selectedBeacons);
+												store.campaign?.setBeaconGroupSelect({
+													groupSelect: false,
+													selectedBeacons: [],
+												});
+											}}
+											rightIcon={<CarbonIcon icon={Edit16} />}
+											intent={Intent.PRIMARY}
+											text="Bulk Edit"
+											css={css`
+												padding: 0 1rem;
+											`}
+										/>
+									</div>
+								)}
+
 								<ScrollBox cy-test="info" css={{ backgroundColor: CoreTokens.Background2 }}>
 									<PanelRenderer type={state.infoPanelType} sort={store.campaign.sort} />
 								</ScrollBox>

@@ -1,6 +1,7 @@
-import { Classes } from '@blueprintjs/core';
+import { Checkbox, Classes } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon, dateShortFormat, semanticIcons } from '@redeye/client/components';
+import { css } from '@emotion/react';
+import { CarbonIcon, createState, dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -28,6 +29,25 @@ type BeaconProps = ComponentProps<'div'> & {
 
 export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	const store = useStore();
+	const state = createState({
+		AddBeacon(beaconId) {
+			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
+			selectedBeacons.push(beaconId);
+			store.campaign?.setBeaconGroupSelect({
+				groupSelect: true,
+				selectedBeacons,
+			});
+		},
+		RemoveBeacon(beaconId: string) {
+			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
+			selectedBeacons.splice(selectedBeacons.indexOf(beaconId), 1);
+			store.campaign?.setBeaconGroupSelect({
+				groupSelect: true,
+				selectedBeacons,
+			});
+		},
+	});
+
 	const skeletonClass = useMemo(
 		() => (!(beacon.displayName || beacon.server?.displayName) ? Classes.SKELETON : ''),
 		[beacon.displayName, beacon.server?.displayName]
@@ -46,12 +66,27 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	return (
 		<InfoRow
 			cy-test="info-row"
-			onClick={() => (!toggleHidden.showHide ? beacon.select() : null)}
+			onClick={() =>
+				!toggleHidden.showHide && !store.campaign?.beaconGroupSelect.groupSelect ? beacon.select() : null
+			}
 			onMouseEnter={() =>
 				beacon.state !== TimeStatus.FUTURE && store.campaign?.interactionState.onHover(beacon?.hierarchy)
 			}
 			{...props}
 		>
+			{store.campaign?.beaconGroupSelect.groupSelect && (
+				<Checkbox
+					cy-test="checkbox-select-command"
+					checked={beacon?.id ? store.campaign?.beaconGroupSelect.selectedBeacons?.includes(beacon?.id) : false}
+					onClick={(e) =>
+						// @ts-ignore
+						e.target.checked && beacon?.id ? state.AddBeacon(beacon?.id) : state.RemoveBeacon(beacon?.id!)
+					}
+					css={css`
+						margin-bottom: 0;
+					`}
+				/>
+			)}
 			<RowTime cy-test="beacon-time" state={beacon.state} className={skeletonClass}>
 				{store.settings.momentTz(beacon.minTime)?.format(dateShortFormat)}&mdash;
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}

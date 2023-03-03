@@ -1,7 +1,7 @@
 import { Alignment, Button, Intent } from '@blueprintjs/core';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { CaretDown16, CaretUp16, CollapseCategories16 } from '@carbon/icons-react';
+import { CaretDown16, CaretUp16, CollapseCategories16, Edit16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { DropdownItem } from '@redeye/client/components';
 import { CarbonIcon, createSorter, customIconPaths, Dropdown } from '@redeye/client/components';
@@ -127,6 +127,68 @@ export const ControlBar = observer<ControlBarProps>(
 						<Button
 							alignText={Alignment.LEFT}
 							onClick={() => store.campaign?.commentStore.setGroupSelect(false)}
+							minimal
+							text="Cancel"
+							small
+						/>
+					))}
+				{type === Tabs.HOSTS &&
+					!store.appMeta.blueTeam &&
+					(!store.campaign?.hostGroupSelect.groupSelect ? (
+						<Button
+							icon={<CarbonIcon icon={Edit16} />}
+							alignText={Alignment.LEFT}
+							intent={Intent.PRIMARY}
+							onClick={() => {
+								store.campaign?.setHostGroupSelect({
+									groupSelect: true,
+									selectedHosts: [],
+								});
+							}}
+							minimal
+							text="Bulk Edit"
+							small
+						/>
+					) : (
+						<Button
+							alignText={Alignment.LEFT}
+							onClick={() => {
+								store.campaign?.setHostGroupSelect({
+									groupSelect: false,
+									selectedHosts: [],
+								});
+							}}
+							minimal
+							text="Cancel"
+							small
+						/>
+					))}
+				{type === Tabs.BEACONS &&
+					!store.appMeta.blueTeam &&
+					(!store.campaign?.beaconGroupSelect.groupSelect ? (
+						<Button
+							icon={<CarbonIcon icon={Edit16} />}
+							alignText={Alignment.LEFT}
+							intent={Intent.PRIMARY}
+							onClick={() => {
+								store.campaign?.setBeaconGroupSelect({
+									groupSelect: true,
+									selectedBeacons: [],
+								});
+							}}
+							minimal
+							text="Bulk Edit"
+							small
+						/>
+					) : (
+						<Button
+							alignText={Alignment.LEFT}
+							onClick={() => {
+								store.campaign?.setBeaconGroupSelect({
+									groupSelect: false,
+									selectedBeacons: [],
+								});
+							}}
 							minimal
 							text="Cancel"
 							small
