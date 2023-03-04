@@ -1,6 +1,7 @@
 import type { TabId } from '@blueprintjs/core';
-import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
-import { Edit16, Launch16 } from '@carbon/icons-react';
+import { Button, Classes, Intent, Tab, Menu, MenuItem, Position } from '@blueprintjs/core';
+import { Popover2 } from '@blueprintjs/popover2';
+import { Edit16, Launch16, View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
@@ -180,23 +181,59 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 										<Txt>
 											{state.hostCount} Host{state.hostCount === 1 ? '' : 's'} Selected
 										</Txt>
-										<Button
+										<Popover2
+											position={Position.RIGHT}
+											openOnTargetFocus={false}
+											interactionKind="hover"
+											hoverOpenDelay={300}
 											disabled={state.hostCount === 0}
-											onClick={() => {
-												// show/hide for now
-												// console.log('bulk editing: ', store.campaign?.hostGroupSelect.selectedHosts);
-												store.campaign?.setHostGroupSelect({
-													groupSelect: false,
-													selectedHosts: [],
-												});
+											modifiers={{
+												offset: {
+													enabled: true,
+													options: {
+														offset: [0, 30],
+													},
+												},
 											}}
-											rightIcon={<CarbonIcon icon={Edit16} />}
-											intent={Intent.PRIMARY}
-											text="Bulk Edit"
-											css={css`
-												padding: 0 1rem;
-											`}
-										/>
+											content={
+												<Menu cy-test="show-hide-item">
+													<MenuItem
+														text="Show All"
+														icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
+														onClick={(e) => {
+															e.stopPropagation();
+															// console.log('bulk editing show all: ', store.campaign?.hostGroupSelect.selectedHosts);
+															store.campaign?.setHostGroupSelect({
+																groupSelect: false,
+																selectedHosts: [],
+															});
+														}}
+													/>
+													<MenuItem
+														text="Hide All"
+														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
+														onClick={(e) => {
+															e.stopPropagation();
+															// console.log('bulk editing hide all: ', store.campaign?.hostGroupSelect.selectedHosts);
+															store.campaign?.setHostGroupSelect({
+																groupSelect: false,
+																selectedHosts: [],
+															});
+														}}
+													/>
+												</Menu>
+											}
+										>
+											<Button
+												disabled={state.hostCount === 0}
+												rightIcon={<CarbonIcon icon={Edit16} />}
+												intent={Intent.PRIMARY}
+												text="Bulk Edit"
+												css={css`
+													padding: 0 1rem;
+												`}
+											/>
+										</Popover2>
 									</div>
 								)}
 
@@ -205,23 +242,59 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 										<Txt>
 											{state.beaconCount} Beacon{state.beaconCount === 1 ? '' : 's'} Selected
 										</Txt>
-										<Button
+										<Popover2
+											position={Position.RIGHT}
+											openOnTargetFocus={false}
+											interactionKind="hover"
+											hoverOpenDelay={300}
 											disabled={state.beaconCount === 0}
-											onClick={() => {
-												// show/hide for now
-												// console.log('bulk editing: ', store.campaign?.beaconGroupSelect.selectedBeacons);
-												store.campaign?.setBeaconGroupSelect({
-													groupSelect: false,
-													selectedBeacons: [],
-												});
+											modifiers={{
+												offset: {
+													enabled: true,
+													options: {
+														offset: [0, 30],
+													},
+												},
 											}}
-											rightIcon={<CarbonIcon icon={Edit16} />}
-											intent={Intent.PRIMARY}
-											text="Bulk Edit"
-											css={css`
-												padding: 0 1rem;
-											`}
-										/>
+											content={
+												<Menu cy-test="show-hide-item">
+													<MenuItem
+														text="Show All"
+														icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
+														onClick={(e) => {
+															e.stopPropagation();
+															// console.log('bulk editing show all: ', store.campaign?.beaconGroupSelect.selectedBeacons);
+															store.campaign?.setBeaconGroupSelect({
+																groupSelect: false,
+																selectedBeacons: [],
+															});
+														}}
+													/>
+													<MenuItem
+														text="Hide All"
+														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
+														onClick={(e) => {
+															e.stopPropagation();
+															// console.log('bulk editing hide all: ', store.campaign?.beaconGroupSelect.selectedBeacons);
+															store.campaign?.setBeaconGroupSelect({
+																groupSelect: false,
+																selectedBeacons: [],
+															});
+														}}
+													/>
+												</Menu>
+											}
+										>
+											<Button
+												disabled={state.beaconCount === 0}
+												rightIcon={<CarbonIcon icon={Edit16} />}
+												intent={Intent.PRIMARY}
+												text="Bulk Edit"
+												css={css`
+													padding: 0 1rem;
+												`}
+											/>
+										</Popover2>
 									</div>
 								)}
 
@@ -257,6 +330,11 @@ const headerStyles = css`
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
+`;
+
+const iconStyle = (show?: boolean) => css`
+	margin: 0;
+	color: ${show ? CoreTokens.TextBody : CoreTokens.TextDisabled} !important;
 `;
 
 // eslint-disable-next-line import/no-default-export
