@@ -175,6 +175,31 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 										</div>
 									)}
 
+								{store.router?.params.tab === Tabs.HOSTS && store.campaign?.hostGroupSelect.groupSelect && (
+									<div css={modeBarStyle}>
+										<Txt>
+											{state.hostCount} Host{state.hostCount === 1 ? '' : 's'} Selected
+										</Txt>
+										<Button
+											disabled={state.hostCount === 0}
+											onClick={() => {
+												// show/hide for now
+												// console.log('bulk editing: ', store.campaign?.hostGroupSelect.selectedHosts);
+												store.campaign?.setHostGroupSelect({
+													groupSelect: false,
+													selectedHosts: [],
+												});
+											}}
+											rightIcon={<CarbonIcon icon={Edit16} />}
+											intent={Intent.PRIMARY}
+											text="Bulk Edit"
+											css={css`
+												padding: 0 1rem;
+											`}
+										/>
+									</div>
+								)}
+
 								{store.router?.params.tab === Tabs.BEACONS && store.campaign?.beaconGroupSelect.groupSelect && (
 									<div css={modeBarStyle}>
 										<Txt>
