@@ -187,14 +187,6 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											interactionKind="hover"
 											hoverOpenDelay={300}
 											disabled={state.hostCount === 0}
-											modifiers={{
-												offset: {
-													enabled: true,
-													options: {
-														offset: [0, 30],
-													},
-												},
-											}}
 											content={
 												<Menu cy-test="show-hide-item">
 													<MenuItem
@@ -248,14 +240,6 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											interactionKind="hover"
 											hoverOpenDelay={300}
 											disabled={state.beaconCount === 0}
-											modifiers={{
-												offset: {
-													enabled: true,
-													options: {
-														offset: [0, 30],
-													},
-												},
-											}}
 											content={
 												<Menu cy-test="show-hide-item">
 													<MenuItem
