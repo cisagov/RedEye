@@ -8,7 +8,6 @@ import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { createTicksWithFormatter } from './create-ticks';
 import { TIMELINE_BG_COLOR, X_AXIS_LABELS_HEIGHT } from './timeline-static-vars';
 import type { TimeScale } from './TimelineChart';
-import { TIMELINE_PADDING } from './TimelineChart';
 
 const LINE_WIDTH = 1;
 export type AxisLabelProps = ComponentProps<'div'> & {
@@ -70,7 +69,7 @@ const EdgeLabel = observer<EdgeLabelProps>(
 			}
 		}, [time]);
 
-		const x = xScale(time) + ((isLeft ? 1 : -1) * LINE_WIDTH) / 2;
+		const x = xScale(time) + (isLeft ? 0.5 : -0.5);
 
 		const gradientKey = time.toISOString();
 		const stopColor = TIMELINE_BG_COLOR;
@@ -87,9 +86,9 @@ const EdgeLabel = observer<EdgeLabelProps>(
 				{width && height && (
 					<rect
 						x={isLeft ? 0 : x - gradientRectWidth}
-						y={axisY + 4}
+						y={axisY + 1}
 						height={height}
-						width={isLeft ? gradientRectWidth + TIMELINE_PADDING.LEFT : gradientRectWidth + TIMELINE_PADDING.RIGHT}
+						width={isLeft ? gradientRectWidth + 24 : gradientRectWidth + 24}
 						fill={`url(#${gradientKey})`}
 					/>
 				)}
