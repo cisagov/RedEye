@@ -4,7 +4,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CoreTokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
-import { scaleTime } from 'd3';
+import { interpolateRound, scaleTime } from 'd3';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -56,7 +56,7 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 				this.xScale = scaleTime(
 					[start, end],
 					[TIMELINE_PADDING.LEFT, newWidth - TIMELINE_PADDING.LEFT - TIMELINE_PADDING.RIGHT]
-				);
+				).interpolate(interpolateRound);
 			},
 			grabberTime: undefined as Date | undefined,
 			setGrabberTime(date: Date | undefined) {
@@ -128,7 +128,6 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 							{store.campaign?.timeline.scrubberTime && state.bars.length !== 0 && (
 								<Scrubber
 									scrubberTime={store.campaign?.timeline.scrubberTime}
-									setScrubberTime={store.campaign?.timeline?.setScrubberTimeExact}
 									xScale={state.xScale}
 									bars={state.bars}
 									dimensions={{ width, height }}

@@ -11,7 +11,6 @@ import { PARTIAL_HEIGHT_LINE, X_AXIS_LABELS_HEIGHT } from './timeline-static-var
 import type { IBar, IDimensions } from './TimelineChart';
 
 type ScrubberProps = {
-	setScrubberTime: (Date) => void;
 	bars: IBar[];
 	scrubberTime: Date;
 	xScale: ScaleTime<number, number>;
@@ -22,25 +21,16 @@ type ScrubberProps = {
 };
 
 export const Scrubber = observer<ScrubberProps>(
-	({
-		setScrubberTime,
-		bars,
-		scrubberTime,
-		xScale,
-		dimensions,
-		setGrabberTime,
-		grabberTimeLabel,
-		setGrabberTimeMarginLeft,
-	}) => {
+	({ bars, scrubberTime, xScale, dimensions, setGrabberTime, grabberTimeLabel, setGrabberTimeMarginLeft }) => {
 		const store = useStore();
 
 		// Debounced is not really needed since the value is only updated when the user is done dragging
 		const setScrubberTimeDebounced = useMemo(
 			() =>
 				debounce(250, (time?: Date) => {
-					if (time) store.campaign?.timeline.setScrubberTimeExact(time);
+					if (time) store.campaign?.timeline.setScrubberTimeAny(time);
 				}),
-			[setScrubberTime]
+			[]
 		);
 
 		const circleY = dimensions.height - X_AXIS_LABELS_HEIGHT / 2;

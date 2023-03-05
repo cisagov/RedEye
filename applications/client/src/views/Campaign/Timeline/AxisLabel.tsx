@@ -26,13 +26,13 @@ export const AxisLabels = observer<AxisLabelProps>(({ xScale, yTop, start, end }
 	const axisY = yTop + 1;
 	return (
 		<g>
-			<line x1={xScale(start)} x2={xScale(end)} y1={axisY} y2={axisY} css={lineStyles} />
+			<line x1={xScale(start)} x2={xScale(end)} y1={axisY + 0.5} y2={axisY + 0.5} css={lineStyles} />
 			{tickDates.map((date) => {
 				const x = xScale(date);
 
 				return (
 					<Fragment key={date.toISOString()}>
-						<line x1={x} x2={x} y1={axisY} y2={axisY + 4} css={lineStyles} />
+						<line x1={x + 0.5} x2={x + 0.5} y1={axisY + 1} y2={axisY + 4} css={lineStyles} />
 						<text y={yMiddle} x={x} css={baseLabelStyles}>
 							{formatter(date)}
 						</text>
@@ -96,7 +96,7 @@ const EdgeLabel = observer<EdgeLabelProps>(
 						fill={`url(#${gradientKey})`}
 					/>
 				)}
-				<line x1={x} x2={x} y1={axisY} y2={axisY + 4} css={lineStyles} />
+				<line x1={x} x2={x} y1={axisY + 1} y2={axisY + 4} css={lineStyles} />
 				<text ref={ref} y={yMiddle} x={x} css={[baseLabelStyles, edgeLabelStyles, isLeft && leftEdgeLabelOverrideStyles]}>
 					{store.settings.momentTz(time).format(formatter)}
 				</text>

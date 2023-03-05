@@ -3,12 +3,11 @@ import { css } from '@emotion/react';
 import { createState, durationFormatter, updatePopper } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import { TimelineTokens } from '@redeye/ui-styles';
-import { max, scaleLinear } from 'd3';
+import { interpolateRound, max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 import { BarLabelOnHover, BarLabelBeaconList } from './BarLabels';
-import { TIMELINE_BG_COLOR } from './timeline-static-vars';
 import type { IBar, IDimensions, TimeScale } from './TimelineChart';
 
 type BarsProps = ComponentProps<'div'> & {
@@ -23,7 +22,7 @@ type BarsProps = ComponentProps<'div'> & {
 export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions, scrubberTime }) => {
 	const store = useStore();
 	const yMax = max(bars.map((bar) => bar.beaconCount)) ?? 0;
-	const yScale = scaleLinear([0, yMax], [0, dimensions.height]);
+	const yScale = scaleLinear([0, yMax], [0, dimensions.height]).interpolate(interpolateRound);
 	const state = createState({
 		isHover: true as boolean,
 		toggleIsHover() {
@@ -36,7 +35,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 		<g>
 			{bars.map((bar) => {
 				const x = xScale(bar.start);
-				const width = xScale(bar.end) - x;
+				const width = xScale(bar.end) - x - 1;
 
 				return (
 					<Popover2
@@ -61,7 +60,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 								ref={ref}
 								{...targetProps}
 								onMouseDown={() => {
-									store.campaign?.timeline.setScrubberTimeExact(bar.end);
+									store.campaign?.timeline.setScrubberTimeAny(bar.end);
 								}}
 							>
 								{bar.beaconCount && (
@@ -112,8 +111,6 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 });
 
 const baseBarStyles = css`
-	stroke: ${TIMELINE_BG_COLOR};
-	stroke-width: 2px;
 	fill: transparent;
 	transition: 200ms ease;
 	transition-property: fill, y, height;
