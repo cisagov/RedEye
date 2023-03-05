@@ -6,7 +6,7 @@ import { TimelineTokens } from '@redeye/ui-styles';
 import { interpolateRound, max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { BarLabelBeaconList } from './BarLabels';
+import { TimelineBarHoverPopover } from './TimelineBarHoverPopover';
 import { POPOVER_Y_OFFSET } from './timeline-static-vars';
 import type { IBar, IDimensions, TimeScale } from './TimelineChart';
 
@@ -42,7 +42,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 							},
 						}}
 						content={
-							bar.beaconCount ? <BarLabelBeaconList bar={bar} dateFormatter={durationFormatter(start, end)} /> : undefined
+							bar.beaconCount ? <TimelineBarHoverPopover bar={bar} dateFormatter={durationFormatter(start, end)} /> : undefined
 						}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g

@@ -25,7 +25,7 @@ type BarLabelsProps = ComponentProps<'div'> & {
 	dateFormatter: string | undefined;
 };
 
-export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
+const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) => {
 	const store = useStore();
 	const dateStart = store.settings.momentTz(bar?.start).format(dateFormatter);
 	const dateEnd = store.settings.momentTz(bar?.end).format(dateFormatter);
@@ -42,7 +42,7 @@ export const BarLabelDate = observer<BarLabelsProps>(({ bar, dateFormatter }) =>
 	);
 });
 
-export const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter, ...props }) => (
+const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter, ...props }) => (
 	<Flex css={headerStyles} {...props}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
@@ -51,7 +51,7 @@ export const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter, ..
 	</Flex>
 ));
 
-export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter, ...props }) => {
+export const TimelineBarHoverPopover = observer<BarLabelsProps>(({ bar, dateFormatter, ...props }) => {
 	const store = useStore();
 
 	const routeToBeacon = useCallback((beaconId: string) => {
