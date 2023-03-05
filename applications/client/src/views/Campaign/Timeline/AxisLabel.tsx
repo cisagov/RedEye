@@ -39,7 +39,6 @@ export const AxisLabels = observer<AxisLabelProps>(({ xScale, yTop, start, end }
 					</Fragment>
 				);
 			})}
-			{/*  Start */}
 			<EdgeLabel xScale={xScale} axisY={axisY} yMiddle={yMiddle} formatter={edgeLabelFormatter} time={start} isLeft />
 			<EdgeLabel xScale={xScale} axisY={axisY} yMiddle={yMiddle} formatter={edgeLabelFormatter} time={end} />
 		</g>
@@ -80,8 +79,6 @@ const EdgeLabel = observer<EdgeLabelProps>(
 		return (
 			<>
 				<defs>
-					{/* does this linear gradient appear? */}
-					{/* Yes, it's used for the fade out effect (see BLDSTRIKE-184) */}
 					<linearGradient id={gradientKey} x1={isLeft ? '100%' : '0%'} y1="0%" x2={isLeft ? '0%' : '100%'} y2="0%">
 						<stop offset="0%" style={{ stopColor, stopOpacity: 0 }} />
 						<stop offset="40%" style={{ stopColor, stopOpacity: 1 }} />
