@@ -2,10 +2,9 @@ import { css } from '@emotion/react';
 import { useStore } from '@redeye/client/store';
 import { AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
-import { debounce } from 'throttle-debounce';
 import { observer } from 'mobx-react-lite';
 import type { MutableRefObject } from 'react';
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGesture } from 'react-use-gesture';
 import { PARTIAL_HEIGHT_LINE, X_AXIS_LABELS_HEIGHT } from './timeline-static-vars';
 import type { IBar, IDimensions } from './TimelineChart';
@@ -24,14 +23,9 @@ export const Scrubber = observer<ScrubberProps>(
 	({ bars, scrubberTime, xScale, dimensions, setGrabberTime, grabberTimeLabel, setGrabberTimeMarginLeft }) => {
 		const store = useStore();
 
-		// Debounced is not really needed since the value is only updated when the user is done dragging
-		const setScrubberTimeDebounced = useMemo(
-			() =>
-				debounce(250, (time?: Date) => {
-					if (time) store.campaign?.timeline.setScrubberTimeAny(time);
-				}),
-			[]
-		);
+		const setScrubberTime = (time?: Date) => {
+			if (time) store.campaign?.timeline.setScrubberTimeAny(time);
+		};
 
 		const circleY = dimensions.height - X_AXIS_LABELS_HEIGHT / 2;
 
@@ -56,7 +50,7 @@ export const Scrubber = observer<ScrubberProps>(
 			onDragEnd: ({ movement: [xDelta] }) => {
 				const rounded = calculateNewX(xCurrent, xDelta, bars, xScale);
 				xCurrent.current = rounded;
-				setScrubberTimeDebounced(xScale.invert(rounded));
+				setScrubberTime(xScale.invert(rounded));
 				setGrabberTime(undefined);
 			},
 		});
