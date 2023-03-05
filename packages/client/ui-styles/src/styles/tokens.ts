@@ -205,7 +205,7 @@ const darkThemeGraphAndTimelineCssVars = declareCssVars([
 	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.DarkGray5],
 	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.Black],
 	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
-	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.5)],
+	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.2)],
 
 	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray2],
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.DarkGray3],
@@ -219,7 +219,6 @@ const darkThemeGraphAndTimelineCssVars = declareCssVars([
 	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary1],
 	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentWhite(0.03)],
 	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.6)],
-
 ]);
 
 export const customCssVars = css`

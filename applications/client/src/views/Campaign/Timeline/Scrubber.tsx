@@ -16,11 +16,10 @@ type ScrubberProps = {
 	dimensions: IDimensions;
 	setGrabberTime: any;
 	setGrabberTimeMarginLeft: (number) => void;
-	grabberTimeLabel: string;
 };
 
 export const Scrubber = observer<ScrubberProps>(
-	({ bars, scrubberTime, xScale, dimensions, setGrabberTime, grabberTimeLabel, setGrabberTimeMarginLeft }) => {
+	({ bars, scrubberTime, xScale, dimensions, setGrabberTime, setGrabberTimeMarginLeft }) => {
 		const store = useStore();
 
 		const setScrubberTime = (time?: Date) => {
@@ -45,7 +44,7 @@ export const Scrubber = observer<ScrubberProps>(
 				const rounded = calculateNewX(xCurrent, xDelta, bars, xScale);
 				setXVisual(rounded);
 				setGrabberTime(xScale.invert(rounded));
-				setGrabberTimeMarginLeft(rounded - (grabberTimeLabel.length || 8) * 4);
+				setGrabberTimeMarginLeft(rounded);
 			},
 			onDragEnd: ({ movement: [xDelta] }) => {
 				const rounded = calculateNewX(xCurrent, xDelta, bars, xScale);
@@ -58,7 +57,7 @@ export const Scrubber = observer<ScrubberProps>(
 		const disableControls = store.campaign.presentation.isPresenting;
 
 		return (
-			<g css={{ transform: `translateX(${Math.round(xVisual) + 0.5}px)`, transition: 'transform 100ms ease' }}>
+			<g style={{ transform: `translateX(${xVisual + 0.5}px)` }} css={[scrubberTransitionStyle]}>
 				<line cy-test="timeline-animated-line" x1={0} y1={0} x2={0} y2={dimensions.height} css={fullHeightLine} />
 				<line
 					x1={0}
@@ -127,4 +126,8 @@ const grabberCircleStyles = css`
 
 const grabberWrapperStyles = css`
 	cursor: ew-resize;
+`;
+
+export const scrubberTransitionStyle = css`
+	transition: transform 100ms ease;
 `;

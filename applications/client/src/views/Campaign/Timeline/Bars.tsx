@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 import { BarLabelOnHover, BarLabelBeaconList } from './BarLabels';
+import { POPOVER_Y_OFFSET } from './timeline-static-vars';
 import type { IBar, IDimensions, TimeScale } from './TimelineChart';
 
 type BarsProps = ComponentProps<'div'> & {
@@ -42,6 +43,13 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						key={`${start.valueOf()}-${bar.start.valueOf()}`}
 						interactionKind={Popover2InteractionKind.HOVER}
 						placement="bottom"
+						minimal
+						modifiers={{
+							offset: {
+								enabled: true,
+								options: { offset: [0, POPOVER_Y_OFFSET] },
+							},
+						}}
 						content={
 							bar.beaconCount ? (
 								<BarLabel
@@ -113,7 +121,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 const baseBarStyles = css`
 	fill: transparent;
 	transition: 200ms ease;
-	transition-property: fill, y, height;
+	transition-property: y, height;
 `;
 
 const deadBarStyles = css`
