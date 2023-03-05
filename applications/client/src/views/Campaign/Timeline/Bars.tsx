@@ -1,13 +1,12 @@
 import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
 import { css } from '@emotion/react';
-import { createState, durationFormatter, updatePopper } from '@redeye/client/components';
+import { durationFormatter } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import { TimelineTokens } from '@redeye/ui-styles';
 import { interpolateRound, max, scaleLinear } from 'd3';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useMemo } from 'react';
-import { BarLabelOnHover, BarLabelBeaconList } from './BarLabels';
+import { BarLabelBeaconList } from './BarLabels';
 import { POPOVER_Y_OFFSET } from './timeline-static-vars';
 import type { IBar, IDimensions, TimeScale } from './TimelineChart';
 
@@ -24,14 +23,6 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 	const store = useStore();
 	const yMax = max(bars.map((bar) => bar.beaconCount)) ?? 0;
 	const yScale = scaleLinear([0, yMax], [0, dimensions.height]).interpolate(interpolateRound);
-	const state = createState({
-		isHover: true as boolean,
-		toggleIsHover() {
-			this.isHover = !this.isHover;
-		},
-	});
-	const BarLabel = useMemo(() => (state.isHover ? BarLabelOnHover : BarLabelBeaconList), [state.isHover]);
-
 	return (
 		<g>
 			{bars.map((bar) => {
@@ -51,16 +42,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 							},
 						}}
 						content={
-							bar.beaconCount ? (
-								<BarLabel
-									bar={bar}
-									dateFormatter={durationFormatter(start, end)}
-									handleClick={() => {
-										state.toggleIsHover();
-										document.dispatchEvent(updatePopper);
-									}}
-								/>
-							) : undefined
+							bar.beaconCount ? <BarLabelBeaconList bar={bar} dateFormatter={durationFormatter(start, end)} /> : undefined
 						}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g

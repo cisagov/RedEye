@@ -3,20 +3,15 @@ import type { CarbonIconProps } from '@redeye/client/components';
 import { CarbonIcon } from '@redeye/client/components';
 import { CoreTokens, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 type TextLabelProps = ComponentProps<'span'> & {
-	value?: null | number;
+	value?: ReactNode;
 	icon: CarbonIconProps['icon'];
 };
 export const IconLabel = observer<TextLabelProps>(({ value, icon, ...props }) => (
-	<span
-		css={css`
-			margin-right: 0.5rem;
-		`}
-		{...props}
-	>
-		<Txt small>{value}</Txt>
+	<Txt small css={{ marginRight: '0.5rem' }} {...props}>
+		<Txt>{value}</Txt>
 		<CarbonIcon
 			icon={icon}
 			css={css`
@@ -24,5 +19,5 @@ export const IconLabel = observer<TextLabelProps>(({ value, icon, ...props }) =>
 				margin-left: 2px;
 			`}
 		/>
-	</span>
+	</Txt>
 ));
