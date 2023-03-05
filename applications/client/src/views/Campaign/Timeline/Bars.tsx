@@ -25,6 +25,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 	const yScale = scaleLinear([0, yMax], [0, dimensions.height]).interpolate(interpolateRound);
 	return (
 		<g>
+			{/* MAYBEDO: wrap all the bars in a single popover and use the modifiers.offset to position on the hovered bar */}
 			{bars.map((bar) => {
 				const x = xScale(bar.start);
 				const width = xScale(bar.end) - x - 1;
