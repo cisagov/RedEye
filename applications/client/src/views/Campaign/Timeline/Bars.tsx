@@ -62,7 +62,11 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 											width={width}
 											y={0}
 											height={dimensions.height}
-											css={[baseBarStyles, isOpen && interactionBarStyles]}
+											css={[
+												baseBarStyles,
+												isOpen && interactionBarStyles,
+												// css`g:hover > & { ${interactionBarStyles} } `, // this may be better
+											]}
 										/>
 										{/* Dead & Future Beacon Bar */}
 										<rect
