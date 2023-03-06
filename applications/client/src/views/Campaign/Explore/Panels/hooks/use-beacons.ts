@@ -46,14 +46,16 @@ export const useBeacons = (props?: BeaconsProps) => {
 			return (store.campaign?.interactionState.selectedHost?.current?.beaconIds
 				?.map((beaconId: string | number | symbol) => store.graphqlStore.beacons.get(beaconId as string))
 				.filter(
-					(beacon: BeaconModel | undefined) => beacon != null && !(!beacon || !!beacon?.host?.current?.cobaltStrikeServer)
+					(beacon: BeaconModel | undefined) =>
+						beacon != null && !(!beacon || !!beacon?.host?.current?.cobaltStrikeServer)
 				)
 				.sort(createSorter(props.sort.sortBy, props.sort.direction === SortDirection.ASC)) || []) as BeaconModel[];
 		} else {
 			return (store.campaign?.interactionState.selectedHost?.current?.beaconIds
 				?.map((beaconId: string | number | symbol) => store.graphqlStore.beacons.get(beaconId as string))
 				.filter(
-					(beacon: BeaconModel | undefined) => beacon != null && !(!beacon || !!beacon?.host?.current?.cobaltStrikeServer)
+					(beacon: BeaconModel | undefined) =>
+						beacon != null && !(!beacon || !!beacon?.host?.current?.cobaltStrikeServer)
 				) || []) as BeaconModel[];
 		}
 	};

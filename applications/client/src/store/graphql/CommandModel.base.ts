@@ -3,18 +3,19 @@
 /* tslint:disable */
 // @ts-nocheck
 
-import { QueryBuilder } from 'mk-gql';
 import type { IObservableArray } from 'mobx';
-import { Model, prop, Ref, tProp } from 'mobx-keystone';
+import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
+import { QueryBuilder } from 'mk-gql';
 import type { BeaconModel } from './BeaconModel';
-import { BeaconModelSelector } from './BeaconModel';
 import type { CommandGroupModel } from './CommandGroupModel';
-import { CommandGroupModelSelector } from './CommandGroupModel';
 import type { LogEntryModel } from './LogEntryModel';
-import { LogEntryModelSelector } from './LogEntryModel';
 import type { MitreTechniques } from './MitreTechniquesEnum';
 import type { OperatorModel } from './OperatorModel';
-import { OperatorModelSelector } from './OperatorModel';
+
+import { BeaconModelSelector, beaconModelPrimitives } from './BeaconModel';
+import { CommandGroupModelSelector, commandGroupModelPrimitives } from './CommandGroupModel';
+import { LogEntryModelSelector, logEntryModelPrimitives } from './LogEntryModel';
+import { OperatorModelSelector, operatorModelPrimitives } from './OperatorModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 type Refs = {

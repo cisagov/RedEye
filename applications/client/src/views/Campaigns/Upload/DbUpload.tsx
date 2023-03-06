@@ -106,8 +106,8 @@ export const DbUpload = observer<DbUploadProps>(({ ...props }) => {
 								margin-bottom: 0.5rem;
 							`}
 						>
-							RedEye will automatically upload all database files (.sqlite or .redeye) from the &quot;campaigns&quot; folder
-							placed next to the app in your filesystem:
+							RedEye will automatically upload all database files (.sqlite or .redeye) from the &quot;campaigns&quot;
+							folder placed next to the app in your filesystem:
 						</Txt>
 						<Txt tagName="pre" muted>
 							{folderStructure}

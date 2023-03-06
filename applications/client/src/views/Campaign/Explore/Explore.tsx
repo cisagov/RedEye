@@ -1,3 +1,4 @@
+import type { TabId } from '@blueprintjs/core';
 import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
 import { Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -63,8 +64,8 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		[]
 	);
 
-	const handleTabChange = useCallback(async (newTab: Tabs) => {
-		await store.campaign?.setSelectedTab(newTab);
+	const handleTabChange = useCallback(async (newTab: TabId) => {
+		await store.campaign?.setSelectedTab(newTab as Tabs);
 	}, []);
 
 	useEffect(() => {

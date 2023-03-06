@@ -3,6 +3,14 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"paths": {
+			"@redeye/client/*": ["./src/*"],
+			"@redeye/graph": ["../../packages/graph/src/index.ts"],
+			"@redeye/graph/*": ["../../packages/graph/src/*"],
+			"@redeye/ui-styles": ["../../packages/ui-styles/src/index.ts"],
+			"@redeye/ui-styles/*": ["../../packages/ui-styles/src/*"]
+		},
+		"baseUrl": ".",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"noImplicitAny": false,
@@ -20,6 +28,7 @@
 		"noUnusedParameters": false,
 		"noUnusedLocals": false,
 		"noEmit": false,
+		"composite": true,
 		"jsxImportSource": "@emotion/react",
 		"jsx": "react-jsx",
 		"plugins": [
@@ -33,5 +42,13 @@
 		],
 		"types": ["react/next"]
 	},
-	"include": ["src"]
+	"include": ["src"],
+	"references": [
+		{
+			"path": "../../packages/graph"
+		},
+		{
+			"path": "../../packages/ui-styles"
+		}
+	]
 }

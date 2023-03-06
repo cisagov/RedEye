@@ -149,9 +149,13 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 								css={{ marginRight: `-6px !important` }}
 							>
 								<Txt small monospace>
-									<Txt cy-test="timeline-start-date">{startDateMoment.isValid() ? startDateMoment.format(dateFormat) : datePlaceholder}</Txt>
+									<Txt cy-test="timeline-start-date">
+										{startDateMoment.isValid() ? startDateMoment.format(dateFormat) : datePlaceholder}
+									</Txt>
 									<Spacer>&mdash;</Spacer>
-									<Txt cy-test="timeline-end-date">{endDateMoment.isValid() ? endDateMoment.format(dateFormat) : datePlaceholder}</Txt>
+									<Txt cy-test="timeline-end-date">
+										{endDateMoment.isValid() ? endDateMoment.format(dateFormat) : datePlaceholder}
+									</Txt>
 								</Txt>
 							</Button>
 						)}
@@ -199,7 +203,9 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 							cy-test="timeline-play-pause"
 							rightIcon={<CarbonIcon icon={state.isPlaying ? Pause16 : Play16} />}
 							intent={disableControls ? Intent.NONE : Intent.PRIMARY}
-							onClick={store.campaign.timeline.isEnd ? state.restartAndPlay : state.isPlaying ? state.pause : state.play}
+							onClick={
+								store.campaign.timeline.isEnd ? state.restartAndPlay : state.isPlaying ? state.pause : state.play
+							}
 							css={playButtonStyles}
 							disabled={disableControls}
 							text={state.isPlaying ? 'Pause' : 'Play'}

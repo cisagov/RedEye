@@ -2,7 +2,7 @@ import type { Config } from '@jest/types';
 
 const config: Config.InitialOptions = {
 	displayName: 'server',
-	preset: '../../jest.preset.js',
+	preset: '../../jest.preset.ts',
 	testEnvironment: 'node',
 	globals: {
 		'ts-jest': {

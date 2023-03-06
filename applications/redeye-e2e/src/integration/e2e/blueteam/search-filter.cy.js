@@ -21,8 +21,7 @@ describe('Search campaign and filter results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 		// Log total number of results
-		cy
-			.get('@list')
+		cy.get('@list')
 			.its('length')
 			.then((resultSearch1) => {
 				// cy.log(resultSearch1);
@@ -32,8 +31,7 @@ describe('Search campaign and filter results', () => {
 				cy.get('[cy-test=Beacons]').click();
 
 				// Log filtered results and compare to original
-				cy
-					.get('@list')
+				cy.get('@list')
 					.its('length')
 					.then((resultSearch2) => {
 						// cy.log(resultSearch2);
@@ -45,8 +43,7 @@ describe('Search campaign and filter results', () => {
 
 						cy.wait(500);
 						// Log filtered results and compare to original
-						cy
-							.get('@list')
+						cy.get('@list')
 							.its('length')
 							.then((resultSearch3) => {
 								// cy.log(resultSearch3);
@@ -69,8 +66,7 @@ describe('Search campaign and filter results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm2);
 
 		// Log total number of results
-		cy
-			.get('@list')
+		cy.get('@list')
 			.its('length')
 			.then((resultSearch1) => {
 				// cy.log(resultSearch1);
@@ -80,8 +76,7 @@ describe('Search campaign and filter results', () => {
 				cy.get('[cy-test=Hosts]').click();
 
 				// Log filtered results and compare to original
-				cy
-					.get('@list')
+				cy.get('@list')
 					.its('length')
 					.then((resultSearch2) => {
 						// cy.log(resultSearch2);
@@ -92,8 +87,7 @@ describe('Search campaign and filter results', () => {
 						cy.get('[cy-test=Teamservers]').click();
 
 						// Log filtered results and compare to original
-						cy
-							.get('@list')
+						cy.get('@list')
 							.its('length')
 							.then((resultSearch3) => {
 								// cy.log(resultSearch3);
@@ -104,16 +98,14 @@ describe('Search campaign and filter results', () => {
 								cy.get('[cy-test=Beacons]').click();
 
 								// Log filtered results and compare to original
-								cy
-									.get('@list')
+								cy.get('@list')
 									.its('length')
 									.then((resultSearch4) => {
 										// cy.log(resultSearch4);
 										expect(resultSearch4).to.be.lt(resultSearch1);
 
 										// Log filtered results and compare to original
-										cy
-											.get('@list')
+										cy.get('@list')
 											.its('length')
 											.then((resultSearch5) => {
 												// cy.log(resultSearch5);
@@ -139,21 +131,18 @@ describe('Search campaign and filter results', () => {
 		// Enter search term and log number of results
 		cy.searchCampaignFor(searchTerm2);
 
-		cy
-			.get('[cy-test=search-result-item]')
+		cy.get('[cy-test=search-result-item]')
 			.as('list')
 			.should('have.length.gt', 0)
 			.and('contain', searchTerm2)
 			.and('contain', 'Beacon');
 
-		cy
-			.get('@list')
+		cy.get('@list')
 			.its('length')
 			.then((count1) => {
 				// Remove filter, verify more items appear
 				cy.get('[cy-test=remove-filter]').click();
-				cy
-					.get('[cy-test=search-result-item]')
+				cy.get('[cy-test=search-result-item]')
 					.its('length')
 					.then((count2) => {
 						expect(count2).to.be.gt(count1);

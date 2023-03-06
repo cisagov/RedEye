@@ -18,13 +18,11 @@ describe('Testing of Adding Privilege Escalation & Lateral Movement Tags', () =>
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=LateralMovement] [cy-test=count]')
+		cy.get('[cy-test=LateralMovement] [cy-test=count]')
 			.invoke('text')
 			.as('LMTagCount')
 			.then((resultLMCount1) => {
-				cy
-					.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+				cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
 					.invoke('text')
 					.as('PETagCount')
 					.then((resultPECount1) => {

@@ -6,8 +6,8 @@ import { CarbonIcon } from '@redeye/client/components';
 
 export type BeaconSuggestedRowProps = ComponentProps<'div'> & {
 	reason: string | null;
-	targetHost: string;
-	targetBeacon: string;
+	targetHost?: string | null;
+	targetBeacon?: string | null;
 	icon: boolean;
 };
 

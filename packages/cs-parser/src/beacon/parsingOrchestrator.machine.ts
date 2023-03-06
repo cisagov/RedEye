@@ -204,7 +204,11 @@ export const parsingOrchestratorMachine = createMachine(
 
 							const command = new Command({
 								id:
-									beacon.beaconName + '-' + internalCommand.input.dateTime?.getTime() + '-' + internalCommand.input.lineNumber,
+									beacon.beaconName +
+									'-' +
+									internalCommand.input.dateTime?.getTime() +
+									'-' +
+									internalCommand.input.lineNumber,
 								input: internalCommand.input,
 								output: internalCommand.output,
 								commandFailed: internalCommand.output.some((output) => output.lineType === BeaconLineType.ERROR),
@@ -215,7 +219,11 @@ export const parsingOrchestratorMachine = createMachine(
 							});
 							const commandPromise = em.nativeInsert(command);
 
-							const updatePromise = em.nativeUpdate(LogEntry, { id: internalCommand.output.map((e) => e.id) }, { command });
+							const updatePromise = em.nativeUpdate(
+								LogEntry,
+								{ id: internalCommand.output.map((e) => e.id) },
+								{ command }
+							);
 
 							annotationPromises.push(processTechniques(em, attackIds, command));
 

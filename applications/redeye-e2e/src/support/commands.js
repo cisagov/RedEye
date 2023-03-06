@@ -59,8 +59,7 @@ Cypress.Commands.add('selectCommandType', (cmd) => {
 
 //HOVER OVER TO ADD NEW COMMENT IF NONE EXIST
 Cypress.Commands.add('addComment', (index, cmt) => {
-	cy
-		.get('[cy-test=command-info] [cy-test=add-comment]')
+	cy.get('[cy-test=command-info] [cy-test=add-comment]')
 		.eq(index)
 		.invoke('attr', 'style', 'visibility: visible')
 		.should('be.visible')
@@ -71,8 +70,7 @@ Cypress.Commands.add('addComment', (index, cmt) => {
 
 //DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
-	cy
-		.get('[cy-test=add-comment]')
+	cy.get('[cy-test=add-comment]')
 		.eq(index)
 		.click()
 		.wait(100)
@@ -86,8 +84,7 @@ Cypress.Commands.add('deleteComment', (index) => {
 
 // ADD TO EXISTING COMMENT
 Cypress.Commands.add('addToExistingComment', (index, cmt) => {
-	cy
-		.get('[cy-test=command-info] [cy-test=add-comment]')
+	cy.get('[cy-test=command-info] [cy-test=add-comment]')
 		.eq(index)
 		.invoke('attr', 'style', 'visibility: visible')
 		.should('be.visible')
@@ -146,8 +143,7 @@ Cypress.Commands.add('favoriteComment', (index) => {
 //     });
 // });
 Cypress.Commands.add('addNewComment', (index, comment, tag) => {
-	cy
-		.get('[cy-test=command-info]')
+	cy.get('[cy-test=command-info]')
 		.eq(index)
 		.then(($co) => {
 			if ($co.find('[cy-test=add-comment]').length > 0) {

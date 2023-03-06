@@ -116,7 +116,8 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 					currentItem: 'host',
 					currentItemId: this.id as UUID,
 					activeItem: appStore.router.params.currentItem === 'beacon' ? undefined : appStore.router.params.activeItem,
-					activeItemId: appStore.router.params.currentItem === 'beacon' ? undefined : appStore.router.params.activeItemId,
+					activeItemId:
+						appStore.router.params.currentItem === 'beacon' ? undefined : appStore.router.params.activeItemId,
 				},
 			});
 		} else {

@@ -8,16 +8,24 @@
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
+		"composite": true,
 		"noImplicitOverride": true,
 		"noPropertyAccessFromIndexSignature": true,
 		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true
+		"declaration": true,
+		"noFallthroughCasesInSwitch": true,
+		"rootDir": "src",
+		"outDir": "dist",
+		"paths": {
+			"@redeye/models": ["../models/src/index.ts"],
+			"@redeye/models/*": ["../models/src/*"]
+		}
 	},
 	"files": [],
 	"include": ["src"],
 	"references": [
 		{
-			"path": "./tsconfig.lib.json"
+			"path": "../models"
 		}
 	]
 }

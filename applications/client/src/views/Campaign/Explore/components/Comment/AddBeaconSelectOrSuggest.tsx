@@ -14,7 +14,7 @@ import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 export type AddBeaconSelectOrSuggestProps = ComponentProps<'div'> & {
 	onClick: () => any;
 	commandString: string;
-	onSelectBeacon: (id) => any;
+	onSelectBeacon: (beacon: BeaconModel) => any;
 };
 
 export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({

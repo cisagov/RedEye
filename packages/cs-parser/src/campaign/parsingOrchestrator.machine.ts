@@ -311,7 +311,9 @@ export const parsingOrchestratorMachine = createMachine(
 					) as SpawnedBeaconScriptRunnerMachine,
 			}),
 			spawnAllBeaconChildren: actions.assign((ctx) => {
-				const beaconIds = ctx.savedRelationships.flatMap((relationship) => relationship.beacons.map((beacon) => beacon.id));
+				const beaconIds = ctx.savedRelationships.flatMap((relationship) =>
+					relationship.beacons.map((beacon) => beacon.id)
+				);
 
 				const spawnedBeaconScriptRunnerActors = beaconIds.map((beaconId) => {
 					const spawned = spawn(

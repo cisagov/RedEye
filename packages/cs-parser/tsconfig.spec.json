@@ -1,10 +1,8 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"outDir": "../../dist/out-tsc",
-		// "allowJs": true,
-		"types": ["jest", "node"],
-		"strictPropertyInitialization": false
+		"allowJs": true,
+		"types": ["jest", "node"]
 	},
 	"include": ["jest.config.ts", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
 }

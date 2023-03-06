@@ -1,0 +1,148 @@
+/** IBM Plex Sans ------------------------------------------- */
+
+/* ibm-plex-sans-400normal - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: local('IBM Plex Sans'), local('IBMPlexSans'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-400.woff2') format('woff2');
+}
+/* ibm-plex-sans-400italic - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 400;
+	src: local('IBM Plex Sans Italic'), local('IBMPlexSans-Italic'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-400-italic.woff2') format('woff2');
+}
+/* ibm-plex-sans-500normal - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 500;
+	src: local('IBM Plex Sans Medium'), local('IBMPlexSans-Medium'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-500.woff2') format('woff2');
+}
+/* ibm-plex-sans-500italic - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 500;
+	src: local('IBM Plex Sans Medium Italic'), local('IBMPlexSans-MediumItalic'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-500-italic.woff2') format('woff2');
+}
+/* ibm-plex-sans-600normal - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 600;
+	src: local('IBM Plex Sans SemiBold'), local('IBMPlexSans-SemiBold'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-600.woff2') format('woff2');
+}
+/* ibm-plex-sans-600italic - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 600;
+	src: local('IBM Plex Sans SemiBold Italic'), local('IBMPlexSans-SemiBoldItalic'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-600-italic.woff2') format('woff2');
+}
+/* ibm-plex-sans-700normal - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 700;
+	src: local('IBM Plex Sans Bold'), local('IBMPlexSans-Bold'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-700.woff2') format('woff2');
+}
+/* ibm-plex-sans-700italic - all */
+@font-face {
+	font-family: 'IBM Plex Sans';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 700;
+	src: local('IBM Plex Sans Bold Italic'), local('IBMPlexSans-BoldItalic'),
+		url('@openfonts/ibm-plex-sans_all/files/ibm-plex-sans-all-700-italic.woff2') format('woff2');
+}
+
+/** IBM Plex Mono ------------------------------------------- */
+/* ibm-plex-mono-400normal - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: local('IBM Plex Mono'), local('IBMPlexMono'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-400.woff2') format('woff2');
+}
+/* ibm-plex-mono-400italic - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 400;
+	src: local('IBM Plex Mono Italic'), local('IBMPlexMono-Italic'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-400-italic.woff2') format('woff2');
+}
+/* ibm-plex-mono-500normal - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 500;
+	src: local('IBM Plex Mono Medium'), local('IBMPlexMono-Medium'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-500.woff2') format('woff2');
+}
+/* ibm-plex-mono-500italic - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 500;
+	src: local('IBM Plex Mono Medium Italic'), local('IBMPlexMono-MediumItalic'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-500-italic.woff2') format('woff2');
+}
+/* ibm-plex-mono-600normal - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 600;
+	src: local('IBM Plex Mono SemiBold'), local('IBMPlexMono-SemiBold'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-600.woff2') format('woff2');
+}
+/* ibm-plex-mono-600italic - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 600;
+	src: local('IBM Plex Mono SemiBold Italic'), local('IBMPlexMono-SemiBoldItalic'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-600-italic.woff2') format('woff2');
+}
+/* ibm-plex-mono-700normal - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 700;
+	src: local('IBM Plex Mono Bold'), local('IBMPlexMono-Bold'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-700.woff2') format('woff2');
+}
+/* ibm-plex-mono-700italic - all */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: italic;
+	font-display: swap;
+	font-weight: 700;
+	src: local('IBM Plex Mono Bold Italic'), local('IBMPlexMono-BoldItalic'),
+		url('@openfonts/ibm-plex-mono_all/files/ibm-plex-mono-all-700-italic.woff2') format('woff2');
+}
