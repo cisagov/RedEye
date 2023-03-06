@@ -41,8 +41,15 @@ export const BarLabelHeader = observer<Omit<BarLabelsProps, 'handleClick'>>(({ b
 	<Flex css={headerStyles}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} css={fitStyles} />
 		<IconLabel
+			value={bar?.beaconNumbers}
+			cy-test="timeline-beacon-count"
+			title="Beacons"
+			icon={semanticIcons.beacon}
+			css={fitStyles}
+		/>
+		<IconLabel
+			cy-test="timeline-command-count"
 			title="Commands"
 			value={bar?.beaconCount}
 			icon={semanticIcons.commands}
@@ -52,12 +59,14 @@ export const BarLabelHeader = observer<Omit<BarLabelsProps, 'handleClick'>>(({ b
 ));
 
 export const BarLabelOnHover = observer<BarLabelsProps>(({ bar, dateFormatter, handleClick }) => (
-	<div cy-test="timeline-tooltip-static">
+	<div cy-test="timeline-tooltip">
 		<BarLabelHeader bar={bar} dateFormatter={dateFormatter} />
 		<MenuDivider />
 		<Flex css={bottomStyles} onClick={handleClick}>
 			<CarbonIcon title="Beacons" icon={semanticIcons.beacon} css={marginStyles(0.5)} />
-			<Txt small>List Beacons</Txt>
+			<Txt small cy-test="timeline-list-beacons">
+				List Beacons
+			</Txt>
 		</Flex>
 	</div>
 ));
@@ -78,7 +87,7 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 		});
 	}, []);
 	return (
-		<div cy-test="timeline-tooltip-clickable" onMouseLeave={handleClick}>
+		<div cy-test="timeline-tooltip-expanded" onMouseLeave={handleClick}>
 			<BarLabelHeader bar={bar} dateFormatter={dateFormatter} />
 			<MenuDivider />
 			<div css={listWrapperStyles}>
@@ -105,7 +114,9 @@ export const BarLabelBeaconList = observer<BarLabelsProps>(({ bar, dateFormatter
 			<MenuDivider />
 			<Flex css={bottomStyles} onClick={handleClick}>
 				<CarbonIcon title="Beacons" icon={ChevronUp16} css={marginStyles(0.5)} />
-				<Txt small>Show Less</Txt>
+				<Txt small cy-test="timeline-show-less">
+					Show Less
+				</Txt>
 			</Flex>
 		</div>
 	);
