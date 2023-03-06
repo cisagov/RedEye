@@ -11,6 +11,7 @@ import {
 } from '@redeye/client/components';
 import type { AppStore } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
+import { Border } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { UseCreateState } from '../mobx-create-state';
 import { createState } from '../mobx-create-state';
@@ -101,13 +102,11 @@ const HeaderOptions = ({
 			}}
 			rightIcon={<CarbonIcon icon={Help16} />}
 		/>
+		<ModeIndicator css={{ marginRight: -8, padding: '0px 8px' }} popoverProps={{ position: 'top-left' }} />
 	</ButtonGroup>
 );
 
 const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => {
-	const store = useStore();
-	const isRedTeam = !store.appMeta.blueTeam;
-
 	return (
 		<>
 			<NavButton
@@ -137,7 +136,8 @@ const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> 
 				}}
 				active={state.isHelpPanelOpen}
 			/>
-			<ModeIndicator isRedTeam={isRedTeam} />
+			<Border css={{ margin: '16px 0', width: 16 }} />
+			<ModeIndicator css={{ alignSelf: 'stretch', height: 48 }} />
 		</>
 	);
 };

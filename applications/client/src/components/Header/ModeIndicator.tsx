@@ -1,14 +1,17 @@
-import { Popover2 } from '@blueprintjs/popover2';
+import { Button, ButtonProps } from '@blueprintjs/core';
+import { Popover2, Popover2Props } from '@blueprintjs/popover2';
 import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
+import { useStore } from '@redeye/client/store';
 import { CoreTokens, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
-type ModeIndicatorProps = {
-	isRedTeam: boolean;
-};
+type ModeIndicatorProps = ButtonProps & { popoverProps?: Popover2Props };
 
-export const ModeIndicator = observer<ModeIndicatorProps>(({ isRedTeam }) => {
+export const ModeIndicator = observer<ModeIndicatorProps>(({ popoverProps, ...props }) => {
+	const store = useStore();
+	const isRedTeam = !store.appMeta.blueTeam;
+
 	let teamAcronym: string = 'BT';
 	let team: string = 'Blue Team ';
 	let description: string = 'Restricted RedEye functionality. Editing and commenting features are not available.';
@@ -22,69 +25,58 @@ export const ModeIndicator = observer<ModeIndicatorProps>(({ isRedTeam }) => {
 	}
 
 	return (
-		<>
-			<div css={dividerStyle} />
-			<Popover2
-				position="right"
-				autoFocus={false}
-				interactionKind="hover"
-				usePortal={false}
-				content={
-					<div css={hoverInfoStyle}>
-						<Txt>
-							<Txt bold>{team}</Txt> <Txt muted>Mode </Txt>
-						</Txt>
-						<Txt muted>{description}</Txt>
-					</div>
-				}
-			>
-				<div cy-test={teamAcronym} css={teamCSS}>
-					{teamAcronym}
+		<Popover2
+			position="right"
+			interactionKind="hover"
+			content={
+				<div css={hoverInfoStyle}>
+					<Txt large bold>
+						<Txt>{team}</Txt> <Txt muted>Mode </Txt>
+					</Txt>
+					<Txt muted>{description}</Txt>
 				</div>
-			</Popover2>
-		</>
+			}
+			renderTarget={({ isOpen, ref, ...targetProps }) => (
+				<Button
+					elementRef={ref}
+					minimal
+					fill
+					{...props}
+					{...targetProps}
+					className={[props.className, (targetProps as ButtonProps).className].join(' ')}
+				>
+					<div cy-test={teamAcronym} css={teamCSS}>
+						{teamAcronym}
+					</div>
+				</Button>
+			)}
+			{...popoverProps}
+		/>
 	);
 });
-
-const dividerStyle = css`
-	width: 15px;
-	height: 10px;
-	align-content: middle;
-	padding-top: 1px;
-	padding-bottom: 10px;
-	border-top: 2px solid ${CoreTokens.Colors.Black};
-`;
 
 const hoverInfoStyle = css`
 	display: flex;
 	flex-direction: column;
-	padding: 8px;
-	min-width: 20em;
-	max-width: 23em;
-	height: 5.25em;
+	padding: 12px;
+	width: 23em;
 	gap: 4px;
 `;
 
-const blueStyle = css`
-	padding-right: 2px;
-	padding-left: 2px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	font-weight: 700;
+const indicatorStyle = css`
+	padding: 2px;
+	font-weight: 800;
 	font-size: 11px;
-	line-height: 14px;
-	background-color: ${CoreTokens.Colors.Blue3};
+	line-height: 11px;
 	color: ${CoreTokens.Colors.Black};
 `;
 
+const blueStyle = css`
+	${indicatorStyle};
+	background-color: ${CoreTokens.Colors.Blue3};
+`;
+
 const redStyle = css`
-	padding-right: 1px;
-	padding-left: 1px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	font-weight: 700;
-	font-size: 11px;
-	line-height: 14px;
+	${indicatorStyle};
 	background-color: ${CoreTokens.Colors.Red3};
-	color: ${CoreTokens.Colors.Black};
 `;
