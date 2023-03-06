@@ -1,11 +1,11 @@
-import { css } from '@emotion/react';
+import { ClassNames, css } from '@emotion/react';
 import { Flex } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { AnnotationModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
 import { CommandContainer, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
-import { CoreTokens } from '@redeye/ui-styles';
+import { CoreTokens, ThemeClasses } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -121,6 +121,11 @@ export const CommentGroup = observer<CommentGroupProps>(
 
 const commentBoxStyle = css`
 	border-bottom: none !important;
-	background: ${CoreTokens.Background1};
+	.${ThemeClasses.DARK} & {
+		background: ${CoreTokens.transparentWhite(0.05)};
+	}
+	.${ThemeClasses.LIGHT} & {
+		background: ${CoreTokens.transparentBlack(0.04)};
+	}
 	margin-bottom: 1px;
 `;
