@@ -1,20 +1,20 @@
 ---
 name: Cypress Tests
 on:
-  workflow_dispatch: null
-  inputs:
-    specs:
-      description: Comma-separates spec filenames without spaces
-      required: true
-    recordingTag:
-      description: Cypress Dashboard recording tag
-      required: false
-      default: Trigger specs
-    machines:
-      description: Number of machines to use to run these specs
-      required: false
-      type: number
-      default: 1
+  workflow_dispatch:
+    inputs:
+      specs:
+        description: Comma-separates spec filenames without spaces
+        required: true
+      recordingTag:
+        description: Cypress Dashboard recording tag
+        required: false
+        default: Trigger specs
+      machines:
+        description: Number of machines to use to run these specs
+        required: false
+        type: number
+        default: 1
   push:
     branches:
       - main
