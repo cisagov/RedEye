@@ -71,7 +71,7 @@ export const TimelineBarHoverPopover = observer<BarLabelsProps>(({ bar, dateForm
 	const [isListOpen, setListOpen] = useState(false);
 
 	return (
-		<Flex column cy-test="timeline-tooltip-clickable" {...props}>
+		<Flex column cy-test="timeline-tooltip-info" {...props}>
 			<BarLabelHeader bar={bar} dateFormatter={dateFormatter} />
 			{isListOpen && (
 				<ScrollBox>

@@ -57,8 +57,12 @@ export const Scrubber = observer<ScrubberProps>(
 		const disableControls = store.campaign.presentation.isPresenting;
 
 		return (
-			<g style={{ transform: `translateX(${xVisual + 0.5}px)` }} css={[scrubberTransitionStyle]}>
-				<line cy-test="timeline-animated-line" x1={0} y1={0} x2={0} y2={dimensions.height} css={fullHeightLine} />
+			<g
+				cy-test="timeline-scrubber"
+				style={{ transform: `translateX(${xVisual + 0.5}px)` }}
+				css={[scrubberTransitionStyle]}
+			>
+				<line x1={0} y1={0} x2={0} y2={dimensions.height} css={fullHeightLine} />
 				<line
 					x1={0}
 					y1={PARTIAL_HEIGHT_LINE.TOP}
