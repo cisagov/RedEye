@@ -189,18 +189,20 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											disabled={state.hostCount === 0}
 											content={
 												<Menu cy-test="show-hide-item">
-													<MenuItem
-														text="Show All"
-														icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
-														onClick={(e) => {
-															e.stopPropagation();
-															// console.log('bulk editing show all: ', store.campaign?.hostGroupSelect.selectedHosts);
-															store.campaign?.setHostGroupSelect({
-																groupSelect: false,
-																selectedHosts: [],
-															});
-														}}
-													/>
+													{store.settings.showHidden && (
+														<MenuItem
+															text="Show All"
+															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
+															onClick={(e) => {
+																e.stopPropagation();
+																// console.log('bulk editing show all: ', store.campaign?.hostGroupSelect.selectedHosts);
+																store.campaign?.setHostGroupSelect({
+																	groupSelect: false,
+																	selectedHosts: [],
+																});
+															}}
+														/>
+													)}
 													<MenuItem
 														text="Hide All"
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
@@ -242,18 +244,20 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											disabled={state.beaconCount === 0}
 											content={
 												<Menu cy-test="show-hide-item">
-													<MenuItem
-														text="Show All"
-														icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
-														onClick={(e) => {
-															e.stopPropagation();
-															// console.log('bulk editing show all: ', store.campaign?.beaconGroupSelect.selectedBeacons);
-															store.campaign?.setBeaconGroupSelect({
-																groupSelect: false,
-																selectedBeacons: [],
-															});
-														}}
-													/>
+													{store.settings.showHidden && (
+														<MenuItem
+															text="Show All"
+															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
+															onClick={(e) => {
+																e.stopPropagation();
+																// console.log('bulk editing show all: ', store.campaign?.beaconGroupSelect.selectedBeacons);
+																store.campaign?.setBeaconGroupSelect({
+																	groupSelect: false,
+																	selectedBeacons: [],
+																});
+															}}
+														/>
+													)}
 													<MenuItem
 														text="Hide All"
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
