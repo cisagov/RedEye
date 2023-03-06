@@ -112,7 +112,22 @@ jobs:
         env:
           CYPRESS_PROJECT_ID: rsybgk
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_RED }}
+    specs:
+      - name: Trigger Failed Tests
+        uses: bahmutov/cypress-workflows/.github/workflows/parallel.yml@v1
+        with:
+          n: ${{ fromJson(github.event.inputs.machines) }}
+          spec: ${{ github.event.inputs.specs }}
+          tag: ${{ github.event.inputs.recordingTag }}
+          group: Selected specs
+          start: yarn start:dev
+          wait-on: http://localhost:4000/api/graphql, http://localhost:3500
+          ci-build-id: ${{ github.workflow }} - ${{ github.run_id }}-${{ github.run_number
+            }}-${{ github.run_attempts }}
+        secrets:
+          recordKey: ${{ secrets.CYPRESS_RECORD_KEY_RED }}
   BlueTeamChrome:
+    # runs-on: ubuntu-latest
     needs:
       - prepare
       - install
@@ -159,8 +174,7 @@ jobs:
         env:
           CYPRESS_PROJECT_ID: 46ahz3
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_BLUE }}
-  # prettier-ignore
-  specs:
+    specs:
       - name: Trigger Failed Tests
         uses: bahmutov/cypress-workflows/.github/workflows/parallel.yml@v1
         with:
@@ -173,4 +187,4 @@ jobs:
           ci-build-id: ${{ github.workflow }} - ${{ github.run_id }}-${{ github.run_number
             }}-${{ github.run_attempts }}
         secrets:
-          recordKey: ${{ secrets.CYPRESS_RECORD_KEY_RED }}
+          recordKey: ${{ secrets.CYPRESS_RECORD_KEY_BLUE }}
