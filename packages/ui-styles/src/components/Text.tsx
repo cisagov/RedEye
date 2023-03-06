@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { FC, HTMLAttributes, useMemo } from 'react';
 import { Classes } from '@blueprintjs/core';
 import { UtilityStyles } from '../styles/utility-styles';
 import { CoreTokens as Tkn } from '../styles/tokens';
 
-export type TxtProps = React.HTMLAttributes<HTMLOrSVGElement> & {
+export type TxtProps = HTMLAttributes<HTMLOrSVGElement> & {
 	// COLOR
 	emphasis?: boolean;
 	regular?: boolean;
@@ -38,7 +38,7 @@ export type TxtProps = React.HTMLAttributes<HTMLOrSVGElement> & {
 };
 
 /** A utility text component for declarative styling */
-export const Txt: React.FC<TxtProps> = ({
+export const Txt: FC<TxtProps> = ({
 	tagName: RootTag = 'span',
 
 	emphasis = false,

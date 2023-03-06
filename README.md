@@ -92,10 +92,10 @@ _Note: For Mac users, when first running the `RedEye` application (and `cs-parse
 - Run: `yarn install` // Installs all packages
 - Run either:
   1. `yarn release:all` to build a binary for Linux, macOS, and Windows
-  2. `yarn release --platform (mac|win|linux)` to build for a specific platform.
+  2. `yarn release:(mac|windows|linux)` to build for a specific platform.
   - platform options:
     - mac
-    - win
+    - windows
     - linux
 
 ## Development
@@ -127,7 +127,7 @@ yarn run start:server
 
 #### Build
 
-`yarn build:all` to build all applications and their dependent libraries
+`yarn build` to build all applications and their dependent libraries
 
 #### Server .env example
 

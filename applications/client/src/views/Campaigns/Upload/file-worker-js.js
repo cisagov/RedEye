@@ -46,19 +46,16 @@ const validateFiles = function (files) {
 	let longestPath = [];
 	files === null || files === void 0
 		? void 0
-		: files.forEach(function (f) {
-				if (!(f.name.endsWith('.log') || f.name.endsWith('.jpg') || f.name.endsWith('.png') || f.name.endsWith('.txt'))) {
+		: files.forEach((f) => {
+				if (
+					!(f.name.endsWith('.log') || f.name.endsWith('.jpg') || f.name.endsWith('.png') || f.name.endsWith('.txt'))
+				) {
 					// Ignore secret/hidden files
 					if (!f.name.startsWith('.')) invalidFiles.push(f);
 					return;
 				}
 				f.path = f.webkitRelativePath.split('/');
-				if (
-					f.path.some(function (pathItem) {
-						return pathItem.startsWith('.');
-					})
-				)
-					return;
+				if (f.path.some((pathItem) => pathItem.startsWith('.'))) return;
 				// if path is not <date_folder>/<ip_address> or <date_folder>/<file> return;
 				if (
 					!(
@@ -95,7 +92,7 @@ const validateFiles = function (files) {
 		  });
 	return { tree, longestPath, validFiles, invalidFiles };
 };
-ctx.addEventListener('message', function (event) {
+ctx.addEventListener('message', (event) => {
 	const _a = validateFiles(event.data.acceptedFiles);
 	const tree = _a.tree;
 	const validFiles = _a.validFiles;
@@ -110,7 +107,7 @@ ctx.addEventListener('message', function (event) {
 		ctx.postMessage({ type: DirectorWorkerType.SERVER_FILES, serverFiles: files, serverName: rootDirectory });
 	} else {
 		// Use the directory trees under root directory as servers
-		Object.entries(tree[rootDirectory]).forEach(function (_a) {
+		Object.entries(tree[rootDirectory]).forEach((_a) => {
 			const key = _a[0];
 			const value = _a[1];
 			const serverName = key.split('/')[0];

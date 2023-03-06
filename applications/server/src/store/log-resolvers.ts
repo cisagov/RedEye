@@ -32,7 +32,8 @@ export class LogResolvers {
 
 	@Authorized()
 	@Query(() => [LogEntry], {
-		description: 'Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.',
+		description:
+			'Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.',
 	})
 	async logsByBeaconId(
 		@Ctx() ctx: GraphQLContext,

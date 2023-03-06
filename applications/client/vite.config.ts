@@ -7,7 +7,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import packageJson from '../../package.json';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(() => ({
 	mode: process.env.NODE_ENV,
 	root: __dirname,
 	envDir: process.cwd(),
@@ -32,14 +32,13 @@ export default defineConfig({
 			},
 		}),
 		tsconfigPaths({}),
-		process.env.NODE_ENV === 'development' &&
-			checker({
-				typescript: true,
-				overlay: { initialIsOpen: false },
-				eslint: {
-					lintCommand: 'eslint --ignore-pattern /src/**/index.ts ./src/**/*.{ts,tsx} ',
-				},
-			}),
+		checker({
+			typescript: true,
+			overlay: { initialIsOpen: false },
+			eslint: {
+				lintCommand: 'eslint ./src/**/*.{ts,tsx}',
+			},
+		}),
 	],
 	resolve: {
 		alias: {
@@ -51,7 +50,7 @@ export default defineConfig({
 	},
 	base: '',
 	build: {
-		outDir: './build',
+		outDir: './dist',
 		rollupOptions: {
 			output: {
 				manualChunks: {
@@ -70,4 +69,4 @@ export default defineConfig({
 		PACKAGE_VERSION: `'${packageJson.version}'`,
 		'process.env': {},
 	},
-});
+}));

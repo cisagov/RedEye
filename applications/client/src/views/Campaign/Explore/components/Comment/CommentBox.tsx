@@ -24,7 +24,7 @@ import {
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
-import type { AnnotationModel, CommandGroupModel, LinkModel } from '@redeye/client/store';
+import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from '@redeye/client/store';
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
@@ -128,7 +128,7 @@ export const CommentBox = observer<CommentBoxProps>(
 					campaignId: store.campaign?.id!,
 					commandId: state.commandIds[0],
 					destinationId,
-					id: state.manuallyCreatedLink?.id,
+					id: state.manuallyCreatedLink?.id!,
 					name: state.nameText,
 					originId: store.campaign.interactionState.selectedBeacon?.id as string,
 				}),
@@ -186,7 +186,7 @@ export const CommentBox = observer<CommentBoxProps>(
 			text: annotation?.text || '',
 			nameText: '',
 			displayName: '',
-			destinationBeacon: '',
+			destinationBeacon: undefined as BeaconModel | undefined,
 			addOrChangeLinkButtonText: 'Add beacon link',
 			manuallyCreatedLink: null as LinkModel | null,
 			manualLinkFlag: false,
@@ -224,7 +224,10 @@ export const CommentBox = observer<CommentBoxProps>(
 			},
 			get autoTags(): Array<string> {
 				const tags = new Set<string>();
-				[...(Array.from(store.graphqlStore?.tags.values(), (tag) => tag.text!) || []), ...Object.values(MitreTechniques)]
+				[
+					...(Array.from(store.graphqlStore?.tags.values(), (tag) => tag.text!) || []),
+					...Object.values(MitreTechniques),
+				]
 					?.filter((tag) => !this.tags.includes(tag))
 					.sort()
 					.map((tag) => tags.add(tag));
@@ -233,7 +236,7 @@ export const CommentBox = observer<CommentBoxProps>(
 			toggleBoolBeaconSearch() {
 				this.showBeaconSearch = !this.showBeaconSearch;
 			},
-			storeNewDestinationBeaconForLinkCreation(newDestBeacon) {
+			storeNewDestinationBeaconForLinkCreation(newDestBeacon: BeaconModel) {
 				this.destinationBeacon = newDestBeacon;
 			},
 
@@ -280,7 +283,7 @@ export const CommentBox = observer<CommentBoxProps>(
 				this.tags.replace(this.defaultTags);
 				this.editMode = false;
 				this.loading = false;
-				this.destinationBeacon = '';
+				this.destinationBeacon = undefined;
 				store.campaign?.commentStore.clearSelectedCommand();
 				store.campaign?.commentStore.setNewGroupComment(false);
 				store.campaign?.commentStore.setGroupSelect(false);
@@ -319,10 +322,10 @@ export const CommentBox = observer<CommentBoxProps>(
 						});
 					}
 					// editing an existing link
-					if (state.manualLinkFlag && state.manuallyCreatedLink) {
+					if (state.manualLinkFlag && state.manuallyCreatedLink && this.destinationBeacon) {
 						editLink.mutate(this.destinationBeacon.id);
 						// beacon selected not a currently existing link
-					} else if (state.destinationBeacon) {
+					} else if (this.destinationBeacon) {
 						createLink.mutate(this.destinationBeacon.id);
 					}
 				} catch (e) {

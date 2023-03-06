@@ -1,0 +1,37 @@
+dependsOn:
+  - 'models'
+tasks:
+  create-migrations:
+    command: 'yarn node ./dist/create-migrations.js'
+    deps:
+      - ~:build
+    options:
+      runInCI: false
+  migrate-schema:
+    command: 'yarn node ./dist/migrate-schema-dbs.js'
+    deps:
+      - ~:build
+    options:
+      runInCI: false
+  migrate-test-dbs:
+    command: 'yarn node ./dist/migrate-test-db.js'
+    deps:
+      - ~:build
+    options:
+      runInCI: false
+  migrate-dbs:
+    deps:
+      - ~:migrate-schema
+      - ~:migrate-test-dbs
+    options:
+      runInCI: false
+  test:
+    commands: 'noop'
+    platform: node
+    deps:
+      - ~:test-jest
+    options:
+      runInCI: false
+  build:
+    deps:
+      - ~:build-node

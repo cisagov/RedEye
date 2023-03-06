@@ -13,7 +13,7 @@ import { BeaconSuggestedRow } from '../..';
 export type AddBeaconSelectOrSuggestProps = ComponentProps<'div'> & {
 	onClick: () => any;
 	commandString: string;
-	onSelectBeacon: (id) => any;
+	onSelectBeacon: (beacon: BeaconModel) => any;
 };
 
 export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
@@ -89,7 +89,10 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					items={beacons}
 					itemPredicate={filterFilm}
 					itemRenderer={renderMenuItem}
-					popoverProps={{ boundary: 'window' }}
+					popoverProps={{
+						// @ts-ignore
+						boundary: 'window',
+					}}
 					onItemSelect={handleItemSelect}
 					noResults={<MenuItem disabled text="No results." />}
 					fill
@@ -102,7 +105,10 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					filterable
 					itemPredicate={filterFilm}
 					itemRenderer={renderMenuItem}
-					popoverProps={{ boundary: 'window' }}
+					popoverProps={{
+						// @ts-ignore
+						boundary: 'window',
+					}}
 					onItemSelect={handleItemSelect}
 					matchTargetWidth
 					noResults={<MenuItem disabled text="No results." />}

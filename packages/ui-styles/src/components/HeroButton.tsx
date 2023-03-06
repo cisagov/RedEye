@@ -36,11 +36,11 @@ export const HeroButton = styled.button<HeroButtonProps>`
 
 	// Firefox needs this for extra specificity
 	color: ${CoreTokens.TextBody};
-    
-    .${Classes.ICON}{
-        color: inherit;
-    }
-    
+
+	.${Classes.ICON} {
+		color: inherit;
+	}
+
 	&:before {
 		content: '';
 		position: absolute;

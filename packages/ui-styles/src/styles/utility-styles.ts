@@ -29,7 +29,6 @@ const hoverRevealChildrenDisplay = css`
 	}
 `;
 
-
 export const UtilityStyles = {
 	/** all caps small text - tiny title */
 	textMeta: css`

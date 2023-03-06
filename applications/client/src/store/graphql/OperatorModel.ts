@@ -47,7 +47,8 @@ export class OperatorModel extends ExtendedModel(OperatorModelBase, {}) {
 			params: {
 				tab: Tabs.COMMANDS,
 				currentItem: this.id !== appStore.campaign?.interactionState.selectedOperator?.id ? 'operator' : 'all',
-				currentItemId: this.id !== appStore.campaign?.interactionState.selectedOperator?.id ? (this.id as UUID) : undefined,
+				currentItemId:
+					this.id !== appStore.campaign?.interactionState.selectedOperator?.id ? (this.id as UUID) : undefined,
 			},
 		});
 	}

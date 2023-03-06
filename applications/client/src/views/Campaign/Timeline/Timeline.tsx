@@ -203,7 +203,9 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 							cy-test="timeline-play-pause"
 							rightIcon={<CarbonIcon icon={state.isPlaying ? Pause16 : Play16} />}
 							intent={disableControls ? Intent.NONE : Intent.PRIMARY}
-							onClick={store.campaign.timeline.isEnd ? state.restartAndPlay : state.isPlaying ? state.pause : state.play}
+							onClick={
+								store.campaign.timeline.isEnd ? state.restartAndPlay : state.isPlaying ? state.pause : state.play
+							}
 							css={playButtonStyles}
 							disabled={disableControls}
 							text={state.isPlaying ? 'Pause' : 'Play'}

@@ -50,7 +50,14 @@ export function findTimeFromLogLine(line: string): LogLineTime | undefined {
 export function combinePathAndLogDates(pathDate: PathDate | undefined, logLineTime: LogLineTime | undefined) {
 	if (pathDate && logLineTime) {
 		return new Date(
-			Date.UTC(pathDate.year, pathDate.monthIndex, pathDate.day, logLineTime.hour, logLineTime.minute, logLineTime.second)
+			Date.UTC(
+				pathDate.year,
+				pathDate.monthIndex,
+				pathDate.day,
+				logLineTime.hour,
+				logLineTime.minute,
+				logLineTime.second
+			)
 		);
 	} else {
 		return undefined;

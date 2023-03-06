@@ -22,11 +22,14 @@ export const LoadingOverlay = observer<LoadingOverlayProps>(({ ...props }) => {
 				flex-direction: column;
 			`}
 			isOpen={
-				(!!store.campaign?.isLoading && store.campaign?.isLoading !== CampaignLoadingMessage.DONE) || !!store.campaign.error
+				(!!store.campaign?.isLoading && store.campaign?.isLoading !== CampaignLoadingMessage.DONE) ||
+				!!store.campaign.error
 			}
 			canOutsideClickClose={!!store.campaign.error}
 			autoFocus={false}
-			onClose={() => store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: store.campaign.id } })}
+			onClose={() =>
+				store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: store.campaign.id } })
+			}
 			{...props}
 		>
 			<Flex

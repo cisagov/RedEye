@@ -36,3 +36,7 @@ test.sqlite*
 junit.*.xml
 release
 tmp
+# moon
+.moon/cache
+.moon/docker
+*.tsbuildinfo

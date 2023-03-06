@@ -15,8 +15,7 @@ describe('Golden Ticket', () => {
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
 			.invoke('text')
 			.as('GTTagCount')
 			.then((resultGTCount1) => {

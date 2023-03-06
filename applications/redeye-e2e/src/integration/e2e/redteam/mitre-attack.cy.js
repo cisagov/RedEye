@@ -16,8 +16,7 @@ describe('Mitre attack tests', () => {
 
 		cy.get('[cy-test=expand]').eq(1).click();
 
-		cy
-			.get('[cy-test=mitre-attack-link]')
+		cy.get('[cy-test=mitre-attack-link]')
 			.eq(0)
 			.invoke('text')
 			.then((mitre1) => {

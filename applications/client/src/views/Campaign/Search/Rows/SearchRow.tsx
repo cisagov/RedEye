@@ -82,8 +82,12 @@ export const SearchRow = observer<SearchRowProps>(
 				)}
 				{children && <div css={childrenStyles}>{children}</div>}
 				<div css={iconsStyle}>
-					{hostsCount !== undefined && <IconLabel value={hostsCount} title="Hosts" cy-test="host-count" icon={icons.host} />}
-					{tagsCount !== undefined && <IconLabel value={tagsCount} title="Tags" cy-test="tag-count" icon={icons.tags} />}
+					{hostsCount !== undefined && (
+						<IconLabel value={hostsCount} title="Hosts" cy-test="host-count" icon={icons.host} />
+					)}
+					{tagsCount !== undefined && (
+						<IconLabel value={tagsCount} title="Tags" cy-test="tag-count" icon={icons.tags} />
+					)}
 					{commandsCount !== undefined && (
 						<IconLabel value={commandsCount} title="Commands" cy-test="command-count" icon={icons.commands} />
 					)}

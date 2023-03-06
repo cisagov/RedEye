@@ -1,0 +1,49 @@
+dependsOn:
+  - 'models'
+  - 'migrations'
+  - 'cs-parser'
+tasks:
+  build:
+    deps:
+      - ~:build-node
+  start-dev:
+    local: true
+    deps:
+      - ^:build
+      - ~:start-node
+    options:
+      runInCI: false
+  release-mac:
+    deps:
+      - '@redeye/client:build'
+      - ~:build
+    outputs:
+      - /release/mac/RedEye
+    options:
+      runInCI: false
+  release-linux:
+    deps:
+      - '@redeye/client:build'
+      - ~:build
+    outputs:
+      - /release/linux/RedEye
+    options:
+      runInCI: false
+  release-windows:
+    deps:
+      - '@redeye/client:build'
+      - ~:build
+    outputs:
+      - /release/windows/RedEye
+    options:
+      runInCI: false
+  release-all:
+    deps:
+      - ~:release-mac
+      - ~:release-linux
+      - ~:release-windows
+    options:
+      runInCI: false
+  test:
+    deps:
+      - ~:test-jest

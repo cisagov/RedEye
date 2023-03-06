@@ -42,11 +42,11 @@ export class Settings extends Model({
 
 // @Austin, does this belong here?
 export const updateAppTheme = (theme?: UiTheme) => {
-	theme = theme || getAppTheme()
+	theme = theme || getAppTheme();
 	const rootClassList = document.documentElement.classList;
 	if (theme === 'system') {
 		// TODO: query the system theme somehow?
-		theme = 'dark'
+		theme = 'dark';
 	}
 	if (theme === 'dark') {
 		rootClassList.remove(ThemeClasses.LIGHT);
@@ -56,5 +56,3 @@ export const updateAppTheme = (theme?: UiTheme) => {
 		rootClassList.add(ThemeClasses.LIGHT);
 	}
 };
-
-

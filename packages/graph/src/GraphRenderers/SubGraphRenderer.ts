@@ -88,7 +88,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	drawLayout() {
 		if (!this.parentNode) return;
 
-		let { rk = 1 } = this.graphHandler.zoomTransform;
+		const { rk = 1 } = this.graphHandler.zoomTransform;
 
 		this.linkSelection
 			.attr('x1', (d) => defNum(d.source.x) * rk)

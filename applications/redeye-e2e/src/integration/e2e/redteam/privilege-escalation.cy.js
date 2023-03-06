@@ -13,8 +13,7 @@ describe('Privilege Escalation Tag', () => {
 		// Open campaign and log current number of Privilege Escalation tags
 		cy.selectCampaign(camp);
 		cy.clickPresentationMode();
-		cy
-			.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+		cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
 			.invoke('text')
 			.as('PETagCount')
 			.then((resultPECount1) => {

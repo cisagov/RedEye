@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
+import { FC, HTMLAttributes, useMemo } from 'react';
 
 import { H1, H2, H3, H4, H5, H6 } from '@blueprintjs/core';
 
-export type HeaderProps = React.HTMLAttributes<HTMLOrSVGElement> & {
+export type HeaderProps = HTMLAttributes<HTMLOrSVGElement> & {
 	large?: boolean;
 	medium?: boolean;
 	small?: boolean;
@@ -14,7 +14,7 @@ export type HeaderProps = React.HTMLAttributes<HTMLOrSVGElement> & {
 };
 
 /** A utility header component for declarative styling */
-export const Header: React.FC<HeaderProps> = ({
+export const Header: FC<HeaderProps> = ({
 	large = false,
 	medium = false,
 	small = false,

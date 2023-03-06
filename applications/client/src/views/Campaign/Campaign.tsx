@@ -178,7 +178,12 @@ const Campaign = observer<CampaignProps>(() => {
 						<div css={infoWrapperStyles}>
 							<div css={titleBarStyles}>
 								<NavTitle />
-								<Button cy-test="collapse-panel" icon={<CarbonIcon icon={ChevronLeft16} />} onClick={collapseFixed} minimal />
+								<Button
+									cy-test="collapse-panel"
+									icon={<CarbonIcon icon={ChevronLeft16} />}
+									onClick={collapseFixed}
+									minimal
+								/>
 							</div>
 							<Suspense fallback={<Spinner />}>
 								<Routes>

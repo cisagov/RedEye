@@ -1,6 +1,8 @@
 {
-	"extends": "../../../tsconfig.json",
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
 		"module": "ESNext",
 		"lib": ["ESNext", "DOM"],
 		"moduleResolution": "Node",
@@ -10,21 +12,18 @@
 		"sourceMap": true,
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
-		"noEmit": true,
+		"noEmit": false,
+		"skipLibCheck": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
+		"composite": true,
 		"jsxImportSource": "@emotion/react",
 		"jsx": "react-jsx"
 	},
+	"exclude": ["node_modules"],
 	"files": [],
-	"include": [],
-	"references": [
-		{
-			"path": "./tsconfig.lib.json"
-		},
-		{
-			"path": "./tsconfig.spec.json"
-		}
-	]
+	"include": ["src"]
 }

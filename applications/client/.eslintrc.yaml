@@ -31,10 +31,10 @@ rules:
     - warn
     - prefer: type-imports
       disallowTypeAnnotations: true
-  "react/function-component-definition":
+  'react/function-component-definition':
     - 2
-    - namedComponents: "arrow-function"
-      unnamedComponents: "arrow-function"
+    - namedComponents: 'arrow-function'
+      unnamedComponents: 'arrow-function'
   react/require-default-props: 0 # No default props
   no-unused-vars: 0 # Disabled for typescript-eslint no-unused-vars rule
   max-len: 0 # Disable max line length check, prettier takes care of this
