@@ -2,8 +2,6 @@
 /* eslint-disable */
 /* tslint:disable */
 // @ts-nocheck
-import type { MKGQLStore, QueryOptions } from 'mk-gql';
-import { createMKGQLStore } from 'mk-gql';
 import type { ObservableMap } from 'mobx';
 import {
 	types,
