@@ -22,8 +22,12 @@ export const OverviewHosts = observer<OverviewProps>(({ sort }) => {
 				: 1
 		);
 	return (
-		<VirtualizedList fixedItemHeight={defaultInfoRowHeight}>
-			{hosts.length === 0 ? <MessageRow>No Hosts</MessageRow> : hosts.map((host) => <HostRow key={host.id} host={host} />)}
+		<VirtualizedList fixedItemHeight={defaultInfoRowHeight} cy-test="hosts-view">
+			{hosts.length === 0 ? (
+				<MessageRow>No Hosts</MessageRow>
+			) : (
+				hosts.map((host) => <HostRow key={host.id} host={host} />)
+			)}
 		</VirtualizedList>
 	);
 });

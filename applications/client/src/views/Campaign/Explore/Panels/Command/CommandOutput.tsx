@@ -1,12 +1,12 @@
 import { Button, Intent } from '@blueprintjs/core';
 import { ChevronSort16, Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, scrollBoxShadowsStyle } from '@redeye/client/components';
+import { CarbonIcon } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { ScreenShotCommand } from '@redeye/client/views';
-import { FlexSplitter, Tokens, TokensAll, Txt } from '@redeye/ui-styles';
+import { FlexSplitter, Txt, CoreTokens, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
 type CommandOutputProps = {
@@ -42,7 +42,7 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 	});
 
 	return (
-		<div css={[rootWrapperStyle, scrollBoxShadowsStyle]}>
+		<div css={[rootWrapperStyle, UtilityStyles.innerBoxShadowOverlay('vertical', 2)]}>
 			<div css={outputMetaStyle}>
 				<div>
 					{command?.uniqueAttackIds?.length === 0 ? (
@@ -55,10 +55,9 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 								cy-test="mitre-attack-link"
 								aria-label="Mitre attack links"
 								key={mitreAttack}
-								href={`https://attack.mitre.org/${mitreAttack.includes('TA') ? 'tactics' : 'techniques'}/${mitreAttack.replace(
-									/\./g,
-									'/'
-								)}/`}
+								href={`https://attack.mitre.org/${
+									mitreAttack.includes('TA') ? 'tactics' : 'techniques'
+								}/${mitreAttack.replace(/\./g, '/')}/`}
 								target="_blank"
 								rel="noopener noreferrer"
 								css={css`
@@ -129,12 +128,12 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 });
 
 const rootWrapperStyle = css`
-	background-color: ${TokensAll.BackgroundColor1b};
+	background-color: ${CoreTokens.Background3b};
 `;
 const outputMetaStyle = css`
 	width: 100%;
 	display: flex;
-	/* border-bottom: 1px solid ${Tokens.CoreTokens.BackgroundColor2}; */
+	/* border-bottom: 1px solid ${CoreTokens.Background1}; */
 	align-items: baseline;
 	padding: 0 1rem 0 3rem;
 `;
@@ -148,13 +147,13 @@ const outputOverflowWrapperStyle = css`
 const preStyles = css`
 	padding: 0.25rem 1rem 0.25rem 3rem;
 	margin: 0;
-	font-size: ${Tokens.CoreTokens.FontSizeSmall};
-	color: ${Tokens.TextColors.PtTextColorMuted};
-	border-top: 1px solid ${Tokens.CoreTokens.BackgroundColor2};
+	font-size: ${CoreTokens.FontSizeSmall};
+	color: ${CoreTokens.TextMuted};
+	border-top: 1px solid ${CoreTokens.Background1};
 	white-space: pre;
 `;
 const showMoreWrapperStyle = css`
-	border-top: 1px solid ${Tokens.CoreTokens.BackgroundColor2};
+	border-top: 1px solid ${CoreTokens.Background1};
 `;
 const showMoreButtonStyle = css`
 	margin: 0 1rem 0 2.25rem;

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
 import { useEffect, useRef } from 'react';
@@ -191,29 +191,25 @@ const GridCell = styled.div`
 export type DraggerRendererProps = ComponentProps<'div'> & {
 	isDragging: boolean;
 };
-export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({
-	isDragging,
-	children = <DefaultDraggerHandle />, // Not sure this is necessary
-	...props
-}) => (
+export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({ isDragging, ...props }) => (
 	<div css={[draggerStyle, isDragging ? isDraggingStyle : undefined]} {...props}>
-		{children}
+		<DefaultDraggerHandle isDragging={isDragging} />
 	</div>
 );
-const draggerWidth = 5;
+
 const draggerStyle = css`
 	width: 1px;
-	background-color: ${Tokens.CoreTokens.BorderColorNormal};
+	margin: 0 -1px;
 	cursor: col-resize;
 	display: flex;
 	position: relative;
 	&:before {
 		content: '';
-		background-color: ${Tokens.CoreTokens.BorderColorNormal};
-		width: ${draggerWidth}px;
-		margin: -2px -${draggerWidth / 2}px;
+		background-color: ${CoreTokens.BorderNormal};
+		width: 5px;
+		margin: 0 -2px;
 		opacity: 0;
-		border: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+		border: 1px solid ${CoreTokens.BorderNormal};
 	}
 	&:hover:before {
 		opacity: 0.3;
@@ -224,9 +220,8 @@ const isDraggingStyle = css`
 	&:before,
 	&:hover:before,
 	&:active:before {
-		background-color: ${Tokens.IntentColors.PtIntentPrimary};
+		background-color: ${CoreTokens.Intent.Primary3};
 		opacity: 1;
-		z-index: 2;
 	}
 `;
 
@@ -248,24 +243,22 @@ const handleStyle = css`
 	justify-content: center;
 	align-items: center;
 	border-radius: 99px;
-	border: 1px solid ${Tokens.CoreTokens.BorderColorNormal};
+	border: 1px solid ${CoreTokens.BorderNormal};
 	min-height: 23px;
 	max-height: 23px;
 	min-width: 9px;
 	max-width: 9px;
 	margin: 0.75rem -4px;
-	background-color: ${Tokens.Components.ButtonBackgroundColor};
-	&:hover {
-		background-color: ${Tokens.Components.ButtonBackgroundColorHover};
-	}
-	&:active {
-		background-color: ${Tokens.Components.ButtonBackgroundColorActive};
-	}
+	color: ${CoreTokens.TextIcon};
+	background-color: ${CoreTokens.Background1};
 `;
-const handleStyleIsDraggingStyle = css``;
+const handleStyleIsDraggingStyle = css`
+	background-color: ${CoreTokens.Intent.Primary3};
+	color: ${CoreTokens.OnIntent};
+`;
 const DragCircle = styled.div`
 	border-radius: 99px;
-	background-color: ${Tokens.IconColors.PtIconColor};
+	background-color: currentColor;
 	height: 1px;
 	width: 1px;
 	margin: 1px;

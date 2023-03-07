@@ -5,9 +5,10 @@ import { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
+import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
-import { useToggleHidden } from './use-toggle-hidden';
+import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 export const HostMeta = observer(() => {
 	const store = useStore();
@@ -21,6 +22,8 @@ export const HostMeta = observer(() => {
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
+
+	const { last, isDialogDisabled } = useCheckLastUnhidden('host', host?.current?.hidden || false);
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {
@@ -73,17 +76,20 @@ export const HostMeta = observer(() => {
 				))}
 			</div>
 			<ToggleHiddenButton
+				cy-test="show-hide-this-host"
 				disabled={!!store.appMeta.blueTeam}
-				onClick={() => toggleHidden.update('showHide', true)}
+				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
 				isHiddenToggled={!!host?.current?.hidden}
 				typeName="host"
 			/>
 			<ToggleHiddenDialog
+				typeName="host"
 				isOpen={toggleHidden.showHide}
 				infoType={InfoType.HOST}
 				isHiddenToggled={!!host?.current?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
+				last={last}
 			/>
 		</MetaGridLayout>
 	);

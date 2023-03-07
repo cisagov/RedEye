@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { dateShortFormat, semanticIcons as icons } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import type { AnyModel } from '@redeye/client/types/search';
-import { SkeletonTxt, Spacer, Tokens, Txt } from '@redeye/ui-styles';
+import { AdvancedTokens, CoreTokens, SkeletonTxt, Spacer, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { MomentInput } from 'moment-timezone';
 import type { ComponentProps, ReactNode } from 'react';
@@ -82,11 +82,21 @@ export const SearchRow = observer<SearchRowProps>(
 				)}
 				{children && <div css={childrenStyles}>{children}</div>}
 				<div css={iconsStyle}>
-					{hostsCount !== undefined && <IconLabel value={hostsCount} title="Hosts" icon={icons.host} />}
-					{tagsCount !== undefined && <IconLabel value={tagsCount} title="Tags" icon={icons.tags} />}
-					{commandsCount !== undefined && <IconLabel value={commandsCount} title="Commands" icon={icons.commands} />}
-					{beaconsCount !== undefined && <IconLabel value={beaconsCount} title="Beacons" icon={icons.beacon} />}
-					{commentsCount !== undefined && <IconLabel value={commentsCount} title="Comments" icon={icons.comment} />}
+					{hostsCount !== undefined && (
+						<IconLabel value={hostsCount} title="Hosts" cy-test="host-count" icon={icons.host} />
+					)}
+					{tagsCount !== undefined && (
+						<IconLabel value={tagsCount} title="Tags" cy-test="tag-count" icon={icons.tags} />
+					)}
+					{commandsCount !== undefined && (
+						<IconLabel value={commandsCount} title="Commands" cy-test="command-count" icon={icons.commands} />
+					)}
+					{beaconsCount !== undefined && (
+						<IconLabel value={beaconsCount} title="Beacons" cy-test="beacon-count" icon={icons.beacon} />
+					)}
+					{commentsCount !== undefined && (
+						<IconLabel value={commentsCount} title="Comments" cy-test="comment-count" icon={icons.comment} />
+					)}
 				</div>
 			</div>
 		);
@@ -94,13 +104,13 @@ export const SearchRow = observer<SearchRowProps>(
 );
 
 const wrapperStyles = css`
-	border-bottom: 1px solid ${Tokens.LayoutColors.PtDividerBlack};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	padding: 1rem 1.5rem;
 	cursor: pointer;
 	position: relative;
 
 	&:hover {
-		background: ${Tokens.Components.MinimalButtonBackgroundColorHover};
+		background: ${AdvancedTokens.MinimalButtonBackgroundColorHover};
 	}
 `;
 

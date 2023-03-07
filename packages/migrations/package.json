@@ -1,5 +1,9 @@
 {
 	"name": "@redeye/migrations",
 	"version": "0.0.1",
-	"type": "commonjs"
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"dependencies": {
+		"@redeye/models": "workspace:*"
+	}
 }

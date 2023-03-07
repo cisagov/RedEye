@@ -1,0 +1,25 @@
+dependsOn:
+  - 'graph'
+  - 'ui-styles'
+tasks:
+  build:
+    deps:
+      - ~:build-vite
+  start-dev:
+    deps:
+      - ^:build
+      - ~:start-vite
+    options:
+      runInCI: false
+  graphql:
+    command: mk-gql --outDir=./src/store/graphql ../server/schema.graphql
+    deps:
+      - ~:build
+    options:
+      runInCI: false
+  generate-graphql:
+    command: 'prettier --write src/store/graphql/*.ts'
+    deps:
+      - ~:graphql
+    options:
+      runInCI: false

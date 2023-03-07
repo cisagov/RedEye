@@ -12,7 +12,11 @@ RedEye can assist an operator to efficiently:
 - Display and evaluate complex assessment data to enable effective decision making.
 - Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.
 
-[![RedEye](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/rsybgk/main&style=flat-square&logo=cypress)](https://dashboard.cypress.io/projects/rsybgk/runs)
+Red Team:
+[![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&style=flat&logo=cypress)](https://cloud.cypress.io/projects/rsybgk/runs)
+
+Blue Team:
+[![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs)
 
 ## [User Guide](<docs/User Guide.md>)
 
@@ -88,10 +92,10 @@ _Note: For Mac users, when first running the `RedEye` application (and `cs-parse
 - Run: `yarn install` // Installs all packages
 - Run either:
   1. `yarn release:all` to build a binary for Linux, macOS, and Windows
-  2. `yarn release --platform (mac|win|linux)` to build for a specific platform.
+  2. `yarn release:(mac|windows|linux)` to build for a specific platform.
   - platform options:
     - mac
-    - win
+    - windows
     - linux
 
 ## Development
@@ -123,7 +127,7 @@ yarn run start:server
 
 #### Build
 
-`yarn build:all` to build all applications and their dependent libraries
+`yarn build` to build all applications and their dependent libraries
 
 #### Server .env example
 

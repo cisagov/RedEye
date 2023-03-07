@@ -1,11 +1,12 @@
+import type { TabId } from '@blueprintjs/core';
 import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
 import { Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, customIconPaths, Flex, ScrollBox } from '@redeye/client/components';
+import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { TabsStyled, Tokens, TokensAll, Txt } from '@redeye/ui-styles';
+import { TabsStyled, Txt, CoreTokens, ThemeClasses } from '@redeye/ui-styles';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -63,8 +64,8 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		[]
 	);
 
-	const handleTabChange = useCallback(async (newTab: Tabs) => {
-		await store.campaign?.setSelectedTab(newTab);
+	const handleTabChange = useCallback(async (newTab: TabId) => {
+		await store.campaign?.setSelectedTab(newTab as Tabs);
 	}, []);
 
 	useEffect(() => {
@@ -79,7 +80,6 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 				display: flex;
 				flex-direction: column;
 				overflow: hidden;
-				background-color: ${Tokens.CoreTokens.BackgroundColor2};
 			`}
 		>
 			<div css={headerStyles}>
@@ -138,15 +138,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 								{store.router?.params.tab === Tabs.COMMANDS &&
 									state.infoPanelType !== InfoType.OVERVIEW &&
 									store.campaign?.commentStore.groupSelect && (
-										<Flex
-											css={css`
-												width: 100%;
-												background: ${TokensAll.Primary1}; // TODO: color: ;
-												justify-content: space-between;
-												align-items: center;
-												padding-left: 1rem;
-											`}
-										>
+										<div css={modeBarStyle}>
 											<Txt>
 												{state.commandCount} Command{state.commandCount === 1 ? '' : 's'} Selected
 											</Txt>
@@ -175,21 +167,9 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 													padding: 0 1rem;
 												`}
 											/>
-										</Flex>
+										</div>
 									)}
-								<ScrollBox
-									cy-test="info"
-									innerProps={{
-										css: css`
-											will-change: transform;
-
-											& > div {
-												height: 100% !important;
-												width: 100% !important;
-											}
-										`,
-									}}
-								>
+								<ScrollBox cy-test="info" css={{ backgroundColor: CoreTokens.Background2 }}>
 									<PanelRenderer type={state.infoPanelType} sort={store.campaign.sort} />
 								</ScrollBox>
 							</>
@@ -201,6 +181,20 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		</div>
 	);
 });
+
+const modeBarStyle = css`
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 1rem;
+
+	color: ${CoreTokens.OnIntent};
+	background: ${CoreTokens.Intent.Primary4};
+	.${ThemeClasses.DARK} & {
+		background: ${CoreTokens.Intent.Primary1};
+	}
+`;
 
 const headerStyles = css`
 	padding: 0.5rem 1rem 0.75rem;

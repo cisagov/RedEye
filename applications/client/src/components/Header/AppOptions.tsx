@@ -5,6 +5,7 @@ import {
 	CarbonIcon,
 	GeneralSettingsOverlay,
 	HelpOverlay,
+	ModeIndicator,
 	NavButton,
 	UserSettingsOverlay,
 } from '@redeye/client/components';
@@ -103,35 +104,40 @@ const HeaderOptions = ({
 	</ButtonGroup>
 );
 
-const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => (
-	<>
-		<NavButton
-			cy-test="user-settings"
-			icon={<CarbonIcon icon={User24} />}
-			title="User Settings"
-			onClick={() => {
-				state.update('isUserSettingsOpen', true);
-			}}
-			active={state.isUserSettingsOpen}
-		/>
-		<NavButton
-			cy-test="general-settings"
-			icon={<CarbonIcon icon={Settings24} />}
-			title="General Settings"
-			onClick={() => {
-				state.update('isGeneralSettingsOpen', true);
-			}}
-			active={state.isGeneralSettingsOpen}
-		/>
-		<NavButton
-			cy-test="help-btn"
-			icon={<CarbonIcon icon={Help24} />}
-			title="Help"
-			onClick={() => {
-				state.update('isHelpPanelOpen', true);
-			}}
-			active={state.isHelpPanelOpen}
-		/>
-		{/* <NavButton icon={<CarbonIcon icon={DataCheck24} />} title="Server Connection Status..." disabled /> */}
-	</>
-);
+const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => {
+	const store = useStore();
+	const isRedTeam = !store.appMeta.blueTeam;
+
+	return (
+		<>
+			<NavButton
+				cy-test="user-settings"
+				icon={<CarbonIcon icon={User24} />}
+				title="User Settings"
+				onClick={() => {
+					state.update('isUserSettingsOpen', true);
+				}}
+				active={state.isUserSettingsOpen}
+			/>
+			<NavButton
+				cy-test="settings"
+				icon={<CarbonIcon icon={Settings24} />}
+				title="General Settings"
+				onClick={() => {
+					state.update('isGeneralSettingsOpen', true);
+				}}
+				active={state.isGeneralSettingsOpen}
+			/>
+			<NavButton
+				cy-test="help-btn"
+				icon={<CarbonIcon icon={Help24} />}
+				title="Help"
+				onClick={() => {
+					state.update('isHelpPanelOpen', true);
+				}}
+				active={state.isHelpPanelOpen}
+			/>
+			<ModeIndicator isRedTeam={isRedTeam} />
+		</>
+	);
+};

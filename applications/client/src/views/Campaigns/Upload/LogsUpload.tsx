@@ -24,7 +24,7 @@ import {
 	Warning20,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, HoverButton, ScrollBox } from '@redeye/client/components';
+import { CarbonIcon, HoverButton, ScrollBox, ScrollChild } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { Servers } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -84,9 +84,13 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 			const server = { ...defaultServer, name: serverName };
 			const data = new FormData();
 			files.forEach((file: DirectoryFile) => {
-				const f: File = new File([file.blob], file.webkitRelativePath.replace(/\//g, ':').split(':').slice(1).join(':'), {
-					type: file.type,
-				});
+				const f: File = new File(
+					[file.blob],
+					file.webkitRelativePath.replace(/\//g, ':').split(':').slice(1).join(':'),
+					{
+						type: file.type,
+					}
+				);
 				data.append('file', f);
 			});
 			server.fileCount = files.length;
@@ -254,7 +258,8 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 							<span>
 								Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
 								<Txt bold>Server Folders</Txt>.<br />
-								Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>) folders.
+								Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>)
+								folders.
 							</span>
 						) : (
 							<span>
@@ -363,21 +368,23 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 									max-width: 40rem;
 								`}
 							>
-								<Txt
-									tagName="pre"
-									css={css`
-										padding: 1rem;
-										overflow-x: scroll;
-										margin: 0;
-									`}
-								>
-									{state.invalidFiles.map((file) => (
-										<span key={file.webkitRelativePath}>
-											{file.webkitRelativePath}
-											{'\n'}
-										</span>
-									))}
-								</Txt>
+								<ScrollChild>
+									<Txt
+										tagName="pre"
+										css={css`
+											padding: 1rem;
+											overflow-x: scroll;
+											margin: 0;
+										`}
+									>
+										{state.invalidFiles.map((file) => (
+											<span key={file.webkitRelativePath}>
+												{file.webkitRelativePath}
+												{'\n'}
+											</span>
+										))}
+									</Txt>
+								</ScrollChild>
 							</ScrollBox>
 						}
 					>

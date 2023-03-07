@@ -7,7 +7,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel } from '@redeye/client/store';
 import { commandGroupQuery, useStore } from '@redeye/client/store';
 import { CommentBox, MessageRow } from '@redeye/client/views';
-import { Header, TokensAll } from '@redeye/ui-styles';
+import { Header, CoreTokens } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
@@ -66,9 +66,8 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 
 	return (
 		<DialogCustom
-			css={css`
-				padding: 0;
-			`}
+			css={{ padding: 0 }}
+			fixedHeight
 			{...props}
 			isOpen={isOpen}
 			onClose={onClose}
@@ -97,14 +96,11 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				onChange={state.handleOnChange}
 				leftIcon={<CarbonIcon icon={Search16} />}
 				placeholder="Search comments"
+				large
 			/>
-			<ScrollBox
-				css={css`
-					height: 70vh;
-				`}
-			>
+			<ScrollBox>
 				{isSuccess && (
-					<VirtualizedList>
+					<VirtualizedList defaultItemHeight={160}>
 						{state.commandGroups.length === 0 ? (
 							<MessageRow>No Commands</MessageRow>
 						) : state.filteredCommandGroups.length === 0 ? (
@@ -120,7 +116,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 									isAddingCommandToComment
 									css={css`
 										padding: 0.5rem;
-										border-bottom: 1px solid ${TokensAll.BorderColorNormal};
+										border-bottom: 1px solid ${CoreTokens.BorderNormal};
 									`}
 								/>
 							))
@@ -130,7 +126,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				{/* {isLoading && <LoadingOverlay />} */}
 				{isError && <NonIdealState title="Unable to fetch Comments" icon={<CarbonIcon icon={Error16} />} />}
 			</ScrollBox>
-			<Button cy-test="done-button" text="Done" onClick={onClose} minimal />
+			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" />
 		</DialogCustom>
 	);
 });

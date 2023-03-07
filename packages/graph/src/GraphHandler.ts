@@ -22,7 +22,7 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
-import { TokensAll } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -237,7 +237,7 @@ export class GraphHandler {
 				width: `${viewbox?.[2]}`,
 				height: `${viewbox?.[3]}`,
 				encoderOptions: 1,
-				backgroundColor: `${TokensAll.BackgroundColor1}`,
+				backgroundColor: `${CoreTokens.Background3}`,
 			} //viewBox
 		);
 	}
@@ -262,16 +262,16 @@ export class GraphHandler {
 				// graphHierarchical.reheat(0.5);
 				this.dragState.isDragging = true;
 			}
-			let { k: zk } = this.zoomTransform;
-			let { x: mouseX, y: mouseY /*, dx,dy */ } = event;
-			let { startX = 0, startY = 0 } = this.dragState;
+			const { k: zk } = this.zoomTransform;
+			const { x: mouseX, y: mouseY /*, dx,dy */ } = event;
+			const { startX = 0, startY = 0 } = this.dragState;
 			// let { fx, fy, r } = event.subject;
 			// let absX = dx / zk + fx;
 			// let absY = dy / zk + fy;
-			let absDx = mouseX - startX;
-			let absDy = mouseY - startY;
-			let absX = absDx / zk + startX;
-			let absY = absDy / zk + startY;
+			const absDx = mouseX - startX;
+			const absDy = mouseY - startY;
+			const absX = absDx / zk + startX;
+			const absY = absDy / zk + startY;
 			const { x, y } = clampXyToRadius([absX, absY], event.subject.parent.r - event.subject.r);
 			event.subject.fx = x;
 			event.subject.fy = y;

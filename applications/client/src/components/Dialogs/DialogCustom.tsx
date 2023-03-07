@@ -3,17 +3,24 @@ import { Button, Classes, Dialog } from '@blueprintjs/core';
 import { Close16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { WithConditionalCSSProp } from '@emotion/react/types/jsx-namespace';
-import { Header, Tokens } from '@redeye/ui-styles';
+import { CoreTokens, Header } from '@redeye/ui-styles';
 import type { ComponentProps, FC, ReactNode } from 'react';
 import { CarbonIcon } from '../CarbonIcon';
 
 export type DialogCustomProps = DialogProps & {
 	children?: ReactNode;
 	headerProps?: WithConditionalCSSProp<ComponentProps<'div'>>;
+	fixedHeight?: boolean;
 };
 
-export const DialogCustom: FC<DialogCustomProps> = ({ children, title, headerProps, ...props }) => (
-	<Dialog css={dialogWrapperStyles} {...props} title={undefined}>
+export const DialogCustom: FC<DialogCustomProps> = ({
+	children,
+	title,
+	headerProps,
+	fixedHeight = false,
+	...props
+}) => (
+	<Dialog css={[dialogWrapperStyles, fixedHeight && fixedHeightStyles]} {...props} title={undefined}>
 		<div
 			{...headerProps}
 			css={[dialogHeaderStyles, title == null && dialogHeaderEmptyStyles, headerProps?.css]}
@@ -28,7 +35,7 @@ export const DialogCustom: FC<DialogCustomProps> = ({ children, title, headerPro
 					top: 0;
 					right: 0;
 					margin: 0.25rem;
-					color: ${Tokens.TextColors.PtTextColorMuted};
+					color: ${CoreTokens.TextMuted};
 				`}
 				rightIcon={<CarbonIcon icon={Close16} />}
 				// text={'Cancel'}
@@ -46,13 +53,18 @@ const dialogWrapperStyles = css`
 	max-width: 44rem;
 	/* max-width: unset; */
 `;
+const fixedHeightStyles = css`
+	margin: auto 3rem;
+	height: 90vh;
+	min-height: 400px;
+`;
 const dialogHeaderStyles = css`
 	position: sticky;
 	top: 0;
 	z-index: 10;
 	opacity: 0.97; // to see wats scrollin underneath
-	background-color: ${Tokens.CoreTokens.BackgroundColor2};
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
+	background-color: ${CoreTokens.Background1};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	box-shadow: none;
 	/* display: block; */
 	/* padding: 1rem; */

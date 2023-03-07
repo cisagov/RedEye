@@ -1,0 +1,311 @@
+# https://moonrepo.dev/docs/config/global-project
+$schema: 'https://moonrepo.dev/schemas/global-project.json'
+
+# Extend and inherit an external configuration file. Must be a valid HTTPS URL or file system path.
+# extends: './shared/project.yml'
+
+# File groups are a mechanism for grouping similar types of files within a project
+# using file glob patterns. These groups are then used by tasks to calculate functionality like
+# cache computation, affected files since last change, command line arguments, deterministic
+# builds, and more.
+#
+# This setting requires a map, where the key is the file group name, and the value is a list of
+# globs. Globs are relative to a project, even though they are defined globally. This enables
+# enforcement of organizational patterns across all projects in the workspace.
+fileGroups:
+  # List of configuration files located within the project root.
+  configs:
+    - '*.{js,json,yml,yaml}'
+
+  # List of non-test source files.
+  sources:
+    - 'src/**/*'
+    - 'types/**/*'
+    - 'package.json'
+
+  # List of non-source test files.
+  tests:
+    - 'tests/**/*.test.*'
+    - '**/__tests__/**/*'
+
+  # All static assets within the project.
+  # This may include styles, images, videos, etc.
+  assets:
+    - 'assets/**/*'
+    - 'images/**/*'
+    - 'static/**/*'
+    - '**/*.{scss,css}'
+    - '**/*.mdx'
+
+# A task is an action that is ran within the context of a project, and wraps
+# around an npm or system command. Tasks that are defined here and inherited by all projects
+# within the workspace, but can be overridden per project.
+#
+# This setting requires a map, where the key is a unique name for the task,
+# and the value is an object of task parameters.
+tasks:
+  run-cypress:
+    local: true
+    command:
+      - cypress
+      - run
+      - --config-file
+      - cypress.config.js
+    env:
+      CYPRESS_BASE_URL: http://localhost:3500
+    platform: node
+    options:
+      runInCI: false
+  start-cypress:
+    local: true
+    command:
+      - cypress
+      - open
+      - --config-file
+      - cypress.config.js
+    env:
+      CYPRESS_BASE_URL: http://localhost:3500
+    platform: node
+    options:
+      runInCI: false
+  test-jest:
+    command: 'jest . --coverage --reporters="jest-junit" --passWithNoTests'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - 'jest.config.ts'
+    platform: node
+    options:
+      runInCI: false
+  lint-ci:
+    command: 'eslint'
+    options:
+      affectedFiles: true
+      runInCI: false
+  lint:
+    command: 'eslint src --fix --max-warnings 0'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - '.eslintignore'
+      - '.eslintrc.yaml'
+    platform: node
+    options:
+      runInCI: false
+  format:
+    command:
+      - prettier
+      - '**/*.+(ts|tsx|js|jsx|json|yml|yaml)'
+      - --write
+      - --config
+      - $workspaceRoot/.prettierrc.yaml
+      - --ignore-unknown
+      - --ignore-path
+      - $workspaceRoot/.gitignore
+    inputs:
+      - '@globs(sources)'
+    options:
+      runInCI: false
+      affectedFiles: true
+    platform: node
+
+  # Vite commands
+
+  start-vite:
+    command: 'vite'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(assets)'
+      - 'vite.config.ts'
+    local: true
+    platform: node
+    options:
+      runInCI: false
+  build-vite:
+    command: 'vite build'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(assets)'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+    outputs:
+      - dist
+      - tsconfig.tsbuildinfo
+    env:
+      NODE_ENV: production
+    deps:
+      - ~:clean-dist
+      - ^:build
+    platform: node
+    options:
+      runInCI: false
+      runDepsInParallel: false
+
+  # Library mode commands
+  build-library:
+    command: 'npx -c "tsup-node ./src/index.ts --minify --format esm && tsc --emitDeclarationOnly --outDir dist"'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(assets)'
+      - 'tsconfig.json'
+    outputs:
+      - dist
+      - 'tsconfig.tsbuildinfo'
+    env:
+      NODE_ENV: production
+    deps:
+      - ^:build
+      - ~:clean-dist
+    platform: node
+    options:
+      runDepsInParallel: false
+      runInCI: false
+  watch-library:
+    command: 'tsup-node ./src/index.ts --watch --clean --minify --format esm'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(assets)'
+    outputs:
+      - dist
+    env:
+      NODE_ENV: production
+    platform: node
+    local: true
+    options:
+      runInCI: false
+
+  # Node commands
+
+  ## Build with SWC and type checking
+  build-node:
+    command: 'noop'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - 'tsconfig.json'
+    outputs:
+      - dist
+      - 'tsconfig.tsbuildinfo'
+    deps:
+      - ^:build
+      - ~:build-swc
+      - ~:typecheck
+    env:
+      NODE_ENV: production
+    platform: node
+    options:
+      runDepsInParallel: false
+      runInCI: false
+
+  ## Build with SWC and clean dist
+  build-swc:
+    command: 'swc src -d @out(0) --copy-files'
+    inputs:
+      - '@globs(sources)'
+      - '.swcrc'
+    outputs:
+      - dist
+    deps:
+      - ~:clean-dist
+    platform: node
+    options:
+      runInCI: false
+
+  start-node:
+    env:
+      NODE_ENV: development
+    command: 'nodemon --ext ts --watch src --exec "swc src -d dist && yarn node ./dist/index.js" --ignore "src/**/*.test.ts"'
+    local: true
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - 'tsconfig.json'
+    platform: node
+    options:
+      runInCI: false
+
+  # Release Commands
+
+  release-all:
+    command: 'noop'
+    deps:
+      - ~:release-linux
+      - ~:release-windows
+      - ~:release-mac
+    platform: node
+    options:
+      mergeOutputs: 'replace'
+      runInCI: false
+  release-mac:
+    command: 'pkg ./package.json -t node16-mac -o @out(0)'
+    deps:
+      - ~:build
+      - ~:fetch-pkg-mac
+    platform: node
+    outputs:
+      - /release/mac/RedEye
+    options:
+      mergeOutputs: 'replace'
+      runInCI: false
+  release-linux:
+    command: 'pkg ./package.json -t node16-linux -o @out(0)'
+    deps:
+      - ~:build
+      - ~:fetch-pkg-linux
+    platform: node
+    outputs:
+      - /release/linux/RedEye
+    options:
+      mergeOutputs: 'replace'
+      runInCI: false
+  release-windows:
+    command: 'pkg ./package.json -t node16-win -o @out(0)'
+    deps:
+      - ~:build
+      - ~:fetch-pkg-windows
+    outputs:
+      - /release/windows/RedEye
+    options:
+      mergeOutputs: 'replace'
+      runInCI: false
+    platform: node
+
+  ## Fetch pkg commands
+  fetch-pkg-mac:
+    command: 'pkg-fetch --platform mac --node-range node16'
+    options:
+      runInCI: false
+  fetch-pkg-linux:
+    command: 'pkg-fetch --platform linux --node-range node16'
+    options:
+      runInCI: false
+  fetch-pkg-windows:
+    command: 'pkg-fetch --platform win --node-range node16'
+    options:
+      runInCI: false
+
+  ## Clean
+  clean-dist:
+    command: 'rimraf ./dist && rimraf tsconfig.tsbuildinfo'
+    platform: node
+    options:
+      runInCI: false
+
+  ## Typecheck
+  typecheck:
+    command: 'tsc --emitDeclarationOnly --outDir @out(0)'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - 'tsconfig.json'
+    outputs:
+      - dist
+      - 'tsconfig.tsbuildinfo'
+    platform: node
+    options:
+      runInCI: false
+  noop:
+    command: 'noop'
+    platform: node
+    options:
+      runInCI: false

@@ -2,12 +2,12 @@ import type { DialogProps } from '@blueprintjs/core';
 import { Button, ButtonGroup, Divider, NonIdealState, Spinner } from '@blueprintjs/core';
 import { Copy16, UpToTop16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogCustom, shadowStyle } from '@redeye/client/components';
+import { CarbonIcon, DialogCustom } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel, LogEntryModel } from '@redeye/client/store';
 import { selectFromLogEntry, useStore } from '@redeye/client/store';
 import { copyText, DoublePanelHeader, NavBreadcrumbs } from '@redeye/client/views';
-import { Tokens, TokensAll, Txt } from '@redeye/ui-styles';
+import { Txt, CoreTokens, UtilityStyles } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { throttle } from 'throttle-debounce';
 import { observer } from 'mobx-react-lite';
@@ -138,7 +138,11 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 							const scrollToCommand = state.commandLogEntryIds?.includes?.(logEntry.id);
 							const Component = scrollToCommand ? AutoScrollPre : 'pre';
 							return (
-								<Component key={logEntry.id} cy-test="log-entry" css={[preStyles, scrollToCommand && highlightedStyles]}>
+								<Component
+									key={logEntry.id}
+									cy-test="log-entry"
+									css={[preStyles, scrollToCommand && highlightedStyles]}
+								>
 									{getTextFromLog(logEntry)}
 								</Component>
 							);
@@ -157,7 +161,7 @@ const logModelStyles = css`
 `;
 const preStyles = css`
 	padding: 0.5rem 1rem;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorMuted};
+	border-bottom: 1px solid ${CoreTokens.BorderMuted};
 	margin: 0;
 
 	&:first-of-type {
@@ -172,12 +176,10 @@ const headerStyles = css`
 	padding: 1.25rem 0.5rem 0.75rem 1rem;
 	display: block;
 
-	&:after {
-		background-image: linear-gradient(to bottom, ${Tokens.CoreTokens.ShadowGradient});
+	${UtilityStyles.innerBoxShadowOverlay('top')}
+	position: sticky; // need to reset this to override innerBoxShadowOverlay
+	&:before {
 		top: 100%;
-		right: 0;
-		left: 0;
-		${shadowStyle}
 	}
 `;
 const outputScrollWrapperStyle = css`
@@ -193,7 +195,7 @@ const messagePaddingStyles = css`
 	padding: 30px;
 `;
 const highlightedStyles = css`
-	background: ${TokensAll.BackgroundColor3};
+	background: ${CoreTokens.Background1};
 `;
 
 const AutoScrollPre: FC = (props) => {

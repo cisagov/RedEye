@@ -74,7 +74,7 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 	);
 
 	return (
-		<form {...props} onSubmit={state.handleSubmit} autoComplete="on">
+		<form cy-test="login-form" {...props} onSubmit={state.handleSubmit} autoComplete="on">
 			{!store.appMeta.blueTeam && (
 				<>
 					<InputGroup

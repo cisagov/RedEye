@@ -16,7 +16,7 @@ const migrate = async (orm: ORM) => {
 		try {
 			await migrator.up();
 		} catch (e) {
-			console.error(`Error migrating database ${orm.config.get('dbName')}`, e);
+			console.error(`Error migrating database ${orm.config.get('dbName')}`);
 		}
 	}
 	return orm;

@@ -1,0 +1,7 @@
+10/13 16:29:29 UTC [metadata] 192.168.3.71 <- 192.168.3.71; computer: COMPUTER004; user: SYSTEM *; process: winproc02.exe; pid: 5412; os: Windows; version: 10.0; build: 14393; beacon arch: x64 (x64)
+10/13 17:39:27 UTC [input] <analyst01> exit
+10/13 17:39:27 UTC [task] <> Tasked beacon to exit
+10/13 17:40:25 UTC [checkin] host called home, sent: 8 bytes
+10/13 17:40:25 UTC [output]
+beacon exit.
+

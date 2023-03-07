@@ -9,6 +9,7 @@ Cypress.Commands.add('selectCampaign', (camp) => {
 	cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
 	//  cy.wait(['@servers', '@beacons', '@hosts', '@links', '@commandTypes', '@operators', '@timeline']);
 	cy.get('.superGraph').should('be.visible');
+	cy.get('[cy-test=timeline]').should('be.visible');
 });
 
 //DELETE CAMPAIGN
@@ -27,7 +28,7 @@ Cypress.Commands.add('searchForCampaign', (camp) => {
 });
 
 //CLICK HELP ON CAMPAIGN CARD SCREEN
-Cypress.Commands.add('clickAboutOnCampaignCard', (camp) => {
+Cypress.Commands.add('clickAboutOnCampaignCard', () => {
 	cy.get('[cy-test=help]').click();
 	cy.get('[cy-test=about-modal]').should('be.visible');
 });

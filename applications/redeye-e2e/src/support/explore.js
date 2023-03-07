@@ -22,6 +22,10 @@ Cypress.Commands.add('clickSearch', () => {
 	cy.get('[cy-test=search-mode]').click();
 });
 
+Cypress.Commands.add('closeSearch', () => {
+	cy.get('[cy-test=close-search]').click();
+});
+
 //CLICK PRESENTATION MODE ON EXPLORER PANEL
 Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();
@@ -43,7 +47,7 @@ Cypress.Commands.add('clickUserSettings', () => {
 
 //CLICK GENERAL SETTINGS ON EXPLORER PANEL
 Cypress.Commands.add('clickGeneralSettings', () => {
-	cy.get('[cy-test=general-settings]').click();
+	cy.get('[cy-test=settings]').click();
 });
 
 //CLICK ABOUT MODAL ON EXPLORER PANEL
@@ -55,6 +59,11 @@ Cypress.Commands.add('clickAboutModal', () => {
 //CLICK ON COMMAND TYPES TAB
 Cypress.Commands.add('clickCommandTypesTab', () => {
 	cy.get('[cy-test=command-overview]').click();
+});
+
+// CLICK ON OPERATORS TAB
+Cypress.Commands.add('clickOperatorsTab', () => {
+	cy.get('[cy-test=operators]').click();
 });
 
 //CLICK COMMENTS ON EXPLORER OVERVIEW PANEL
@@ -71,7 +80,7 @@ Cypress.Commands.add('clickBeaconsTab', () => {
 
 //Return to Campaign Card
 Cypress.Commands.add('returnToCampaignCard', () => {
-	cy.get('[cy-test=return-campaign-menu]').click({ force: true });
+	cy.get('[cy-test=return-campaign-menu]').first().click({ force: true });
 	cy.wait('@campaigns');
 });
 
@@ -95,7 +104,42 @@ Cypress.Commands.add('totalBeacons', (num) => {
 	cy.get('div[cy-test=beacons]').should('have.length', num);
 });
 
-//SELECT BEACON FROM OVERVIEW PANEL
-Cypress.Commands.add('selectHostName', (host) => {
-	cy.get('[cy-test=hostName]').contains(host).click();
+// SELECT HOST BY NAME
+Cypress.Commands.add('selectHostByName', (campaignName) => {
+	cy.get('[cy-test=hostName]').contains(campaignName).click();
+});
+
+// PLAY OR PAUSE THE TIMELINE
+Cypress.Commands.add('timelinePlayPause', () => {
+	cy.get('[cy-test=timeline-play-pause]').click();
+});
+
+// MOVE TIMELIME BACK
+Cypress.Commands.add('timelineBack', () => {
+	cy.get('[cy-test=timeline-back]').click();
+});
+
+// MOVE TIMELINE FORWARD
+Cypress.Commands.add('timelineForward', () => {
+	cy.get('[cy-test=timeline-forward]').click();
+});
+
+// RESET TIMELINE DATES
+Cypress.Commands.add('resetTimelineDates', () => {
+	cy.get('[cy-test=reset-timeline-dates]');
+});
+
+// CLICK TO EDIT TIMELINE DATES
+Cypress.Commands.add('editTimelineDates', () => {
+	cy.get('[cy-test=timeline-dates]').click();
+});
+
+// CHANGE TIMELINE START DATE
+Cypress.Commands.add('changeTimelineStartDate', (newStartDate) => {
+	cy.get('.bp4-input').eq(0).click().clear().type(newStartDate);
+});
+
+// CHANGE TIMELINE END DATE
+Cypress.Commands.add('changeTimelineEndDate', (newEndDate) => {
+	cy.get('.bp4-input').eq(1).click().clear().type(newEndDate);
 });

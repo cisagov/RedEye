@@ -5,7 +5,7 @@ import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
 import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
-import { hoverRevealChildrenVisibility, Tokens } from '@redeye/ui-styles';
+import { UtilityStyles, CoreTokens } from '@redeye/ui-styles';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -64,7 +64,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 							params: {
 								activeItem: expandedCommandIDs.length > 1 ? 'command' : undefined,
 								activeItemId:
-									expandedCommandIDs.length > 1 ? (expandedCommandIDs[expandedCommandIDs.length - 2] as UUID) : undefined,
+									expandedCommandIDs.length > 1
+										? (expandedCommandIDs[expandedCommandIDs.length - 2] as UUID)
+										: undefined,
 							},
 						});
 					}
@@ -97,17 +99,15 @@ export const CommandContainer = observer<CommandContainerProps>(
 		);
 		return (
 			<div cy-test="command-info" css={wrapperStyle} {...props}>
-				<div css={[hoverRevealChildrenVisibility, gridWrapperStyle]}>
+				<div css={[UtilityStyles.hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
-						css={[
-							interactiveRowStyle,
-							gridFillStyle,
-							{ height: initialCommandRowHeight },
-							state.expanded || state.active ? activeCommandInfoRowStyle : undefined,
-						]}
+						css={[interactiveRowStyle, gridFillStyle, { height: state.expanded ? 'auto' : initialCommandRowHeight }]}
+						active={state.expanded || state.active}
 						onClick={state.setCollapsed}
-						onMouseEnter={() => store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})}
+						onMouseEnter={() =>
+							store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})
+						}
 					>
 						<Suspense fallback={<Command store={store} skeletonClass={Classes.SKELETON} />}>
 							<Command
@@ -135,7 +135,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 							css={[
 								gridFillStyle,
 								commentCountStyle,
-								!!store.campaign?.commentStore.groupSelect && !store.campaign?.commentStore.newGroupComment && hideCommentCount,
+								!!store.campaign?.commentStore.groupSelect &&
+									!store.campaign?.commentStore.newGroupComment &&
+									hideCommentCount,
 							]}
 						/>
 					)}
@@ -149,7 +151,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 const wrapperStyle = css`
 	display: flex;
 	flex-direction: column;
-	border-bottom: 1px solid ${Tokens.CoreTokens.BorderColorMuted};
+	border-bottom: 1px solid ${CoreTokens.BorderMuted};
 	min-height: 3rem;
 `;
 const gridWrapperStyle = css`
@@ -174,7 +176,3 @@ const interactiveRowStyle = css`
 	padding: 0.5rem 3rem 0.5rem 1rem;
 `;
 export const initialCommandRowHeight = 56;
-
-const activeCommandInfoRowStyle = css`
-	background-color: ${Tokens.CoreTokens.BeaconDead} !important;
-`;

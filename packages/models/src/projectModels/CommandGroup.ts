@@ -22,6 +22,7 @@ export class CommandGroup {
 	generation: GenerationType;
 
 	// Relationships
+	@Field(() => [Command])
 	@ManyToMany(() => Command, (command) => command.commandGroups, {
 		owner: true,
 		fixedOrder: false,

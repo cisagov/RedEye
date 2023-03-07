@@ -1,35 +1,33 @@
 {
 	"root": true,
-	"ignorePatterns": ["**/*"],
-	"plugins": ["@nrwl/nx"],
-	"overrides": [
-		{
-			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-			"rules": {
-				"@nrwl/nx/enforce-module-boundaries": [
-					"error",
-					{
-						"enforceBuildableLibDependency": true,
-						"allow": [],
-						"depConstraints": [
-							{
-								"sourceTag": "*",
-								"onlyDependOnLibsWithTags": ["*"]
-							}
-						]
-					}
-				]
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:cypress/recommended"
+	],
+	"env": {
+		"browser": true,
+		"node": true,
+		"es6": true,
+		"cypress/globals": true
+	},
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["import", "@typescript-eslint"],
+	"rules": {
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"no-console": "off",
+		"@typescript-eslint/ban-ts-comment": "off",
+		"no-async-promise-executor": "off",
+		"no-debugger": "warn",
+		"@typescript-eslint/no-inferrable-types": "off",
+		"@typescript-eslint/no-unused-vars": [
+			"error",
+			{
+				"argsIgnorePattern": "^_"
 			}
-		},
-		{
-			"files": ["*.ts", "*.tsx"],
-			"extends": ["plugin:@nrwl/nx/typescript"],
-			"rules": {}
-		},
-		{
-			"files": ["*.js", "*.jsx"],
-			"extends": ["plugin:@nrwl/nx/javascript"],
-			"rules": {}
-		}
-	]
+		],
+		"import/no-anonymous-default-export": ["error"]
+	}
 }

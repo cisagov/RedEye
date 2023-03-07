@@ -1,11 +1,10 @@
 import { BookmarkFilled20, Chat16, Chat20, Play16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { CarbonIcon } from '@redeye/client/components';
 import type { PresentationItemModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoRow, RowTitle } from '@redeye/client/views';
-import { hoverRevealChildrenVisibility, hoverRevealClassName, Tokens } from '@redeye/ui-styles';
+import { CoreTokens, HeroButton, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { IconLabel } from '..';
@@ -22,7 +21,7 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 			cy-test={presentationItem.id}
 			key={presentationItem.id}
 			css={[
-				hoverRevealChildrenVisibility,
+				UtilityStyles.hoverRevealChildrenOpacity,
 				css`
 					padding: 0 2.5rem 0 3.5rem;
 					position: relative;
@@ -36,10 +35,10 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 			<RowTitle
 				css={css`
 					position: relative;
-					font-size: ${Tokens.CoreTokens.FontSizeLarge};
+					font-size: ${CoreTokens.FontSizeLarge};
 					font-weight: ${presentationItem.id === 'all' || presentationItem.id === 'favorited'
-						? Tokens.CoreTokens.FontWeightBold
-						: Tokens.CoreTokens.FontWeightNormal};
+						? CoreTokens.FontWeightBold
+						: CoreTokens.FontWeightNormal};
 				`}
 			>
 				<CarbonIcon
@@ -53,23 +52,22 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 				{presentationItem.key}
 			</RowTitle>
 			<IconLabel cy-test="count" value={presentationItem.count} icon={Chat16} title="Comments" />
-			<PlayIcon icon={Play16} className={hoverRevealClassName} />
+			{/* <PlayIcon icon={Play16} className={UtilityStyles.hoverRevealClassName} /> */}
+			<HeroButton
+				hover
+				className={UtilityStyles.hoverRevealClassName}
+				children={<CarbonIcon icon={Play16} />}
+				css={heroButtonStyle}
+			/>
 		</InfoRow>
 	);
 });
 
-const PlayIcon = styled(CarbonIcon)`
+const heroButtonStyle = css`
 	position: absolute;
 	right: 0.75rem;
-	transform: scale(1.25);
-	height: 2rem;
-	width: 2rem;
-	border-radius: 99px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-shadow: var(--pt-elevation-shadow-4);
-	background-color: var(--pt-intent-primary);
+	height: 2.5rem;
+	width: 2.5rem;
 `;
 
 const getIcon = (presentationItem: PresentationItemModel): any => {

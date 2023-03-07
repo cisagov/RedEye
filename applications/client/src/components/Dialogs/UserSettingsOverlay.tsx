@@ -20,8 +20,8 @@ export const UserSettingsOverlay = observer<UserSettingsOverlayProps>(({ onSubmi
 				`}
 			>
 				<p>Change Username</p>
-				<LoginForm submitText="Update" onSubmit={onSubmit} />
-				<Button minimal text="Log out" onClick={() => store.auth.logOut()} />
+				<LoginForm submitText="Update" cy-test="update" onSubmit={onSubmit} />
+				<Button minimal text="Log out" cy-test="logout" onClick={() => store.auth.logOut()} />
 			</div>
 		</Dialog>
 	);

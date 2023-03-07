@@ -5,47 +5,49 @@ name: Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16.19.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'yarn'
-    - run: |
-        npm install -g pkg-fetch
-        pkg-fetch --platform linux --node-range node16
-        pkg-fetch --platform mac --node-range node16
-        pkg-fetch --platform win --node-range node16 
-    - run: |
-        yarn install --immutable --inline-builds
-        yarn run release:all --verbose
-        chmod +x release/mac/RedEye
-        chmod +x release/linux/RedEye
-    - name: Archive mac production artifacts
-      uses: actions/upload-artifact@v3
-      with: 
-        name: mac
-        path: release/mac
-    - name: Archive linux production artifacts
-      uses: actions/upload-artifact@v3
-      with: 
-        name: linux
-        path: release/linux
-    - name: Archive windows production artifacts
-      uses: actions/upload-artifact@v3
-      with: 
-        name: windows
-        path: release/win
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.19.0
+          cache: 'yarn'
+      - run: |
+          npm install -g pkg-fetch
+          pkg-fetch --platform linux --node-range node16
+          pkg-fetch --platform mac --node-range node16
+          pkg-fetch --platform win --node-range node16
+      - run: |
+          git fetch
+          git config pull.rebase true
+          git pull origin $GITHUB_HEAD_REF
+          yarn install --immutable --inline-builds
+          yarn run release:all
+          chmod +x release/mac/RedEye
+          chmod +x release/linux/RedEye
+      - name: Archive mac production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac
+          path: release/mac
+      - name: Archive linux production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux
+          path: release/linux
+      - name: Archive windows production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows
+          path: release/windows

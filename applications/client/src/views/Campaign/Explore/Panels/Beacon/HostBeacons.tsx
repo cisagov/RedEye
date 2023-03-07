@@ -1,24 +1,11 @@
-import { createSorter, VirtualizedList } from '@redeye/client/components';
-import type { BeaconModel, SortType } from '@redeye/client/store';
-import { SortDirection, useStore } from '@redeye/client/store';
-import type { InfoType } from '@redeye/client/types/explore';
+import { VirtualizedList } from '@redeye/client/components';
 import { BeaconRow, defaultInfoRowHeight, MessageRow } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
-import type { ComponentProps } from 'react';
-
-type BeaconsProps = ComponentProps<'div'> & {
-	type: InfoType;
-	sort: SortType;
-};
+import type { BeaconsProps } from '../hooks/use-beacons';
+import { useBeacons } from '../hooks/use-beacons';
 
 export const HostBeacons = observer<BeaconsProps>(({ ...props }) => {
-	const store = useStore();
-	const beacons = (store.campaign?.interactionState.selectedHost?.current?.beaconIds
-		?.map((beaconId: string | number | symbol) => store.graphqlStore.beacons.get(beaconId as string))
-		.filter(
-			(beacon: BeaconModel | undefined) => beacon != null && !(!beacon || !!beacon?.host?.current?.cobaltStrikeServer)
-		)
-		.sort(createSorter(props.sort.sortBy, props.sort.direction === SortDirection.ASC)) || []) as BeaconModel[];
+	const { beacons } = useBeacons(props);
 
 	return (
 		<VirtualizedList fixedItemHeight={defaultInfoRowHeight}>

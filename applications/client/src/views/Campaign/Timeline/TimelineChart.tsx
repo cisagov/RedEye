@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { durationFormatter } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
-import { Tokens } from '@redeye/ui-styles';
+import { CoreTokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
 import { scaleTime } from 'd3';
 import { observable } from 'mobx';
@@ -124,7 +124,12 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 								dimensions={{ height: height - X_AXIS_LABELS_HEIGHT, width }}
 								scrubberTime={store.campaign?.timeline.scrubberTime ?? null}
 							/>
-							<AxisLabels xScale={state.xScale} yTop={height - X_AXIS_LABELS_HEIGHT} start={state.start} end={state.end} />
+							<AxisLabels
+								xScale={state.xScale}
+								yTop={height - X_AXIS_LABELS_HEIGHT}
+								start={state.start}
+								end={state.end}
+							/>
 							{store.campaign?.timeline.scrubberTime && state.bars.length !== 0 && (
 								<Scrubber
 									scrubberTime={store.campaign?.timeline.scrubberTime}
@@ -157,6 +162,6 @@ const labelStyles = (margin?: number) => css`
 	margin-left: ${margin}px;
 	font-size: 0.8rem;
 	padding: 0.2rem;
-	background-color: ${Tokens.CoreTokens.BackgroundColor3};
-	border: 1px solid ${Tokens.CoreTokens.BorderColorEmphasis};
+	background-color: ${CoreTokens.Background1};
+	border: 1px solid ${CoreTokens.BorderNormal};
 `;

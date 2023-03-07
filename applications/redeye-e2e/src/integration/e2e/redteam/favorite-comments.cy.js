@@ -12,8 +12,7 @@ describe('Favorite comments', () => {
 		// log current number of favorited comments
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=favorited] [cy-test=count]')
+		cy.get('[cy-test=favorited] [cy-test=count]')
 			.invoke('text')
 			.then((resultFavoriteCount1) => {
 				//create a new comment and mark it as a favorite
@@ -27,15 +26,14 @@ describe('Favorite comments', () => {
 
 				cy.addNewComment('0', 'Favorite comment', 'favorite');
 
-				cy.favoriteComment();
+				cy.favoriteComment(0);
 
 				// log new number of favorited comments and compare to original count
 				cy.clickPresentationMode();
 
 				cy.wait(500);
 
-				cy
-					.get('[cy-test=favorited] [cy-test=count]')
+				cy.get('[cy-test=favorited] [cy-test=count]')
 					.should('be.visible')
 					.invoke('text')
 					.then((resultFavoriteCount2) => {

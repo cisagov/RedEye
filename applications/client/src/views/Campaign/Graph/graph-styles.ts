@@ -1,30 +1,8 @@
 import { css } from '@emotion/react';
 import { RedEyeGraphClassNames as GCN } from '@redeye/graph';
-import { TokensAll } from '@redeye/ui-styles';
+import { CoreTokens, GraphTokens } from '@redeye/ui-styles';
 
 export const goldenTicketClassName = 'golden-ticket';
-
-export const GraphTokens = {
-	PresentFgColor: TokensAll.Gray3,
-	PresentBgColor: TokensAll.DarkGray3,
-
-	FutureFgColor: TokensAll.Black, // Black?
-	FutureBgColor: TokensAll.DarkGray2, // DarkGray2?
-	FutureDasharray: '0px 6px', // Dotted
-
-	PastFgColor: TokensAll.DarkGray5,
-	PastBgColor: TokensAll.DarkGray2,
-	PastDasharray: '4px 4.5px', // Dashed
-
-	SelectedFgColor: TokensAll.LightGray2,
-	SelectedThickness: '3px',
-
-	PreviewFgColor: TokensAll.White,
-	PreviewThickness: '2px',
-
-	SelectedFocusFgColor: TokensAll.Primary3,
-	SelectedFocusBgColor: TokensAll.Primary1,
-};
 
 export const graphStyles = css`
 	/** TEMP */
@@ -57,16 +35,16 @@ export const graphStyles = css`
 	stroke-linejoin: round;
 
 	text {
-		font-size: ${TokensAll.FontSizeSmall};
+		font-size: ${CoreTokens.FontSizeSmall};
 		/* Need font and color for SVG Export -> */
-		fill: ${TokensAll.LightGray5};
-		font-family: ${TokensAll.PtFontFamilySans};
+		fill: ${CoreTokens.TextBody};
+		font-family: ${CoreTokens.FontFamilySans};
 		/* <- Need font and color for SVG Export */
-		stroke: ${TokensAll.BackgroundColor1};
+		stroke: ${GraphTokens.TextOutlineColor};
 		paint-order: stroke;
 		stroke-width: 3px;
 		&.${GCN.selectedFocus} {
-			font-weight: ${TokensAll.FontWeightBold};
+			font-weight: ${CoreTokens.FontWeightBold};
 			fill: ${GraphTokens.PreviewFgColor};
 		}
 	}
@@ -94,7 +72,7 @@ export const graphStyles = css`
 		}
 
 		&.${GCN.selected} {
-			stroke: ${GraphTokens.SelectedFgColor};
+			stroke: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
 			stroke-width: ${GraphTokens.SelectedThickness};
 		}
 		&.${GCN.previewed} {
@@ -107,7 +85,7 @@ export const graphStyles = css`
 
 	.${GCN.groupNode} {
 		fill: none;
-		stroke: hsl(${TokensAll.WhiteHsl}, 0.03);
+		stroke: ${GraphTokens.GroupNodeStrokeColor};
 	}
 
 	.${GCN.superNode} {
@@ -127,7 +105,7 @@ export const graphStyles = css`
 			stroke-width: ${GraphTokens.PreviewThickness};
 		}
 		&.${GCN.selected} {
-			stroke: ${GraphTokens.SelectedFgColor};
+			stroke: ${GraphTokens.PreviewFgColor};
 			stroke-width: ${GraphTokens.SelectedThickness};
 		}
 		&.${GCN.previewed} {
@@ -135,16 +113,16 @@ export const graphStyles = css`
 		}
 		&.${GCN.selectedFocus} {
 			fill: ${GraphTokens.SelectedFocusBgColor};
-			stroke: ${GraphTokens.PreviewFgColor};
+			stroke: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
 		}
 	}
 
 	.${GCN.superNodeCountLabel} {
 		&.${GCN.past} {
-			fill: ${TokensAll.PtTextColorMuted};
+			fill: ${CoreTokens.TextMuted};
 		}
 		&.${GCN.future} {
-			fill: ${TokensAll.PtTextColorDisabled};
+			fill: ${CoreTokens.TextDisabled};
 		}
 	}
 
@@ -166,7 +144,7 @@ export const graphStyles = css`
 		}
 
 		&.${GCN.selected} {
-			fill: ${GraphTokens.SelectedFgColor};
+			fill: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
 			r: 5px;
 		}
 		&.${GCN.previewed} {
@@ -177,7 +155,7 @@ export const graphStyles = css`
 			stroke: ${GraphTokens.PreviewFgColor};
 			stroke-width: ${GraphTokens.SelectedThickness};
 			r: 6px;
-			filter: drop-shadow(0 0 1px ${TokensAll.Black});
+			filter: drop-shadow(0 0 1px ${CoreTokens.Colors.Black});
 		}
 	}
 `;

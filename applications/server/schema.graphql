@@ -4,107 +4,135 @@
 # -----------------------------------------------
 
 type Annotation {
-  commandGroupId: String
-  commandIds: [String]
-  date: DateTime!
-  favorite: Boolean!
-  id: String!
-  tags: [Tag!]
-  text: String!
-  user: String!
+	commandGroupId: String
+	commandIds: [String]
+	date: DateTime!
+	favorite: Boolean!
+	generation: GenerationType!
+	id: String!
+	tags: [Tag!]
+	text: String!
+	user: String!
 }
 
 input AnonymizationInput {
-  removeHidden: Boolean = false
-  removeKeystrokes: Boolean = false
-  removePasswordsHashes: Boolean = false
-  removeScreenshots: Boolean = false
+	findReplace: [FindReplaceInput!] = []
+	removeHidden: Boolean = false
+	removeKeystrokes: Boolean = false
+	removePasswordsHashes: Boolean = false
+	removeScreenshots: Boolean = false
+	replaceDomainsAndIps: Boolean = false
+	replaceHostnames: Boolean = false
+	replaceUsernames: Boolean = false
 }
 
 type Beacon {
-  """
-  The name Cobalt Strike gives the beacon or the Cobalt Strike server name. Not _necessarily_ unique across a campaign but is unique to a server
-  """
-  beaconName: String!
-  commandsCount: Float!
-  displayName: String
-  hidden: Boolean
-  host: Host
-  id: String!
-  logsCount: Float!
-  meta: [BeaconMeta!]!
-  mitreTechniques: [MitreTechniques]
-  serverId: String!
+	"""
+	The name Cobalt Strike gives the beacon or the Cobalt Strike server name. Not _necessarily_ unique across a campaign but is unique to a server
+	"""
+	beaconName: String!
+	commandsCount: Float!
+	displayName: String
+	hidden: Boolean
+	host: Host
+	id: String!
+	logsCount: Float!
+	meta: [BeaconMeta!]!
+	mitreTechniques: [MitreTechniques]
+	serverId: String!
 }
 
-"""The type of line in a beacon log"""
+"""
+The type of line in a beacon log
+"""
 enum BeaconLineType {
-  CHECKIN
-  ERROR
-  INDICATOR
-  INPUT
-  METADATA
-  MODE
-  OUTPUT
-  TASK
+	CHECKIN
+	ERROR
+	INDICATOR
+	INPUT
+	METADATA
+	MODE
+	OUTPUT
+	TASK
 }
 
-"""Data derived from the Beacon metadata line"""
+"""
+Data derived from the Beacon metadata line
+"""
 type BeaconMeta {
-  """The time that the last command was run"""
-  endTime: DateTime
-  id: String!
+	"""
+	The time that the last command was run
+	"""
+	endTime: DateTime
+	id: String!
 
-  """The IP of the host at the time of the metadata line"""
-  ip: String
+	"""
+	The IP of the host at the time of the metadata line
+	"""
+	ip: String
 
-  """Process Identifier the beacon is running on"""
-  pid: Int
+	"""
+	Process Identifier the beacon is running on
+	"""
+	pid: Int
 
-  """The start time of the beacon"""
-  startTime: DateTime
+	"""
+	The log line from which the BeaconMeta was extracted
+	"""
+	source: LogEntry!
 
-  """The username the beacon is running under"""
-  username: String
+	"""
+	The start time of the beacon
+	"""
+	startTime: DateTime
+
+	"""
+	The username the beacon is running under
+	"""
+	username: String
 }
 
 type Campaign {
-  annotationCount: Int!
-  beaconCount: Int!
-  bloodStrikeServerCount: Int!
-  commandCount: Int!
-  computerCount: Int!
-  creator: GlobalOperator
-  firstLogTime: DateTime
-  id: String!
-  lastLogTime: DateTime
-  lastOpenedBy: GlobalOperator
-  name: String!
-  parsingStatus: ParsingStatus!
+	annotationCount: Int!
+	beaconCount: Int!
+	commandCount: Int!
+	computerCount: Int!
+	creator: GlobalOperator
+	firstLogTime: DateTime
+	id: String!
+	lastLogTime: DateTime
+	lastOpenedBy: GlobalOperator
+	migrationError: Boolean!
+	name: String!
+	parsingStatus: ParsingStatus!
+	serverCount: Int!
 }
 
 type Command {
-  attackIds: [String!]
-  beacon: Beacon!
-  commandGroups: [CommandGroup!]!
-  id: String!
-  input: LogEntry!
-  inputText: String!
-  mitreTechniques: [MitreTechniques]
-  operator: Operator
-  output: [LogEntry!]!
+	attackIds: [String!]
+	beacon: Beacon!
+	commandFailed: Boolean!
+	commandGroups: [CommandGroup!]!
+	id: String!
+	input: LogEntry!
+	inputText: String!
+	mitreTechniques: [MitreTechniques]
+	operator: Operator
+	output: [LogEntry!]!
 }
 
 type CommandGroup {
-  annotations: [Annotation!]!
-  commandIds: [String!]!
-  id: String!
+	annotations: [Annotation!]!
+	commandIds: [String!]!
+	commands: [Command!]!
+	generation: GenerationType!
+	id: String!
 }
 
 type CommandTypeCount {
-  count: Float!
-  id: String!
-  text: String!
+	count: Float!
+	id: String!
+	text: String!
 }
 
 """
@@ -113,460 +141,699 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type File {
-  dateTime: DateTime!
-  fileFlag: FileFlag!
-  fileName: String!
-  id: String!
-  ip: String
-  location: String!
+	dateTime: DateTime!
+	fileFlag: FileFlag!
+	fileName: String!
+	id: String!
+	ip: String
+	location: String!
 
-  """
-  Generated automatically when using the upload command, the MD5 message-digest algorithm is a widely used hash function producing a 128-bit hash value.
-  """
-  md5: String
+	"""
+	Generated automatically when using the upload command, the MD5 message-digest algorithm is a widely used hash function producing a 128-bit hash value.
+	"""
+	md5: String
 }
 
 """
 Designates if this is an upload or download
     UPLOAD: File was put on or replace on a target host
     DOWNLOAD: File was taken from a target host
-  
 """
 enum FileFlag {
-  DOWNLOAD
-  UPLOAD
+	DOWNLOAD
+	UPLOAD
+}
+
+input FindReplaceInput {
+	find: String = ""
+	replace: String = ""
+}
+
+"""
+How the entity was generated
+"""
+enum GenerationType {
+	MANUAL
+	PROCEDURAL
+	PROCEDURAL_MODIFIED
 }
 
 type GlobalOperator {
-  id: String!
-  name: String!
+	id: String!
+	name: String!
 }
 
 type Host {
-  beaconIds: [String!]!
-  cobaltStrikeServer: Boolean!
-  displayName: String
-  hidden: Boolean
-  hostName: String!
-  id: String!
-  meta: [HostMeta!]!
+	beaconIds: [String!]!
+	cobaltStrikeServer: Boolean
+	displayName: String
+	hidden: Boolean
+	hostName: String!
+	id: String!
+	meta: [HostMeta!]!
 }
 
 type HostMeta {
-  id: String!
-  ip: String
-  os: String
-  type: String
+	id: String!
+	ip: String
+	os: String
+	type: String
 }
 
 type Image {
-  fileType: String
-  id: String!
-  url: String
+	fileType: String
+	id: String!
+	url: String
 }
 
 type Link {
-  command: Command
-  destination: Beacon
-  endTime: DateTime
-  id: String!
+	command: Command
+	destination: Beacon
+	endTime: DateTime
+	id: String!
 
-  """Was this Link manually created"""
-  manual: Boolean
+	"""
+	Was this Link manually created
+	"""
+	manual: Boolean
 
-  """The display name of the link"""
-  name: String
-  origin: Beacon
+	"""
+	The display name of the link
+	"""
+	name: String
+	origin: Beacon
 
-  """Shouldn't be nullable but it is to handle bad data sets"""
-  startTime: DateTime
+	"""
+	Shouldn't be nullable but it is to handle bad data sets
+	"""
+	startTime: DateTime
 }
 
 type LogEntry {
-  beacon: Beacon
+	beacon: Beacon
 
-  """All lines in a LogEntry"""
-  blob: String!
-  command: Command
-  dateTime: DateTime
-  filepath: String!
-  id: String!
-  lineNumber: Float!
-  lineType: BeaconLineType
-  logType: LogType!
+	"""
+	All lines in a LogEntry
+	"""
+	blob: String!
+	command: Command
+	dateTime: DateTime
+	filepath: String!
+	id: String!
+	lineNumber: Float!
+	lineType: BeaconLineType
+	logType: LogType!
 }
 
-"""Basic Log Types based on the filename"""
+"""
+Basic Log Types based on the filename
+"""
 enum LogType {
-  BEACON
-  DOWNLOAD
-  EVENT
-  KEYSTROKES
-  UNKNOWN
-  WEBLOG
+	BEACON
+	DOWNLOAD
+	EVENT
+	KEYSTROKES
+	UNKNOWN
+	WEBLOG
 }
 
-"""High level mitre technique"""
+"""
+High level mitre technique
+"""
 enum MitreTechniques {
-  Collection
-  CommandAndControl
-  CredentialAccess
-  DefenseEvasion
-  Discovery
-  Execution
-  Exfiltration
-  GoldenTicket
-  Impact
-  InitialAccess
-  LateralMovement
-  Persistence
-  PrivilegeEscalation
-  Reconnaissance
-  ResourceDevelopment
+	Collection
+	CommandAndControl
+	CredentialAccess
+	DefenseEvasion
+	Discovery
+	Execution
+	Exfiltration
+	GoldenTicket
+	Impact
+	InitialAccess
+	LateralMovement
+	Persistence
+	PrivilegeEscalation
+	Reconnaissance
+	ResourceDevelopment
 }
 
 type Mutation {
-  """Add an Annotation to an existing CommandGroup"""
-  addAnnotationToCommandGroup(campaignId: String!, commandGroupId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
+	"""
+	Add an Annotation to an existing CommandGroup
+	"""
+	addAnnotationToCommandGroup(
+		campaignId: String!
+		commandGroupId: String!
+		favorite: Boolean
+		tags: [String!]!
+		text: String!
+		user: String!
+	): Annotation!
 
-  """Create a CommandGroup annotation"""
-  addCommandGroupAnnotation(campaignId: String!, commandIds: [String!]!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
+	"""
+	Create a CommandGroup annotation
+	"""
+	addCommandGroupAnnotation(
+		campaignId: String!
+		commandIds: [String!]!
+		favorite: Boolean
+		tags: [String!]!
+		text: String!
+		user: String!
+	): Annotation!
 
-  """Add an Command to an existing CommandGroup"""
-  addCommandToCommandGroup(campaignId: String!, commandGroupId: String!, commandId: String!): CommandGroup!
+	"""
+	Add an Command to an existing CommandGroup
+	"""
+	addCommandToCommandGroup(campaignId: String!, commandGroupId: String!, commandId: String!): CommandGroup!
 
-  """Add a server from folder already accessible from the server"""
-  addLocalServerFolder(campaignId: String!, name: String!, path: String!): Server! @deprecated(reason: "FOR CYPRESS TESTING PURPOSES ONLY")
+	"""
+	Add a server from folder already accessible from the server
+	"""
+	addLocalServerFolder(campaignId: String!, name: String!, path: String!): Server!
+		@deprecated(reason: "FOR CYPRESS TESTING PURPOSES ONLY")
 
-  """Anonymize campaign for export"""
-  anonymizeCampaign(anonymizeOptions: AnonymizationInput!, campaignId: String!): String!
+	"""
+	Anonymize campaign for export
+	"""
+	anonymizeCampaign(anonymizeOptions: AnonymizationInput!, campaignId: String!): String!
 
-  """Create a new Campaign"""
-  createCampaign(creatorName: String!, name: String!): Campaign!
+	"""
+	Create a new Campaign
+	"""
+	createCampaign(creatorName: String!, name: String!): Campaign!
 
-  """Create a global user"""
-  createGlobalOperator(username: String!): GlobalOperator
+	"""
+	Create a global user
+	"""
+	createGlobalOperator(password: String!, username: String!): GlobalOperator
 
-  """Create a new link between two beacons"""
-  createLink(
-    campaignId: String!
+	"""
+	Create a new link between two beacons
+	"""
+	createLink(
+		campaignId: String!
 
-    """command id to add to link"""
-    commandId: String!
+		"""
+		command id to add to link
+		"""
+		commandId: String!
 
-    """destination beacon id"""
-    destinationId: String!
-    name: String!
+		"""
+		destination beacon id
+		"""
+		destinationId: String!
+		name: String!
 
-    """origin beacon id"""
-    originId: String!
-  ): Link!
+		"""
+		origin beacon id
+		"""
+		originId: String!
+	): Link!
 
-  """Delete existing Annotation"""
-  deleteAnnotation(annotationId: String!, campaignId: String!): Annotation!
+	"""
+	Delete existing Annotation
+	"""
+	deleteAnnotation(annotationId: String!, campaignId: String!): Annotation!
 
-  """Delete a Campaign by id"""
-  deleteCampaign(campaignId: String!): Boolean!
+	"""
+	Delete a Campaign by id
+	"""
+	deleteCampaign(campaignId: String!): Boolean!
 
-  """Edit a link"""
-  editLink(
-    campaignId: String!
+	"""
+	Delete a link
+	"""
+	deleteLink(campaignId: String!, id: String!): Link!
 
-    """command id to add to link"""
-    commandId: String!
+	"""
+	Edit a link
+	"""
+	editLink(
+		campaignId: String!
 
-    """destination beacon id"""
-    destinationId: String!
-    id: String!
-    name: String!
+		"""
+		command id to add to link
+		"""
+		commandId: String!
 
-    """origin beacon id"""
-    originId: String!
-  ): Link!
+		"""
+		destination beacon id
+		"""
+		destinationId: String!
+		id: String!
+		name: String!
 
-  """Rename existing Campaign"""
-  renameCampaign(campaignId: String!, name: String!): Campaign!
-  serversParse(campaignId: String!): Boolean!
+		"""
+		origin beacon id
+		"""
+		originId: String!
+	): Link!
 
-  """Toggle beacon hidden state"""
-  toggleBeaconHidden(beaconId: String!, campaignId: String!): Beacon!
+	"""
+	Rename existing Campaign
+	"""
+	renameCampaign(campaignId: String!, name: String!): Campaign!
+	serversParse(campaignId: String!): Boolean!
 
-  """Toggle host hidden state"""
-  toggleHostHidden(campaignId: String!, hostId: String!): Host!
+	"""
+	Toggle beacon hidden state
+	"""
+	toggleBeaconHidden(beaconId: String!, campaignId: String!): Beacon!
 
-  """Toggle server hidden state"""
-  toggleServerHidden(campaignId: String!, serverId: String!): Server!
+	"""
+	Toggle host hidden state
+	"""
+	toggleHostHidden(campaignId: String!, hostId: String!): Host!
 
-  """Update existing Annotation"""
-  updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
+	"""
+	Toggle server hidden state
+	"""
+	toggleServerHidden(campaignId: String!, serverId: String!): Server!
 
-  """Update existing Beacon Metadata"""
-  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, campaignId: String!): Beacon!
+	"""
+	Update existing Annotation
+	"""
+	updateAnnotation(
+		annotationId: String!
+		campaignId: String!
+		favorite: Boolean
+		tags: [String!]!
+		text: String!
+		user: String!
+	): Annotation!
 
-  """Update existing Host Display Name"""
-  updateHostMetadata(campaignId: String!, hostDisplayName: String!, hostId: String!): Host!
+	"""
+	Update existing Beacon Metadata
+	"""
+	updateBeaconMetadata(
+		beaconDisplayName: String
+		beaconId: String!
+		beaconTimeOfDeath: DateTime
+		campaignId: String!
+	): Beacon!
 
-  """Update existing Server name"""
-  updateServerMetadata(campaignId: String!, serverDisplayName: String, serverId: String!, serverType: ServerType): Server!
+	"""
+	Update existing Host Display Name
+	"""
+	updateHostMetadata(campaignId: String!, hostDisplayName: String!, hostId: String!): Host!
+
+	"""
+	Update existing Server name
+	"""
+	updateServerMetadata(
+		campaignId: String!
+		serverDisplayName: String
+		serverId: String!
+		serverType: ServerType
+	): Server!
 }
 
 type Operator {
-  beaconIds: [String!]!
-  endTime: DateTime
-  id: String!
-  logIds: [String!]!
-  name: String!
-  startTime: DateTime
+	beaconIds: [String!]!
+	endTime: DateTime
+	id: String!
+	logIds: [String!]!
+	name: String!
+	startTime: DateTime
 }
 
 type ParsingProgress {
-  date: DateTime!
-  nextTaskDescription: String!
-  progress: [ServerParsingProgress!]!
+	date: DateTime!
+	nextTaskDescription: String!
+	progress: [ServerParsingProgress!]!
 }
 
-"""The current state of Campaign parsing"""
+"""
+The current state of Campaign parsing
+"""
 enum ParsingStatus {
-  PARSING_COMPLETED
-  PARSING_IN_PROGRESS
-  PARSING_NOT_STARTED
+	LIVE_PARSING_CS
+	NOT_READY_TO_PARSE
+	PARSING_COMPLETED
+	PARSING_FAILURE
+	PARSING_IN_PROGRESS
+	PARSING_NOT_STARTED
+	PARSING_QUEUED
 }
 
 type PresentationCommandGroup {
-  beaconIds: [String!]!
-  commandIds: [String!]!
-  id: String!
-  maxDate: DateTime
-  minDate: DateTime
+	beaconIds: [String!]!
+	commandIds: [String!]!
+	id: String!
+	maxDate: DateTime
+	minDate: DateTime
 }
 
 type PresentationItem {
-  """
-  Every beacon in the presentation. Including both presentation beacons and connection beacons.
-  """
-  beaconIds: [String!]!
-  commandGroups: [PresentationCommandGroup!]!
+	"""
+	Every beacon in the presentation. Including both presentation beacons and connection beacons.
+	"""
+	beaconIds: [String!]!
+	commandGroups: [PresentationCommandGroup!]!
 
-  """
-  Beacon Ids that are not in the command groups but are needed to link beacons to other beacons in the graph
-  """
-  connectionBeaconIds: [String!]!
-  count: Float!
-  id: String!
-  key: String!
-  linkIds: [String!]!
+	"""
+	Beacon Ids that are not in the command groups but are needed to link beacons to other beacons in the graph
+	"""
+	connectionBeaconIds: [String!]!
+	count: Float!
+	id: String!
+	key: String!
+	linkIds: [String!]!
 }
 
 type Query {
-  """Get an annotation"""
-  annotation(annotationId: String!, campaignId: String!): Annotation
+	"""
+	Get an annotation
+	"""
+	annotation(annotationId: String!, campaignId: String!): Annotation
 
-  """Get all annotations for a project"""
-  annotations(campaignId: String!): [Annotation]
+	"""
+	Get all annotations for a project
+	"""
+	annotations(campaignId: String!): [Annotation]
 
-  """Get all the beacons for a project"""
-  beacons(campaignId: String!, hidden: Boolean = false): [Beacon]
+	"""
+	Get all the beacons for a project
+	"""
+	beacons(campaignId: String!, hidden: Boolean = false): [Beacon]
 
-  """Get a single campaign"""
-  campaign(campaignId: String!): Campaign
+	"""
+	Get a single campaign
+	"""
+	campaign(campaignId: String!): Campaign
 
-  """Get the list of Campaigns"""
-  campaigns: [Campaign]
+	"""
+	Get the list of Campaigns
+	"""
+	campaigns: [Campaign]
 
-  """Get command group by id"""
-  commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean = false): CommandGroup
+	"""
+	Get command group by id
+	"""
+	commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean = false): CommandGroup
 
-  """Get command groups by ids"""
-  commandGroups(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String): [CommandGroup]
+	"""
+	Get command groups ids
+	"""
+	commandGroupIds(
+		beaconId: String
+		campaignId: String!
+		commandGroupIds: [String!]
+		commandIds: [String!]
+		commandType: String
+		hidden: Boolean = false
+		hostId: String
+		operatorId: String
+		sort: SortTypeComments = { sortBy: time }
+	): [String]
 
-  """Get commands by ids"""
-  commandIds(
-    beaconId: String
-    campaignId: String!
-    commandIds: [String!]
-    commandType: String
+	"""
+	Get command groups by ids
+	"""
+	commandGroups(
+		beaconId: String
+		campaignId: String!
+		commandGroupIds: [String!]
+		commandIds: [String!]
+		commandType: String
+		hidden: Boolean = false
+		hostId: String
+		operatorId: String
+		sort: SortTypeComments = { sortBy: time }
+	): [CommandGroup]
 
-    """Should show hidden values"""
-    hidden: Boolean = false
-    hostId: String
-    operatorId: String
-    sort: SortType = {sortBy: name}
-  ): [String]
+	"""
+	Get commands by ids
+	"""
+	commandIds(
+		beaconId: String
+		campaignId: String!
+		commandIds: [String!]
+		commandType: String
 
-  """Get command types"""
-  commandTypes(
-    campaignId: String!
+		"""
+		Should show hidden values
+		"""
+		hidden: Boolean = false
+		hostId: String
+		operatorId: String
+		sort: SortType = { sortBy: name }
+	): [String]
 
-    """Should show hidden values"""
-    hidden: Boolean = false
-  ): [CommandTypeCount]
+	"""
+	Get command types
+	"""
+	commandTypes(
+		campaignId: String!
 
-  """Get commands by ids"""
-  commands(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortType = {sortBy: name}): [Command]
+		"""
+		Should show hidden values
+		"""
+		hidden: Boolean = false
+	): [CommandTypeCount]
 
-  """Get images by ids"""
-  files(beaconId: String, campaignId: String!, hostId: String): [File]
+	"""
+	Get commands by ids
+	"""
+	commands(
+		beaconId: String
+		campaignId: String!
+		commandIds: [String!]
+		commandType: String
+		hidden: Boolean = false
+		hostId: String
+		operatorId: String
+		sort: SortType = { sortBy: name }
+	): [Command]
 
-  """Get all the operators for all campaigns"""
-  globalOperators: [GlobalOperator]
+	"""
+	Get images by ids
+	"""
+	files(beaconId: String, campaignId: String!, hostId: String): [File]
 
-  """Get all the hosts for a project"""
-  hosts(campaignId: String!, hidden: Boolean = false): [Host]
+	"""
+	Get all the operators for all campaigns
+	"""
+	globalOperators(password: String!): [GlobalOperator]
 
-  """Get images by ids"""
-  images(beaconId: String, campaignId: String!, hostId: String): [Image]
+	"""
+	Get all the hosts for a project
+	"""
+	hosts(campaignId: String!, hidden: Boolean = false): [Host]
 
-  """Get all links"""
-  links(campaignId: String!, hidden: Boolean = false): [Link]
+	"""
+	Get images by ids
+	"""
+	images(beaconId: String, campaignId: String!, hostId: String): [Image]
 
-  """Get log entries by ids"""
-  logs(beaconId: String, campaignId: String!, hostId: String): [LogEntry]
+	"""
+	Get all links
+	"""
+	links(campaignId: String!, hidden: Boolean = false): [Link]
 
-  """
-  Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.
-  """
-  logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
+	"""
+	Get log entries by ids
+	"""
+	logs(beaconId: String, campaignId: String!, hostId: String): [LogEntry]
 
-  """Get all the operators for a project"""
-  operators(campaignId: String!, hidden: Boolean = false): [Operator]
+	"""
+	Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.
+	"""
+	logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
 
-  """Get the current progress of the parser"""
-  parsingProgress: ParsingProgress!
+	"""
+	Get all the operators for a project
+	"""
+	operators(campaignId: String!, hidden: Boolean = false): [Operator]
 
-  """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, hidden: Boolean = false): [PresentationItem]
+	"""
+	Get the current progress of the parser
+	"""
+	parsingProgress: ParsingProgress!
 
-  """Search Commands from textQuery"""
-  searchCommands(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Command!]
+	"""
+	Get categories for presentation mode
+	"""
+	presentationItems(campaignId: String!, hidden: Boolean = false): [PresentationItem]
 
-  """Get the list of servers for a project"""
-  servers(
-    campaignId: String!
+	"""
+	Search Annotations from textQuery
+	"""
+	searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
 
-    """Should show hidden values"""
-    hidden: Boolean = false
-    username: String!
-  ): [Server]
+	"""
+	Search Commands from textQuery
+	"""
+	searchCommands(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Command!]
 
-  """Get all tags for a project"""
-  tags(campaignId: String!): [Tag]
+	"""
+	Get the list of servers for a project
+	"""
+	servers(
+		campaignId: String!
 
-  """Get a bucketed summary of active beacons and links with commands"""
-  timeline(campaignId: String!, hidden: Boolean = false, suggestedBuckets: Float = 100, suggestedEndTime: DateTime = "+275760-09-12T23:50:00.000Z", suggestedStartTime: DateTime = "1970-01-01T00:00:00.001Z"): Timeline!
+		"""
+		Should show hidden values
+		"""
+		hidden: Boolean = false
+		username: String!
+	): [Server]
+
+	"""
+	Get all tags for a project
+	"""
+	tags(campaignId: String!): [Tag]
+
+	"""
+	Get a bucketed summary of active beacons and links with commands
+	"""
+	timeline(
+		campaignId: String!
+		hidden: Boolean = false
+		suggestedBuckets: Float = 100
+		suggestedEndTime: DateTime = "+275760-09-12T23:50:00.000Z"
+		suggestedStartTime: DateTime = "1970-01-01T00:00:00.001Z"
+	): Timeline!
 }
 
 type Server {
-  beacons: [Beacon!]!
-  displayName: String
-  hidden: Boolean
-  id: String!
-  logsCount: Float!
-  meta: ServerMeta!
-  name: String!
+	beacons: [Beacon!]!
+	displayName: String!
+	hidden: Boolean
+	id: String!
+	logsCount: Float!
+	meta: ServerMeta!
+	name: String!
 }
 
 type ServerMeta {
-  id: String!
-  type: ServerType!
+	id: String!
+	type: ServerType!
 }
 
 type ServerParsingProgress {
-  campaignId: String!
-  serverName: String!
-  tasksCompleted: Int!
-  totalTasks: Int!
+	campaignId: String!
+	serverName: String!
+	tasksCompleted: Int!
+	totalTasks: Int!
 }
 
-"""The communication type used by the server"""
+"""
+The communication type used by the server
+"""
 enum ServerType {
-  DNS
-  HTTP
-  HTTPS
-  SMB
+	DNS
+	HTTP
+	HTTPS
+	SMB
 }
 
-"""The desired sort direction"""
+"""
+The desired sort direction
+"""
 enum SortDirection {
-  ASC
-  DESC
+	ASC
+	DESC
 }
 
-"""The desired property to sort on"""
+"""
+The desired property to sort on
+"""
 enum SortOption {
-  name
-  text
-  time
+	name
+	text
+	time
+}
+
+"""
+The desired property to sort Comments on
+"""
+enum SortOptionComments {
+	fav
+	time
+	user
 }
 
 input SortType {
-  direction: SortDirection = ASC
-  sortBy: SortOption = name
+	direction: SortDirection = ASC
+	sortBy: SortOption = name
+}
+
+input SortTypeComments {
+	direction: SortDirection = ASC
+	sortBy: SortOptionComments = time
 }
 
 type Tag {
-  id: String!
-  text: String!
+	id: String!
+	text: String!
 }
 
 type Timeline {
-  bucketEndTime: DateTime!
+	bucketEndTime: DateTime!
 
-  """The number of minutes a bucket spans"""
-  bucketMinutes: Float!
-  bucketStartTime: DateTime!
-  buckets: [TimelineBucket!]!
-  campaignEndTime: DateTime!
-  campaignStartTime: DateTime!
+	"""
+	The number of minutes a bucket spans
+	"""
+	bucketMinutes: Float!
+	bucketStartTime: DateTime!
+	buckets: [TimelineBucket!]!
+	campaignEndTime: DateTime!
+	campaignStartTime: DateTime!
 }
 
 type TimelineBucket {
-  """
-  Beacons that were active during the entire time interval (mutually exclusive with all other beacon lists)
-  """
-  activeBeacons: [String!]!
+	"""
+	Beacons that were active during the entire time interval (mutually exclusive with all other beacon lists)
+	"""
+	activeBeacons: [String!]!
 
-  """
-  Links that were active during the entire time interval. (mutually exclusive to all other link lists)
-  """
-  activeLinks: [String!]!
-  beaconCommandCountPair: [TimelineCommandCountTuple!]!
-  bucketEndTime: DateTime!
-  bucketStartTime: DateTime!
+	"""
+	Links that were active during the entire time interval. (mutually exclusive to all other link lists)
+	"""
+	activeLinks: [String!]!
+	beaconCommandCountPair: [TimelineCommandCountTuple!]!
+	bucketEndTime: DateTime!
+	bucketStartTime: DateTime!
 
-  """
-  Beacons that were created during this time interval (Not mutually exclusive with dying but is mutually exclusive with active and dead)
-  """
-  createdBeacons: [String!]!
+	"""
+	Beacons that were created during this time interval (Not mutually exclusive with dying but is mutually exclusive with active and dead)
+	"""
+	createdBeacons: [String!]!
 
-  """
-  Links that were created during this time interval (Not mutually exclusive with dying but is mutually exclusive with active and dead)
-  """
-  createdLinks: [String!]!
+	"""
+	Links that were created during this time interval (Not mutually exclusive with dying but is mutually exclusive with active and dead)
+	"""
+	createdLinks: [String!]!
 
-  """
-  Beacons that used to exist by this point in time but have either failed or exited (mutually exclusive with all other beacon lists)
-  """
-  deadBeacons: [String!]!
+	"""
+	Beacons that used to exist by this point in time but have either failed or exited (mutually exclusive with all other beacon lists)
+	"""
+	deadBeacons: [String!]!
 
-  """
-  links that used to exist by this point in time but no longer exist (mutually exclusive to all other link lists)
-  """
-  deadLinks: [String!]!
+	"""
+	links that used to exist by this point in time but no longer exist (mutually exclusive to all other link lists)
+	"""
+	deadLinks: [String!]!
 
-  """
-  Beacons that died or exited during this time interval (mutually exclusive with dead and active beacons but not with created)
-  """
-  dyingBeacons: [String!]!
+	"""
+	Beacons that died or exited during this time interval (mutually exclusive with dead and active beacons but not with created)
+	"""
+	dyingBeacons: [String!]!
 
-  """
-  Links that died or exited during this time interval (Not mutually exclusive with created links list but is mutually exclusive with active and dead)
-  """
-  dyingLinks: [String!]!
+	"""
+	Links that died or exited during this time interval (Not mutually exclusive with created links list but is mutually exclusive with active and dead)
+	"""
+	dyingLinks: [String!]!
 }
 
 type TimelineCommandCountTuple {
-  beaconId: String!
+	beaconId: String!
 
-  """The number of commands run during this time interval"""
-  commandCount: Float!
+	"""
+	The number of commands run during this time interval
+	"""
+	commandCount: Float!
 }

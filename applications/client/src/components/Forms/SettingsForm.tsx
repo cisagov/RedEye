@@ -1,4 +1,4 @@
-import { Classes, Switch } from '@blueprintjs/core';
+import { Classes, FormGroup, Switch } from '@blueprintjs/core';
 import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
@@ -8,14 +8,11 @@ import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
 import { createState } from '../mobx-create-state';
 
-type UiTheme = 'light' | 'dark' | 'system';
-
 type SettingsFormProps = ComponentProps<'form'> & {};
 
 export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
-		theme: getAppTheme(),
 		tester: { value: 3 },
 		enableAutoSelect: store.settings.isDefaultTimezone,
 		setEnableAutoSelect(e: ChangeEvent<HTMLInputElement>) {
@@ -25,26 +22,33 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 	});
 
 	return (
-		<form {...props}>
-			<span>Timezone</span>
-			<Switch
-				inline
-				alignIndicator="right"
-				checked={state.enableAutoSelect}
-				onChange={state.setEnableAutoSelect}
-				label="AutoSelect"
-				css={switchStyle}
-			/>
-			<TimezoneSelect
-				css={timezonePickerStyle}
-				buttonProps={{ fill: true, alignText: 'left' }}
-				disabled={state.enableAutoSelect}
-				value={store.settings.timezone}
-				// showLocalTimezone
-				onChange={(timezone) => {
-					store.settings.setTimezone(timezone);
-				}}
-			/>
+		<form css={formStyles} {...props}>
+			{/* <Txt small>Timezone</Txt> */}
+
+			<FormGroup
+				label="Timezone"
+				helperText={
+					<Switch
+						// inline
+						// alignIndicator="right"
+						checked={state.enableAutoSelect}
+						onChange={state.setEnableAutoSelect}
+						label="AutoSelect"
+						css={{ marginBottom: 0 }}
+					/>
+				}
+			>
+				<TimezoneSelect
+					css={timezonePickerStyle}
+					buttonProps={{ fill: true, alignText: 'left' }}
+					disabled={state.enableAutoSelect}
+					value={store.settings.timezone}
+					// showLocalTimezone
+					onChange={(timezone) => {
+						store.settings.setTimezone(timezone);
+					}}
+				/>
+			</FormGroup>
 			<Switch
 				cy-test="show-hide-beacons"
 				checked={store.settings.showHidden}
@@ -69,52 +73,30 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 						clear: true,
 					});
 				}}
-				label="Show Hidden Beacons, Host, and Servers"
+				label="Show Hidden Beacons, Hosts, and Servers"
 			/>
-			{/* <Switch
-				checked={state.theme === 'dark'}
-				onChange={state.setTheme}
-				label={'Dark theme'}
-			/> */}
+			<Switch // Uncomment to test light theme
+				cy-test="toggle-theme"
+				checked={store.settings.theme === 'light'}
+				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
+				label="Light Theme (beta)"
+			/>
 		</form>
 	);
 });
 
-export const updateAppTheme = (theme: UiTheme = 'dark') => {
-	// light theme is just the absence of the Classes.DARK class
-	const rootClassList = document.documentElement.classList;
-	switch (theme) {
-		case 'light':
-			rootClassList.remove(Classes.DARK);
-			break;
-		case 'system':
-			// TODO: query the system theme somehow?
-			// set accordingly
-			rootClassList.add(Classes.DARK);
-			break;
-		case 'dark':
-			rootClassList.add(Classes.DARK);
-			break; // fallthrough expected
-		default:
-			rootClassList.add(Classes.DARK);
-			break;
-	}
-};
+const formStyles = css`
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 
-export const getAppTheme = (): UiTheme =>
-	document.documentElement.classList.contains(Classes.DARK) ? 'dark' : 'light';
+	& > * {
+		margin: 0;
+	}
+`;
 
 const timezonePickerStyle = css`
 	.${Classes.POPOVER_TARGET} {
 		display: block;
-		margin-bottom: 10px;
 	}
-	.${Classes.ICON} {
-		float: right;
-	}
-`;
-
-const switchStyle = css`
-	float: right;
-	margin-right: 0 !important;
 `;

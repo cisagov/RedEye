@@ -52,7 +52,10 @@ export class ServerResolvers {
 
 	@Authorized()
 	@Mutation(() => Boolean)
-	async serversParse(@Ctx() ctx: GraphQLContext, @Arg('campaignId', () => String) campaignId: string): Promise<boolean> {
+	async serversParse(
+		@Ctx() ctx: GraphQLContext,
+		@Arg('campaignId', () => String) campaignId: string
+	): Promise<boolean> {
 		if (ctx.config.blueTeam) throw new Error('Parsing cannot be invoked from blue team mode');
 		await connectToProjectEmOrFail(campaignId, ctx);
 		ctx.messengerMachine.send({ type: 'PARSE_CAMPAIGN', campaignId, context: ctx });

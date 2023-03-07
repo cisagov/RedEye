@@ -10,7 +10,7 @@ import { routes } from '@redeye/client/store/routing/router';
 import { CampaignViews, Views } from '@redeye/client/types';
 import { Tabs } from '@redeye/client/types/explore';
 import { RenameDialog } from '@redeye/client/views/Campaigns/RenameDialog';
-import { Header, Spacer, Tokens, Txt } from '@redeye/ui-styles';
+import { Header, Spacer, CoreTokens, Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -75,7 +75,9 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 			<Card
 				cy-test="campaign-card"
 				onClick={
-					!campaign.isParsing && campaign.parsingStatus !== ParsingStatus.PARSING_FAILURE ? state.viewCampaign : () => {}
+					!campaign.isParsing && campaign.parsingStatus !== ParsingStatus.PARSING_FAILURE
+						? state.viewCampaign
+						: () => {}
 				}
 				interactive={!campaign.isParsing && campaign.parsingStatus !== ParsingStatus.PARSING_FAILURE}
 				tabIndex={0}
@@ -161,10 +163,12 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 								`}
 							>
 								<Txt>Last opened by:</Txt>
-								<Txt bold>{campaign.lastOpenedBy?.id ?? 'None'}</Txt>
+								<Txt cy-test="last-opened-by" bold>
+									{campaign.lastOpenedBy?.id ?? 'None'}
+								</Txt>
 							</Txt>
 							<Txt meta muted small block>
-								<Txt bold skeleton={campaign.isParsing}>
+								<Txt cy-test="campaign-dates" bold skeleton={campaign.isParsing}>
 									{state.startTime}&mdash;{state.endTime}
 								</Txt>
 								<Spacer>•</Spacer>
@@ -216,7 +220,12 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 									</Menu>
 								}
 							>
-								<Button cy-test="campaign-options" icon={<CarbonIcon icon={OverflowMenuHorizontal16} />} minimal large />
+								<Button
+									cy-test="campaign-options"
+									icon={<CarbonIcon icon={OverflowMenuHorizontal16} />}
+									minimal
+									large
+								/>
 							</Popover2>
 							{!campaign.isParsing && (
 								<HoverButton
@@ -288,15 +297,15 @@ const rootCardStyle = css`
 		z-index: 1;
 	}
 
-	border: 0 solid ${Tokens.CoreTokens.BackgroundColor3};
+	border: 0 solid ${CoreTokens.Background1};
 
 	&&& {
-		background-color: ${Tokens.CoreTokens.BackgroundColor2};
+		background-color: ${CoreTokens.Background1};
 	}
 
 	// &.${Classes.INTERACTIVE}:hover { // ts-styled-plugin(9999) error !?
 	&.bp4-interactive:hover {
-		background-color: ${Tokens.CoreTokens.BackgroundColor3};
+		background-color: ${CoreTokens.Background1};
 	}
 `;
 

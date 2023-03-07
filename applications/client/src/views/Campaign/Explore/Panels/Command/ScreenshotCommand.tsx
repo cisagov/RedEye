@@ -6,7 +6,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel, ModelType } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { NavBreadcrumbs } from '@redeye/client/views';
-import { Spacer, Tokens, TokensAll, Txt } from '@redeye/ui-styles';
+import { Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -90,7 +90,7 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 					) : (
 						<div
 							css={css`
-								color: ${Tokens.IntentColors.PtIntentDangerTextColor};
+								color: ${CoreTokens.TextIntentDanger};
 								display: flex;
 								align-items: center;
 							`}
@@ -119,7 +119,11 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 					<div css={multiImageWrapperStyles}>
 						{data?.images?.map((image) => (
 							<Button key={image.id} onClick={() => state.openModal(image.id)} css={imgButtonStyles}>
-								<img css={[imgDimensions, imgStyles]} src={`${store.auth.serverUrl}${image.url}`} alt="Command Screenshot" />
+								<img
+									css={[imgDimensions, imgStyles]}
+									src={`${store.auth.serverUrl}${image.url}`}
+									alt="Command Screenshot"
+								/>
 							</Button>
 						))}
 						{/* Secondary dialog (if multiple images are found) */}
@@ -133,7 +137,11 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 							}
 						>
 							{!!state.selectedImage && (
-								<img css={largeImgStyles} src={`${store.auth.serverUrl}${state.selectedImage.url}`} alt="Command Screenshot" />
+								<img
+									css={largeImgStyles}
+									src={`${store.auth.serverUrl}${state.selectedImage.url}`}
+									alt="Command Screenshot"
+								/>
 							)}
 						</DialogCustom>
 					</div>
@@ -168,7 +176,7 @@ const largeImgStyles = css`
 const buttonStyles = css`
 	position: absolute;
 	right: 0;
-	/* background-color: ${Tokens.CoreTokens.BackgroundColor3}; */
+	/* background-color: ${CoreTokens.Background1}; */
 `;
 
 const imgWrapperStyles = css`
@@ -193,9 +201,9 @@ const overlayMessageStyles = css`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: hsla(${TokensAll.BlackHsl}, 70%);
-	font-family: ${Tokens.Variables.PtFontFamily};
-	font-weight: 700;
+	background-color: ${CoreTokens.transparentBlack(0.7)};
+	font-family: ${CoreTokens.FontFamilySans};
+	font-weight: ${CoreTokens.FontWeightBold};
 `;
 
 const multiImageWrapperStyles = css`

@@ -6,7 +6,6 @@ describe('Lateral Movement', () => {
 	const cmd = 'keylogger';
 	const comment = 'Shake it to the left';
 	const partialTag = 'Lateral';
-	const existingTag = '#LateralMovement';
 
 	it('Lateral Movement tag appears when LM tag is used; Presentation Mode reflects the count of LM tags', () => {
 		cy.uploadCampaign(camp, fileName);
@@ -16,9 +15,9 @@ describe('Lateral Movement', () => {
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=LateralMovement] [cy-test=count]')
+		cy.get('[cy-test=LateralMovement] [cy-test=count]')
 			.invoke('text')
+			.as('LMTagCount')
 			.then((resultLMCount1) => {
 				//  Go to Commands, select command, verify Lateral Movement icon is not there
 				cy.clickExplorerMode();
@@ -40,15 +39,11 @@ describe('Lateral Movement', () => {
 				// Log new number of Lateral Movement comments and compare to original count; verify LM only appears once in list
 				cy.clickPresentationMode();
 
-				cy
-					.get('[cy-test=LateralMovement] [cy-test=count]')
-					.invoke('text')
-					.then((resultLMCount2) => {
-						// cy.log(resultLMCount2);
-						expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
+				cy.get('@LMTagCount').then((resultLMCount2) => {
+					expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
 
-						cy.get('[cy-test=LateralMovement]').should('have.length', 1);
-					});
+					cy.get('[cy-test=LateralMovement]').should('have.length', 1);
+				});
 			});
 	});
 

