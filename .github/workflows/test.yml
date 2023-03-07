@@ -12,7 +12,7 @@ on:
 
 jobs:
   prepare:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       uuid: ${{ steps.uuid.outputs.value }}
     steps:
@@ -27,7 +27,6 @@ jobs:
     needs: ['prepare']
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         node-version: [16.19.0]
     steps:
@@ -44,7 +43,7 @@ jobs:
           git fetch
           git config pull.rebase true
           git pull origin $GITHUB_HEAD_REF
-      - run: yarn install --immutable --inline-builds
+      - run: yarn install
       - run: yarn moon run server:build client:build
 
       - name: Save build folder
@@ -83,9 +82,9 @@ jobs:
           git fetch
           git config pull.rebase true
           git pull origin $GITHUB_HEAD_REF
-      - run: yarn install  --immutable --inline-builds
+      - run: yarn install
       - name: Red Team Tests - Chrome v${{ matrix.node }}
-        uses: cypress-io/github-action@v5.0.0
+        uses: cypress-io/github-action@v5.2.0
         with:
           tag: node-${{ matrix.node }}
           start: yarn start:dev
@@ -131,9 +130,9 @@ jobs:
           git fetch
           git config pull.rebase true
           git pull origin $GITHUB_HEAD_REF
-      - run: yarn install  --immutable --inline-builds
+      - run: yarn install
       - name: 'Blue Team Tests - Chrome'
-        uses: cypress-io/github-action@v5.0.0
+        uses: cypress-io/github-action@v5.2.0
         with:
           tag: node-${{ matrix.node }}
           start: yarn start:blue
