@@ -187,7 +187,6 @@
 		"nodemon": "^2.0.20",
 		"pkg": "^5.8.0",
 		"pkg-fetch": "^3.4.2",
-		"playwright-webkit": "^1.25.2",
 		"prettier": "^2.2.1",
 		"rimraf": "^4.1.2",
 		"rollup-plugin-auto-external": "^2.0.0",

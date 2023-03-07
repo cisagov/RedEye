@@ -39,10 +39,6 @@ jobs:
           node-version: 16.19.0
           cache: 'yarn'
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install
       - run: yarn moon run server:build client:build
 
@@ -78,10 +74,6 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install
       - name: Red Team Tests - Chrome v${{ matrix.node }}
         uses: cypress-io/github-action@v5.2.0
@@ -126,10 +118,6 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5.2.0
