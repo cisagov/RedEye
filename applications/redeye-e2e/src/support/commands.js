@@ -13,21 +13,24 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 	const formData = new FormData();
 	formData.append('password', '937038570');
 
-	cy.session(user, () => {
-		window.localStorage.setItem('user', 'cypress');
-		cy.request({
-			url: 'http://localhost:4000/api/login',
-			method: 'POST',
-			headers: {
-				'content-type': 'multipart/form-data',
-			},
-			body: formData,
-		});
-	}),
+	cy.session(
+		user,
+		() => {
+			window.localStorage.setItem('user', 'cypress');
+			cy.request({
+				url: 'http://localhost:4000/api/login',
+				method: 'POST',
+				headers: {
+					'content-type': 'multipart/form-data',
+				},
+				body: formData,
+			});
+		},
 		{
 			cacheAcrossSpecs: true,
-		};
-	cy.visit('http://localhost:3500/#/campaigns/all');
+		}
+	),
+		cy.visit('http://localhost:3500/#/campaigns/all');
 });
 
 Cypress.Commands.add('loginBlue', (user) => {

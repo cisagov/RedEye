@@ -38,7 +38,10 @@ jobs:
         with:
           node-version: 16.19.0
           cache: 'yarn'
-
+      - run: |
+          git fetch
+          git config pull.rebase true
+          git pull origin $GITHUB_HEAD_REF
       - run: yarn install
       - run: yarn moon run server:build client:build
 
