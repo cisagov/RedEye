@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 /// <reference types="cypress" />
 
 import { graphqlRequest, mutRequest } from '../support/utils';
@@ -31,7 +32,7 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 
 Cypress.Commands.add('loginBlue', (user) => {
 	cy.visit('/');
-	cy.get('[cy-test=password]').clear().type(password);
+	cy.get('[cy-test=password]').clear();
 	cy.get('form input').last().type(user).type('{enter}');
 });
 
@@ -213,24 +214,24 @@ Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
 	cy.wait('@updateAnnotation');
 });
 
-// Delete files from the Downloads folder
-Cypress.Commands.add('deleteDownloadsFolderContent', () => {
-	cy.task('readdir', { dirPath: 'cypress/downloads' }).then((arr) => {
-		if (arr.length > 0) {
-			cy.log('Found ' + arr.length + ' file(s) in ' + 'cypress/downloads' + ':' + '\n' + arr);
-			cy.task('deleteDownloads', { dirPath: 'cypress/downloads' });
-			cy.task('readdir', { dirPath: 'cypress/downloads' }).then((newArr) => {
-				if (newArr.length == 0) {
-					cy.log('Cleared contents of ' + 'cypress/downloads');
-				} else {
-					throw new Error('Did not clear all files from ' + 'cypress/downloads');
-				}
-			});
-		} else {
-			cy.log('No files were found to delete in ' + 'cypress/downloads');
-		}
-	});
-});
+// // Delete files from the Downloads folder
+// Cypress.Commands.add('deleteDownloadsFolderContent', () => {
+// 	cy.task('readdir', { dirPath: 'cypress/downloads' }).then((arr) => {
+// 		if (arr.length > 0) {
+// 			cy.log('Found ' + arr.length + ' file(s) in ' + 'cypress/downloads' + ':' + '\n' + arr);
+// 			cy.task('deleteDownloads', { dirPath: 'cypress/downloads' });
+// 			cy.task('readdir', { dirPath: 'cypress/downloads' }).then((newArr) => {
+// 				if (newArr.length == 0) {
+// 					cy.log('Cleared contents of ' + 'cypress/downloads');
+// 				} else {
+// 					throw new Error('Did not clear all files from ' + 'cypress/downloads');
+// 				}
+// 			});
+// 		} else {
+// 			cy.log('No files were found to delete in ' + 'cypress/downloads');
+// 		}
+// 	});
+// });
 
 // Reply to a comment (only adds text, no tags)
 Cypress.Commands.add('replyToComment', (index, cmt) => {

@@ -155,7 +155,7 @@ declare namespace Cypress {
 
 		/**Deletes the contents within the cypress/downloads folder
 		 */
-		deleteDownloadsFolderContent();
+		//deleteDownloadsFolderContent();
 
 		/**Edit a comment that already exists. Does not edit any of the tags on the comment. Will also save the comment changes.
 		 * @example
