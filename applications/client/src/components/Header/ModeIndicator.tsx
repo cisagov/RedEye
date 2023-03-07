@@ -1,14 +1,11 @@
-import { Button, ButtonProps } from '@blueprintjs/core';
-import { Popover2, Popover2Props } from '@blueprintjs/popover2';
 import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
 import { useStore } from '@redeye/client/store';
-import { CoreTokens, Txt } from '@redeye/ui-styles';
+import type { PopoverButtonProps } from '@redeye/ui-styles';
+import { CoreTokens, PopoverButton, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
-type ModeIndicatorProps = ButtonProps & { popoverProps?: Popover2Props };
-
-export const ModeIndicator = observer<ModeIndicatorProps>(({ popoverProps, ...props }) => {
+export const ModeIndicator = observer<Omit<PopoverButtonProps, 'content'>>(({ popoverProps, ...props }) => {
 	const store = useStore();
 	const isRedTeam = !store.appMeta.blueTeam;
 
@@ -25,9 +22,11 @@ export const ModeIndicator = observer<ModeIndicatorProps>(({ popoverProps, ...pr
 	}
 
 	return (
-		<Popover2
-			position="right"
-			interactionKind="hover"
+		<PopoverButton
+			popoverProps={{
+				position: 'right',
+				interactionKind: 'hover',
+			}}
 			content={
 				<div css={hoverInfoStyle}>
 					<Txt large bold>
@@ -36,22 +35,13 @@ export const ModeIndicator = observer<ModeIndicatorProps>(({ popoverProps, ...pr
 					<Txt muted>{description}</Txt>
 				</div>
 			}
-			renderTarget={({ isOpen, ref, ...targetProps }) => (
-				<Button
-					elementRef={ref}
-					minimal
-					fill
-					{...props}
-					{...targetProps}
-					className={[props.className, (targetProps as ButtonProps).className].join(' ')}
-				>
-					<div cy-test={teamAcronym} css={teamCSS}>
-						{teamAcronym}
-					</div>
-				</Button>
-			)}
-			{...popoverProps}
-		/>
+			active={false}
+			{...props}
+		>
+			<div cy-test={teamAcronym} css={teamCSS}>
+				{teamAcronym}
+			</div>
+		</PopoverButton>
 	);
 });
 
