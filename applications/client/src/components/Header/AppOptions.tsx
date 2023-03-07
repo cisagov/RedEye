@@ -106,38 +106,36 @@ const HeaderOptions = ({
 	</ButtonGroup>
 );
 
-const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => {
-	return (
-		<>
-			<NavButton
-				cy-test="user-settings"
-				icon={<CarbonIcon icon={User24} />}
-				title="User Settings"
-				onClick={() => {
-					state.update('isUserSettingsOpen', true);
-				}}
-				active={state.isUserSettingsOpen}
-			/>
-			<NavButton
-				cy-test="settings"
-				icon={<CarbonIcon icon={Settings24} />}
-				title="General Settings"
-				onClick={() => {
-					state.update('isGeneralSettingsOpen', true);
-				}}
-				active={state.isGeneralSettingsOpen}
-			/>
-			<NavButton
-				cy-test="help-btn"
-				icon={<CarbonIcon icon={Help24} />}
-				title="Help"
-				onClick={() => {
-					state.update('isHelpPanelOpen', true);
-				}}
-				active={state.isHelpPanelOpen}
-			/>
-			<Border css={{ margin: '16px 0', width: 16 }} />
-			<ModeIndicator css={{ alignSelf: 'stretch', height: 48 }} />
-		</>
-	);
-};
+const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => (
+	<>
+		<NavButton
+			cy-test="user-settings"
+			icon={<CarbonIcon icon={User24} />}
+			title="User Settings"
+			onClick={() => {
+				state.update('isUserSettingsOpen', true);
+			}}
+			active={state.isUserSettingsOpen}
+		/>
+		<NavButton
+			cy-test="settings"
+			icon={<CarbonIcon icon={Settings24} />}
+			title="General Settings"
+			onClick={() => {
+				state.update('isGeneralSettingsOpen', true);
+			}}
+			active={state.isGeneralSettingsOpen}
+		/>
+		<NavButton
+			cy-test="help-btn"
+			icon={<CarbonIcon icon={Help24} />}
+			title="Help"
+			onClick={() => {
+				state.update('isHelpPanelOpen', true);
+			}}
+			active={state.isHelpPanelOpen}
+		/>
+		<Border css={{ margin: '16px 0', width: 16 }} invert />
+		<ModeIndicator css={{ alignSelf: 'stretch', height: 48 }} />
+	</>
+);
