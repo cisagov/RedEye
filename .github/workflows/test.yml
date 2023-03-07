@@ -1,6 +1,7 @@
 name: Cypress Tests
 
 on:
+  # manual button click from the GitHub UI
   workflow_dispatch:
   push:
     branches:
@@ -27,6 +28,7 @@ jobs:
     needs: ['prepare']
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.19.0]
     steps:
@@ -38,11 +40,12 @@ jobs:
         with:
           node-version: 16.19.0
           cache: 'yarn'
+
       - run: |
           git fetch
           git config pull.rebase true
           git pull origin $GITHUB_HEAD_REF
-      - run: yarn install
+      - run: yarn install --immutable --inline-builds
       - run: yarn moon run server:build client:build
 
       - name: Save build folder
@@ -77,7 +80,11 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: yarn install
+      - run: |
+          git fetch
+          git config pull.rebase true
+          git pull origin $GITHUB_HEAD_REF
+      - run: yarn install  --immutable --inline-builds
       - name: Red Team Tests - Chrome v${{ matrix.node }}
         uses: cypress-io/github-action@v5.2.0
         with:
@@ -121,7 +128,11 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: yarn install
+      - run: |
+          git fetch
+          git config pull.rebase true
+          git pull origin $GITHUB_HEAD_REF
+      - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5.2.0
         with:
