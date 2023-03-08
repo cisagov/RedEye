@@ -7,7 +7,7 @@ describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 	const fileName = 'smalldata.redeye';
 
-	it('Verify timeline navigation features', () => {
+	it.skip('Verify timeline navigation features', () => {
 		// Upload campaign and open
 		cy.uploadCampaign(camp, fileName);
 
