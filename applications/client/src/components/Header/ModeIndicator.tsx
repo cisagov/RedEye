@@ -26,6 +26,7 @@ export const ModeIndicator = observer<Omit<PopoverButtonProps, 'content'>>(({ po
 			popoverProps={{
 				position: 'right',
 				interactionKind: 'hover',
+				...popoverProps,
 			}}
 			content={
 				<div css={hoverInfoStyle}>
