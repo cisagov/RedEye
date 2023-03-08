@@ -544,7 +544,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								<BeaconSuggest
 									// onClick={state.toggleShowBeaconSuggest}
 									commandString={commandText as string}
-									onSelectBeacon={state.storeNewDestinationBeaconForLinkCreation}
+									onItemSelect={state.storeNewDestinationBeaconForLinkCreation}
 								/>
 							)}
 							{/* </> )} */}

@@ -1,131 +1,86 @@
-import type { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
+import type { ItemPredicate, ItemRenderer, Suggest2Props } from '@blueprintjs/select';
 import { Suggest2 } from '@blueprintjs/select';
-import type { ComponentProps, FC } from 'react';
-// import { useState } from 'react';
-// import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
-// import { Connect16 } from '@carbon/icons-react';
-// import { css } from '@emotion/react';
-// import { CarbonIcon } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { MenuItem2 } from '@blueprintjs/popover2';
+import { observer } from 'mobx-react-lite';
+import { Txt } from '@redeye/ui-styles';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
-export type BeaconSuggestProps = ComponentProps<'div'> & {
-	// onClick: () => any;
+export type BeaconSuggestProps = Partial<Suggest2Props<BeaconModel>> & {
 	commandString: string;
-	onSelectBeacon: (beacon: BeaconModel) => any;
 };
 
-export const BeaconSuggest: FC<BeaconSuggestProps> = ({
-	// onClick,
-	commandString,
-	onSelectBeacon,
-}: BeaconSuggestProps) => {
-	// const initialValue = (
-	// 	<BeaconSuggestedRow targetHost="HOST  " targetBeacon="Beacon  " reason={commandString} icon={false} />
-	// );
+export const BeaconSuggest = observer<BeaconSuggestProps>(
+	({ commandString, onItemSelect: _onItemSelect }: BeaconSuggestProps) => {
+		const store = useStore();
+		const beacons = Array.from(store.graphqlStore.beacons.values() || []);
 
-	// const [selectedItem, setSelectedItem] = useState(initialValue);
+		const onItemSelect: BeaconSuggestProps['onItemSelect'] = (item) => {
+			_onItemSelect?.(item);
+		};
 
-	// output is beacon suggested row object
-	const handleItemSelect = (item) => {
-		// const newValue = (
-		// 	<BeaconSuggestedRow
-		// 		targetHost={item.host.current.displayName as string}
-		// 		targetBeacon={item.displayName as string}
-		// 		reason={commandString as string}
-		// 		icon={false}
-		// 	/>
-		// );
-		onSelectBeacon(item);
-		// setSelectedItem(newValue);
-	};
+		const findBeacon: ItemPredicate<BeaconModel> = (query, beaconModel) => {
+			const { displayName = '', beaconName = '', host } = beaconModel;
+			const { hostName = '' } = host?.current || {};
+			// add serverName too?
+			return [hostName, displayName, beaconName].join(' ').toLowerCase().includes(query.toLowerCase());
+		};
 
-	const store = useStore();
-	const beacons = Array.from(store.graphqlStore.beacons.values() || []);
-
-	// checks displayName and beaconName
-	const findBeacon: ItemPredicate<BeaconModel> = (query, beaconModel) => {
-		const { displayName, beaconName } = beaconModel;
-		if (displayName) {
+		const renderMenuItem: ItemRenderer<BeaconModel> = (beaconModel, { handleClick, modifiers }) => {
+			if (!modifiers.matchesPredicate) {
+				return null;
+			}
 			return (
-				beaconName.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-				displayName?.toLowerCase().indexOf(query.toLowerCase()) >= 0
+				<MenuItem2
+					key={beaconModel.id}
+					onClick={handleClick}
+					labelElement={commandString}
+					shouldDismissPopover={false}
+					text={
+						<BeaconSuggestedRow
+							targetHost={beaconModel.host?.current.displayName}
+							targetBeacon={beaconModel.displayName}
+							icon={false}
+						/>
+					}
+					{...modifiers}
+				/>
 			);
-		}
-		return beaconName.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-	};
+		};
 
-	const renderMenuItem: ItemRenderer<BeaconModel> = (beaconModel, { handleClick, modifiers }) => {
-		if (!modifiers.matchesPredicate) {
-			return null;
-		}
+		const inputValueRenderer: BeaconSuggestProps['inputValueRenderer'] = (item) =>
+			`${item.host?.current.displayName} / ${item.displayName}`;
+
 		return (
-			<MenuItem2
-				key={beaconModel.id}
-				onClick={handleClick}
-				// shouldDismissPopover={false}
-				{...modifiers}
-				labelElement={commandString as string}
-				text={
-					<BeaconSuggestedRow
-						targetHost={beaconModel.host?.current.displayName as string}
-						targetBeacon={beaconModel.displayName as string}
-						// reason={commandString as string}
-						icon={false}
-					/>
-				}
+			<Suggest2
+				items={beacons}
+				itemPredicate={findBeacon}
+				itemRenderer={renderMenuItem}
+				inputValueRenderer={inputValueRenderer}
+				popoverProps={{
+					minimal: true,
+					hasBackdrop: true,
+				}}
+				inputProps={{
+					autoFocus: true,
+				}}
+				onItemSelect={onItemSelect}
+				noResults={noResults}
+				resetOnQuery
+				fill
 			/>
 		);
-	};
+	}
+);
 
-	// const suggestOrSelect = 'suggest'; // Why?
-
-	return (
-		// <ButtonGroup fill css={beaconSelectStyle} style={{ backgroundColor: 'black' }}>
-		// 	<Button disabled icon={<CarbonIcon icon={Connect16} />} />
-		// 	{suggestOrSelect === 'suggest' ? (
-		<Suggest2
-			items={beacons}
-			itemPredicate={findBeacon}
-			itemRenderer={renderMenuItem}
-			inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
-			popoverProps={{
-				// boundary: 'window',
-				minimal: true,
-				hasBackdrop: true,
-			}}
-			inputProps={{
-				autoFocus: true,
-			}}
-			onItemSelect={handleItemSelect}
-			noResults={<MenuItem2 disabled text="No results." />}
-			fill
-			resetOnQuery
-		/>
-		// 	) : (
-		// 		<Select2
-		// 			items={beacons}
-		// 			filterable
-		// 			itemPredicate={filterFilm}
-		// 			itemRenderer={renderMenuItem}
-		// 			// popoverProps={{ boundary: 'window' }}
-		// 			onItemSelect={handleItemSelect}
-		// 			// matchTargetWidth
-		// 			noResults={<MenuItem2 disabled text="No results." />}
-		// 			resetOnQuery
-		// 			scrollToActiveItem
-		// 		>
-		// 			<ButtonGroup>
-		// 				<InputGroup leftElement={selectedItem} rightElement={<Button icon="cross" onClick={() => onClick()} />} />
-		// 			</ButtonGroup>
-		// 		</Select2>
-		// 	)}
-		// </ButtonGroup>
-	);
-};
-
-// const beaconSelectStyle = css`
-// 	width: 300px;
-// `;
+const noResults = (
+	<MenuItem2
+		disabled
+		text={
+			<Txt disabled italic>
+				No Results
+			</Txt>
+		}
+	/>
+);
