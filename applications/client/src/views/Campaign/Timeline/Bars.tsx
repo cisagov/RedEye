@@ -43,13 +43,15 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 							},
 						}}
 						content={
-							bar.beaconCount ? <TimelineBarHoverPopover bar={bar} dateFormatter={durationFormatter(start, end)} /> : undefined
+							bar.beaconCount ? (
+								<TimelineBarHoverPopover bar={bar} dateFormatter={durationFormatter(start, end)} />
+							) : undefined
 						}
 						renderTarget={({ isOpen, ref, ...targetProps }) => (
 							<g
 								cy-test="timeline-bar"
 								ref={ref}
-								{...targetProps}
+								{...(targetProps as any)} // :(
 								onMouseDown={() => {
 									store.campaign?.timeline.setScrubberTimeAny(bar.end);
 								}}

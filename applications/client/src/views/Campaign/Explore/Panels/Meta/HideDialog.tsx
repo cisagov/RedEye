@@ -1,8 +1,9 @@
 import type { DialogProps } from '@blueprintjs/core';
-import { Checkbox, Button, Classes, Dialog, Intent } from '@blueprintjs/core';
+import { Checkbox, Button, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
-import { css } from '@emotion/react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, DialogEx } from '@redeye/client/components';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
@@ -29,17 +30,23 @@ export const ToggleHiddenDialog = observer<Props>(
 			window.localStorage.setItem('disableDialog', e.target.checked.toString());
 		}, []);
 
+		const confirmShowHide =
+			last && !isHiddenToggled
+				? onClose
+				: (e: React.SyntheticEvent) => {
+						e.stopPropagation();
+						setLoading(true);
+						onHide();
+				  };
+
+		const dialogTitle =
+			last && !isHiddenToggled
+				? `Cannot hide final ${infoType.toLowerCase()}`
+				: `${verb} this ${infoType.toLowerCase()}?`;
+
 		return (
-			<Dialog
-				onClose={onClose}
-				title={
-					last && !isHiddenToggled
-						? `Cannot hide final ${infoType.toLowerCase()}`
-						: `${verb} this ${infoType.toLowerCase()}?`
-				}
-				{...props}
-			>
-				<div cy-test="show-hide-dialog-text" className={Classes.DIALOG_BODY}>
+			<DialogEx onClose={onClose} title={dialogTitle} {...props}>
+				<DialogBodyEx cy-test="show-hide-dialog-text">
 					{last && !isHiddenToggled ? (
 						<>
 							<Txt tagName="p">
@@ -72,37 +79,24 @@ export const ToggleHiddenDialog = observer<Props>(
 							<Checkbox label="Don’t show this warning again" checked={checked} onChange={handleCheck} />
 						</>
 					)}
-				</div>
-				<div className={Classes.DIALOG_FOOTER}>
-					<div className={Classes.DIALOG_FOOTER_ACTIONS}>
-						<Button cy-test="cancel-show-hide" onClick={onClose}>
-							Cancel
-						</Button>
-						<Button
-							cy-test="confirm-show-hide"
-							intent={Intent.PRIMARY}
-							rightIcon={!last && isHiddenToggled && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
-							loading={loading}
-							onClick={
-								last && !isHiddenToggled
-									? onClose
-									: (e) => {
-											e.stopPropagation();
-											setLoading(true);
-											onHide();
-									  }
-							}
-							css={buttonStyle}
-						>
-							{last && !isHiddenToggled ? 'OK' : `${verb} ${infoType}`}
-						</Button>
-					</div>
-				</div>
-			</Dialog>
+				</DialogBodyEx>
+				<DialogFooterEx
+					actions={
+						<>
+							<Button cy-test="cancel-show-hide" onClick={onClose} text="Cancel" />
+							<Button
+								cy-test="confirm-show-hide"
+								intent={Intent.PRIMARY}
+								rightIcon={!last && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
+								loading={loading}
+								text={last && !isHiddenToggled ? 'OK' : `${verb} ${infoType}`}
+								onClick={confirmShowHide}
+								alignText="left"
+							/>
+						</>
+					}
+				/>
+			</DialogEx>
 		);
 	}
 );
-
-const buttonStyle = css`
-	min-width: 62.58px;
-`;

@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
-import { Flex } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { AnnotationModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
 import { CommandContainer, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
-import { CoreTokens } from '@redeye/ui-styles';
+import { CoreTokens, Flex } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -61,12 +60,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 				// id={commandGroupId} // @SEBASTIAN: is this a testing hook?
 				{...props}
 			>
-				<Flex
-					column
-					css={css`
-						margin: 1rem;
-					`}
-				>
+				<Flex column css={{ margin: 16 }}>
 					{state.commandGroup?.annotations?.map((annotation: Ref<AnnotationModel>) => (
 						<CommentBox
 							key={annotation.id}

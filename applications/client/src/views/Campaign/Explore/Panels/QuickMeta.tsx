@@ -1,5 +1,5 @@
-import { Button, Menu, MenuItem, Position } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
+import { Button, Menu, Position } from '@blueprintjs/core';
+import { MenuItem2, Popover2 } from '@blueprintjs/popover2';
 import { OverflowMenuVertical16, View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
@@ -34,7 +34,7 @@ export const QuickMeta = observer<HostRowProps>(({ modal, click, disabled = fals
 			}}
 			content={
 				<Menu cy-test="show-hide-item">
-					<MenuItem
+					<MenuItem2
 						disabled={disabled}
 						text={`${modal?.hidden ? 'Show ' : 'Hide '} ${
 							modal instanceof BeaconModel
