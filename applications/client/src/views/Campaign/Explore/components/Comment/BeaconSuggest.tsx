@@ -12,7 +12,7 @@ export type BeaconSuggestProps = Partial<Suggest2Props<BeaconModel>> & {
 };
 
 export const BeaconSuggest = observer<BeaconSuggestProps>(
-	({ commandString, onItemSelect: _onItemSelect }: BeaconSuggestProps) => {
+	({ commandString, onItemSelect: _onItemSelect, popoverProps, inputProps, ...suggestProps }: BeaconSuggestProps) => {
 		const store = useStore();
 		const beacons = Array.from(store.graphqlStore.beacons.values() || []);
 
@@ -61,14 +61,17 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 				popoverProps={{
 					minimal: true,
 					hasBackdrop: true,
+					...popoverProps,
 				}}
 				inputProps={{
-					autoFocus: true,
+					// autoFocus: true,
+					...inputProps,
 				}}
 				onItemSelect={onItemSelect}
 				noResults={noResults}
 				resetOnQuery
 				fill
+				{...suggestProps}
 			/>
 		);
 	}

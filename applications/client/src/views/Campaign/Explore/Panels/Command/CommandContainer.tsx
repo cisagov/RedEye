@@ -1,7 +1,7 @@
 import { Classes } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { CommandModel } from '@redeye/client/store';
+import type { CommandModel, LinkModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
 import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
@@ -10,8 +10,9 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
+import { CarbonIcon, semanticIcons } from '@redeye/client/components';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
-import { CheckForAddedLink } from '../../components/Comment/CheckForAddedLink';
+import { getManualCommandLinks } from '../../components/Comment/CheckForAddedLink';
 
 type CommandContainerProps = ComponentProps<'div'> & {
 	command?: CommandModel;
@@ -41,6 +42,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 	}) => {
 		const store = useStore();
 		const state = createState({
+			manualLink: getManualCommandLinks(commandId, Array.from(store?.graphqlStore.links.values()))[0] as
+				| LinkModel
+				| undefined,
 			get active() {
 				return store.router.params.activeItem === 'command' && store.router.params.activeItemId === state.commandId;
 			},
@@ -97,6 +101,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 				),
 			[]
 		);
+
 		return (
 			<div cy-test="command-info" css={wrapperStyle} {...props}>
 				<div css={[UtilityStyles.hoverRevealChildrenVisibility, gridWrapperStyle]}>
@@ -120,10 +125,9 @@ export const CommandContainer = observer<CommandContainerProps>(
 								showPath={showPath}
 							/>
 						</Suspense>
-						{/* add icon for added beacon link */}
 						<MitreTechniqueIcons mitreAttackIds={state.command?.mitreTechniques} />
-						{store.router.params.currentItem === 'beacon' && (
-							<CheckForAddedLink commandID={commandId} containerOrBox="container" toggleLinkedFlag={() => {}} />
+						{store.router.params.currentItem === 'beacon' && state.manualLink != null && (
+							<CarbonIcon icon={semanticIcons.link} />
 						)}
 					</InfoRow>
 					{!hideCommentButton && (

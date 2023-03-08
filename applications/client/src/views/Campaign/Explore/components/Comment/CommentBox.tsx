@@ -8,12 +8,13 @@ import {
 	BookmarkFilled16,
 	Chat16,
 	Checkmark16,
+	Close16,
 	Connect16,
 	Edit16,
 	TrashCan16,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { AlertEx, CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
+import { AlertEx, CarbonIcon, createState, customIconPaths, isDefined, semanticIcons } from '@redeye/client/components';
 import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from '@redeye/client/store';
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
@@ -26,7 +27,8 @@ import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import { BeaconSuggest } from './BeaconSuggest';
-import { CheckForAddedLink } from './CheckForAddedLink';
+import { getManualCommandLinks } from './CheckForAddedLink';
+import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
 type CommentBoxProps = ComponentProps<'div'> & {
 	commandId?: string | null;
@@ -108,7 +110,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						state.flagIfManualLinkHasBeenCreated(false, null);
+						state.updateManualLink(undefined);
 					}
 				},
 			}
@@ -120,8 +122,8 @@ export const CommentBox = observer<CommentBoxProps>(
 					campaignId: store.campaign?.id!,
 					commandId: state.commandIds[0],
 					destinationId,
-					id: state.manuallyCreatedLink?.id!,
-					name: state.nameText,
+					id: state.manualLink?.id!,
+					name: state.manualLinkName,
 					originId: store.campaign.interactionState.selectedBeacon?.id as string,
 				}),
 			{
@@ -137,7 +139,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						state.flagIfManualLinkHasBeenCreated(true, store.graphqlStore.links.get(linkData.editLink.id));
+						state.updateManualLink(store.graphqlStore.links.get(linkData.editLink.id));
 					}
 				},
 			}
@@ -149,7 +151,7 @@ export const CommentBox = observer<CommentBoxProps>(
 					campaignId: store.campaign?.id!,
 					commandId: state.commandIds[0],
 					destinationId,
-					name: state.nameText,
+					name: state.manualLinkName,
 					originId: store.campaign.interactionState.selectedBeacon?.id as string,
 				}),
 			{
@@ -165,7 +167,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						state.flagIfManualLinkHasBeenCreated(true, store.graphqlStore.links.get(linkData.createLink.id));
+						state.updateManualLink(store.graphqlStore.links.get(linkData.createLink.id));
 					}
 				},
 			}
@@ -176,12 +178,13 @@ export const CommentBox = observer<CommentBoxProps>(
 		const state = createState({
 			editMode: newComment || false,
 			text: annotation?.text || '',
-			nameText: '',
+			manualLinkName: '',
 			displayName: '',
 			destinationBeacon: undefined as BeaconModel | undefined,
-			addOrChangeLinkButtonText: 'Add beacon link',
-			manuallyCreatedLink: null as LinkModel | null,
-			manualLinkFlag: false,
+			editLinkButtonText: 'Add beacon link',
+			manualLink: getManualCommandLinks(commandId, Array.from(store?.graphqlStore.links.values()))[0] as
+				| LinkModel
+				| undefined,
 			tags: observable.array<string>(),
 			favorite: annotation?.favorite,
 			deleteAnnotationPrompt: false,
@@ -228,20 +231,18 @@ export const CommentBox = observer<CommentBoxProps>(
 			toggleShowBeaconSuggest() {
 				this.showBeaconSuggest = !this.showBeaconSuggest;
 			},
-			storeNewDestinationBeaconForLinkCreation(newDestBeacon: BeaconModel) {
-				this.destinationBeacon = newDestBeacon;
+			setDestinationBeacon(beaconModel: BeaconModel | undefined) {
+				this.destinationBeacon = beaconModel;
 			},
-
 			// Doesn't change graph
-			flagIfManualLinkHasBeenCreated(linkExists: boolean, manuallyCreatedLink): void {
-				this.manualLinkFlag = linkExists;
-				if (manuallyCreatedLink) {
-					this.manuallyCreatedLink = manuallyCreatedLink;
-					this.nameText = manuallyCreatedLink.name;
-					this.addOrChangeLinkButtonText = `Edit link to ${this.manuallyCreatedLink?.destination?.current.displayName}`;
+			updateManualLink(manualLink): void {
+				if (manualLink) {
+					this.manualLink = manualLink;
+					this.manualLinkName = manualLink.name;
+					this.editLinkButtonText = `Edit link to ${this.manualLink?.destination?.current.displayName}`;
 				} else {
-					this.manuallyCreatedLink = null;
-					this.addOrChangeLinkButtonText = 'Add beacon link';
+					this.manualLink = undefined;
+					this.editLinkButtonText = 'Add beacon link';
 				}
 			},
 			handleTagsChange(value: unknown) {
@@ -254,8 +255,8 @@ export const CommentBox = observer<CommentBoxProps>(
 			handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
 				this.text = e.target.value;
 			},
-			handleDisplayNameFieldChange(e: ChangeEvent<HTMLInputElement>) {
-				this.nameText = e.target.value;
+			handleManualLinkNameChange(e: ChangeEvent<HTMLInputElement>) {
+				this.manualLinkName = e.target.value;
 			},
 			toggleFavorite() {
 				this.favorite = !this.favorite;
@@ -265,8 +266,8 @@ export const CommentBox = observer<CommentBoxProps>(
 			deleteAnnotation() {
 				if (this.deleteAnnotationPrompt && annotation?.id) {
 					deleteAnnotation.mutate(annotation.id);
-					if (this.manuallyCreatedLink) {
-						deleteLink.mutate(this.manuallyCreatedLink.id);
+					if (this.manualLink) {
+						deleteLink.mutate(this.manualLink.id);
 					}
 				}
 			},
@@ -313,11 +314,11 @@ export const CommentBox = observer<CommentBoxProps>(
 							user: store.auth.userName!,
 						});
 					}
-					// editing an existing link
-					if (state.manualLinkFlag && state.manuallyCreatedLink && this.destinationBeacon) {
+					if (state.manualLink && this.destinationBeacon) {
+						// editing an existing link
 						editLink.mutate(this.destinationBeacon.id);
-						// beacon selected not a currently existing link
 					} else if (this.destinationBeacon) {
+						// beacon selected not a currently existing link
 						createLink.mutate(this.destinationBeacon.id);
 					}
 				} catch (e) {
@@ -429,11 +430,11 @@ export const CommentBox = observer<CommentBoxProps>(
 					>
 						<div css={formInputStyle}>
 							{/* { // store.router.params.currentItem === 'beacon' && // why is this necessary? */}
-							{(state.destinationBeacon || state.manuallyCreatedLink) && (
+							{(state.destinationBeacon || state.manualLink) && (
 								<InputGroup
 									fill
-									onChange={state.handleDisplayNameFieldChange}
-									value={state.nameText}
+									onChange={state.handleManualLinkNameChange}
+									value={state.manualLinkName}
 									maxLength={50}
 									placeholder="Link Display Name (<50ch)"
 								/>
@@ -530,9 +531,9 @@ export const CommentBox = observer<CommentBoxProps>(
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
 							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this necessary? */}
-							{state.showBeaconSuggest ? (
+							{!state.showBeaconSuggest ? (
 								<Button
-									text={state.addOrChangeLinkButtonText}
+									text={state.editLinkButtonText}
 									onClick={state.toggleShowBeaconSuggest}
 									icon={<CarbonIcon icon={Connect16} />}
 									alignText={Alignment.LEFT}
@@ -542,9 +543,22 @@ export const CommentBox = observer<CommentBoxProps>(
 								/>
 							) : (
 								<BeaconSuggest
-									// onClick={state.toggleShowBeaconSuggest}
 									commandString={commandText as string}
-									onItemSelect={state.storeNewDestinationBeaconForLinkCreation}
+									defaultSelectedItem={state.manualLink?.destination?.current}
+									onItemSelect={state.setDestinationBeacon}
+									inputProps={{
+										leftElement: <CarbonIcon icon={semanticIcons.link} />,
+										rightElement: (
+											<Button
+												icon={<CarbonIcon icon={Close16} />}
+												onClick={() => {
+													state.toggleShowBeaconSuggest();
+													state.setDestinationBeacon(undefined);
+												}}
+												minimal
+											/>
+										),
+									}}
 								/>
 							)}
 							{/* </> )} */}
@@ -574,9 +588,9 @@ export const CommentBox = observer<CommentBoxProps>(
 					<div css={isPresentationMode ? displayWrapperPresentationStyle : displayWrapperStyle}>
 						{/* <HeaderSmall css={displayTitleStyle}>{state.title}</HeaderSmall> */}
 
-						{state.nameText.length > 0 && (
+						{state.manualLinkName.length > 0 && (
 							<div css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>
-								<Txt bold>{state.nameText}</Txt>
+								<Txt bold>{state.manualLinkName}</Txt>
 							</div>
 						)}
 
@@ -597,13 +611,15 @@ export const CommentBox = observer<CommentBoxProps>(
 								</Txt>
 							)}
 						</div>
-						<div>
-							<CheckForAddedLink
-								commandID={state.commandIds[0]}
-								containerOrBox="box"
-								toggleLinkedFlag={state.flagIfManualLinkHasBeenCreated}
-							/>
-						</div>
+						{state.manualLink && (
+							<div>
+								<BeaconSuggestedRow
+									targetHost={state.manualLink.destination?.current.host?.current.displayName}
+									targetBeacon={state.manualLink.destination?.current.displayName}
+									icon
+								/>
+							</div>
+						)}
 						{/* )} */}
 						{/* // TODO: I'm thinking maybe this should be a hover only button group in the top right to conserve space and prevent repetition  */}
 						{(showEditButtons || showGroupLink) && (
