@@ -25,7 +25,7 @@ import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from '
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MenuItem2 } from '@blueprintjs/popover2';
-import { AddBeaconSelectOrSuggest } from './AddBeaconSelectOrSuggest';
+import { BeaconSuggest } from './BeaconSuggest';
 import { CheckForAddedLink } from './CheckForAddedLink';
 
 type CommentBoxProps = ComponentProps<'div'> & {
@@ -187,7 +187,7 @@ export const CommentBox = observer<CommentBoxProps>(
 			deleteAnnotationPrompt: false,
 			tagQuery: '',
 			loading: false,
-			showBeaconSearch: false,
+			showBeaconSuggest: false,
 			get commandIds(): string[] {
 				return (
 					store.campaign?.commentStore.selectedCommands.size
@@ -225,8 +225,8 @@ export const CommentBox = observer<CommentBoxProps>(
 					.map((tag) => tags.add(tag));
 				return Array.from(tags);
 			},
-			toggleBoolBeaconSearch() {
-				this.showBeaconSearch = !this.showBeaconSearch;
+			toggleShowBeaconSuggest() {
+				this.showBeaconSuggest = !this.showBeaconSuggest;
 			},
 			storeNewDestinationBeaconForLinkCreation(newDestBeacon: BeaconModel) {
 				this.destinationBeacon = newDestBeacon;
@@ -534,10 +534,10 @@ export const CommentBox = observer<CommentBoxProps>(
 								tagRenderer={(item) => item}
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
-							{!state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
+							{!state.showBeaconSuggest && store.router.params.currentItem === 'beacon' && (
 								<Button
 									text={state.addOrChangeLinkButtonText}
-									onClick={state.toggleBoolBeaconSearch}
+									onClick={state.toggleShowBeaconSuggest}
 									icon={<CarbonIcon icon={Connect16} />}
 									alignText={Alignment.LEFT}
 									intent={Intent.PRIMARY}
@@ -545,9 +545,9 @@ export const CommentBox = observer<CommentBoxProps>(
 									fill
 								/>
 							)}
-							{state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
-								<AddBeaconSelectOrSuggest
-									// onClick={state.toggleBoolBeaconSearch}
+							{state.showBeaconSuggest && store.router.params.currentItem === 'beacon' && (
+								<BeaconSuggest
+									// onClick={state.toggleShowBeaconSuggest}
 									commandString={commandText as string}
 									onSelectBeacon={state.storeNewDestinationBeaconForLinkCreation}
 								/>

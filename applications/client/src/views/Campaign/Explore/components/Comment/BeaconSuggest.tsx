@@ -11,17 +11,17 @@ import { useStore } from '@redeye/client/store';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
-export type AddBeaconSelectOrSuggestProps = ComponentProps<'div'> & {
+export type BeaconSuggestProps = ComponentProps<'div'> & {
 	// onClick: () => any;
 	commandString: string;
 	onSelectBeacon: (beacon: BeaconModel) => any;
 };
 
-export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
+export const BeaconSuggest: FC<BeaconSuggestProps> = ({
 	// onClick,
 	commandString,
 	onSelectBeacon,
-}: AddBeaconSelectOrSuggestProps) => {
+}: BeaconSuggestProps) => {
 	const initialvalue = (
 		<BeaconSuggestedRow targetHost="HOST  " targetBeacon="Beacon  " reason={commandString} icon={false} />
 	);
