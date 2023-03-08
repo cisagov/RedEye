@@ -1,11 +1,11 @@
 import type { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
-import { Suggest2, Select2 } from '@blueprintjs/select';
+import { Suggest2 } from '@blueprintjs/select';
 import type { ComponentProps, FC } from 'react';
-import { useState } from 'react';
-import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
-import { Connect16 } from '@carbon/icons-react';
-import { css } from '@emotion/react';
-import { CarbonIcon } from '@redeye/client/components';
+// import { useState } from 'react';
+// import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core';
+// import { Connect16 } from '@carbon/icons-react';
+// import { css } from '@emotion/react';
+// import { CarbonIcon } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { MenuItem2 } from '@blueprintjs/popover2';
@@ -22,57 +22,57 @@ export const BeaconSuggest: FC<BeaconSuggestProps> = ({
 	commandString,
 	onSelectBeacon,
 }: BeaconSuggestProps) => {
-	const initialvalue = (
-		<BeaconSuggestedRow targetHost="HOST  " targetBeacon="Beacon  " reason={commandString} icon={false} />
-	);
+	// const initialValue = (
+	// 	<BeaconSuggestedRow targetHost="HOST  " targetBeacon="Beacon  " reason={commandString} icon={false} />
+	// );
 
-	const [selectedItem, setSelectedItem] = useState(initialvalue);
+	// const [selectedItem, setSelectedItem] = useState(initialValue);
 
 	// output is beacon suggested row object
 	const handleItemSelect = (item) => {
-		const newValue = (
-			<BeaconSuggestedRow
-				targetHost={item.host.current.displayName as string}
-				targetBeacon={item.displayName as string}
-				reason={commandString as string}
-				icon={false}
-			/>
-		);
+		// const newValue = (
+		// 	<BeaconSuggestedRow
+		// 		targetHost={item.host.current.displayName as string}
+		// 		targetBeacon={item.displayName as string}
+		// 		reason={commandString as string}
+		// 		icon={false}
+		// 	/>
+		// );
 		onSelectBeacon(item);
-		setSelectedItem(newValue);
+		// setSelectedItem(newValue);
 	};
 
 	const store = useStore();
 	const beacons = Array.from(store.graphqlStore.beacons.values() || []);
 
 	// checks displayName and beaconName
-	const filterFilm: ItemPredicate<BeaconModel> = (query, to_beacon) => {
-		const dispNameText = to_beacon.displayName;
-		const nameText = to_beacon.beaconName;
-		if (dispNameText) {
+	const findBeacon: ItemPredicate<BeaconModel> = (query, beaconModel) => {
+		const { displayName, beaconName } = beaconModel;
+		if (displayName) {
 			return (
-				nameText.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-				dispNameText?.toLowerCase().indexOf(query.toLowerCase()) >= 0
+				beaconName.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+				displayName?.toLowerCase().indexOf(query.toLowerCase()) >= 0
 			);
 		}
-		return nameText.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+		return beaconName.toLowerCase().indexOf(query.toLowerCase()) >= 0;
 	};
 
-	const renderMenuItem: ItemRenderer<BeaconModel> = (to_beacon, { handleClick, modifiers }) => {
+	const renderMenuItem: ItemRenderer<BeaconModel> = (beaconModel, { handleClick, modifiers }) => {
 		if (!modifiers.matchesPredicate) {
 			return null;
 		}
 		return (
 			<MenuItem2
-				multiline
-				key={to_beacon.id}
+				key={beaconModel.id}
 				onClick={handleClick}
-				shouldDismissPopover={false}
-				labelElement={
+				// shouldDismissPopover={false}
+				{...modifiers}
+				labelElement={commandString as string}
+				text={
 					<BeaconSuggestedRow
-						targetHost={to_beacon.host?.current.displayName as string}
-						targetBeacon={to_beacon.displayName as string}
-						reason={commandString as string}
+						targetHost={beaconModel.host?.current.displayName as string}
+						targetBeacon={beaconModel.displayName as string}
+						// reason={commandString as string}
 						icon={false}
 					/>
 				}
@@ -88,14 +88,21 @@ export const BeaconSuggest: FC<BeaconSuggestProps> = ({
 		// 	{suggestOrSelect === 'suggest' ? (
 		<Suggest2
 			items={beacons}
-			itemPredicate={filterFilm}
+			itemPredicate={findBeacon}
 			itemRenderer={renderMenuItem}
-			// popoverProps={{ boundary: 'window' }}
+			inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
+			popoverProps={{
+				// boundary: 'window',
+				minimal: true,
+				hasBackdrop: true,
+			}}
+			inputProps={{
+				autoFocus: true,
+			}}
 			onItemSelect={handleItemSelect}
 			noResults={<MenuItem2 disabled text="No results." />}
 			fill
 			resetOnQuery
-			inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
 		/>
 		// 	) : (
 		// 		<Select2
