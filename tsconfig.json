@@ -8,12 +8,7 @@
 		"target": "esnext",
 		"baseUrl": "."
 	},
-	"exclude": [
-		"applications/redeye-e2e/*",
-		"tmp",
-		"applications/redeye-e2e/cypress.config.js",
-		"node_modules"
-	],
+	"exclude": ["applications/redeye-e2e/*", "tmp", "applications/redeye-e2e/cypress.config.js", "node_modules"],
 	"references": [
 		{
 			"path": "applications/client"
