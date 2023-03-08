@@ -132,7 +132,12 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 				<div>
 					<p>Export Presets</p>
 					<div>
-						<PresetButton onClick={state.setRedTeam} title="Red Team" subText="Keep All Data" cy-test="red-team-export" />
+						<PresetButton
+							onClick={state.setRedTeam}
+							title="Red Team"
+							subText="Keep All Data"
+							cy-test="red-team-export"
+						/>
 						<PresetButton
 							onClick={state.setBlueTeam}
 							title="Blue Team"

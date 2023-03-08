@@ -7,7 +7,7 @@ import { CarbonIcon, dateFormat, datePlaceholder } from '@redeye/client/componen
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CampaignViews } from '@redeye/client/types';
-import { Header, Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
+import { Header, Spacer, Txt, CoreTokens, popoverOffset } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -122,12 +122,7 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 								popoverProps={{
 									onClose: state.handleClose,
 									minimal: true,
-									modifiers: {
-										offset: {
-											enabled: true,
-											options: { offset: [0, 4] },
-										},
-									},
+									modifiers: popoverOffset(0, 4),
 								}}
 								onChange={state.updateDateRange}
 								startInputProps={{ style: dateInputStyles, autoFocus: true }}

@@ -75,7 +75,13 @@ export const ServerMeta = observer(() => {
 			return null;
 		}
 		return (
-			<MenuItem2 active={modifiers.active} key={item.key} onClick={handleClick} text={item.label} cy-test={item.label} />
+			<MenuItem2
+				active={modifiers.active}
+				key={item.key}
+				onClick={handleClick}
+				text={item.label}
+				cy-test={item.label}
+			/>
 		);
 	};
 

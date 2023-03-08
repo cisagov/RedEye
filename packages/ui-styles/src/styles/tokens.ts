@@ -140,7 +140,7 @@ const darkThemeCssVars = declareCssVars([
 	[CustomTokens.BorderEmphasis, BpTokens.Colors.Black],
 	[CustomTokens.BorderNormal, BpTokensAll.PtDividerBlack],
 	[CustomTokens.BorderMuted, BpTokens.Colors.DarkGray2],
-	[CustomTokens.BorderInvert, BpTokens.Colors.Gray4],
+	[CustomTokens.BorderInvert, BpTokens.Colors.Gray1],
 
 	[CustomTokens.ShadowGradient, `${transparentBlack(0.2)}, ${transparentBlack(0)}`],
 ]);

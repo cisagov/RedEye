@@ -1,4 +1,4 @@
-import { Alert, Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
+import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
 import type { ItemPredicate } from '@blueprintjs/select';
 import { MultiSelect2 } from '@blueprintjs/select';
 import {
@@ -13,7 +13,7 @@ import {
 	TrashCan16,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
+import { AlertEx, CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
 import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from '@redeye/client/store';
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
@@ -635,7 +635,7 @@ export const CommentBox = observer<CommentBoxProps>(
 													icon={<CarbonIcon icon={TrashCan16} />}
 													onClick={() => state.update('deleteAnnotationPrompt', true)}
 												/>
-												<Alert
+												<AlertEx
 													isOpen={state.deleteAnnotationPrompt}
 													onClose={() => state.update('deleteAnnotationPrompt', false)}
 													onConfirm={state.deleteAnnotation}
@@ -645,8 +645,8 @@ export const CommentBox = observer<CommentBoxProps>(
 													canOutsideClickCancel
 													canEscapeKeyCancel
 												>
-													<p>Are you sure you want to delete this comment?</p>
-												</Alert>
+													Are you sure you want to delete this comment?
+												</AlertEx>
 											</>
 										)}
 									</>
