@@ -48,14 +48,12 @@ jobs:
       - run: yarn install --immutable --inline-builds
       - run: yarn moon run server:build client:build
 
-
       - name: Save build folder
         uses: actions/upload-artifact@v3
         with:
           name: moon-cache
           path: .moon/cache
           if-no-files-found: error
-
 
   RedTeamChrome:
     runs-on: ubuntu-latest
@@ -87,7 +85,6 @@ jobs:
           git config pull.rebase true
           git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
-
       - name: Red Team Tests - Chrome v${{ matrix.node }}
         uses: cypress-io/github-action@v5.0.0
         with:
@@ -174,7 +171,6 @@ jobs:
           git config pull.rebase true
           git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
-
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5.0.0
         with:

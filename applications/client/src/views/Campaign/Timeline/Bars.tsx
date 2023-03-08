@@ -60,7 +60,7 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 							<g
 								cy-test="timeline-bar"
 								ref={ref}
-								{...targetProps}
+								{...(targetProps as any)} // :(
 								onMouseDown={() => {
 									store.campaign?.timeline.setScrubberTimeExact(bar.end);
 								}}

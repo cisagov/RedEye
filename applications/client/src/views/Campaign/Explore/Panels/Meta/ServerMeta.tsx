@@ -1,4 +1,4 @@
-import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
+import { Button, InputGroup } from '@blueprintjs/core';
 import { Select2 } from '@blueprintjs/select';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
@@ -10,6 +10,7 @@ import { InfoType } from '@redeye/client/types';
 import { ToggleHiddenDialog } from '@redeye/client/views';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
+import { MenuItem2 } from '@blueprintjs/popover2';
 import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
@@ -74,7 +75,13 @@ export const ServerMeta = observer(() => {
 			return null;
 		}
 		return (
-			<MenuItem active={modifiers.active} key={item.key} onClick={handleClick} text={item.label} cy-test={item.label} />
+			<MenuItem2
+				active={modifiers.active}
+				key={item.key}
+				onClick={handleClick}
+				text={item.label}
+				cy-test={item.label}
+			/>
 		);
 	};
 
