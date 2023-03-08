@@ -12,13 +12,13 @@ import { MenuItem2 } from '@blueprintjs/popover2';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
 export type AddBeaconSelectOrSuggestProps = ComponentProps<'div'> & {
-	onClick: () => any;
+	// onClick: () => any;
 	commandString: string;
 	onSelectBeacon: (beacon: BeaconModel) => any;
 };
 
 export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
-	onClick,
+	// onClick,
 	commandString,
 	onSelectBeacon,
 }: AddBeaconSelectOrSuggestProps) => {
@@ -80,45 +80,45 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 		);
 	};
 
-	const suggestOrSelect = 'suggest';
+	// const suggestOrSelect = 'suggest'; // Why?
 
 	return (
-		<ButtonGroup fill css={beaconSelectStyle} style={{ backgroundColor: 'black' }}>
-			<Button disabled icon={<CarbonIcon icon={Connect16} />} />
-			{suggestOrSelect === 'suggest' ? (
-				<Suggest2
-					items={beacons}
-					itemPredicate={filterFilm}
-					itemRenderer={renderMenuItem}
-					// popoverProps={{ boundary: 'window' }}
-					onItemSelect={handleItemSelect}
-					noResults={<MenuItem2 disabled text="No results." />}
-					fill
-					resetOnQuery
-					inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
-				/>
-			) : (
-				<Select2
-					items={beacons}
-					filterable
-					itemPredicate={filterFilm}
-					itemRenderer={renderMenuItem}
-					// popoverProps={{ boundary: 'window' }}
-					onItemSelect={handleItemSelect}
-					// matchTargetWidth
-					noResults={<MenuItem2 disabled text="No results." />}
-					resetOnQuery
-					scrollToActiveItem
-				>
-					<ButtonGroup>
-						<InputGroup leftElement={selectedItem} rightElement={<Button icon="cross" onClick={() => onClick()} />} />
-					</ButtonGroup>
-				</Select2>
-			)}
-		</ButtonGroup>
+		// <ButtonGroup fill css={beaconSelectStyle} style={{ backgroundColor: 'black' }}>
+		// 	<Button disabled icon={<CarbonIcon icon={Connect16} />} />
+		// 	{suggestOrSelect === 'suggest' ? (
+		<Suggest2
+			items={beacons}
+			itemPredicate={filterFilm}
+			itemRenderer={renderMenuItem}
+			// popoverProps={{ boundary: 'window' }}
+			onItemSelect={handleItemSelect}
+			noResults={<MenuItem2 disabled text="No results." />}
+			fill
+			resetOnQuery
+			inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
+		/>
+		// 	) : (
+		// 		<Select2
+		// 			items={beacons}
+		// 			filterable
+		// 			itemPredicate={filterFilm}
+		// 			itemRenderer={renderMenuItem}
+		// 			// popoverProps={{ boundary: 'window' }}
+		// 			onItemSelect={handleItemSelect}
+		// 			// matchTargetWidth
+		// 			noResults={<MenuItem2 disabled text="No results." />}
+		// 			resetOnQuery
+		// 			scrollToActiveItem
+		// 		>
+		// 			<ButtonGroup>
+		// 				<InputGroup leftElement={selectedItem} rightElement={<Button icon="cross" onClick={() => onClick()} />} />
+		// 			</ButtonGroup>
+		// 		</Select2>
+		// 	)}
+		// </ButtonGroup>
 	);
 };
 
-const beaconSelectStyle = css`
-	width: 300px;
-`;
+// const beaconSelectStyle = css`
+// 	width: 300px;
+// `;

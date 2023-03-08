@@ -534,24 +534,25 @@ export const CommentBox = observer<CommentBoxProps>(
 								tagRenderer={(item) => item}
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
+							{!state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
+								<Button
+									text={state.addOrChangeLinkButtonText}
+									onClick={state.toggleBoolBeaconSearch}
+									icon={<CarbonIcon icon={Connect16} />}
+									alignText={Alignment.LEFT}
+									intent={Intent.PRIMARY}
+									minimal
+									fill
+								/>
+							)}
+							{state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
+								<AddBeaconSelectOrSuggest
+									// onClick={state.toggleBoolBeaconSearch}
+									commandString={commandText as string}
+									onSelectBeacon={state.storeNewDestinationBeaconForLinkCreation}
+								/>
+							)}
 						</div>
-						{!state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
-							<Button
-								text={state.addOrChangeLinkButtonText}
-								onClick={state.toggleBoolBeaconSearch}
-								icon={<CarbonIcon icon={Connect16} />}
-								alignText={Alignment.RIGHT}
-								intent={Intent.PRIMARY}
-								minimal
-							/>
-						)}
-						{state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
-							<AddBeaconSelectOrSuggest
-								onClick={state.toggleBoolBeaconSearch}
-								commandString={commandText as string}
-								onSelectBeacon={state.storeNewDestinationBeaconForLinkCreation}
-							/>
-						)}
 						<ButtonGroup fill css={formSubmitStyle}>
 							<Button
 								cy-test="cancel-comment"
