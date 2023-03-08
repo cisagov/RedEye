@@ -118,7 +118,7 @@ describe('Hide a beacon', () => {
 			.invoke('text')
 			.then((beaconName) => {
 				// Hide the first beacon in the list
-				cy.get('[cy-test=show-hide-hover]').eq(0).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(0).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears
@@ -142,7 +142,7 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Set beacon to show again
-				cy.get('[cy-test=show-hide-hover]').eq(0).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(0).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears

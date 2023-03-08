@@ -1,18 +1,18 @@
-import { Classes, DialogFooter } from '@blueprintjs/core';
+import { Alert, Classes } from '@blueprintjs/core';
 import styled from '@emotion/styled';
 import { AdvancedTokens } from '@redeye/ui-styles';
 
-export const DialogFooterEx = styled(DialogFooter)`
-	margin: 0;
+export const AlertEx = styled(Alert)`
 	padding: 0;
-	gap: 0px; // 1px;
-	border: none;
+	margin: 3rem;
+	align-self: start;
 
-	.${Classes.DIALOG_FOOTER_MAIN_SECTION} {
-		flex: 0 0 auto;
+	.${Classes.ALERT_BODY} {
+		padding: 16px;
 	}
-	.${Classes.DIALOG_FOOTER_ACTIONS} {
-		flex: 1 0 auto;
+
+	.${Classes.ALERT_FOOTER} {
+		margin: 0;
 		gap: 1px;
 	}
 

@@ -106,7 +106,7 @@ describe('Hide a server', () => {
 			.invoke('text')
 			.then((serverName) => {
 				// Hide the server in the list
-				cy.get('[cy-test=show-hide-hover]').eq(0).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(0).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears
@@ -126,7 +126,7 @@ describe('Hide a server', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
 
 				// Set server to show again
-				cy.get('[cy-test=show-hide-hover]').eq(0).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(0).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears

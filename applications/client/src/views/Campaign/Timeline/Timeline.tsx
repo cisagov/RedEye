@@ -7,12 +7,12 @@ import { CarbonIcon, dateFormat, datePlaceholder } from '@redeye/client/componen
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CampaignViews } from '@redeye/client/types';
-import { Header, Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
+import { Header, Spacer, Txt, CoreTokens, popoverOffset } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useEffect } from 'react';
-import { TIMELINE_BG_COLOR } from './timeline-static-vars';
+import { PANEL_HEIGHT, TIMELINE_BG_COLOR } from './timeline-static-vars';
 import { TimelineChart } from './TimelineChart';
 
 type TimelineProps = ComponentProps<'div'> & {};
@@ -122,12 +122,7 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 								popoverProps={{
 									onClose: state.handleClose,
 									minimal: true,
-									modifiers: {
-										offset: {
-											enabled: true,
-											options: { offset: [0, 4] },
-										},
-									},
+									modifiers: popoverOffset(0, 4),
 								}}
 								onChange={state.updateDateRange}
 								startInputProps={{ style: dateInputStyles, autoFocus: true }}
@@ -221,21 +216,15 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 	);
 });
 
-const PANEL_HEIGHT = 110;
 const timelineWrapperStyles = css`
-	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	background-color: ${TIMELINE_BG_COLOR};
 `;
 const controlPanelStyles = css`
 	display: flex;
-	/* align-items: center; */
-	/* padding-bottom: 1px; */
 	border-bottom: 1px solid ${CoreTokens.BorderNormal};
 	background-color: ${CoreTokens.Background1};
-	/* justify-content: space-between; */
-	/* flex-wrap: wrap; */
 `;
 const leftContentStyles = css`
 	display: flex;
@@ -250,16 +239,13 @@ const rightContentStyles = css`
 	flex-wrap: wrap-reverse;
 	align-items: center;
 	padding-left: 1rem;
-	/* gap: 0.75rem; */
 	justify-content: end;
 `;
 
 const headerStyle = css`
 	margin: 0.25rem 0.5rem;
-	/* flex: 1 0 auto; */
 `;
 const timelinePanelStyles = css`
-	overflow: hidden;
 	height: ${PANEL_HEIGHT}px;
 	flex: 1 1 auto;
 	padding: 0.5rem 0.25rem 0.5rem 0.5rem; // TODO: support top/bottom margin in timeline
@@ -275,7 +261,6 @@ const dateInputStyles = {
 
 const timeSwitchStyles = css`
 	margin: 0.25rem 0.5rem;
-	/* margin-right: 1rem; */
 `;
 const controlGroupStyles = css`
 	margin-left: 0.5rem;

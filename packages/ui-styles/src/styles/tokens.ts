@@ -140,7 +140,7 @@ const darkThemeCssVars = declareCssVars([
 	[CustomTokens.BorderEmphasis, BpTokens.Colors.Black],
 	[CustomTokens.BorderNormal, BpTokensAll.PtDividerBlack],
 	[CustomTokens.BorderMuted, BpTokens.Colors.DarkGray2],
-	[CustomTokens.BorderInvert, BpTokens.Colors.Gray4],
+	[CustomTokens.BorderInvert, BpTokens.Colors.Gray1],
 
 	[CustomTokens.ShadowGradient, `${transparentBlack(0.2)}, ${transparentBlack(0)}`],
 ]);
@@ -205,7 +205,7 @@ const darkThemeGraphAndTimelineCssVars = declareCssVars([
 	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.DarkGray5],
 	[TimelineTokens.FutureBgTimeline, CoreTokens.Colors.Black],
 	[TimelineTokens.SelectedBgTimeline, CoreTokens.Intent.Primary3],
-	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentBlack(0.5)],
+	[TimelineTokens.PreviewBgTimeline, CoreTokens.transparentWhite(0.05)],
 
 	[GraphTokens.PresentFgColor, CoreTokens.Colors.Gray2],
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.DarkGray3],

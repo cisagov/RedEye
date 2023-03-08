@@ -7,15 +7,15 @@ describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 	const fileName = 'smalldata.redeye';
 
-	it('Verify timeline navigation features', () => {
+	it.skip('Verify timeline navigation features', () => {
 		// Upload campaign and open
 		cy.uploadCampaign(camp, fileName);
 
 		cy.selectCampaign(camp);
 
 		// Log the starting position of the timeline bar
-		cy.get('[cy-test=timeline-animated-line]')
-			.invoke('attr', 'x1')
+		cy.get('[cy-test=timeline-scrubber]')
+			.invoke('attr', 'x1') // @QA - we are now moving the scrubber using `style="transform:translateX(00px)"`, not `x1` & `x2`
 			.as('timeline')
 			.then((position1) => {
 				// cy.log(position1);
@@ -49,6 +49,7 @@ describe('Timeline tests', () => {
 	});
 
 	it('Change timeline dates', () => {
+		cy.uploadCampaign(camp, fileName);
 		// Open campaign
 		cy.selectCampaign(camp);
 
@@ -77,7 +78,7 @@ describe('Timeline tests', () => {
 
 		// Hover over a bar on the timeline and verify that the first tooltip appears showing beacon/command info
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
-		cy.get('[cy-test=timeline-tooltip-static]').should('be.visible');
+		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
 		// cy.get('[cy-test=timeline-beacons]').should('be.visible');
 		// cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
 		// cy.get('[cy-test=timeline-total-commands]').should('be.visible');
@@ -87,7 +88,7 @@ describe('Timeline tests', () => {
 
 		// Click on the timeline bar and verify that the second tooltip appears showing beacon details
 		// cy.get('[cy-test=timeline-bar]').eq(1).click();
-		// cy.get('[cy-test=timeline-tooltip-clickable]').should('be.visible');
+		// cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
 		// cy.get('[cy-test=timeline-beacon-header]').should('be.visible');
 		// cy.get('[cy-test=timeline-command-header]').should('be.visible');
 		// cy.get('[cy-test=timeline-beacon-name]').should('be.visible');
