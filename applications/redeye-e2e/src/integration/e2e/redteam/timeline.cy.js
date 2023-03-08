@@ -49,6 +49,7 @@ describe('Timeline tests', () => {
 	});
 
 	it('Change timeline dates', () => {
+		cy.uploadCampaign(camp, fileName);
 		// Open campaign
 		cy.selectCampaign(camp);
 
