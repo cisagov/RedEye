@@ -3,7 +3,6 @@ import {
 	CarbonIcon,
 	dateFormat,
 	dateTimeFormat,
-	Flex,
 	ScrollBox,
 	ScrollChild,
 	semanticIcons,
@@ -11,7 +10,7 @@ import {
 import { routes, useStore } from '@redeye/client/store';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import type { UUID } from '@redeye/client/types';
-import { Txt, FlexSplitter, AdvancedTokens, CoreTokens } from '@redeye/ui-styles';
+import { Txt, FlexSplitter, AdvancedTokens, CoreTokens, Flex } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState, useCallback } from 'react';
