@@ -1,4 +1,14 @@
-import { Alert, Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
+import {
+	Alert,
+	Alignment,
+	Button,
+	ButtonGroup,
+	Classes,
+	InputGroup,
+	Intent,
+	Position,
+	TextArea,
+} from '@blueprintjs/core';
 import type { ItemPredicate } from '@blueprintjs/select';
 import { MultiSelect2 } from '@blueprintjs/select';
 import {
@@ -254,7 +264,7 @@ export const CommentBox = observer<CommentBoxProps>(
 			handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
 				this.text = e.target.value;
 			},
-			handleDisplayNameFieldChange(e: ChangeEvent<HTMLTextAreaElement>) {
+			handleDisplayNameFieldChange(e: ChangeEvent<HTMLInputElement>) {
 				this.nameText = e.target.value;
 			},
 			toggleFavorite() {
@@ -427,22 +437,17 @@ export const CommentBox = observer<CommentBoxProps>(
 							e.preventDefault();
 						}}
 					>
-						{(state.destinationBeacon || state.manuallyCreatedLink) && store.router.params.currentItem === 'beacon' && (
-							<div css={formInputStyle}>
-								<TextArea
-									css={css`
-										resize: vertical;
-									`}
-									growVertically
+						<div css={formInputStyle}>
+							{/* { // store.router.params.currentItem === 'beacon' && // why is this necessary? */}
+							{(state.destinationBeacon || state.manuallyCreatedLink) && (
+								<InputGroup
 									fill
 									onChange={state.handleDisplayNameFieldChange}
 									value={state.nameText}
+									maxLength={50}
 									placeholder="Link Display Name (<50ch)"
-									autoFocus
 								/>
-							</div>
-						)}
-						<div css={formInputStyle}>
+							)}
 							<TextArea
 								cy-test="comment-input"
 								css={css`
@@ -534,7 +539,8 @@ export const CommentBox = observer<CommentBoxProps>(
 								tagRenderer={(item) => item}
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
-							{!state.showBeaconSuggest && store.router.params.currentItem === 'beacon' && (
+							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this necessary? */}
+							{state.showBeaconSuggest ? (
 								<Button
 									text={state.addOrChangeLinkButtonText}
 									onClick={state.toggleShowBeaconSuggest}
@@ -544,14 +550,14 @@ export const CommentBox = observer<CommentBoxProps>(
 									minimal
 									fill
 								/>
-							)}
-							{state.showBeaconSuggest && store.router.params.currentItem === 'beacon' && (
+							) : (
 								<BeaconSuggest
 									// onClick={state.toggleShowBeaconSuggest}
 									commandString={commandText as string}
 									onSelectBeacon={state.storeNewDestinationBeaconForLinkCreation}
 								/>
 							)}
+							{/* </> )} */}
 						</div>
 						<ButtonGroup fill css={formSubmitStyle}>
 							<Button
