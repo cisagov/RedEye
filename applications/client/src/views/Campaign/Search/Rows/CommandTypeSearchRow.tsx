@@ -1,7 +1,8 @@
+import { highlightPattern } from '@redeye/client/components';
 import type { CommandTypeCountModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { SearchRowProps } from '@redeye/client/views';
-import { highlightPattern, SearchRow } from '@redeye/client/views';
+import { SearchRow } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
 import type { SearchResultItemProps } from '../SearchResultItem';
 

@@ -1,3 +1,4 @@
+import { highlightPattern } from '@redeye/client/components';
 import {
 	AnnotationModel,
 	BeaconModel,
@@ -21,7 +22,6 @@ import {
 } from './Rows';
 import { CommandTypeSearchRow } from './Rows/CommandTypeSearchRow';
 import { TagSearchRow } from './Rows/TagSearchRow';
-import { highlightPattern } from './util';
 
 export interface SearchResultItemProps {
 	searchTerm: string;

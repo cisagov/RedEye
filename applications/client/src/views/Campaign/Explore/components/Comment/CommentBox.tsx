@@ -19,7 +19,7 @@ import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from 
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
-import { FlexSplitter, Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
+import { FlexSplitter, Spacer, Txt, CoreTokens, Flex } from '@redeye/ui-styles';
 import { observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
@@ -612,14 +612,16 @@ export const CommentBox = observer<CommentBoxProps>(
 								</Txt>
 							)}
 						</div>
-						{state.manualLink && (
-							<div>
-								<BeaconSuggestedRow
-									targetHost={state.manualLink.destination?.current.host?.current.displayName}
-									targetBeacon={state.manualLink.destination?.current.displayName}
+						{state.manualLink?.destination?.current && (
+							<Flex gap={4}>
+								<CarbonIcon icon={semanticIcons.link} />
+								<BeaconSuggestedRow beaconModel={state.manualLink.destination?.current} />
+								{/* <BeaconSuggestedRow
+									hostName={state.manualLink.destination?.current.host?.current.displayName}
+									beaconName={state.manualLink.destination?.current.displayName}
 									icon
-								/>
-							</div>
+								/> */}
+							</Flex>
 						)}
 						{/* )} */}
 						{/* // TODO: I'm thinking maybe this should be a hover only button group in the top right to conserve space and prevent repetition  */}

@@ -12,7 +12,7 @@ export type BeaconSuggestProps = Partial<Suggest2Props<BeaconModel>> & {
 };
 
 export const BeaconSuggest = observer<BeaconSuggestProps>(
-	({ commandString, onItemSelect: _onItemSelect, popoverProps, inputProps, ...suggestProps }: BeaconSuggestProps) => {
+	({ commandString, onItemSelect: _onItemSelect, popoverProps, ...suggestProps }: BeaconSuggestProps) => {
 		const store = useStore();
 		const beacons = Array.from(store.graphqlStore.beacons.values() || []);
 
@@ -23,11 +23,12 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 		const findBeacon: ItemPredicate<BeaconModel> = (query, beaconModel) => {
 			const { displayName = '', beaconName = '', host } = beaconModel;
 			const { hostName = '' } = host?.current || {};
+			const beaconContext = beaconModel.meta[0]?.current.username || '';
 			// add serverName too?
-			return [hostName, displayName, beaconName].join(' ').toLowerCase().includes(query.toLowerCase());
+			return [hostName, displayName, beaconName, beaconContext].join(' ').toLowerCase().includes(query.toLowerCase());
 		};
 
-		const renderMenuItem: ItemRenderer<BeaconModel> = (beaconModel, { handleClick, modifiers }) => {
+		const renderMenuItem: ItemRenderer<BeaconModel> = (beaconModel, { handleClick, modifiers, query }) => {
 			if (!modifiers.matchesPredicate) {
 				return null;
 			}
@@ -37,13 +38,7 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 					onClick={handleClick}
 					labelElement={commandString}
 					shouldDismissPopover={false}
-					text={
-						<BeaconSuggestedRow
-							targetHost={beaconModel.host?.current.displayName}
-							targetBeacon={beaconModel.displayName}
-							icon={false}
-						/>
-					}
+					text={<BeaconSuggestedRow beaconModel={beaconModel} query={query} />}
 					{...modifiers}
 				/>
 			);
@@ -62,10 +57,6 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 					minimal: true,
 					hasBackdrop: true,
 					...popoverProps,
-				}}
-				inputProps={{
-					// autoFocus: true,
-					...inputProps,
 				}}
 				onItemSelect={onItemSelect}
 				noResults={noResults}
