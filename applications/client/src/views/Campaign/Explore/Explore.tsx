@@ -40,6 +40,15 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		},
 	});
 
+	// const [toggleHidden, mutateToggleHidden] = useToggleHidden(
+	// 	async () =>
+	// 		await store.graphqlStore.mutateToggleBeaconHidden({
+	// 			// await store.graphqlStore.mutateHideBeacons({
+	// 			campaignId: store.campaign?.id!,
+	// 			beaconId,
+	// 		})
+	// );
+
 	useEffect(
 		() =>
 			autorun(() => {
@@ -191,7 +200,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 												<Menu cy-test="show-hide-item">
 													{store.settings.showHidden && (
 														<MenuItem
-															text="Show All"
+															text="Show Host"
 															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 															onClick={(e) => {
 																e.stopPropagation();
@@ -204,7 +213,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 														/>
 													)}
 													<MenuItem
-														text="Hide All"
+														text="Hide Host"
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 														onClick={(e) => {
 															e.stopPropagation();
@@ -246,7 +255,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 												<Menu cy-test="show-hide-item">
 													{store.settings.showHidden && (
 														<MenuItem
-															text="Show All"
+															text="Show Beacon"
 															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 															onClick={(e) => {
 																e.stopPropagation();
@@ -259,7 +268,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 														/>
 													)}
 													<MenuItem
-														text="Hide All"
+														text="Hide Beacon"
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 														onClick={(e) => {
 															e.stopPropagation();

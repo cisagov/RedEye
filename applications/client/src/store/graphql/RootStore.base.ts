@@ -1025,14 +1025,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Toggle beacon hidden state
 	@modelAction mutateToggleBeaconHidden(
-		variables: { beaconId: string; campaignId: string },
+		variables: { beaconId?: string; beaconIds?: string[]; campaignId: string; setHidden?: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof BeaconModelSelector) => typeof BeaconModelSelector) = beaconModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ toggleBeaconHidden: BeaconModel }>(
-			`mutation toggleBeaconHidden($beaconId: String!, $campaignId: String!) { toggleBeaconHidden(beaconId: $beaconId, campaignId: $campaignId) {
+			`mutation toggleBeaconHidden($beaconId: String, $beaconIds: [String!], $campaignId: String!, $setHidden: Boolean) { toggleBeaconHidden(beaconId: $beaconId, beaconIds: $beaconIds, campaignId: $campaignId, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
 			variables,

@@ -72,19 +72,8 @@ type BeaconMeta {
   """The start time of the beacon"""
   startTime: DateTime
 
-  """The communication type used by the beacon"""
-  type: BeaconType
-
   """The username the beacon is running under"""
   username: String
-}
-
-"""The communication type used by the beacon"""
-enum BeaconType {
-  DNS
-  HTTP
-  HTTPS
-  SMB
 }
 
 type Campaign {
@@ -327,7 +316,7 @@ type Mutation {
   serversParse(campaignId: String!): Boolean!
 
   """Toggle beacon hidden state"""
-  toggleBeaconHidden(beaconId: String!, campaignId: String!): Beacon!
+  toggleBeaconHidden(beaconId: String, beaconIds: [String!], campaignId: String!, setHidden: Boolean): Beacon!
 
   """Toggle host hidden state"""
   toggleHostHidden(campaignId: String!, hostId: String!): Host!
@@ -339,7 +328,7 @@ type Mutation {
   updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
 
   """Update existing Beacon Metadata"""
-  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!): Beacon!
+  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, campaignId: String!): Beacon!
 
   """Update existing Host Display Name"""
   updateHostMetadata(campaignId: String!, hostDisplayName: String!, hostId: String!): Host!
