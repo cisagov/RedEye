@@ -430,7 +430,7 @@ export const CommentBox = observer<CommentBoxProps>(
 					>
 						<div css={formInputStyle}>
 							{/* { // store.router.params.currentItem === 'beacon' && // why is this necessary? */}
-							{(state.destinationBeacon || state.manualLink) && (
+							{/* {(state.destinationBeacon || state.manualLink) && (
 								<InputGroup
 									fill
 									onChange={state.handleManualLinkNameChange}
@@ -438,7 +438,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									maxLength={50}
 									placeholder="Link Display Name (<50ch)"
 								/>
-							)}
+							)} */}
 							<TextArea
 								cy-test="comment-input"
 								css={css`
@@ -548,6 +548,8 @@ export const CommentBox = observer<CommentBoxProps>(
 									onItemSelect={state.setDestinationBeacon}
 									inputProps={{
 										leftElement: <CarbonIcon icon={semanticIcons.link} />,
+										// this will focus the input if the button is pressed and there is no input
+										autoFocus: state.showBeaconSuggest,
 										rightElement: (
 											<Button
 												icon={<CarbonIcon icon={Close16} />}
@@ -558,7 +560,6 @@ export const CommentBox = observer<CommentBoxProps>(
 												minimal
 											/>
 										),
-										autoFocus: state.showBeaconSuggest,
 									}}
 								/>
 							)}
