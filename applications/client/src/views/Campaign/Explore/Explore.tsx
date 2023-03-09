@@ -13,7 +13,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useCallback, useEffect } from 'react';
 import { AddToCommandGroupDialog, ControlBar, NavBreadcrumbs } from './components';
-import { InfoPanelTabs, TabNames } from './Panels';
+import { InfoPanelTabs, TabNames, useToggleHidden } from './Panels';
 
 enum Filters {
 	ALL = 'all',
@@ -40,14 +40,23 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		},
 	});
 
-	// const [toggleHidden, mutateToggleHidden] = useToggleHidden(
-	// 	async () =>
-	// 		await store.graphqlStore.mutateToggleBeaconHidden({
-	// 			// await store.graphqlStore.mutateHideBeacons({
-	// 			campaignId: store.campaign?.id!,
-	// 			beaconId,
-	// 		})
-	// );
+	const [, bulkHide] = useToggleHidden(
+		async () =>
+			await store.graphqlStore.mutateToggleBeaconHidden({
+				campaignId: store.campaign?.id!,
+				beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
+				setHidden: true,
+			})
+	);
+
+	const [, bulkShow] = useToggleHidden(
+		async () =>
+			await store.graphqlStore.mutateToggleBeaconHidden({
+				campaignId: store.campaign?.id!,
+				beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
+				setHidden: false,
+			})
+	);
 
 	useEffect(
 		() =>
@@ -259,11 +268,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 															onClick={(e) => {
 																e.stopPropagation();
-																// console.log('bulk editing show all: ', store.campaign?.beaconGroupSelect.selectedBeacons);
-																store.campaign?.setBeaconGroupSelect({
-																	groupSelect: false,
-																	selectedBeacons: [],
-																});
+																bulkShow.mutate();
 															}}
 														/>
 													)}
@@ -272,11 +277,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 														onClick={(e) => {
 															e.stopPropagation();
-															// console.log('bulk editing hide all: ', store.campaign?.beaconGroupSelect.selectedBeacons);
-															store.campaign?.setBeaconGroupSelect({
-																groupSelect: false,
-																selectedBeacons: [],
-															});
+															bulkHide.mutate();
 														}}
 													/>
 												</Menu>

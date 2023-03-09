@@ -56,6 +56,7 @@ export class BeaconResolvers {
 		@Arg('beaconIds', () => [String], { nullable: true }) beaconIds?: Array<string>,
 		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
 	): Promise<Beacon | undefined> {
+		// ): Promise<any> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 
 		if (beaconId) {
@@ -66,10 +67,10 @@ export class BeaconResolvers {
 			ctx.cm.forkProject(campaignId);
 			return beacon;
 		} else if (beaconIds) {
-			// const beaconsAll = await em.find(Beacon, beaconIds, { populate: relationPaths });
-
-			const beacons = beaconIds.map(async (beaconId) => {
-				const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
+			const beacons = await em.find(Beacon, beaconIds, { populate: relationPaths });
+			beacons.map(async (beacon) => {
+				// const beacons = beaconIds.map(async (beaconId) => {
+				// 	const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
 				if (beacon.hidden !== setHidden) {
 					beacon.hidden = !beacon.hidden;
 					await em.persistAndFlush(beacon);
@@ -77,26 +78,8 @@ export class BeaconResolvers {
 					ctx.cm.forkProject(campaignId);
 				}
 			});
-			// return beacons;
-			return await em.findOneOrFail(Beacon, beaconIds[0], { populate: relationPaths });
+			return beacons[0];
 		}
-		return undefined;
+		return undefined; // Promise<Beacon | undefined> or Promise<any>
 	}
-
-	// @Authorized()
-	// @Mutation(() => [Beacon], { description: 'Hide all selected beacons' })
-	// async hideBeacons(
-	// 	@Ctx() ctx: GraphQLContext,
-	// 	@RelationPath() relationPaths: Relation<Beacon>,
-	// 	@Arg('campaignId', () => String) campaignId: string,
-	// 	@Arg('beaconIds', () => [String]) beaconIds: Array<string>
-	// ): Promise<Beacon> {
-	// 	const em = await connectToProjectEmOrFail(campaignId, ctx);
-	// 	const beacon = await em.findOneOrFail(Beacon, beaconIds[0], { populate: relationPaths });
-	// 	beacon.hidden = !beacon.hidden;
-	// 	await em.persistAndFlush(beacon);
-	// 	await ensureTreeHidden(em, beacon.id, beacon.hidden, []);
-	// 	ctx.cm.forkProject(campaignId);
-	// 	return beacon;
-	// }
 }
