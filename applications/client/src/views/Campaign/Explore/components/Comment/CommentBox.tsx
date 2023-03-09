@@ -1,4 +1,4 @@
-import { Alignment, Button, ButtonGroup, Classes, InputGroup, Intent, Position, TextArea } from '@blueprintjs/core';
+import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
 import type { ItemPredicate } from '@blueprintjs/select';
 import { MultiSelect2 } from '@blueprintjs/select';
 import {
