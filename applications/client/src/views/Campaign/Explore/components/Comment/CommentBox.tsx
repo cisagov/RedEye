@@ -181,7 +181,6 @@ export const CommentBox = observer<CommentBoxProps>(
 			manualLinkName: '',
 			displayName: '',
 			destinationBeacon: undefined as BeaconModel | undefined,
-			editLinkButtonText: 'Add beacon link',
 			manualLink: getManualCommandLinks(commandId, Array.from(store?.graphqlStore.links.values()))[0] as
 				| LinkModel
 				| undefined,
@@ -228,21 +227,21 @@ export const CommentBox = observer<CommentBoxProps>(
 					.map((tag) => tags.add(tag));
 				return Array.from(tags);
 			},
-			toggleShowBeaconSuggest() {
-				this.showBeaconSuggest = !this.showBeaconSuggest;
+			toggleShowBeaconSuggest(show?: boolean) {
+				this.showBeaconSuggest = show ?? !this.showBeaconSuggest;
 			},
 			setDestinationBeacon(beaconModel: BeaconModel | undefined) {
 				this.destinationBeacon = beaconModel;
 			},
 			// Doesn't change graph
-			updateManualLink(manualLink): void {
+			updateManualLink(manualLink?: LinkModel): void {
 				if (manualLink) {
 					this.manualLink = manualLink;
-					this.manualLinkName = manualLink.name;
-					this.editLinkButtonText = `Edit link to ${this.manualLink?.destination?.current.displayName}`;
+					this.manualLinkName = manualLink.name || '';
+					this.destinationBeacon = manualLink?.destination?.current;
 				} else {
 					this.manualLink = undefined;
-					this.editLinkButtonText = 'Add beacon link';
+					this.destinationBeacon = undefined;
 				}
 			},
 			handleTagsChange(value: unknown) {
@@ -277,6 +276,7 @@ export const CommentBox = observer<CommentBoxProps>(
 				this.editMode = false;
 				this.loading = false;
 				this.destinationBeacon = undefined;
+				this.manualLink = getManualCommandLinks(commandId, Array.from(store?.graphqlStore.links.values()))[0];
 				store.campaign?.commentStore.clearSelectedCommand();
 				store.campaign?.commentStore.setNewGroupComment(false);
 				store.campaign?.commentStore.setGroupSelect(false);
@@ -531,10 +531,10 @@ export const CommentBox = observer<CommentBoxProps>(
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
 							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this necessary? */}
-							{!state.showBeaconSuggest ? (
+							{!state.showBeaconSuggest && state.manualLink == null ? (
 								<Button
-									text={state.editLinkButtonText}
-									onClick={state.toggleShowBeaconSuggest}
+									text="Add beacon link"
+									onClick={() => state.toggleShowBeaconSuggest(true)}
 									icon={<CarbonIcon icon={Connect16} />}
 									alignText={Alignment.LEFT}
 									intent={Intent.PRIMARY}
@@ -552,12 +552,13 @@ export const CommentBox = observer<CommentBoxProps>(
 											<Button
 												icon={<CarbonIcon icon={Close16} />}
 												onClick={() => {
-													state.toggleShowBeaconSuggest();
-													state.setDestinationBeacon(undefined);
+													state.toggleShowBeaconSuggest(false);
+													state.updateManualLink(undefined);
 												}}
 												minimal
 											/>
 										),
+										autoFocus: state.showBeaconSuggest,
 									}}
 								/>
 							)}
