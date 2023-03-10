@@ -15,9 +15,13 @@ export const fontSettings = css`
 		.${unRedactedFontClassName} {
 			--pt-font-family-sans: 'IBM Plex Sans', 'Helvetica Neue', -apple-system, 'Segoe UI', Arial, sans-serif;
 			--pt-font-family-monospace: 'IBM Plex Mono', Menlo, Consolas, monospace;
-		}
-		.${unRedactedFontClassName} {
+
 			font-family: var(--pt-font-family-sans);
+
+			code,
+			pre {
+				font-family: var(--pt-font-family-monospace);
+			}
 		}
 		&.${redactedFontClassName}, & .${redactedFontClassName} {
 			--pt-font-family-sans: 'Redacted Script';

@@ -30,11 +30,6 @@ export const globalStyle = css`
 		/* overflow: hidden; */ // we might need this
 	}
 
-	code,
-	pre {
-		font-family: ${CoreTokens.FontFamilyMonospace};
-	}
-
 	.${Classes.DIALOG_CONTAINER} {
 		/* DialogCustom.tsx */
 		align-items: flex-start;
