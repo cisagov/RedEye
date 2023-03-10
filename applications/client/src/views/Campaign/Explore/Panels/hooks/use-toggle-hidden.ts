@@ -57,6 +57,7 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 				store.campaign?.setHostGroupSelect({
 					groupSelect: false,
 					selectedHosts: [],
+					selectedServers: [],
 				});
 			}
 		},

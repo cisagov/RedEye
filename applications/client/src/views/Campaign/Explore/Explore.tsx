@@ -58,35 +58,39 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 			})
 	);
 
-	const [, bulkHideHost] = useToggleHidden(
-		async () =>
-			// await store.graphqlStore.mutateToggleHostHidden({
-			// 	campaignId: store.campaign?.id!,
-			// 	hostIds: store.campaign?.HostGroupSelect.selectedHosts,
-			// 	setHidden: true,
-			// })
-
-			// host.cobaltStrikeServer
-			// ? await store.graphqlStore.mutateToggleServerHidden({
-			// 		campaignId: store.campaign?.id!,
-			// 		serverId: host?.serverId!,
-			//   })
-			// : await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
+	const [, bulkHideHost] = useToggleHidden(async () => {
+		// if (store.campaign?.hostGroupSelect.selectedServers) {
+		// 	await store.graphqlStore.mutateToggleServerHidden({
+		// 		campaignId: store.campaign?.id!,
+		// 		serverIds: store.campaign?.hostGroupSelect.selectedServers,
+		// 		setHidden: true,
+		// 	});
+		// }
+		if (store.campaign?.hostGroupSelect.selectedHosts) {
 			await store.graphqlStore.mutateToggleHostHidden({
 				campaignId: store.campaign?.id!,
 				hostIds: store.campaign?.hostGroupSelect.selectedHosts,
 				setHidden: true,
-			})
-	);
+			});
+		}
+	});
 
-	const [, bulkShowHost] = useToggleHidden(
-		async () =>
+	const [, bulkShowHost] = useToggleHidden(async () => {
+		// if (store.campaign?.hostGroupSelect.selectedServers) {
+		// 	await store.graphqlStore.mutateToggleServerHidden({
+		// 		campaignId: store.campaign?.id!,
+		// 		serverIds: store.campaign?.hostGroupSelect.selectedServers,
+		// 		setHidden: false,
+		// 	});
+		// }
+		if (store.campaign?.hostGroupSelect.selectedHosts) {
 			await store.graphqlStore.mutateToggleHostHidden({
 				campaignId: store.campaign?.id!,
 				hostIds: store.campaign?.hostGroupSelect.selectedHosts,
 				setHidden: false,
-			})
-	);
+			});
+		}
+	});
 
 	useEffect(
 		() =>

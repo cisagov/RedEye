@@ -32,20 +32,36 @@ type HostRowProps = ComponentProps<'div'> & {
 export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const store = useStore();
 	const state = createState({
-		AddHost(hostId) {
-			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
-			selectedHosts.push(hostId);
+		AddHost(hostId, cobaltStrikeServer) {
+			let selectedHosts;
+			let selectedServers;
+			if (cobaltStrikeServer) {
+				selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
+				selectedServers.push(hostId);
+			} else {
+				selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+				selectedHosts.push(hostId);
+			}
 			store.campaign?.setHostGroupSelect({
 				groupSelect: true,
 				selectedHosts,
+				selectedServers,
 			});
 		},
-		RemoveHost(hostId: string) {
-			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
-			selectedHosts.splice(selectedHosts.indexOf(hostId), 1);
+		RemoveHost(hostId: string, cobaltStrikeServer) {
+			let selectedHosts;
+			let selectedServers;
+			if (cobaltStrikeServer) {
+				selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
+				selectedServers.splice(selectedHosts.indexOf(hostId), 1);
+			} else {
+				selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+				selectedHosts.splice(selectedHosts.indexOf(hostId), 1);
+			}
 			store.campaign?.setHostGroupSelect({
 				groupSelect: true,
 				selectedHosts,
+				selectedServers,
 			});
 		},
 	});
@@ -78,7 +94,9 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					checked={host?.id ? store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id) : false}
 					onClick={(e) =>
 						// @ts-ignore
-						e.target.checked && host?.id ? state.AddHost(host?.id) : state.RemoveHost(host?.id!)
+						e.target.checked && host?.id
+							? state.AddHost(host?.id, host?.cobaltStrikeServer)
+							: state.RemoveHost(host?.id!, host?.cobaltStrikeServer)
 					}
 					css={css`
 						margin-bottom: 0;
