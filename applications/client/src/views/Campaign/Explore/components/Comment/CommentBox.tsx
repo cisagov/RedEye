@@ -9,8 +9,8 @@ import {
 	Chat16,
 	Checkmark16,
 	Close16,
-	Connect16,
 	Edit16,
+	Tag16,
 	TrashCan16,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -19,7 +19,7 @@ import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from 
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
-import { FlexSplitter, Spacer, Txt, CoreTokens, Flex } from '@redeye/ui-styles';
+import { FlexSplitter, Spacer, Txt, CoreTokens, Flex, Header } from '@redeye/ui-styles';
 import { observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
@@ -453,20 +453,14 @@ export const CommentBox = observer<CommentBoxProps>(
 							/>
 							<MultiSelect2
 								cy-test="tag-input1"
-								createNewItemPosition="first"
+								css={formTagInputStyle}
+								placeholder="#Tags..."
 								tagInputProps={{
 									tagProps: { minimal: true },
 									leftIcon: (
-										<Txt
-											cy-test="tag-input"
-											css={css`
-												align-self: center;
-											`}
-											bold
-											muted
-										>
-											Tags:
-										</Txt>
+										<Flex css={{ height: 30, width: 30 }} alignSelf="center" align="center" justify="center">
+											<CarbonIcon cy-test="tag-input" icon={Tag16} />
+										</Flex>
 									),
 									disabled: !state.editMode,
 									addOnBlur: true,
@@ -497,9 +491,9 @@ export const CommentBox = observer<CommentBoxProps>(
 								}}
 								query={state.tagQuery}
 								onQueryChange={(query) => state.update('tagQuery', query)}
-								css={formTagInputStyle}
 								items={state.autoTags}
 								fill
+								createNewItemPosition="first"
 								itemPredicate={filterTags}
 								selectedItems={state.tags}
 								onRemove={state.handleTagsRemove}
@@ -533,9 +527,9 @@ export const CommentBox = observer<CommentBoxProps>(
 							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this necessary? */}
 							{!state.showBeaconSuggest && state.manualLink == null ? (
 								<Button
-									text="Add beacon link"
+									text="Link to another beacon"
 									onClick={() => state.toggleShowBeaconSuggest(true)}
-									icon={<CarbonIcon icon={Connect16} />}
+									icon={<CarbonIcon icon={semanticIcons.link} />}
 									alignText={Alignment.LEFT}
 									intent={Intent.PRIMARY}
 									minimal
@@ -547,6 +541,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									defaultSelectedItem={state.manualLink?.destination?.current}
 									onItemSelect={state.setDestinationBeacon}
 									inputProps={{
+										placeholder: 'Select a beacon to link to...',
 										leftElement: <CarbonIcon icon={semanticIcons.link} />,
 										// this will focus the input if the button is pressed and there is no input
 										autoFocus: state.showBeaconSuggest,
@@ -587,20 +582,17 @@ export const CommentBox = observer<CommentBoxProps>(
 						</ButtonGroup>
 					</form>
 				) : (
-					<div css={isPresentationMode ? displayWrapperPresentationStyle : displayWrapperStyle}>
-						{/* <HeaderSmall css={displayTitleStyle}>{state.title}</HeaderSmall> */}
-
-						{state.manualLinkName.length > 0 && (
-							<div css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>
-								<Txt bold>{state.manualLinkName}</Txt>
-							</div>
-						)}
+					<Flex column gap={4} css={displayWrapperStyle}>
+						{state.manualLinkName.length > 0 && <Header>{state.manualLinkName}</Header>}
 
 						{state.text.length > 0 && (
-							<div css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>{state.text}</div>
+							<Txt running css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>
+								{state.text}
+							</Txt>
 						)}
 
-						<div css={displayTagsStyle}>
+						<Flex gap={4} align="center">
+							<CarbonIcon icon={Tag16} css={{ color: CoreTokens.TextMuted }} />
 							{state.tags.length > 0 ? (
 								state.tags.map((tag) => (
 									<Txt muted small css={hashTagBeforeStyle} key={tag}>
@@ -612,16 +604,11 @@ export const CommentBox = observer<CommentBoxProps>(
 									No Tags
 								</Txt>
 							)}
-						</div>
+						</Flex>
 						{state.manualLink?.destination?.current && (
-							<Flex gap={4}>
-								<CarbonIcon icon={semanticIcons.link} />
-								<BeaconSuggestedRow beaconModel={state.manualLink.destination?.current} />
-								{/* <BeaconSuggestedRow
-									hostName={state.manualLink.destination?.current.host?.current.displayName}
-									beaconName={state.manualLink.destination?.current.displayName}
-									icon
-								/> */}
+							<Flex gap={4} align="center">
+								<CarbonIcon icon={semanticIcons.link} css={{ color: CoreTokens.TextMuted }} />
+								<BeaconSuggestedRow beaconModel={state.manualLink.destination?.current} small ellipsize muted />
 							</Flex>
 						)}
 						{/* )} */}
@@ -706,7 +693,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								)}
 							</ButtonGroup>
 						)}
-					</div>
+					</Flex>
 				)}
 			</div>
 		);
@@ -740,29 +727,21 @@ const formTagInputStyle = css`
 	.${Classes.TAG} span {
 		${hashTagBeforeStyle}
 	}
+	.${Classes.INPUT} {
+		padding: 0;
+	}
 `;
 const formSubmitStyle = css``;
 
 const displayWrapperStyle = css`
 	margin: 0.5rem 1rem;
 `;
-const displayWrapperPresentationStyle = css`
-	margin: 1rem;
-	${displayWrapperStyle}
-`;
-// const displayTitleStyle = css``
 const displayTextStyle = css`
 	white-space: pre-wrap;
 	margin-bottom: 0.5rem;
 `;
 const displayTextPresentationStyle = css`
 	font-size: 20px;
-`;
-const displayTagsStyle = css`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.25rem;
-	margin-bottom: 0.75rem;
 `;
 const displayOptionStyle = css`
 	margin: 0 -0.25rem;
