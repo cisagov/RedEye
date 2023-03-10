@@ -18,6 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -29,9 +31,6 @@ jobs:
           pkg-fetch --platform mac --node-range node16
           pkg-fetch --platform win --node-range node16
       - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
           yarn install --immutable --inline-builds
           yarn run release:all
           chmod +x release/mac/RedEye
