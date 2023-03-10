@@ -3,7 +3,7 @@ import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { sortOptions } from '@redeye/client/views';
-import { unRedactedFontClassName } from '@redeye/ui-styles';
+import { Txt, unRedactedFontClassName } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
@@ -87,7 +87,16 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				checked={store.settings.redactedMode}
 				onChange={(event) => store.settings.setRedactedMode(event.currentTarget.checked)}
 				className={unRedactedFontClassName}
-				label="Redacted Screenshot Mode"
+				// @ts-ignore // `label` prop actually supports JSX elements, but TypeScript will throw an error because HTMLAttributes only allows strings.
+				label={
+					<span>
+						<Txt>Redacted Screenshot Mode</Txt>
+						<br />
+						<Txt small muted>
+							WARNING: Beacon, Host, and Server names may still be visible in url
+						</Txt>
+					</span>
+				}
 			/>
 		</form>
 	);
