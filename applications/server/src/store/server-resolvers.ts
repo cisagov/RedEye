@@ -56,19 +56,42 @@ export class ServerResolvers {
 	async toggleServerHidden(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('serverId', () => String) serverId: string
-	): Promise<Server> {
+		@Arg('serverId', () => String, { nullable: true }) serverId?: string,
+		@Arg('serverIds', () => [String], { nullable: true }) serverIds?: Array<string>,
+		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
+	): Promise<Server | undefined> {
+		// ): Promise<any> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const server = await em.findOneOrFail(Server, serverId);
-		server.hidden = !server.hidden;
-		await server.beacons.init();
-		for (const beacon of server.beacons) {
-			await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });
-			await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
+		if (serverId) {
+			const server = await em.findOneOrFail(Server, serverId);
+			server.hidden = !server.hidden;
+			await server.beacons.init();
+			for (const beacon of server.beacons) {
+				await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });
+				await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
+			}
+			await em.persistAndFlush(server);
+			ctx.cm.forkProject(campaignId);
+			return server;
+		} else if (serverIds) {
+			const servers = await em.find(Server, serverIds);
+			servers.map(async (server) => {
+				// const servers = serversIds.map(async (serversId) => {
+				//  const server = await em.findOneOrFail(Server, serverId);
+				if (server.hidden !== setHidden) {
+					server.hidden = !server.hidden;
+					await server.beacons.init();
+					for (const beacon of server.beacons) {
+						await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });
+						await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
+					}
+					await em.persistAndFlush(server);
+					ctx.cm.forkProject(campaignId);
+				}
+			});
+			return servers[0];
 		}
-		await em.persistAndFlush(server);
-		ctx.cm.forkProject(campaignId);
-		return server;
+		return undefined; // Promise<Server | undefined> or Promise<any>
 	}
 
 	@Authorized()

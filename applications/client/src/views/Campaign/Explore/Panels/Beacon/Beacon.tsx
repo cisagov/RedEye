@@ -34,7 +34,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
 			selectedBeacons.push(beaconId);
 			store.campaign?.setBeaconGroupSelect({
-				groupSelect: true,
+				...store.campaign?.beaconGroupSelect,
 				selectedBeacons,
 			});
 		},
@@ -42,7 +42,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
 			selectedBeacons.splice(selectedBeacons.indexOf(beaconId), 1);
 			store.campaign?.setBeaconGroupSelect({
-				groupSelect: true,
+				...store.campaign?.beaconGroupSelect,
 				selectedBeacons,
 			});
 		},

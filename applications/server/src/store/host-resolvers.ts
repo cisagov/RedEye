@@ -79,6 +79,6 @@ export class HostResolvers {
 			});
 			return hosts[0];
 		}
-		return undefined; // Promise<Beacon | undefined> or Promise<any>
+		return undefined; // Promise<Host | undefined> or Promise<any>
 	}
 }

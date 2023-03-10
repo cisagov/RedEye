@@ -32,32 +32,36 @@ type HostRowProps = ComponentProps<'div'> & {
 export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const store = useStore();
 	const state = createState({
-		AddHost(hostId, cobaltStrikeServer) {
-			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+		AddServer(serverId) {
 			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
-			if (cobaltStrikeServer) {
-				selectedServers.push(hostId);
-			} else {
-				selectedHosts.push(hostId);
-			}
+			selectedServers.push(serverId);
 			store.campaign?.setHostGroupSelect({
-				groupSelect: true,
-				selectedHosts,
+				...store.campaign?.hostGroupSelect,
 				selectedServers,
 			});
 		},
-		RemoveHost(hostId: string, cobaltStrikeServer) {
-			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+		RemoveServer(serverId) {
 			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
-			if (cobaltStrikeServer) {
-				selectedServers.splice(selectedHosts.indexOf(hostId), 1);
-			} else {
-				selectedHosts.splice(selectedHosts.indexOf(hostId), 1);
-			}
+			selectedServers.splice(selectedServers.indexOf(serverId), 1);
 			store.campaign?.setHostGroupSelect({
-				groupSelect: true,
-				selectedHosts,
+				...store.campaign?.hostGroupSelect,
 				selectedServers,
+			});
+		},
+		AddHost(hostId) {
+			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+			selectedHosts.push(hostId);
+			store.campaign?.setHostGroupSelect({
+				...store.campaign?.hostGroupSelect,
+				selectedHosts,
+			});
+		},
+		RemoveHost(hostId) {
+			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+			selectedHosts.splice(selectedHosts.indexOf(hostId), 1);
+			store.campaign?.setHostGroupSelect({
+				...store.campaign?.hostGroupSelect,
+				selectedHosts,
 			});
 		},
 	});
@@ -88,16 +92,23 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				<Checkbox
 					cy-test="checkbox-select-command"
 					checked={
-						host?.id
-							? store.campaign?.hostGroupSelect.selectedServers?.includes(host?.id) ||
-							  store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id)
-							: false
+						(!!host?.id &&
+							!!host?.serverId &&
+							host?.cobaltStrikeServer &&
+							store.campaign?.hostGroupSelect.selectedServers?.includes(host?.serverId)) ||
+						(!!host?.id &&
+							!host?.cobaltStrikeServer &&
+							store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id))
 					}
 					onClick={(e) =>
 						// @ts-ignore
 						e.target.checked && host?.id
-							? state.AddHost(host?.id, host?.cobaltStrikeServer)
-							: state.RemoveHost(host?.id!, host?.cobaltStrikeServer)
+							? host?.cobaltStrikeServer
+								? state.AddServer(host?.serverId)
+								: state.AddHost(host?.id)
+							: host?.cobaltStrikeServer
+							? state.RemoveServer(host?.serverId)
+							: state.RemoveHost(host?.id)
 					}
 					css={css`
 						margin-bottom: 0;

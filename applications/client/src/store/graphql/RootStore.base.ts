@@ -1057,14 +1057,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Toggle server hidden state
 	@modelAction mutateToggleServerHidden(
-		variables: { campaignId: string; serverId: string },
+		variables: { campaignId: string; serverId?: string; serverIds?: string[]; setHidden?: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof ServerModelSelector) => typeof ServerModelSelector) = serverModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ toggleServerHidden: ServerModel }>(
-			`mutation toggleServerHidden($campaignId: String!, $serverId: String!) { toggleServerHidden(campaignId: $campaignId, serverId: $serverId) {
+			`mutation toggleServerHidden($campaignId: String!, $serverId: String, $serverIds: [String!], $setHidden: Boolean) { toggleServerHidden(campaignId: $campaignId, serverId: $serverId, serverIds: $serverIds, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(ServerModelSelector).toString() : resultSelector}
       } }`,
 			variables,
