@@ -10,7 +10,6 @@ import {
 	Checkmark16,
 	Close16,
 	Edit16,
-	Tag16,
 	TrashCan16,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -459,7 +458,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									tagProps: { minimal: true },
 									leftIcon: (
 										<Flex css={{ height: 30, width: 30 }} alignSelf="center" align="center" justify="center">
-											<CarbonIcon cy-test="tag-input" icon={Tag16} />
+											<CarbonIcon cy-test="tag-input" icon={semanticIcons.tags} />
 										</Flex>
 									),
 									disabled: !state.editMode,
@@ -529,7 +528,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								<Button
 									text="Link to another beacon"
 									onClick={() => state.toggleShowBeaconSuggest(true)}
-									icon={<CarbonIcon icon={semanticIcons.link} />}
+									icon={<CarbonIcon icon={semanticIcons.linkTo} />}
 									alignText={Alignment.LEFT}
 									intent={Intent.PRIMARY}
 									minimal
@@ -542,7 +541,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									onItemSelect={state.setDestinationBeacon}
 									inputProps={{
 										placeholder: 'Select a beacon to link to...',
-										leftElement: <CarbonIcon icon={semanticIcons.link} />,
+										leftElement: <CarbonIcon icon={semanticIcons.linkTo} />,
 										// this will focus the input if the button is pressed and there is no input
 										autoFocus: state.showBeaconSuggest,
 										rightElement: (
@@ -592,7 +591,7 @@ export const CommentBox = observer<CommentBoxProps>(
 						)}
 
 						<Flex gap={4} align="center">
-							<CarbonIcon icon={Tag16} css={{ color: CoreTokens.TextMuted }} />
+							<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
 							{state.tags.length > 0 ? (
 								state.tags.map((tag) => (
 									<Txt muted small css={hashTagBeforeStyle} key={tag}>
