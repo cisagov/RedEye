@@ -53,6 +53,12 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 					selectedBeacons: [],
 				});
 			}
+			if (store.campaign?.hostGroupSelect.groupSelect) {
+				store.campaign?.setHostGroupSelect({
+					groupSelect: false,
+					selectedHosts: [],
+				});
+			}
 		},
 	});
 	return [state, mutate] as const;

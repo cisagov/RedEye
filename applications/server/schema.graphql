@@ -319,7 +319,7 @@ type Mutation {
   toggleBeaconHidden(beaconId: String, beaconIds: [String!], campaignId: String!, setHidden: Boolean): Beacon!
 
   """Toggle host hidden state"""
-  toggleHostHidden(campaignId: String!, hostId: String!): Host!
+  toggleHostHidden(campaignId: String!, hostId: String, hostIds: [String!], setHidden: Boolean): Host!
 
   """Toggle server hidden state"""
   toggleServerHidden(campaignId: String!, serverId: String!): Server!

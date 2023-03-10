@@ -1041,14 +1041,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Toggle host hidden state
 	@modelAction mutateToggleHostHidden(
-		variables: { campaignId: string; hostId: string },
+		variables: { campaignId: string; hostId?: string; hostIds?: string[]; setHidden?: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ toggleHostHidden: HostModel }>(
-			`mutation toggleHostHidden($campaignId: String!, $hostId: String!) { toggleHostHidden(campaignId: $campaignId, hostId: $hostId) {
+			`mutation toggleHostHidden($campaignId: String!, $hostId: String, $hostIds: [String!], $setHidden: Boolean) { toggleHostHidden(campaignId: $campaignId, hostId: $hostId, hostIds: $hostIds, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
 			variables,

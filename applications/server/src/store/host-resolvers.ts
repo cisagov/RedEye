@@ -44,18 +44,41 @@ export class HostResolvers {
 	async toggleHostHidden(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hostId', () => String) hostId: string
-	): Promise<Host> {
+		@Arg('hostId', () => String, { nullable: true }) hostId?: string,
+		@Arg('hostIds', () => [String], { nullable: true }) hostIds?: Array<string>,
+		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
+	): Promise<Host | undefined> {
+		// ): Promise<any> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const host = await em.findOneOrFail(Host, hostId);
-		host.hidden = !host.hidden;
-		await host.beacons.loadItems();
-		for (const beacon of host.beacons) {
-			await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });
-			await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
+		if (hostId) {
+			const host = await em.findOneOrFail(Host, hostId);
+			host.hidden = !host.hidden;
+			await host.beacons.loadItems();
+			for (const beacon of host.beacons) {
+				await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });
+				await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
+			}
+			await em.persistAndFlush(host);
+			ctx.cm.forkProject(campaignId);
+			return host;
+		} else if (hostIds) {
+			const hosts = await em.find(Host, hostIds);
+			hosts.map(async (host) => {
+				// const hosts = hostIds.map(async (hostId) => {
+				// 	const host = await em.findOneOrFail(Host, hostId);
+				if (host.hidden !== setHidden) {
+					host.hidden = !host.hidden;
+					await host.beacons.loadItems();
+					for (const beacon of host.beacons) {
+						await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });
+						await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
+					}
+					await em.persistAndFlush(host);
+					ctx.cm.forkProject(campaignId);
+				}
+			});
+			return hosts[0];
 		}
-		await em.persistAndFlush(host);
-		ctx.cm.forkProject(campaignId);
-		return host;
+		return undefined; // Promise<Beacon | undefined> or Promise<any>
 	}
 }

@@ -40,7 +40,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		},
 	});
 
-	const [, bulkHide] = useToggleHidden(
+	const [, bulkHideBeacon] = useToggleHidden(
 		async () =>
 			await store.graphqlStore.mutateToggleBeaconHidden({
 				campaignId: store.campaign?.id!,
@@ -49,11 +49,41 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 			})
 	);
 
-	const [, bulkShow] = useToggleHidden(
+	const [, bulkShowBeacon] = useToggleHidden(
 		async () =>
 			await store.graphqlStore.mutateToggleBeaconHidden({
 				campaignId: store.campaign?.id!,
 				beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
+				setHidden: false,
+			})
+	);
+
+	const [, bulkHideHost] = useToggleHidden(
+		async () =>
+			// await store.graphqlStore.mutateToggleHostHidden({
+			// 	campaignId: store.campaign?.id!,
+			// 	hostIds: store.campaign?.HostGroupSelect.selectedHosts,
+			// 	setHidden: true,
+			// })
+
+			// host.cobaltStrikeServer
+			// ? await store.graphqlStore.mutateToggleServerHidden({
+			// 		campaignId: store.campaign?.id!,
+			// 		serverId: host?.serverId!,
+			//   })
+			// : await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
+			await store.graphqlStore.mutateToggleHostHidden({
+				campaignId: store.campaign?.id!,
+				hostIds: store.campaign?.hostGroupSelect.selectedHosts,
+				setHidden: true,
+			})
+	);
+
+	const [, bulkShowHost] = useToggleHidden(
+		async () =>
+			await store.graphqlStore.mutateToggleHostHidden({
+				campaignId: store.campaign?.id!,
+				hostIds: store.campaign?.hostGroupSelect.selectedHosts,
 				setHidden: false,
 			})
 	);
@@ -213,11 +243,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 															onClick={(e) => {
 																e.stopPropagation();
-																// console.log('bulk editing show all: ', store.campaign?.hostGroupSelect.selectedHosts);
-																store.campaign?.setHostGroupSelect({
-																	groupSelect: false,
-																	selectedHosts: [],
-																});
+																bulkShowHost.mutate();
 															}}
 														/>
 													)}
@@ -226,11 +252,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 														onClick={(e) => {
 															e.stopPropagation();
-															// console.log('bulk editing hide all: ', store.campaign?.hostGroupSelect.selectedHosts);
-															store.campaign?.setHostGroupSelect({
-																groupSelect: false,
-																selectedHosts: [],
-															});
+															bulkHideHost.mutate();
 														}}
 													/>
 												</Menu>
@@ -268,7 +290,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 															onClick={(e) => {
 																e.stopPropagation();
-																bulkShow.mutate();
+																bulkShowBeacon.mutate();
 															}}
 														/>
 													)}
@@ -277,7 +299,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 														onClick={(e) => {
 															e.stopPropagation();
-															bulkHide.mutate();
+															bulkHideBeacon.mutate();
 														}}
 													/>
 												</Menu>
