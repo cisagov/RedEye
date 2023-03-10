@@ -7,12 +7,10 @@ import { observer } from 'mobx-react-lite';
 import { Txt } from '@redeye/ui-styles';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
-export type BeaconSuggestProps = Partial<Suggest2Props<BeaconModel>> & {
-	commandString: string;
-};
+export type BeaconSuggestProps = Partial<Suggest2Props<BeaconModel>>;
 
 export const BeaconSuggest = observer<BeaconSuggestProps>(
-	({ commandString, onItemSelect: _onItemSelect, popoverProps, ...suggestProps }: BeaconSuggestProps) => {
+	({ onItemSelect: _onItemSelect, popoverProps, ...suggestProps }: BeaconSuggestProps) => {
 		const store = useStore();
 		const beacons = Array.from(store.graphqlStore.beacons.values() || []);
 
@@ -36,7 +34,6 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 				<MenuItem2
 					key={beaconModel.id}
 					onClick={handleClick}
-					labelElement={commandString}
 					shouldDismissPopover={false}
 					text={<BeaconSuggestedRow beaconModel={beaconModel} query={query} />}
 					{...modifiers}

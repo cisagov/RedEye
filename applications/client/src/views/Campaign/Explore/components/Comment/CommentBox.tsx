@@ -536,7 +536,6 @@ export const CommentBox = observer<CommentBoxProps>(
 								/>
 							) : (
 								<BeaconSuggest
-									commandString={commandText as string}
 									defaultSelectedItem={state.manualLink?.destination?.current}
 									onItemSelect={state.setDestinationBeacon}
 									inputProps={{
