@@ -132,6 +132,19 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 	useEffect(() => {
 		store.campaign?.commentStore.setGroupSelect(false);
 		store.campaign?.commentStore.clearSelectedCommand();
+		if (store.campaign?.beaconGroupSelect.groupSelect) {
+			store.campaign?.setBeaconGroupSelect({
+				groupSelect: false,
+				selectedBeacons: [],
+			});
+		}
+		if (store.campaign?.hostGroupSelect.groupSelect) {
+			store.campaign?.setHostGroupSelect({
+				groupSelect: false,
+				selectedHosts: [],
+				selectedServers: [],
+			});
+		}
 	}, [store.router.params.tab]);
 
 	return (
@@ -243,7 +256,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											hoverOpenDelay={300}
 											disabled={state.hostCount === 0}
 											content={
-												<Menu cy-test="show-hide-item">
+												<Menu>
 													{store.settings.showHidden && (
 														<MenuItem
 															text="Show Host"
@@ -290,7 +303,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 											hoverOpenDelay={300}
 											disabled={state.beaconCount === 0}
 											content={
-												<Menu cy-test="show-hide-item">
+												<Menu>
 													{store.settings.showHidden && (
 														<MenuItem
 															text="Show Beacon"

@@ -90,7 +90,6 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 		>
 			{store.campaign?.hostGroupSelect.groupSelect && (
 				<Checkbox
-					cy-test="checkbox-select-command"
 					checked={
 						(!!host?.id &&
 							!!host?.serverId &&

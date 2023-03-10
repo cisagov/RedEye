@@ -76,7 +76,6 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 		>
 			{store.campaign?.beaconGroupSelect.groupSelect && (
 				<Checkbox
-					cy-test="checkbox-select-command"
 					checked={beacon?.id ? store.campaign?.beaconGroupSelect.selectedBeacons?.includes(beacon?.id) : false}
 					onClick={(e) =>
 						// @ts-ignore
