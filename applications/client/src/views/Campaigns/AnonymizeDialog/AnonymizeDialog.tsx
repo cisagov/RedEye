@@ -1,4 +1,3 @@
-import type { DialogProps } from '@blueprintjs/core';
 import { Divider, Button, Callout, Checkbox, ControlGroup, InputGroup, Intent } from '@blueprintjs/core';
 import { Export, TrashCan } from '@carbon/icons-react/next';
 import { css } from '@emotion/react';
@@ -10,11 +9,11 @@ import { useStore } from '@redeye/client/store';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
-import { DialogEx, HoverButton } from '../../../components';
+import { DialogEx, DialogExProps, HoverButton } from '../../../components';
 import { OptionsSection } from './OptionsSection';
 import { PresetButton } from './PresetButton';
 
-type AnonymizeDialogProps = DialogProps & {
+type AnonymizeDialogProps = DialogExProps & {
 	campaign: CampaignModel;
 };
 

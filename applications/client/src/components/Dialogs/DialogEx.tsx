@@ -7,7 +7,7 @@ import { CoreTokens, Header } from '@redeye/ui-styles';
 import type { ComponentProps, FC } from 'react';
 import { CarbonIcon } from '../CarbonIcon';
 
-export type DialogExProps = DialogProps & {
+export type DialogExProps = Omit<DialogProps, 'icon'> & {
 	headerProps?: WithConditionalCSSProp<ComponentProps<'div'>>;
 	/** The Dialog will not be larger than the screen height  */
 	fixedHeight?: boolean;
@@ -18,9 +18,12 @@ export type DialogExProps = DialogProps & {
 export const DialogEx: FC<DialogExProps> = ({
 	children,
 	title,
+	isCloseButtonShown = true,
 	headerProps,
 	fixedHeight = false,
 	wide = false,
+	// iconName,
+	// icon,
 	...props
 }) => (
 	<Dialog css={[dialogStyles, wide && wideStyles, fixedHeight && fixedHeightStyles]} {...props}>
@@ -29,13 +32,15 @@ export const DialogEx: FC<DialogExProps> = ({
 			css={[dialogHeaderStyles, title == null && dialogHeaderEmptyStyles, headerProps?.css]}
 			className={Classes.DIALOG_HEADER}
 		>
-			<Button
-				cy-test="close-log"
-				minimal
-				onClick={props.onClose}
-				css={closeButtonStyles}
-				rightIcon={<CarbonIcon icon={Close16} />}
-			/>
+			{isCloseButtonShown && (
+				<Button
+					cy-test="close-log"
+					minimal
+					onClick={props.onClose}
+					css={closeButtonStyles}
+					rightIcon={<CarbonIcon icon={Close16} />}
+				/>
+			)}
 			{typeof title === 'string' ? <Header small>{title}</Header> : title}
 		</div>
 		{children}

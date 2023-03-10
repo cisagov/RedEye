@@ -1,8 +1,8 @@
-import type { DialogProps } from '@blueprintjs/core';
+import type {} from '@blueprintjs/core';
 import { Button, ButtonGroup, Divider, NonIdealState, Spinner } from '@blueprintjs/core';
 import { Copy16, UpToTop16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogEx } from '@redeye/client/components';
+import { CarbonIcon, DialogEx, DialogExProps } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel, LogEntryModel } from '@redeye/client/store';
 import { selectFromLogEntry, useStore } from '@redeye/client/store';
@@ -14,7 +14,7 @@ import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 
-interface RawLogsViewerProps extends Omit<DialogProps, 'isOpen'> {
+interface RawLogsViewerProps extends Omit<DialogExProps, 'isOpen'> {
 	command?: CommandModel;
 	beacon?: BeaconModel;
 }

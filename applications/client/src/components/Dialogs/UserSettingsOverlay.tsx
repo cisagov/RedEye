@@ -1,12 +1,11 @@
-import type { DialogProps } from '@blueprintjs/core';
 import { Button } from '@blueprintjs/core';
-import { DialogEx, LoginForm } from '@redeye/client/components';
+import { DialogEx, DialogExProps, LoginForm } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
 import type { FormEventHandler } from 'react';
 import { DialogBodyEx } from './DialogBodyEx';
 
-type UserSettingsOverlayProps = DialogProps & {
+type UserSettingsOverlayProps = DialogExProps & {
 	onSubmit?: FormEventHandler<HTMLFormElement>;
 };
 

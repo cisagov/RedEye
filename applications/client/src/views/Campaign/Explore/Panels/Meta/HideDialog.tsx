@@ -1,7 +1,6 @@
-import type { DialogProps } from '@blueprintjs/core';
 import { Checkbox, Button, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon, DialogEx } from '@redeye/client/components';
+import { CarbonIcon, DialogEx, DialogExProps } from '@redeye/client/components';
 import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
 import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import type { InfoType } from '@redeye/client/types';
@@ -10,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
 import { useState, useCallback } from 'react';
 
-type Props = DialogProps & {
+type Props = DialogExProps & {
 	typeName: string;
 	infoType: InfoType;
 	onHide?: () => void;
