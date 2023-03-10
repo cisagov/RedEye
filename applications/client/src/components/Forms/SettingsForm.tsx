@@ -3,6 +3,7 @@ import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { sortOptions } from '@redeye/client/views';
+import { unRedactedFontClassName } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
@@ -75,11 +76,18 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 				}}
 				label="Show Hidden Beacons, Hosts, and Servers"
 			/>
-			<Switch // Uncomment to test light theme
+			<Switch
 				cy-test="toggle-theme"
 				checked={store.settings.theme === 'light'}
 				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
 				label="Light Theme (beta)"
+			/>
+			<Switch
+				cy-test="toggle-redacted-mode"
+				checked={store.settings.redactedMode}
+				onChange={(event) => store.settings.setRedactedMode(event.currentTarget.checked)}
+				className={unRedactedFontClassName}
+				label="Redacted Screenshot Mode"
 			/>
 		</form>
 	);

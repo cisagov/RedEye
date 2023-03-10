@@ -1405,6 +1405,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/redacted-script@npm:^4.5.13":
+  version: 4.5.13
+  resolution: "@fontsource/redacted-script@npm:4.5.13"
+  checksum: ff29c81254068d867ffefe6c968e28aefce5dad17be6506ca9b459a78f3726a5dd4b58a6c104ba24a78447d55ea99a5319feff0360c8aabdffbc25909e84da7f
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.2
   resolution: "@gar/promisify@npm:1.1.2"
@@ -12892,6 +12899,7 @@ __metadata:
     "@emotion/babel-plugin": ^11.10.0
     "@emotion/react": ^11.4.0
     "@emotion/styled": ^11.3.0
+    "@fontsource/redacted-script": ^4.5.13
     "@mikro-orm/better-sqlite": 5.6.6
     "@mikro-orm/core": 5.6.6
     "@mikro-orm/entity-generator": 5.6.6

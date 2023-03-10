@@ -1,4 +1,4 @@
-import { ThemeClasses } from '@redeye/ui-styles';
+import { redactedFontClassName, ThemeClasses } from '@redeye/ui-styles';
 import { computed } from 'mobx';
 import { Model, model, modelAction, prop } from 'mobx-keystone';
 import { computedFn } from 'mobx-utils';
@@ -17,19 +17,16 @@ export class Settings extends Model({
 	showHidden: prop<boolean>(window.localStorage.getItem('showHidden') === 'true'),
 	timezone: prop<string>(window.localStorage.getItem('timezone') || defaultTimeZone),
 	theme: prop<UiTheme>(getAppTheme()),
+	redactedMode: prop<boolean>(false),
 }) {
 	@modelAction setShowHidden(showHidden: boolean) {
 		this.showHidden = showHidden;
 		window.localStorage.setItem('showHidden', showHidden.toString());
 	}
-	@modelAction setTimezone(tz: string) {
-		this.timezone = tz;
-		window.localStorage.setItem('timezone', tz);
-	}
-	@modelAction setTheme(th: UiTheme) {
-		this.theme = th;
-		updateAppTheme(th);
-		window.localStorage.setItem('theme', th);
+
+	@modelAction setTimezone(timezone: string) {
+		this.timezone = timezone;
+		window.localStorage.setItem('timezone', timezone);
 	}
 	@modelAction setDefaultTimezone() {
 		this.setTimezone(defaultTimeZone);
@@ -38,9 +35,28 @@ export class Settings extends Model({
 		return this.timezone === defaultTimeZone;
 	}
 	momentTz = computedFn((d: MomentInput | Moment) => moment(d).tz(this.timezone));
+
+	@modelAction setTheme(theme: UiTheme) {
+		this.theme = theme;
+		updateAppTheme(theme);
+		window.localStorage.setItem('theme', theme);
+	}
+
+	@modelAction setRedactedMode(redactedMode: boolean) {
+		this.redactedMode = redactedMode;
+		updateRedactedMode(redactedMode);
+	}
 }
 
-// @Austin, does this belong here?
+const updateRedactedMode = (redactedMode: boolean) => {
+	const rootClassList = document.documentElement.classList;
+	if (redactedMode) {
+		rootClassList.add(redactedFontClassName);
+	} else {
+		rootClassList.remove(redactedFontClassName);
+	}
+};
+
 export const updateAppTheme = (theme?: UiTheme) => {
 	theme = theme || getAppTheme();
 	const rootClassList = document.documentElement.classList;
