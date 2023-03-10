@@ -34,6 +34,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache
         uses: actions/setup-node@v3
@@ -41,10 +43,6 @@ jobs:
           node-version: 16.19.0
           cache: 'yarn'
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install --immutable --inline-builds
       - run: yarn moon run server:build client:build
 
@@ -67,6 +65,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache
         uses: actions/setup-node@v3
@@ -80,10 +80,6 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
       - name: Red Team Tests - Chrome v${{ matrix.node }}
         uses: cypress-io/github-action@v5.0.0
@@ -153,6 +149,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache
         uses: actions/setup-node@v3
@@ -166,10 +164,6 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5.0.0

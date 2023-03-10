@@ -22,15 +22,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: 16.19.0
           cache: 'yarn'
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: CYPRESS_INSTALL_BINARY=0 yarn install --immutable --inline-builds
       - run: CYPRESS_INSTALL_BINARY=0 yarn moon ci
       - uses: 'moonrepo/run-report-action@v1'
