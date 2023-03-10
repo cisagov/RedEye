@@ -33,7 +33,10 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 			return store.campaign?.commentStore.selectedCommands.size || 0;
 		},
 		get hostCount() {
-			return store.campaign?.hostGroupSelect.selectedHosts.length || 0;
+			return (
+				(store.campaign?.hostGroupSelect.selectedHosts.length || 0) +
+				(store.campaign?.hostGroupSelect.selectedServers.length || 0)
+			);
 		},
 		get beaconCount() {
 			return store.campaign?.beaconGroupSelect.selectedBeacons.length || 0;

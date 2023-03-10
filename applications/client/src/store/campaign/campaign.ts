@@ -50,8 +50,8 @@ export class CampaignStore extends ExtendedModel(() => ({
 		error: prop<string>('').withSetter(),
 		hostGroupSelect: prop<{
 			groupSelect: boolean;
-			selectedHosts: any[];
-			selectedServers: any[];
+			selectedHosts: string[];
+			selectedServers: string[];
 		}>(() => ({ groupSelect: false, selectedHosts: [], selectedServers: [] })).withSetter(),
 		beaconGroupSelect: prop<{
 			groupSelect: boolean;

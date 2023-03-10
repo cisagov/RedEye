@@ -33,13 +33,11 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const store = useStore();
 	const state = createState({
 		AddHost(hostId, cobaltStrikeServer) {
-			let selectedHosts;
-			let selectedServers;
+			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
 			if (cobaltStrikeServer) {
-				selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
 				selectedServers.push(hostId);
 			} else {
-				selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
 				selectedHosts.push(hostId);
 			}
 			store.campaign?.setHostGroupSelect({
@@ -49,13 +47,11 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			});
 		},
 		RemoveHost(hostId: string, cobaltStrikeServer) {
-			let selectedHosts;
-			let selectedServers;
+			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
 			if (cobaltStrikeServer) {
-				selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
 				selectedServers.splice(selectedHosts.indexOf(hostId), 1);
 			} else {
-				selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
 				selectedHosts.splice(selectedHosts.indexOf(hostId), 1);
 			}
 			store.campaign?.setHostGroupSelect({
@@ -91,7 +87,12 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			{store.campaign?.hostGroupSelect.groupSelect && (
 				<Checkbox
 					cy-test="checkbox-select-command"
-					checked={host?.id ? store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id) : false}
+					checked={
+						host?.id
+							? store.campaign?.hostGroupSelect.selectedServers?.includes(host?.id) ||
+							  store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id)
+							: false
+					}
 					onClick={(e) =>
 						// @ts-ignore
 						e.target.checked && host?.id

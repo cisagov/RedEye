@@ -143,6 +143,7 @@ export const ControlBar = observer<ControlBarProps>(
 								store.campaign?.setHostGroupSelect({
 									groupSelect: true,
 									selectedHosts: [],
+									selectedServers: [],
 								});
 							}}
 							minimal
@@ -156,6 +157,7 @@ export const ControlBar = observer<ControlBarProps>(
 								store.campaign?.setHostGroupSelect({
 									groupSelect: false,
 									selectedHosts: [],
+									selectedServers: [],
 								});
 							}}
 							minimal
