@@ -1,7 +1,6 @@
-import { Button, Dialog, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
-import { DialogEx, DialogExProps } from '@redeye/client/components';
-import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
-import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
+import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
+import type { DialogExProps } from '@redeye/client/components';
+import { DialogBodyEx, DialogEx, DialogFooterEx } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CampaignModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';

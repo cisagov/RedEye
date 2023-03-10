@@ -1,14 +1,8 @@
 import { Button, InputGroup, NonIdealState } from '@blueprintjs/core';
 import { Error16, Search16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import {
-	CarbonIcon,
-	DialogEx,
-	DialogExProps,
-	escapeRegExpChars,
-	ScrollBox,
-	VirtualizedList,
-} from '@redeye/client/components';
+import type { DialogExProps } from '@redeye/client/components';
+import { CarbonIcon, DialogEx, escapeRegExpChars, ScrollBox, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel } from '@redeye/client/store';
 import { commandGroupQuery, useStore } from '@redeye/client/store';

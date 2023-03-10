@@ -1,4 +1,5 @@
-import { DialogEx, DialogExProps, SettingsForm } from '@redeye/client/components';
+import type { DialogExProps } from '@redeye/client/components';
+import { DialogEx, SettingsForm } from '@redeye/client/components';
 import type { FC } from 'react';
 
 type GeneralSettingsOverlayProps = DialogExProps & {};

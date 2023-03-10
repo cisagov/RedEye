@@ -1,10 +1,9 @@
 import { Button, Intent } from '@blueprintjs/core';
-import { DialogEx, DialogExProps } from '@redeye/client/components';
+import type { DialogExProps } from '@redeye/client/components';
+import { DialogBodyEx, DialogEx, DialogFooterEx } from '@redeye/client/components';
 import { RedEyeRoutes, useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { DialogBodyEx } from './Dialogs/DialogBodyEx';
-import { DialogFooterEx } from './Dialogs/DialogFooterEx';
 
 type AuthCheckProps = Partial<DialogExProps> & {};
 

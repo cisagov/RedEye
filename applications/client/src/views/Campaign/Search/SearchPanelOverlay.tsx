@@ -1,4 +1,5 @@
-import { DialogEx, DialogExProps } from '@redeye/client/components';
+import type { DialogExProps } from '@redeye/client/components';
+import { DialogEx } from '@redeye/client/components';
 import { observer } from 'mobx-react-lite';
 import { SearchPanel } from './SearchPanel';
 

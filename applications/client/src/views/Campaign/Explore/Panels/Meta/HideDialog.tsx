@@ -1,8 +1,7 @@
 import { Checkbox, Button, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon, DialogEx, DialogExProps } from '@redeye/client/components';
-import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
-import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
+import type { DialogExProps } from '@redeye/client/components';
+import { CarbonIcon, DialogBodyEx, DialogEx, DialogFooterEx } from '@redeye/client/components';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';

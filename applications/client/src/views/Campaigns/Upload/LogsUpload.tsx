@@ -24,9 +24,14 @@ import {
 	Warning20,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, HoverButton, ScrollBox, ScrollChild } from '@redeye/client/components';
-import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
-import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
+import {
+	CarbonIcon,
+	DialogBodyEx,
+	DialogFooterEx,
+	HoverButton,
+	ScrollBox,
+	ScrollChild,
+} from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { Servers } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
