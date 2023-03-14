@@ -59,8 +59,7 @@ export class ServerResolvers {
 		@Arg('serverId', () => String, { nullable: true }) serverId?: string,
 		@Arg('serverIds', () => [String], { nullable: true }) serverIds?: Array<string>,
 		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
-	): Promise<Server | undefined> {
-		// ): Promise<any> {
+	): Promise<Server[] | undefined> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		if (serverId) {
 			const server = await em.findOneOrFail(Server, serverId);
@@ -72,12 +71,10 @@ export class ServerResolvers {
 			}
 			await em.persistAndFlush(server);
 			ctx.cm.forkProject(campaignId);
-			return server;
+			return [server];
 		} else if (serverIds) {
 			const servers = await em.find(Server, serverIds);
 			servers.map(async (server) => {
-				// const servers = serversIds.map(async (serversId) => {
-				//  const server = await em.findOneOrFail(Server, serverId);
 				if (server.hidden !== setHidden) {
 					server.hidden = !server.hidden;
 					await server.beacons.init();
@@ -86,12 +83,12 @@ export class ServerResolvers {
 						await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
 					}
 					await em.persistAndFlush(server);
-					ctx.cm.forkProject(campaignId);
 				}
 			});
-			return servers[0];
+			ctx.cm.forkProject(campaignId);
+			return servers;
 		}
-		return undefined; // Promise<Server | undefined> or Promise<any>
+		return undefined;
 	}
 
 	@Authorized()

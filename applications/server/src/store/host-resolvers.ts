@@ -47,8 +47,7 @@ export class HostResolvers {
 		@Arg('hostId', () => String, { nullable: true }) hostId?: string,
 		@Arg('hostIds', () => [String], { nullable: true }) hostIds?: Array<string>,
 		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
-	): Promise<Host | undefined> {
-		// ): Promise<any> {
+	): Promise<Host[] | undefined> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		if (hostId) {
 			const host = await em.findOneOrFail(Host, hostId);
@@ -60,12 +59,10 @@ export class HostResolvers {
 			}
 			await em.persistAndFlush(host);
 			ctx.cm.forkProject(campaignId);
-			return host;
+			return [host];
 		} else if (hostIds) {
 			const hosts = await em.find(Host, hostIds);
 			hosts.map(async (host) => {
-				// const hosts = hostIds.map(async (hostId) => {
-				// 	const host = await em.findOneOrFail(Host, hostId);
 				if (host.hidden !== setHidden) {
 					host.hidden = !host.hidden;
 					await host.beacons.loadItems();
@@ -74,11 +71,11 @@ export class HostResolvers {
 						await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
 					}
 					await em.persistAndFlush(host);
-					ctx.cm.forkProject(campaignId);
 				}
 			});
-			return hosts[0];
+			ctx.cm.forkProject(campaignId);
+			return hosts;
 		}
-		return undefined; // Promise<Host | undefined> or Promise<any>
+		return undefined;
 	}
 }

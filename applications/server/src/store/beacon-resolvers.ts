@@ -55,8 +55,7 @@ export class BeaconResolvers {
 		@Arg('beaconId', () => String, { nullable: true }) beaconId?: string,
 		@Arg('beaconIds', () => [String], { nullable: true }) beaconIds?: Array<string>,
 		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
-	): Promise<Beacon | undefined> {
-		// ): Promise<any> {
+	): Promise<Beacon[] | undefined> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 
 		if (beaconId) {
@@ -65,21 +64,19 @@ export class BeaconResolvers {
 			await em.persistAndFlush(beacon);
 			await ensureTreeHidden(em, beacon.id, beacon.hidden, []);
 			ctx.cm.forkProject(campaignId);
-			return beacon;
+			return [beacon];
 		} else if (beaconIds) {
 			const beacons = await em.find(Beacon, beaconIds, { populate: relationPaths });
-			beacons.map(async (beacon) => {
-				// const beacons = beaconIds.map(async (beaconId) => {
-				// 	const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
+			for (const beacon of beacons) {
 				if (beacon.hidden !== setHidden) {
 					beacon.hidden = !beacon.hidden;
 					await em.persistAndFlush(beacon);
 					await ensureTreeHidden(em, beacon.id, beacon.hidden, []);
-					ctx.cm.forkProject(campaignId);
 				}
-			});
-			return beacons[0];
+			}
+			ctx.cm.forkProject(campaignId);
+			return beacons;
 		}
-		return undefined; // Promise<Beacon | undefined> or Promise<any>
+		return undefined;
 	}
 }
