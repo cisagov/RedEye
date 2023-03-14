@@ -10,7 +10,6 @@
 		".*.js$"
 	],
 	"jsc": {
-		// "baseUrl": ".",
 		"target": "es2018",
 		"keepClassNames": true,
 		"loose": false,

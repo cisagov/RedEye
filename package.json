@@ -23,7 +23,7 @@
 		"add-changeset": "yarn changeset",
 		"start:client": "yarn moon run @redeye/client:start-dev",
 		"start:server": "yarn moon run @redeye/server:start-dev",
-		"start:dev": "cross-env yarn moon run @redeye/server:start-dev @redeye/client:start-dev",
+		"start:dev": "yarn moon run @redeye/server:start-dev @redeye/client:start-dev",
 		"start:graph": "yarn moon run @redeye/graph:start-dev",
 		"combine:reports": "jrm dist/applications/redeye-e2e/results/combined-report.xml \"dist/applications/redeye-e2e/results/*.xml\"",
 		"cy:open": "yarn moon run @redeye/e2e:open-cy",
@@ -203,7 +203,7 @@
 		"vite-tsconfig-paths": "^3.5.0"
 	},
 	"lint-staged": {
-		"**/*.{json,yml,yaml,js,jsx,ts,tsx}": [
+		"**/*.{json,yml,yaml,js,jsx,ts,tsx,graphql}": [
 			"yarn prettier --ignore-path .gitignore --write"
 		]
 	},
