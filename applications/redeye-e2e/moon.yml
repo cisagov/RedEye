@@ -3,7 +3,7 @@ dependsOn:
   - 'client'
 tasks:
   open-cy:
-    command: 'npx -c "moon run @redeye/client:start-dev @redeye/server:start-dev & moon run @redeye/e2e:start-cypress"'
+    command: 'cross-env npx -c "moon run @redeye/client:start-dev @redeye/server:start-dev && moon run @redeye/e2e:start-cypress"'
     local: true
     platform: node
   open-cy-blue:
