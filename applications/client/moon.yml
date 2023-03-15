@@ -6,11 +6,13 @@ tasks:
     deps:
       - ~:build-vite
   start-dev:
+    local: true
     deps:
       - ^:build
       - ~:start-vite
     options:
       runInCI: false
+      runDepsInParallel: false
   graphql:
     command: mk-gql --outDir=./src/store/graphql ../server/schema.graphql
     deps:
