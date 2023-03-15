@@ -110,10 +110,11 @@ const serverMachine = createMachine(
 			assignCacheManager: actions.assign((_ctx, event) => ({
 				cm: event.data,
 			})),
-			cleanUp: (ctx) => {
+			cleanUp: (ctx, event) => {
 				try {
+					console.log('Cleaning up...', event);
 					// Cleanup anonymized campaigns
-					let anonymizedPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns');
+					const anonymizedPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns');
 					if (existsSync(anonymizedPath)) rmSync(anonymizedPath, { recursive: true });
 					ctx.messagingService?.stop?.();
 					ctx.server?.close((err) => {
@@ -143,7 +144,8 @@ const serverMachine = createMachine(
 					const mainOrm = await connectOrCreateDatabase(ctx.config);
 					const cacheManager = new EntityCacheManager(mainOrm);
 					return cacheManager;
-				} catch {
+				} catch (e) {
+					console.log(e);
 					return Promise.reject();
 				}
 			},

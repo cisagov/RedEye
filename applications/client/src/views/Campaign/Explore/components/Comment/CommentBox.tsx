@@ -1,16 +1,6 @@
-import {
-	Alert,
-	Alignment,
-	Button,
-	ButtonGroup,
-	Classes,
-	Intent,
-	MenuItem,
-	Position,
-	TextArea,
-} from '@blueprintjs/core';
+import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
 import type { ItemPredicate } from '@blueprintjs/select';
-import { MultiSelect } from '@blueprintjs/select';
+import { MultiSelect2 } from '@blueprintjs/select';
 import {
 	AddComment16,
 	ArrowRight16,
@@ -23,8 +13,8 @@ import {
 	TrashCan16,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
-import type { AnnotationModel, CommandGroupModel, LinkModel } from '@redeye/client/store';
+import { AlertEx, CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
+import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from '@redeye/client/store';
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
@@ -34,7 +24,9 @@ import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AddBeaconSelectOrSuggest, CheckForAddedLink } from '.';
+import { MenuItem2 } from '@blueprintjs/popover2';
+import { AddBeaconSelectOrSuggest } from './AddBeaconSelectOrSuggest';
+import { CheckForAddedLink } from './CheckForAddedLink';
 
 type CommentBoxProps = ComponentProps<'div'> & {
 	commandId?: string | null;
@@ -128,7 +120,7 @@ export const CommentBox = observer<CommentBoxProps>(
 					campaignId: store.campaign?.id!,
 					commandId: state.commandIds[0],
 					destinationId,
-					id: state.manuallyCreatedLink?.id,
+					id: state.manuallyCreatedLink?.id!,
 					name: state.nameText,
 					originId: store.campaign.interactionState.selectedBeacon?.id as string,
 				}),
@@ -186,7 +178,7 @@ export const CommentBox = observer<CommentBoxProps>(
 			text: annotation?.text || '',
 			nameText: '',
 			displayName: '',
-			destinationBeacon: '',
+			destinationBeacon: undefined as BeaconModel | undefined,
 			addOrChangeLinkButtonText: 'Add beacon link',
 			manuallyCreatedLink: null as LinkModel | null,
 			manualLinkFlag: false,
@@ -224,7 +216,10 @@ export const CommentBox = observer<CommentBoxProps>(
 			},
 			get autoTags(): Array<string> {
 				const tags = new Set<string>();
-				[...(Array.from(store.graphqlStore?.tags.values(), (tag) => tag.text!) || []), ...Object.values(MitreTechniques)]
+				[
+					...(Array.from(store.graphqlStore?.tags.values(), (tag) => tag.text!) || []),
+					...Object.values(MitreTechniques),
+				]
 					?.filter((tag) => !this.tags.includes(tag))
 					.sort()
 					.map((tag) => tags.add(tag));
@@ -233,7 +228,7 @@ export const CommentBox = observer<CommentBoxProps>(
 			toggleBoolBeaconSearch() {
 				this.showBeaconSearch = !this.showBeaconSearch;
 			},
-			storeNewDestinationBeaconForLinkCreation(newDestBeacon) {
+			storeNewDestinationBeaconForLinkCreation(newDestBeacon: BeaconModel) {
 				this.destinationBeacon = newDestBeacon;
 			},
 
@@ -280,7 +275,7 @@ export const CommentBox = observer<CommentBoxProps>(
 				this.tags.replace(this.defaultTags);
 				this.editMode = false;
 				this.loading = false;
-				this.destinationBeacon = '';
+				this.destinationBeacon = undefined;
 				store.campaign?.commentStore.clearSelectedCommand();
 				store.campaign?.commentStore.setNewGroupComment(false);
 				store.campaign?.commentStore.setGroupSelect(false);
@@ -319,10 +314,10 @@ export const CommentBox = observer<CommentBoxProps>(
 						});
 					}
 					// editing an existing link
-					if (state.manualLinkFlag && state.manuallyCreatedLink) {
+					if (state.manualLinkFlag && state.manuallyCreatedLink && this.destinationBeacon) {
 						editLink.mutate(this.destinationBeacon.id);
 						// beacon selected not a currently existing link
-					} else if (state.destinationBeacon) {
+					} else if (this.destinationBeacon) {
 						createLink.mutate(this.destinationBeacon.id);
 					}
 				} catch (e) {
@@ -460,7 +455,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								placeholder="..."
 								autoFocus
 							/>
-							<MultiSelect
+							<MultiSelect2
 								cy-test="tag-input1"
 								createNewItemPosition="first"
 								tagInputProps={{
@@ -515,7 +510,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								onItemSelect={state.handleTagsChange}
 								createNewItemFromQuery={(query) => query}
 								createNewItemRenderer={(item, active, handleClick: MouseEventHandler<HTMLElement>) => (
-									<MenuItem
+									<MenuItem2
 										cy-test="add-tag"
 										icon="add"
 										disabled={state.tags.includes(item)}
@@ -526,7 +521,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									/>
 								)}
 								itemRenderer={(item, { modifiers, handleClick }) => (
-									<MenuItem
+									<MenuItem2
 										cy-test="tag-list-item"
 										active={modifiers.active}
 										key={item}
@@ -571,7 +566,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								intent={Intent.PRIMARY}
 								alignText={Alignment.LEFT}
 								loading={state.loading}
-								disabled={state.loading}
+								disabled={state.loading || !state.text}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
 								rightIcon={<CarbonIcon icon={AddComment16} />}
@@ -640,7 +635,7 @@ export const CommentBox = observer<CommentBoxProps>(
 													icon={<CarbonIcon icon={TrashCan16} />}
 													onClick={() => state.update('deleteAnnotationPrompt', true)}
 												/>
-												<Alert
+												<AlertEx
 													isOpen={state.deleteAnnotationPrompt}
 													onClose={() => state.update('deleteAnnotationPrompt', false)}
 													onConfirm={state.deleteAnnotation}
@@ -650,8 +645,8 @@ export const CommentBox = observer<CommentBoxProps>(
 													canOutsideClickCancel
 													canEscapeKeyCancel
 												>
-													<p>Are you sure you want to delete this comment?</p>
-												</Alert>
+													Are you sure you want to delete this comment?
+												</AlertEx>
 											</>
 										)}
 									</>

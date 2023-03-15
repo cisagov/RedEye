@@ -8,7 +8,6 @@ import { Fragment, useLayoutEffect, useRef, useState } from 'react';
 import { createTicksWithFormatter } from './create-ticks';
 import { TIMELINE_BG_COLOR, X_AXIS_LABELS_HEIGHT } from './timeline-static-vars';
 import type { TimeScale } from './TimelineChart';
-import { TIMELINE_PADDING } from './TimelineChart';
 
 const LINE_WIDTH = 1;
 export type AxisLabelProps = ComponentProps<'div'> & {
@@ -26,20 +25,19 @@ export const AxisLabels = observer<AxisLabelProps>(({ xScale, yTop, start, end }
 	const axisY = yTop + 1;
 	return (
 		<g>
-			<line x1={xScale(start)} x2={xScale(end)} y1={axisY} y2={axisY} css={lineStyles} />
+			<line x1={xScale(start)} x2={xScale(end)} y1={axisY + 0.5} y2={axisY + 0.5} css={lineStyles} />
 			{tickDates.map((date) => {
 				const x = xScale(date);
 
 				return (
 					<Fragment key={date.toISOString()}>
-						<line x1={x} x2={x} y1={axisY} y2={axisY + 4} css={lineStyles} />
+						<line x1={x + 0.5} x2={x + 0.5} y1={axisY + 1} y2={axisY + 4} css={lineStyles} />
 						<text y={yMiddle} x={x} css={baseLabelStyles}>
 							{formatter(date)}
 						</text>
 					</Fragment>
 				);
 			})}
-			{/*  Start */}
 			<EdgeLabel xScale={xScale} axisY={axisY} yMiddle={yMiddle} formatter={edgeLabelFormatter} time={start} isLeft />
 			<EdgeLabel xScale={xScale} axisY={axisY} yMiddle={yMiddle} formatter={edgeLabelFormatter} time={end} />
 		</g>
@@ -71,7 +69,7 @@ const EdgeLabel = observer<EdgeLabelProps>(
 			}
 		}, [time]);
 
-		const x = xScale(time) + ((isLeft ? 1 : -1) * LINE_WIDTH) / 2;
+		const x = xScale(time) + (isLeft ? 0.5 : -0.5);
 
 		const gradientKey = time.toISOString();
 		const stopColor = TIMELINE_BG_COLOR;
@@ -80,8 +78,6 @@ const EdgeLabel = observer<EdgeLabelProps>(
 		return (
 			<>
 				<defs>
-					{/* does this linear gradient appear? */}
-					{/* Yes, it's used for the fade out effect (see BLDSTRIKE-184) */}
 					<linearGradient id={gradientKey} x1={isLeft ? '100%' : '0%'} y1="0%" x2={isLeft ? '0%' : '100%'} y2="0%">
 						<stop offset="0%" style={{ stopColor, stopOpacity: 0 }} />
 						<stop offset="40%" style={{ stopColor, stopOpacity: 1 }} />
@@ -90,14 +86,19 @@ const EdgeLabel = observer<EdgeLabelProps>(
 				{width && height && (
 					<rect
 						x={isLeft ? 0 : x - gradientRectWidth}
-						y={axisY + 4}
+						y={axisY + 1}
 						height={height}
-						width={isLeft ? gradientRectWidth + TIMELINE_PADDING.LEFT : gradientRectWidth + TIMELINE_PADDING.RIGHT}
+						width={isLeft ? gradientRectWidth + 24 : gradientRectWidth + 24}
 						fill={`url(#${gradientKey})`}
 					/>
 				)}
-				<line x1={x} x2={x} y1={axisY} y2={axisY + 4} css={lineStyles} />
-				<text ref={ref} y={yMiddle} x={x} css={[baseLabelStyles, edgeLabelStyles, isLeft && leftEdgeLabelOverrideStyles]}>
+				<line x1={x} x2={x} y1={axisY + 1} y2={axisY + 4} css={lineStyles} />
+				<text
+					ref={ref}
+					y={yMiddle}
+					x={x}
+					css={[baseLabelStyles, edgeLabelStyles, isLeft && leftEdgeLabelOverrideStyles]}
+				>
 					{store.settings.momentTz(time).format(formatter)}
 				</text>
 			</>

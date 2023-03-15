@@ -128,9 +128,9 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	static radius = (d: HierarchicalGraphNode): number => {
-		let childNeededRadius = 4;
-		let childCount = d.children ? d.children.filter((d) => d.type === 'keyNode').length : 1;
-		let areaNeeded = Math.pow(childNeededRadius, 2) * Math.PI * childCount;
+		const childNeededRadius = 4;
+		const childCount = d.children ? d.children.filter((d) => d.type === 'keyNode').length : 1;
+		const areaNeeded = Math.pow(childNeededRadius, 2) * Math.PI * childCount;
 		return Math.sqrt(areaNeeded / Math.PI);
 	};
 }

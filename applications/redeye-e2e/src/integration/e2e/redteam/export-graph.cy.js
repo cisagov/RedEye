@@ -16,7 +16,7 @@ describe('Export graph', () => {
 		cy.readFile('cypress/downloads/graph.png');
 
 		// Delete the downloaded file
-		cy.deleteDownloadsFolderContent();
+		// cy.deleteDownloadsFolderContent();
 	});
 
 	after(() => {

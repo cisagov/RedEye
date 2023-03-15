@@ -8,7 +8,6 @@ export * from './DragResize';
 export * from './Dropdown';
 export * from './ErrorFallback';
 export * from './ExpandingSearchBox';
-export * from './Flex';
 export * from './HoverButton';
 export * from './ScrollBox';
 export * from './VirtualizedList';

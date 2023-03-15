@@ -1,4 +1,4 @@
-import type { DateRange } from '@blueprintjs/datetime';
+import { DateRange } from '@blueprintjs/datetime';
 import type { IBar } from '@redeye/client/views';
 import { computed, observable, reaction } from 'mobx';
 import type { ObjectMap, Ref } from 'mobx-keystone';
@@ -107,7 +107,9 @@ export class TimelineStore extends ExtendedModel(() => ({
 					this.scrubberIndex >= i
 						? bucket?.beaconCommandCountPair.reduce(
 								(sum, pair) =>
-									pair?.beaconId && this.activeBeaconIds(bucket).has(pair?.beaconId) ? sum + (pair?.commandCount ?? 0) : sum,
+									pair?.beaconId && this.activeBeaconIds(bucket).has(pair?.beaconId)
+										? sum + (pair?.commandCount ?? 0)
+										: sum,
 								0
 						  )
 						: 0,
@@ -204,7 +206,9 @@ export class TimelineStore extends ExtendedModel(() => ({
 					data?.timeline?.bucketStartTime
 						? this.appStore!.settings.momentTz(data?.timeline?.bucketStartTime).toDate()
 						: null,
-					data?.timeline?.bucketEndTime ? this.appStore!.settings.momentTz(data?.timeline?.bucketEndTime).toDate() : null,
+					data?.timeline?.bucketEndTime
+						? this.appStore!.settings.momentTz(data?.timeline?.bucketEndTime).toDate()
+						: null,
 				];
 			}
 		}

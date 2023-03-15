@@ -4,7 +4,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CoreTokens } from '@redeye/ui-styles';
 import type { ScaleTime } from 'd3';
-import { scaleTime } from 'd3';
+import { interpolateRound, scaleTime } from 'd3';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -12,8 +12,8 @@ import { useEffect } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { AxisLabels } from './AxisLabel';
 import { Bars } from './Bars';
-import { Scrubber } from './Scrubber';
-import { PIXEL_BAR_DENSITY, X_AXIS_LABELS_HEIGHT } from './timeline-static-vars';
+import { Scrubber, scrubberTransitionStyle } from './Scrubber';
+import { PIXEL_BAR_DENSITY, POPOVER_Y_OFFSET, X_AXIS_LABELS_HEIGHT } from './timeline-static-vars';
 
 type TimelineChartProps = ComponentProps<'div'> & {};
 
@@ -56,7 +56,7 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 				this.xScale = scaleTime(
 					[start, end],
 					[TIMELINE_PADDING.LEFT, newWidth - TIMELINE_PADDING.LEFT - TIMELINE_PADDING.RIGHT]
-				);
+				).interpolate(interpolateRound);
 			},
 			grabberTime: undefined as Date | undefined,
 			setGrabberTime(date: Date | undefined) {
@@ -105,15 +105,9 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 	}, [store.campaign?.timeline.endTime, store.campaign?.timeline.startTime, width]);
 
 	return (
-		<div
-			ref={ref}
-			css={css`
-				width: 100%;
-			`}
-		>
-			<div {...props} css={safetyOverflowDiv}>
-				{state.grabberTime && <div css={labelStyles(state.grabberTimeMarginLeft)}>{state?.grabberTimeLabel}</div>}
-				<svg height={height} width={width}>
+		<div ref={ref} css={wrapperStyles} {...props}>
+			<div css={svgSizeMatchingStyles}>
+				<svg height={height} width={width} css={absoluteZero}>
 					{state.start && state.end && width && height && state.xScale && (
 						<>
 							<Bars
@@ -124,15 +118,18 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 								dimensions={{ height: height - X_AXIS_LABELS_HEIGHT, width }}
 								scrubberTime={store.campaign?.timeline.scrubberTime ?? null}
 							/>
-							<AxisLabels xScale={state.xScale} yTop={height - X_AXIS_LABELS_HEIGHT} start={state.start} end={state.end} />
+							<AxisLabels
+								xScale={state.xScale}
+								yTop={height - X_AXIS_LABELS_HEIGHT}
+								start={state.start}
+								end={state.end}
+							/>
 							{store.campaign?.timeline.scrubberTime && state.bars.length !== 0 && (
 								<Scrubber
 									scrubberTime={store.campaign?.timeline.scrubberTime}
-									setScrubberTime={store.campaign?.timeline?.setScrubberTimeExact}
 									xScale={state.xScale}
 									bars={state.bars}
 									dimensions={{ width, height }}
-									grabberTimeLabel={state.grabberTimeLabel}
 									setGrabberTime={state.setGrabberTime}
 									setGrabberTimeMarginLeft={state.setGrabberTimeMarginLeft}
 								/>
@@ -141,22 +138,41 @@ export const TimelineChart = observer<TimelineChartProps>(({ ...props }) => {
 					)}
 				</svg>
 			</div>
+			{state.grabberTime && (
+				<div
+					style={{ transform: `translateX(calc(${state.grabberTimeMarginLeft}px - 50%))` }}
+					css={[labelStyles, scrubberTransitionStyle]}
+					children={state?.grabberTimeLabel}
+				/>
+			)}
 		</div>
 	);
 });
 
-const safetyOverflowDiv = css`
-	overflow: hidden;
-	flex: 1 1 auto;
-	height: 100%;
+const wrapperStyles = css`
+	width: 100%;
+	position: relative;
 `;
 
-const labelStyles = (margin?: number) => css`
+const svgSizeMatchingStyles = css`
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+	position: relative;
+`;
+
+const labelStyles = css`
 	position: absolute;
-	margin-top: 110px;
-	margin-left: ${margin}px;
+	left: 0;
+	bottom: -${POPOVER_Y_OFFSET}px;
+
 	font-size: 0.8rem;
 	padding: 0.2rem;
 	background-color: ${CoreTokens.Background1};
-	border: 1px solid ${CoreTokens.BorderNormal};
+	box-shadow: ${CoreTokens.Elevation3};
+`;
+
+const absoluteZero = css`
+	position: absolute;
+	inset: 0;
 `;

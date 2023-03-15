@@ -59,15 +59,13 @@ describe('Command counts', () => {
 		cy.selectCampaign(camp);
 
 		// Log name and command count for first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((nameHost1) => {
 				// cy.log(nameHost1);
 
-				cy
-					.get('[cy-test=row-command-count]')
+				cy.get('[cy-test=row-command-count]')
 					.eq(0)
 					.invoke('text')
 					.then((countHost1) => {
@@ -97,15 +95,13 @@ describe('Command counts', () => {
 
 		// Go back to Host list; log name and command count for second host
 		cy.clickExplorerMode();
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(2)
 			.invoke('text')
 			.then((nameHost2) => {
 				// cy.log(nameHost2);
 
-				cy
-					.get('[cy-test=row-command-count]')
+				cy.get('[cy-test=row-command-count]')
 					.eq(1)
 					.invoke('text')
 					.then((countHost2) => {
@@ -143,16 +139,14 @@ describe('Command counts', () => {
 		cy.searchCampaignFor('exit');
 
 		// Log the number of commands showing for the Command Type result
-		cy
-			.get('[cy-test=command-count]')
+		cy.get('[cy-test=command-count]')
 			.invoke('text')
 			.then((commandCount1) => {
 				// cy.log(commandCount1);
 
 				// Click the Command Type to go to the list of commands; verify count matches number in search
 				cy.get('[cy-test=search-result-item]').contains('Command Type').click();
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((commandCount2) => {
 						// cy.log(commandCount2);

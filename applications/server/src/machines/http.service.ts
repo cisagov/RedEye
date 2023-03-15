@@ -18,8 +18,8 @@ import type { EndpointContext, GraphQLContext } from '../types';
 import handler from 'serve-handler';
 import open from 'open';
 
-// @ts-ignore root package.json
-import packageJson from '../../../../../package.json';
+// @ts-ignore
+import packageJson from '../../../../package.json';
 
 const graphqlPath = '/api/graphql';
 
@@ -83,6 +83,7 @@ export const startHttpServerService = (ctx: ServerMachineContext) => {
 			const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
 
 			const apolloConfig: ApolloServerExpressConfig = {
+				cache: 'bounded',
 				schema,
 				typeDefs: schemaFile,
 				plugins: !production ? [ApolloServerPluginLandingPageGraphQLPlayground()] : undefined,
@@ -108,7 +109,7 @@ export const startHttpServerService = (ctx: ServerMachineContext) => {
 
 			if (process.pkg) {
 				// Only used during pkg build, needs to be a hard path for pkg to bundle properly
-				const clientPath = path.join(__dirname, '..', '..', '..', 'client');
+				const clientPath = path.join(__dirname, '..', '..', '..', 'client', 'dist');
 
 				app.use((request, response) =>
 					handler(request, response, {
@@ -155,6 +156,7 @@ export const startBlueTeamHttpServerService = (ctx: ServerMachineContext) => {
 			const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
 
 			const apolloConfig: ApolloServerExpressConfig = {
+				cache: 'bounded',
 				schema,
 				typeDefs: schemaFile,
 				plugins: production ? [ApolloServerPluginLandingPageGraphQLPlayground()] : undefined,
@@ -182,7 +184,7 @@ export const startBlueTeamHttpServerService = (ctx: ServerMachineContext) => {
 
 			if (process.pkg) {
 				// Only used during pkg build, needs to be a hard path for pkg to bundle properly
-				const clientPath = path.join(__dirname, '..', '..', '..', 'client');
+				const clientPath = path.join(__dirname, '..', '..', '..', 'client', 'dist');
 				app.use((request, response) =>
 					handler(request, response, {
 						public: clientPath,

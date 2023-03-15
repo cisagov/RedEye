@@ -1,0 +1,10 @@
+tasks:
+  build:
+    command: 'noop'
+    deps:
+      - ~:build-library
+  start-dev:
+    deps:
+      - ~:watch-library
+    options:
+      runInCI: false

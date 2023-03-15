@@ -20,8 +20,7 @@ describe('Search campaign and open one of the results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 		// Log total number of results
-		cy
-			.get('@list')
+		cy.get('@list')
 			.its('length')
 			.then((resultSearch1) => {
 				first = resultSearch1;
@@ -37,8 +36,7 @@ describe('Search campaign and open one of the results', () => {
 
 		cy.get('@list').should('contain', searchTerm1);
 
-		cy
-			.get('@list')
+		cy.get('@list')
 			.its('length')
 			.then((resultSearch2) => {
 				expect(resultSearch2).to.equal(first);
@@ -62,8 +60,7 @@ describe('Search campaign and open one of the results', () => {
 
 		// Log text showing in the first result
 		// line 1 - first part
-		cy
-			.get('[cy-test=search-result-item]')
+		cy.get('[cy-test=search-result-item]')
 			.eq(0)
 			.invoke('text')
 			.then((text) => {
@@ -71,8 +68,7 @@ describe('Search campaign and open one of the results', () => {
 				cy.log(lineOneText1);
 
 				// line 1 - second part
-				cy
-					.get('[cy-test=search-result-item]')
+				cy.get('[cy-test=search-result-item]')
 					.eq(0)
 					.invoke('text')
 					.then((text) => {
@@ -80,8 +76,7 @@ describe('Search campaign and open one of the results', () => {
 						cy.log(lineOneText2);
 
 						// line 1- third part
-						cy
-							.get('[cy-test=search-result-item]')
+						cy.get('[cy-test=search-result-item]')
 							.eq(0)
 							.invoke('text')
 							.then((text) => {
@@ -89,8 +84,7 @@ describe('Search campaign and open one of the results', () => {
 								cy.log(lineOneText3);
 
 								// Log the text details for the Command
-								cy
-									.get('[cy-test=search-item-details]')
+								cy.get('[cy-test=search-item-details]')
 									.eq(0)
 									.invoke('text')
 									.then((commandDetails) => {
@@ -98,8 +92,7 @@ describe('Search campaign and open one of the results', () => {
 
 										// Select first item from the search results and click to open details; verify against data in search modal
 										cy.get('[cy-test=search-result-item]').eq(0).click();
-										cy
-											.get('[cy-test=navigation-breadcrumbs]')
+										cy.get('[cy-test=navigation-breadcrumbs]')
 											.invoke('text')
 											.should('contain', lineOneText1)
 											.and('contain', lineOneText2);

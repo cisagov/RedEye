@@ -1,4 +1,20 @@
 {
 	"name": "@redeye/graph",
-	"version": "0.2.0"
+	"version": "0.2.0",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/redeye-graph.umd.js",
+	"module": "./dist/redeye-graph.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/redeye-graph.js",
+			"require": "./dist/redeye-graph.umd.js"
+		}
+	},
+	"dependencies": {
+		"@redeye/ui-styles": "workspace:*"
+	}
 }

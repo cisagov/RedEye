@@ -1,4 +1,4 @@
-import type { Tabs } from '@redeye/client/types/explore';
+import { Tabs } from '@redeye/client/types/explore';
 import { sortOptions } from '@redeye/client/views';
 import type { Graph as BSGraph } from '@redeye/graph';
 import { RedEyeGraph } from '@redeye/graph';
@@ -8,8 +8,8 @@ import { ExtendedModel, model, modelAction, modelClass, modelFlow, objectMap, pr
 import { isDefined } from '../../components';
 import type { CurrentItem } from '../../types';
 import { CampaignViews } from '../../types';
-import type { BeaconModel, CommandGroupModel, LinkModel, SortOption, SortType } from '../graphql';
-import { CommandModel, SortDirection } from '../graphql';
+import type { BeaconModel, CommandGroupModel, LinkModel } from '../graphql';
+import { CommandModel, SortDirection, SortOption, SortType } from '../graphql';
 import { disposeList } from '../util';
 import { RedEyeModel } from '../util/model';
 import { AddToCommandGroup } from './add-to-command-group';

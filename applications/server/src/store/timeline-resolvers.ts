@@ -128,7 +128,9 @@ export class TimelineResolvers {
 				const diffMinutes = (commandTime.getTime() - unixBucketsStartTime) / 60000;
 				const bucketIndex = Math.floor(diffMinutes / bucketMinutes);
 				if (bucketIndex >= 0 && bucketIndex < finalNumberOfBuckets) {
-					const foundTuple = buckets[bucketIndex].beaconCommandCountPair.find((command) => command.beaconId === beaconId);
+					const foundTuple = buckets[bucketIndex].beaconCommandCountPair.find(
+						(command) => command.beaconId === beaconId
+					);
 					if (foundTuple) foundTuple.commandCount++;
 					else {
 						buckets[bucketIndex].beaconCommandCountPair.push({ beaconId, commandCount: 1 });
@@ -149,11 +151,14 @@ export class TimelineResolvers {
 					}
 				} else if (startTime) {
 					const beaconStartUnixTime = startTime.getTime();
-					const beaconStartBucketIndex = Math.floor((beaconStartUnixTime - unixBucketsStartTime) / 60000 / bucketMinutes);
+					const beaconStartBucketIndex = Math.floor(
+						(beaconStartUnixTime - unixBucketsStartTime) / 60000 / bucketMinutes
+					);
 					const beaconEndUnixTime = endTime?.getTime() ?? campaignEndTime.getTime();
 					const beaconEndBucketIndex = Math.floor((beaconEndUnixTime - unixBucketsStartTime) / 60000 / bucketMinutes);
 
-					const beaconStartBucketIndexNegativeNumberCorrection = beaconStartBucketIndex < 0 ? 0 : beaconStartBucketIndex;
+					const beaconStartBucketIndexNegativeNumberCorrection =
+						beaconStartBucketIndex < 0 ? 0 : beaconStartBucketIndex;
 
 					buckets[beaconStartBucketIndexNegativeNumberCorrection]?.createdBeacons?.push(beacon.id);
 					for (let i = beaconStartBucketIndexNegativeNumberCorrection; i < finalNumberOfBuckets; i++) {

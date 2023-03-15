@@ -1,4 +1,4 @@
-import { Classes } from '@blueprintjs/core';
+import { Classes, Menu } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
 import { dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
@@ -20,7 +20,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
-import { QuickMeta } from '../QuickMeta';
+import { QuickMetaPopoverButton, ShowHideMenuItem } from '../QuickMeta';
 
 type BeaconProps = ComponentProps<'div'> & {
 	beacon: BeaconModel;
@@ -72,11 +72,20 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				icon={semanticIcons.commands}
 				className={skeletonClass}
 			/>
-			<QuickMeta
-				modal={beacon}
-				disabled={!!store.appMeta.blueTeam}
-				click={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-			/>
+			{beacon != null && (
+				<QuickMetaPopoverButton
+					content={
+						<Menu>
+							{/* <MenuItem2 text="Add Comment" /> */}
+							<ShowHideMenuItem
+								model={beacon}
+								disabled={!!store.appMeta.blueTeam}
+								onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
+							/>
+						</Menu>
+					}
+				/>
+			)}
 			{!isDialogDisabled && (
 				<ToggleHiddenDialog
 					typeName="beacon"

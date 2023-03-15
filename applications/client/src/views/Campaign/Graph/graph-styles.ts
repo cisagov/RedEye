@@ -112,8 +112,8 @@ export const graphStyles = css`
 			stroke: ${GraphTokens.PreviewFgColor};
 		}
 		&.${GCN.selectedFocus} {
-			fill: ${GraphTokens.SelectedFocusBgColor}; 
-			stroke: ${GraphTokens.PreviewFgColor};// not GraphTokens.SelectedFgColor
+			fill: ${GraphTokens.SelectedFocusBgColor};
+			stroke: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
 		}
 	}
 

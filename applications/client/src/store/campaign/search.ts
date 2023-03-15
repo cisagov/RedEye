@@ -4,7 +4,7 @@ import { SearchFilterOptions, SearchSortOptions } from '@redeye/client/types/sea
 import MiniSearch from 'minisearch';
 import { computed, observable, when } from 'mobx';
 import { ExtendedModel, model, modelAction, modelClass, modelFlow, prop } from 'mobx-keystone';
-import type { FormEvent } from 'react';
+import { FormEvent } from 'react';
 import {
 	AnnotationModel,
 	BeaconModel,

@@ -1,73 +1,73 @@
 html,
 body,
 #root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  font-family: sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  overflow: hidden;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	font-family: sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	overflow: hidden;
 }
 
 html {
-  background-color: hsl(0, 0%, 92%);
+	background-color: hsl(0, 0%, 92%);
 }
 
 .dotGrid {
-  /* drawDotGrid() properties */
-  --dot-spacing: 0;
-  --dot-offset-x: 0;
-  --dot-offset-y: 0;
-  --dot-opacity: 0.3;
-  --dot-sub-opacity-multiplier: 0;
-  --dot-sub-opacity: calc(var(--dot-opacity) * var(--dot-sub-opacity-multiplier));
-  --dot-gradient: hsla(0, 0%, 0%, var(--dot-opacity)) 1px, transparent 0;
-  --dot-sub-gradient: hsla(0, 0%, 0%, var(--dot-sub-opacity)) 1px, transparent 0;
-  background-image: radial-gradient(var(--dot-gradient)), radial-gradient(circle at left, var(--dot-sub-gradient)),
-    radial-gradient(circle at top left, var(--dot-sub-gradient)),
-    radial-gradient(circle at top, var(--dot-sub-gradient)),
-    radial-gradient(circle at top right, var(--dot-sub-gradient)),
-    radial-gradient(circle at right, var(--dot-sub-gradient)),
-    radial-gradient(circle at bottom right, var(--dot-sub-gradient)),
-    radial-gradient(circle at bottom, var(--dot-sub-gradient)),
-    radial-gradient(circle at bottom left, var(--dot-sub-gradient));
-  background-size: var(--dot-spacing) var(--dot-spacing);
-  background-position-x: calc(50% + var(--dot-offset-x));
-  background-position-y: calc(50% + var(--dot-offset-y));
+	/* drawDotGrid() properties */
+	--dot-spacing: 0;
+	--dot-offset-x: 0;
+	--dot-offset-y: 0;
+	--dot-opacity: 0.3;
+	--dot-sub-opacity-multiplier: 0;
+	--dot-sub-opacity: calc(var(--dot-opacity) * var(--dot-sub-opacity-multiplier));
+	--dot-gradient: hsla(0, 0%, 0%, var(--dot-opacity)) 1px, transparent 0;
+	--dot-sub-gradient: hsla(0, 0%, 0%, var(--dot-sub-opacity)) 1px, transparent 0;
+	background-image: radial-gradient(var(--dot-gradient)), radial-gradient(circle at left, var(--dot-sub-gradient)),
+		radial-gradient(circle at top left, var(--dot-sub-gradient)),
+		radial-gradient(circle at top, var(--dot-sub-gradient)),
+		radial-gradient(circle at top right, var(--dot-sub-gradient)),
+		radial-gradient(circle at right, var(--dot-sub-gradient)),
+		radial-gradient(circle at bottom right, var(--dot-sub-gradient)),
+		radial-gradient(circle at bottom, var(--dot-sub-gradient)),
+		radial-gradient(circle at bottom left, var(--dot-sub-gradient));
+	background-size: var(--dot-spacing) var(--dot-spacing);
+	background-position-x: calc(50% + var(--dot-offset-x));
+	background-position-y: calc(50% + var(--dot-offset-y));
 }
 
 line {
-  stroke-linecap: round;
+	stroke-linecap: round;
 }
 
 text {
-  stroke: white;
-  stroke-width: 3px;
-  stroke-opacity: 0.8;
-  fill: black;
-  paint-order: stroke;
-  pointer-events: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+	stroke: white;
+	stroke-width: 3px;
+	stroke-opacity: 0.8;
+	fill: black;
+	paint-order: stroke;
+	pointer-events: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 }
-.occludedLabel{
-  opacity: 0.1;
+.occludedLabel {
+	opacity: 0.1;
 }
 
 .graphRoot {
-  cursor: grab;
-  stroke-linecap: round;
-  font-family: sans-serif;
+	cursor: grab;
+	stroke-linecap: round;
+	font-family: sans-serif;
 }
 
 .graphRoot:active {
-  cursor: grabbing;
+	cursor: grabbing;
 }
 
 .graphRoot circle {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 /* .superGraph,
@@ -79,45 +79,45 @@ text {
 } */
 
 .graphRoot:not(.isZooming) .superNode {
-  transition: r 0.2s cubic-bezier(0, 1, 0, 1);
+	transition: r 0.2s cubic-bezier(0, 1, 0, 1);
 }
 
 .superNode,
 .parentLink {
-  fill: hsla(0, 0%, 100%, 0.98);
-  stroke: hsl(0, 0%, 60%);
-  stroke-width: 1.5px;
+	fill: hsla(0, 0%, 100%, 0.98);
+	stroke: hsl(0, 0%, 60%);
+	stroke-width: 1.5px;
 }
 
 .groupNode {
-  fill: hsla(0, 0%, 100%, 0.2);
-  stroke: hsla(0, 0%, 0%, 0.4);
-  /* stroke-width: 0.5px; */
+	fill: hsla(0, 0%, 100%, 0.2);
+	stroke: hsla(0, 0%, 0%, 0.4);
+	/* stroke-width: 0.5px; */
 }
 
 .serverNode {
-  stroke: dimgray;
-  stroke-width: 3px;
+	stroke: dimgray;
+	stroke-width: 3px;
 }
 
 .groupGraph .parentLinkNode {
-  /* fill: hsl(0, 0%, 40%); */
-  fill: none;
-  stroke: none;
+	/* fill: hsl(0, 0%, 40%); */
+	fill: none;
+	stroke: none;
 }
 
 .groupGraph line {
-  stroke: hsl(0, 0%, 50%);
-  stroke-width: 1.5px;
+	stroke: hsl(0, 0%, 50%);
+	stroke-width: 1.5px;
 }
 
 .subGraph {
-  fill: hsl(0, 0%, 30%);
-  stroke: hsla(0, 0%, 95%);
+	fill: hsl(0, 0%, 30%);
+	stroke: hsla(0, 0%, 95%);
 }
 
 .subGraph .parentLinkNode {
-  display: none;
+	display: none;
 }
 
 /* .subGraph line {} */
@@ -153,56 +153,57 @@ text {
 /* PREVIEWED */
 
 circle.previewed {
-  fill: black;
-  stroke: white;
+	fill: black;
+	stroke: white;
 }
 .superNode.previewed {
-  fill: white;
-  stroke: black;
-  stroke-width: 2;
+	fill: white;
+	stroke: black;
+	stroke-width: 2;
 }
 line.previewed {
-  stroke: black;
-  stroke-width: 2.5px;
+	stroke: black;
+	stroke-width: 2.5px;
 }
 
 /* SELECTED */
 
 circle.selected {
-  fill: blue;
-  stroke: white;
+	fill: blue;
+	stroke: white;
 }
 .superNode.selected {
-  fill: rgb(200, 200, 255);
-  stroke: blue;
-  stroke-width: 2;
+	fill: rgb(200, 200, 255);
+	stroke: blue;
+	stroke-width: 2;
 }
 line.selected {
-  stroke: blue;
-  stroke-width: 2.5px;
+	stroke: blue;
+	stroke-width: 2.5px;
 }
 
 /* PREVIEWED & SELECTED */
 
 circle.previewed.selected {
-  fill: darkblue;
-  stroke: white;
+	fill: darkblue;
+	stroke: white;
 }
 .superNode.previewed.selected {
-  fill: rgb(157, 157, 255);
-  stroke: darkblue;
-  /* stroke-width: 2; */
+	fill: rgb(157, 157, 255);
+	stroke: darkblue;
+	/* stroke-width: 2; */
 }
 line.previewed.selected {
-  stroke: darkblue;
-  /* stroke-width: 2.5px; */
+	stroke: darkblue;
+	/* stroke-width: 2.5px; */
 }
 /* TIME */
 
 .future {
-  opacity: 0.2;
+	opacity: 0.2;
 }
 .past {
-  opacity: 0.6;
+	opacity: 0.6;
 }
-.present {}
+.present {
+}
