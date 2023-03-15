@@ -123,29 +123,7 @@ Cypress.Commands.add('favoriteComment', (index) => {
 	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).click({ force: true });
 });
 
-//ADD NEW COMMENT WITH IF-ELSE LOGIC
-// Cypress.Commands.add('addNewComment', (index, comment, tag) => {
-//   cy.get('[cy-test=add-comment]')
-//     .eq(index)
-//     .then(($add) => {
-//       if ($add.is(':visible')) {
-//         cy.log('NOT NEW COMMENT ');
-//         cy.wrap($add).click();
-//         cy.wait('@tags');
-//         cy.get('[cy-test=add-new-comment]').click();
-//         cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
-//         cy.addTags(tag);
-//         cy.get('[cy-test=save-comment]').click();
-//         cy.wait('@addCommandGroupAnnotation');
-//       } else {
-//         cy.log('NEW COMMENT ');
-//         cy.addComment(0, comment);
-//         cy.addTags(tag);
-//         cy.get('[cy-test=save-comment]').click();
-//         cy.wait('@addCommandGroupAnnotation');
-//       }
-//     });
-// });
+//ADD NEW COMMENT
 Cypress.Commands.add('addNewComment', (index, comment, tag) => {
 	cy.get('[cy-test=command-info]')
 		.eq(index)
@@ -216,25 +194,6 @@ Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
 	cy.get('[cy-test=save-comment]').click();
 	cy.wait('@updateAnnotation');
 });
-
-// // Delete files from the Downloads folder
-// Cypress.Commands.add('deleteDownloadsFolderContent', () => {
-// 	cy.task('readdir', { dirPath: 'cypress/downloads' }).then((arr) => {
-// 		if (arr.length > 0) {
-// 			cy.log('Found ' + arr.length + ' file(s) in ' + 'cypress/downloads' + ':' + '\n' + arr);
-// 			cy.task('deleteDownloads', { dirPath: 'cypress/downloads' });
-// 			cy.task('readdir', { dirPath: 'cypress/downloads' }).then((newArr) => {
-// 				if (newArr.length == 0) {
-// 					cy.log('Cleared contents of ' + 'cypress/downloads');
-// 				} else {
-// 					throw new Error('Did not clear all files from ' + 'cypress/downloads');
-// 				}
-// 			});
-// 		} else {
-// 			cy.log('No files were found to delete in ' + 'cypress/downloads');
-// 		}
-// 	});
-// });
 
 // Reply to a comment (only adds text, no tags)
 Cypress.Commands.add('replyToComment', (index, cmt) => {

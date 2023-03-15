@@ -82,7 +82,7 @@ jobs:
 
       - run: yarn install  --immutable --inline-builds
       - name: Red Team Tests - Chrome v${{ matrix.node }}
-        uses: cypress-io/github-action@v5.2.0
+        uses: cypress-io/github-action@v5.3.1
         with:
           tag: node-${{ matrix.node }}
           start: yarn start:dev
@@ -130,7 +130,7 @@ jobs:
           git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
-        uses: cypress-io/github-action@v5.2.0
+        uses: cypress-io/github-action@v5.3.1
         with:
           tag: node-${{ matrix.node }}
           start: yarn start:blue
