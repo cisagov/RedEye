@@ -5983,9 +5983,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^12.7.0":
-  version: 12.7.0
-  resolution: "cypress@npm:12.7.0"
+"cypress@npm:^12.8.1":
+  version: 12.8.1
+  resolution: "cypress@npm:12.8.1"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -6031,7 +6031,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: a9489f7f254dcee1b8a374d14d175c8f8681a3388e4c02181e0486f064f4de59bfc79dec1f401605332d3a5869bf2ba06b3a1653a5c287e447810d756d470078
+  checksum: a229f2b3ff20b1b533f6d4670303596aef596a394db77ea8eafe2fa8f175b79b9d48ba66262513fa806076be5c857e159539f6d8fd9acf4df9936a2fa649bf1e
   languageName: node
   linkType: hard
 
@@ -12219,26 +12219,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.30.0":
-  version: 1.30.0
-  resolution: "playwright-core@npm:1.30.0"
-  bin:
-    playwright: cli.js
-  checksum: 4c5693f27245a1168f94708ecd8e1eb0d200de435b25cc07cfa25b97a094633818954dc00baf24e0ff551825f672050b83d1309362c1f97213fe8ebd2a147ed9
-  languageName: node
-  linkType: hard
-
-"playwright-webkit@npm:^1.25.2":
-  version: 1.30.0
-  resolution: "playwright-webkit@npm:1.30.0"
-  dependencies:
-    playwright-core: 1.30.0
-  bin:
-    playwright: cli.js
-  checksum: 530934271732683a0978b2b28f571710fd6c2c358c187d5720f72e96847da37172768c43dae98fa94a56bd995e0496a871a2266fffcdab2f88efd51b9c8a0c04
-  languageName: node
-  linkType: hard
-
 "please-upgrade-node@npm:^3.2.0":
   version: 3.2.0
   resolution: "please-upgrade-node@npm:3.2.0"
@@ -13050,7 +13030,7 @@ __metadata:
     cors: ^2.8.5
     cross-env: ^7.0.3
     crypto-js: ^4.0.0
-    cypress: ^12.7.0
+    cypress: ^12.8.1
     cypress-multi-reporters: ^1.6.1
     d3: ^6.7.0
     dayjs: ^1.11.7
@@ -13108,7 +13088,6 @@ __metadata:
     path-to-regexp: ^6.2.0
     pkg: ^5.8.0
     pkg-fetch: ^3.4.2
-    playwright-webkit: ^1.25.2
     prettier: ^2.2.1
     react: ^18.2.0
     react-dom: ^18.2.0
