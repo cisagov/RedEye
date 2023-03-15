@@ -1,7 +1,6 @@
 import type { TabId } from '@blueprintjs/core';
-import { Button, Classes, Intent, Tab, Menu, MenuItem, Position } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
-import { Edit16, Launch16, View16, ViewOff16 } from '@carbon/icons-react';
+import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
+import { Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
@@ -14,6 +13,7 @@ import type { ComponentProps } from 'react';
 import { useCallback, useEffect } from 'react';
 import { AddToCommandGroupDialog, ControlBar, NavBreadcrumbs } from './components';
 import { InfoPanelTabs, TabNames, useToggleHidden } from './Panels';
+import { BulkEdit } from './Panels/BulkEdit';
 
 enum Filters {
 	ALL = 'all',
@@ -245,97 +245,16 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 									)}
 
 								{store.router?.params.tab === Tabs.HOSTS && store.campaign?.hostGroupSelect.groupSelect && (
-									<div css={modeBarStyle}>
-										<Txt>
-											{state.hostCount} Host{state.hostCount === 1 ? '' : 's'} Selected
-										</Txt>
-										<Popover2
-											position={Position.RIGHT}
-											openOnTargetFocus={false}
-											interactionKind="hover"
-											hoverOpenDelay={300}
-											disabled={state.hostCount === 0}
-											content={
-												<Menu>
-													{store.settings.showHidden && (
-														<MenuItem
-															text="Show Host"
-															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
-															onClick={(e) => {
-																e.stopPropagation();
-																bulkShowHost.mutate();
-															}}
-														/>
-													)}
-													<MenuItem
-														text="Hide Host"
-														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
-														onClick={(e) => {
-															e.stopPropagation();
-															bulkHideHost.mutate();
-														}}
-													/>
-												</Menu>
-											}
-										>
-											<Button
-												disabled={state.hostCount === 0}
-												rightIcon={<CarbonIcon icon={Edit16} />}
-												intent={Intent.PRIMARY}
-												text="Bulk Edit"
-												css={css`
-													padding: 0 1rem;
-												`}
-											/>
-										</Popover2>
-									</div>
+									<BulkEdit modal="Host" count={state.hostCount} bulkShow={bulkShowHost} bulkHide={bulkHideHost} />
 								)}
 
 								{store.router?.params.tab === Tabs.BEACONS && store.campaign?.beaconGroupSelect.groupSelect && (
-									<div css={modeBarStyle}>
-										<Txt>
-											{state.beaconCount} Beacon{state.beaconCount === 1 ? '' : 's'} Selected
-										</Txt>
-										<Popover2
-											position={Position.RIGHT}
-											openOnTargetFocus={false}
-											interactionKind="hover"
-											hoverOpenDelay={300}
-											disabled={state.beaconCount === 0}
-											content={
-												<Menu>
-													{store.settings.showHidden && (
-														<MenuItem
-															text="Show Beacon"
-															icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
-															onClick={(e) => {
-																e.stopPropagation();
-																bulkShowBeacon.mutate();
-															}}
-														/>
-													)}
-													<MenuItem
-														text="Hide Beacon"
-														icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
-														onClick={(e) => {
-															e.stopPropagation();
-															bulkHideBeacon.mutate();
-														}}
-													/>
-												</Menu>
-											}
-										>
-											<Button
-												disabled={state.beaconCount === 0}
-												rightIcon={<CarbonIcon icon={Edit16} />}
-												intent={Intent.PRIMARY}
-												text="Bulk Edit"
-												css={css`
-													padding: 0 1rem;
-												`}
-											/>
-										</Popover2>
-									</div>
+									<BulkEdit
+										modal="Beacon"
+										count={state.beaconCount}
+										bulkShow={bulkShowBeacon}
+										bulkHide={bulkHideBeacon}
+									/>
 								)}
 
 								<ScrollBox cy-test="info" css={{ backgroundColor: CoreTokens.Background2 }}>
@@ -370,11 +289,6 @@ const headerStyles = css`
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-`;
-
-const iconStyle = (show?: boolean) => css`
-	margin: 0;
-	color: ${show ? CoreTokens.TextBody : CoreTokens.TextDisabled} !important;
 `;
 
 // eslint-disable-next-line import/no-default-export
