@@ -63,8 +63,8 @@ export class HostResolvers {
 		} else if (hostIds) {
 			const hosts = await em.find(Host, hostIds);
 			for (const host of hosts) {
-				if (host.hidden !== setHidden) {
-					host.hidden = !host.hidden;
+				if (setHidden !== undefined) {
+					host.hidden = setHidden;
 					await host.beacons.loadItems();
 					for (const beacon of host.beacons) {
 						await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });

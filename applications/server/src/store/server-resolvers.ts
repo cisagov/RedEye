@@ -75,8 +75,8 @@ export class ServerResolvers {
 		} else if (serverIds) {
 			const servers = await em.find(Server, serverIds);
 			for (const server of servers) {
-				if (server.hidden !== setHidden) {
-					server.hidden = !server.hidden;
+				if (setHidden !== undefined) {
+					server.hidden = setHidden;
 					await server.beacons.init();
 					for (const beacon of server.beacons) {
 						await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });

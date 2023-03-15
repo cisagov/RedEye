@@ -68,8 +68,8 @@ export class BeaconResolvers {
 		} else if (beaconIds) {
 			const beacons = await em.find(Beacon, beaconIds, { populate: relationPaths });
 			for (const beacon of beacons) {
-				if (beacon.hidden !== setHidden) {
-					beacon.hidden = !beacon.hidden;
+				if (beacon.hidden !== setHidden && setHidden !== undefined) {
+					beacon.hidden = setHidden;
 					await em.persistAndFlush(beacon);
 					await ensureTreeHidden(em, beacon.id, beacon.hidden, []);
 				}
