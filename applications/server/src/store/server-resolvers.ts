@@ -74,7 +74,7 @@ export class ServerResolvers {
 			return [server];
 		} else if (serverIds) {
 			const servers = await em.find(Server, serverIds);
-			servers.map(async (server) => {
+			for (const server of servers) {
 				if (server.hidden !== setHidden) {
 					server.hidden = !server.hidden;
 					await server.beacons.init();
@@ -84,7 +84,7 @@ export class ServerResolvers {
 					}
 					await em.persistAndFlush(server);
 				}
-			});
+			}
 			ctx.cm.forkProject(campaignId);
 			return servers;
 		}

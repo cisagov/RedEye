@@ -62,7 +62,7 @@ export class HostResolvers {
 			return [host];
 		} else if (hostIds) {
 			const hosts = await em.find(Host, hostIds);
-			hosts.map(async (host) => {
+			for (const host of hosts) {
 				if (host.hidden !== setHidden) {
 					host.hidden = !host.hidden;
 					await host.beacons.loadItems();
@@ -72,7 +72,7 @@ export class HostResolvers {
 					}
 					await em.persistAndFlush(host);
 				}
-			});
+			}
 			ctx.cm.forkProject(campaignId);
 			return hosts;
 		}
