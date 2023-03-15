@@ -1,12 +1,12 @@
 import type { TabId } from '@blueprintjs/core';
-import { Button, Classes, Intent, Tab } from '@blueprintjs/core';
+import { Button, Classes, Tab } from '@blueprintjs/core';
 import { Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/components';
+import { CarbonIcon, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { TabsStyled, Txt, CoreTokens, ThemeClasses } from '@redeye/ui-styles';
+import { TabsStyled, CoreTokens } from '@redeye/ui-styles';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -14,6 +14,7 @@ import { useCallback, useEffect } from 'react';
 import { AddToCommandGroupDialog, ControlBar, NavBreadcrumbs } from './components';
 import { InfoPanelTabs, TabNames, useToggleHidden } from './Panels';
 import { BulkEdit } from './Panels/BulkEdit';
+import { MultiCommandComment } from './Panels/MultiCommandComment';
 
 enum Filters {
 	ALL = 'all',
@@ -211,38 +212,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 								/>
 								{store.router?.params.tab === Tabs.COMMANDS &&
 									state.infoPanelType !== InfoType.OVERVIEW &&
-									store.campaign?.commentStore.groupSelect && (
-										<div css={modeBarStyle}>
-											<Txt>
-												{state.commandCount} Command{state.commandCount === 1 ? '' : 's'} Selected
-											</Txt>
-											<Button
-												cy-test="comment-on-commands"
-												disabled={state.commandCount === 0}
-												onClick={() => {
-													const keys = Array.from(store.campaign?.commentStore.selectedCommands.keys());
-													let foundElement = false;
-													for (const key of keys) {
-														const element = window.document.querySelector(`[data-command-id="${key}"]`);
-														if (element) {
-															foundElement = true;
-															store.campaign?.commentStore.setCommentsOpen(key);
-														}
-													}
-													if (!foundElement) {
-														store.campaign?.commentStore.setCommentsOpen(keys[0]);
-													}
-													store.campaign?.commentStore.setNewGroupComment(true);
-												}}
-												rightIcon={<CarbonIcon icon={customIconPaths.multiComment16} />}
-												intent={Intent.PRIMARY}
-												text="Comment on commands"
-												css={css`
-													padding: 0 1rem;
-												`}
-											/>
-										</div>
-									)}
+									store.campaign?.commentStore.groupSelect && <MultiCommandComment commandCount={state.commandCount} />}
 
 								{store.router?.params.tab === Tabs.HOSTS && store.campaign?.hostGroupSelect.groupSelect && (
 									<BulkEdit modal="Host" count={state.hostCount} bulkShow={bulkShowHost} bulkHide={bulkHideHost} />
@@ -269,20 +239,6 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		</div>
 	);
 });
-
-const modeBarStyle = css`
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-	align-items: center;
-	padding-left: 1rem;
-
-	color: ${CoreTokens.OnIntent};
-	background: ${CoreTokens.Intent.Primary4};
-	.${ThemeClasses.DARK} & {
-		background: ${CoreTokens.Intent.Primary1};
-	}
-`;
 
 const headerStyles = css`
 	padding: 0.5rem 1rem 0.75rem;
