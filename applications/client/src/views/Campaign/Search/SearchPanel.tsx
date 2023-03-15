@@ -30,7 +30,7 @@ const filterOptions = Object.keys(SearchFilterOptions).reduce(
 
 const filterOptionsBP = Object.values(filterOptions);
 
-export const SearchModal = observer<HTMLProps<HTMLDivElement>>(({ ...props }) => {
+export const SearchPanel = observer<HTMLProps<HTMLDivElement>>(({ ...props }) => {
 	const store = useStore();
 	const [searchHeight, setSearchHeight] = useState<number>(0);
 	const resultContainer = useRef<HTMLDivElement>(null);

@@ -2,7 +2,7 @@ import type { DialogProps } from '@blueprintjs/core';
 import { Button, ButtonGroup, Divider, NonIdealState, Spinner } from '@blueprintjs/core';
 import { Copy16, UpToTop16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogCustom } from '@redeye/client/components';
+import { CarbonIcon, DialogEx } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel, LogEntryModel } from '@redeye/client/store';
 import { selectFromLogEntry, useStore } from '@redeye/client/store';
@@ -81,8 +81,9 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 	if (!state.command && !state.beacon) return null;
 
 	return (
-		<DialogCustom
+		<DialogEx
 			{...props}
+			wide
 			isOpen={state.isOpen}
 			onClose={state.onClose}
 			css={logModelStyles}
@@ -149,15 +150,12 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 						})}
 				</div>
 			</div>
-		</DialogCustom>
+		</DialogEx>
 	);
 });
 
 const logModelStyles = css`
-	max-width: 95vw;
-	min-width: 40vw;
-	width: unset;
-	padding: 0;
+	max-width: unset;
 `;
 const preStyles = css`
 	padding: 0.5rem 1rem;

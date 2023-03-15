@@ -50,10 +50,6 @@ export const globalStyle = css`
 	${extensionStyles}// button ellipsis
 `;
 
-export const FlexSplitter = styled.div`
-	flex: 1 1 auto;
-`;
-
 export const TabsStyled = styled(Tabs)`
 	overflow: hidden; // ???
 	display: flex;

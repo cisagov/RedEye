@@ -17,7 +17,6 @@ projects:
   - 'applications/*'
   - 'packages/*'
 
-
 # Configures the version control system to utilize within the workspace. A VCS
 # is required for determining touched (added, modified, etc) files, calculating file hashes,
 # computing affected files, and much more.

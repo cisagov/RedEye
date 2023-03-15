@@ -1,8 +1,8 @@
-import { Alert, Button, ButtonGroup, Card, Classes, Intent, Menu, MenuItem, ProgressBar } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
+import { Button, ButtonGroup, Card, Classes, Intent, Menu, ProgressBar } from '@blueprintjs/core';
+import { MenuItem2, Popover2 } from '@blueprintjs/popover2';
 import { ArrowRight16, Edit16, Export16, OverflowMenuHorizontal16, TrashCan16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, dateFormat, HoverButton } from '@redeye/client/components';
+import { AlertEx, CarbonIcon, dateFormat, HoverButton } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CampaignModel } from '@redeye/client/store';
 import { ParsingStatus, useStore } from '@redeye/client/store';
@@ -196,13 +196,13 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 								`}
 								content={
 									<Menu>
-										<MenuItem
+										<MenuItem2
 											cy-test="delete-campaign"
 											text="Delete"
 											icon={<CarbonIcon icon={TrashCan16} />}
 											onClick={() => state.update('isDeletePromptOpen', true)}
 										/>
-										<MenuItem
+										<MenuItem2
 											cy-test="rename-campaign"
 											text="Rename"
 											disabled={campaign.isParsing}
@@ -210,7 +210,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 											onClick={() => state.update('isRenameOpen', true)}
 											// disabled
 										/>
-										<MenuItem
+										<MenuItem2
 											cy-test="export-campaign"
 											text="Export"
 											disabled={campaign.isParsing}
@@ -263,7 +263,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 					</div>
 				)}
 			</Card>
-			<Alert
+			<AlertEx
 				isOpen={state.isDeletePromptOpen}
 				onClose={() => state.update('isDeletePromptOpen', false)}
 				onConfirm={state.deleteCampaign}
@@ -274,7 +274,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 				canEscapeKeyCancel
 			>
 				Are you sure you want to delete this campaign?
-			</Alert>
+			</AlertEx>
 			{state.isRenameOpen && <RenameDialog onClose={() => state.update('isRenameOpen', false)} campaign={campaign} />}
 			<AnonymizeDialog
 				isOpen={state.isExportOpen}

@@ -2,12 +2,12 @@ import type { DialogProps } from '@blueprintjs/core';
 import { Button, InputGroup, NonIdealState } from '@blueprintjs/core';
 import { Error16, Search16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogCustom, escapeRegExpChars, ScrollBox, VirtualizedList } from '@redeye/client/components';
+import { CarbonIcon, DialogEx, escapeRegExpChars, ScrollBox, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandGroupModel } from '@redeye/client/store';
 import { commandGroupQuery, useStore } from '@redeye/client/store';
 import { CommentBox, MessageRow } from '@redeye/client/views';
-import { Header, CoreTokens } from '@redeye/ui-styles';
+import { Header, CoreTokens, Flex } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
@@ -65,39 +65,28 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 	);
 
 	return (
-		<DialogCustom
-			css={{ padding: 0 }}
+		<DialogEx
 			fixedHeight
-			{...props}
+			wide
 			isOpen={isOpen}
 			onClose={onClose}
 			transitionDuration={0}
+			headerProps={{ css: { padding: 16 } }}
 			title={
-				<div
-					css={css`
-						display: flex;
-						justify-content: space-between;
-					`}
-				>
-					<Header
-						medium
-						css={css`
-							margin: 1rem;
-						`}
-					>
-						Add Command to Existing Comment
-					</Header>
-				</div>
+				<Flex column align="stretch" gap={12} css={{ width: '100%' }}>
+					<Header>Add Command to Existing Comment</Header>
+					<InputGroup
+						cy-test="search-comments"
+						value={state.searchVal}
+						onChange={state.handleOnChange}
+						leftIcon={<CarbonIcon icon={Search16} />}
+						placeholder="Search comments"
+						large
+					/>
+				</Flex>
 			}
+			{...props}
 		>
-			<InputGroup
-				cy-test="search-comments"
-				value={state.searchVal}
-				onChange={state.handleOnChange}
-				leftIcon={<CarbonIcon icon={Search16} />}
-				placeholder="Search comments"
-				large
-			/>
 			<ScrollBox>
 				{isSuccess && (
 					<VirtualizedList defaultItemHeight={160}>
@@ -126,7 +115,7 @@ export const AddToCommandGroupDialog = observer<AddToCommandGroupDialogProps>(({
 				{/* {isLoading && <LoadingOverlay />} */}
 				{isError && <NonIdealState title="Unable to fetch Comments" icon={<CarbonIcon icon={Error16} />} />}
 			</ScrollBox>
-			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" />
-		</DialogCustom>
+			<Button cy-test="done-button" text="Done" onClick={onClose} intent="primary" large />
+		</DialogEx>
 	);
 });

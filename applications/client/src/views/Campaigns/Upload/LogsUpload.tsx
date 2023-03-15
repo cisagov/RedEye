@@ -25,6 +25,8 @@ import {
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, HoverButton, ScrollBox, ScrollChild } from '@redeye/client/components';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { Servers } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -211,203 +213,217 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 	};
 
 	return (
-		<form
-			onSubmit={state.submitData}
-			css={css`
-				padding: 1.5rem;
-				padding-bottom: 0;
-				& > * {
-					margin: 0 0 1.5rem 0;
-				}
-			`}
-			{...props}
-		>
-			<FormGroup label="Campaign Name">
-				<InputGroup
-					cy-test="new-camp-name"
-					placeholder="..."
-					intent={state.nameTaken ? Intent.DANGER : Intent.NONE}
-					value={state.campaignName}
-					onChange={state.setCampaignName}
-					large
-					autoFocus
-				/>
-			</FormGroup>
-			<RadioGroup
-				label="Upload Mode"
-				selectedValue={state.multiServerUpload ? UploadMode.Multi : UploadMode.Single}
-				onChange={state.onMultiServerUploadChange}
-				inline
-				css={css`
-					display: flex;
-					gap: 1.5rem;
-					label,
-					.${Classes.INLINE} {
-						margin: 0;
-					}
-				`}
-			>
-				<Radio cy-test="multi-server-upload" label="Multi Server" value={UploadMode.Multi} />
-				<Radio cy-test="single-server-upload" label="Single Server" value={UploadMode.Single} />
-			</RadioGroup>
-			<Divider />
-			<FormGroup
-				label={
-					<Txt tagName="div" large>
-						{state.multiServerUpload ? (
-							<span>
-								Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
-								<Txt bold>Server Folders</Txt>.<br />
-								Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>)
-								folders.
-							</span>
-						) : (
-							<span>
-								Select a single CobaltStrike <Txt bold>Server Folder</Txt> containing beacon logs in dated (
-								<Txt bold>YYMMDD</Txt>) folders.
-							</span>
-						)}
-					</Txt>
-				}
-			>
-				<FileInput
-					cy-test="upload-folder"
-					// not a huge fan of this blueprint file input
-					// TODO: there is no focus state? fix in blueprint-styler
-					aria-errormessage={state.uploadError}
-					aria-invalid={!!state.uploadError}
-					onInputChange={state.onFileInputChange}
-					inputProps={inputProps as any}
-					text={`${state.files.length} files selected`}
-					large
-					fill
-				/>
-				<Button
-					minimal
-					small
-					intent={Intent.PRIMARY}
-					text="Show an example"
-					icon={<CarbonIcon icon={state.showExample ? ChevronDown16 : ChevronRight16} />}
-					onClick={() => state.update('showExample', !state.showExample)}
-					css={css`
-						margin: 2px -0.5rem;
-					`}
-				/>
-				<Collapse isOpen={state.showExample}>
-					<Txt
-						monospace
-						muted
-						tagName="pre"
-						css={css`
-							margin: 0 0.5rem;
-						`}
-						children={state.multiServerUpload ? MultiServerFilesExample : SingleServerFilesExample}
+		<form onSubmit={state.submitData} {...props}>
+			<DialogBodyEx css={dialogBodyStyle}>
+				<FormGroup label="Campaign Name">
+					<InputGroup
+						cy-test="new-camp-name"
+						placeholder="..."
+						intent={state.nameTaken ? Intent.DANGER : Intent.NONE}
+						value={state.campaignName}
+						onChange={state.setCampaignName}
+						large
+						autoFocus
 					/>
-				</Collapse>
-			</FormGroup>
-			<FormGroup
-				label={`Server Folder${state.multiServerUpload ? 's' : ''}`}
-				helperText={state.servers.length > 0 && 'Folders can be renamed before upload'}
-			>
-				{state.servers.length === 0 && !state.uploadError && (
-					<Txt disabled italic>
-						No folders selected
-					</Txt>
-				)}
-				{!!state.uploadError && (
-					<Callout intent={Intent.DANGER} icon={<CarbonIcon icon={Warning20} />} children={state.uploadError} />
-				)}
-				{state.servers.map((server: Servers, i) => (
-					<ControlGroup
-						/* eslint-disable-next-line react/no-array-index-key */
-						key={i}
-						css={css`
-							margin: 0.25rem 0;
-						`}
-						fill
-					>
-						<InputGroup
-							placeholder="server.name"
-							value={server.name}
-							onChange={(e) => (server.name = e.target.value)}
-							intent={state.servers.some((s, x) => x !== i && s.name === server.name) ? Intent.DANGER : Intent.NONE}
-							leftIcon={<CarbonIcon icon={Folder16} />}
-							rightElement={<Txt muted>{server.fileCount} log files</Txt>}
-							css={css`
-								.${Classes.INPUT_ACTION} {
-									display: flex;
-									height: 100%;
-									padding: 0 1rem;
-									align-items: center;
-								}
-							`}
-							large
-							fill
-						/>
-						<HoverButton
-							onClick={() => state.servers.remove(server)}
-							icon={<CarbonIcon icon={TrashCan16} />}
-							disabled={state.servers.length <= 1}
-							large
-							hoverProps={state.servers.length <= 1 ? undefined : { intent: 'danger' }}
-						/>
-					</ControlGroup>
-				))}
-				{!!state.invalidFiles.length && (
-					<Popover2
-						position={Position.TOP_LEFT}
-						openOnTargetFocus={false}
-						interactionKind="hover"
-						hoverOpenDelay={300}
-						minimal
-						fill
-						content={
-							<ScrollBox
-								css={css`
-									max-height: 40rem;
-									max-width: 40rem;
-								`}
-							>
-								<ScrollChild>
-									<Txt
-										tagName="pre"
-										css={css`
-											padding: 1rem;
-											overflow-x: scroll;
-											margin: 0;
-										`}
-									>
-										{state.invalidFiles.map((file) => (
-											<span key={file.webkitRelativePath}>
-												{file.webkitRelativePath}
-												{'\n'}
-											</span>
-										))}
-									</Txt>
-								</ScrollChild>
-							</ScrollBox>
+				</FormGroup>
+
+				<RadioGroup
+					label="Upload Mode"
+					selectedValue={state.multiServerUpload ? UploadMode.Multi : UploadMode.Single}
+					onChange={state.onMultiServerUploadChange}
+					inline
+					css={css`
+						display: flex;
+						gap: 1.5rem;
+						label,
+						.${Classes.INLINE} {
+							margin: 0;
 						}
-					>
-						<Callout
-							intent={Intent.WARNING}
-							icon={<CarbonIcon icon={FolderOff16} />}
-							children={`${state.invalidFiles.length} File${state.invalidFiles.length > 1 ? 's' : ''} Removed`}
+					`}
+				>
+					<Radio cy-test="multi-server-upload" label="Multi Server" value={UploadMode.Multi} />
+					<Radio cy-test="single-server-upload" label="Single Server" value={UploadMode.Single} />
+				</RadioGroup>
+
+				<Divider />
+
+				<FormGroup
+					label={
+						<Txt tagName="div" large>
+							{state.multiServerUpload ? (
+								<span>
+									Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
+									<Txt bold>Server Folders</Txt>.<br />
+									Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>)
+									folders.
+								</span>
+							) : (
+								<span>
+									Select a single CobaltStrike <Txt bold>Server Folder</Txt> containing beacon logs in dated (
+									<Txt bold>YYMMDD</Txt>) folders.
+								</span>
+							)}
+						</Txt>
+					}
+				>
+					<FileInput
+						cy-test="upload-folder"
+						// not a huge fan of this blueprint file input
+						// TODO: there is no focus state? fix in blueprint-styler
+						aria-errormessage={state.uploadError}
+						aria-invalid={!!state.uploadError}
+						onInputChange={state.onFileInputChange}
+						inputProps={inputProps as any}
+						text={`${state.files.length} files selected`}
+						large
+						fill
+					/>
+					<Button
+						minimal
+						small
+						intent={Intent.PRIMARY}
+						text="Show an example"
+						icon={<CarbonIcon icon={state.showExample ? ChevronDown16 : ChevronRight16} />}
+						onClick={() => state.update('showExample', !state.showExample)}
+						css={css`
+							margin: 2px -0.5rem;
+						`}
+					/>
+					<Collapse isOpen={state.showExample}>
+						<Txt
+							monospace
+							muted
+							tagName="pre"
+							css={css`
+								margin: 0 0.5rem;
+							`}
+							children={state.multiServerUpload ? MultiServerFilesExample : SingleServerFilesExample}
 						/>
-					</Popover2>
-				)}
-			</FormGroup>
-			<Button
-				loading={state.loading || state.uploading}
-				type="submit"
-				disabled={state.uploading || !state.servers.length || !state.campaignName || state.nameTaken}
-				text="Import Logs"
-				intent={Intent.PRIMARY}
-				rightIcon={<CarbonIcon icon={Download16} />}
-				large
+					</Collapse>
+				</FormGroup>
+
+				<FormGroup
+					label={`Server Folder${state.multiServerUpload ? 's' : ''}`}
+					helperText={state.servers.length > 0 && 'Folders can be renamed before upload'}
+				>
+					{state.servers.length === 0 && !state.uploadError && (
+						<Txt disabled italic>
+							No folders selected
+						</Txt>
+					)}
+					{!!state.uploadError && (
+						<Callout intent={Intent.DANGER} icon={<CarbonIcon icon={Warning20} />} children={state.uploadError} />
+					)}
+					{state.servers.map((server: Servers, i) => (
+						<ControlGroup
+							/* eslint-disable-next-line react/no-array-index-key */
+							key={i}
+							css={css`
+								margin: 0.25rem 0;
+							`}
+							fill
+						>
+							<InputGroup
+								placeholder="server.name"
+								value={server.name}
+								onChange={(e) => (server.name = e.target.value)}
+								intent={state.servers.some((s, x) => x !== i && s.name === server.name) ? Intent.DANGER : Intent.NONE}
+								leftIcon={<CarbonIcon icon={Folder16} />}
+								rightElement={<Txt muted>{server.fileCount} log files</Txt>}
+								css={css`
+									.${Classes.INPUT_ACTION} {
+										display: flex;
+										height: 100%;
+										padding: 0 1rem;
+										align-items: center;
+									}
+								`}
+								large
+								fill
+							/>
+							<HoverButton
+								onClick={() => state.servers.remove(server)}
+								icon={<CarbonIcon icon={TrashCan16} />}
+								disabled={state.servers.length <= 1}
+								large
+								hoverProps={state.servers.length <= 1 ? undefined : { intent: 'danger' }}
+							/>
+						</ControlGroup>
+					))}
+					{!!state.invalidFiles.length && (
+						<Popover2
+							position={Position.TOP_LEFT}
+							openOnTargetFocus={false}
+							interactionKind="hover"
+							hoverOpenDelay={300}
+							minimal
+							fill
+							content={
+								<ScrollBox
+									css={css`
+										max-height: 40rem;
+										max-width: 40rem;
+									`}
+								>
+									<ScrollChild>
+										<Txt
+											tagName="pre"
+											css={css`
+												padding: 1rem;
+												overflow-x: scroll;
+												margin: 0;
+											`}
+										>
+											{state.invalidFiles.map((file) => (
+												<span key={file.webkitRelativePath}>
+													{file.webkitRelativePath}
+													{'\n'}
+												</span>
+											))}
+										</Txt>
+									</ScrollChild>
+								</ScrollBox>
+							}
+						>
+							<Callout
+								intent={Intent.WARNING}
+								icon={<CarbonIcon icon={FolderOff16} />}
+								children={`${state.invalidFiles.length} File${state.invalidFiles.length > 1 ? 's' : ''} Removed`}
+							/>
+						</Popover2>
+					)}
+				</FormGroup>
+			</DialogBodyEx>
+
+			<DialogFooterEx
+				actions={
+					<>
+						<Button text="Cancel" onClick={props.onClose} />
+						<Button
+							loading={state.loading || state.uploading}
+							type="submit"
+							disabled={state.uploading || !state.servers.length || !state.campaignName || state.nameTaken}
+							text="Import Logs"
+							intent={Intent.PRIMARY}
+							rightIcon={<CarbonIcon icon={Download16} />}
+							large
+						/>
+					</>
+				}
 			/>
 		</form>
 	);
 });
+
+const dialogBodyStyle = css`
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	& > * {
+		margin: 0;
+	}
+`;
 
 enum UploadMode {
 	Multi = 'multi',

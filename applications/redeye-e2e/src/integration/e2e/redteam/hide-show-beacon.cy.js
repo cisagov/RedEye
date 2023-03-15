@@ -112,19 +112,21 @@ describe('Hide a beacon', () => {
 
 		// Get the name of the first beacon
 		cy.clickBeaconsTab();
+
 		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName) => {
 				// Hide the first beacon in the list
-				cy.get('[cy-test=show-hide-hover]').eq(0).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(0).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.get('.bp4-dialog-body').should('be.visible').and('contain.text', 'Hiding this beacon');
 
 				// Confirm that you want to hide the beacon
 				cy.get('[cy-test=confirm-show-hide]').click();
+
 				cy.wait(1000);
 
 				// Verify hidden beacon does not show in the list
@@ -140,14 +142,15 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Set beacon to show again
-				cy.get('[cy-test=show-hide-hover]').eq(0).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(0).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the beacon
 				cy.get('[cy-test=confirm-show-hide]').click();
+
 				cy.wait(1000);
 
 				// Go to settings and toggle switch to not show hidden
@@ -155,6 +158,7 @@ describe('Hide a beacon', () => {
 
 				// Verify host still appears in the list
 				cy.clickBeaconsTab();
+
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 			});
 	});

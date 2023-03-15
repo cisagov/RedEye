@@ -109,11 +109,11 @@ describe('Hide a host', () => {
 			.invoke('text')
 			.then((hostName) => {
 				// Hide the first host (not server) in the list
-				cy.get('[cy-test=show-hide-hover]').eq(1).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(1).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to hide the host
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -131,11 +131,11 @@ describe('Hide a host', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 
 				// Set host to show again
-				cy.get('[cy-test=show-hide-hover]').eq(1).trigger('mouseover');
+				cy.get('[cy-test=quick-meta-button]').eq(1).click();
 				cy.get('[cy-test=show-hide-item]').click();
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the host
 				cy.get('[cy-test=confirm-show-hide]').click();

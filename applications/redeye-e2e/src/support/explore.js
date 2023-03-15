@@ -25,7 +25,7 @@ Cypress.Commands.add('clickSearch', () => {
 });
 
 Cypress.Commands.add('closeSearch', () => {
-	cy.get('[cy-test=close-search]').click();
+	cy.get('[cy-test=close-log]').click();
 });
 
 //CLICK PRESENTATION MODE ON EXPLORER PANEL

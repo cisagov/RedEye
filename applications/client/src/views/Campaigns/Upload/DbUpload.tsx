@@ -3,6 +3,8 @@ import { Button, FileInput, FormGroup, InputGroup, Intent } from '@blueprintjs/c
 import { Download16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
+import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
+import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import type { DirectoryFile, DirectoryFileList } from '@redeye/client/types/directory';
@@ -72,83 +74,93 @@ export const DbUpload = observer<DbUploadProps>(({ ...props }) => {
 	};
 
 	return (
-		<form
-			onSubmit={state.submitData}
-			css={css`
-				padding: 1.5rem;
-				padding-bottom: 0;
-				& > * {
-					margin: 0 0 1.5rem 0;
-				}
-			`}
-			{...props}
-		>
-			<FormGroup label="Campaign Name">
-				<InputGroup
-					cy-test="new-camp-name"
-					intent={state.nameTaken ? Intent.DANGER : Intent.NONE}
-					placeholder="..."
-					value={state.campaignName}
-					onChange={state.setCampaignName}
-					large
-				/>
-			</FormGroup>
-			{store.appMeta.blueTeam && (
-				<div
+		<form onSubmit={state.submitData} {...props}>
+			<DialogBodyEx css={dialogBodyStyle}>
+				<FormGroup label="Campaign Name">
+					<InputGroup
+						cy-test="new-camp-name"
+						intent={state.nameTaken ? Intent.DANGER : Intent.NONE}
+						placeholder="..."
+						value={state.campaignName}
+						onChange={state.setCampaignName}
+						large
+					/>
+				</FormGroup>
+				{store.appMeta.blueTeam && (
+					<div
+						css={css`
+							margin-bottom: 2rem;
+						`}
+					>
+						<Header
+							small
+							css={css`
+								margin-bottom: 0.5rem;
+							`}
+						>
+							Auto Upload from &quot;campaigns&quot; folder
+						</Header>
+						<Txt
+							tagName="p"
+							css={css`
+								margin-bottom: 0.5rem;
+							`}
+						>
+							RedEye will automatically upload all database files (.sqlite or .redeye) from the &quot;campaigns&quot;
+							folder placed next to the app in your filesystem:
+						</Txt>
+						<Txt tagName="pre" muted>
+							{folderStructure}
+						</Txt>
+						<Txt tagName="p">You may also manually select and upload database files by using the input below. </Txt>
+					</div>
+				)}
+				<FormGroup
+					label="Select RedEye Database File"
+					helperText="(.sqlite or .redeye)"
 					css={css`
 						margin-bottom: 2rem;
 					`}
 				>
-					<Header
-						small
-						css={css`
-							margin-bottom: 0.5rem;
-						`}
-					>
-						Auto Upload from &quot;campaigns&quot; folder
-					</Header>
-					<Txt
-						tagName="p"
-						css={css`
-							margin-bottom: 0.5rem;
-						`}
-					>
-						RedEye will automatically upload all database files (.sqlite or .redeye) from the &quot;campaigns&quot;
-						folder placed next to the app in your filesystem:
-					</Txt>
-					<Txt tagName="pre" muted>
-						{folderStructure}
-					</Txt>
-					<Txt tagName="p">You may also manually select and upload database files by using the input below. </Txt>
-				</div>
-			)}
-			<FormGroup
-				label="Select RedEye Database File"
-				helperText="(.sqlite or .redeye)"
-				css={css`
-					margin-bottom: 2rem;
-				`}
-			>
-				<FileInput
-					// not a huge fan of this blueprint file input
-					cy-test="browse-for-file"
-					inputProps={inputProps}
-					text={state.fileData ? state.fileName : 'No file selected'}
-					large
-				/>
-			</FormGroup>
-			<Button
-				cy-test="import-database"
-				type="submit"
-				disabled={!state.fileData || !state.campaignName || state.nameTaken}
-				text="Import Database"
-				intent="primary"
-				rightIcon={<CarbonIcon icon={Download16} />}
-				large
+					<FileInput
+						// not a huge fan of this blueprint file input
+						cy-test="browse-for-file"
+						inputProps={inputProps}
+						text={state.fileData ? state.fileName : 'No file selected'}
+						large
+					/>
+				</FormGroup>
+			</DialogBodyEx>
+
+			<DialogFooterEx
+				actions={
+					<>
+						<Button text="Cancel" onClick={props.onClose} />
+						<Button
+							cy-test="import-database"
+							type="submit"
+							disabled={!state.fileData || !state.campaignName || state.nameTaken}
+							text="Import Database"
+							intent="primary"
+							rightIcon={<CarbonIcon icon={Download16} />}
+							large
+						/>
+					</>
+				}
 			/>
 		</form>
 	);
 });
+
+const dialogBodyStyle = css`
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	& > * {
+		margin: 0;
+	}
+`;
 
 const osAppFileType = 'app'; // | 'exe' | 'whatever linux has'
 // hopefully lint or prettier doesn't decide to destroy this multi-line string

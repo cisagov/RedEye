@@ -102,7 +102,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 							element={
 								<>
 									{data?.presentationItems?.map((presentationItem) => (
-										<PresentationTopicItem presentationItem={presentationItem} />
+										<PresentationTopicItem key={presentationItem.id} presentationItem={presentationItem} />
 									))}
 								</>
 							}
