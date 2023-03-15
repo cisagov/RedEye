@@ -44,7 +44,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		},
 	});
 
-	const [, bulkHideBeacon] = useToggleHidden(
+	const [bulkHideBeaconState, bulkHideBeacon] = useToggleHidden(
 		async () =>
 			await store.graphqlStore.mutateToggleBeaconHidden({
 				campaignId: store.campaign?.id!,
@@ -53,7 +53,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 			})
 	);
 
-	const [, bulkShowBeacon] = useToggleHidden(
+	const [bulkShowBeaconState, bulkShowBeacon] = useToggleHidden(
 		async () =>
 			await store.graphqlStore.mutateToggleBeaconHidden({
 				campaignId: store.campaign?.id!,
@@ -62,7 +62,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 			})
 	);
 
-	const [, bulkHideHost] = useToggleHidden(async () => {
+	const [bulkHideHostState, bulkHideHost] = useToggleHidden(async () => {
 		if (store.campaign?.hostGroupSelect.selectedServers.length) {
 			await store.graphqlStore.mutateToggleServerHidden({
 				campaignId: store.campaign?.id!,
@@ -79,7 +79,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		}
 	});
 
-	const [, bulkShowHost] = useToggleHidden(async () => {
+	const [bulkShowHostState, bulkShowHost] = useToggleHidden(async () => {
 		if (store.campaign?.hostGroupSelect.selectedServers) {
 			await store.graphqlStore.mutateToggleServerHidden({
 				campaignId: store.campaign?.id!,
@@ -215,7 +215,14 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 									store.campaign?.commentStore.groupSelect && <MultiCommandComment commandCount={state.commandCount} />}
 
 								{store.router?.params.tab === Tabs.HOSTS && store.campaign?.hostGroupSelect.groupSelect && (
-									<BulkEdit modal="Host" count={state.hostCount} bulkShow={bulkShowHost} bulkHide={bulkHideHost} />
+									<BulkEdit
+										modal="Host"
+										count={state.hostCount}
+										bulkShow={bulkShowHost}
+										bulkHide={bulkHideHost}
+										bulkShowState={bulkShowHostState}
+										bulkHideState={bulkHideHostState}
+									/>
 								)}
 
 								{store.router?.params.tab === Tabs.BEACONS && store.campaign?.beaconGroupSelect.groupSelect && (
@@ -224,6 +231,8 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 										count={state.beaconCount}
 										bulkShow={bulkShowBeacon}
 										bulkHide={bulkHideBeacon}
+										bulkShowState={bulkShowBeaconState}
+										bulkHideState={bulkHideBeaconState}
 									/>
 								)}
 
