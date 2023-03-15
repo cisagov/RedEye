@@ -42,11 +42,11 @@ export function forceClampToRadius<T extends SimulationNodeDatum = SimulationNod
 export function dotGrid(element: HTMLElement | SVGElement = document.documentElement, dotDistance = 40) {
 	function draw(transform: ZoomTransform) {
 		// https://stackoverflow.com/a/466256/5648839
-		let roundDownToPower = Math.pow(2, Math.floor(Math.log2(transform.k)));
-		let dotSpacing = (transform.k / roundDownToPower) * dotDistance;
-		let dotOffsetX = transform.x % dotSpacing;
-		let dotOffsetY = transform.y % dotSpacing;
-		let dotSubOpacity = (dotSpacing - dotDistance) / dotDistance;
+		const roundDownToPower = Math.pow(2, Math.floor(Math.log2(transform.k)));
+		const dotSpacing = (transform.k / roundDownToPower) * dotDistance;
+		const dotOffsetX = transform.x % dotSpacing;
+		const dotOffsetY = transform.y % dotSpacing;
+		const dotSubOpacity = (dotSpacing - dotDistance) / dotDistance;
 
 		element.style.setProperty('--dot-spacing', dotSpacing + 'px');
 		element.style.setProperty('--dot-offset-x', dotOffsetX + 'px');
@@ -92,8 +92,8 @@ export function shortenLine(
 	length: number = 1,
 	toOrBy: 'to' | 'by' = 'by'
 ): WithShortLine['shortLink'] {
-	let x = targetX - sourceX;
-	let y = targetY - sourceY;
+	const x = targetX - sourceX;
+	const y = targetY - sourceY;
 	const radius = toOrBy === 'to' ? length : Math.hypot(x, y) - length;
 	const [shortX, shortY] = pointAlongLine(x, y, radius);
 	return {

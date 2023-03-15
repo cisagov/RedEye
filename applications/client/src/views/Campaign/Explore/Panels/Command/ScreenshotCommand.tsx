@@ -1,7 +1,7 @@
 import { Button, Classes } from '@blueprintjs/core';
 import { CarouselHorizontal32, Maximize16, Warning20 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogCustom } from '@redeye/client/components';
+import { CarbonIcon, DialogEx } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel, ModelType } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -104,7 +104,7 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 					))}
 			</div>
 			{/* Main Dialog */}
-			<DialogCustom
+			<DialogEx
 				css={dialogOverrideStyles}
 				isOpen={state.modalOpen}
 				onClose={state.closeModal}
@@ -119,11 +119,15 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 					<div css={multiImageWrapperStyles}>
 						{data?.images?.map((image) => (
 							<Button key={image.id} onClick={() => state.openModal(image.id)} css={imgButtonStyles}>
-								<img css={[imgDimensions, imgStyles]} src={`${store.auth.serverUrl}${image.url}`} alt="Command Screenshot" />
+								<img
+									css={[imgDimensions, imgStyles]}
+									src={`${store.auth.serverUrl}${image.url}`}
+									alt="Command Screenshot"
+								/>
 							</Button>
 						))}
 						{/* Secondary dialog (if multiple images are found) */}
-						<DialogCustom
+						<DialogEx
 							css={dialogOverrideStyles}
 							isOpen={!!state.selectedImage}
 							onClose={() => state.openModal()}
@@ -133,9 +137,13 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 							}
 						>
 							{!!state.selectedImage && (
-								<img css={largeImgStyles} src={`${store.auth.serverUrl}${state.selectedImage.url}`} alt="Command Screenshot" />
+								<img
+									css={largeImgStyles}
+									src={`${store.auth.serverUrl}${state.selectedImage.url}`}
+									alt="Command Screenshot"
+								/>
 							)}
-						</DialogCustom>
+						</DialogEx>
 					</div>
 				) : (
 					data?.images?.[0]?.url && (
@@ -147,7 +155,7 @@ export const ScreenShotCommand = observer<ScreenshotCommandProps>(({ command }) 
 						/>
 					)
 				)}
-			</DialogCustom>
+			</DialogEx>
 		</>
 	);
 });

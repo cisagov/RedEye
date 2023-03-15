@@ -108,6 +108,7 @@ type Command {
 type CommandGroup {
   annotations: [Annotation!]!
   commandIds: [String!]!
+  commands: [Command!]!
   generation: GenerationType!
   id: String!
 }
@@ -406,8 +407,11 @@ type Query {
   """Get command group by id"""
   commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean = false): CommandGroup
 
+  """Get command groups ids"""
+  commandGroupIds(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [String]
+
   """Get command groups by ids"""
-  commandGroups(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String): [CommandGroup]
+  commandGroups(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [CommandGroup]
 
   """Get commands by ids"""
   commandIds(
@@ -531,9 +535,21 @@ enum SortOption {
   time
 }
 
+"""The desired property to sort Comments on"""
+enum SortOptionComments {
+  fav
+  time
+  user
+}
+
 input SortType {
   direction: SortDirection = ASC
   sortBy: SortOption = name
+}
+
+input SortTypeComments {
+  direction: SortDirection = ASC
+  sortBy: SortOptionComments = time
 }
 
 type Tag {

@@ -14,8 +14,7 @@ describe('Hide a host', () => {
 		cy.doNotShowHiddenItems();
 
 		// Get the name of the first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName) => {
@@ -57,8 +56,7 @@ describe('Hide a host', () => {
 		cy.selectCampaign(camp);
 
 		// Get the name of the first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName) => {
@@ -100,8 +98,7 @@ describe('Hide a host', () => {
 		cy.selectCampaign(camp);
 
 		// Get the name of the first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName) => {
@@ -109,7 +106,7 @@ describe('Hide a host', () => {
 				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to hide the host
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -130,7 +127,7 @@ describe('Hide a host', () => {
 				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the host
 				cy.get('[cy-test=confirm-show-hide]').click();

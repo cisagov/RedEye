@@ -185,16 +185,13 @@ const DefaultFixedCollapsedComponent = styled.div`
 const GridCell = styled.div`
 	height: 100%;
 	width: 100%;
-	overflow: hidden; 
+	overflow: hidden;
 `;
 
 export type DraggerRendererProps = ComponentProps<'div'> & {
 	isDragging: boolean;
 };
-export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({
-	isDragging,
-	...props
-}) => (
+export const DefaultDraggerComponent: FC<DraggerRendererProps> = ({ isDragging, ...props }) => (
 	<div css={[draggerStyle, isDragging ? isDraggingStyle : undefined]} {...props}>
 		<DefaultDraggerHandle isDragging={isDragging} />
 	</div>
@@ -252,7 +249,7 @@ const handleStyle = css`
 	min-width: 9px;
 	max-width: 9px;
 	margin: 0.75rem -4px;
-	color:  ${CoreTokens.TextIcon};
+	color: ${CoreTokens.TextIcon};
 	background-color: ${CoreTokens.Background1};
 `;
 const handleStyleIsDraggingStyle = css`

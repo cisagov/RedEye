@@ -262,16 +262,16 @@ export class GraphHandler {
 				// graphHierarchical.reheat(0.5);
 				this.dragState.isDragging = true;
 			}
-			let { k: zk } = this.zoomTransform;
-			let { x: mouseX, y: mouseY /*, dx,dy */ } = event;
-			let { startX = 0, startY = 0 } = this.dragState;
+			const { k: zk } = this.zoomTransform;
+			const { x: mouseX, y: mouseY /*, dx,dy */ } = event;
+			const { startX = 0, startY = 0 } = this.dragState;
 			// let { fx, fy, r } = event.subject;
 			// let absX = dx / zk + fx;
 			// let absY = dy / zk + fy;
-			let absDx = mouseX - startX;
-			let absDy = mouseY - startY;
-			let absX = absDx / zk + startX;
-			let absY = absDy / zk + startY;
+			const absDx = mouseX - startX;
+			const absDy = mouseY - startY;
+			const absX = absDx / zk + startX;
+			const absY = absDy / zk + startY;
 			const { x, y } = clampXyToRadius([absX, absY], event.subject.parent.r - event.subject.r);
 			event.subject.fx = x;
 			event.subject.fy = y;

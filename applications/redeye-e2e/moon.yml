@@ -1,0 +1,36 @@
+dependsOn:
+  - 'server'
+  - 'client'
+tasks:
+  open-cy:
+    command: 'concurrently "yarn start:client" "yarn start:server" "yarn moon run redeye-e2e:start-cypress"'
+    local: true
+    options:
+      runFromWorkspaceRoot: true
+  open-cy-blue:
+    command: 'concurrently "SERVER_BLUE_TEAM=true yarn start:server" "SERVER_BLUE_TEAM=true yarn start:client" "yarn moon run redeye-e2e:start-cypress"'
+    local: true
+    options:
+      runFromWorkspaceRoot: true
+    env:
+      SERVER_BLUE_TEAM: 'true'
+  cy-ci-chrome-redteam:
+    local: true
+    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --headed --browser=chrome"'
+    options:
+      runFromWorkspaceRoot: true
+  cy-ci-firefox-redteam:
+    local: true
+    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --browser=firefox --headed --spec **/**/e2e/redteam/**/**/**"'
+    options:
+      runFromWorkspaceRoot: true
+  cy-ci-safari-redteam:
+    local: true
+    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --browser=webkit --headed --spec **/**/e2e/redteam/**/**/**"'
+    options:
+      runFromWorkspaceRoot: true
+  cy-ci-chrome-blueteam:
+    local: true
+    command: 'concurrently "SERVER_BLUE_TEAM=true yarn start:server" "SERVER_BLUE_TEAM=true yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --headed --browser=chrome --spec **/**/e2e/blueteam/**/**/**"'
+    options:
+      runFromWorkspaceRoot: true

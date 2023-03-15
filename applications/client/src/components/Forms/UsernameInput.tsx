@@ -1,4 +1,5 @@
-import { Classes, MenuItem } from '@blueprintjs/core';
+import { Classes } from '@blueprintjs/core';
+import { MenuItem2 } from '@blueprintjs/popover2';
 import type { ItemPredicate, SuggestProps } from '@blueprintjs/select';
 import { Suggest2, getCreateNewItem } from '@blueprintjs/select';
 import { Add16, User16 } from '@carbon/icons-react';
@@ -92,7 +93,7 @@ export const UsernameInput = observer<UsernameInputProps>(
 						itemRenderer={(user, { handleClick, modifiers }) => {
 							if (!modifiers.matchesPredicate) return null;
 							return (
-								<MenuItem
+								<MenuItem2
 									text={highlightText(user.name as string, state.query)}
 									active={modifiers.active}
 									disabled={modifiers.disabled}
@@ -103,7 +104,7 @@ export const UsernameInput = observer<UsernameInputProps>(
 							);
 						}}
 						createNewItemRenderer={(_, isActive: boolean) => (
-							<MenuItem
+							<MenuItem2
 								icon={<CarbonIcon icon={Add16} />}
 								text="New User"
 								disabled={disableCreateUser || store.graphqlStore.globalOperators.has(state.query)}

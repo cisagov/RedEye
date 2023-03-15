@@ -23,8 +23,7 @@ describe('Edit Campaign Comments', () => {
 
 		cy.get('[cy-test=add-comment]').eq(0).scrollIntoView().should('be.visible').click({ force: true });
 
-		cy
-			.get('[cy-test=existing-comment-display]')
+		cy.get('[cy-test=existing-comment-display]')
 			.scrollIntoView()
 			.should('be.visible')
 			.and('contain', comment)
@@ -38,7 +37,10 @@ describe('Edit Campaign Comments', () => {
 		// Verify edited text was saved
 		cy.get('[cy-test=add-comment]').eq(0).should('be.visible').click({ force: true });
 
-		cy.get('[cy-test=existing-comment-display]').should('be.visible').and('contain', editedComment).and('contain', tag2);
+		cy.get('[cy-test=existing-comment-display]')
+			.should('be.visible')
+			.and('contain', editedComment)
+			.and('contain', tag2);
 	});
 
 	after(() => {

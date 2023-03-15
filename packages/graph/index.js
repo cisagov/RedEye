@@ -10,12 +10,10 @@ export const testGraph = (svgElementId) => {
 			// graphData: randomGraphData,
 			graphData: {
 				...rawGraphData.graph,
-				parents: Object.keys(rawGraphData.hosts).map(
-					(hostId) => ({
-						name: rawGraphData.hosts[hostId].hostName,
-						id: hostId,
-					}),
-				),
+				parents: Object.keys(rawGraphData.hosts).map((hostId) => ({
+					name: rawGraphData.hosts[hostId].hostName,
+					id: hostId,
+				})),
 			},
 			element: document.getElementById('app'),
 		});

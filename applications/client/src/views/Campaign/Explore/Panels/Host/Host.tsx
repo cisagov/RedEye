@@ -1,3 +1,4 @@
+import { Menu } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
 import { CarbonIcon, dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
@@ -15,7 +16,7 @@ import {
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { QuickMeta } from '../QuickMeta';
+import { QuickMetaPopoverButton, ShowHideMenuItem } from '../QuickMeta';
 
 type HostRowProps = ComponentProps<'div'> & {
 	host: HostModel;
@@ -65,15 +66,28 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			{host?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			{!host.cobaltStrikeServer && (
 				<>
-					<IconLabel cy-test="row-command-count" title="Commands" value={host.commandsCount} icon={semanticIcons.commands} />
+					<IconLabel
+						cy-test="row-command-count"
+						title="Commands"
+						value={host.commandsCount}
+						icon={semanticIcons.commands}
+					/>
 					<IconLabel cy-test="row-beacon-count" value={host.beaconCount} title="Beacons" icon={semanticIcons.beacon} />
 				</>
 			)}
-			<QuickMeta
-				modal={host}
-				disabled={!!store.appMeta.blueTeam}
-				click={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-			/>
+			{host != null && (
+				<QuickMetaPopoverButton
+					content={
+						<Menu>
+							<ShowHideMenuItem
+								model={host}
+								disabled={!!store.appMeta.blueTeam}
+								onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
+							/>
+						</Menu>
+					}
+				/>
+			)}
 			{!isDialogDisabled && (
 				<ToggleHiddenDialog
 					typeName={host.cobaltStrikeServer ? 'server' : 'host'}

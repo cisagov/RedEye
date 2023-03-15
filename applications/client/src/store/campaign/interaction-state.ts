@@ -193,7 +193,9 @@ export class InteractionState extends ExtendedModel(() => ({
 			this.selectedOperator = operatorCampaignRef(this.appStore?.graphqlStore.operators.get(operatorId)!);
 		else this.selectedOperator = undefined;
 		if (commandTypeId && this.appStore?.graphqlStore.commandTypeCounts.has(commandTypeId))
-			this.selectedCommandType = commandTypeCampaignRef(this.appStore?.graphqlStore.commandTypeCounts.get(commandTypeId)!);
+			this.selectedCommandType = commandTypeCampaignRef(
+				this.appStore?.graphqlStore.commandTypeCounts.get(commandTypeId)!
+			);
 		else this.selectedCommandType = undefined;
 
 		if (beaconId || hostId || serverId) {

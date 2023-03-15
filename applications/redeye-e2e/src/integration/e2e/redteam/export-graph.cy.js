@@ -14,9 +14,6 @@ describe('Export graph', () => {
 		// Click the export button and verify the file is downloaded
 		cy.get('[cy-test=export-graph]').click();
 		cy.readFile('cypress/downloads/graph.png');
-
-		// Delete the downloaded file
-		cy.deleteDownloadsFolderContent();
 	});
 
 	after(() => {

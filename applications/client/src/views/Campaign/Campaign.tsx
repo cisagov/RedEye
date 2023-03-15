@@ -178,7 +178,12 @@ const Campaign = observer<CampaignProps>(() => {
 						<div css={infoWrapperStyles}>
 							<div css={titleBarStyles}>
 								<NavTitle />
-								<Button cy-test="collapse-panel" icon={<CarbonIcon icon={ChevronLeft16} />} onClick={collapseFixed} minimal />
+								<Button
+									cy-test="collapse-panel"
+									icon={<CarbonIcon icon={ChevronLeft16} />}
+									onClick={collapseFixed}
+									minimal
+								/>
 							</div>
 							<Suspense fallback={<Spinner />}>
 								<Routes>
@@ -251,7 +256,6 @@ const visPanelStyles = css`
 `;
 const timelineStyles = css`
 	margin: 1rem 1rem 0 1rem;
-	overflow: hidden;
 	z-index: 2;
 `;
 
