@@ -234,7 +234,7 @@ Cypress.Commands.add('searchResultContains', (index, term) => {
 
 // CLOSE SEARCH
 Cypress.Commands.add('closeSearch', () => {
-	cy.get('[cy-test=close-search]').click();
+	cy.get('[cy-test=close-log]').click();
 });
 
 // *******************************************
@@ -261,6 +261,6 @@ Cypress.Commands.add('showHideServerMetaTab', () => {
 
 // SHOW / HIDE ITEM FROM IN-LINE KEBAB MENU
 Cypress.Commands.add('showHideItem', (index) => {
-	cy.get('[cy-test=show-hide-hover]').eq(index).trigger('mouseover');
+	cy.get('[cy-test=quick-meta-button]').eq(index).click();
 	cy.get('[cy-test=show-hide-item]').click();
 });
