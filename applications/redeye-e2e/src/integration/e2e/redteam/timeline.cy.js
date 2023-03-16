@@ -6,41 +6,52 @@ dayjs().format();
 describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 	const fileName = 'smalldata.redeye';
+	const camp2 = 'timelinepositions';
+	const fileName2 = 'gt.redeye';
 
-	it.skip('Verify timeline navigation features', () => {
+	it('Verify timeline navigation features', () => {
 		// Upload campaign and open
-		cy.uploadCampaign(camp, fileName);
-
-		cy.selectCampaign(camp);
+		cy.uploadCampaign(camp2, fileName2);
+		cy.selectCampaign(camp2);
 
 		// Log the starting position of the timeline bar
+		// @QA - we are now moving the scrubber using `style="transform:translateX(00px)"`, not `x1` & `x2`
 		cy.get('[cy-test=timeline-scrubber]')
-			.invoke('attr', 'x1') // @QA - we are now moving the scrubber using `style="transform:translateX(00px)"`, not `x1` & `x2`
+			.invoke('attr', 'style')
 			.as('timeline')
-			.then((position1) => {
-				// cy.log(position1);
+			.then((text1) => {
+				const pattern1 = /[0-9]+/g;
+				const position1 = text1.match(pattern1)[0];
 
 				// Click Play and let the timeline run for a few seconds
 				cy.timelinePlayPause();
-				cy.wait(1500);
+				cy.wait(3000);
 
 				// Pause the timeline and log its new position - should be different than the starting position
 				cy.timelinePlayPause();
-				cy.get('@timeline').then((position2) => {
-					// cy.log(position2);
+				cy.wait(1000);
+				cy.get('@timeline').then((text2) => {
+					const pattern2 = /[0-9]+/g;
+					const position2 = text2.match(pattern2)[0];
+
 					expect(+position1).to.not.equal(+position2);
 
+					// Click the back button to move the timeline backward; verify its position is less than the previous position
 					cy.timelineBack();
-					cy.wait(500);
+					cy.wait(1000);
 
-					cy.get('@timeline').then((position3) => {
-						// cy.log(position3);
+					cy.get('@timeline').then((text3) => {
+						const pattern3 = /[0-9]+/g;
+						const position3 = text3.match(pattern3)[0];
+
 						expect(+position3).to.be.lessThan(+position2);
 
-						// Click the forward button to move the timeline ahead; verify it is more than the previous position
+						// Click the forward button to move the timeline ahead; verify its position is more than the previous position
 						cy.timelineForward().click();
-						cy.get('@timeline').then((position4) => {
-							// cy.log(position4);
+						cy.get('@timeline').then((text4) => {
+							const pattern4 = /[0-9]+/g;
+							const position4 = text4.match(pattern4)[0];
+
 							expect(+position4).to.be.greaterThan(+position3);
 						});
 					});
@@ -49,8 +60,8 @@ describe('Timeline tests', () => {
 	});
 
 	it('Change timeline dates', () => {
+		// Upload campaign and open
 		cy.uploadCampaign(camp, fileName);
-		// Open campaign
 		cy.selectCampaign(camp);
 
 		// Update start and end dates
@@ -74,23 +85,23 @@ describe('Timeline tests', () => {
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
 		cy.changeTimelineStartDate('10/13/20');
-		cy.changeTimelineEndDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20{enter}');
 
 		// Hover over a bar on the timeline and verify that the condensed tooltip info appears
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
-		cy.get('[cy-test=timeline-tooltip]').should('be.visible');
+		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
-		cy.get('[cy-test=timeline-list-beacons]').should('be.visible');
+		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
 		// Click on the timeline bar and verify that the second tooltip appears showing beacon details
-		cy.get('[cy-test=timeline-list-beacons]').click();
-		cy.get('[cy-test=timeline-tooltip-expanded]').should('be.visible');
+		cy.get('[cy-test=timeline-show-more-less]').click();
+		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
 		cy.get('[cy-test=timeline-tooltip-date-time]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-name]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-operator]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-command-count]').should('be.visible');
-		cy.get('[cy-test=timeline-show-less]').should('be.visible');
+		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
 		// Reset dates for next test
 		cy.resetTimelineDates();
@@ -103,13 +114,13 @@ describe('Timeline tests', () => {
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
 		cy.changeTimelineStartDate('10/13/20');
-		cy.changeTimelineEndDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20{enter}');
 
 		// Hover to show the tooltip
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
 
 		// Show the beacon names
-		cy.get('[cy-test=timeline-list-beacons]').click();
+		cy.get('[cy-test=timeline-show-more-less]').click();
 
 		// Click to open beacon info for the second one showing
 		cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
@@ -203,5 +214,6 @@ describe('Timeline tests', () => {
 
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
+		cy.deleteCampaignGraphQL(camp2);
 	});
 });

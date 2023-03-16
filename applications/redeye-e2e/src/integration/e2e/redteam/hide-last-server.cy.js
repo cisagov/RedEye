@@ -15,8 +15,7 @@ describe('Hide last server', () => {
 		cy.selectCampaign(camp);
 
 		// Get name of only server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName) => {
@@ -26,7 +25,6 @@ describe('Hide last server', () => {
 				cy.showHideItem(0);
 
 				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
@@ -46,8 +44,7 @@ describe('Hide last server', () => {
 		cy.selectCampaign(camp2);
 
 		// Get name of first server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName1) => {
@@ -57,7 +54,7 @@ describe('Hide last server', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the server
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -70,8 +67,7 @@ describe('Hide last server', () => {
 			});
 
 		// Get name of seccond server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName2) => {
@@ -81,7 +77,7 @@ describe('Hide last server', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the host
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -94,8 +90,7 @@ describe('Hide last server', () => {
 			});
 
 		// Get name of third server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName3) => {
@@ -105,7 +100,7 @@ describe('Hide last server', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the host
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -118,8 +113,7 @@ describe('Hide last server', () => {
 			});
 
 		// Get name of fourth/last server
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
 			.then((serverName4) => {
@@ -129,7 +123,6 @@ describe('Hide last server', () => {
 				cy.showHideItem(0);
 
 				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 

@@ -261,6 +261,15 @@ Cypress.Commands.add('showHideServerMetaTab', () => {
 
 // SHOW / HIDE ITEM FROM IN-LINE KEBAB MENU
 Cypress.Commands.add('showHideItem', (index) => {
-	cy.get('[cy-test=show-hide-hover]').eq(index).trigger('mouseover');
+	cy.get('[cy-test=quick-meta-button]').eq(index).click();
 	cy.get('[cy-test=show-hide-item]').click();
+});
+
+// VERIFY SHOW/HIDE DIALOG BOX APPEARS
+Cypress.Commands.add('verifyDialogBoxAppears', () => {
+	cy.get('[cy-test=dialog-text-line1]').should('exist');
+	cy.get('[cy-test=dialog-text-line2]').should('exist');
+	cy.get('[cy-test=dialog-text-line3]').should('exist');
+	cy.get('[cy-test=cancel-show-hide]').should('exist');
+	cy.get('[cy-test=confirm-show-hide]').should('exist');
 });

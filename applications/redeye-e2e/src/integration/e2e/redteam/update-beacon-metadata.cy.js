@@ -44,7 +44,6 @@ describe('Update Beacon metadata', () => {
 					.find('.bp4-input')
 					.invoke('attr', 'value')
 					.then((resultTOD1) => {
-						// cy.log(resultTOD1);
 						expect(resultTOD1).to.equal(newTOD);
 					});
 			});

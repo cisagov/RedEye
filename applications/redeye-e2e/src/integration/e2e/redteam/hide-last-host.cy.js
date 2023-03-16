@@ -11,8 +11,7 @@ describe('Hide last host', () => {
 		cy.selectCampaign(camp);
 
 		// Get name of first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName1) => {
@@ -20,7 +19,7 @@ describe('Hide last host', () => {
 				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the host
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -33,8 +32,7 @@ describe('Hide last host', () => {
 			});
 
 		// Get name of second/last host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName2) => {
@@ -42,7 +40,6 @@ describe('Hide last host', () => {
 				cy.showHideItem(1);
 
 				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 

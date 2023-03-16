@@ -12,8 +12,7 @@ describe('Hide last beacon', () => {
 
 		// Get name of first beacon
 		cy.clickBeaconsTab();
-		cy
-			.get('[cy-test=beacon-display-name]')
+		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName1) => {
@@ -21,7 +20,7 @@ describe('Hide last beacon', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the beacon
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -34,8 +33,7 @@ describe('Hide last beacon', () => {
 			});
 
 		// Get name of second beacon
-		cy
-			.get('[cy-test=beacon-display-name]')
+		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName2) => {
@@ -43,7 +41,7 @@ describe('Hide last beacon', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
+				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the beacon
 				cy.get('[cy-test=confirm-show-hide]').click();
@@ -56,8 +54,7 @@ describe('Hide last beacon', () => {
 			});
 
 		// Get name of third/last becaon
-		cy
-			.get('[cy-test=beacon-display-name]')
+		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
 			.then((beaconName3) => {
@@ -65,7 +62,6 @@ describe('Hide last beacon', () => {
 				cy.showHideItem(0);
 
 				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=show-hide-dialog-text]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
 				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
