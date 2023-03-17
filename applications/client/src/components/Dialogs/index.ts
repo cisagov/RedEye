@@ -3,7 +3,9 @@
  */
 
 export * from './AlertEx';
+export * from './DialogFooterEx';
 export * from './DialogEx';
+export * from './DialogBodyEx';
 export * from './GeneralSettingsOverlay';
 export * from './HelpOverlay';
 export * from './UserSettingsOverlay';

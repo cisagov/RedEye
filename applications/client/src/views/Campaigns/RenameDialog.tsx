@@ -1,15 +1,14 @@
-import type { DialogProps } from '@blueprintjs/core';
-import { Button, Dialog, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
-import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
-import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
+import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core';
+import type { DialogExProps } from '@redeye/client/components';
+import { DialogBodyEx, DialogEx, DialogFooterEx } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CampaignModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { observer } from 'mobx-react-lite';
 
-type Props = { onClose: () => void; campaign: CampaignModel } & Omit<DialogProps, 'isOpen'>;
+type Props = { onClose: () => void; campaign: CampaignModel } & Omit<DialogExProps, 'isOpen' | 'icon'>;
 
-export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => {
+export const RenameDialog = observer<Props>(({ onClose, campaign, ...props }) => {
 	const store = useStore();
 	const state = createState({
 		name: campaign.name ?? '',
@@ -31,7 +30,7 @@ export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => 
 	});
 
 	return (
-		<Dialog isOpen onClose={onClose} title="Rename Campaign" {...rest}>
+		<DialogEx isOpen onClose={onClose} title="Rename Campaign" {...props}>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -67,6 +66,6 @@ export const RenameDialog = observer<Props>(({ onClose, campaign, ...rest }) => 
 					}
 				/>
 			</form>
-		</Dialog>
+		</DialogEx>
 	);
 });
