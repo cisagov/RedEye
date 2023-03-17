@@ -143,7 +143,7 @@ tasks:
 
   # Library mode commands
   build-library:
-    command: 'npx -c "tsup-node ./src/index.ts --minify --format esm && tsc --emitDeclarationOnly --outDir dist"'
+    command: 'cross-env npx -c "tsup-node ./src/index.ts --minify --format esm && tsc --emitDeclarationOnly --outDir dist"'
     inputs:
       - '@globs(sources)'
       - '@globs(assets)'

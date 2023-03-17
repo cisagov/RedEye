@@ -1,4 +1,4 @@
-import { Position } from '@blueprintjs/core';
+import { Menu, Position } from '@blueprintjs/core';
 import type { MenuItem2Props } from '@blueprintjs/popover2';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import { OverflowMenuVertical16, View16, ViewOff16 } from '@carbon/icons-react';
@@ -29,7 +29,7 @@ export const ShowHideMenuItem = observer<ShowHideMenuItemProps>(({ model, ...pro
 	/>
 ));
 
-export const QuickMetaPopoverButton = observer<PopoverButtonProps>(({ onClick, ...props }) => (
+export const QuickMetaPopoverButtonMenu = observer<PopoverButtonProps>(({ content, ...props }) => (
 	<PopoverButton
 		cy-test="quick-meta-button"
 		popoverProps={{
@@ -40,6 +40,7 @@ export const QuickMetaPopoverButton = observer<PopoverButtonProps>(({ onClick, .
 		stopPropagation
 		icon={<CarbonIcon icon={OverflowMenuVertical16} />}
 		css={buttonStyle}
+		content={<Menu onClick={(e) => e.stopPropagation()}>{content}</Menu>}
 		{...props}
 	/>
 ));

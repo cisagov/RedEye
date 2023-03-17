@@ -572,7 +572,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								intent={Intent.PRIMARY}
 								alignText={Alignment.LEFT}
 								loading={state.loading}
-								disabled={state.loading}
+								disabled={state.loading || !state.text}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
 								rightIcon={<CarbonIcon icon={AddComment16} />}

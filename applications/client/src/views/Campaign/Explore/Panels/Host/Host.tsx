@@ -1,4 +1,3 @@
-import { Menu } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
 import { CarbonIcon, dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
@@ -16,7 +15,7 @@ import {
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { QuickMetaPopoverButton, ShowHideMenuItem } from '../QuickMeta';
+import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
 type HostRowProps = ComponentProps<'div'> & {
 	host: HostModel;
@@ -76,15 +75,13 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				</>
 			)}
 			{host != null && (
-				<QuickMetaPopoverButton
+				<QuickMetaPopoverButtonMenu
 					content={
-						<Menu>
-							<ShowHideMenuItem
-								model={host}
-								disabled={!!store.appMeta.blueTeam}
-								onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-							/>
-						</Menu>
+						<ShowHideMenuItem
+							model={host}
+							disabled={!!store.appMeta.blueTeam}
+							onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
+						/>
 					}
 				/>
 			)}

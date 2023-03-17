@@ -25,9 +25,6 @@ describe('Export a campaign', () => {
 		// Click the export button
 		cy.get('[cy-test=export-database]').click();
 		cy.readFile('cypress/downloads/exportcampaign.redeye');
-
-		// // Delete the downloaded file
-		// cy.deleteDownloadsFolderContent();
 	});
 
 	it('Blue Team - Verify Blue Team file is generated when a campaign is exported', () => {
@@ -48,9 +45,6 @@ describe('Export a campaign', () => {
 		// Click the export button
 		cy.get('[cy-test=export-database]').click();
 		cy.readFile('cypress/downloads/exportcampaign.redeye');
-
-		// // Delete the downloaded file
-		// cy.deleteDownloadsFolderContent();
 	});
 
 	after(() => {
