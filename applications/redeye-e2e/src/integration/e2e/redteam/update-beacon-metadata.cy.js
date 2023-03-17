@@ -29,6 +29,7 @@ describe('Update Beacon metadata', () => {
 				// Change TOD and save
 				cy.get('input[type=text]').eq(1).click().clear().type(newTOD);
 				cy.get('[cy-test=save-beacon-time-of-death]').click();
+				cy.wait(500);
 
 				// Verify new beacon name shows
 				cy.clickExplorerMode();
