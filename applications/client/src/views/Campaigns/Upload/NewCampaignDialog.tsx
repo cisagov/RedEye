@@ -2,7 +2,7 @@ import { Tab } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import { DialogEx, ErrorFallback } from '@redeye/client/components';
 import { RedEyeDbUploadForm } from '@redeye/client/views';
-import { Header, TabsStyled, UtilityStyles } from '@redeye/ui-styles';
+import { ExternalLink, Flex, Header, TabsStyled, Txt, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
@@ -27,7 +27,14 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 	);
 
 	return (
-		<DialogEx wide isOpen={props.open} onClose={props.onClose} canOutsideClickClose={false} css={{ padding: 0 }}>
+		<DialogEx
+			wide
+			fixedHeight
+			isOpen={props.open}
+			onClose={props.onClose}
+			canOutsideClickClose={false}
+			css={{ padding: 0 }}
+		>
 			<ErrorBoundary FallbackComponent={ErrorFallback}>
 				<div>
 					<Header large css={{ margin: '2rem 1.5rem 1rem' }}>
@@ -38,18 +45,22 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 						onChange={(newTab) => setCurrentTab(newTab as CampaignTabs)}
 						id="add-campaign-methods"
 					>
-						{!store.appMeta.blueTeam && (
-							<Tab
-								cy-test="create-new-camp"
-								id={CampaignTabs.NEW}
-								title="Create New"
-								panel={<CobaltStrikeUploadForm onClose={props.onClose} css={shadowStyle} />}
-							/>
-						)}
+						<Tab
+							cy-test="create-new-camp"
+							id={CampaignTabs.NEW}
+							title="Upload Cobalt Strike Logs"
+							panel={
+								store.appMeta.blueTeam ? (
+									<BlueTeamSourceWarning css={shadowStyle} />
+								) : (
+									<CobaltStrikeUploadForm onClose={props.onClose} css={shadowStyle} />
+								)
+							}
+						/>
 						<Tab
 							cy-test="upload-from-file"
 							id={CampaignTabs.UPLOAD}
-							title="Upload from file"
+							title="Upload .redeye file"
 							panel={<RedEyeDbUploadForm onClose={props.onClose} css={shadowStyle} />}
 						/>
 					</TabsStyled>
@@ -62,3 +73,10 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 const shadowStyle = css`
 	${UtilityStyles.innerBoxShadowOverlay('top', 3, false)}
 `;
+
+const BlueTeamSourceWarning = (props) => (
+	<Flex column css={{ padding: 24 }} {...props}>
+		<Txt running>This upload source is not available in BlueTeam mode.</Txt>
+		<ExternalLink href="https://github.com/cisagov/redeye#readme">Learn more</ExternalLink>
+	</Flex>
+);
