@@ -29,11 +29,10 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 	return (
 		<DialogEx
 			wide
-			fixedHeight
 			isOpen={props.open}
 			onClose={props.onClose}
 			canOutsideClickClose={false}
-			css={{ padding: 0 }}
+			css={{ padding: 0, minHeight: 300 }}
 		>
 			<ErrorBoundary FallbackComponent={ErrorFallback}>
 				<div>
