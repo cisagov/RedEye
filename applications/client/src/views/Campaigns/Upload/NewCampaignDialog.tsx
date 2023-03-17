@@ -2,7 +2,7 @@ import { Tab } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import { DialogEx, ErrorFallback } from '@redeye/client/components';
 import { RedEyeDbUploadForm } from '@redeye/client/views';
-import { ExternalLink, Flex, Header, TabsStyled, Txt, UtilityStyles } from '@redeye/ui-styles';
+import { ExternalLink, Header, TabsStyled, Txt, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
@@ -75,8 +75,11 @@ const shadowStyle = css`
 `;
 
 const BlueTeamSourceWarning = (props) => (
-	<Flex column css={{ padding: 24 }} {...props}>
-		<Txt running>This upload source is not available in BlueTeam mode.</Txt>
-		<ExternalLink href="https://github.com/cisagov/redeye#readme">Learn more</ExternalLink>
-	</Flex>
+	<div css={{ padding: 24 }} {...props}>
+		<Txt running>
+			This upload source is not available in BlueTeam mode.
+			<br />
+			<ExternalLink href="https://github.com/cisagov/redeye#readme">Learn more</ExternalLink>
+		</Txt>
+	</div>
 );
