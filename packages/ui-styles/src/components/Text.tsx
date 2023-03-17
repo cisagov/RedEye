@@ -135,8 +135,10 @@ export const Txt: FC<TxtProps> = ({
 	}, [className, skeleton]);
 
 	const RootTag = useMemo(() => {
-		return tagName || running ? 'p' : 'span';
+		return tagName ?? (running ? 'p' : 'span');
 	}, [running, tagName]);
+
+	console.log({ RootTag });
 
 	return <RootTag css={txtCss} className={_className} {...props} />;
 };
