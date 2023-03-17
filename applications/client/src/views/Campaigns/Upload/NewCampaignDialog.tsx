@@ -1,14 +1,14 @@
 import { Tab } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import { DialogEx, ErrorFallback } from '@redeye/client/components';
-import { DbUpload } from '@redeye/client/views';
+import { RedEyeDbUploadForm } from '@redeye/client/views';
 import { Header, TabsStyled, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useStore } from '../../../store';
-import { LogsUpload } from './LogsUpload';
+import { CobaltStrikeUploadForm } from './CobaltStrikeUploadForm';
 
 enum CampaignTabs {
 	NEW,
@@ -43,14 +43,14 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 								cy-test="create-new-camp"
 								id={CampaignTabs.NEW}
 								title="Create New"
-								panel={<LogsUpload onClose={props.onClose} css={shadowStyle} />}
+								panel={<CobaltStrikeUploadForm onClose={props.onClose} css={shadowStyle} />}
 							/>
 						)}
 						<Tab
 							cy-test="upload-from-file"
 							id={CampaignTabs.UPLOAD}
 							title="Upload from file"
-							panel={<DbUpload onClose={props.onClose} css={shadowStyle} />}
+							panel={<RedEyeDbUploadForm onClose={props.onClose} css={shadowStyle} />}
 						/>
 					</TabsStyled>
 				</div>

@@ -48,7 +48,7 @@ import FileWorker from './file-worker?worker';
 const workerBlob = new Blob([workerString], { type: 'text/javascript' });
 const workerURL = URL.createObjectURL(workerBlob);
 
-type LogsUploadProps = ComponentProps<'form'> & {
+type CobaltStrikeUploadFormProps = ComponentProps<'form'> & {
 	onClose: (...args: any) => void;
 };
 
@@ -66,7 +66,7 @@ const defaultServer: Servers = {
 	isParsingFiles: false,
 };
 
-export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
+export const CobaltStrikeUploadForm = observer<CobaltStrikeUploadFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
 		campaignName: '' as string,
