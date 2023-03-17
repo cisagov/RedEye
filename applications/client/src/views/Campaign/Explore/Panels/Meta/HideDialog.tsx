@@ -1,16 +1,14 @@
-import type { DialogProps } from '@blueprintjs/core';
 import { Checkbox, Button, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon, DialogEx } from '@redeye/client/components';
-import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
-import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
+import type { DialogExProps } from '@redeye/client/components';
+import { CarbonIcon, DialogBodyEx, DialogEx, DialogFooterEx } from '@redeye/client/components';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent } from 'react';
 import { useState, useCallback } from 'react';
 
-type Props = DialogProps & {
+type Props = DialogExProps & {
 	typeName: string;
 	infoType: InfoType;
 	onHide?: () => void;
@@ -30,30 +28,30 @@ export const ToggleHiddenDialog = observer<Props>(
 			window.localStorage.setItem('disableDialog', e.target.checked.toString());
 		}, []);
 
-		const confirmShowHide =
-			last && !isHiddenToggled
-				? onClose
-				: (e: React.SyntheticEvent) => {
-						e.stopPropagation();
-						setLoading(true);
-						onHide();
-				  };
+		const isHidingFinal = last && !isHiddenToggled;
 
-		const dialogTitle =
-			last && !isHiddenToggled
-				? `Cannot hide final ${infoType.toLowerCase()}`
-				: `${verb} this ${infoType.toLowerCase()}?`;
+		const confirmShowHide = isHidingFinal
+			? onClose
+			: (e: React.SyntheticEvent) => {
+					e.stopPropagation();
+					setLoading(true);
+					onHide();
+			  };
+
+		const dialogTitle = isHidingFinal
+			? `Cannot hide final ${infoType.toLowerCase()}`
+			: `${verb} this ${infoType.toLowerCase()}?`;
 
 		return (
 			<DialogEx onClose={onClose} title={dialogTitle} {...props}>
 				<DialogBodyEx cy-test="show-hide-dialog-text">
-					{last && !isHiddenToggled ? (
+					{isHidingFinal ? (
 						<>
-							<Txt cy-test="cannot-hide-final-text1" tagName="p">
+							<Txt cy-test="cannot-hide-final-text1" running>
 								{plural} this {infoType.toLowerCase()} will create a state in which the UI has no content. To hide this{' '}
 								{infoType}, you must unhide another {infoType.toLowerCase()}.
 							</Txt>
-							<Txt cy-test="cannot-hide-final-text2" tagName="p">
+							<Txt cy-test="cannot-hide-final-text2" running>
 								To unhide {infoType.toLowerCase()}s, toggle
 								<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings, and go
 								select
@@ -62,34 +60,34 @@ export const ToggleHiddenDialog = observer<Props>(
 						</>
 					) : (
 						<>
-							<Txt cy-test="dialog-text-line1" tagName="p">
+							<Txt cy-test="dialog-text-line1" running>
 								{plural} this {infoType.toLowerCase()} will make it{' '}
 								{isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
 							</Txt>
 							{!isHiddenToggled && (
-								<Txt cy-test="dialog-text-line2" tagName="p">
+								<Txt cy-test="dialog-text-line2" running>
 									{plural} this {infoType.toLowerCase()} will NOT delete it. Hidden {infoType.toLowerCase()}s can be
 									shown again by toggling the
 									<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
 								</Txt>
 							)}
-							<Txt cy-test="dialog-text-line3" tagName="p">
+							<Txt cy-test="dialog-text-line3" running>
 								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}.
 							</Txt>
-							<Checkbox label="Don’t show this warning again" checked={checked} onChange={handleCheck} />
+							<Checkbox label="Don't show this warning again" checked={checked} onChange={handleCheck} />
 						</>
 					)}
 				</DialogBodyEx>
 				<DialogFooterEx
 					actions={
 						<>
-							<Button cy-test="cancel-show-hide" onClick={onClose} text="Cancel" />
+							{!isHidingFinal && <Button cy-test="cancel-show-hide" onClick={onClose} text="Cancel" />}
 							<Button
 								cy-test="confirm-show-hide"
 								intent={Intent.PRIMARY}
 								rightIcon={!last && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
 								loading={loading}
-								text={last && !isHiddenToggled ? 'OK' : `${verb} ${infoType}`}
+								text={isHidingFinal ? 'Cancel' : `${verb} ${infoType}`}
 								onClick={confirmShowHide}
 								alignText="left"
 							/>
