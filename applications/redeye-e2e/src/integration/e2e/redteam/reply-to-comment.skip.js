@@ -2,14 +2,13 @@
 
 describe('Reply to  Campaign Comments', () => {
 	const camp = 'editComments';
-	const editedComment = 'Edited comment text';
 	const fileName = 'gt.redeye';
-	const comment = 'commenthere';
-	const tag = 'testing';
-	const tag1 = 'test_1';
-	const tag2 = 'test_2';
-	// SKIPPING FOR NOW - PENDING BUG FIX (https://jira.pnnl.gov/jira/browse/BLDSTRIKE-544). Note. using it.skip makes the entire test fail, so commenting out insteadyarn
-	it('Reply to a comment and verify comment count increases', () => {
+
+	// SKIPPING FOR NOW - PENDING BUG FIX (https://jira.pnnl.gov/jira/browse/BLDSTRIKE-544).
+	// Per conversations at a weekly meeting, replies are not comments and should not increase comment counts/
+	// Count on the main campaign card page still increases when you reply to a comment.
+	it('Reply to a comment and verify comment count does not increase', () => {
+		cy.uploadCampaign(camp, fileName);
 		cy.searchForCampaign(camp);
 
 		// Log the total number of comments showing on the campaign card
@@ -17,7 +16,7 @@ describe('Reply to  Campaign Comments', () => {
 			const campaignCardCount1 = cardCount1.text().split(' ').shift();
 			cy.get('[cy-test=comment-count]').should('contain', campaignCardCount1);
 
-			// Open campaign and verify Presentation mode shows the same number of comments; log number with Golden Ticket tag
+			// Open campaign and verify Presentation mode shows the same number of comments
 			cy.selectCampaign(camp);
 
 			cy.clickPresentationMode();
@@ -29,7 +28,7 @@ describe('Reply to  Campaign Comments', () => {
 					cy.log(commentCountAll1);
 					expect(commentCountAll1).to.eq(campaignCardCount1);
 
-					// Go to Comments and verify total there matches
+					// Go to Comments tab and verify total there matches
 					cy.clickExplorerMode();
 
 					cy.clickCommentsTab();
@@ -40,11 +39,11 @@ describe('Reply to  Campaign Comments', () => {
 								.to.eq(+commentCountAll1)
 								.and.to.eq(+campaignCardCount1);
 
-							// Reply to one of the comments with a comment and a tag
+							// Reply to one of the comments
 							cy.replyToComment(0, 'Replying to above comment.');
-							cy.addExistingTagsToReply('Golden');
+							cy.get('[cy-test=save-comment]').should('be.visible').click();
 
-							// Go back to Presentation mode and verify that the comment count and Golden Ticket count increased by one
+							// Go back to Presentation mode and verify that the comment count did not change
 							cy.clickPresentationMode();
 
 							cy.get('[cy-test=all] [cy-test=count]')
@@ -53,10 +52,10 @@ describe('Reply to  Campaign Comments', () => {
 								.then((commentCountAll2) => {
 									cy.log(commentCountAll2);
 									expect(+commentCountAll2)
-										.to.eq(+commentCountAll1 + 1)
-										.and.to.eq(+campaignCardCount1 + 1);
+										.to.eq(+commentCountAll1)
+										.and.to.eq(+campaignCardCount1);
 
-									// Go back to campaign card and verify that the comment count increase by one
+									// Go back to campaign card and verify that the comment count did not change
 									cy.returnToCampaignCard();
 									cy.searchForCampaign(camp);
 
@@ -65,7 +64,7 @@ describe('Reply to  Campaign Comments', () => {
 										cy.get('[cy-test=comment-count]').should('contain', campaignCardCount2);
 
 										expect(+campaignCardCount2)
-											.to.eq(+campaignCardCount1 + 1)
+											.to.eq(+campaignCardCount1)
 											.and.to.eq(+commentCountAll2);
 									});
 								});
