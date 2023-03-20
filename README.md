@@ -11,6 +11,7 @@ RedEye can assist an operator to efficiently:
 - Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.
 
 Red Team: [![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&style=flat&logo=cypress)](https://cloud.cypress.io/projects/rsybgk/runs)
+
 Blue Team: [![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs)
 
 ## [User Guide](<docs/User Guide.md>)
@@ -23,7 +24,7 @@ Follow the User Guide to learn about the RedEye feature set.
 		```
 		AUTHENTICATION_PASSWORD=<your_password> ./RedEye --redTeam
 		```
-			You must provide a password to run in RedTeam mode.
+		You must provide a password to run in RedTeam mode.
 	- [**Blue Team mode**](#blue-team) (default) enables a simplified, read-only UI for reviewing campaigns exported by a Red Team. To start the server in Blue Team mode. Double-click on the 'RedEye' executable or run `./RedEye` from the command line.
 3. **Use the web app** in a browser at http://127.0.0.1:4000. The RedEye binary runs as a server in a terminal window and will automatically open the web app UI your default browser. You must close the terminal window to quit the RedEye server.
 
