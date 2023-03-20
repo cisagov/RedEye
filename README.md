@@ -19,7 +19,7 @@ Follow the User Guide to learn about the RedEye feature set.
 ## Quick start
 1. **Download** the latest RedEye binaries for [your OS](#platform-support) from the [Releases](https://github.com/cisagov/RedEye/releases) page.
 2. **Pick a mode** and **Run the server**
-	-[ **Red Team mode**](#red-team) enables the full feature set: upload C2 logs, explore data, and create presentations. To start the server in Red Team mode, run in the command line:
+	- [ **Red Team mode**](#red-team) enables the full feature set: upload C2 logs, explore data, and create presentations. To start the server in Red Team mode, run in the command line:
 	```
 	AUTHENTICATION_PASSWORD=<your_password> ./RedEye --redTeam
 	```
