@@ -20,10 +20,10 @@ Follow the User Guide to learn about the RedEye feature set.
 1. **Download** the latest RedEye binaries for [your OS](#platform-support) from the [Releases](https://github.com/cisagov/RedEye/releases) page.
 2. **Pick a mode** and **Run the server**
 	- [ **Red Team mode**](#red-team) enables the full feature set: upload C2 logs, explore data, and create presentations. To start the server in Red Team mode, run in the command line:
-	```
-	AUTHENTICATION_PASSWORD=<your_password> ./RedEye --redTeam
-	```
-	  You must provide a password to run in RedTeam mode.
+		```
+		AUTHENTICATION_PASSWORD=<your_password> ./RedEye --redTeam
+		```
+			You must provide a password to run in RedTeam mode.
 	- [**Blue Team mode**](#blue-team) (default) enables a simplified, read-only UI for reviewing campaigns exported by a Red Team. To start the server in Blue Team mode. Double-click on the 'RedEye' executable or run `./RedEye` from the command line.
 3. **Use the web app** in a browser at http://127.0.0.1:4000. The RedEye binary runs as a server in a terminal window and will automatically open the web app UI your default browser. You must close the terminal window to quit the RedEye server.
 
@@ -49,9 +49,9 @@ There are three options to run RedEye in Red Team mode:
 	1. Clone the repo
 	2. Update the environment variables in `docker-compose.yml`.
 	3. Run: 
-	```
-	docker-compose -f docker-compose.yml up -d redeye-core
-	```
+		```
+		docker-compose -f docker-compose.yml up -d redeye-core
+		```
 
 ### Blue Team
 The Blue Team mode is a simplified, read-only UI for displaying data that has been curated, annotated, and exported by a Red Team. This mode runs by default to make startup more simple for the Blue Team.
