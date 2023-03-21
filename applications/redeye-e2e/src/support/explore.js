@@ -234,7 +234,7 @@ Cypress.Commands.add('searchResultContains', (index, term) => {
 
 // CLOSE SEARCH
 Cypress.Commands.add('closeSearch', () => {
-	cy.get('[cy-test=close-search]').click();
+	cy.get('[cy-test=close-log]').click();
 });
 
 // *******************************************
