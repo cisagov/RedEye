@@ -19,7 +19,7 @@ describe('Presentation Mode Navigation', () => {
 		cy.get('[cy-test=previous-slide]').should('be.disabled');
 		cy.get('[cy-test=next-slide]').should('be.enabled');
 
-		// Log slide count - should be at 1 -- NEEDS WORK
+		// Verify slide count starts at 1
 		cy.get('[cy-test=slide-selector]').invoke('text').should('equal', '1');
 
 		// Click "Next" three times
@@ -36,7 +36,7 @@ describe('Presentation Mode Navigation', () => {
 	});
 
 	it('Can navigate to a specific slide using dropdown', () => {
-		// Upload and open campaign
+		// Open campaign
 		cy.selectCampaign(camp);
 
 		// Go to Presentation Mode
@@ -51,6 +51,22 @@ describe('Presentation Mode Navigation', () => {
 
 		// Verify you are on slide #3
 		cy.get('[cy-test=slide-selector]').invoke('text').should('equal', '3');
+	});
+
+	it('Can switch between presentations using the back arrow', () => {
+		// Open campaign
+		cy.selectCampaign(camp);
+
+		// Go to Presentation Mode
+		cy.clickPresentationMode();
+
+		// Click "All Comments" to open presentation
+		cy.get('[cy-test=all]').click();
+
+		// Navigate through a few slides
+		cy.get('[cy-test=next-slide]').click().click().click();
+
+		// Click Back button to exit presentation
 	});
 
 	after(() => {

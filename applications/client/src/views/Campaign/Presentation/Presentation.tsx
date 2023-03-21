@@ -62,6 +62,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 			`}
 		>
 			<div
+				cy-test="presentation-nav-bar"
 				css={css`
 					flex: 0 0 auto;
 					border-bottom: 1px solid ${CoreTokens.BorderNormal};
@@ -90,6 +91,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 								<>
 									<SlideSelector />
 									<PresentationItem
+										cy-test="presentation-item"
 										commandGroupId={
 											store.campaign.presentation.selectedItem?.commandGroups?.[store.campaign.presentation.index]?.id
 										}
