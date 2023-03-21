@@ -14,7 +14,7 @@ import { InfoType } from '@redeye/client/types';
 import { ToggleHiddenDialog } from './Meta';
 
 type HostRowProps = ComponentProps<'div'> & {
-	modal: string;
+	typeName: string;
 	count: number;
 	bulkShow: UseMutationResult<any, unknown, void, unknown>;
 	bulkHide: UseMutationResult<any, unknown, void, unknown>;
@@ -35,7 +35,7 @@ type HostRowProps = ComponentProps<'div'> & {
 };
 
 export const BulkEdit = observer<HostRowProps>(
-	({ modal, count = 0, bulkShow, bulkHide, bulkShowState, bulkHideState }) => {
+	({ typeName, count = 0, bulkShow, bulkHide, bulkShowState, bulkHideState }) => {
 		const state = createState({
 			bulkShow: true,
 			setBulkShow(bool: boolean) {
@@ -52,7 +52,7 @@ export const BulkEdit = observer<HostRowProps>(
 			<>
 				<div css={modeBarStyle}>
 					<Txt>
-						{count} {modal}
+						{count} {typeName}
 						{count === 1 ? '' : 's'} Selected
 					</Txt>
 					<Popover2
@@ -65,11 +65,10 @@ export const BulkEdit = observer<HostRowProps>(
 							<Menu>
 								{store.settings.showHidden && (
 									<MenuItem
-										text={`Show ${modal}${count === 1 ? '' : 's'}`}
+										text={`Show ${typeName}${count === 1 ? '' : 's'}`}
 										icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 										onClick={(e: React.SyntheticEvent) => {
 											e.stopPropagation();
-											// bulkShow.mutate();
 											if (isDialogDisabled) {
 												bulkShow.mutate();
 											} else {
@@ -80,11 +79,10 @@ export const BulkEdit = observer<HostRowProps>(
 									/>
 								)}
 								<MenuItem
-									text={`Hide ${modal}${count === 1 ? '' : 's'}`}
+									text={`Hide ${typeName}${count === 1 ? '' : 's'}`}
 									icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 									onClick={(e: React.SyntheticEvent) => {
 										e.stopPropagation();
-										// bulkHide.mutate();
 										if (isDialogDisabled) {
 											bulkHide.mutate();
 										} else {
@@ -109,16 +107,21 @@ export const BulkEdit = observer<HostRowProps>(
 				</div>
 				{!isDialogDisabled && (
 					<ToggleHiddenDialog
-						typeName={modal.toLowerCase()}
+						typeName={typeName.toLowerCase()}
 						isOpen={state.bulkShow ? bulkShowState.showHide : bulkHideState.showHide}
-						infoType={modal === 'Beacon' ? InfoType.BEACON : InfoType.HOST}
+						infoType={typeName === 'Beacon' ? InfoType.BEACON : InfoType.HOST}
 						isHiddenToggled={state.bulkShow}
 						onClose={(e) => {
 							e.stopPropagation();
-							bulkShowState.update('showHide', false);
+							if (state.bulkShow) {
+								bulkShowState.update('showHide', false);
+							} else {
+								bulkHideState.update('showHide', false);
+							}
 						}}
 						onHide={() => (state.bulkShow ? bulkShow.mutate() : bulkHide.mutate())}
 						// last={last}  // todo - need a way to disable hide last item
+						bulk={count > 1}
 					/>
 				)}
 			</>
