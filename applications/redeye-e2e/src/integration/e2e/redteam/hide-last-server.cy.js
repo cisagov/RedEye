@@ -29,8 +29,7 @@ describe('Hide last server', () => {
 				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
 				// Click to confirm
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Verify last host still shows in UI
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
@@ -57,8 +56,7 @@ describe('Hide last server', () => {
 				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the server
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Confirm first server does not show in list
 				cy.get('[cy-test=hostName]').each(($servers) => {
@@ -80,8 +78,7 @@ describe('Hide last server', () => {
 				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the host
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Confirm first host does not show in list
 				cy.get('[cy-test=hostName]').each(($servers) => {
@@ -103,8 +100,7 @@ describe('Hide last server', () => {
 				cy.verifyDialogBoxAppears();
 
 				// Confirm that you want to hide the host
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Confirm first host does not show in list
 				cy.get('[cy-test=hostName]').each(($servers) => {
@@ -127,8 +123,7 @@ describe('Hide last server', () => {
 				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
 				// Click to confirm
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Verify last server still shows in UI
 				cy.get('[cy-test=hosts-view]').should('contain', serverName4);

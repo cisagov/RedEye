@@ -273,3 +273,9 @@ Cypress.Commands.add('verifyDialogBoxAppears', () => {
 	cy.get('[cy-test=cancel-show-hide]').should('exist');
 	cy.get('[cy-test=confirm-show-hide]').should('exist');
 });
+
+// CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
+Cypress.Commands.add('confirmShowHide', () => {
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.wait(1000);
+});

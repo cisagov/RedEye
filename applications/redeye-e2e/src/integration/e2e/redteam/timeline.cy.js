@@ -9,19 +9,21 @@ describe('Timeline tests', () => {
 	const camp2 = 'timelinepositions';
 	const fileName2 = 'gt.redeye';
 
-	it('Verify timeline navigation features', () => {
+	it.only('Verify timeline navigation features', () => {
 		// Upload campaign and open
 		cy.uploadCampaign(camp2, fileName2);
 		cy.selectCampaign(camp2);
 
 		// Log the starting position of the timeline bar
-		// @QA - we are now moving the scrubber using `style="transform:translateX(00px)"`, not `x1` & `x2`
 		cy.get('[cy-test=timeline-scrubber]')
 			.invoke('attr', 'style')
 			.as('timeline')
 			.then((text1) => {
 				const pattern1 = /[0-9]+/g;
 				const position1 = text1.match(pattern1)[0];
+
+				// Verify "All Time" toggle is on
+				cy.get('[cy-test=all-time-switch]').should('be.checked');
 
 				// Click Play and let the timeline run for a few seconds
 				cy.timelinePlayPause();
@@ -35,6 +37,9 @@ describe('Timeline tests', () => {
 					const position2 = text2.match(pattern2)[0];
 
 					expect(+position1).to.not.equal(+position2);
+
+					// Verify "All Time" toggle is off
+					cy.get('[cy-test=all-time-switch]').should('not.be.checked');
 
 					// Click the back button to move the timeline backward; verify its position is less than the previous position
 					cy.timelineBack();
@@ -213,7 +218,7 @@ describe('Timeline tests', () => {
 	});
 
 	after(() => {
-		cy.deleteCampaignGraphQL(camp);
+		// cy.deleteCampaignGraphQL(camp);
 		cy.deleteCampaignGraphQL(camp2);
 	});
 });

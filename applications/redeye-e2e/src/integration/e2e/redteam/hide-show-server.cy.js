@@ -106,8 +106,7 @@ describe('Hide a server', () => {
 				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to hide the server
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Verify list shows nothing (hiding server hides all hosts under it)
 				// cy.get('[cy-test=message-row]').contains('No Hosts').should('exist');
@@ -125,8 +124,7 @@ describe('Hide a server', () => {
 				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the host
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Go to settings and toggle switch to not show hidden
 				cy.doNotShowHiddenItems();
