@@ -108,7 +108,7 @@
 		"@mikro-orm/entity-generator": "5.6.6",
 		"@mikro-orm/migrations": "5.6.6",
 		"@mikro-orm/seeder": "5.6.6",
-		"@moonrepo/cli": "^0.25.4",
+		"@moonrepo/cli": "^0.26.1",
 		"@swc/cli": "~0.1.55",
 		"@swc/core": "~1.2.143",
 		"@swc/helpers": "~0.3.3",
@@ -151,7 +151,7 @@
 		"builder-util": "^23.0.2",
 		"concurrently": "^7.6.0",
 		"cross-env": "^7.0.3",
-		"cypress": "^12.7.0",
+		"cypress": "^12.8.1",
 		"cypress-multi-reporters": "^1.6.1",
 		"dotenv": "^8.2.0",
 		"eslint": "^8.22.0",
@@ -187,7 +187,6 @@
 		"nodemon": "^2.0.20",
 		"pkg": "^5.8.0",
 		"pkg-fetch": "^3.4.2",
-		"playwright-webkit": "^1.25.2",
 		"prettier": "^2.2.1",
 		"rimraf": "^4.1.2",
 		"rollup-plugin-auto-external": "^2.0.0",
@@ -204,7 +203,7 @@
 		"vite-tsconfig-paths": "^3.5.0"
 	},
 	"lint-staged": {
-		"**/*.{json,yml,yaml,js,jsx,ts,tsx}": [
+		"**/*.{json,yml,yaml,js,jsx,ts,tsx,graphql}": [
 			"yarn prettier --ignore-path .gitignore --write"
 		]
 	},

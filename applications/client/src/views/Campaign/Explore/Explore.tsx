@@ -56,7 +56,6 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 					} else if (!store.campaign?.interactionState.selectedBeacon) {
 						state.update('infoPanelType', InfoType.SERVER);
 					}
-					store.campaign.timeline.showAllTime();
 				} catch (e) {
 					window.console.log(e); // Try to catch if tab switching is stalling here - hard to reproduce
 				}
