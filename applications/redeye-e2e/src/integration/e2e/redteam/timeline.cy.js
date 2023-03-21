@@ -9,7 +9,7 @@ describe('Timeline tests', () => {
 	const camp2 = 'timelinepositions';
 	const fileName2 = 'gt.redeye';
 
-	it.only('Verify timeline navigation features', () => {
+	it('Verify timeline navigation features', () => {
 		// Upload campaign and open
 		cy.uploadCampaign(camp2, fileName2);
 		cy.selectCampaign(camp2);
@@ -27,7 +27,7 @@ describe('Timeline tests', () => {
 
 				// Click Play and let the timeline run for a few seconds
 				cy.timelinePlayPause();
-				cy.wait(3000);
+				cy.wait(1000);
 
 				// Pause the timeline and log its new position - should be different than the starting position
 				cy.timelinePlayPause();
