@@ -34,7 +34,7 @@ export const ModeIndicator = observer<Omit<PopoverButtonProps, 'content'> & { fu
 							<Txt>{team}</Txt> <Txt muted>Mode</Txt>
 						</Txt>
 						<Txt muted>{description}</Txt>
-						<ExternalLink href="https://github.com/cisagov/redeye#readme">Learn more</ExternalLink>
+						<ExternalLink href="https://github.com/cisagov/redeye#red-team--blue-team-modes">Learn more</ExternalLink>
 					</Flex>
 				}
 				active={false}
