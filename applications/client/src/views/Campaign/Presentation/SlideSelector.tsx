@@ -80,7 +80,7 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 						`}
 					/>
 				</Select2>
-				<span>of {store.campaign.presentation.selectedItem?.commandGroups?.length}</span>
+				<span cy-test="total-slides">of {store.campaign.presentation.selectedItem?.commandGroups?.length}</span>
 			</Txt>
 		</div>
 	);

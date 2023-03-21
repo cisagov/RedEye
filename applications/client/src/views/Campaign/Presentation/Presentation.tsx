@@ -62,7 +62,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 			`}
 		>
 			<div
-				cy-test="presentation-nav-bar"
+				cy-test="presentation-header-bar"
 				css={css`
 					flex: 0 0 auto;
 					border-bottom: 1px solid ${CoreTokens.BorderNormal};
