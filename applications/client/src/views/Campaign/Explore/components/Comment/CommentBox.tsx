@@ -238,7 +238,7 @@ export const CommentBox = observer<CommentBoxProps>(
 				if (manuallyCreatedLink) {
 					this.manuallyCreatedLink = manuallyCreatedLink;
 					this.nameText = manuallyCreatedLink.name;
-					this.addOrChangeLinkButtonText = `Edit link to ${this.manuallyCreatedLink?.destination?.current.displayName}`;
+					this.addOrChangeLinkButtonText = `Edit link to ${this.manuallyCreatedLink?.destination?.current.computedName}`;
 				} else {
 					this.manuallyCreatedLink = null;
 					this.addOrChangeLinkButtonText = 'Add beacon link';

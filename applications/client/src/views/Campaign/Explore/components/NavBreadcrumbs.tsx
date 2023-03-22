@@ -78,7 +78,7 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 					crumbs.push({
 						text: !store.campaign?.interactionState.selectedHost
 							? 'Server'
-							: store.campaign?.interactionState.selectedServer?.current?.displayName,
+							: store.campaign?.interactionState.selectedServer?.current?.computedName,
 						current: !store.campaign?.interactionState.selectedHost,
 						onClick: store.campaign?.interactionState.selectedHost
 							? (e) => {
@@ -92,7 +92,7 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 					crumbs.push({
 						text: !store.campaign?.interactionState.selectedBeacon
 							? 'Host'
-							: store.campaign?.interactionState.selectedHost?.current?.displayName,
+							: store.campaign?.interactionState.selectedHost?.current?.computedName,
 						current: !store.campaign?.interactionState.selectedBeacon,
 						onClick: store.campaign?.interactionState.selectedBeacon
 							? (e) => {
@@ -120,14 +120,14 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 
 				crumbs.push(
 					{
-						text: this.command?.beacon?.current?.server?.displayName ?? 'Server',
+						text: this.command?.beacon?.current?.server?.computedName ?? 'Server',
 						onClick: async (e) => {
 							await onNavigate(e);
 							this.command?.beacon?.current?.server?.select();
 						},
 					},
 					{
-						text: this.command?.beacon?.current?.host?.current?.displayName,
+						text: this.command?.beacon?.current?.host?.current?.computedName,
 						onClick: async (e) => {
 							e.stopPropagation();
 							if (
@@ -141,7 +141,7 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						},
 					},
 					{
-						text: `${this.command?.beacon?.current?.displayName} ${
+						text: `${this.command?.beacon?.current?.computedName} ${
 							this.command?.beacon?.current?.meta?.[0]?.maybeCurrent?.username || ''
 						}`,
 						onClick: async (e) => {

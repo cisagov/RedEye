@@ -29,8 +29,8 @@ export const CheckForAddedLink: FC<CheckForAddedLinkProps> = ({
 			return (
 				<BeaconSuggestedRow
 					reason=""
-					targetHost={linkedModel[0].destination?.current.host?.current.displayName}
-					targetBeacon={linkedModel[0].destination?.current.displayName}
+					targetHost={linkedModel[0].destination?.current.computedName}
+					targetBeacon={linkedModel[0].destination?.current.computedName}
 					icon
 				/>
 			);

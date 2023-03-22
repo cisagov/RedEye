@@ -32,8 +32,8 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 	const handleItemSelect = (item) => {
 		const newValue = (
 			<BeaconSuggestedRow
-				targetHost={item.host.current.displayName as string}
-				targetBeacon={item.displayName as string}
+				targetHost={item.host.current.computedName as string}
+				targetBeacon={item.computedName as string}
 				reason={commandString as string}
 				icon={false}
 			/>
@@ -47,8 +47,9 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 
 	// checks displayName and beaconName
 	const filterFilm: ItemPredicate<BeaconModel> = (query, to_beacon) => {
+		// beacon.searchName(query) // NEEDED?
 		const dispNameText = to_beacon.displayName;
-		const nameText = to_beacon.beaconName;
+		const nameText = to_beacon.computedName;
 		if (dispNameText) {
 			return (
 				nameText.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
@@ -70,8 +71,8 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 				shouldDismissPopover={false}
 				labelElement={
 					<BeaconSuggestedRow
-						targetHost={to_beacon.host?.current.displayName as string}
-						targetBeacon={to_beacon.displayName as string}
+						targetHost={to_beacon.computedHostName as string}
+						targetBeacon={to_beacon.computedName as string}
 						reason={commandString as string}
 						icon={false}
 					/>
@@ -95,7 +96,7 @@ export const AddBeaconSelectOrSuggest: FC<AddBeaconSelectOrSuggestProps> = ({
 					noResults={<MenuItem2 disabled text="No results." />}
 					fill
 					resetOnQuery
-					inputValueRenderer={(item) => `${item.host?.current.displayName as string} / ${item.displayName}` as string}
+					inputValueRenderer={(item) => `${item.computedHostName as string} / ${item.computedName}` as string}
 				/>
 			) : (
 				<Select2

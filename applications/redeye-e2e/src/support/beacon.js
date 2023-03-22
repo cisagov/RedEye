@@ -15,8 +15,8 @@ Cypress.Commands.add('clickBeacon', (index) => {
 });
 
 Cypress.Commands.add('verifyBeaconNameUserName', (beacon, uname) => {
-	cy.get('[cy-test=beaconName]').contains(beacon);
-	cy.get('[cy-test=userName]').contains(uname);
+	cy.get('[cy-test=panel-header]').contains(beacon);
+	cy.get('[cy-test=panel-header]').contains(uname);
 });
 
 //VERIFY THAT COMMAND LOGS CONTAIN TEXT

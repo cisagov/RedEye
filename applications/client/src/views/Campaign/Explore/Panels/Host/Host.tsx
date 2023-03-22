@@ -58,7 +58,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					</>
 				)}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
-					{host.displayName}
+					{host.computedName}
 				</Txt>
 			</RowTitle>
 			<FlexSplitter />

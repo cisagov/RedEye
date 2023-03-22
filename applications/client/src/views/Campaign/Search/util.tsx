@@ -22,21 +22,20 @@ export const searchableKeys = [
 
 export const getPaths = (store: AppStore, { server, host, beacon }: any): (string | null | undefined)[] => {
 	if (beacon) {
-		const beaconModel = store.graphqlStore.beacons.get(beacon)!;
 		return [
-			store.graphqlStore.servers.get(server)?.displayName,
-			store.graphqlStore.hosts.get(host)?.displayName,
-			[beaconModel.displayName, beaconModel.meta[0]?.current.username].join(' '),
+			store.graphqlStore.servers.get(server)?.computedName,
+			store.graphqlStore.hosts.get(host)?.computedName,
+			store.graphqlStore.beacons.get(beacon)?.computedName,
 		];
 	}
 	if (host)
 		return [
-			store.graphqlStore.servers.get(server)?.displayName, //
-			store.graphqlStore.hosts.get(host)?.displayName,
+			store.graphqlStore.servers.get(server)?.computedName, //
+			store.graphqlStore.hosts.get(host)?.computedName,
 		];
 	if (server)
 		return [
-			store.graphqlStore.servers.get(server)?.displayName, //
+			store.graphqlStore.servers.get(server)?.computedName, //
 		];
 	else return [];
 };

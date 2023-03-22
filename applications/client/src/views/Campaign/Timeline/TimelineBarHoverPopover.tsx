@@ -10,7 +10,7 @@ import {
 import { routes, useStore } from '@redeye/client/store';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import type { UUID } from '@redeye/client/types';
-import { Txt, FlexSplitter, AdvancedTokens, CoreTokens, Flex } from '@redeye/ui-styles';
+import { Txt, FlexSplitter, AdvancedTokens, CoreTokens, Flex, Spacer } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useState, useCallback } from 'react';
@@ -81,12 +81,16 @@ export const TimelineBarHoverPopover = observer<BarLabelsProps>(({ bar, dateForm
 								css={barPopoverRowStyles}
 								onClick={() => routeToBeacon(beaconCommand.beaconId as string)}
 							>
+								<Txt cy-test="timeline-host-name" small>
+									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.computedHostName}
+								</Txt>
+								<Spacer>/</Spacer>
 								<Txt cy-test="timeline-beacon-name" small>
-									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.displayName}
+									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.computedName}
 								</Txt>
-								<Txt cy-test="timeline-beacon-operator" muted small ellipsize>
+								{/* <Txt cy-test="timeline-beacon-operator" muted small ellipsize>
 									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0].maybeCurrent?.username}
-								</Txt>
+								</Txt> */}
 								<FlexSplitter />
 								<IconLabel
 									cy-test="timeline-beacon-command-count"

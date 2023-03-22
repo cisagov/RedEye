@@ -93,7 +93,7 @@ export const BeaconMeta = observer(() => {
 		async () => {
 			state.update('displayNameNeedsSaving', false);
 			return await store.graphqlStore.mutateUpdateBeaconMetadata({
-				beaconDisplayName: state.displayName,
+				beaconDisplayName: undefined,
 				campaignId: store.campaign.id as string,
 				beaconId: beacon?.id as string,
 			});
@@ -124,7 +124,7 @@ export const BeaconMeta = observer(() => {
 				cy-test="beacon-display-name"
 				fill
 				disabled={!!store.appMeta.blueTeam}
-				placeholder={beacon?.beaconName || ''}
+				placeholder={beacon?.computedBeaconName}
 				value={state.displayName}
 				onChange={(e) => {
 					state.update('displayName', e.target.value);
@@ -201,8 +201,8 @@ export const BeaconMeta = observer(() => {
 							<BeaconLinkRow
 								key={link.id}
 								direction="From"
-								host={link.origin?.current?.host?.current.displayName || link.origin?.current?.server?.displayName}
-								beacon={link.origin?.current?.displayName}
+								host={link.origin?.current?.host?.current.computedName || link.origin?.current?.server?.computedName}
+								beacon={link.origin?.current?.computedName}
 								onClick={() =>
 									!link.origin?.current?.host?.maybeCurrent?.cobaltStrikeServer && link.origin?.current?.select()
 								}
@@ -214,9 +214,10 @@ export const BeaconMeta = observer(() => {
 								key={link.id}
 								direction="To"
 								host={
-									link.destination?.current?.host?.current.displayName || link.destination?.current?.server?.displayName
+									link.destination?.current?.host?.current.computedName ||
+									link.destination?.current?.server?.computedName
 								}
-								beacon={link.destination?.current?.displayName}
+								beacon={link.destination?.current?.computedName}
 								onClick={() =>
 									!link.destination?.current?.host?.maybeCurrent?.cobaltStrikeServer &&
 									link.destination?.current?.select()

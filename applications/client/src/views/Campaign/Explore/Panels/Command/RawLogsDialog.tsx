@@ -7,7 +7,7 @@ import { CarbonIcon, DialogEx } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel, LogEntryModel } from '@redeye/client/store';
 import { selectFromLogEntry, useStore } from '@redeye/client/store';
-import { copyText, DoublePanelHeader, NavBreadcrumbs } from '@redeye/client/views';
+import { copyText, PanelHeader, NavBreadcrumbs } from '@redeye/client/views';
 import { Txt, CoreTokens, UtilityStyles } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { throttle } from 'throttle-debounce';
@@ -99,15 +99,10 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 							align-items: flex-end;
 						`}
 					>
-						<DoublePanelHeader
-							cy-test="log-title"
-							primaryName={state.beacon?.displayName}
-							secondaryName={
-								<>
-									<Txt>{state.beacon?.meta?.[0]?.maybeCurrent?.username}</Txt> <Txt disabled>Raw Logs</Txt>
-								</>
-							}
-						/>
+						<PanelHeader cy-test="log-title">
+							<Txt>{state.beacon?.computedName}</Txt>
+							<Txt> Raw Logs</Txt>
+						</PanelHeader>
 						<ButtonGroup>
 							<Button
 								cy-test="scroll-to-top"
