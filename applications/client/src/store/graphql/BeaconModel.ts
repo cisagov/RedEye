@@ -3,8 +3,7 @@ import { routes } from '@redeye/client/store';
 import { TimeStatus } from '@redeye/client/types/timeline';
 import { computed } from 'mobx';
 import { ExtendedModel, getRoot, model, modelAction } from 'mobx-keystone';
-import type { CurrentItem, UUID } from '../../types';
-import { CampaignViews, Tabs } from '../../types';
+import { CampaignViews, Tabs, CurrentItem, UUID } from '../../types';
 import { BeaconModelBase } from './BeaconModel.base';
 import type { OperatorModel } from './OperatorModel';
 import type { ServerModel } from './ServerModel';
@@ -66,25 +65,32 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 		return operators;
 	}
 
-	@computed get computedName(): string {
-		if (this.displayName) {
-			return this.displayName;
-		}
-		// const { beaconName } = this;
-		// const {} = this.host?.current.displayName
+	@computed get computedBeaconName(): string {
+		const meta = this.meta[0]?.current;
+		if (!meta) return this.beaconName;
 		const {
 			// id,
-			pid,
+			// pid,
 			username,
 			// ip
-		} = this.meta[0].current;
+		} = meta;
+		const process = 'test.exe';
 		const listener = 'http';
-		return [username, pid, listener].join(' • ');
+		return [process, username].join(' · ');
+	}
+
+	@computed get computedName(): string {
+		return this.displayName ?? this.computedBeaconName;
 	}
 
 	@computed get computedHostName() {
 		return this.host?.current.computedName;
 	}
+
+	// @modelAction searchName(query: string) {
+	// 	// NEEDED ?
+	// 	// search host, beaconName, pid, username, displayName
+	// }
 
 	@modelAction select(activeItem?: CurrentItem, activeItemId?: UUID) {
 		const appStore = getRoot<AppStore>(this);
