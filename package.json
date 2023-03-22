@@ -43,6 +43,7 @@
 		"@carbon/icons-react": "^10.36.0",
 		"@emotion/react": "^11.4.0",
 		"@emotion/styled": "^11.3.0",
+		"@fontsource/redacted-script": "^4.5.13",
 		"@mikro-orm/better-sqlite": "5.6.6",
 		"@mikro-orm/core": "5.6.6",
 		"@openfonts/ibm-plex-mono_all": "^1.44.2",
