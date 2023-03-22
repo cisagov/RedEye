@@ -3,7 +3,8 @@ import { routes } from '@redeye/client/store';
 import { TimeStatus } from '@redeye/client/types/timeline';
 import { computed } from 'mobx';
 import { ExtendedModel, getRoot, model, modelAction } from 'mobx-keystone';
-import { CurrentItem, UUID, CampaignViews, Tabs } from '../../types';
+import type { CurrentItem, UUID } from '../../types';
+import { CampaignViews, Tabs } from '../../types';
 import { BeaconModelBase } from './BeaconModel.base';
 import type { OperatorModel } from './OperatorModel';
 import type { ServerModel } from './ServerModel';
@@ -63,6 +64,26 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 			if (operator?.beacons.has(this.id as string)) operators.push(operator);
 		});
 		return operators;
+	}
+
+	@computed get computedName(): string {
+		if (this.displayName) {
+			return this.displayName;
+		}
+		// const { beaconName } = this;
+		// const {} = this.host?.current.displayName
+		const {
+			// id,
+			pid,
+			username,
+			// ip
+		} = this.meta[0].current;
+		const listener = 'http';
+		return [username, pid, listener].join(' • ');
+	}
+
+	@computed get computedHostName() {
+		return this.host?.current.computedName;
 	}
 
 	@modelAction select(activeItem?: CurrentItem, activeItemId?: UUID) {
