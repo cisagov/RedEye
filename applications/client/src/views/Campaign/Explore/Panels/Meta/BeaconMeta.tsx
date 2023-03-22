@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
+import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
@@ -117,6 +117,15 @@ export const BeaconMeta = observer(() => {
 		});
 	});
 
+	const dateInputOnChange = (datetime) => {
+		const min = store.campaign.timeline.maxRange?.[0];
+		const max = store.campaign.timeline.maxRange?.[1];
+		const clampedDatetime =
+			min && max && datetime ? momentClamp({ value: datetime, min, max }).toISOString() : datetime;
+		state.update('displayDeath', clampedDatetime);
+		state.update('displayDeathNeedsSaving', true);
+	};
+
 	return (
 		<MetaGridLayout>
 			<MetaHeader>Display Name</MetaHeader>
@@ -158,14 +167,7 @@ export const BeaconMeta = observer(() => {
 					canClearSelection={false}
 					formatDate={(date) => (date == null ? '' : moment(date).format(dateTimeFormat))}
 					parseDate={(str) => store.settings.momentTz(str).toDate()}
-					onChange={(datetime) => {
-						const min = store.campaign.timeline.maxRange?.[0];
-						const max = store.campaign.timeline.maxRange?.[1];
-						const clampedDatetime =
-							min && max && datetime ? momentClamp({ value: datetime, min, max }).toISOString() : datetime;
-						state.update('displayDeath', clampedDatetime);
-						state.update('displayDeathNeedsSaving', true);
-					}}
+					onChange={dateInputOnChange}
 					{...getMinMaxDate(store.campaign.timeline.maxRange?.[0], store.campaign.timeline.maxRange?.[1])}
 					rightElement={
 						<SaveInputButton
