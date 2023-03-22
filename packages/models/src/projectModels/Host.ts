@@ -13,7 +13,7 @@ export class Host {
 	constructor({ hostName, id, ...optionals }: RequiredInsertArgs & OptionalArgs) {
 		this.id = id ?? randomUUID();
 		this.hostName = hostName;
-		this.displayName = hostName;
+		this.displayName = undefined; // hostName; // ??
 		Object.assign(this, optionals);
 	}
 

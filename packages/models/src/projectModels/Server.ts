@@ -24,7 +24,7 @@ export class Server {
 		parsingPath,
 	}: Pick<Server, 'name' | 'parsingPath'> & Partial<Pick<Server, 'id' | 'displayName'>>) {
 		this.name = name;
-		this.displayName = displayName ?? name;
+		this.displayName = displayName ?? undefined; // name; // ??
 		this.parsingPath = parsingPath;
 	}
 
@@ -39,9 +39,9 @@ export class Server {
 	@Property()
 	parsingPath: string;
 
-	@Field(() => String)
-	@Property()
-	displayName: string;
+	@Field(() => String, { nullable: true })
+	@Property({ nullable: true })
+	displayName?: string;
 
 	@Field(() => Boolean, { nullable: true })
 	@Property({ nullable: true })
