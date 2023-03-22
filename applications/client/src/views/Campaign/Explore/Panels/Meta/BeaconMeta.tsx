@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
+import { MetaGridLayout, MetaHeader, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
@@ -229,22 +229,24 @@ export const BeaconMeta = observer(() => {
 					</>
 				)}
 			</div>
-			<ToggleHiddenButton
-				cy-test="show-hide-this-beacon"
-				disabled={!!store.appMeta.blueTeam}
-				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-				isHiddenToggled={!!beacon?.hidden}
-				typeName="beacon"
-			/>
-			<ToggleHiddenDialog
-				typeName="beacon"
-				isOpen={toggleHidden.showHide}
-				infoType={InfoType.BEACON}
-				isHiddenToggled={!!beacon?.hidden}
-				onClose={() => toggleHidden.update('showHide', false)}
-				onHide={() => mutateToggleHidden.mutate()}
-				last={last}
-			/>
+			<MetaSection>
+				<ToggleHiddenButton
+					cy-test="show-hide-this-beacon"
+					disabled={!!store.appMeta.blueTeam}
+					onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
+					isHiddenToggled={!!beacon?.hidden}
+					typeName="beacon"
+				/>
+				<ToggleHiddenDialog
+					typeName="beacon"
+					isOpen={toggleHidden.showHide}
+					infoType={InfoType.BEACON}
+					isHiddenToggled={!!beacon?.hidden}
+					onClose={() => toggleHidden.update('showHide', false)}
+					onHide={() => mutateToggleHidden.mutate()}
+					last={last}
+				/>
+			</MetaSection>
 		</MetaGridLayout>
 	);
 });
