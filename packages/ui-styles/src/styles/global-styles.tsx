@@ -4,12 +4,13 @@ import styled from '@emotion/styled';
 // import { plexFontFace } from './font-face-local';
 import { extensionStyles } from './ibm-carbon-extension-styles';
 import { CoreTokens } from '../styles/tokens';
-
-// font import
-import './font-face-local.css';
+import { fontSettings } from './font-settings';
 
 export const disableSelectionClassName = 'disable-selection';
+
 export const globalStyle = css`
+	${fontSettings};
+
 	.toast-class {
 		z-index: 999;
 	}
@@ -27,11 +28,6 @@ export const globalStyle = css`
 
 	body {
 		/* overflow: hidden; */ // we might need this
-	}
-
-	code,
-	pre {
-		font-family: ${CoreTokens.FontFamilyMonospace};
 	}
 
 	.${Classes.DIALOG_CONTAINER} {
