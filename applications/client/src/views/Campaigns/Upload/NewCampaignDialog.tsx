@@ -78,7 +78,7 @@ const BlueTeamSourceWarning = (props) => (
 		<Txt running>
 			This upload source is not available in BlueTeam mode.
 			<br />
-			<ExternalLink href="https://github.com/cisagov/redeye#readme">Learn more</ExternalLink>
+			<ExternalLink href="https://github.com/cisagov/redeye#red-team--blue-team-modes">Learn more</ExternalLink>
 		</Txt>
 	</div>
 );
