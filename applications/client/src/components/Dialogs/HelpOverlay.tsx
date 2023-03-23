@@ -1,9 +1,8 @@
 import type { DrawerProps } from '@blueprintjs/core';
 import { css } from '@emotion/react';
-import { Header, Spacer, Txt } from '@redeye/ui-styles';
+import { ExternalLink, Header, Spacer, Txt } from '@redeye/ui-styles';
 import type { FC, ReactNode } from 'react';
 import { Logo } from '../Header';
-import { externalLinkAttributes as external } from '../utils';
 import { DialogEx } from './DialogEx';
 
 const appVersion = PACKAGE_VERSION;
@@ -79,5 +78,3 @@ const cisaLink: LinkInfo = {
 	href: 'https://www.cisa.gov',
 	children: 'CyberSecurity and Infrastructure Security Agency',
 };
-
-const ExternalLink = (props) => <Txt tagName="a" {...external} {...props} />;

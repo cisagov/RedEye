@@ -4,8 +4,8 @@
 
 export * from './CampaignCard';
 export * from './Campaigns';
-export * from './Upload/DbUpload';
-export * from './Upload/LogsUpload';
+export * from './Upload/RedEyeDbUploadForm';
+export * from './Upload/CobaltStrikeUploadForm';
 export * from './Upload/NewCampaignDialog';
 export * from './RenameDialog';
 export * from './AnonymizeDialog/index';
