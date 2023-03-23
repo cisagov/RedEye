@@ -14,14 +14,7 @@ import { useEffect } from 'react';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
-import {
-	MetaCommentButton,
-	MetaGridLayout,
-	MetaLabel,
-	MetaSection,
-	SaveInputButton,
-	ToggleHiddenButton,
-} from './MetaComponents';
+import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
@@ -135,7 +128,7 @@ export const BeaconMeta = observer((props) => {
 
 	return (
 		<div {...props}>
-			<MetaCommentButton />
+			{/* <MetaCommentButton /> TODO: implement later */}
 			<MetaSection>
 				<MetaGridLayout>
 					<MetaLabel>Display Name</MetaLabel>
