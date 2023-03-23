@@ -3,8 +3,6 @@
 describe('Cannot add comment without text', () => {
 	const camp = 'commentbuttondisabled';
 	const fileName = 'gt.redeye';
-	const cmd = 'dcsync';
-	const comment = 'Test comment';
 	const tag = 'testing';
 
 	it('Verify comment button is disabled when there is no text', () => {
@@ -15,7 +13,7 @@ describe('Cannot add comment without text', () => {
 		// Open command, try to add comment with no text, verify button is disabled
 		cy.clickExplorerMode();
 		cy.clickCommandTypesTab();
-		cy.selectCommandType(cmd);
+		cy.selectCommandType('dcsync');
 		cy.wait(1000);
 		cy.get('[cy-test=command-info] [cy-test=add-comment]')
 			.eq(0)
@@ -30,7 +28,7 @@ describe('Cannot add comment without text', () => {
 		cy.get('[cy-test=save-comment]').should('be.disabled');
 
 		// Type in comment box, verify button is enabled
-		cy.get('[cy-test=comment-input]').click().type(comment);
+		cy.get('[cy-test=comment-input]').click().type('Test comment');
 		cy.get('[cy-test=save-comment]').should('be.enabled');
 	});
 
