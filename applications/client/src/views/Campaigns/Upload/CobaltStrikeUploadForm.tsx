@@ -48,7 +48,7 @@ import FileWorker from './file-worker?worker';
 const workerBlob = new Blob([workerString], { type: 'text/javascript' });
 const workerURL = URL.createObjectURL(workerBlob);
 
-type LogsUploadProps = ComponentProps<'form'> & {
+type CobaltStrikeUploadFormProps = ComponentProps<'form'> & {
 	onClose: (...args: any) => void;
 };
 
@@ -66,7 +66,7 @@ const defaultServer: Servers = {
 	isParsingFiles: false,
 };
 
-export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
+export const CobaltStrikeUploadForm = observer<CobaltStrikeUploadFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
 		campaignName: '' as string,
@@ -77,7 +77,7 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 		files: observable.array<DirectoryFile>(),
 		invalidFiles: observable.array<DirectoryFile>(),
 		uploadError: undefined as undefined | string,
-		multiServerUpload: true,
+		multiServerUpload: undefined as undefined | boolean,
 		loading: false,
 		uploading: false,
 		showExample: false,
@@ -156,7 +156,7 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 					this.loading = false;
 				});
 			} else {
-				return this.fileError('No Valid Files Found');
+				// return this.fileError('No Valid Files Found'); // not sure this is an error?
 			}
 		},
 		*submitData(e: FormEvent<HTMLFormElement>) {
@@ -234,7 +234,9 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 
 				<RadioGroup
 					label="Upload Mode"
-					selectedValue={state.multiServerUpload ? UploadMode.Multi : UploadMode.Single}
+					selectedValue={
+						state.multiServerUpload == null ? undefined : state.multiServerUpload ? UploadMode.Multi : UploadMode.Single
+					}
 					onChange={state.onMultiServerUploadChange}
 					inline
 					css={css`
@@ -252,152 +254,162 @@ export const LogsUpload = observer<LogsUploadProps>(({ ...props }) => {
 
 				<Divider />
 
-				<FormGroup
-					label={
-						<Txt tagName="div" large>
-							{state.multiServerUpload ? (
-								<span>
-									Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
-									<Txt bold>Server Folders</Txt>.<br />
-									Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (<Txt bold>YYMMDD</Txt>)
-									folders.
-								</span>
-							) : (
-								<span>
-									Select a single CobaltStrike <Txt bold>Server Folder</Txt> containing beacon logs in dated (
-									<Txt bold>YYMMDD</Txt>) folders.
-								</span>
-							)}
-						</Txt>
-					}
-				>
-					<FileInput
-						cy-test="upload-folder"
-						// not a huge fan of this blueprint file input
-						// TODO: there is no focus state? fix in blueprint-styler
-						aria-errormessage={state.uploadError}
-						aria-invalid={!!state.uploadError}
-						onInputChange={state.onFileInputChange}
-						inputProps={inputProps as any}
-						text={`${state.files.length} files selected`}
-						large
-						fill
-					/>
-					<Button
-						minimal
-						small
-						intent={Intent.PRIMARY}
-						text="Show an example"
-						icon={<CarbonIcon icon={state.showExample ? ChevronDown16 : ChevronRight16} />}
-						onClick={() => state.update('showExample', !state.showExample)}
-						css={css`
-							margin: 2px -0.5rem;
-						`}
-					/>
-					<Collapse isOpen={state.showExample}>
-						<Txt
-							monospace
-							muted
-							tagName="pre"
-							css={css`
-								margin: 0 0.5rem;
-							`}
-							children={state.multiServerUpload ? MultiServerFilesExample : SingleServerFilesExample}
-						/>
-					</Collapse>
-				</FormGroup>
-
-				<FormGroup
-					label={`Server Folder${state.multiServerUpload ? 's' : ''}`}
-					helperText={state.servers.length > 0 && 'Folders can be renamed before upload'}
-				>
-					{state.servers.length === 0 && !state.uploadError && (
-						<Txt disabled italic>
-							No folders selected
-						</Txt>
-					)}
-					{!!state.uploadError && (
-						<Callout intent={Intent.DANGER} icon={<CarbonIcon icon={Warning20} />} children={state.uploadError} />
-					)}
-					{state.servers.map((server: Servers, i) => (
-						<ControlGroup
-							/* eslint-disable-next-line react/no-array-index-key */
-							key={i}
-							css={css`
-								margin: 0.25rem 0;
-							`}
-							fill
+				{state.multiServerUpload == null ? (
+					<Txt italic disabled>
+						Select Upload Mode
+					</Txt>
+				) : (
+					<>
+						<FormGroup
+							label={
+								<Txt tagName="div" large>
+									{state.multiServerUpload ? (
+										<span>
+											Select a single <Txt bold>Campaign Folder</Txt> that contains multiple CobaltStrike&nbsp;
+											<Txt bold>Server Folders</Txt>.<br />
+											Each <Txt bold>Server Folder</Txt>&nbsp;should contain beacon logs in dated (
+											<Txt bold>YYMMDD</Txt>) folders.
+										</span>
+									) : (
+										<span>
+											Select a single CobaltStrike <Txt bold>Server Folder</Txt> containing beacon logs in dated (
+											<Txt bold>YYMMDD</Txt>) folders.
+										</span>
+									)}
+								</Txt>
+							}
 						>
-							<InputGroup
-								placeholder="server.name"
-								value={server.name}
-								onChange={(e) => (server.name = e.target.value)}
-								intent={state.servers.some((s, x) => x !== i && s.name === server.name) ? Intent.DANGER : Intent.NONE}
-								leftIcon={<CarbonIcon icon={Folder16} />}
-								rightElement={<Txt muted>{server.fileCount} log files</Txt>}
-								css={css`
-									.${Classes.INPUT_ACTION} {
-										display: flex;
-										height: 100%;
-										padding: 0 1rem;
-										align-items: center;
-									}
-								`}
+							<FileInput
+								cy-test="upload-folder"
+								// not a huge fan of this blueprint file input
+								// TODO: there is no focus state? fix in blueprint-styler
+								aria-errormessage={state.uploadError}
+								aria-invalid={!!state.uploadError}
+								onInputChange={state.onFileInputChange}
+								inputProps={inputProps as any}
+								text={`${state.files.length} files selected`}
 								large
 								fill
 							/>
-							<HoverButton
-								onClick={() => state.servers.remove(server)}
-								icon={<CarbonIcon icon={TrashCan16} />}
-								disabled={state.servers.length <= 1}
-								large
-								hoverProps={state.servers.length <= 1 ? undefined : { intent: 'danger' }}
+							<Button
+								minimal
+								small
+								intent={Intent.PRIMARY}
+								text="Show an example"
+								icon={<CarbonIcon icon={state.showExample ? ChevronDown16 : ChevronRight16} />}
+								onClick={() => state.update('showExample', !state.showExample)}
+								css={css`
+									margin: 2px -0.5rem;
+								`}
 							/>
-						</ControlGroup>
-					))}
-					{!!state.invalidFiles.length && (
-						<Popover2
-							position={Position.TOP_LEFT}
-							openOnTargetFocus={false}
-							interactionKind="hover"
-							hoverOpenDelay={300}
-							minimal
-							fill
-							content={
-								<ScrollBox
+							<Collapse isOpen={state.showExample}>
+								<Txt
+									monospace
+									muted
+									tagName="pre"
 									css={css`
-										max-height: 40rem;
-										max-width: 40rem;
+										margin: 0 0.5rem;
 									`}
+									children={state.multiServerUpload ? MultiServerFilesExample : SingleServerFilesExample}
+								/>
+							</Collapse>
+						</FormGroup>
+
+						<FormGroup
+							label={`Server Folder${state.multiServerUpload ? 's' : ''}`}
+							helperText={state.servers.length > 0 && 'Folders can be renamed before upload'}
+						>
+							{state.servers.length === 0 && !state.uploadError && (
+								<Txt disabled italic>
+									No folders selected
+								</Txt>
+							)}
+							{!!state.uploadError && (
+								<Callout intent={Intent.DANGER} icon={<CarbonIcon icon={Warning20} />} children={state.uploadError} />
+							)}
+							{state.servers.map((server: Servers, i) => (
+								<ControlGroup
+									/* eslint-disable-next-line react/no-array-index-key */
+									key={i}
+									css={css`
+										margin: 0.25rem 0;
+									`}
+									fill
 								>
-									<ScrollChild>
-										<Txt
-											tagName="pre"
+									<InputGroup
+										placeholder="server.name"
+										value={server.name}
+										onChange={(e) => (server.name = e.target.value)}
+										intent={
+											state.servers.some((s, x) => x !== i && s.name === server.name) ? Intent.DANGER : Intent.NONE
+										}
+										leftIcon={<CarbonIcon icon={Folder16} />}
+										rightElement={<Txt muted>{server.fileCount} log files</Txt>}
+										css={css`
+											.${Classes.INPUT_ACTION} {
+												display: flex;
+												height: 100%;
+												padding: 0 1rem;
+												align-items: center;
+											}
+										`}
+										large
+										fill
+									/>
+									<HoverButton
+										onClick={() => state.servers.remove(server)}
+										icon={<CarbonIcon icon={TrashCan16} />}
+										disabled={state.servers.length <= 1}
+										large
+										hoverProps={state.servers.length <= 1 ? undefined : { intent: 'danger' }}
+									/>
+								</ControlGroup>
+							))}
+							{!!state.invalidFiles.length && (
+								<Popover2
+									position={Position.TOP_LEFT}
+									openOnTargetFocus={false}
+									interactionKind="hover"
+									hoverOpenDelay={300}
+									minimal
+									fill
+									content={
+										<ScrollBox
 											css={css`
-												padding: 1rem;
-												overflow-x: scroll;
-												margin: 0;
+												max-height: 40rem;
+												max-width: 40rem;
 											`}
 										>
-											{state.invalidFiles.map((file) => (
-												<span key={file.webkitRelativePath}>
-													{file.webkitRelativePath}
-													{'\n'}
-												</span>
-											))}
-										</Txt>
-									</ScrollChild>
-								</ScrollBox>
-							}
-						>
-							<Callout
-								intent={Intent.WARNING}
-								icon={<CarbonIcon icon={FolderOff16} />}
-								children={`${state.invalidFiles.length} File${state.invalidFiles.length > 1 ? 's' : ''} Removed`}
-							/>
-						</Popover2>
-					)}
-				</FormGroup>
+											<ScrollChild>
+												<Txt
+													tagName="pre"
+													css={css`
+														padding: 1rem;
+														overflow-x: scroll;
+														margin: 0;
+													`}
+												>
+													{state.invalidFiles.map((file) => (
+														<span key={file.webkitRelativePath}>
+															{file.webkitRelativePath}
+															{'\n'}
+														</span>
+													))}
+												</Txt>
+											</ScrollChild>
+										</ScrollBox>
+									}
+								>
+									<Callout
+										intent={Intent.WARNING}
+										icon={<CarbonIcon icon={FolderOff16} />}
+										children={`${state.invalidFiles.length} File${state.invalidFiles.length > 1 ? 's' : ''} Removed`}
+									/>
+								</Popover2>
+							)}
+						</FormGroup>
+					</>
+				)}
 			</DialogBodyEx>
 
 			<DialogFooterEx
