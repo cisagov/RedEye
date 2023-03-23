@@ -35,7 +35,7 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 		const state = createState({
 			command,
 			beacon,
-			get breadCrumbs() {
+			get relativeBreadCrumbs() {
 				const crumbs: Array<BreadcrumbProps> = [];
 
 				const isHome = !(
@@ -110,9 +110,11 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 				if (store.campaign?.interactionState.selectedBeacon) crumbs.push({ text: 'Beacon', current: true });
 				return crumbs;
 			},
-			get beaconBreadCrumbs() {
+			get breadCrumbs() {
+				const currentBeacon = this.command?.beacon?.current ?? this.beacon;
+				if (!currentBeacon) return this.relativeBreadCrumbs;
+
 				const crumbs: Array<BreadcrumbProps> = [];
-				const currentBeacon = this.beacon ?? this.command?.beacon?.current;
 
 				if (!hideRoot && !hideServer)
 					crumbs.push({
@@ -168,18 +170,11 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 
 		useEffect(() => {
 			state.update('command', command);
-		}, [command]);
+			state.update('beacon', beacon);
+		}, [command, beacon]);
 
-		const crumbs = ((state.command || state.beacon) != null ? state.beaconBreadCrumbs : state.breadCrumbs).filter(
-			(crumb) => !crumb.current || showCurrent
-		);
+		const crumbs = state.breadCrumbs.filter((crumb) => !crumb.current || showCurrent);
 
-		return (
-			<BreadcrumbsStyled
-				// css={css``}
-				items={crumbs}
-				{...props}
-			/>
-		);
+		return <BreadcrumbsStyled items={crumbs} {...props} />;
 	}
 );

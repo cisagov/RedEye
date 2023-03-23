@@ -91,7 +91,7 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 			headerProps={{ css: headerStyles }}
 			title={
 				<>
-					<NavBreadcrumbs command={state.command} onNavigate={state.onClose} />
+					<NavBreadcrumbs beacon={state.beacon} onNavigate={state.onClose} />
 					<div
 						css={css`
 							display: flex;
