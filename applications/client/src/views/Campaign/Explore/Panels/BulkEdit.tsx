@@ -1,11 +1,10 @@
 import { Button, Intent, Menu, MenuItem, Position } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
 import { Edit16, View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { UseCreateState } from '@redeye/client/components';
 import { createState, CarbonIcon } from '@redeye/client/components';
 import { store } from '@redeye/client/store';
-import { CoreTokens, ThemeClasses, Txt } from '@redeye/ui-styles';
+import { CoreTokens, PopoverButton, popoverOffset, ThemeClasses, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import type { ComponentProps } from 'react';
@@ -55,12 +54,25 @@ export const BulkEdit = observer<HostRowProps>(
 						{count} {typeName}
 						{count === 1 ? '' : 's'} Selected
 					</Txt>
-					<Popover2
-						position={Position.RIGHT}
-						openOnTargetFocus={false}
-						interactionKind="hover"
-						hoverOpenDelay={300}
-						disabled={count === 0}
+					<PopoverButton
+						cy-test="quick-meta-button"
+						popoverProps={{
+							position: Position.RIGHT,
+							modifiers: popoverOffset(0, 30),
+							hasBackdrop: true,
+						}}
+						stopPropagation
+						icon={
+							<Button
+								disabled={count === 0}
+								rightIcon={<CarbonIcon icon={Edit16} />}
+								intent={Intent.PRIMARY}
+								text="Bulk Edit"
+								css={css`
+									padding: 0 1rem;
+								`}
+							/>
+						}
 						content={
 							<Menu>
 								{store.settings.showHidden && (
@@ -93,17 +105,7 @@ export const BulkEdit = observer<HostRowProps>(
 								/>
 							</Menu>
 						}
-					>
-						<Button
-							disabled={count === 0}
-							rightIcon={<CarbonIcon icon={Edit16} />}
-							intent={Intent.PRIMARY}
-							text="Bulk Edit"
-							css={css`
-								padding: 0 1rem;
-							`}
-						/>
-					</Popover2>
+					/>
 				</div>
 				{!isDialogDisabled && (
 					<ToggleHiddenDialog
@@ -137,6 +139,7 @@ const iconStyle = (show?: boolean) => css`
 const modeBarStyle = css`
 	display: flex;
 	width: 100%;
+	height: 30px !important;
 	justify-content: space-between;
 	align-items: center;
 	padding-left: 1rem;
