@@ -6,6 +6,8 @@ describe('Verify Blue Team Version', () => {
 
 		cy.get('[cy-test=upload-from-file]').should('be.visible');
 
-		cy.get('[cy-test=create-new-camp]').should('not.exist');
+		cy.get('[cy-test=create-new-camp]').click();
+
+		cy.get('[cy-test=blue-team-source-warning]').should('be.visible');
 	});
 });
