@@ -114,6 +114,9 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 				const currentBeacon = this.command?.beacon?.current ?? this.beacon;
 				if (!currentBeacon) return this.relativeBreadCrumbs;
 
+				// There must be a better way to know this
+				const beaconIsServer = currentBeacon.beaconName === currentBeacon.server?.name;
+
 				const crumbs: Array<BreadcrumbProps> = [];
 
 				if (!hideRoot && !hideServer)
@@ -126,7 +129,7 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						},
 					});
 
-				if (!hideServer)
+				if (!hideServer || beaconIsServer)
 					crumbs.push({
 						text: currentBeacon?.server?.displayName ?? 'Server',
 						onClick: async (e) => {
@@ -134,6 +137,8 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 							currentBeacon?.server?.select();
 						},
 					});
+
+				if (beaconIsServer) return crumbs;
 
 				crumbs.push(
 					{
