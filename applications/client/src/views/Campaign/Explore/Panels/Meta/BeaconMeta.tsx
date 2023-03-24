@@ -1,8 +1,9 @@
-import { InputGroup } from '@blueprintjs/core';
+import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
 import { DateInput2 } from '@blueprintjs/datetime2';
-import { dateTimeFormat, isDefined } from '@redeye/client/components';
+import { CarbonIcon, dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/store';
+import { BeaconType } from '@redeye/client/store/graphql/BeaconTypeEnum';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { Spacer, Txt } from '@redeye/ui-styles';
@@ -11,6 +12,9 @@ import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
+import type { ItemRenderer } from '@blueprintjs/select';
+import { Select2 } from '@blueprintjs/select';
+import { CaretDown16 } from '@carbon/icons-react';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
@@ -79,6 +83,12 @@ export const BeaconMeta = observer(() => {
 		displayNameNeedsSaving: false,
 		displayDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
 		displayDeathNeedsSaving: false,
+		selectedItem: (beacon?.meta?.[0]?.maybeCurrent?.type || beaconTypeSelectItems[0].key) as BeaconType,
+		handleItemSelect(item) {
+			this.selectedItem = item.key;
+			// console.log('this.selectedItem: ', this.selectedItem);
+			beaconTypeMutate();
+		},
 	});
 
 	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
@@ -116,6 +126,24 @@ export const BeaconMeta = observer(() => {
 			beaconId: beacon?.id as string,
 		});
 	});
+
+	const { mutate: beaconTypeMutate } = useMutation(
+		async () =>
+			await store.graphqlStore.mutateUpdateBeaconMetadata({
+				beaconType: state.selectedItem,
+				campaignId: store.campaign.id as string,
+				beaconId: beacon?.id as string,
+			})
+	);
+
+	const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handleClick, modifiers }) => {
+		if (!modifiers.matchesPredicate) {
+			return null;
+		}
+		return (
+			<MenuItem active={modifiers.active} key={item.key} onClick={handleClick} text={item.label} cy-test={item.label} />
+		);
+	};
 
 	return (
 		<MetaGridLayout>
@@ -188,6 +216,23 @@ export const BeaconMeta = observer(() => {
 					<Txt small>{cmdText}</Txt>
 				</div>
 			</div>
+			<MetaHeader>Type</MetaHeader>
+			<Select2
+				disabled={!!store.appMeta.blueTeam}
+				items={beaconTypeSelectItems}
+				itemRenderer={renderSort}
+				onItemSelect={state.handleItemSelect}
+				filterable={false}
+				fill
+			>
+				<Button
+					disabled={!!store.appMeta.blueTeam}
+					text={state.selectedItem}
+					alignText="left"
+					rightIcon={<CarbonIcon icon={CaretDown16} />}
+					fill
+				/>
+			</Select2>
 			<MetaHeader>Links</MetaHeader>
 			<div css={{ overflow: 'hidden' }}>
 				{!beacon?.links.from.length && !beacon?.links.to.length ? (
@@ -256,3 +301,8 @@ const momentClamp = ({
 	min: moment.MomentInput;
 	max: moment.MomentInput;
 }) => moment.max(moment(min), moment.min(moment(value), moment(max)));
+
+const beaconTypeSelectItems = Object.entries(BeaconType).map(([key, label]) => ({
+	key,
+	label,
+}));
