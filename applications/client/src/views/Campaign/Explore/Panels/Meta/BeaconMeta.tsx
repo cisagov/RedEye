@@ -83,10 +83,9 @@ export const BeaconMeta = observer(() => {
 		displayNameNeedsSaving: false,
 		displayDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
 		displayDeathNeedsSaving: false,
-		selectedItem: (beacon?.meta?.[0]?.maybeCurrent?.type || beaconTypeSelectItems[0].key) as BeaconType,
+		selectedItem: (beacon?.meta?.[0]?.maybeCurrent?.type || beaconTypeSelectItems[1].key) as BeaconType,
 		handleItemSelect(item) {
 			this.selectedItem = item.key;
-			// console.log('this.selectedItem: ', this.selectedItem);
 			beaconTypeMutate();
 		},
 	});
@@ -221,6 +220,7 @@ export const BeaconMeta = observer(() => {
 				disabled={!!store.appMeta.blueTeam}
 				items={beaconTypeSelectItems}
 				itemRenderer={renderSort}
+				activeItem={beaconTypeSelectItems.find((item) => item.key === state.selectedItem)}
 				onItemSelect={state.handleItemSelect}
 				filterable={false}
 				fill
