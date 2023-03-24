@@ -7,6 +7,7 @@ type MitreAttackItem = {
 	id: string;
 	url: string;
 };
+export type MitreAttackId = keyof typeof mitreAttackDictionary;
 // type MitreAttackDictionary = Record<keyof typeof mitreAttackDictionary, MitreAttackItem>;
 
 type MitreAttackProps = ComponentProps<'a'> & {

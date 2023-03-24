@@ -33,13 +33,15 @@ const mitreAttacks = enterpriseAttack.objects.map((object) => {
 
 console.log(`Parsed ${Object.entries(mitreAttackDictionary).length} MITRE ATT&CK ids`);
 
+// it helps to manually run prettier on this after its generated
 const mitreAttackDictionaryPathTs = path.join(__dirname, 'mitreAttackDictionary.ts');
 const tsFileContents = `export const mitreAttackDictionary = ${JSON.stringify(mitreAttackDictionary)}`;
 fs.writeFile(mitreAttackDictionaryPathTs, tsFileContents, (err) => {
 	if (err) console.error(err);
 });
 
-const mitreAttackDictionaryPathJson = path.join(__dirname, 'mitreAttackDictionary.json');
-fs.writeFile(mitreAttackDictionaryPathJson, JSON.stringify(mitreAttackDictionary), (err) => {
-	if (err) console.error(err);
-});
+// not needed for now
+// const mitreAttackDictionaryPathJson = path.join(__dirname, 'mitreAttackDictionary.json');
+// fs.writeFile(mitreAttackDictionaryPathJson, JSON.stringify(mitreAttackDictionary), (err) => {
+// 	if (err) console.error(err);
+// });

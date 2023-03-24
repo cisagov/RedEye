@@ -19,3 +19,4 @@ export * from './utils';
 export * from './Dialogs/index';
 export * from './Forms/index';
 export * from './Header/index';
+export * from './Mitre/index';
