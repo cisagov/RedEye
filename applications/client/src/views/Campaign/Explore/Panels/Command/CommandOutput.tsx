@@ -1,7 +1,7 @@
 import { Button, Intent } from '@blueprintjs/core';
 import { ChevronSort16, Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, MitreAttack, MitreAttackId } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -51,20 +51,15 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 						</Txt>
 					) : (
 						command?.uniqueAttackIds?.map((mitreAttack) => (
-							<a
+							<MitreAttack
+								miterAttackId={mitreAttack as MitreAttackId}
 								cy-test="mitre-attack-link"
 								aria-label="Mitre attack links"
 								key={mitreAttack}
-								href={`https://attack.mitre.org/${
-									mitreAttack.includes('TA') ? 'tactics' : 'techniques'
-								}/${mitreAttack.replace(/\./g, '/')}/`}
-								target="_blank"
-								rel="noopener noreferrer"
 								css={css`
 									margin-right: 0.5rem;
 									display: inline-block; // handle wrapping (for lots of attackIds)
 								`}
-								children={mitreAttack}
 							/>
 						))
 					)}
