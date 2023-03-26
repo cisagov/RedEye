@@ -65,6 +65,7 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 									miterAttackId={mitreAttack as MitreAttackId}
 									cy-test="mitre-attack-link"
 									key={mitreAttack}
+									css={{ display: 'inline-block' }}
 								/>
 							</>
 						))
