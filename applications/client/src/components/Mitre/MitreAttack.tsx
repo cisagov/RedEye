@@ -18,8 +18,8 @@ export const MitreAttack = observer<MitreAttackProps>(({ miterAttackId, ...props
 	const { name, id, url } = mitreAttackDictionary[miterAttackId] as MitreAttackItem;
 	return (
 		<a
-			children={`${name} (${id})`}
-			aria-label="MITRE ATTACK links"
+			children={`${id}: ${name}`}
+			aria-label="Mitre attack links"
 			href={url}
 			target="_blank"
 			rel="noopener noreferrer"
