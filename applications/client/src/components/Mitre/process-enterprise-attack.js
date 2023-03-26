@@ -8,40 +8,72 @@
 const fs = require('fs');
 const path = require('path');
 
-// update this file from https://github.com/mitre/cti/blob/master/enterprise-attack/enterprise-attack.json
+// manually update this file from https://github.com/mitre/cti/blob/master/enterprise-attack/enterprise-attack.json
 const enterpriseAttack = require('./enterprise-attack.json');
 // we could also add the other items from ics, mobile, and pre? if they have the same format
 
 const mitreAttackDictionary = {};
 
-const mitreAttacks = enterpriseAttack.objects.map((object) => {
+enterpriseAttack.objects.forEach((object) => {
 	const externalReference = object.external_references?.find((ref) => ref.source_name === 'mitre-attack');
 
 	// some of the externalReferences don't have a mitre-attack associated
 	if (!externalReference) return { name: object.name };
 
+	const { external_id: id, url } = externalReference;
+
 	const mitreAttack = {
 		name: object.name,
-		id: externalReference.external_id,
-		url: externalReference.url,
+		id,
+		url,
 	};
 
-	mitreAttackDictionary[externalReference.external_id] = mitreAttack;
+	// Mire Attacks can have sub attacks formatted 'T0000.000'
+	const [parentTechnique, subTechnique] = id.split('.');
+
+	if (subTechnique != null) {
+		mitreAttack.parentTechnique = parentTechnique;
+
+		// add subTechnique to parentTechnique
+		if (mitreAttackDictionary[parentTechnique] == null) {
+			mitreAttackDictionary[parentTechnique] = { subTechniques: [subTechnique] };
+		} else if (mitreAttackDictionary[parentTechnique].subTechniques == null) {
+			mitreAttackDictionary[parentTechnique].subTechniques = [subTechnique];
+		} else {
+			mitreAttackDictionary[parentTechnique].subTechniques.push(subTechnique);
+		}
+	}
+
+	// mitreAttackDictionary[id] may have been added from the subTechnique process
+	if (mitreAttackDictionary[id] == null) {
+		mitreAttackDictionary[id] = mitreAttack;
+	} else {
+		mitreAttackDictionary[id] = {
+			...mitreAttackDictionary[id],
+			...mitreAttack,
+		};
+	}
 
 	return mitreAttack;
 });
 
-console.log(`Parsed ${Object.entries(mitreAttackDictionary).length} MITRE ATT&CK ids`);
+const alphabeticalMitreAttackDictionary = {};
+Object.keys(mitreAttackDictionary)
+	.sort()
+	.forEach((id) => {
+		alphabeticalMitreAttackDictionary[id] = mitreAttackDictionary[id].subTechniques
+			? {
+					...mitreAttackDictionary[id],
+					subTechniques: mitreAttackDictionary[id].subTechniques.sort(),
+			  }
+			: mitreAttackDictionary[id];
+	});
+
+console.log(`Parsed ${Object.entries(alphabeticalMitreAttackDictionary).length} MITRE ATT&CK ids`);
 
 // it helps to manually run prettier on this after its generated
 const mitreAttackDictionaryPathTs = path.join(__dirname, 'mitreAttackDictionary.ts');
-const tsFileContents = `export const mitreAttackDictionary = ${JSON.stringify(mitreAttackDictionary)}`;
+const tsFileContents = `export const mitreAttackDictionary = ${JSON.stringify(alphabeticalMitreAttackDictionary)}`;
 fs.writeFile(mitreAttackDictionaryPathTs, tsFileContents, (err) => {
 	if (err) console.error(err);
 });
-
-// not needed for now
-// const mitreAttackDictionaryPathJson = path.join(__dirname, 'mitreAttackDictionary.json');
-// fs.writeFile(mitreAttackDictionaryPathJson, JSON.stringify(mitreAttackDictionary), (err) => {
-// 	if (err) console.error(err);
-// });

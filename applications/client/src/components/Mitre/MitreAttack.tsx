@@ -19,7 +19,7 @@ export const MitreAttack = observer<MitreAttackProps>(({ miterAttackId, ...props
 	return (
 		<a
 			children={`${name} (${id})`}
-			aria-label="Mitre attack links"
+			aria-label="MITRE ATTACK links"
 			href={url}
 			target="_blank"
 			rel="noopener noreferrer"
