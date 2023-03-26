@@ -49,15 +49,16 @@ export const DragResize = observer<DragResizeProps>(
 		fixedCollapsedContent = () => <DefaultFixedCollapsedComponent />,
 		fluidCollapsedContent = () => <DefaultFluidCollapsedComponent />,
 		collapsedFixed: collapsedFixedDefault = false,
-		columnWidth: columnWidthDefault = 500,
+		collapsedFixed: collapsedFluidDefault = false,
+		columnWidth: columnWidthDefault = 600,
 		collapsedMinWidth = 300,
 		...props
 	}) => {
 		const state = createState({
 			columnWidthPrevious: columnWidthDefault,
 			columnWidth: columnWidthDefault,
-			collapsedFixed: collapsedFixedDefault,
-			collapsedFluid: collapsedFixedDefault,
+			collapsedFixed: collapsedFixedDefault && !collapsedFluidDefault,
+			collapsedFluid: collapsedFluidDefault && !collapsedFixedDefault,
 			isDragging: false,
 			fullWidth: collapsedMinWidth * 2,
 			collapsedMaxWidth: collapsedMinWidth * 2,
@@ -145,16 +146,14 @@ export const DragResize = observer<DragResizeProps>(
 			},
 		});
 
-		const gridFixedColumn = `minmax(${state.collapsedFixed ? 'min-content' : 'auto'}, ${state.columnWidth}px)`;
-		const gridFluidColumn = `minmax(${state.collapsedFluid ? 'min-content' : 'auto'}, 1fr)`;
+		const gridTemplateColumns = state.collapsedFixed
+			? `auto auto 1fr`
+			: state.collapsedFluid
+			? `1fr auto auto`
+			: `${state.columnWidth}px auto 1fr`;
 
 		return (
-			<div
-				{...props}
-				ref={wrapperElementRef}
-				css={wrapperStyle}
-				style={{ gridTemplateColumns: `${gridFixedColumn} auto ${gridFluidColumn}` }}
-			>
+			<div {...props} ref={wrapperElementRef} css={wrapperStyle} style={{ gridTemplateColumns }}>
 				{/* we need to keep these components mounted, so use hidden={isCollapsed} */}
 				<GridCell hidden={!state.collapsedFixed}>{fixedCollapsedContent(state.commandProps)}</GridCell>
 				<GridCell hidden={state.collapsedFixed}>{fixedContent(state.commandProps)}</GridCell>
