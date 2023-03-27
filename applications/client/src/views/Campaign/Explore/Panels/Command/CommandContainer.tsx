@@ -103,7 +103,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 					<InfoRow
 						cy-test="info-row"
 						css={[interactiveRowStyle, gridFillStyle, { height: state.expanded ? 'auto' : initialCommandRowHeight }]}
-						active={state.expanded || state.active}
+						target={state.active}
 						onClick={state.setCollapsed}
 						onMouseEnter={() =>
 							store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})

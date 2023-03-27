@@ -29,6 +29,18 @@ const hoverRevealChildrenDisplay = css`
 	}
 `;
 
+const targetStyles = (seconds = 1.5) => css`
+	@keyframes targetBackground {
+		0% {
+			background-color: ${CoreTokens.transparentWhite(0.3)};
+		}
+		100% {
+			background-color: ${CoreTokens.transparentWhite(0)};
+		}
+	}
+	animation: targetBackground ${seconds}s linear;
+`;
+
 export const UtilityStyles = {
 	/** all caps small text - tiny title */
 	textMeta: css`
@@ -73,4 +85,6 @@ export const UtilityStyles = {
 	hoverRevealChildrenVisibility,
 	hoverRevealChildrenOpacity,
 	hoverRevealChildrenDisplay,
+
+	targetStyles,
 };
