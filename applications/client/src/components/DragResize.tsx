@@ -130,6 +130,7 @@ export const DragResize = observer<DragResizeProps>(
 		});
 
 		const wrapperElementRef = useRef<HTMLDivElement>(null);
+		const dragElementRef = useRef<HTMLDivElement>(null);
 
 		// update the full and max width when the screen changes size
 		useEffect(() => {
@@ -145,6 +146,11 @@ export const DragResize = observer<DragResizeProps>(
 			},
 			onDragStart: () => {
 				state.update('isDragging', true);
+				const dragElement = dragElementRef?.current;
+				const parentElement = wrapperElementRef?.current;
+				const columnWidthPrevious =
+					!dragElement || !parentElement ? state.columnWidth : dragElement.offsetLeft - parentElement.offsetLeft;
+				state.update('columnWidthPrevious', columnWidthPrevious);
 			},
 			onDragEnd: () => {
 				state.update('isDragging', false);
@@ -166,7 +172,7 @@ export const DragResize = observer<DragResizeProps>(
 				{/* we need to keep these components mounted, so use hidden={isCollapsed} */}
 				<GridCell hidden={!state.collapsedFixed}>{fixedCollapsedContent(state.commandProps)}</GridCell>
 				<GridCell hidden={state.collapsedFixed}>{fixedContent(state.commandProps)}</GridCell>
-				<div css={draggerWrapperStyle} {...bind()}>
+				<div ref={dragElementRef} css={draggerWrapperStyle} {...bind()}>
 					<DraggerComponent isDragging={state.isDragging} />
 				</div>
 				<GridCell hidden={!state.collapsedFluid}>{fluidCollapsedContent(state.commandProps)}</GridCell>
