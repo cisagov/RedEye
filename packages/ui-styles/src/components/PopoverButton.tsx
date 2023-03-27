@@ -43,6 +43,10 @@ export const PopoverButton = ({
 			)}
 			content={content}
 			{...popoverProps}
+			onClose={(e) => {
+				if (stopPropagation) e.stopPropagation();
+				popoverProps?.onClose?.(e);
+			}}
 		/>
 	);
 };
