@@ -20,10 +20,8 @@ describe('Hide a server', () => {
 			.then((serverName) => {
 				// Hide server via the Meta tab
 				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.get('[cy-test=Metadata]').click();
-
-				cy.get('[cy-test=show-hide-this-server]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideServerMetaTab();
 
 				// Verify list shows nothing (hiding server hides all hosts under it)
 				// cy.get('[cy-test=message-row]').contains('No Hosts').should('exist');
@@ -36,9 +34,8 @@ describe('Hide a server', () => {
 
 				// Unhide the server
 				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.get('[cy-test=Metadata]').click();
-				cy.get('[cy-test=show-hide-this-server]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideServerMetaTab();
 
 				// Toggle off switch for hidden items
 				cy.doNotShowHiddenItems();
@@ -64,10 +61,8 @@ describe('Hide a server', () => {
 			.then((serverName) => {
 				// Hide the server via the Meta tab
 				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.get('[cy-test=Metadata]').click();
-
-				cy.get('[cy-test=show-hide-this-server]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideServerMetaTab();
 
 				// Verify list shows nothing (hiding server hides all hosts under it)
 				// cy.get('[cy-test=message-row]').contains('No Hosts').should('exist');
@@ -82,9 +77,8 @@ describe('Hide a server', () => {
 
 				// Unhide the server
 				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.get('[cy-test=Metadata]').click();
-				cy.get('[cy-test=show-hide-this-server]').click();
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.clickMetaTab();
+				cy.showHideServerMetaTab();
 
 				// Toggle switch off to hide hidden items
 				cy.returnToCampaignCard();
@@ -106,8 +100,7 @@ describe('Hide a server', () => {
 			.invoke('text')
 			.then((serverName) => {
 				// Hide the server in the list
-				cy.get('[cy-test=quick-meta-button]').eq(0).click();
-				cy.get('[cy-test=show-hide-item]').click();
+				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
 				cy.get('.bp4-dialog-body').should('exist');
@@ -126,8 +119,7 @@ describe('Hide a server', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
 
 				// Set server to show again
-				cy.get('[cy-test=quick-meta-button]').eq(0).click();
-				cy.get('[cy-test=show-hide-item]').click();
+				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
 				cy.get('.bp4-dialog-body').should('exist');

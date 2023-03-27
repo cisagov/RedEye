@@ -1,4 +1,4 @@
-// <reference types="cypress" />
+/// <reference types="cypress" />
 
 describe('Search campaign and filter results', () => {
 	const camp = 'searchfilter';
@@ -23,32 +23,32 @@ describe('Search campaign and filter results', () => {
 		// Log total number of results
 		cy.get('@list')
 			.its('length')
-			.then((resultSearch1) => {
-				// cy.log(resultSearch1);
+			.then((totalResults) => {
+				// cy.log(totalResults);
 
 				// Filter to Beacons
-				cy.get('[cy-test=filter-search]').click();
-				cy.get('[cy-test=Beacons]').click();
+				cy.filterSearchResults();
+				cy.filterToBeacons();
 
 				// Log filtered results and compare to original
 				cy.get('@list')
 					.its('length')
-					.then((resultSearch2) => {
-						// cy.log(resultSearch2);
-						expect(resultSearch2).to.be.lt(resultSearch1);
+					.then((beaconsFilter) => {
+						// cy.log(beaconsFilter);
+						expect(beaconsFilter).to.be.lt(totalResults);
 
 						// Change filter to Commands
-						cy.get('[cy-test=filter-search]').click();
-						cy.get('[cy-test=Commands]').click();
+						cy.filterSearchResults();
+						cy.filterToCommands();
 
 						cy.wait(500);
 						// Log filtered results and compare to original
 						cy.get('@list')
 							.its('length')
-							.then((resultSearch3) => {
-								// cy.log(resultSearch3);
-								expect(resultSearch3).to.be.lt(resultSearch1);
-								expect(resultSearch2 + resultSearch3).to.equal(resultSearch1);
+							.then((commandsFilter) => {
+								// cy.log(commandsFilter);
+								expect(commandsFilter).to.be.lt(totalResults);
+								expect(beaconsFilter + commandsFilter).to.equal(totalResults);
 							});
 					});
 			});
@@ -68,49 +68,41 @@ describe('Search campaign and filter results', () => {
 		// Log total number of results
 		cy.get('@list')
 			.its('length')
-			.then((resultSearch1) => {
-				// cy.log(resultSearch1);
+			.then((totalResults) => {
+				// cy.log(totalResults);
 
 				// Filter to Host
-				cy.get('[cy-test=filter-search]').click();
-				cy.get('[cy-test=Hosts]').click();
+				cy.filterSearchResults();
+				cy.filterToHosts();
 
 				// Log filtered results and compare to original
 				cy.get('@list')
 					.its('length')
-					.then((resultSearch2) => {
-						// cy.log(resultSearch2);
-						expect(resultSearch2).to.be.lt(resultSearch1);
+					.then((hostFilter) => {
+						// cy.log(hostFilter);
+						expect(hostFilter).to.be.lt(totalResults);
 
 						// Change filter to Server
-						cy.get('[cy-test=filter-search]').click();
-						cy.get('[cy-test=Teamservers]').click();
+						cy.filterSearchResults();
+						cy.filterToServers();
 
 						// Log filtered results and compare to original
 						cy.get('@list')
 							.its('length')
-							.then((resultSearch3) => {
-								// cy.log(resultSearch3);
-								expect(resultSearch3).to.be.lt(resultSearch1);
+							.then((serverFilter) => {
+								// cy.log(serverFilter);
+								expect(serverFilter).to.be.lt(totalResults);
 
 								// Change filter to Beacon
-								cy.get('[cy-test=filter-search]').click();
-								cy.get('[cy-test=Beacons]').click();
+								cy.filterSearchResults();
+								cy.filterToBeacons();
 
 								// Log filtered results and compare to original
 								cy.get('@list')
 									.its('length')
-									.then((resultSearch4) => {
-										// cy.log(resultSearch4);
-										expect(resultSearch4).to.be.lt(resultSearch1);
-
-										// Log filtered results and compare to original
-										cy.get('@list')
-											.its('length')
-											.then((resultSearch5) => {
-												// cy.log(resultSearch5);
-												expect(resultSearch5).to.be.lt(resultSearch1);
-											});
+									.then((beaconsFilter) => {
+										// cy.log(beaconsFilter);
+										expect(beaconsFilter).to.be.lt(totalResults);
 									});
 							});
 					});
@@ -124,8 +116,8 @@ describe('Search campaign and filter results', () => {
 		cy.clickSearch();
 
 		// Set filter to Beacons
-		cy.get('[cy-test=filter-search]').click();
-		cy.get('[cy-test=Beacons]').click();
+		cy.filterSearchResults();
+		cy.filterToBeacons();
 		cy.get('[cy-test=search-result-item]').should('not.exist');
 
 		// Enter search term and log number of results
@@ -139,13 +131,13 @@ describe('Search campaign and filter results', () => {
 
 		cy.get('@list')
 			.its('length')
-			.then((count1) => {
+			.then((beaconsFilter) => {
 				// Remove filter, verify more items appear
-				cy.get('[cy-test=remove-filter]').click();
+				cy.removeFilter();
 				cy.get('[cy-test=search-result-item]')
 					.its('length')
-					.then((count2) => {
-						expect(count2).to.be.gt(count1);
+					.then((totalResults) => {
+						expect(totalResults).to.be.gt(beaconsFilter);
 					});
 			});
 	});

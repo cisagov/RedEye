@@ -10,8 +10,3 @@ updatePopper.initEvent('resize', true, false);
 export function escapeRegExpChars(text: string) {
 	return text.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
 }
-
-export const externalLinkAttributes = {
-	target: '_blank',
-	rel: 'noopener noreferrer',
-};

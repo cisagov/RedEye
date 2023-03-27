@@ -10,11 +10,11 @@ import { Header, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, FormEvent } from 'react';
 
-type DbUploadProps = ComponentProps<'form'> & {
+type RedEyeDbUploadFormProps = ComponentProps<'form'> & {
 	onClose: (...args: any) => void;
 };
 
-export const DbUpload = observer<DbUploadProps>(({ ...props }) => {
+export const RedEyeDbUploadForm = observer<RedEyeDbUploadFormProps>(({ ...props }) => {
 	const store = useStore();
 
 	const state = createState({

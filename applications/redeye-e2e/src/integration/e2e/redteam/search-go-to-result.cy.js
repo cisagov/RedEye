@@ -55,9 +55,8 @@ describe('Search campaign and open one of the results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 		// Filter on Commands only
-		cy.get('[cy-test=filter-search]').click();
-
-		cy.get('[cy-test=Commands]').click();
+		cy.filterSearchResults();
+		cy.filterToCommands();
 
 		// Log text showing in the first result
 		// line 1 - first part
