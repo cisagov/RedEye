@@ -27,8 +27,6 @@ export type DragResizeProps = ComponentProps<'div'> & {
 	fluidContent: DragResizeContentRenderer;
 	fixedCollapsedContent?: DragResizeContentRenderer;
 	fluidCollapsedContent?: DragResizeContentRenderer;
-	collapsedFixed?: boolean;
-	collapsedFluid?: boolean;
 	columnWidth?: number; // px
 	collapsedMinWidth?: number; // px
 	/** these resize events are untested */
@@ -48,8 +46,6 @@ export const DragResize = observer<DragResizeProps>(
 		fluidContent,
 		fixedCollapsedContent = () => <DefaultFixedCollapsedComponent />,
 		fluidCollapsedContent = () => <DefaultFluidCollapsedComponent />,
-		collapsedFixed: collapsedFixedDefault = false,
-		collapsedFixed: collapsedFluidDefault = false,
 		columnWidth: columnWidthDefault = 600,
 		collapsedMinWidth = 300,
 		...props
@@ -57,8 +53,8 @@ export const DragResize = observer<DragResizeProps>(
 		const state = createState({
 			columnWidthPrevious: getColumnWidthStorage(columnWidthDefault),
 			columnWidth: getColumnWidthStorage(columnWidthDefault),
-			collapsedFixed: collapsedFixedDefault && !collapsedFluidDefault,
-			collapsedFluid: collapsedFluidDefault && !collapsedFixedDefault,
+			collapsedFixed: getColumnStateStorage() === 'collapsedFixed',
+			collapsedFluid: getColumnStateStorage() === 'collapsedFluid',
 			isDragging: false,
 			fullWidth: collapsedMinWidth * 2,
 			collapsedMaxWidth: collapsedMinWidth * 2,
@@ -70,6 +66,12 @@ export const DragResize = observer<DragResizeProps>(
 			},
 			set columnWidthStorage(columnWidth: number) {
 				window.localStorage.setItem(columnWidthId, columnWidth.toString());
+			},
+			get columnState() {
+				return getColumnStateStorage();
+			},
+			set columnState(columnState: ColumnState) {
+				window.localStorage.setItem(columnStateId, columnState);
 			},
 			collapseFixed() {
 				this.columnWidth = 0;
@@ -154,10 +156,15 @@ export const DragResize = observer<DragResizeProps>(
 			},
 			onDragEnd: () => {
 				state.update('isDragging', false);
-				state.update('columnWidthPrevious', state.columnWidth);
 				if (!state.collapsedFixed && !state.collapsedFluid) {
 					state.update('columnWidthStorage', state.columnWidth);
 				}
+				const columnState: ColumnState = state.collapsedFixed
+					? 'collapsedFixed'
+					: state.collapsedFluid
+					? 'collapsedFluid'
+					: 'split';
+				state.update('columnState', columnState);
 			},
 		});
 
@@ -185,6 +192,10 @@ export const DragResize = observer<DragResizeProps>(
 const columnWidthId = 'columnWidth';
 const getColumnWidthStorage = (defaultWidth = 0) =>
 	parseInt(window.localStorage.getItem(columnWidthId) || defaultWidth.toString(), 10);
+
+type ColumnState = 'collapsedFixed' | 'collapsedFluid' | 'split';
+const columnStateId = 'columnState';
+const getColumnStateStorage = () => window.localStorage.getItem(columnStateId) as ColumnState;
 
 const wrapperStyle = css`
 	display: grid;
