@@ -65,6 +65,8 @@ export const DragResize = observer<DragResizeProps>(
 			get commandProps() {
 				return { collapseFixed: this.collapseFixed, collapseFluid: this.collapseFluid, reset: this.reset };
 			},
+			// persisting the collapsedFluid state in window.localStorage breaks graph layout
+			// revert 9e3203e3 to restore this functionality
 			get columnWidthStorage() {
 				return getColumnWidthStorage(columnWidthDefault);
 			},
@@ -87,10 +89,12 @@ export const DragResize = observer<DragResizeProps>(
 					this.columnWidthPrevious = this.fullWidth;
 				}
 			},
-			reset() {
+			reset(forceWidth?: number) {
 				if (this.isDragging) return;
-				this.columnWidth = this.columnWidthStorage;
-				this.columnWidthPrevious = this.columnWidthStorage;
+				const setWidth = forceWidth || this.columnWidthStorage;
+				this.columnWidth = setWidth;
+				this.columnWidthPrevious = setWidth;
+				this.columnWidthStorage = setWidth;
 				if (this.collapsedFixed) this.collapsedFixed = false;
 				if (this.collapsedFluid) this.collapsedFluid = false;
 			},
@@ -158,6 +162,9 @@ export const DragResize = observer<DragResizeProps>(
 				if (!state.collapsedFixed && !state.collapsedFluid) {
 					state.update('columnWidthStorage', state.columnWidth);
 				}
+			},
+			onDoubleClick: () => {
+				state.reset(columnWidthDefault);
 			},
 		});
 
