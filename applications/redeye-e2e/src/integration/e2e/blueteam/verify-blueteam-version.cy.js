@@ -6,6 +6,10 @@ describe('Verify Blue Team Version', () => {
 
 		cy.get('[cy-test=upload-from-file]').should('be.visible');
 
-		cy.get('[cy-test=create-new-camp]').should('not.exist');
+		cy.get('[cy-test=create-new-camp]').click();
+
+		cy.get('[cy-test=bt-warning]')
+			.should('be.visible')
+			.and('contain.text', 'This upload source is not available in BlueTeam mode.');
 	});
 });
