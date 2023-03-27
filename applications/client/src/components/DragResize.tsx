@@ -55,8 +55,8 @@ export const DragResize = observer<DragResizeProps>(
 		...props
 	}) => {
 		const state = createState({
-			columnWidthPrevious: columnWidthDefault,
-			columnWidth: columnWidthDefault,
+			columnWidthPrevious: getColumnWidthStorage(columnWidthDefault),
+			columnWidth: getColumnWidthStorage(columnWidthDefault),
 			collapsedFixed: collapsedFixedDefault && !collapsedFluidDefault,
 			collapsedFluid: collapsedFluidDefault && !collapsedFixedDefault,
 			isDragging: false,
@@ -64,6 +64,12 @@ export const DragResize = observer<DragResizeProps>(
 			collapsedMaxWidth: collapsedMinWidth * 2,
 			get commandProps() {
 				return { collapseFixed: this.collapseFixed, collapseFluid: this.collapseFluid, reset: this.reset };
+			},
+			get columnWidthStorage() {
+				return getColumnWidthStorage(columnWidthDefault);
+			},
+			set columnWidthStorage(columnWidth: number) {
+				window.localStorage.setItem(columnWidthId, columnWidth.toString());
 			},
 			collapseFixed() {
 				this.columnWidth = 0;
@@ -83,8 +89,8 @@ export const DragResize = observer<DragResizeProps>(
 			},
 			reset() {
 				if (this.isDragging) return;
-				this.columnWidth = columnWidthDefault;
-				this.columnWidthPrevious = columnWidthDefault;
+				this.columnWidth = this.columnWidthStorage;
+				this.columnWidthPrevious = this.columnWidthStorage;
 				if (this.collapsedFixed) this.collapsedFixed = false;
 				if (this.collapsedFluid) this.collapsedFluid = false;
 			},
@@ -143,6 +149,9 @@ export const DragResize = observer<DragResizeProps>(
 			onDragEnd: () => {
 				state.update('isDragging', false);
 				state.update('columnWidthPrevious', state.columnWidth);
+				if (!state.collapsedFixed && !state.collapsedFluid) {
+					state.update('columnWidthStorage', state.columnWidth);
+				}
 			},
 		});
 
@@ -166,6 +175,10 @@ export const DragResize = observer<DragResizeProps>(
 		);
 	}
 );
+
+const columnWidthId = 'columnWidth';
+const getColumnWidthStorage = (defaultWidth = 0) =>
+	parseInt(window.localStorage.getItem(columnWidthId) || defaultWidth.toString(), 10);
 
 const wrapperStyle = css`
 	display: grid;
