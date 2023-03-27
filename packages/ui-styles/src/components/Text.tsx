@@ -39,7 +39,7 @@ export type TxtProps = HTMLAttributes<HTMLOrSVGElement> & {
 
 /** A utility text component for declarative styling */
 export const Txt: FC<TxtProps> = ({
-	tagName: RootTag = 'span',
+	tagName,
 
 	emphasis = false,
 	regular = false,
@@ -133,6 +133,12 @@ export const Txt: FC<TxtProps> = ({
 		if (className) classNames.push(className);
 		return classNames.length > 0 ? classNames.join(' ') : undefined;
 	}, [className, skeleton]);
+
+	const RootTag = useMemo(() => {
+		return tagName ?? (running ? 'p' : 'span');
+	}, [running, tagName]);
+
+	console.log({ RootTag });
 
 	return <RootTag css={txtCss} className={_className} {...props} />;
 };
