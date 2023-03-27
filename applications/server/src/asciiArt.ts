@@ -33,16 +33,16 @@ export const consoleFormatting = {
 const cf = consoleFormatting;
 
 const o = cf.reset + cf.lightGray; // outline
-const c = cf.reset + cf.red + cf.bold; // center
+const c = (blue = false) => cf.reset + (blue ? cf.blue : cf.red) + cf.bold; // center
 const t = cf.reset + cf.white + cf.bold; //cf.red // text
 
-export const asciiArt = `${o}
+export const asciiArt = (b = false) => `${o}
         ___________
        /           \\
       /    _________\\
   \\¯¯/    /     \\ _-¯
-   \\/    /  ${c}▗▄▖${o}  ¯_____     ${t}__  ___ __   ___    ___${o}  
-    ¯¯¯¯¯_  ${c}▝▀▘${o}  /    /\\   ${t}|__)|__ |  \\ |__ \\ /|__${o}  
+   \\/    /  ${c(b)}▗▄▖${o}  ¯_____     ${t}__  ___ __   ___    ___${o}  
+    ¯¯¯¯¯_  ${c(b)}▝▀▘${o}  /    /\\   ${t}|__)|__ |  \\ |__ \\ /|__${o}  
       _-¯ \\     /    /__\\  ${t}|  \\|___|__/ |___ | |___${o}  
       \\¯¯¯¯¯¯¯¯¯    /
        \\           /
