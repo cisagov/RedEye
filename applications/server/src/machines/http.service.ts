@@ -31,15 +31,17 @@ const serverStartLogs = async (ctx: ServerMachineContext, clientUrl?: string): P
 
 	const logLine: string[] = [``];
 
-	// if (ctx.config.production)
-	logLine.push(asciiArt);
+	logLine.push(asciiArt()); // ctx.config.blueTeam));
 
 	const ver = `v${packageJson.version}`;
-	const helpLink = 'https://github.com/cisagov/redeye';
+
+	const helpLink = 'https://github.com/cisagov/redeye#readme';
+	const mode = ctx.config.blueTeam ? `${cf.blueBg} BLUE TEAM ${cf.reset}` : `${cf.redBg} RED TEAM ${cf.reset}`;
 
 	logLine.push(
-		`  ${cf.bold}${cf.white}RedEye Server${cf.reset} ${cf.dim}${ver}${cf.reset}`,
+		`  ${cf.bold}${cf.white}RedEye Server${cf.reset} ${ver}${cf.reset}`,
 		`  RedEye Client ${cf.blue}${cf.underlined}${usedClientUrl}${cf.reset}`,
+		`  Running in ${mode} mode`,
 		`  Visit ${cf.underlined}${helpLink}${cf.reset} for help`,
 		`  To quit, close terminal window or press ^C`,
 		``
