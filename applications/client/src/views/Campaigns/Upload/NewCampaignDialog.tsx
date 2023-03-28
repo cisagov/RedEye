@@ -75,10 +75,10 @@ const shadowStyle = css`
 
 const BlueTeamSourceWarning = (props) => (
 	<div css={{ padding: 24 }} {...props}>
-		<Txt cy-test="blue-team-source-warning" running>
+		<Txt cy-test="bt-warning" running>
 			This upload source is not available in BlueTeam mode.
 			<br />
-			<ExternalLink href="https://github.com/cisagov/redeye#readme">Learn more</ExternalLink>
+			<ExternalLink href="https://github.com/cisagov/redeye#red-team--blue-team-modes">Learn more</ExternalLink>
 		</Txt>
 	</div>
 );

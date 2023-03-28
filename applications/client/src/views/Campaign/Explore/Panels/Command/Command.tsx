@@ -43,7 +43,7 @@ export const Command = observer<CommandProps>(
 				/>
 			)}
 			<div className={skeletonClass} css={rowTextStyle}>
-				<Txt cy-test="command-header" ellipsize small muted block running title={command?.info.contextTooltipText}>
+				<Txt cy-test="command-header" ellipsize small muted block title={command?.info.contextTooltipText}>
 					<Txt cy-test="command-date-time" monospace>
 						{command?.info.time.format(`${dateShortFormat} ${timeFormat}`)}
 					</Txt>

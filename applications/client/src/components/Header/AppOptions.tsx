@@ -102,7 +102,7 @@ const HeaderOptions = ({
 			}}
 			rightIcon={<CarbonIcon icon={Help16} />}
 		/>
-		<ModeIndicator css={{ marginRight: -8, padding: '0px 8px' }} popoverProps={{ position: 'top-right' }} />
+		<ModeIndicator fullName css={{ marginRight: -8, padding: '0px 8px' }} popoverProps={{ position: 'top-right' }} />
 	</ButtonGroup>
 );
 
