@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { datePlaceholder, durationFormatter, ErrorFallback } from '@redeye/client/components';
 import { CampaignLoadingMessage, useStore } from '@redeye/client/store';
-import { Header, Spacer, Txt } from '@redeye/ui-styles';
+import { CoreTokens, Header, Spacer, ThemeClasses, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
@@ -44,7 +44,7 @@ export const Graph = observer<GraphProps>((props) => {
 			zoomIn: () => store.campaign.graph?.zoomIn(),
 			zoomOut: () => store.campaign.graph?.zoomOut(),
 			zoomToFit: () => store.campaign.graph?.zoomToFit(),
-			exportSVG: () => store.campaign.graph?.exportSVG(),
+			exportSVG: () => store.campaign.graph?.exportSVG(CoreTokens.Background3),
 		}),
 		[]
 	);
@@ -68,7 +68,11 @@ export const Graph = observer<GraphProps>((props) => {
 				!!store.campaign?.error ? (
 					<LoadingOverlay />
 				) : null}
-				<svg css={[graphLayoutStyles, graphStyles]} ref={graphRef} />
+				<svg
+					css={[graphLayoutStyles, graphStyles]}
+					ref={graphRef}
+					className={store.settings.theme === 'dark' ? ThemeClasses.DARK : ThemeClasses.LIGHT}
+				/>
 				<GraphControls {...zoomControls} css={controlsStyles} />
 			</ErrorBoundary>
 		</div>
