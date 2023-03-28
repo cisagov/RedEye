@@ -24,7 +24,7 @@
 		"start:client": "yarn moon run @redeye/client:start-dev",
 		"start:server": "yarn moon run @redeye/server:start-dev",
 		"start:dev": "yarn moon run @redeye/server:start-dev @redeye/client:start-dev",
-		"start:graph": "yarn moon run @redeye/graph:start-dev",
+		"start:graph": "yarn moon run @redeye/graph:start-vite",
 		"combine:reports": "jrm dist/applications/redeye-e2e/results/combined-report.xml \"dist/applications/redeye-e2e/results/*.xml\"",
 		"cy:open": "yarn moon run @redeye/e2e:open-cy",
 		"cy:open-blue": "yarn moon run @redeye/e2e:open-cy-blue",
