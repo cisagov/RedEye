@@ -72,6 +72,7 @@ import {
 } from './TimelineCommandCountTupleModel';
 
 import type { BeaconLineType } from './BeaconLineTypeEnum';
+import type { BeaconType } from './BeaconTypeEnum';
 import type { FileFlag } from './FileFlagEnum';
 import type { GenerationType } from './GenerationTypeEnum';
 import type { LogType } from './LogTypeEnum';
@@ -1095,14 +1096,20 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Update existing Beacon Metadata
 	@modelAction mutateUpdateBeaconMetadata(
-		variables: { beaconDisplayName?: string; beaconId: string; beaconTimeOfDeath?: any; campaignId: string },
+		variables: {
+			beaconDisplayName?: string;
+			beaconId: string;
+			beaconTimeOfDeath?: any;
+			beaconType?: BeaconType;
+			campaignId: string;
+		},
 		resultSelector:
 			| string
 			| ((qb: typeof BeaconModelSelector) => typeof BeaconModelSelector) = beaconModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateBeaconMetadata: BeaconModel }>(
-			`mutation updateBeaconMetadata($beaconDisplayName: String, $beaconId: String!, $beaconTimeOfDeath: DateTime, $campaignId: String!) { updateBeaconMetadata(beaconDisplayName: $beaconDisplayName, beaconId: $beaconId, beaconTimeOfDeath: $beaconTimeOfDeath, campaignId: $campaignId) {
+			`mutation updateBeaconMetadata($beaconDisplayName: String, $beaconId: String!, $beaconTimeOfDeath: DateTime, $beaconType: BeaconType, $campaignId: String!) { updateBeaconMetadata(beaconDisplayName: $beaconDisplayName, beaconId: $beaconId, beaconTimeOfDeath: $beaconTimeOfDeath, beaconType: $beaconType, campaignId: $campaignId) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
 			variables,
