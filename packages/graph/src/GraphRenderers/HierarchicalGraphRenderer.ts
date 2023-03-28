@@ -102,7 +102,9 @@ export class HierarchicalGraphRenderer {
 		});
 	}
 
-	drawLayout() {}
+	drawLayout() {
+		// for class extension
+	}
 
 	drawLayoutAllChildren() {
 		this.drawLayout();
@@ -162,7 +164,9 @@ export class HierarchicalGraphRenderer {
 		});
 	}
 
-	drawUpdateLabel() {}
+	drawUpdateLabel() {
+		// for class extension
+	}
 	drawUpdateLabelAllChildren() {
 		this.drawUpdateLabel();
 		this.childGraphs?.forEach((childGraph) => {
