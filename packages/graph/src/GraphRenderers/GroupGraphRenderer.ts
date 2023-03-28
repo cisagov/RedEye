@@ -34,19 +34,16 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			// .strength(d => d.group ? 0.2 : 0.05)
 			.strength((d) => d.source.graphLinks.length / 100)
 			.distance(
-				// @ts-ignore
 				this.keyNodes.length < 2
-					? this.rootNode.r!
-					: (d: HierarchicalGraphLink) =>
-							//
-							this.rootNode.r! / this.links.length + (d.source.r || 1)
+					? () => this.rootNode.r!
+					: (d: HierarchicalGraphLink) => this.rootNode.r! / this.links.length + (d.source.r || 1)
 			);
 		const forceClamp = forceClampToRadius<HierarchicalGraphNode>((d) =>
-			d.type === 'keyNode' ? d.parent!.r! - d.r! - 2 : undefined
+			d.type === 'keyNode' ? d.parent!.r! - d.r! - 2 : 0
 		);
-		const forceCollide = d3ForceCollide<HierarchicalGraphNode>().radius((d): number =>
-			d.type === 'keyNode' ? d.r! + 2 : 0
-		);
+		const forceCollide = d3ForceCollide<HierarchicalGraphNode>()
+			.strength(0.5)
+			.radius((d): number => (d.type === 'keyNode' ? d.r! + 2 : 0));
 		const forcePositionParentLinkNodes = () => positionParentLinkNodes(this.rootNode);
 
 		this.simulation = d3ForceSimulation(this.nodes)
@@ -73,7 +70,6 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink));
 
 		this.childGraphRootSelection = this.rootGroupSelection
-			//
 			.append('g')
 			.selectAll('g')
 			.data(this.nodes)

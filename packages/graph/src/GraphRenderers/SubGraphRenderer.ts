@@ -26,11 +26,10 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => (d.type === 'keyNode' ? -1 : 0));
 		const forceLink = d3ForceLink(this.links)
-			//
 			.strength(0)
 			.distance(this.rootNode.r! * 0.3);
 		const forceClamp = forceClampToRadius<HierarchicalGraphNode>((d) =>
-			d.type === 'keyNode' ? this.rootNode.r! - 2 : undefined
+			d.type === 'keyNode' ? this.rootNode.r! - 2 : 0
 		);
 
 		this.simulation = d3ForceSimulation(this.nodes)

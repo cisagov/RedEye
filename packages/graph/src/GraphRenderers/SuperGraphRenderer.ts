@@ -26,7 +26,9 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			(d) => -300 * d.children!.filter((dd) => dd.type === 'parentLinkNode').length
 		); // parentLinkNodes?.length);
 		const forceLink = d3ForceLink(this.links); // .strength(0.1)
-		const forceCollide = d3ForceCollide<HierarchicalGraphNode>().radius((d) => SuperGraphRenderer.radius(d) + 4);
+		const forceCollide = d3ForceCollide<HierarchicalGraphNode>()
+			.strength(0.1)
+			.radius((d) => SuperGraphRenderer.radius(d) + 4);
 
 		this.simulation = d3ForceSimulation(this.nodes)
 			.force('link', forceLink)

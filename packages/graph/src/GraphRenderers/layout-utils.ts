@@ -2,41 +2,67 @@ import { SimulationNodeDatum, ZoomTransform } from 'd3';
 import { HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
-export const clampXyToRadius = ([x, y]: [number, number], radius?: number) => {
+export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {
+	let x = x1;
+	let y = y1;
 	if (!radius) return { x, y, wasClamped: false };
 	if (radius < 0) return { x: 0, y: 0, wasClamped: true };
-	const length = Math.hypot(x, y);
-	if (length > radius) {
+	const xyRadius = Math.hypot(x, y);
+	if (xyRadius > radius) {
 		const theta = Math.atan2(x, y);
 		x = Math.sin(theta) * radius;
 		y = Math.cos(theta) * radius;
 	}
-	return { x, y, wasClamped: length > radius };
+	const wasClamped = xyRadius > radius;
+	return { x, y, wasClamped, xyRadius, radius };
 };
 
+type ForceFunction<T> = (node: T, i: number, nodes: T[]) => number;
+
 export function forceClampToRadius<T extends SimulationNodeDatum = SimulationNodeDatum>(
-	radius: number | ((node: T, i: number, nodes: T[]) => number | undefined) = 30
+	radius: number | ForceFunction<T> = 30
 ) {
 	let nodes: T[];
+	let radiuses: number[];
+	const radius2 = typeof radius !== 'function' ? (constant(+radius) as ForceFunction<T>) : radius;
 
-	function force() {
-		nodes.forEach((node, i) => {
-			const r = typeof radius === 'function' ? radius(node, i, nodes) : radius;
-			const { wasClamped } = clampXyToRadius([node.x! + node.vx!, node.y! + node.vy!], r);
+	function force(_alpha: number) {
+		for (let i = 0, n = nodes.length; i < n; ++i) {
+			const node = nodes[i];
+			const r = radiuses[i];
+			const xNext = node.x! + node.vx!;
+			const yNext = node.y! + node.vy!;
+			const { wasClamped, x: fx, y: fy } = clampXyToRadius([xNext, yNext], r);
 			if (wasClamped) {
-				const vHypot = Math.hypot(node.vx!, node.vy!);
-				const { x: fx, y: fy } = clampXyToRadius([node.x!, node.y!], r! - vHypot);
 				node.vx = 0;
 				node.vy = 0;
 				node.x = fx;
 				node.y = fy;
 			}
-		});
+		}
 	}
+
+	function initialize() {
+		if (!nodes) return;
+		let i;
+		const n = nodes.length;
+		radiuses = new Array(n);
+		for (i = 0; i < n; ++i) {
+			radiuses[i] = +radius2(nodes[i], i, nodes);
+		}
+	}
+
 	force.initialize = function (_: T[]) {
-		nodes = _;
+		(nodes = _), initialize();
 	};
+
 	return force;
+}
+
+function constant(x: any) {
+	return function (..._: any[]) {
+		return x;
+	};
 }
 
 export function dotGrid(element: HTMLElement | SVGElement = document.documentElement, dotDistance = 40) {
