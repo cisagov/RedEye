@@ -138,7 +138,5 @@ export const Txt: FC<TxtProps> = ({
 		return tagName ?? (running ? 'p' : 'span');
 	}, [running, tagName]);
 
-	console.log({ RootTag });
-
 	return <RootTag css={txtCss} className={_className} {...props} />;
 };
