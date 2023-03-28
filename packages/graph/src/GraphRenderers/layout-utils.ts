@@ -1,4 +1,4 @@
-import { SimulationNodeDatum, ZoomTransform } from 'd3';
+import { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
 import { HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
@@ -19,12 +19,12 @@ export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => 
 
 type ForceFunction<T> = (node: T, i: number, nodes: T[]) => number;
 
-export function forceClampToRadius<T extends SimulationNodeDatum = SimulationNodeDatum>(
-	radius: number | ForceFunction<T> = 30
-) {
-	let nodes: T[];
+export function forceClampToRadius<NodeDatum extends SimulationNodeDatum = SimulationNodeDatum>(
+	radius: number | ForceFunction<NodeDatum> = 30
+): Force<NodeDatum, SimulationLinkDatum<NodeDatum>> {
+	let nodes: NodeDatum[];
 	let radiuses: number[];
-	const radius2 = typeof radius !== 'function' ? (constant(+radius) as ForceFunction<T>) : radius;
+	const radius2 = typeof radius !== 'function' ? (constant(+radius) as ForceFunction<NodeDatum>) : radius;
 
 	function force(_alpha: number) {
 		for (let i = 0, n = nodes.length; i < n; ++i) {
@@ -52,7 +52,7 @@ export function forceClampToRadius<T extends SimulationNodeDatum = SimulationNod
 		}
 	}
 
-	force.initialize = function (_: T[]) {
+	force.initialize = function (_: NodeDatum[]) {
 		(nodes = _), initialize();
 	};
 
