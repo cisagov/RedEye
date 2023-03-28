@@ -15,6 +15,8 @@ import {
 	shortenLine,
 	translateCenter,
 	isInteractionFocus,
+	circleArea,
+	circleRadius,
 } from './layout-utils';
 import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
@@ -124,9 +126,12 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	static radius = (d: HierarchicalGraphNode): number => {
-		const childNeededRadius = 4;
-		const childCount = d.children ? d.children.filter((d) => d.type === 'keyNode').length : 1;
-		const areaNeeded = Math.pow(childNeededRadius, 2) * Math.PI * childCount;
-		return Math.sqrt(areaNeeded / Math.PI);
+		const keyNodeChildren = d.children?.filter((d) => d.type === 'keyNode') || [];
+		let areaNeeded = 0;
+		for (let i = 0; i < keyNodeChildren.length; i++) {
+			const keyNodeChild = keyNodeChildren[i];
+			areaNeeded += circleArea(SubGraphRenderer.radius(keyNodeChild) + 3);
+		}
+		return circleRadius(areaNeeded);
 	};
 }

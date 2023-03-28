@@ -8,7 +8,14 @@ import {
 } from 'd3';
 import { GroupGraphRenderer } from './GroupGraphRenderer';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
-import { classNames, isInteractionFocus, isInteractionRelated, translateCenter } from './layout-utils';
+import {
+	circleArea,
+	circleRadius,
+	classNames,
+	isInteractionFocus,
+	isInteractionRelated,
+	translateCenter,
+} from './layout-utils';
 import { HierarchyNodeSelection, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
 
@@ -137,10 +144,15 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.labelSelection?.text(createLabel);
 	}
 
-	static radius = (d: HierarchicalGraphNode) =>
-		defNum(d.children!.filter((dd) => dd.type == 'keyNode').length) * 1.5 +
-		d.descendants().filter((dd) => dd.type == 'keyNode').length +
-		5;
+	static radius = (d: HierarchicalGraphNode) => {
+		const keyNodeChildren = d.children?.filter((d) => d.type === 'keyNode') || [];
+		let areaNeeded = 0;
+		for (let i = 0; i < keyNodeChildren.length; i++) {
+			const keyNodeChild = keyNodeChildren[i];
+			areaNeeded += circleArea(GroupGraphRenderer.radius(keyNodeChild) + 10);
+		}
+		return circleRadius(areaNeeded);
+	};
 
 	static shrinkRadius = (d: HierarchicalGraphNode, rk = 1) => {
 		const radius = defNum(d.r) * rk;

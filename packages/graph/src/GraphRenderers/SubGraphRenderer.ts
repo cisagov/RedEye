@@ -22,9 +22,9 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
 
-		this.nodes.forEach((d) => (d.r = d.type === 'parentLinkNode' ? 1 : SubGraphRenderer.radius()));
+		this.nodes.forEach((d) => (d.r = d.type === 'parentLinkNode' ? 1 : SubGraphRenderer.radius(d)));
 
-		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => (d.type === 'keyNode' ? -1 : 0));
+		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => (d.type === 'keyNode' ? -4 : 0));
 		const forceLink = d3ForceLink(this.links)
 			.strength(0)
 			.distance(this.rootNode.r! * 0.3);
@@ -114,7 +114,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		this.labelSelection?.text(createLabel);
 	}
 
-	static radius = () => 4;
+	static radius = (_d: HierarchicalGraphNode) => 4;
 	// static radius = (d: HierarchyReturnNode): number => 2 + (d.descendants ? d.descendants().length : 0);
 }
 
