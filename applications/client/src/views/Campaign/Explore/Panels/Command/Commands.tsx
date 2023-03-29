@@ -30,8 +30,10 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 		removeExpandedCommandID(commandId: string) {
 			this.expandedCommandIDs.remove(commandId);
 		},
+		scrollTargetIndex: -1,
 		scrollToCommand(commandId: string, commandIds: string[], behavior: ScrollBehavior = 'smooth') {
 			const commandIndex = commandIds.findIndex((id) => commandId === id);
+			this.scrollTargetIndex = commandIndex;
 			if (commandIndex > -1) {
 				listRef?.current?.scrollToIndex({ index: commandIndex, align: 'start', behavior });
 			}
@@ -118,9 +120,10 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 			) : data?.commandIds.length === 0 ? (
 				<MessageRow>No Commands</MessageRow>
 			) : (
-				data?.commandIds?.map((commandId) => (
+				data?.commandIds?.map((commandId, index) => (
 					<CommandContainer
 						commandId={commandId}
+						scrollTarget={state.scrollTargetIndex === index}
 						key={commandId}
 						data-command-id={commandId}
 						showPath={showPath}

@@ -24,6 +24,7 @@ type CommandContainerProps = ComponentProps<'div'> & {
 	showPath?: boolean;
 	expandedCommandIDs?: string[];
 	removeExpandedCommandID?: (commandId: string) => void;
+	scrollTarget?: boolean;
 };
 
 export const CommandContainer = observer<CommandContainerProps>(
@@ -37,6 +38,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 		showPath = false,
 		expandedCommandIDs = [],
 		removeExpandedCommandID,
+		scrollTarget = false,
 		...props
 	}) => {
 		const store = useStore();
@@ -99,13 +101,14 @@ export const CommandContainer = observer<CommandContainerProps>(
 				),
 			[]
 		);
+
 		return (
 			<div cy-test="command-info" css={wrapperStyle} {...props}>
 				<div css={[UtilityStyles.hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
 						css={[interactiveRowStyle, gridFillStyle, { height: state.expanded ? 'auto' : initialCommandRowHeight }]}
-						// target={state.active}
+						target={scrollTarget}
 						onClick={state.setCollapsed}
 						onMouseEnter={() =>
 							store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})
