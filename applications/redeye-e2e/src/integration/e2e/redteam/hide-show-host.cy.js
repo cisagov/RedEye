@@ -141,6 +141,56 @@ describe('Hide a host', () => {
 			});
 	});
 
+	it('Verify Cancel button works from Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Select the first host, go to Meta tab, click show/hide link
+		cy.get('[cy-test=hostName]').eq(1).click();
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-host]').click();
+
+		// Verify modal shows; click Cancel
+		cy.get('[cy-test=dialog-text-line1]').should('exist');
+		cy.get('[cy-test=dialog-text-line2]').should('exist');
+		cy.get('[cy-test=dialog-text-line3]').should('exist');
+
+		cy.get('[cy-test=cancel-show-hide]').click();
+
+		// Verify modal disappears
+		cy.get('[cy-test=dialog-text-line1]').should('not.exist');
+		cy.get('[cy-test=dialog-text-line2]').should('not.exist');
+		cy.get('[cy-test=dialog-text-line3]').should('not.exist');
+
+		// Verify the Meta tab link says "Hide this host" vs. "Show"
+		cy.get('[cy-test=show-hide-this-host]').invoke('text').should('eq', 'Hide this host');
+	});
+
+	it('Verify Cancel button works from kebab menu', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Click kebab menu for first hostto bring up options; click "Hide Host"
+		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=show-hide-item]').click();
+
+		// Verify modal shows; click Cancel
+		cy.get('[cy-test=dialog-text-line1]').should('exist');
+		cy.get('[cy-test=dialog-text-line2]').should('exist');
+		cy.get('[cy-test=dialog-text-line3]').should('exist');
+
+		cy.get('[cy-test=cancel-show-hide]').click();
+
+		// Verify modal disappears
+		cy.get('[cy-test=dialog-text-line1]').should('not.exist');
+		cy.get('[cy-test=dialog-text-line2]').should('not.exist');
+		cy.get('[cy-test=dialog-text-line3]').should('not.exist');
+
+		// Verify the kebab menu link still says "Hide Host" vs. "Show"
+		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Host');
+	});
+
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
 	});
