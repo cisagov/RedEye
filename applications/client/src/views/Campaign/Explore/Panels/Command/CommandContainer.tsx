@@ -47,8 +47,6 @@ export const CommandContainer = observer<CommandContainerProps>(
 			get expanded() {
 				return store.router.params.activeItem === 'command' && expandedCommandIDs.includes(state.commandId);
 			},
-			/** only true on first render */
-			target: store.router.params.activeItem === 'command' && store.router.params.activeItemId === commandId,
 			setCollapsed() {
 				if (!state.expanded) {
 					expandedCommandIDs.push(state.commandId);
@@ -101,14 +99,13 @@ export const CommandContainer = observer<CommandContainerProps>(
 				),
 			[]
 		);
-
 		return (
 			<div cy-test="command-info" css={wrapperStyle} {...props}>
 				<div css={[UtilityStyles.hoverRevealChildrenVisibility, gridWrapperStyle]}>
 					<InfoRow
 						cy-test="info-row"
 						css={[interactiveRowStyle, gridFillStyle, { height: state.expanded ? 'auto' : initialCommandRowHeight }]}
-						target={state.target}
+						// target={state.active}
 						onClick={state.setCollapsed}
 						onMouseEnter={() =>
 							store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})
