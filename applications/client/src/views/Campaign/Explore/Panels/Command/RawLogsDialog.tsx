@@ -137,14 +137,10 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 					{logsByBeaconId
 						?.filter((logEntry) => !!getTextFromLog(logEntry))
 						.map((logEntry) => {
-							const scrollToCommand = state.commandLogEntryIds?.includes?.(logEntry.id);
-							const Component = scrollToCommand ? AutoScrollPre : 'pre';
+							const isScrollTarget = state.commandLogEntryIds?.includes?.(logEntry.id);
+							const Component = isScrollTarget ? ScrollTargetPre : 'pre';
 							return (
-								<Component
-									key={logEntry.id}
-									cy-test="log-entry"
-									css={[preStyles, scrollToCommand && highlightedStyles]}
-								>
+								<Component key={logEntry.id} cy-test="log-entry" css={[preStyles]}>
 									{getTextFromLog(logEntry)}
 								</Component>
 							);
@@ -193,25 +189,19 @@ const outputOverflowWrapperStyle = css`
 const messagePaddingStyles = css`
 	padding: 30px;
 `;
-const highlightedStyles = css`
-	background: ${CoreTokens.Background1};
-`;
 
-const AutoScrollPre: FC = (props) => {
+const ScrollTargetPre: FC = (props) => {
 	const ref = useRef<HTMLPreElement>(null);
 	useEffect(
 		() => () => {
 			const el = ref.current;
-			if (el) {
-				setTimeout(() => {
-					scrollIntoView(el);
-				}, 500);
-			}
+			// wait 500ms to scrollIntoView for React to finish layout
+			if (el) setTimeout(() => scrollIntoView(el), 500);
 		},
-		[]
+		[ref.current]
 	);
 
-	return <pre {...props} ref={ref} />;
+	return <pre css={scrollTargetStyles} ref={ref} {...props} />;
 };
 
 // Only fire one scrollIntoView every 1s
@@ -222,6 +212,8 @@ const scrollIntoView: (el: HTMLElement) => void = throttle(
 	},
 	{ noTrailing: true }
 );
+
+const scrollTargetStyles = UtilityStyles.scrollTarget(4000);
 
 function getTextFromLog(logEntry: LogEntryModel) {
 	return logEntry.blob ? logEntry.blob.trim() : null;

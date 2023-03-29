@@ -87,9 +87,24 @@ type BeaconMeta {
 	startTime: DateTime
 
 	"""
+	The communication type used by the beacon
+	"""
+	type: BeaconType
+
+	"""
 	The username the beacon is running under
 	"""
 	username: String
+}
+
+"""
+The communication type used by the beacon
+"""
+enum BeaconType {
+	DNS
+	HTTP
+	HTTPS
+	SMB
 }
 
 type Campaign {
@@ -431,6 +446,7 @@ type Mutation {
 		beaconDisplayName: String
 		beaconId: String!
 		beaconTimeOfDeath: DateTime
+		beaconType: BeaconType
 		campaignId: String!
 	): Beacon!
 

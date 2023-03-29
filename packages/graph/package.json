@@ -13,8 +13,5 @@
 			"import": "./dist/redeye-graph.js",
 			"require": "./dist/redeye-graph.umd.js"
 		}
-	},
-	"dependencies": {
-		"@redeye/ui-styles": "workspace:*"
 	}
 }
