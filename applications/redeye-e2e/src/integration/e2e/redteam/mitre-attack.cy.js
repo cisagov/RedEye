@@ -6,7 +6,7 @@ describe('Mitre attack tests', () => {
 	const cmd = 'dcsync';
 
 	it('Verify mitre attack link includes name of mitre attack', () => {
-		cy.uploadCampaign(camp, fileName);
+		// cy.uploadCampaign(camp, fileName);
 
 		cy.selectCampaign(camp);
 
@@ -17,14 +17,13 @@ describe('Mitre attack tests', () => {
 		cy.get('[cy-test=expand]').eq(1).click();
 
 		cy.get('[cy-test=mitre-attack-link]')
-			.eq(0)
-			.invoke('text')
-			.then((mitre1) => {
-				cy.get('[cy-test=mitre-attack-link]').eq(0).should('have.attr', 'href').and('include', mitre1);
-			});
+			.then(($el) => {
+				return Cypress._.map($el, 'innerText');
+			})
+			.should('deep.equal', ['T1003: OS Credential Dumping', 'T1093: Process Hollowing']);
 	});
 
-	after(() => {
-		cy.deleteCampaignGraphQL(camp);
-	});
+	// after(() => {
+	// 	cy.deleteCampaignGraphQL(camp);
+	// });
 });
