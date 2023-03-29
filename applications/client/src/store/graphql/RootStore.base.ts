@@ -144,7 +144,6 @@ export enum RootStoreBaseQueries {
 	queryBeacons = 'queryBeacons',
 	queryCampaign = 'queryCampaign',
 	queryCampaigns = 'queryCampaigns',
-	queryCanHideEntities = 'queryCanHideEntities',
 	queryCommandGroup = 'queryCommandGroup',
 	queryCommandGroupIds = 'queryCommandGroupIds',
 	queryCommandGroups = 'queryCommandGroups',
@@ -158,6 +157,7 @@ export enum RootStoreBaseQueries {
 	queryLinks = 'queryLinks',
 	queryLogs = 'queryLogs',
 	queryLogsByBeaconId = 'queryLogsByBeaconId',
+	queryNonHideableEntities = 'queryNonHideableEntities',
 	queryOperators = 'queryOperators',
 	queryParsingProgress = 'queryParsingProgress',
 	queryPresentationItems = 'queryPresentationItems',
@@ -356,29 +356,6 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ campaigns: CampaignModel[] }>(
 			`query campaigns { campaigns {
         ${typeof resultSelector === 'function' ? resultSelector(CampaignModelSelector).toString() : resultSelector}
-      } }`,
-			variables,
-			options,
-			!!clean
-		);
-	}
-	@modelAction queryCanHideEntities(
-		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
-		resultSelector:
-			| string
-			| ((
-					qb: typeof CantHideEntitiesModelSelector
-			  ) => typeof CantHideEntitiesModelSelector) = cantHideEntitiesModelPrimitives.toString(),
-		options: QueryOptions = {},
-		clean?: boolean
-	) {
-		return this.query<{ canHideEntities: CantHideEntitiesModel }>(
-			`query canHideEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { canHideEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
-        ${
-					typeof resultSelector === 'function'
-						? resultSelector(CantHideEntitiesModelSelector).toString()
-						: resultSelector
-				}
       } }`,
 			variables,
 			options,
@@ -657,6 +634,29 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ logsByBeaconId: LogEntryModel[] }>(
 			`query logsByBeaconId($beaconId: String!, $campaignId: String!) { logsByBeaconId(beaconId: $beaconId, campaignId: $campaignId) {
         ${typeof resultSelector === 'function' ? resultSelector(LogEntryModelSelector).toString() : resultSelector}
+      } }`,
+			variables,
+			options,
+			!!clean
+		);
+	}
+	@modelAction queryNonHideableEntities(
+		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
+		resultSelector:
+			| string
+			| ((
+					qb: typeof CantHideEntitiesModelSelector
+			  ) => typeof CantHideEntitiesModelSelector) = cantHideEntitiesModelPrimitives.toString(),
+		options: QueryOptions = {},
+		clean?: boolean
+	) {
+		return this.query<{ nonHideableEntities: CantHideEntitiesModel }>(
+			`query nonHideableEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { nonHideableEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
+        ${
+					typeof resultSelector === 'function'
+						? resultSelector(CantHideEntitiesModelSelector).toString()
+						: resultSelector
+				}
       } }`,
 			variables,
 			options,
