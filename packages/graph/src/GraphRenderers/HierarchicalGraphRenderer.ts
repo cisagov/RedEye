@@ -95,11 +95,9 @@ export class HierarchicalGraphRenderer {
 		}
 	}
 
-	callAllChildren(method: HierarchicalGraphRendererMethods) {
+	callChildrenRecursively(method: HierarchicalGraphRendererMethods) {
 		this[method]();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.callAllChildren(method);
-		});
+		this.childGraphs?.forEach((childGraph) => childGraph.callChildrenRecursively(method));
 	}
 
 	useGraphForces() {
@@ -118,31 +116,18 @@ export class HierarchicalGraphRenderer {
 
 	reheat(alphaTarget: number = 0) {
 		this.simulation.alphaTarget(alphaTarget).restart();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.reheat(alphaTarget);
-		});
+		this.childGraphs?.forEach((childGraph) => childGraph.reheat(alphaTarget));
 	}
 	cool() {
 		this.simulation.alphaTarget(0);
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.cool();
-		});
+		this.childGraphs?.forEach((childGraph) => childGraph.cool());
 	}
 	freeze() {
-		this.simulation.stop(); // hammer time
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.freeze();
-		});
+		this.simulation.stop();
+		this.childGraphs?.forEach((childGraph) => childGraph.freeze());
 	}
 
 	drawLayout() {}
-
-	drawLayoutAllChildren() {
-		this.drawLayout();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.drawLayoutAllChildren();
-		});
-	}
 
 	drawInteraction() {
 		// could use selection.merge()... instead of array?
@@ -160,13 +145,6 @@ export class HierarchicalGraphRenderer {
 				.classed(classNames.previewedFocus, (d) => !!d.previewedFocus)
 				.filter(isInteractionRelated)
 				.raise();
-		});
-	}
-
-	drawInteractionAllChildren() {
-		this.drawInteraction();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.drawInteractionAllChildren();
 		});
 	}
 
@@ -188,42 +166,17 @@ export class HierarchicalGraphRenderer {
 		});
 	}
 
-	drawTimeAllChildren() {
-		this.drawTime();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.drawTimeAllChildren();
-		});
-	}
-
 	drawUpdateLabel() {}
-
-	drawUpdateLabelAllChildren() {
-		this.drawUpdateLabel();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.drawUpdateLabelAllChildren();
-		});
-	}
 
 	isHidden = false;
 	hideLayout() {
 		if (!this.isHidden) this.rootGroupSelection.remove();
 		this.isHidden = true;
 	}
-	hideLayoutAllChildren() {
-		this.hideLayout();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.hideLayoutAllChildren();
-		});
-	}
+
 	showLayout() {
 		if (this.isHidden) this.rootSelection.node()?.appendChild(this.rootGroupSelection.node()!);
 		this.isHidden = false;
-	}
-	showLayoutAllChildren() {
-		this.showLayout();
-		this.childGraphs?.forEach((childGraph) => {
-			childGraph.showLayoutAllChildren();
-		});
 	}
 }
 
