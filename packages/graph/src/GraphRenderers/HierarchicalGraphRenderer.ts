@@ -129,7 +129,6 @@ export class HierarchicalGraphRenderer {
 	drawLayout() {}
 
 	drawInteraction() {
-		// could use selection.merge()... instead of array?
 		[
 			this.rootSelection,
 			this.rootGroupSelection,
@@ -140,8 +139,10 @@ export class HierarchicalGraphRenderer {
 			selection
 				?.classed(classNames.selected, (d) => !!d.selected)
 				.classed(classNames.selectedFocus, (d) => !!d.selectedFocus)
+				.classed(classNames.selectedParent, (d) => !!d.selectedParent)
 				.classed(classNames.previewed, (d) => !!d.previewed)
 				.classed(classNames.previewedFocus, (d) => !!d.previewedFocus)
+				.classed(classNames.previewedParent, (d) => !!d.previewedParent)
 				.filter(isInteractionRelated)
 				.raise();
 		});

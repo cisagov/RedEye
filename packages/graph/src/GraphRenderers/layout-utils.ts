@@ -221,8 +221,10 @@ export const classNames = {
 	// Interaction State //
 	previewed: 'previewed',
 	previewedFocus: 'previewedFocus',
+	previewedParent: 'previewedParent',
 	selected: 'selected',
 	selectedFocus: 'selectedFocus',
+	selectedParent: 'selectedParent',
 
 	// Time State //
 	future: 'future',
