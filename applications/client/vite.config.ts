@@ -61,7 +61,6 @@ export default defineConfig(() => ({
 	},
 	server: {
 		port: 3500,
-		host: true,
 		hmr: {
 			overlay: false,
 			host: 'localhost',
