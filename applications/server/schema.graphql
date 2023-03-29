@@ -123,6 +123,12 @@ type Campaign {
 	serverCount: Int!
 }
 
+type CantHideEntities {
+	beacons: [String!]
+	hosts: [String!]
+	servers: [String!]
+}
+
 type Command {
 	attackIds: [String!]
 	beacon: Beacon!
@@ -658,6 +664,11 @@ type Query {
 	Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.
 	"""
 	logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
+
+	"""
+
+	"""
+	nonHideableEntities(beaconIds: [String!] = [], campaignId: String!, hostIds: [String!] = []): CantHideEntities!
 
 	"""
 	Get all the operators for a project

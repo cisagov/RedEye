@@ -5,6 +5,7 @@ import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
 import { OperatorResolvers } from './operator-resolvers';
+import { CantHideEntities, checkCanHideEntities } from './utils/hidden-entities-helper';
 
 @Resolver(Server)
 export class ServerResolvers {
@@ -37,6 +38,28 @@ export class ServerResolvers {
 		for (const server of servers) await server.beacons.init({ where: !hidden ? { hidden } : {} });
 		ctx.cm.forkMain();
 		return servers;
+	}
+
+	@Authorized()
+	@Query(() => CantHideEntities, { description: '' })
+	async nonHideableEntities(
+		@Ctx() ctx: GraphQLContext,
+		@Arg('campaignId', () => String) campaignId: string,
+		@Arg('beaconIds', () => [String], { defaultValue: [] }) beaconIds: string[] = [],
+		@Arg('hostIds', () => [String], { defaultValue: [] }) hostIds: string[] = []
+	): Promise<CantHideEntities | null> {
+		const em = await connectToProjectEmOrFail(campaignId, ctx);
+
+		const { cantHideBeacons, cantHideHosts, cantHideServers } = await checkCanHideEntities({
+			em,
+			beaconsToHide: beaconIds,
+			hostsToHide: hostIds,
+		});
+		return new CantHideEntities({
+			beacons: cantHideBeacons,
+			hosts: cantHideHosts,
+			servers: cantHideServers,
+		});
 	}
 
 	@Authorized()

@@ -25,6 +25,11 @@ import { AnnotationModel, annotationModelPrimitives, AnnotationModelSelector } f
 import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
 import { BeaconMetaModel, beaconMetaModelPrimitives, BeaconMetaModelSelector } from './BeaconMetaModel';
 import { CampaignModel, campaignModelPrimitives, CampaignModelSelector } from './CampaignModel';
+import {
+	CantHideEntitiesModel,
+	cantHideEntitiesModelPrimitives,
+	CantHideEntitiesModelSelector,
+} from './CantHideEntitiesModel';
 import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
 import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import {
@@ -139,6 +144,7 @@ export enum RootStoreBaseQueries {
 	queryBeacons = 'queryBeacons',
 	queryCampaign = 'queryCampaign',
 	queryCampaigns = 'queryCampaigns',
+	queryCanHideEntities = 'queryCanHideEntities',
 	queryCommandGroup = 'queryCommandGroup',
 	queryCommandGroupIds = 'queryCommandGroupIds',
 	queryCommandGroups = 'queryCommandGroups',
@@ -195,6 +201,7 @@ export class RootStoreBase extends ExtendedModel(
 			['Beacon', () => BeaconModel],
 			['BeaconMeta', () => BeaconMetaModel],
 			['Campaign', () => CampaignModel],
+			['CantHideEntities', () => CantHideEntitiesModel],
 			['Command', () => CommandModel],
 			['CommandGroup', () => CommandGroupModel],
 			['CommandTypeCount', () => CommandTypeCountModel],
@@ -349,6 +356,29 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ campaigns: CampaignModel[] }>(
 			`query campaigns { campaigns {
         ${typeof resultSelector === 'function' ? resultSelector(CampaignModelSelector).toString() : resultSelector}
+      } }`,
+			variables,
+			options,
+			!!clean
+		);
+	}
+	@modelAction queryCanHideEntities(
+		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
+		resultSelector:
+			| string
+			| ((
+					qb: typeof CantHideEntitiesModelSelector
+			  ) => typeof CantHideEntitiesModelSelector) = cantHideEntitiesModelPrimitives.toString(),
+		options: QueryOptions = {},
+		clean?: boolean
+	) {
+		return this.query<{ canHideEntities: CantHideEntitiesModel }>(
+			`query canHideEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { canHideEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
+        ${
+					typeof resultSelector === 'function'
+						? resultSelector(CantHideEntitiesModelSelector).toString()
+						: resultSelector
+				}
       } }`,
 			variables,
 			options,
