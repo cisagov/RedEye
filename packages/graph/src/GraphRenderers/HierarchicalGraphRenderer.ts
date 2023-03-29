@@ -51,12 +51,11 @@ export class HierarchicalGraphRenderer {
 		this.rootSelection = rootSelection;
 	}
 
-	initialize(ChildGraphClass?: typeof HierarchicalGraphRenderer, startHidden = false) {
+	initialize(startHidden = false) {
 		this.initializeForces();
 		this.initializeSelection();
 		if (startHidden) this.hideLayout();
 		this.initializeSimulationLayout();
-		this.initializeChildGraphs(ChildGraphClass);
 	}
 	initializeForces() {
 		this.simulation = d3ForceSimulation(this.nodes).on('tick', this.drawLayout.bind(this));

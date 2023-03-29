@@ -24,7 +24,8 @@ import { defNum } from '../utils';
 export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
-		super.initialize(SubGraphRenderer, true);
+		this.initialize(true);
+		this.initializeChildGraphs(SubGraphRenderer);
 	}
 
 	initializeForces() {

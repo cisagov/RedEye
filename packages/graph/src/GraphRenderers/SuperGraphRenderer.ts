@@ -22,14 +22,17 @@ import { defNum } from '../utils';
 export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 	countLabelSelection!: HierarchyNodeSelection;
 	positionSelection!: HierarchyNodeSelection;
+	serverSelection!: HierarchyNodeSelection;
+	hostSelection!: HierarchyNodeSelection;
 
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
-		super.initialize(GroupGraphRenderer);
+		this.initialize();
+		this.initializeChildGraphs(GroupGraphRenderer);
 	}
 
 	initializeForces() {
-		this.nodes.forEach((d) => (d.r = SuperGraphRenderer.radius(d)));
+		this.nodes.forEach((d) => (d.r = d.data.isServer ? 10 : SuperGraphRenderer.radius(d)));
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength(
 			(d) => -300 * d.children!.filter((dd) => dd.type === 'parentLinkNode').length
@@ -74,19 +77,34 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.join('g')
 			.call(this.graphHandler.initializeDrag(this));
 
-		this.nodeSelection = this.positionSelection
+		this.hostSelection = this.positionSelection
+			.filter((d) => !d.data.isServer)
 			.append('g')
 			.append('circle')
 			.attr('r', (d) => d.r || 0)
+			.classed(classNames.computerNode, true);
+
+		this.serverSelection = this.positionSelection
+			.filter((d) => d.data.isServer)
+			.append('g')
+			.append('circle') // polygon
+			.attr('r', (d) => d.r || 0)
+			.classed(classNames.serverNode, true);
+
+		// select this.hostSelection & this.serverSelection
+		this.nodeSelection = this.positionSelection.selectChild().selectChild();
+
+		this.nodeSelection
 			.attr('data-id', (d) => d.data.id!)
 			.attr('cy-test', 'graphNode')
 			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
 			.classed(classNames.superNode, true)
-			.classed(classNames.serverNode, (d) => d.data.isServer)
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));
 
-		this.childGraphRootSelection = this.positionSelection.append('g');
+		this.childGraphRootSelection = this.positionSelection //
+			.append('g')
+			.filter((d) => !d.data.isServer);
 
 		this.labelSelection = this.rootGroupSelection
 			.append('g')
@@ -134,10 +152,11 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 
 	drawDynamicLayout() {
 		const { k: zk, x: zx, y: zy, rk } = this.graphHandler.zoomTransform;
-		this.nodeSelection.attr('r', (d) => SuperGraphRenderer.shrinkRadius(d, rk));
-		this.labelSelection?.attr('transform', (d) =>
-			translateCenter({ d, zk, zx, zy, tx: SuperGraphRenderer.shrinkRadius(d, rk) * -1 - 4, ty: 4 })
-		);
+		this.hostSelection.attr('r', (d) => SuperGraphRenderer.shrinkRadius(d, rk));
+		this.labelSelection?.attr('transform', (d) => {
+			const tx = (d.data.isServer ? defNum(d.r) : SuperGraphRenderer.shrinkRadius(d, rk)) * -1 - 4;
+			return translateCenter({ d, zk, zx, zy, ty: 4, tx });
+		});
 	}
 
 	drawInteraction() {

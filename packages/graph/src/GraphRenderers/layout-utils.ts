@@ -176,7 +176,11 @@ export const classNames = {
 	superNode: 'superNode',
 	groupNode: 'groupNode',
 	subNode: 'subNode',
+
+	// Network Types //
 	serverNode: 'serverNode',
+	computerNode: 'computerNode',
+	softwareNode: 'softwareNode',
 
 	// Label Types //
 	superNodeCountLabel: 'superNodeCountLabel',

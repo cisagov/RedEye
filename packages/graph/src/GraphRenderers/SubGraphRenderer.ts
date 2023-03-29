@@ -15,7 +15,7 @@ import {
 export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
-		super.initialize(undefined, true);
+		super.initialize(true);
 	}
 
 	initializeForces() {
@@ -67,6 +67,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'beaconsGraph')
 			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
 			.classed(classNames.subNode, true)
+			.classed(classNames.softwareNode, true)
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));
 

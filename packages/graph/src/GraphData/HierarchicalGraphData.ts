@@ -257,13 +257,33 @@ export class HierarchicalGraphData {
 		}
 		function addNode(node: HierarchicalGraphNode) {
 			if (node == null || node.parent == null) return; // rootLink or rootNode
-			node[interactionProp] = true;
-			interactionSet.add(node);
-			addAncestors(node);
+			if (node.data.isServer) {
+				// select severNodes in unison, as if a tree is a single subNode
+				const serverParent = node.ancestors().find((d) => d.type === 'keyNode' && d.depth === 1) || node;
+				const serverChild = serverParent.leaves().find((d) => d.type === 'keyNode') || node;
+				[serverParent, serverChild].forEach((_node) => {
+					_node[interactionProp] = true;
+					interactionSet.add(_node);
+				});
+			} else {
+				// select node and ancestors
+				node[interactionProp] = true;
+				interactionSet.add(node);
+				addAncestors(node);
+			}
 		}
 		function addLink(link: HierarchicalGraphLink) {
 			link[interactionProp] = true;
 			interactionSet.add(link);
+		}
+
+		// select severNodes in unison, as if a tree is a single subNode
+		if (node.data.isServer) {
+			const serverParent = node.ancestors().find((d) => d.type === 'keyNode' && d.depth === 1) || node;
+			const serverChild = serverParent.leaves().find((d) => d.type === 'keyNode') || node;
+			serverParent[interactionPropFocus] = true;
+			addNode(serverParent);
+			node = serverChild;
 		}
 
 		// set focus node
