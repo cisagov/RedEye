@@ -29,7 +29,8 @@ const hoverRevealChildrenDisplay = css`
 	}
 `;
 
-const targetStyles = (seconds = 1.5) => css`
+const SCROLL_TARGET_DURATION = 1500;
+const scrollTarget = (durationMs = SCROLL_TARGET_DURATION) => css`
 	@keyframes targetBackground {
 		0% {
 			background-color: ${CoreTokens.transparentWhite(0.3)};
@@ -38,7 +39,7 @@ const targetStyles = (seconds = 1.5) => css`
 			background-color: ${CoreTokens.transparentWhite(0)};
 		}
 	}
-	animation: targetBackground ${seconds}s linear;
+	animation: targetBackground ${durationMs}ms linear;
 `;
 
 export const UtilityStyles = {
@@ -86,5 +87,6 @@ export const UtilityStyles = {
 	hoverRevealChildrenOpacity,
 	hoverRevealChildrenDisplay,
 
-	targetStyles,
+	scrollTarget,
+	SCROLL_TARGET_DURATION,
 };

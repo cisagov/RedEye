@@ -8,6 +8,7 @@ import type { ComponentProps } from 'react';
 import { useEffect, useRef } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
 import { observable } from 'mobx';
+import { UtilityStyles } from '@redeye/ui-styles';
 
 type CommandsProps = ComponentProps<'div'> & {
 	showPath?: boolean;
@@ -36,6 +37,7 @@ export const Commands = observer<CommandsProps>(({ sort, showPath = true }) => {
 			this.scrollTargetIndex = commandIndex;
 			if (commandIndex > -1) {
 				listRef?.current?.scrollToIndex({ index: commandIndex, align: 'start', behavior });
+				setTimeout(() => (this.scrollTargetIndex = -1), UtilityStyles.SCROLL_TARGET_DURATION + 500);
 			}
 		},
 	});

@@ -8,10 +8,10 @@ export type InfoRowProps = ComponentProps<'div'> & {
 	/** the bp4 button active class */
 	active?: ButtonProps['active'];
 	/** navigational target, like the `:target` pseudo class */
-	target?: boolean;
+	scrollTarget?: boolean;
 };
 
-export const InfoRow: FC<InfoRowProps> = ({ className, active, target, ...props }) => (
+export const InfoRow: FC<InfoRowProps> = ({ className, active, scrollTarget, ...props }) => (
 	<div
 		cy-test="info-row"
 		className={[Classes.BUTTON, Classes.MINIMAL, active ? Classes.ACTIVE : '', className].join(' ')}
@@ -23,10 +23,12 @@ export const InfoRow: FC<InfoRowProps> = ({ className, active, target, ...props 
 				padding: 0.25rem 1rem;
 				height: ${defaultInfoRowHeight}px;
 			`,
-			target && UtilityStyles.targetStyles(),
+			scrollTarget && scrollTargetStyles,
 		]}
 		{...props}
 	/>
 );
 
 export const defaultInfoRowHeight = 32;
+
+const scrollTargetStyles = UtilityStyles.scrollTarget();

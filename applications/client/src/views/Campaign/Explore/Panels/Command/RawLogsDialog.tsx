@@ -201,7 +201,7 @@ const ScrollTargetPre: FC = (props) => {
 		[ref.current]
 	);
 
-	return <pre css={UtilityStyles.targetStyles(4)} ref={ref} {...props} />;
+	return <pre css={scrollTargetStyles} ref={ref} {...props} />;
 };
 
 // Only fire one scrollIntoView every 1s
@@ -212,6 +212,8 @@ const scrollIntoView: (el: HTMLElement) => void = throttle(
 	},
 	{ noTrailing: true }
 );
+
+const scrollTargetStyles = UtilityStyles.scrollTarget(4000);
 
 function getTextFromLog(logEntry: LogEntryModel) {
 	return logEntry.blob ? logEntry.blob.trim() : null;
