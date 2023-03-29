@@ -322,5 +322,12 @@ export class GraphHandler {
 		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
 	}
 
+	useGraphForces() {
+		this.graphRoot.callChildrenRecursively('useGraphForces');
+	}
+	useSimpleForces() {
+		this.graphRoot.callChildrenRecursively('useSimpleForces');
+	}
+
 	static scaleRadius = (zk: number) => Math.min(zk, (zk - 1) * 0.3 + 1);
 }

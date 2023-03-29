@@ -74,7 +74,7 @@ export class HierarchicalGraphRenderer {
 			.tick(500) // tick another 500 times for stability
 			.stop(); // freeze the simulation // wait for interactions
 
-		this.useSimpleForces();
+		// this.useSimpleForces();
 		this.drawLayout();
 	}
 	initializeChildGraphs(ChildGraphClass?: typeof HierarchicalGraphRenderer) {
@@ -188,6 +188,8 @@ export interface GraphHierarchicalConstructorProps {
 }
 
 type HierarchicalGraphRendererMethods =
+	| 'useGraphForces'
+	| 'useSimpleForces'
 	| 'drawLayout'
 	| 'drawTime'
 	| 'drawInteraction'
