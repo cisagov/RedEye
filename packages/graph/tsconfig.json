@@ -18,17 +18,8 @@
 		"skipLibCheck": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"noImplicitReturns": true,
-		"paths": {
-			"@redeye/ui-styles": ["../ui-styles/src/index.ts"],
-			"@redeye/ui-styles/*": ["../ui-styles/src/*"]
-		}
+		"noImplicitReturns": true
 	},
 	"files": [],
-	"include": ["src"],
-	"references": [
-		{
-			"path": "../ui-styles"
-		}
-	]
+	"include": ["src"]
 }

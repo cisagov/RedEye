@@ -1,5 +1,3 @@
-dependsOn:
-  - 'ui-styles'
 tasks:
   build:
     command: 'noop'

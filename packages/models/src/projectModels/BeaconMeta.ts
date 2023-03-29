@@ -1,9 +1,21 @@
-import { Property, PrimaryKey, Entity, ManyToOne, Unique, OneToOne } from '@mikro-orm/core';
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Property, PrimaryKey, Entity, ManyToOne, Unique, OneToOne, Enum } from '@mikro-orm/core';
+import { Field, Int, ObjectType, registerEnumType } from 'type-graphql';
 
 import { randomUUID } from 'crypto';
 import { Beacon } from './Beacon';
 import { LogEntry } from './LogEntry';
+
+export enum BeaconType {
+	HTTP = 'http',
+	HTTPS = 'https',
+	SMB = 'smb',
+	DNS = 'dns',
+}
+
+registerEnumType(BeaconType, {
+	name: 'BeaconType',
+	description: `The communication type used by the beacon`,
+});
 
 @ObjectType({ description: 'Data derived from the Beacon metadata line' })
 @Entity()
@@ -39,6 +51,10 @@ export class BeaconMeta {
 	@Field(() => String, { nullable: true, description: 'The IP of the host at the time of the metadata line' })
 	@Property({ nullable: true })
 	ip?: string;
+
+	@Field(() => BeaconType, { nullable: true, description: 'The communication type used by the beacon' })
+	@Enum(() => BeaconType)
+	type?: BeaconType = BeaconType.HTTP;
 
 	@Property({ nullable: true })
 	origin?: string;

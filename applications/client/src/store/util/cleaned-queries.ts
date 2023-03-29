@@ -60,7 +60,7 @@ export const serverQuery = serverModelPrimitives
 
 export const beaconQuery = beaconModelPrimitives
 	.host((host) => host.displayName.cobaltStrikeServer.hostName)
-	.meta((meta) => meta.username.ip.pid.startTime.endTime)
+	.meta((meta) => meta.username.type.ip.pid.startTime.endTime)
 	.toString();
 
 export const hostQuery = hostModelPrimitives.cobaltStrikeServer.beaconIds.meta((meta) => meta.os.ip).toString();

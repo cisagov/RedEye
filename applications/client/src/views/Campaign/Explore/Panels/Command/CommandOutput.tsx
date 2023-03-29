@@ -1,12 +1,13 @@
 import { Button, Intent } from '@blueprintjs/core';
 import { ChevronSort16, Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon } from '@redeye/client/components';
+import type { MitreAttackId } from '@redeye/client/components';
+import { CarbonIcon, MitreAttack } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { ScreenShotCommand } from '@redeye/client/views';
-import { FlexSplitter, Txt, CoreTokens, UtilityStyles } from '@redeye/ui-styles';
+import { Txt, CoreTokens, UtilityStyles, Flex, Spacer } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
 type CommandOutputProps = {
@@ -50,38 +51,26 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 							No MITRE ATT&amp;CKs
 						</Txt>
 					) : (
-						command?.uniqueAttackIds?.map((mitreAttack) => (
-							<a
-								cy-test="mitre-attack-link"
-								aria-label="Mitre attack links"
-								key={mitreAttack}
-								href={`https://attack.mitre.org/${
-									mitreAttack.includes('TA') ? 'tactics' : 'techniques'
-								}/${mitreAttack.replace(/\./g, '/')}/`}
-								target="_blank"
-								rel="noopener noreferrer"
-								css={css`
-									margin-right: 0.5rem;
-									display: inline-block; // handle wrapping (for lots of attackIds)
-								`}
-								children={mitreAttack}
-							/>
+						command?.uniqueAttackIds?.map((mitreAttack, i) => (
+							<>
+								{i === 0 ? (
+									<Txt small>
+										MITRE ATT&amp;CKs:
+										<Spacer />
+									</Txt>
+								) : (
+									<Spacer>·</Spacer>
+								)}
+								<MitreAttack
+									miterAttackId={mitreAttack as MitreAttackId}
+									cy-test="mitre-attack-link"
+									key={mitreAttack}
+									css={{ display: 'inline-block' }}
+								/>
+							</>
 						))
 					)}
 				</div>
-				<FlexSplitter />
-				{command && (
-					<Button
-						cy-test="openRawLogs"
-						text="Show in Raw Logs"
-						rightIcon={<CarbonIcon icon={Launch16} />}
-						intent={Intent.PRIMARY}
-						onClick={() => {
-							store.router.updateQueryParams({ queryParams: { 'raw-command': command.id } });
-						}}
-						minimal
-					/>
-				)}
 			</div>
 			<div css={outputScrollWrapperStyle} cy-test="log-details">
 				<div css={outputOverflowWrapperStyle}>
@@ -97,24 +86,39 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 								{state.renderedLines?.slice(2, state.renderedLines.length).join('\n')}
 								{command?.inputText === 'screenshot' && <ScreenShotCommand command={command} />}
 							</pre>
-							{state.collapsedLineCount > 0 && (
-								<div css={showMoreWrapperStyle}>
+							<Flex align="center" css={showMoreWrapperStyle}>
+								{state.collapsedLineCount > 0 && (
+									<>
+										<Button
+											cy-test="showMoreLines"
+											icon={<CarbonIcon icon={ChevronSort16} />}
+											onClick={state.toggleShowAll}
+											text={
+												state.showAll
+													? 'Show less'
+													: `Show ${state.collapsedLineCount} more line${state.collapsedLineCount === 1 ? '' : 's'}`
+											}
+											intent={Intent.PRIMARY}
+											minimal
+											small
+										/>
+										<Spacer>|</Spacer>
+									</>
+								)}
+								{command && (
 									<Button
-										cy-test="showMoreLines"
-										icon={<CarbonIcon icon={ChevronSort16} />}
+										cy-test="openRawLogs"
+										text="Show Raw Logs"
+										rightIcon={<CarbonIcon icon={Launch16} />}
+										onClick={() => {
+											store.router.updateQueryParams({ queryParams: { 'raw-command': command.id } });
+										}}
 										intent={Intent.PRIMARY}
-										onClick={state.toggleShowAll}
-										css={showMoreButtonStyle}
 										minimal
 										small
-										text={
-											state.showAll
-												? 'Show less'
-												: `Show ${state.collapsedLineCount} more line${state.collapsedLineCount === 1 ? '' : 's'}`
-										}
 									/>
-								</div>
-							)}
+								)}
+							</Flex>
 						</>
 					) : (
 						<pre css={preStyles} cy-test="logInfo">
@@ -134,8 +138,8 @@ const outputMetaStyle = css`
 	width: 100%;
 	display: flex;
 	/* border-bottom: 1px solid ${CoreTokens.Background1}; */
-	align-items: baseline;
-	padding: 0 1rem 0 3rem;
+	/* align-items: baseline; */
+	padding: 0.25rem 1rem 0.25rem 3rem;
 `;
 const outputScrollWrapperStyle = css`
 	overflow-x: auto;
@@ -154,7 +158,10 @@ const preStyles = css`
 `;
 const showMoreWrapperStyle = css`
 	border-top: 1px solid ${CoreTokens.Background1};
+	padding: 0 1rem 0 2.25rem;
+	width: fit-content;
+	position: sticky;
+	left: 0;
 `;
-const showMoreButtonStyle = css`
-	margin: 0 1rem 0 2.25rem;
-`;
+// const showMoreButtonStyle = css`
+// `;
