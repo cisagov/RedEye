@@ -13,6 +13,7 @@ import {
 	classNames,
 	isInteractionFocus,
 	isInteractionRelated,
+	polygonPointsSVG,
 	translateCenter,
 } from './layout-utils';
 import { HierarchyNodeSelection, HierarchicalGraphNode } from '../GraphData/types';
@@ -87,8 +88,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.serverSelection = this.positionSelection
 			.filter((d) => d.data.isServer)
 			.append('g')
-			.append('circle') // polygon
-			.attr('r', (d) => d.r || 0)
+			.append('polygon') // polygon
+			.attr('points', (d) => polygonPointsSVG(6, d.r || 0))
 			.classed(classNames.serverNode, true);
 
 		// select this.hostSelection & this.serverSelection
