@@ -1,7 +1,6 @@
 import {
 	forceLink as d3ForceLink,
 	forceManyBody as d3ForceManyBody,
-	forceSimulation as d3ForceSimulation,
 	forceCollide as d3ForceCollide,
 	forceX as d3ForceX,
 	forceY as d3ForceY,
@@ -21,12 +20,15 @@ import { defNum } from '../utils';
 
 /** The super graph that contains all the group and sub graphs */
 export class SuperGraphRenderer extends HierarchicalGraphRenderer {
-	countLabelSelection: HierarchyNodeSelection;
-	positionSelection: HierarchyNodeSelection;
+	countLabelSelection!: HierarchyNodeSelection;
+	positionSelection!: HierarchyNodeSelection;
 
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
+		super.initialize(GroupGraphRenderer);
+	}
 
+	initializeForces() {
 		this.nodes.forEach((d) => (d.r = SuperGraphRenderer.radius(d)));
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength(
@@ -37,14 +39,19 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.strength(0.1)
 			.radius((d) => SuperGraphRenderer.radius(d) + 4);
 
-		this.simulation = d3ForceSimulation(this.nodes)
-			.force('link', forceLink)
-			.force('charge', forceNode)
-			.force('collide', forceCollide)
-			.force('x', d3ForceX(0))
-			.force('y', d3ForceY(0))
-			.on('tick', this.drawLayout.bind(this));
+		const optional = true;
+		this.simulationForces = [
+			{ name: 'link', force: forceLink, optional },
+			{ name: 'charge', force: forceNode, optional },
+			{ name: 'x', force: d3ForceX(0), optional },
+			{ name: 'y', force: d3ForceY(0), optional },
+			{ name: 'collide', force: forceCollide },
+		];
 
+		super.initializeForces();
+	}
+
+	initializeSelection() {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
@@ -102,7 +109,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.superNodeCountLabel, true)
 			.text((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length);
 
-		super.initialize(GroupGraphRenderer);
+		super.initializeSelection();
 	}
 
 	drawTime() {

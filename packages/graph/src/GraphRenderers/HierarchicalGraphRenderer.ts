@@ -1,6 +1,6 @@
-import { select as d3Select, Simulation } from 'd3';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { select as d3Select, forceSimulation as d3ForceSimulation } from 'd3';
 import { GraphHandler } from '../GraphHandler';
-import { HierarchicalGraphLinkDatum } from '../GraphData/GraphNodesAndLinks';
 import { classNames, isInteractionRelated } from './layout-utils';
 import {
 	HierarchyLinkSelection,
@@ -8,6 +8,8 @@ import {
 	HierarchicalGraphLink,
 	HierarchicalGraphNode,
 	GenericSelection,
+	HierarchicalSimulationForce,
+	HierarchicalSimulation,
 } from '../GraphData/types';
 
 /**
@@ -21,7 +23,8 @@ export class HierarchicalGraphRenderer {
 	nodes: HierarchicalGraphNode[];
 	keyNodes: HierarchicalGraphNode[];
 	parentLinkNodes: HierarchicalGraphNode[];
-	simulation!: Simulation<HierarchicalGraphNode, HierarchicalGraphLinkDatum>;
+	simulation!: HierarchicalSimulation;
+	simulationForces: HierarchicalSimulationForce[] = [];
 	/**
 	 * The parent selection element to append this graph to.
 	 * Graphs are nested for proper DOM event bubbling. This does however cause some complications with z-indexing
@@ -48,11 +51,19 @@ export class HierarchicalGraphRenderer {
 		this.rootSelection = rootSelection;
 	}
 
-	initialize(ChildGraphClass?: typeof HierarchicalGraphRenderer) {
+	initialize(ChildGraphClass?: typeof HierarchicalGraphRenderer, startHidden = false) {
+		this.initializeForces();
+		this.initializeSelection();
+		if (startHidden) this.hideLayout();
 		this.initializeSimulationLayout();
 		this.initializeChildGraphs(ChildGraphClass);
 	}
+	initializeForces() {
+		this.simulation = d3ForceSimulation(this.nodes).on('tick', this.drawLayout.bind(this));
+	}
+	initializeSelection() {}
 	initializeSimulationLayout() {
+		this.useGraphForces();
 		this.simulation
 			.alphaDecay(0.001)
 			.alphaTarget(0.7)
@@ -63,6 +74,7 @@ export class HierarchicalGraphRenderer {
 			.tick(500) // tick another 500 times for stability
 			.stop(); // freeze the simulation // wait for interactions
 
+		this.useSimpleForces();
 		this.drawLayout();
 	}
 	initializeChildGraphs(ChildGraphClass?: typeof HierarchicalGraphRenderer) {
@@ -80,6 +92,27 @@ export class HierarchicalGraphRenderer {
 						})
 					);
 				});
+		}
+	}
+
+	callAllChildren(method: HierarchicalGraphRendererMethods) {
+		this[method]();
+		this.childGraphs?.forEach((childGraph) => {
+			childGraph.callAllChildren(method);
+		});
+	}
+
+	useGraphForces() {
+		for (let i = 0; i < this.simulationForces.length; i++) {
+			const { name, force } = this.simulationForces[i];
+			this.simulation.force(name, force);
+		}
+	}
+	useSimpleForces() {
+		for (let i = 0; i < this.simulationForces.length; i++) {
+			const { name, force: _force, optional } = this.simulationForces[i];
+			const force = optional ? null : _force;
+			this.simulation.force(name, force);
 		}
 	}
 
@@ -102,9 +135,7 @@ export class HierarchicalGraphRenderer {
 		});
 	}
 
-	drawLayout() {
-		// for class extension
-	}
+	drawLayout() {}
 
 	drawLayoutAllChildren() {
 		this.drawLayout();
@@ -164,9 +195,8 @@ export class HierarchicalGraphRenderer {
 		});
 	}
 
-	drawUpdateLabel() {
-		// for class extension
-	}
+	drawUpdateLabel() {}
+
 	drawUpdateLabelAllChildren() {
 		this.drawUpdateLabel();
 		this.childGraphs?.forEach((childGraph) => {
@@ -203,3 +233,11 @@ export interface GraphHierarchicalConstructorProps {
 	parentGraph?: HierarchicalGraphRenderer['parentGraph'];
 	graphHandler: HierarchicalGraphRenderer['graphHandler'];
 }
+
+type HierarchicalGraphRendererMethods =
+	| 'drawLayout'
+	| 'drawTime'
+	| 'drawInteraction'
+	| 'drawUpdateLabel'
+	| 'hideLayout'
+	| 'showLayout';

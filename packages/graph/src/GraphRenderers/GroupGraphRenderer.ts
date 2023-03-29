@@ -2,7 +2,6 @@ import {
 	forceLink as d3ForceLink,
 	forceCollide as d3ForceCollide,
 	forceManyBody as d3ForceManyBody,
-	forceSimulation as d3ForceSimulation,
 	forceX as d3ForceX,
 	forceY as d3ForceY,
 } from 'd3';
@@ -25,7 +24,10 @@ import { defNum } from '../utils';
 export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
+		super.initialize(SubGraphRenderer, true);
+	}
 
+	initializeForces() {
 		this.nodes.forEach((d) => (d.r = d.type === 'keyNode' ? GroupGraphRenderer.radius(d) : 1.5));
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => {
@@ -48,16 +50,20 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.radius((d): number => (d.type === 'keyNode' ? d.r! + 2 : 0));
 		const forcePositionParentLinkNodes = () => positionParentLinkNodes(this.rootNode);
 
-		this.simulation = d3ForceSimulation(this.nodes)
-			.force('positionParentLinkNodes', forcePositionParentLinkNodes)
-			.force('link', forceLink)
-			.force('charge', forceNode)
-			.force('collide', forceCollide)
-			.force('x', d3ForceX(0).strength(0.05))
-			.force('y', d3ForceY(0).strength(0.05))
-			.force('clamp', forceClamp)
-			.on('tick', this.drawLayout.bind(this));
+		const optional = true;
+		this.simulationForces = [
+			{ name: 'positionParentLinkNodes', force: forcePositionParentLinkNodes },
+			{ name: 'link', force: forceLink, optional },
+			{ name: 'charge', force: forceNode, optional },
+			{ name: 'x', force: d3ForceX(0).strength(0.05), optional },
+			{ name: 'y', force: d3ForceY(0).strength(0.05), optional },
+			{ name: 'collide', force: forceCollide },
+			{ name: 'clamp', force: forceClamp },
+		];
+		super.initializeForces();
+	}
 
+	initializeSelection() {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
@@ -86,9 +92,7 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
 			.classed(classNames.groupNode, true);
 
-		this.hideLayout(); // start hidden
-		// super.initialize();
-		super.initialize(SubGraphRenderer);
+		super.initializeSelection();
 	}
 
 	drawLayout() {
