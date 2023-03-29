@@ -76,7 +76,8 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
-			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink));
+			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink')
+			.classed(classNames.parentLink, (d) => d.type === 'parentLink');
 
 		this.childGraphRootSelection = this.rootGroupSelection
 			.append('g')
@@ -90,7 +91,8 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.append('circle')
 			.attr('r', (d) => d.r || 0)
 			.style('pointer-events', 'none') // not interactive, layout only
-			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
+			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
+			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.groupNode, true);
 
 		super.initializeSelection();

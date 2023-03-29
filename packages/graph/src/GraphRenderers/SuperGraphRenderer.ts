@@ -98,7 +98,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.nodeSelection
 			.attr('data-id', (d) => d.data.id!)
 			.attr('cy-test', 'graphNode')
-			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
+			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
+			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.superNode, true)
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));

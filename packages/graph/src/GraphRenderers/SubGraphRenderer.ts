@@ -46,7 +46,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
-			.attr('class', classNames.subGraph)
+			.attr(classNames.subGraph, true)
 			.attr('transform-origin', 'center')
 			.attr('cy-test', 'subGSelection');
 
@@ -55,7 +55,8 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
-			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink))
+			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink')
+			.classed(classNames.parentLink, (d) => d.type === 'parentLink')
 			.attr('cy-test', 'subLinkSelection');
 
 		this.nodeSelection = this.rootGroupSelection
@@ -65,7 +66,8 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.join('circle')
 			.attr('r', (d) => d.r || 0)
 			.attr('cy-test', 'beaconsGraph')
-			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
+			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
+			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.subNode, true)
 			.classed(classNames.softwareNode, true)
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
