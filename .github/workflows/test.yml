@@ -43,11 +43,10 @@ jobs:
           cache: 'yarn'
 
       - name: set node version
-        uses: 'moonrepo/tool-version-action@v1'
-        with:
-          node: 16
+        uses: moonrepo/setup-moon-action@v1
 
       - run: yarn install --immutable --inline-builds
+      - run: yarn moon ci
       - run: yarn moon run server:build client:build
 
       - name: Save build folder
