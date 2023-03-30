@@ -29,8 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        node-version: [16.19.0]
+      # matrix:
+      #   node-version: [16]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -40,8 +40,12 @@ jobs:
       - name: Cache
         uses: actions/setup-node@v3
         with:
-          node-version: 16.19.0
           cache: 'yarn'
+
+      - name: set node version
+        uses: 'moonrepo/tool-version-action@v1'
+        with:
+          node: 16
 
       - run: yarn install --immutable --inline-builds
       - run: yarn moon run server:build client:build
@@ -60,7 +64,7 @@ jobs:
       fail-fast: false
       matrix:
         containers: [1, 2]
-        node-version: [16.19.0]
+        # node-version: [16.19.0]
 
     steps:
       - name: Checkout
@@ -71,7 +75,6 @@ jobs:
       - name: Cache
         uses: actions/setup-node@v3
         with:
-          node-version: 16.19.0
           cache: 'yarn'
 
       - name: Download the build folders
@@ -81,10 +84,10 @@ jobs:
           path: .moon/cache
 
       - run: yarn install  --immutable --inline-builds
-      - name: Red Team Tests - Chrome v${{ matrix.node }}
+      - name: Red Team Tests - Chrome
         uses: cypress-io/github-action@v5
         with:
-          tag: node-${{ matrix.node }}
+          # tag: node-${{ matrix.node }}
           start: yarn start:dev
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
@@ -106,7 +109,6 @@ jobs:
       fail-fast: false
       matrix:
         containers: [1, 2]
-        node-version: [16.19.0]
 
     steps:
       - name: Checkout
@@ -115,7 +117,6 @@ jobs:
       - name: Cache
         uses: actions/setup-node@v3
         with:
-          node-version: 16.19.0
           cache: 'yarn'
 
       - name: Download the build folders
@@ -124,15 +125,11 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5
         with:
-          tag: node-${{ matrix.node }}
+          # tag: node-${{ matrix.node }}
           start: yarn start:blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
