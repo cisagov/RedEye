@@ -28,7 +28,7 @@ jobs:
       #   uses: actions/setup-node@v3
       #   with:
       #     cache: 'yarn'
-        uses: moonrepo/setup-moon-action@v1 
+      - uses: moonrepo/setup-moon-action@v1
       - run: CYPRESS_INSTALL_BINARY=0 yarn install --immutable --inline-builds
       - run: CYPRESS_INSTALL_BINARY=0 yarn moon ci
       - uses: 'moonrepo/run-report-action@v1'
