@@ -13,12 +13,6 @@ on:
     branches:
       - '**'
 
-jobs:
-  permissions:
-    contents: 'read'
-    id-token: 'write'
-    issues: 'write' #__This fixed the HttpError: Resource not accessible by integration
-
   build:
     runs-on: ubuntu-latest
     # strategy:
