@@ -15,6 +15,7 @@ describe('Hide last beacon', () => {
 		cy.get('[cy-test=beacon-display-name]')
 			.eq(0)
 			.invoke('text')
+			.as('beacon')
 			.then((beaconName1) => {
 				// Hide the first beacon in the list
 				cy.showHideItem(0);
@@ -32,43 +33,37 @@ describe('Hide last beacon', () => {
 			});
 
 		// Get name of second beacon
-		cy.get('[cy-test=beacon-display-name]')
-			.eq(0)
-			.invoke('text')
-			.then((beaconName2) => {
-				// Hide the second beacon (now first showing in list)
-				cy.showHideItem(0);
+		cy.get('@beacon').then((beaconName2) => {
+			// Hide the second beacon (now first showing in list)
+			cy.showHideItem(0);
 
-				// Verify confirmation modal appears
-				cy.verifyDialogBoxAppears();
+			// Verify confirmation modal appears
+			cy.verifyDialogBoxAppears();
 
-				// Confirm that you want to hide the beacon
-				cy.confirmShowHide();
+			// Confirm that you want to hide the beacon
+			cy.confirmShowHide();
 
-				// Confirm second beacon does not show in list
-				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
-					expect($beacons.text()).to.not.contain(beaconName2);
-				});
+			// Confirm second beacon does not show in list
+			cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
+				expect($beacons.text()).to.not.contain(beaconName2);
 			});
+		});
 
 		// Get name of third/last becaon
-		cy.get('[cy-test=beacon-display-name]')
-			.eq(0)
-			.invoke('text')
-			.then((beaconName3) => {
-				// Try to hide the last beacon
-				cy.showHideItem(0);
+		cy.get('@beacon').then((beaconName3) => {
+			// Try to hide the last beacon
+			cy.showHideItem(0);
 
-				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+			// Verify notification appears saying it cannot be hidden
+			cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
+			cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
-				// Click to confirm
-				cy.confirmShowHide();
+			// Click to confirm
+			cy.confirmShowHide();
 
-				// Verify last beacon still shows in UI
-				cy.get('[cy-test=beacons-view]').should('contain', beaconName3);
-			});
+			// Verify last beacon still shows in UI
+			cy.get('[cy-test=beacons-view]').should('contain', beaconName3);
+		});
 	});
 
 	after(() => {

@@ -18,6 +18,7 @@ describe('Hide last server', () => {
 		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
+			.as('server')
 			.then((serverName) => {
 				// Try to hide the only server
 				cy.showHideItem(0);
@@ -44,6 +45,7 @@ describe('Hide last server', () => {
 		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
+			.as('server')
 			.then((serverName1) => {
 				// Hide the first server in the list
 				cy.showHideItem(0);
@@ -61,63 +63,54 @@ describe('Hide last server', () => {
 			});
 
 		// Get name of seccond server
-		cy.get('[cy-test=hostName]')
-			.eq(0)
-			.invoke('text')
-			.then((serverName2) => {
-				// Hide the first server in the list
-				cy.showHideItem(0);
+		cy.get('@server').then((serverName2) => {
+			// Hide the first server in the list
+			cy.showHideItem(0);
 
-				// Verify confirmation modal appears
-				cy.verifyDialogBoxAppears();
+			// Verify confirmation modal appears
+			cy.verifyDialogBoxAppears();
 
-				// Confirm that you want to hide the host
-				cy.confirmShowHide();
+			// Confirm that you want to hide the host
+			cy.confirmShowHide();
 
-				// Confirm first host does not show in list
-				cy.get('[cy-test=hostName]').each(($servers) => {
-					expect($servers.text()).to.not.contain(serverName2);
-				});
+			// Confirm first host does not show in list
+			cy.get('[cy-test=hostName]').each(($servers) => {
+				expect($servers.text()).to.not.contain(serverName2);
 			});
+		});
 
 		// Get name of third server
-		cy.get('[cy-test=hostName]')
-			.eq(0)
-			.invoke('text')
-			.then((serverName3) => {
-				// Hide the first server in the list
-				cy.showHideItem(0);
+		cy.get('@server').then((serverName3) => {
+			// Hide the first server in the list
+			cy.showHideItem(0);
 
-				// Verify confirmation modal appears
-				cy.verifyDialogBoxAppears();
+			// Verify confirmation modal appears
+			cy.verifyDialogBoxAppears();
 
-				// Confirm that you want to hide the host
-				cy.confirmShowHide();
+			// Confirm that you want to hide the host
+			cy.confirmShowHide();
 
-				// Confirm first host does not show in list
-				cy.get('[cy-test=hostName]').each(($servers) => {
-					expect($servers.text()).to.not.contain(serverName3);
-				});
+			// Confirm first host does not show in list
+			cy.get('[cy-test=hostName]').each(($servers) => {
+				expect($servers.text()).to.not.contain(serverName3);
 			});
+		});
 
 		// Get name of fourth/last server
-		cy.get('[cy-test=hostName]')
-			.eq(0)
-			.invoke('text')
-			.then((serverName4) => {
-				// Try to hide the fourth/last server
-				cy.showHideItem(0);
+		cy.get('@server').then((serverName4) => {
+			// Try to hide the fourth/last server
+			cy.showHideItem(0);
 
-				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+			// Verify notification appears saying it cannot be hidden
+			cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
+			cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
-				// Click to confirm
-				cy.confirmShowHide();
+			// Click to confirm
+			cy.confirmShowHide();
 
-				// Verify last server still shows in UI
-				cy.get('[cy-test=hosts-view]').should('contain', serverName4);
-			});
+			// Verify last server still shows in UI
+			cy.get('[cy-test=hosts-view]').should('contain', serverName4);
+		});
 	});
 
 	after(() => {

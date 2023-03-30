@@ -14,6 +14,7 @@ describe('Hide last host', () => {
 		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
+			.as('host')
 			.then((hostName1) => {
 				// Hide the first host in the list
 				cy.showHideItem(1);
@@ -31,23 +32,20 @@ describe('Hide last host', () => {
 			});
 
 		// Get name of second/last host
-		cy.get('[cy-test=hostName]')
-			.eq(1)
-			.invoke('text')
-			.then((hostName2) => {
-				// Try to hide the second/last host
-				cy.showHideItem(1);
+		cy.get('@host').then((hostName2) => {
+			// Try to hide the second/last host
+			cy.showHideItem(1);
 
-				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+			// Verify notification appears saying it cannot be hidden
+			cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
+			cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 
-				// Click to confirm
-				cy.confirmShowHide();
+			// Click to confirm
+			cy.confirmShowHide();
 
-				// Verify last host still shows in UI
-				cy.get('[cy-test=hosts-view]').should('contain', hostName2);
-			});
+			// Verify last host still shows in UI
+			cy.get('[cy-test=hosts-view]').should('contain', hostName2);
+		});
 	});
 
 	after(() => {
