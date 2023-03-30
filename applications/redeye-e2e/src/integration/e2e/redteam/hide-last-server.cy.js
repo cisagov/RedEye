@@ -19,8 +19,6 @@ describe('Hide last server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName) => {
-				cy.log(serverName);
-
 				// Try to hide the only server
 				cy.showHideItem(0);
 
@@ -47,8 +45,6 @@ describe('Hide last server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName1) => {
-				cy.log.serverName1;
-
 				// Hide the first server in the list
 				cy.showHideItem(0);
 
@@ -69,8 +65,6 @@ describe('Hide last server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName2) => {
-				cy.log.serverName2;
-
 				// Hide the first server in the list
 				cy.showHideItem(0);
 
@@ -91,8 +85,6 @@ describe('Hide last server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName3) => {
-				cy.log.serverName3;
-
 				// Hide the first server in the list
 				cy.showHideItem(0);
 
@@ -113,8 +105,6 @@ describe('Hide last server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName4) => {
-				cy.log(serverName4);
-
 				// Try to hide the fourth/last server
 				cy.showHideItem(0);
 
