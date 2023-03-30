@@ -151,17 +151,12 @@ describe('Hide a host', () => {
 		cy.get('[cy-test=show-hide-this-host]').click();
 
 		// Verify modal shows; click Cancel
-		cy.get('[cy-test=dialog-text-line1]').should('exist');
-		cy.get('[cy-test=dialog-text-line2]').should('exist');
-		cy.get('[cy-test=dialog-text-line3]').should('exist');
+		cy.verifyDialogBoxAppears();
 
-		cy.get('[cy-test=cancel-show-hide]').click();
+		cy.cancelShowHide();
 
 		// Verify modal disappears
-		cy.get('[cy-test=dialog-text-line1]').should('not.exist');
-		cy.get('[cy-test=dialog-text-line2]').should('not.exist');
-		cy.get('[cy-test=dialog-text-line3]').should('not.exist');
-
+		cy.verifyDialogBoxDisappears();
 		// Verify the Meta tab link says "Hide this host" vs. "Show"
 		cy.get('[cy-test=show-hide-this-host]').invoke('text').should('eq', 'Hide this host');
 	});
@@ -175,16 +170,12 @@ describe('Hide a host', () => {
 		cy.get('[cy-test=show-hide-item]').click();
 
 		// Verify modal shows; click Cancel
-		cy.get('[cy-test=dialog-text-line1]').should('exist');
-		cy.get('[cy-test=dialog-text-line2]').should('exist');
-		cy.get('[cy-test=dialog-text-line3]').should('exist');
+		cy.verifyDialogBoxAppears();
 
-		cy.get('[cy-test=cancel-show-hide]').click();
+		cy.cancelShowHide();
 
 		// Verify modal disappears
-		cy.get('[cy-test=dialog-text-line1]').should('not.exist');
-		cy.get('[cy-test=dialog-text-line2]').should('not.exist');
-		cy.get('[cy-test=dialog-text-line3]').should('not.exist');
+		cy.verifyDialogBoxDisappears();
 
 		// Verify the kebab menu link still says "Hide Host" vs. "Show"
 		cy.get('[cy-test=quick-meta-button]').eq(1).click();
