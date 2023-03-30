@@ -13,7 +13,6 @@ tasks:
       - ~:start-node
     options:
       runInCI: false
-      runDepsInParallel: false
   release-mac:
     deps:
       - '@redeye/client:build'
