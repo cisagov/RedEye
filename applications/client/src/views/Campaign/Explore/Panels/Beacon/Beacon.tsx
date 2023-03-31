@@ -13,13 +13,12 @@ import {
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,
-	useCheckLastUnhidden,
 	useToggleHidden,
 } from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
 import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
@@ -30,6 +29,9 @@ type BeaconProps = ComponentProps<'div'> & {
 export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	const store = useStore();
 	const state = createState({
+		beaconId: '',
+		cantHideEntities: false,
+		isDialogDisabled: window.localStorage.getItem('disableDialog') === 'true',
 		AddBeacon(beaconId) {
 			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
 			selectedBeacons.push(beaconId);
@@ -61,7 +63,24 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			})
 	);
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
+	const handleClick = useCallback(async () => {
+		state.update('beaconId', beacon?.id);
+
+		const aaa = await store.graphqlStore.queryNonHideableEntities({
+			campaignId: store.campaign.id!,
+			beaconIds: [state.beaconId],
+		});
+		const cantHideEntities = (aaa?.nonHideableEntities.beacons?.length || 0) > 0;
+
+		const isDialogDisabled =
+			(window.localStorage.getItem('disableDialog') === 'true' &&
+				(!cantHideEntities || (cantHideEntities && beacon?.hidden))) ||
+			false;
+		state.update('cantHideEntities', cantHideEntities);
+		state.update('isDialogDisabled', isDialogDisabled);
+
+		return isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true);
+	}, []);
 
 	return (
 		<InfoRow
@@ -111,15 +130,11 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				<QuickMetaPopoverButtonMenu
 					content={
 						// <MenuItem2 text="Add Comment" />
-						<ShowHideMenuItem
-							model={beacon}
-							disabled={!!store.appMeta.blueTeam}
-							onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-						/>
+						<ShowHideMenuItem model={beacon} disabled={!!store.appMeta.blueTeam} onClick={handleClick} />
 					}
 				/>
 			)}
-			{!isDialogDisabled && (
+			{!state.isDialogDisabled && (
 				<ToggleHiddenDialog
 					typeName="beacon"
 					isOpen={toggleHidden.showHide}
@@ -130,7 +145,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 						toggleHidden.update('showHide', false);
 					}}
 					onHide={() => mutateToggleHidden.mutate()}
-					last={last}
+					last={state.cantHideEntities}
 				/>
 			)}
 		</InfoRow>
