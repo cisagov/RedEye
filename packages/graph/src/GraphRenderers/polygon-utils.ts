@@ -23,6 +23,7 @@ export function polygonPointsSvg(sides: number, radius?: number, rotationDeg?: n
 }
 
 const polygonShape = {
+	// name: [sides, rotationDeg] //
 	// circle: [1, 0],
 	triangleUp: [3, 180],
 	triangleDown: [3, 0],
@@ -44,17 +45,18 @@ export function polygonShapePoints(shape: PolygonShape, radius?: number, center?
 	const [sides, rotationDeg] = polygonShape[shape];
 	return polygonPointsSvg(sides, radius, rotationDeg, center);
 }
-export function polygonShapePointsOpticallyEqualized(shape: PolygonShape, area?: number, center?: number) {
+export function polygonShapePointsOpticallyEqualized(shape: PolygonShape, radius = 1, center?: number) {
 	const [sides, rotationDeg] = polygonShape[shape];
 	const adjust = 1 + sides * 0.03; // compensate slightly for the area equalization
-	const radius = polygonCircumRadius(sides, area) * adjust;
-	return polygonPointsSvg(sides, radius, rotationDeg, center);
+	const area = Math.PI * radius * radius;
+	const circumRadius = polygonCircumRadius(sides, area) * adjust;
+	return polygonPointsSvg(sides, circumRadius, rotationDeg, center);
 }
 
-function polygonArea(sides: number, radius = 1) {
+/* function polygonArea(sides: number, radius = 1) {
 	// A = n × R² × sin(2π/n) / 2
 	return (sides * radius * radius * Math.sin((2 * Math.PI) / sides)) / 2;
-}
+} */
 
 function polygonCircumRadius(sides: number, area = Math.PI) {
 	// A = n × R² × sin(2π/n) / 2
@@ -63,3 +65,9 @@ function polygonCircumRadius(sides: number, area = Math.PI) {
 	// √(A × 2 / (sin(2π/n) * n)) = R
 	return Math.sqrt((area * 2) / (Math.sin((2 * Math.PI) / sides) * sides));
 }
+
+function getRandomKeyGPT<T>(obj: Record<string, T>): string {
+	const keys = Object.keys(obj);
+	return keys[Math.floor(Math.random() * keys.length)];
+}
+export const getRandomPolygonShapeEx = () => getRandomKeyGPT({ ...polygonShape }) as PolygonShape;

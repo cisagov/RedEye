@@ -11,6 +11,7 @@ import {
 	isInteractionRelated,
 	interactionSort,
 } from './layout-utils';
+import { getRandomPolygonShapeEx, polygonShapePointsOpticallyEqualized } from './polygon-utils';
 
 /** a graph that handles sub nodes (that have all been grouped because the same 'signature') */
 export class SubGraphRenderer extends HierarchicalGraphRenderer {
@@ -60,9 +61,10 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'subLinkSelection');
 
 		this.nodeSelection = this.rootGroupSelection
-			.selectAll('circle')
+			.selectAll('polygon')
 			.data(this.nodes)
-			.join('circle')
+			.join('polygon')
+			.attr('points', (d) => polygonShapePointsOpticallyEqualized(getRandomPolygonShapeEx(), d.r))
 			.attr('r', (d) => d.r || 0)
 			.attr('cy-test', 'beaconsGraph')
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')

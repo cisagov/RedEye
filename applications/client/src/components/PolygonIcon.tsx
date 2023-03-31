@@ -13,7 +13,6 @@ type PolygonIconProps = ComponentProps<'div'> & {
 export const PolygonIcon = observer<PolygonIconProps>(({ polygonShape, size = 16, className, ...props }) => {
 	const center = size / 2;
 	const radius = size / 3;
-	const area = Math.PI * radius * radius;
 	const dy = 1.5;
 	const y = polygonShape === 'triangleDown' ? -dy : polygonShape === 'triangleUp' ? dy : 0;
 	return (
@@ -29,7 +28,7 @@ export const PolygonIcon = observer<PolygonIconProps>(({ polygonShape, size = 16
 					<circle r={radius} cx={center} cy={center} />
 				) : (
 					<polygon
-						points={polygonShapePointsOpticallyEqualized(polygonShape, area)}
+						points={polygonShapePointsOpticallyEqualized(polygonShape, radius)}
 						transform={`translate(${center} ${center + y})`}
 					/>
 				)}
