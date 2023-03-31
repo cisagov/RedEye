@@ -151,6 +151,54 @@ describe('Hide a beacon', () => {
 			});
 	});
 
+	it('Verify Cancel button works from Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Go to Beacons tab and select the first one
+		cy.clickBeaconsTab();
+		cy.get('[cy-test=beacons-row]').eq(0).click();
+
+		// Go to Meta tab and click show/hide link
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-beacon]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the Meta tab link says "Hide this beacon" vs. "Show"
+		cy.get('[cy-test=show-hide-this-beacon]').invoke('text').should('eq', 'Hide this beacon');
+	});
+
+	it('Verify Cancel button works from kebab menu', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Go to Beacons tab
+		cy.clickBeaconsTab();
+
+		// Click first kebab menu to bring up options; click "Hide Beacon"
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the kebab menu link still says "Hide Beacon" vs. "Show"
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Beacon');
+	});
+
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
 	});
