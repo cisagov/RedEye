@@ -141,6 +141,47 @@ describe('Hide a host', () => {
 			});
 	});
 
+	it('Verify Cancel button works from Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Select the first host, go to Meta tab, click show/hide link
+		cy.get('[cy-test=hostName]').eq(1).click();
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-host]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+		// Verify the Meta tab link says "Hide this host" vs. "Show"
+		cy.get('[cy-test=show-hide-this-host]').invoke('text').should('eq', 'Hide this host');
+	});
+
+	it('Verify Cancel button works from kebab menu', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Click kebab menu for first hostto bring up options; click "Hide Host"
+		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=show-hide-item]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the kebab menu link still says "Hide Host" vs. "Show"
+		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Host');
+	});
+
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
 	});

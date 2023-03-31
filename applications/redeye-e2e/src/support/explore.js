@@ -264,3 +264,32 @@ Cypress.Commands.add('showHideItem', (index) => {
 	cy.get('[cy-test=quick-meta-button]').eq(index).click();
 	cy.get('[cy-test=show-hide-item]').click();
 });
+
+// VERIFY SHOW/HIDE DIALOG BOX APPEARS
+Cypress.Commands.add('verifyDialogBoxAppears', () => {
+	cy.get('[cy-test=dialog-text-line1]').should('exist');
+	cy.get('[cy-test=dialog-text-line2]').should('exist');
+	cy.get('[cy-test=dialog-text-line3]').should('exist');
+	cy.get('[cy-test=cancel-show-hide]').should('exist');
+	cy.get('[cy-test=confirm-show-hide]').should('exist');
+});
+
+// VERIFY SHOW/HIDE CONFIRMATION MODAL DISAPPEARS
+Cypress.Commands.add('verifyDialogBoxDisappears', () => {
+	cy.get('[cy-test=dialog-text-line1]').should('not.exist');
+	cy.get('[cy-test=dialog-text-line2]').should('not.exist');
+	cy.get('[cy-test=dialog-text-line3]').should('not.exist');
+	cy.get('[cy-test=cancel-show-hide]').should('not.exist');
+	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
+});
+
+// CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
+Cypress.Commands.add('confirmShowHide', () => {
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.wait(1000);
+});
+
+// CANCEL SHOW OR HIDE FROM CONFIRMATION MODAL
+Cypress.Commands.add('cancelShowHide', () => {
+	cy.get('[cy-test=cancel-show-hide]').click();
+});
