@@ -1,6 +1,6 @@
 import { Classes } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { dateShortFormat, semanticIcons } from '@redeye/client/components';
+import { CarbonIcon, dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -56,6 +56,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				{store.settings.momentTz(beacon.minTime)?.format(dateShortFormat)}&mdash;
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}
 			</RowTime>
+			<CarbonIcon icon={semanticIcons.beacon} />
 			<RowTitle cy-test="beacon-display-name" className={skeletonClass}>
 				{beacon?.displayName || `${beacon.server?.displayName}`}
 			</RowTitle>
