@@ -37,10 +37,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache
-        uses: actions/setup-node@v3
-        with:
-          cache: 'yarn'
+      # - name: Cache
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     cache: 'yarn'
 
       - name: set node version
         uses: moonrepo/setup-moon-action@v1
@@ -93,8 +93,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           # tag: node-${{ matrix.node }}
-          # install-command: yarn install --immutable
-          install: false
+          install-command: yarn install --immutable
           start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
@@ -137,8 +136,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           # tag: node-${{ matrix.node }}
-          install: false
-          # install-command: yarn install --immutable
+          install-command: yarn install --immutable
           start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
