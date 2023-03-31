@@ -1,5 +1,6 @@
 import { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
-import { HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
+import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
+import { HierarchicalGraphLink, HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
 export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {
@@ -159,6 +160,24 @@ export const isInteractionFocus = (d: InteractionState) =>
 	d.previewedFocus || d.selectedFocus || d.selectedParent || d.previewedParent || false;
 
 export const isInteractionRelated = (d: InteractionState) => d.selected || d.previewed || isInteractionFocus(d);
+
+export const isInteractionSelected = (d: InteractionState) =>
+	d.selected || d.selectedFocus || d.selectedParent || false;
+export const isInteractionPreviewed = (d: InteractionState) =>
+	d.previewed || d.previewedFocus || d.previewedParent || false;
+
+const layerPriority = ['previewed', 'previewedParent', 'previewedFocus', 'selected', 'selectedParent', 'selectedFocus'];
+
+type CompareDatum = HierarchicalGraphNode | HierarchicalGraphLink;
+const interactionPriority = (a: CompareDatum) => {
+	if (isInteractionPreviewed(a)) return 3;
+	if (isInteractionSelected(a)) return 2;
+	if (a.data instanceof HierarchicalGraphNodeDatum) return 1;
+	return 0;
+};
+export const interactionSort = (a: CompareDatum, b: CompareDatum) => {
+	return interactionPriority(a) - interactionPriority(b);
+};
 
 export function polygonPoints(sides: number, radius: number, rotationDeg = 0): [number, number][] {
 	rotationDeg = (rotationDeg * Math.PI) / 180;

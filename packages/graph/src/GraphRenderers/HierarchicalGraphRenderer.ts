@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { select as d3Select, forceSimulation as d3ForceSimulation } from 'd3';
+import { select as d3Select, forceSimulation as d3ForceSimulation, sort } from 'd3';
 import { GraphHandler } from '../GraphHandler';
-import { classNames, isInteractionRelated } from './layout-utils';
+import {
+	classNames,
+	isInteractionFocus,
+	isInteractionPreviewed,
+	isInteractionRelated,
+	isInteractionSelected,
+} from './layout-utils';
 import {
 	HierarchyLinkSelection,
 	HierarchyNodeSelection,
@@ -129,23 +135,74 @@ export class HierarchicalGraphRenderer {
 	drawLayout() {}
 
 	drawInteraction() {
-		[
+		const selectionLayers1 = [
+			// this.rootSelection,
+			// this.rootGroupSelection,
+			// this.labelSelection,
+			this.nodeSelection,
+			this.linkSelection as unknown as HierarchyNodeSelection, // ??
+		];
+
+		const selectionLayers2 = [
 			this.rootSelection,
 			this.rootGroupSelection,
+			// this.childGraphRootSelection,
 			this.linkSelection as unknown as HierarchyNodeSelection, // ??
 			this.nodeSelection,
 			this.labelSelection,
-		].forEach((selection) => {
+		];
+
+		// for (let i = 0; i < selectionLayers1.length; i++) {
+		// 	const selection = selectionLayers1[i];
+		// 	selection?.raise();
+		// }
+
+		// for (let i = 0; i < selectionLayers2.length; i++) {
+		// 	const selection = selectionLayers2[i];
+		// 	selection
+		// 		// ?.raise()
+		// 		?.classed(classNames.selected, (d) => !!d.selected)
+		// 		.classed(classNames.selectedFocus, (d) => !!d.selectedFocus)
+		// 		.classed(classNames.selectedParent, (d) => !!d.selectedParent)
+		// 		.classed(classNames.previewed, (d) => !!d.previewed)
+		// 		.classed(classNames.previewedFocus, (d) => !!d.previewedFocus)
+		// 		.classed(classNames.previewedParent, (d) => !!d.previewedParent)
+		// 		.filter(isInteractionRelated).raise();
+		// 	setTimeout(() => {
+		// 		selection?.filter(isInteractionFocus).raise();
+		// 		setTimeout(() => {
+		// 			selection?.filter(isInteractionPreviewed).raise();
+		// 		}, 0);
+		// 	}, 0);
+		// }
+
+		// [this.linkSelection as unknown as HierarchyNodeSelection, // ??
+		// this.nodeSelection,
+		// this.labelSelection].forEach((selection) => selection?.raise());
+
+		selectionLayers2.forEach((selection) => {
 			selection
+				// ?.raise()
 				?.classed(classNames.selected, (d) => !!d.selected)
 				.classed(classNames.selectedFocus, (d) => !!d.selectedFocus)
 				.classed(classNames.selectedParent, (d) => !!d.selectedParent)
 				.classed(classNames.previewed, (d) => !!d.previewed)
 				.classed(classNames.previewedFocus, (d) => !!d.previewedFocus)
-				.classed(classNames.previewedParent, (d) => !!d.previewedParent)
-				.filter(isInteractionRelated)
-				.raise();
+				.classed(classNames.previewedParent, (d) => !!d.previewedParent);
+			// .filter(isInteractionRelated)
+			// .sort((a) => (isInteractionPreviewed(a) ? 1 : -1))
+			// .raise();
+			// .filter(isInteractionPreviewed)
+			// .raise();
+			// setTimeout(() => {
+			// selection?.filter(isInteractionSelected).raise();
+			// setTimeout(() => {
+			// selection?.filter(isInteractionPreviewed).raise();
+			// }, 0);
+			// }, 0);
 		});
+		// selectionLayers2.forEach((selection) => selection?.filter(isInteractionSelected).raise());
+		// selectionLayers2.forEach((selection) => selection?.filter(isInteractionPreviewed).raise());
 	}
 
 	drawTime(additionalSelections: GenericSelection[] = []) {

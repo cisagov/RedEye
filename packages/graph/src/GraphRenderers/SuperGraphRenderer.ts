@@ -11,17 +11,19 @@ import {
 	circleArea,
 	circleRadius,
 	classNames,
+	interactionSort,
 	isInteractionFocus,
 	isInteractionRelated,
 	polygonPointsSVG,
 	translateCenter,
 } from './layout-utils';
-import { HierarchyNodeSelection, HierarchicalGraphNode } from '../GraphData/types';
+import { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
 import { defNum } from '../utils';
 
 /** The super graph that contains all the group and sub graphs */
 export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 	countLabelSelection!: HierarchyNodeSelection;
+	graphSelection!: HierarchyNodeSelection;
 	positionSelection!: HierarchyNodeSelection;
 	serverSelection!: HierarchyNodeSelection;
 	hostSelection!: HierarchyNodeSelection;
@@ -62,8 +64,10 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.superGraph, true)
 			.attr('transform-origin', 'center');
 
-		this.linkSelection = this.rootGroupSelection
-			.append('g')
+		this.graphSelection = this.rootGroupSelection.append('g');
+
+		this.linkSelection = this.graphSelection
+			// .append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
@@ -71,8 +75,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink');
 		// .attr('stroke-width', d => d.linkIndexes.length);
 
-		this.positionSelection = this.rootGroupSelection
-			.append('g')
+		this.positionSelection = this.graphSelection
+			// .append('g')
 			.selectAll('g')
 			.data(this.nodes)
 			.join('g')
@@ -166,6 +170,10 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.countLabelSelection?.style('display', (d) => (isInteractionFocus(d) ? 'none' : ''));
 		this.labelSelection?.style('display', (d) => (isInteractionRelated(d) ? '' : 'none'));
 		super.drawInteraction();
+		// TODO: sort
+		console.log(this.rootGroupSelection.selectChildren());
+
+		this.graphSelection.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>().sort(interactionSort);
 	}
 
 	drawUpdateLabel() {

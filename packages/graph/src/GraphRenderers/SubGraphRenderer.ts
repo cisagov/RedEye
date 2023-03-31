@@ -1,5 +1,5 @@
 import { forceLink as d3ForceLink, forceManyBody as d3ForceManyBody, forceX as d3ForceX, forceY as d3ForceY } from 'd3';
-import { HierarchicalGraphNode } from '../GraphData/types';
+import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
 import {
@@ -9,6 +9,7 @@ import {
 	translateCenter,
 	isInteractionFocus,
 	isInteractionRelated,
+	interactionSort,
 } from './layout-utils';
 
 /** a graph that handles sub nodes (that have all been grouped because the same 'signature') */
@@ -51,7 +52,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'subGSelection');
 
 		this.linkSelection = this.rootGroupSelection
-			.append('g')
+			// .append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
@@ -60,7 +61,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'subLinkSelection');
 
 		this.nodeSelection = this.rootGroupSelection
-			.append('g')
+			// .append('g')
 			.selectAll('circle')
 			.data(this.nodes)
 			.join('circle')
@@ -109,6 +110,9 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		if (isInteractionFocus(this.parentNode!)) {
 			this.showLayout();
 			super.drawInteraction();
+			this.rootGroupSelection
+				.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>()
+				.sort(interactionSort);
 		} else {
 			this.hideLayout();
 		}

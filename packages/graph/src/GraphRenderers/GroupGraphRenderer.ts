@@ -4,6 +4,7 @@ import {
 	forceManyBody as d3ForceManyBody,
 	forceX as d3ForceX,
 	forceY as d3ForceY,
+	Selection,
 } from 'd3';
 import { SubGraphRenderer } from './SubGraphRenderer';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
@@ -16,9 +17,14 @@ import {
 	isInteractionFocus,
 	circleArea,
 	circleRadius,
+	isInteractionRelated,
+	isInteractionPreviewed,
+	isInteractionSelected,
+	interactionSort,
 } from './layout-utils';
 import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
+import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
 
 /** an intermediary graph that renders 'groups' of sub nodes */
 export class GroupGraphRenderer extends HierarchicalGraphRenderer {
@@ -72,7 +78,7 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('transform-origin', 'center');
 
 		this.linkSelection = this.rootGroupSelection
-			.append('g')
+			// .append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
@@ -80,7 +86,7 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.parentLink, (d) => d.type === 'parentLink');
 
 		this.childGraphRootSelection = this.rootGroupSelection
-			.append('g')
+			// .append('g')
 			.selectAll('g')
 			.data(this.nodes)
 			.join('g')
@@ -127,6 +133,31 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 		if (isInteractionFocus(this.rootNode!)) {
 			this.showLayout();
 			super.drawInteraction();
+			// [this.linkSelection, this.childGraphRootSelection].forEach((selection: Selection<any, any, any, any>) => {
+			// 	selection.raise();
+			// 	selection.filter(isInteractionSelected).raise();
+			// 	selection.filter(isInteractionPreviewed).raise();
+			// });
+			this.rootGroupSelection
+				.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>()
+				// .each((d) => console.log(d.data instanceof HierarchicalGraphNodeDatum))
+				.sort(interactionSort);
+
+			// console.log(sortSelection);
+
+			// this.linkSelection.select()
+			// this.linkSelection.sort((a, b) => {
+			// 	return isInteractionRelated(a) ? 1 : -1;
+			// });
+			// this.childGraphRootSelection.sort((a, b) => {
+			// 	return isInteractionRelated(a) ? 1 : -1;
+			// });
+			// this.linkSelection.raise();
+			// this.childGraphRootSelection.raise();
+			// this.linkSelection.filter(isInteractionSelected).raise();
+			// this.childGraphRootSelection.filter(isInteractionSelected).raise();
+			// this.linkSelection.filter(isInteractionPreviewed).raise();
+			// this.childGraphRootSelection.filter(isInteractionPreviewed).raise();
 		} else {
 			this.hideLayout();
 		}
