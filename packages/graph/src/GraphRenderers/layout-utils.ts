@@ -181,25 +181,6 @@ export const interactionSort = (a: CompareDatum, b: CompareDatum) => {
 	return interactionPriority(a) - interactionPriority(b);
 };
 
-export function polygonPoints(sides: number, radius: number, rotationDeg = 0): [number, number][] {
-	rotationDeg = (rotationDeg * Math.PI) / 180;
-	const angle = (2 * Math.PI) / sides;
-
-	const points = [] as [number, number][];
-	for (let i = 0; i < sides; i++) {
-		points.push([
-			round(radius * Math.sin(i * angle + rotationDeg), 2), // x
-			round(radius * Math.cos(i * angle + rotationDeg), 2), // y
-		]);
-	}
-
-	return points;
-}
-export function polygonPointsSVG(sides: number, radius: number, rotationDeg = 0) {
-	return polygonPoints(sides, radius, rotationDeg)
-		.map((xy) => xy.join(','))
-		.join(' ');
-}
 export function round(number: number, decimals = 0) {
 	decimals = Math.pow(10, decimals);
 	return Math.round(number * decimals) / decimals;

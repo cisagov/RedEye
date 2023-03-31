@@ -14,11 +14,11 @@ import {
 	interactionSort,
 	isInteractionFocus,
 	isInteractionRelated,
-	polygonPointsSVG,
 	translateCenter,
 } from './layout-utils';
 import { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
 import { defNum } from '../utils';
+import { polygonPointsSvg } from './polygon-utils';
 
 /** The super graph that contains all the group and sub graphs */
 export class SuperGraphRenderer extends HierarchicalGraphRenderer {
@@ -91,7 +91,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.filter((d) => d.data.isServer)
 			.append('g')
 			.append('polygon')
-			.attr('points', (d) => polygonPointsSVG(6, d.r || 0))
+			.attr('points', (d) => polygonPointsSvg(6, d.r || 0))
 			.classed(classNames.serverNode, true);
 
 		// select this.hostSelection & this.serverSelection
