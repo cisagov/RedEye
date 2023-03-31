@@ -47,11 +47,13 @@ export type ConfigDefinition = InferType<typeof configDefinition>;
 
 const castConfig = (env: EnvironmentObject, cliArgs: cliArgs): ConfigDefinition => {
 	const overrides: Record<string, string | boolean | number> = {};
-
+	// If the server is not running in pkg mode and the SERVER_BLUE_TEAM environment variable is not set, default to red team
+	if (!env.SERVER_BLUE_TEAM && !process.env.pkg) overrides.SERVER_BLUE_TEAM = false;
 	if (cliArgs.developmentMode) {
 		overrides.SERVER_PRODUCTION = false;
 		overrides.DATABASE_MODE = DatabaseMode.DEV_PERSIST;
 	}
+
 	if (cliArgs.port) overrides.SERVER_PORT = cliArgs.port;
 	if (cliArgs.redTeam) overrides.SERVER_BLUE_TEAM = false;
 	if (cliArgs.childProcesses) overrides.MAX_PARSER_SUB_PROCESSES = cliArgs.childProcesses;
