@@ -220,7 +220,7 @@ export const BeaconMeta = observer((props) => {
 							<Txt small>{cmdText}</Txt>
 						</div>
 					</div>
-					<MetaHeader>Type</MetaHeader>
+					<MetaLabel>Type</MetaLabel>
 					<Select2
 						disabled={!!store.appMeta.blueTeam}
 						items={beaconTypeSelectItems}
