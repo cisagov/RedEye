@@ -44,7 +44,7 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 					</>
 				)}
 			</Txt>
-			<Txt muted>
+			<Txt cy-test="slide-count" muted>
 				<span>Slide:</span>
 				<Select2
 					// TODO: maybe set activeItem onActiveItemChange so keyboard works
@@ -52,7 +52,13 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 					items={Array.from(Array(store.campaign.presentation.selectedItem?.commandGroups?.length).keys(), (x) => x++)}
 					onItemSelect={(item) => store.campaign.presentation.changeIndex(item)}
 					itemRenderer={(item, { handleClick, modifiers }) => (
-						<MenuItem2 active={modifiers.active} onClick={handleClick} key={item + 1} text={item + 1} />
+						<MenuItem2
+							cy-test="slide-number-selector"
+							active={modifiers.active}
+							onClick={handleClick}
+							key={item + 1}
+							text={item + 1}
+						/>
 					)}
 					filterable={false}
 					// matchTargetWidth
@@ -64,6 +70,7 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 					`}
 				>
 					<Button
+						cy-test="slide-selector"
 						rightIcon={<CarbonIcon icon={CaretDown16} />}
 						minimal
 						small
@@ -73,7 +80,7 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 						`}
 					/>
 				</Select2>
-				<span>of {store.campaign.presentation.selectedItem?.commandGroups?.length}</span>
+				<span cy-test="total-slides">of {store.campaign.presentation.selectedItem?.commandGroups?.length}</span>
 			</Txt>
 		</div>
 	);

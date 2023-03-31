@@ -118,9 +118,7 @@ describe('Hide a beacon', () => {
 				cy.get('.bp4-dialog-body').should('be.visible').and('contain.text', 'Hiding this beacon');
 
 				// Confirm that you want to hide the beacon
-				cy.get('[cy-test=confirm-show-hide]').click();
-
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Verify hidden beacon does not show in the list
 				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
@@ -141,9 +139,7 @@ describe('Hide a beacon', () => {
 				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the beacon
-				cy.get('[cy-test=confirm-show-hide]').click();
-
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Go to settings and toggle switch to not show hidden
 				cy.doNotShowHiddenItems();
