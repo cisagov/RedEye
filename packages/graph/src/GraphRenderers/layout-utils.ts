@@ -136,6 +136,7 @@ export function shortenLine(
 }
 
 export const circleArea = (radius: number) => Math.PI * radius * radius;
+
 export const circleRadius = (area: number) => Math.sqrt(area / Math.PI);
 
 export const translateCenter = ({
@@ -163,18 +164,19 @@ export const isInteractionRelated = (d: InteractionState) => d.selected || d.pre
 
 export const isInteractionSelected = (d: InteractionState) =>
 	d.selected || d.selectedFocus || d.selectedParent || false;
+
 export const isInteractionPreviewed = (d: InteractionState) =>
 	d.previewed || d.previewedFocus || d.previewedParent || false;
 
-const layerPriority = ['previewed', 'previewedParent', 'previewedFocus', 'selected', 'selectedParent', 'selectedFocus'];
-
 type CompareDatum = HierarchicalGraphNode | HierarchicalGraphLink;
+
 const interactionPriority = (a: CompareDatum) => {
 	if (isInteractionPreviewed(a)) return 3;
 	if (isInteractionSelected(a)) return 2;
 	if (a.data instanceof HierarchicalGraphNodeDatum) return 1;
 	return 0;
 };
+
 export const interactionSort = (a: CompareDatum, b: CompareDatum) => {
 	return interactionPriority(a) - interactionPriority(b);
 };

@@ -170,9 +170,6 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.countLabelSelection?.style('display', (d) => (isInteractionFocus(d) ? 'none' : ''));
 		this.labelSelection?.style('display', (d) => (isInteractionRelated(d) ? '' : 'none'));
 		super.drawInteraction();
-		// TODO: sort
-		console.log(this.rootGroupSelection.selectChildren());
-
 		this.graphSelection.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>().sort(interactionSort);
 	}
 

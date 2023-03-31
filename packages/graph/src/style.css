@@ -180,4 +180,5 @@ line.previewed.selected {
 	opacity: 0.6;
 }
 .present {
+	opacity: 1;
 }
