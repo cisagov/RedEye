@@ -45,15 +45,8 @@ jobs:
       - name: set node version
         uses: moonrepo/setup-moon-action@v1
 
-      # - run: yarn install --immutable --inline-builds
-      # - run: yarn moon ci
-      # - run: yarn moon run server:build client:build
-      - name: Cypress
-        uses: cypress-io/github-action@v5
-        with:
-          install-command: yarn install --immutable
-          runTests: false
-          build: yarn run build
+      - run: yarn install --immutable --inline-builds
+      - run: yarn run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -94,7 +87,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           # tag: node-${{ matrix.node }}
-          install: false
           start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
@@ -140,7 +132,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           # tag: node-${{ matrix.node }}
-          install: false
           start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
