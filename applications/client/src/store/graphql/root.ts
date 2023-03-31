@@ -7,6 +7,7 @@ export * from './AnnotationModel';
 export * from './BeaconModel';
 export * from './BeaconLineTypeEnum';
 export * from './BeaconMetaModel';
+export * from './BeaconTypeEnum';
 export * from './CampaignModel';
 export * from './CommandModel';
 export * from './CommandGroupModel';

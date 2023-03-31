@@ -22,7 +22,7 @@ export const ServerMeta = observer((props) => {
 	const state = createState({
 		displayName: server?.displayName || '',
 		displayNameNeedsSaving: false,
-		selectedItem: (server?.meta?.maybeCurrent?.type || serverTypeSelectItems[0].key) as ServerType,
+		selectedItem: (server?.meta?.maybeCurrent?.type || serverTypeSelectItems[1].key) as ServerType,
 		handleItemSelect(item) {
 			this.selectedItem = item.key;
 			serverMetaUpdate();
@@ -109,6 +109,7 @@ export const ServerMeta = observer((props) => {
 						disabled={!!store.appMeta.blueTeam}
 						items={serverTypeSelectItems}
 						itemRenderer={renderSort}
+						activeItem={serverTypeSelectItems.find((item) => item.key === state.selectedItem)}
 						onItemSelect={state.handleItemSelect}
 						filterable={false}
 						fill

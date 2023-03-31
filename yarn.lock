@@ -2427,8 +2427,6 @@ __metadata:
 "@redeye/graph@workspace:*, @redeye/graph@workspace:packages/graph":
   version: 0.0.0-use.local
   resolution: "@redeye/graph@workspace:packages/graph"
-  dependencies:
-    "@redeye/ui-styles": "workspace:*"
   languageName: unknown
   linkType: soft
 
