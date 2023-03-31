@@ -11,15 +11,15 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import moment from 'moment-timezone';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { Select2 } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+// import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -90,7 +90,28 @@ export const BeaconMeta = observer((props) => {
 		},
 	});
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
+	// const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
+
+	// hooks not working? AAA
+	// const { cantHideEntities: last, isDialogDisabled } = useCheckNonHideableEntities('beacon', beacon?.hidden || false, [
+	// 	beacon?.id || '',
+	// ]);
+	const { data } = useQuery(
+		['beacons', 'can-hide', store.campaign?.id],
+		async () =>
+			await store.graphqlStore.queryNonHideableEntities({
+				campaignId: store.campaign.id!,
+				beaconIds: [beacon?.id!],
+			})
+	);
+	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.beacons?.length || 0) > 0, [beacon?.id, data]);
+
+	const isDialogDisabled = useMemo(
+		() =>
+			window.localStorage.getItem('disableDialog') === 'true' &&
+			(!cantHideEntities || (cantHideEntities && beacon?.hidden)),
+		[window.localStorage.getItem('disableDialog'), cantHideEntities, beacon?.hidden]
+	);
 
 	useEffect(() => {
 		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
@@ -275,7 +296,7 @@ export const BeaconMeta = observer((props) => {
 				isHiddenToggled={!!beacon?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
-				last={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);

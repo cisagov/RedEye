@@ -43,7 +43,7 @@ export const useCheckNonHideableEntities = (typeName: string, hidden: boolean, b
 	}
 
 	// const last = (data?.nonHideable/Entities?.beacons?.length || 0) > 0;
-	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.beacons?.length || 0) > 0, [beaconIds]);
+	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.beacons?.length || 0) > 0, [beaconIds, data]);
 
 	const isDialogDisabled = useMemo(
 		() =>

@@ -63,11 +63,11 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	);
 
 	const handleQuickMetaClick = useCallback(async () => {
-		const aaa = await store.graphqlStore.queryNonHideableEntities({
+		const data = await store.graphqlStore.queryNonHideableEntities({
 			campaignId: store.campaign.id!,
 			beaconIds: [beacon?.id],
 		});
-		const cantHideEntities = (aaa?.nonHideableEntities.beacons?.length || 0) > 0;
+		const cantHideEntities = (data?.nonHideableEntities.beacons?.length || 0) > 0;
 
 		const isDialogDisabled =
 			(window.localStorage.getItem('disableDialog') === 'true' &&
@@ -77,7 +77,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 		state.update('isDialogDisabled', isDialogDisabled);
 
 		return isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true);
-	}, []);
+	}, [beacon]);
 
 	return (
 		<InfoRow
@@ -142,7 +142,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 						toggleHidden.update('showHide', false);
 					}}
 					onHide={() => mutateToggleHidden.mutate()}
-					last={state.cantHideEntities}
+					cantHideEntities={state.cantHideEntities}
 				/>
 			)}
 		</InfoRow>

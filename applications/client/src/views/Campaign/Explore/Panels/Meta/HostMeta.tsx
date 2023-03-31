@@ -95,7 +95,7 @@ export const HostMeta = observer((props) => {
 				isHiddenToggled={!!host?.current?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
-				last={last}
+				cantHideEntities={last}
 			/>
 		</div>
 	);

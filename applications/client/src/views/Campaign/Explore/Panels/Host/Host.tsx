@@ -73,11 +73,11 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	);
 
 	const handleQuickMetaClick = useCallback(async () => {
-		const aaa = await store.graphqlStore.queryNonHideableEntities({
+		const data = await store.graphqlStore.queryNonHideableEntities({
 			campaignId: store.campaign.id!,
 			hostIds: [host?.id],
 		});
-		const cantHideEntities = (aaa?.nonHideableEntities.hosts?.length || 0) > 0;
+		const cantHideEntities = (data?.nonHideableEntities.hosts?.length || 0) > 0;
 
 		const isDialogDisabled =
 			(window.localStorage.getItem('disableDialog') === 'true' &&
@@ -87,7 +87,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 		state.update('isDialogDisabled', isDialogDisabled);
 
 		return isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true);
-	}, []);
+	}, [host]);
 
 	return (
 		<InfoRow
@@ -166,7 +166,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 						toggleHidden.update('showHide', false);
 					}}
 					onHide={() => mutateToggleHidden.mutate()}
-					last={state.cantHideEntities}
+					cantHideEntities={state.cantHideEntities}
 				/>
 			)}
 		</InfoRow>

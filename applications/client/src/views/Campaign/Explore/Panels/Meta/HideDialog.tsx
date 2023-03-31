@@ -13,12 +13,21 @@ type Props = DialogExProps & {
 	infoType: InfoType;
 	onHide?: () => void;
 	isHiddenToggled?: boolean;
-	last?: boolean;
+	cantHideEntities?: boolean;
 	bulk?: boolean;
 };
 
 export const ToggleHiddenDialog = observer<Props>(
-	({ typeName, infoType, onClose, isHiddenToggled = true, onHide = () => undefined, last, bulk = false, ...props }) => {
+	({
+		typeName,
+		infoType,
+		onClose,
+		isHiddenToggled = true,
+		onHide = () => undefined,
+		cantHideEntities,
+		bulk = false,
+		...props
+	}) => {
 		const [loading, setLoading] = useState(false);
 		const [checked, setChecked] = useState(window.localStorage.getItem('disableDialog') === 'true');
 		const plural = isHiddenToggled ? 'Showing' : 'Hiding';
@@ -29,7 +38,7 @@ export const ToggleHiddenDialog = observer<Props>(
 			window.localStorage.setItem('disableDialog', e.target.checked.toString());
 		}, []);
 
-		const isHidingFinal = last && !isHiddenToggled;
+		const isHidingFinal = cantHideEntities && !isHiddenToggled;
 
 		const confirmShowHide = isHidingFinal
 			? onClose
@@ -90,7 +99,7 @@ export const ToggleHiddenDialog = observer<Props>(
 							<Button
 								cy-test="confirm-show-hide"
 								intent={Intent.PRIMARY}
-								rightIcon={!last && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
+								rightIcon={!cantHideEntities && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
 								loading={loading}
 								text={isHidingFinal ? 'Cancel' : `${verb} ${infoType}${bulk ? 's' : ''}`}
 								onClick={confirmShowHide}

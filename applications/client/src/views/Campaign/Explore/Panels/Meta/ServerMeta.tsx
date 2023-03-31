@@ -138,7 +138,7 @@ export const ServerMeta = observer((props) => {
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				isOpen={toggleHidden.showHide}
-				last={last}
+				cantHideEntities={last}
 			/>
 		</div>
 	);
