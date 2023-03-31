@@ -93,9 +93,12 @@ export const BeaconMeta = observer((props) => {
 	// const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
 
 	// hooks not working? AAA
-	// const { cantHideEntities: last, isDialogDisabled } = useCheckNonHideableEntities('beacon', beacon?.hidden || false, [
-	// 	beacon?.id || '',
-	// ]);
+	// const { cantHideEntities: last, isDialogDisabled: is2 } = useCheckNonHideableEntities(
+	// 	'beacon',
+	// 	beacon?.hidden || false,
+	// 	[beacon?.id || '']
+	// );
+
 	const { data } = useQuery(
 		['beacons', 'can-hide', store.campaign?.id],
 		async () =>

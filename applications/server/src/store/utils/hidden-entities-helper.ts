@@ -52,9 +52,7 @@ export const checkCanHideEntities = async ({
 	const hosts = hostsToHide?.length
 		? await em.find(Host, { id: hostsToHide, cobaltStrikeServer: false }, { populate: true })
 		: [];
-	const servers = hostsToHide?.length
-		? await em.find(Host, { id: hostsToHide, cobaltStrikeServer: true }, { populate: true })
-		: [];
+	const servers = hostsToHide?.length ? await em.find(Server, { id: hostsToHide }, { populate: true }) : [];
 	const notHiddenHosts = await em.find(Host, { hidden: false, cobaltStrikeServer: false });
 	const notHiddenServers = await em.find(Host, { hidden: false, cobaltStrikeServer: true });
 	const canHideBeacons: string[] = [];

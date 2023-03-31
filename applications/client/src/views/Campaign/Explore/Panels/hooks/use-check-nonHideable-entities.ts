@@ -40,6 +40,7 @@ export const useCheckNonHideableEntities = (typeName: string, hidden: boolean, b
 			beaconIds[0] === ['COMPUTER02-330588776'][0],
 			data?.nonHideableEntities?.beacons?.[0] === beaconIds?.[0]
 		);
+		// console.log(data?.nonHideableEntities, cantHideEntities, isDialogDisabled)
 	}
 
 	// const last = (data?.nonHideable/Entities?.beacons?.length || 0) > 0;

@@ -8,12 +8,12 @@ import { serverQuery, useStore } from '@redeye/client/store';
 import { ServerType } from '@redeye/client/store/graphql/ServerTypeEnum';
 import { InfoType } from '@redeye/client/types';
 import { ToggleHiddenDialog } from '@redeye/client/views';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { MenuItem2 } from '@blueprintjs/popover2';
+import { useMemo } from 'react';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 
 export const ServerMeta = observer((props) => {
 	const store = useStore();
@@ -29,7 +29,22 @@ export const ServerMeta = observer((props) => {
 		},
 	});
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('server', server?.hidden || false);
+	const { data } = useQuery(
+		['servers', 'can-hide', store.campaign?.id],
+		async () =>
+			await store.graphqlStore.queryNonHideableEntities({
+				campaignId: store.campaign.id!,
+				hostIds: [server?.id || ''],
+			})
+	);
+	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.servers?.length || 0) > 0, [server?.id, data]);
+
+	const isDialogDisabled = useMemo(
+		() =>
+			window.localStorage.getItem('disableDialog') === 'true' &&
+			(!cantHideEntities || (cantHideEntities && !!server?.hidden)),
+		[window.localStorage.getItem('disableDialog'), cantHideEntities, !!server?.hidden]
+	);
 
 	const { mutate: serverMetaUpdate } = useMutation(
 		async () => {
@@ -138,7 +153,7 @@ export const ServerMeta = observer((props) => {
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				isOpen={toggleHidden.showHide}
-				cantHideEntities={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);

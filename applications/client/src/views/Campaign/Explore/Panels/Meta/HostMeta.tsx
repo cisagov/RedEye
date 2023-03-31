@@ -3,9 +3,9 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import { hostQuery, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
+import { useMemo } from 'react';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
@@ -23,7 +23,22 @@ export const HostMeta = observer((props) => {
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('host', host?.current?.hidden || false);
+	const { data } = useQuery(
+		['hosts', 'can-hide', store.campaign?.id],
+		async () =>
+			await store.graphqlStore.queryNonHideableEntities({
+				campaignId: store.campaign.id!,
+				hostIds: [host?.id!],
+			})
+	);
+	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.hosts?.length || 0) > 0, [host?.id, data]);
+
+	const isDialogDisabled = useMemo(
+		() =>
+			window.localStorage.getItem('disableDialog') === 'true' &&
+			(!cantHideEntities || (cantHideEntities && !!host?.current?.hidden)),
+		[window.localStorage.getItem('disableDialog'), cantHideEntities, !!host?.current?.hidden]
+	);
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {
@@ -95,7 +110,7 @@ export const HostMeta = observer((props) => {
 				isHiddenToggled={!!host?.current?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
-				cantHideEntities={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);
