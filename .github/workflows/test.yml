@@ -27,10 +27,10 @@ jobs:
   install:
     needs: ['prepare']
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      # matrix:
-      #   node-version: [16]
+    # strategy:
+    #   fail-fast: false
+    # matrix:
+    #   node-version: [16]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -45,9 +45,15 @@ jobs:
       - name: set node version
         uses: moonrepo/setup-moon-action@v1
 
-      - run: yarn install --immutable --inline-builds
-      - run: yarn moon ci
-      - run: yarn moon run server:build client:build
+      # - run: yarn install --immutable --inline-builds
+      # - run: yarn moon ci
+        # - run: yarn moon run server:build client:build
+
+        uses: cypress-io/github-action@v5
+        with:
+          install-command: yarn install --immutable
+          runTests: false
+          build: yarn run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -71,10 +77,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache
-        uses: actions/setup-node@v3
-        with:
-          cache: 'yarn'
+      # - name: Cache
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     cache: 'yarn'
 
       - name: Download the build folders
         uses: actions/download-artifact@v3
@@ -82,12 +88,14 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: yarn install  --immutable --inline-builds
+      # - run: yarn install  --immutable --inline-builds
       - name: Red Team Tests - Chrome
         uses: cypress-io/github-action@v5
         with:
           # tag: node-${{ matrix.node }}
-          start: yarn start:dev
+          # install-command: yarn install --immutable
+          install: false
+          start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Red Team - Chrome'
@@ -113,10 +121,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache
-        uses: actions/setup-node@v3
-        with:
-          cache: 'yarn'
+      # - name: Cache
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     cache: 'yarn'
 
       - name: Download the build folders
         uses: actions/download-artifact@v3
@@ -124,12 +132,14 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: yarn install  --immutable --inline-builds
+      # - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5
         with:
           # tag: node-${{ matrix.node }}
-          start: yarn start:blue
+          install: false
+          # install-command: yarn install --immutable
+          start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Blue Team - Chrome'
