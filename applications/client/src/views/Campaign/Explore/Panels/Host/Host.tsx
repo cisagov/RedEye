@@ -11,18 +11,11 @@ import {
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType, TimeStatus } from '@redeye/client/types';
-import {
-	IconLabel,
-	InfoRow,
-	RowTime,
-	RowTitle,
-	ToggleHiddenDialog,
-	useCheckLastUnhidden,
-	useToggleHidden,
-} from '@redeye/client/views';
+import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHidden } from '@redeye/client/views';
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
+import { useCallback } from 'react';
 import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
 type HostRowProps = ComponentProps<'div'> & {
@@ -32,6 +25,8 @@ type HostRowProps = ComponentProps<'div'> & {
 export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const store = useStore();
 	const state = createState({
+		cantHideEntities: false,
+		isDialogDisabled: window.localStorage.getItem('disableDialog') === 'true',
 		AddServer(serverId) {
 			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
 			selectedServers.push(serverId);
@@ -68,11 +63,6 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 
 	if (!host) return null;
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden(
-		host.cobaltStrikeServer ? 'server' : 'host',
-		host?.hidden || false
-	);
-
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(async () =>
 		host.cobaltStrikeServer
 			? await store.graphqlStore.mutateToggleServerHidden({
@@ -81,6 +71,23 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			  })
 			: await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
+
+	const handleQuickMetaClick = useCallback(async () => {
+		const aaa = await store.graphqlStore.queryNonHideableEntities({
+			campaignId: store.campaign.id!,
+			hostIds: [host?.id],
+		});
+		const cantHideEntities = (aaa?.nonHideableEntities.hosts?.length || 0) > 0;
+
+		const isDialogDisabled =
+			(window.localStorage.getItem('disableDialog') === 'true' &&
+				(!cantHideEntities || (cantHideEntities && host?.hidden))) ||
+			false;
+		state.update('cantHideEntities', cantHideEntities);
+		state.update('isDialogDisabled', isDialogDisabled);
+
+		return isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true);
+	}, []);
 
 	return (
 		<InfoRow
@@ -145,16 +152,10 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			)}
 			{host != null && (
 				<QuickMetaPopoverButtonMenu
-					content={
-						<ShowHideMenuItem
-							model={host}
-							disabled={!!store.appMeta.blueTeam}
-							onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-						/>
-					}
+					content={<ShowHideMenuItem model={host} disabled={!!store.appMeta.blueTeam} onClick={handleQuickMetaClick} />}
 				/>
 			)}
-			{!isDialogDisabled && (
+			{!state.isDialogDisabled && (
 				<ToggleHiddenDialog
 					typeName={host.cobaltStrikeServer ? 'server' : 'host'}
 					isOpen={toggleHidden.showHide}
@@ -165,7 +166,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 						toggleHidden.update('showHide', false);
 					}}
 					onHide={() => mutateToggleHidden.mutate()}
-					last={last}
+					last={state.cantHideEntities}
 				/>
 			)}
 		</InfoRow>

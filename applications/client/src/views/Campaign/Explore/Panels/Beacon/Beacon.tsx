@@ -29,7 +29,6 @@ type BeaconProps = ComponentProps<'div'> & {
 export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	const store = useStore();
 	const state = createState({
-		beaconId: '',
 		cantHideEntities: false,
 		isDialogDisabled: window.localStorage.getItem('disableDialog') === 'true',
 		AddBeacon(beaconId) {
@@ -63,12 +62,10 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			})
 	);
 
-	const handleClick = useCallback(async () => {
-		state.update('beaconId', beacon?.id);
-
+	const handleQuickMetaClick = useCallback(async () => {
 		const aaa = await store.graphqlStore.queryNonHideableEntities({
 			campaignId: store.campaign.id!,
-			beaconIds: [state.beaconId],
+			beaconIds: [beacon?.id],
 		});
 		const cantHideEntities = (aaa?.nonHideableEntities.beacons?.length || 0) > 0;
 
@@ -130,7 +127,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				<QuickMetaPopoverButtonMenu
 					content={
 						// <MenuItem2 text="Add Comment" />
-						<ShowHideMenuItem model={beacon} disabled={!!store.appMeta.blueTeam} onClick={handleClick} />
+						<ShowHideMenuItem model={beacon} disabled={!!store.appMeta.blueTeam} onClick={handleQuickMetaClick} />
 					}
 				/>
 			)}
