@@ -209,6 +209,7 @@ export const classNames = {
 	// Root //
 	graphRoot: 'graphRoot',
 	isZooming: 'isZooming',
+	// isDragging: 'isDragging', // TODO
 
 	transformWrapper: 'transformWrapper',
 
