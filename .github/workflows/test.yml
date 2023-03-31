@@ -47,8 +47,8 @@ jobs:
 
       # - run: yarn install --immutable --inline-builds
       # - run: yarn moon ci
-        # - run: yarn moon run server:build client:build
-
+      # - run: yarn moon run server:build client:build
+      - name: Cypress
         uses: cypress-io/github-action@v5
         with:
           install-command: yarn install --immutable
