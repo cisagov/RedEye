@@ -52,7 +52,6 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'subGSelection');
 
 		this.linkSelection = this.rootGroupSelection
-			// .append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
@@ -61,7 +60,6 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'subLinkSelection');
 
 		this.nodeSelection = this.rootGroupSelection
-			// .append('g')
 			.selectAll('circle')
 			.data(this.nodes)
 			.join('circle')
@@ -74,15 +72,12 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));
 
-		// TODO: this will currently z-index under (some) super and group nodes
-		// ... to fix this, these will need to render inside the SuperGraph.rootSelection
 		this.labelSelection = this.rootGroupSelection
 			.append('g')
 			.attr('cy-test', 'selectedLabel')
 			.selectAll('text')
 			.data(this.nodes)
 			.join('text')
-			// .attr('text-anchor', 'end')
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
 

@@ -67,7 +67,6 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.graphSelection = this.rootGroupSelection.append('g');
 
 		this.linkSelection = this.graphSelection
-			// .append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
@@ -76,7 +75,6 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		// .attr('stroke-width', d => d.linkIndexes.length);
 
 		this.positionSelection = this.graphSelection
-			// .append('g')
 			.selectAll('g')
 			.data(this.nodes)
 			.join('g')
@@ -92,7 +90,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.serverSelection = this.positionSelection
 			.filter((d) => d.data.isServer)
 			.append('g')
-			.append('polygon') // polygon
+			.append('polygon')
 			.attr('points', (d) => polygonPointsSVG(6, d.r || 0))
 			.classed(classNames.serverNode, true);
 
@@ -128,7 +126,6 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.selectAll('text')
 			.data(this.nodes.filter((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length > 1))
 			.join('text')
-			// .filter((d) => d.leaves().length > 1)
 			.attr('text-anchor', 'middle')
 			.classed(classNames.superNodeCountLabel, true)
 			.text((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length);

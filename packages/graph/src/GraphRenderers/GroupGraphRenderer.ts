@@ -36,8 +36,8 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			return d.type === 'keyNode' ? (d.graphLinks.length || 1) * -2 - 1 : 0;
 		});
 		const forceLink = d3ForceLink(this.links)
-			// .strength(d=>d.children.length > 1 ? 0. : 0)
-			// .strength(d => d.group ? 0.2 : 0.05)
+			// .strength((d) => (d.children.length > 1 ? 0 : 0))
+			// .strength((d) => (d.group ? 0.2 : 0.05))
 			.strength((d) => d.source.graphLinks.length / 100)
 			.distance(
 				this.keyNodes.length < 2
@@ -73,7 +73,6 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('transform-origin', 'center');
 
 		this.linkSelection = this.rootGroupSelection
-			// .append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
@@ -81,7 +80,6 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.parentLink, (d) => d.type === 'parentLink');
 
 		this.childGraphRootSelection = this.rootGroupSelection
-			// .append('g')
 			.selectAll('g')
 			.data(this.nodes)
 			.join('g')
