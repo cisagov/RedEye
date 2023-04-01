@@ -1,6 +1,6 @@
-import { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import { BaseType, Force, SimulationLinkDatum, SimulationNodeDatum, ValueFn, ZoomTransform } from 'd3';
 import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
-import { HierarchicalGraphLink, HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
+import { HierarchicalGraphNode, InteractionState, NodeOrLink, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
 export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {
@@ -168,23 +168,28 @@ export const isInteractionSelected = (d: InteractionState) =>
 export const isInteractionPreviewed = (d: InteractionState) =>
 	d.previewed || d.previewedFocus || d.previewedParent || false;
 
-type CompareDatum = HierarchicalGraphNode | HierarchicalGraphLink;
-
-const interactionPriority = (a: CompareDatum) => {
+const interactionPriority = (a: NodeOrLink) => {
 	if (isInteractionPreviewed(a)) return 3;
 	if (isInteractionSelected(a)) return 2;
 	if (a.data instanceof HierarchicalGraphNodeDatum) return 1;
 	return 0;
 };
 
-export const interactionSort = (a: CompareDatum, b: CompareDatum) => {
+export const interactionSort = (a: NodeOrLink, b: NodeOrLink) => {
 	return interactionPriority(a) - interactionPriority(b);
+};
+
+export const addClassName: ValueFn<BaseType | Element, HierarchicalGraphNode, void> = (datum, i, groups) => {
+	if (datum.data.className) (groups[i] as Element)?.classList?.add(datum.data.className);
 };
 
 export function round(number: number, decimals = 0) {
 	decimals = Math.pow(10, decimals);
 	return Math.round(number * decimals) / decimals;
 }
+
+export const xmlns = 'http://www.w3.org/2000/svg';
+export const createSvgElement = (tagName: keyof SVGElementTagNameMap) => document.createElementNS(xmlns, tagName);
 
 export const classNames = {
 	// Root //

@@ -8,6 +8,7 @@ import {
 import { GroupGraphRenderer } from './GroupGraphRenderer';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
 import {
+	addClassName,
 	circleArea,
 	circleRadius,
 	classNames,
@@ -85,6 +86,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.append('g')
 			.append('circle')
 			.attr('r', (d) => d.r || 0)
+			.each(addClassName)
 			.classed(classNames.computerNode, true);
 
 		this.serverSelection = this.positionSelection
@@ -92,6 +94,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.append('g')
 			.append('polygon')
 			.attr('points', (d) => polygonPointsSvg(6, d.r || 0))
+			.each(addClassName)
 			.classed(classNames.serverNode, true);
 
 		// select this.hostSelection & this.serverSelection
@@ -117,6 +120,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.join('text')
 			.attr('text-anchor', 'end')
 			.attr('cy-test', 'selectedLabel')
+			.each(addClassName)
 			.classed(classNames.superNodeNameLabel, true)
 			.style('display', 'none') // start hidden
 			.text(createLabel);
@@ -127,6 +131,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.data(this.nodes.filter((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length > 1))
 			.join('text')
 			.attr('text-anchor', 'middle')
+			.each(addClassName)
 			.classed(classNames.superNodeCountLabel, true)
 			.text((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length);
 

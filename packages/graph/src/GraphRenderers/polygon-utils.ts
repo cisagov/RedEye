@@ -24,7 +24,7 @@ export function polygonPointsSvg(sides: number, radius?: number, rotationDeg?: n
 
 const polygonShape = {
 	// name: [sides, rotationDeg] //
-	// circle: [1, 0],
+	// circle: [12, 0], // delete this!
 	triangleUp: [3, 180],
 	triangleDown: [3, 0],
 	diamond: [4, 90],
@@ -39,16 +39,18 @@ const polygonShape = {
 };
 
 export type PolygonShape = keyof typeof polygonShape;
+
 export type PolygonShapeEx = PolygonShape | 'circle';
 
 export function polygonShapePoints(shape: PolygonShape, radius?: number, center?: number) {
 	const [sides, rotationDeg] = polygonShape[shape];
 	return polygonPointsSvg(sides, radius, rotationDeg, center);
 }
+
 export function polygonShapePointsOpticallyEqualized(shape: PolygonShape, radius = 1, center?: number) {
 	const [sides, rotationDeg] = polygonShape[shape];
-	const adjust = 1 + sides * 0.03; // compensate slightly for the area equalization
 	const area = Math.PI * radius * radius;
+	const adjust = 1 + sides * 0.03; // compensate slightly for the area equalization
 	const circumRadius = polygonCircumRadius(sides, area) * adjust;
 	return polygonPointsSvg(sides, circumRadius, rotationDeg, center);
 }
@@ -70,4 +72,5 @@ function getRandomKeyGPT<T>(obj: Record<string, T>): string {
 	const keys = Object.keys(obj);
 	return keys[Math.floor(Math.random() * keys.length)];
 }
+
 export const getRandomPolygonShapeEx = () => getRandomKeyGPT({ ...polygonShape }) as PolygonShape;

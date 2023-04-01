@@ -10,8 +10,10 @@ import {
 	isInteractionFocus,
 	isInteractionRelated,
 	interactionSort,
+	createSvgElement,
+	addClassName,
 } from './layout-utils';
-import { getRandomPolygonShapeEx, polygonShapePointsOpticallyEqualized } from './polygon-utils';
+import { polygonShapePointsOpticallyEqualized } from './polygon-utils';
 
 /** a graph that handles sub nodes (that have all been grouped because the same 'signature') */
 export class SubGraphRenderer extends HierarchicalGraphRenderer {
@@ -61,12 +63,18 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('cy-test', 'subLinkSelection');
 
 		this.nodeSelection = this.rootGroupSelection
-			.selectAll('polygon')
+			.selectAll()
 			.data(this.nodes)
-			.join('polygon')
-			.attr('points', (d) => polygonShapePointsOpticallyEqualized(getRandomPolygonShapeEx(), d.r))
+			.enter()
+			.append((d) => createSvgElement(d.data.shape === 'circle' || d.data.shape == null ? 'circle' : 'polygon'))
+			.attr('points', (d) =>
+				d.data.shape && d.data.shape !== 'circle'
+					? polygonShapePointsOpticallyEqualized(d.data.shape, defNum(d.r) + 1)
+					: null
+			)
 			.attr('r', (d) => d.r || 0)
 			.attr('cy-test', 'beaconsGraph')
+			.each(addClassName)
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
 			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.subNode, true)
@@ -80,6 +88,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.selectAll('text')
 			.data(this.nodes)
 			.join('text')
+			.each(addClassName)
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
 

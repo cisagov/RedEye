@@ -34,12 +34,14 @@ export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validat
 	// create map of SuperNodes
 	const superNodes = new Map<string, HierarchicalGraphNodeDatum>();
 	graphData.nodes.forEach((node) => {
+		const { className, name } = parentNames.get(node.parent) || {};
 		setMapKeyIfUnset(
 			superNodes,
 			node.parent,
 			new HierarchicalGraphNodeDatum({
 				...node,
-				name: parentNames.get(node.parent)?.name,
+				className,
+				name,
 				id: node.parent,
 				parent: ids.rootNodeName,
 				level: 'super',
