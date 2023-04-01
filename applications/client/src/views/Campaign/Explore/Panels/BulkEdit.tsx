@@ -1,4 +1,4 @@
-import { Button, Intent, Menu, MenuItem, Position } from '@blueprintjs/core';
+import { Button, Intent, Menu, Position } from '@blueprintjs/core';
 import { Edit16, View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { UseCreateState } from '@redeye/client/components';
@@ -6,14 +6,15 @@ import { createState, CarbonIcon } from '@redeye/client/components';
 import { store } from '@redeye/client/store';
 import { CoreTokens, PopoverButton, popoverOffset, ThemeClasses, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { ComponentProps } from 'react';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { InfoType } from '@redeye/client/types';
+import { MenuItem2 } from '@blueprintjs/popover2';
 import { ToggleHiddenDialog } from './Meta';
 
 type HostRowProps = ComponentProps<'div'> & {
-	typeName: string;
+	typeName: 'Host' | 'Beacon';
 	count: number;
 	bulkShow: UseMutationResult<any, unknown, void, unknown>;
 	bulkHide: UseMutationResult<any, unknown, void, unknown>;
@@ -47,6 +48,26 @@ export const BulkEdit = observer<HostRowProps>(
 			[window.localStorage.getItem('disableDialog')]
 		);
 
+		const handleBulkShowClick = useCallback((e: React.SyntheticEvent) => {
+			e.stopPropagation();
+			if (isDialogDisabled) {
+				bulkShow.mutate();
+			} else {
+				state.setBulkShow(true);
+				bulkShowState.update('showHide', true);
+			}
+		}, []);
+
+		const handleBulkHideClick = useCallback((e: React.SyntheticEvent) => {
+			e.stopPropagation();
+			if (isDialogDisabled) {
+				bulkHide.mutate();
+			} else {
+				state.setBulkShow(false);
+				bulkHideState.update('showHide', true);
+			}
+		}, []);
+
 		return (
 			<>
 				<div css={modeBarStyle}>
@@ -76,32 +97,16 @@ export const BulkEdit = observer<HostRowProps>(
 						content={
 							<Menu>
 								{store.settings.showHidden && (
-									<MenuItem
+									<MenuItem2
 										text={`Show ${typeName}${count === 1 ? '' : 's'}`}
 										icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
-										onClick={(e: React.SyntheticEvent) => {
-											e.stopPropagation();
-											if (isDialogDisabled) {
-												bulkShow.mutate();
-											} else {
-												state.setBulkShow(true);
-												bulkShowState.update('showHide', true);
-											}
-										}}
+										onClick={handleBulkShowClick}
 									/>
 								)}
-								<MenuItem
+								<MenuItem2
 									text={`Hide ${typeName}${count === 1 ? '' : 's'}`}
 									icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
-									onClick={(e: React.SyntheticEvent) => {
-										e.stopPropagation();
-										if (isDialogDisabled) {
-											bulkHide.mutate();
-										} else {
-											state.setBulkShow(false);
-											bulkHideState.update('showHide', true);
-										}
-									}}
+									onClick={handleBulkHideClick}
 								/>
 							</Menu>
 						}
