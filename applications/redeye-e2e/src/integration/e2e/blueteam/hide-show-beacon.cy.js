@@ -4,7 +4,7 @@ describe('Hide a beacon', () => {
 	const camp = 'hideshowbeacon';
 	const fileName = 'gt.redeye';
 
-	it('Hide beacon using toggle in left nav panel', () => {
+	it('Toggle hide/show switch using left nav panel', () => {
 		cy.uploadCampaignBlue(camp, fileName);
 
 		// Search for new campaign by name
@@ -27,7 +27,7 @@ describe('Hide a beacon', () => {
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});
 
-	it('Hide beacon using toggle on main page', () => {
+	it('Toggle hide/show switch from main page', () => {
 		// Toggle off switch for hidden beacons
 		cy.get('[cy-test=settings]').click();
 
@@ -38,6 +38,16 @@ describe('Hide a beacon', () => {
 		cy.get('[cy-test=settings]').click();
 
 		cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
+	});
+
+	it.skip('Verify Hide option is disabled in kebab menu', () => {
+		// Open campaign
+		cy.selectCampaign(camp);
+
+		// Navigate to the Beacons tab and open kebab menu for first beacon
+		cy.clickBeaconsTab();
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').should('be.disabled');
 	});
 
 	after(() => {
