@@ -13,6 +13,9 @@ import {
 	HierarchicalGraphNode,
 	SerializableHierarchicalGraphData,
 	CurrentTimeType,
+	GraphNode,
+	GraphNodeParent,
+	GraphLink,
 } from './types';
 import { hierarchicalGraphDataParser } from './hierarchicalGraphDataParser';
 
@@ -24,54 +27,120 @@ export class HierarchicalGraphData {
 	allNodes = new Map<string, HierarchicalGraphNode>();
 	allLinks = new Map<string, HierarchicalGraphLink>();
 
-	/** TODO: returns the current SerializableHierarchicalGraphData including simulation x,y data */
-	get parsedGraphData(): SerializableHierarchicalGraphData {
-		throw new Error('Not Implemented');
-		// TODO: return the object below after removing all links to other things and replacing them with id strings
-		// ...ie, the opposite of stratify
-		return {
-			nodes: [], // this.allNodes to Array
-			links: [], // this.allLinks to Array
-			baseLinks: [], // this.baseLinks to Array
-		};
-	}
-
 	constructor({
 		graphData,
 		onSelectionChange = noOp,
 		onPreviewChange = noOp,
 		onTimeChange = noOp,
 		onDataChange = noOp,
+		previouslyParsedGraphData,
 	}: {
 		graphData: GraphData;
 		onSelectionChange: HierarchicalGraphData['onSelectionChange'];
 		onPreviewChange: HierarchicalGraphData['onPreviewChange'];
 		onTimeChange: HierarchicalGraphData['onTimeChange'];
 		onDataChange: HierarchicalGraphData['onDataChange'];
+		previouslyParsedGraphData?: SerializableHierarchicalGraphData;
 	}) {
 		this.onSelectionChange = onSelectionChange;
 		this.onPreviewChange = onPreviewChange;
 		this.onTimeChange = onTimeChange;
 		this.onDataChange = onDataChange;
-		this.updateGraphData(graphData, false, false);
+		this.updateGraphData(graphData, {
+			previouslyParsedGraphData,
+			mergeWithCurrentGraphData: previouslyParsedGraphData != null,
+			fireEvent: false,
+		});
+	}
+
+	/** TODO: returns the current SerializableHierarchicalGraphData including simulation x,y data */
+	get parsedGraphData(): SerializableHierarchicalGraphData {
+		return {
+			nodes: Array.from(this.allNodes.values()).map((node) => ({
+				...node.data,
+				x: node.x,
+				y: node.y,
+			})),
+			links: Array.from(this.allLinks.values()).map((link) => link.data),
+			baseLinks: Array.from(this.baseLinks.values()).map((link) => link.data),
+		};
+	}
+
+	get graphData(): GraphData {
+		const allKeyNodes = Array.from(this.allNodes.values()).filter((node) => node.type === 'keyNode');
+		const nodes = allKeyNodes
+			.filter((node) => node.height === 0)
+			.map(
+				({ data: { id, name, isServer, start, end, className, shape }, ...node }): GraphNode => ({
+					id,
+					parent: node.parent!.parent!.id!,
+					name: name ?? id,
+					isServer,
+					start: start?.toDateString(),
+					end: end?.toDateString(),
+					className,
+					shape,
+					// x,y is actually the position of the groupNode center
+					x: node.parent?.x, // + node.x
+					y: node.parent?.y, // + node.y
+				})
+			);
+		const parents = allKeyNodes
+			.filter((node) => node.depth === 1)
+			.map(
+				({ data: { id, name, className }, x, y }): GraphNodeParent => ({
+					id,
+					name: name ?? id,
+					className,
+					x,
+					y,
+				})
+			);
+		const links = Array.from(this.baseLinks.values()).map(
+			(baseLink): GraphLink => ({
+				source: baseLink.source.data.id,
+				target: baseLink.target.data.id,
+				id: baseLink.id,
+			})
+		);
+		return {
+			nodes,
+			links,
+			parents,
+		};
 	}
 
 	/** fires when updateGraphData is called an the underlying dataset is updated */
 	private onDataChange: () => void;
 
 	/** merges new GraphData with the existing GraphData, retaining x,y coordinates for nodes that existed previously */
-	updateGraphData(graphData: GraphData, mergeWithCurrentGraphData = true, fireEvent = true) {
+	updateGraphData(
+		graphData: GraphData,
+		options?: {
+			mergeWithCurrentGraphData?: boolean;
+			previouslyParsedGraphData?: SerializableHierarchicalGraphData;
+			fireEvent?: boolean;
+		}
+	) {
+		const { mergeWithCurrentGraphData = true, previouslyParsedGraphData, fireEvent = true } = options || {};
 		const parsedGraphData = hierarchicalGraphDataParser(graphData);
 
-		if (mergeWithCurrentGraphData && this.allNodes.size > 0) {
-			parsedGraphData.nodes = parsedGraphData.nodes.map((node) => {
-				const currentNode = this.allNodes.get(node.id);
-				if (currentNode) {
-					node.x = currentNode.x;
-					node.y = currentNode.y;
-				}
-				return node;
-			});
+		if (mergeWithCurrentGraphData) {
+			const allNodes =
+				previouslyParsedGraphData != null
+					? new Map(previouslyParsedGraphData.nodes.map((node) => [node.id!, node]))
+					: this.allNodes.size > 0
+					? this.allNodes
+					: null;
+			if (allNodes != null) {
+				parsedGraphData.nodes.forEach((node) => {
+					const currentNode = allNodes.get(node.id);
+					if (currentNode) {
+						node.x = currentNode.x;
+						node.y = currentNode.y;
+					}
+				});
+			}
 		}
 
 		this.stratifyGraph(parsedGraphData);
@@ -98,6 +167,7 @@ export class HierarchicalGraphData {
 					target: this.allNodes.get(baseLink.target)!,
 					id: baseLink.id,
 					graphLinks: baseLink.graphLinks.map((graphLink) => this.allLinks.get(graphLink)!),
+					data: baseLink,
 				}),
 			])
 		);

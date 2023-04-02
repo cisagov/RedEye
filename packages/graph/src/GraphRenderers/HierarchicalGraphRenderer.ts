@@ -66,7 +66,7 @@ export class HierarchicalGraphRenderer {
 		this.simulation
 			.alphaDecay(0.001)
 			.alphaTarget(0.7)
-			.tick(300) // tick 500 times for initial layout
+			.tick(300) // tick 300 times for initial layout
 			.alphaTarget(0) // cool alpha
 			.alphaDecay(0.1)
 			.restart()

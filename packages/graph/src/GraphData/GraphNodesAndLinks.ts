@@ -16,6 +16,9 @@ export interface HierarchicalGraphNodeDatumProps {
 
 	className?: string;
 	shape?: PolygonShapeEx;
+
+	x?: number;
+	y?: number;
 }
 
 export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
@@ -58,8 +61,14 @@ export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
 		if (props.isServer) this.isServer = props.isServer;
 		if (props.start) this.start = new Date(props.start);
 		if (props.end) this.end = new Date(props.end);
+		this.x = props.x;
+		this.y = props.y;
 	}
 }
+// export type HierarchicalGraphNodeDatumStatic = HierarchicalGraphNodeDatum & {
+// 	start?: string;
+// 	end?: string;
+// }
 
 export interface HierarchicalGraphLinkDatumProps extends GraphLink {
 	parent: string;
@@ -105,10 +114,12 @@ export class HierarchicalGraphBaseLink implements CurrentTimeState {
 	id: string;
 	graphLinks: HierarchicalGraphLink[] = [];
 	currentTimeState?: CurrentTimeType;
+	data: BaseLink;
 	constructor(props: HierarchicalGraphBaseLink) {
 		this.source = props.source;
 		this.target = props.target;
 		this.id = props.id;
 		this.graphLinks = props.graphLinks;
+		this.data = props.data;
 	}
 }

@@ -34,7 +34,7 @@ export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validat
 	// create map of SuperNodes
 	const superNodes = new Map<string, HierarchicalGraphNodeDatum>();
 	graphData.nodes.forEach((node) => {
-		const { className, name } = parentNames.get(node.parent) || {};
+		const { className, name, x, y } = parentNames.get(node.parent) || {};
 		setMapKeyIfUnset(
 			superNodes,
 			node.parent,
@@ -46,6 +46,8 @@ export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validat
 				parent: ids.rootNodeName,
 				level: 'super',
 				type: 'keyNode',
+				x,
+				y,
 			})
 		);
 	});
@@ -58,6 +60,8 @@ export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validat
 				...node,
 				level: 'sub',
 				type: 'keyNode',
+				x: 0,
+				y: 0,
 			}),
 		])
 	);
@@ -110,6 +114,9 @@ export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validat
 				parent: subNode.parent,
 				level: 'group',
 				type: 'keyNode',
+				// see HierarchicalGraphData get graphData()
+				x: subNode.x,
+				y: subNode.y,
 			})
 		);
 		subNode.parent = groupNodeId;

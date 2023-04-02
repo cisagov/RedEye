@@ -7,6 +7,7 @@ import {
 	GraphZoomTransform,
 	HierarchyNodeSelection,
 	HierarchicalGraphNode,
+	SerializableHierarchicalGraphData,
 } from './GraphData/types';
 import {
 	zoom as d3Zoom,
@@ -42,6 +43,7 @@ export class GraphHandler {
 		onDataChange = noOp,
 		graphData,
 		element,
+		previouslyParsedGraphData,
 	}: {
 		onSelectionChange?: HierarchicalGraphData['onSelectionChange'];
 		onPreviewChange?: HierarchicalGraphData['onPreviewChange'];
@@ -49,6 +51,7 @@ export class GraphHandler {
 		onDataChange?: HierarchicalGraphData['onDataChange'];
 		graphData: GraphData;
 		element: SVGSVGElement;
+		previouslyParsedGraphData?: SerializableHierarchicalGraphData;
 	}) {
 		this.onSelectionChange = onSelectionChange;
 		this.onPreviewChange = onPreviewChange;
@@ -60,6 +63,7 @@ export class GraphHandler {
 			onPreviewChange: this._onPreviewChange,
 			onTimeChange: this._onTimeChange,
 			onDataChange: this._onDataChange,
+			previouslyParsedGraphData,
 		});
 
 		this.svg = d3Select(element)
