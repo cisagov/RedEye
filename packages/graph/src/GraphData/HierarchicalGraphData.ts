@@ -13,9 +13,6 @@ import {
 	HierarchicalGraphNode,
 	SerializableHierarchicalGraphData,
 	CurrentTimeType,
-	GraphNode,
-	GraphNodeParent,
-	GraphLink,
 } from './types';
 import { hierarchicalGraphDataParser } from './hierarchicalGraphDataParser';
 
@@ -63,50 +60,6 @@ export class HierarchicalGraphData {
 			})),
 			links: Array.from(this.allLinks.values()).map((link) => link.data),
 			baseLinks: Array.from(this.baseLinks.values()).map((link) => link.data),
-		};
-	}
-
-	get graphData(): GraphData {
-		const allKeyNodes = Array.from(this.allNodes.values()).filter((node) => node.type === 'keyNode');
-		const nodes = allKeyNodes
-			.filter((node) => node.height === 0)
-			.map(
-				({ data: { id, name, isServer, start, end, className, shape }, ...node }): GraphNode => ({
-					id,
-					parent: node.parent!.parent!.id!,
-					name: name ?? id,
-					isServer,
-					start: start?.toDateString(),
-					end: end?.toDateString(),
-					className,
-					shape,
-					// x,y is actually the position of the groupNode center
-					x: node.parent?.x, // + node.x
-					y: node.parent?.y, // + node.y
-				})
-			);
-		const parents = allKeyNodes
-			.filter((node) => node.depth === 1)
-			.map(
-				({ data: { id, name, className }, x, y }): GraphNodeParent => ({
-					id,
-					name: name ?? id,
-					className,
-					x,
-					y,
-				})
-			);
-		const links = Array.from(this.baseLinks.values()).map(
-			(baseLink): GraphLink => ({
-				source: baseLink.source.data.id,
-				target: baseLink.target.data.id,
-				id: baseLink.id,
-			})
-		);
-		return {
-			nodes,
-			links,
-			parents,
 		};
 	}
 

@@ -19,7 +19,7 @@ export interface GraphLink {
 	id: string;
 }
 
-export interface GraphNode extends Partial<SimulationPosition> {
+export interface GraphNode {
 	id: string;
 	parent: string;
 	name: string;
@@ -30,15 +30,10 @@ export interface GraphNode extends Partial<SimulationPosition> {
 	shape?: PolygonShapeEx;
 }
 
-export interface GraphNodeParent extends Partial<SimulationPosition> {
+export interface GraphNodeParent {
 	id: string;
 	name: string;
 	className?: string;
-}
-
-interface SimulationPosition {
-	x: number;
-	y: number;
 }
 
 export interface PreviewState {
