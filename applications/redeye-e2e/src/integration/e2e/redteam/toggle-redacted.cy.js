@@ -5,7 +5,7 @@ describe('Redacted mode toggle', () => {
 	const fileName = 'gt.redeye';
 
 	it('Toggle Redacted mode within a campaign', () => {
-		cy.uploadCampaignBlue(camp, fileName);
+		cy.uploadCampaign(camp, fileName);
 
 		cy.selectCampaign(camp);
 
