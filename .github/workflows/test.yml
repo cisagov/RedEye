@@ -41,8 +41,6 @@ jobs:
 
       - name: set node version
         uses: moonrepo/setup-moon-action@v1
-
-      - uses: moonrepo/setup-moon-action@v1
       - run: yarn install --immutable --inline-builds
       - run: yarn moon ci
       # - run: yarn run build
