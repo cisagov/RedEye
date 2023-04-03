@@ -6,7 +6,7 @@ import { createState, CarbonIcon } from '@redeye/client/components';
 import { store } from '@redeye/client/store';
 import { CoreTokens, PopoverButton, popoverOffset, ThemeClasses, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import type { ComponentProps } from 'react';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { InfoType } from '@redeye/client/types';
@@ -37,20 +37,22 @@ type HostRowProps = ComponentProps<'div'> & {
 export const BulkEdit = observer<HostRowProps>(
 	({ typeName, count = 0, bulkShow, bulkHide, bulkShowState, bulkHideState }) => {
 		const state = createState({
+			cantHideEntities: false,
+			isDialogDisabled: window.localStorage.getItem('disableDialog') === 'true',
 			bulkShow: true,
 			setBulkShow(bool: boolean) {
 				this.bulkShow = bool;
 			},
 		});
 
-		const isDialogDisabled = useMemo(
-			() => window.localStorage.getItem('disableDialog') === 'true',
-			[window.localStorage.getItem('disableDialog')]
-		);
+		// const isDialogDisabled = useMemo(
+		// 	() => window.localStorage.getItem('disableDialog') === 'true',
+		// 	[window.localStorage.getItem('disableDialog')]
+		// );
 
 		const handleBulkShowClick = useCallback((e: React.SyntheticEvent) => {
 			e.stopPropagation();
-			if (isDialogDisabled) {
+			if (window.localStorage.getItem('disableDialog') === 'true') {
 				bulkShow.mutate();
 			} else {
 				state.setBulkShow(true);
@@ -58,15 +60,62 @@ export const BulkEdit = observer<HostRowProps>(
 			}
 		}, []);
 
-		const handleBulkHideClick = useCallback((e: React.SyntheticEvent) => {
-			e.stopPropagation();
-			if (isDialogDisabled) {
-				bulkHide.mutate();
-			} else {
-				state.setBulkShow(false);
-				bulkHideState.update('showHide', true);
-			}
-		}, []);
+		const handleBulkHideClick = useCallback(
+			async (e: React.SyntheticEvent) => {
+				e.stopPropagation();
+				state.update('cantHideEntities', false);
+				state.update('isDialogDisabled', window.localStorage.getItem('disableDialog') === 'true');
+				// const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
+				const data =
+					typeName === 'Beacon'
+						? await store.graphqlStore.queryNonHideableEntities({
+								campaignId: store.campaign.id!,
+								beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
+						  })
+						: await store.graphqlStore.queryNonHideableEntities({
+								campaignId: store.campaign.id!,
+								hostIds: [
+									...(store.campaign?.hostGroupSelect.selectedHosts || ''),
+									...(store.campaign?.hostGroupSelect.selectedServers || ''),
+								],
+						  });
+				const cantHideEntities =
+					((typeName === 'Beacon'
+						? data?.nonHideableEntities.beacons?.length
+						: [...(data?.nonHideableEntities.hosts || ''), ...(data?.nonHideableEntities.servers || '')]?.length) ||
+						0) > 0;
+
+				const isDialogDisabled =
+					(window.localStorage.getItem('disableDialog') === 'true' && !cantHideEntities) || false;
+				state.update('cantHideEntities', cantHideEntities);
+				state.update('isDialogDisabled', isDialogDisabled);
+				// console.log(
+				// 	store.campaign?.beaconGroupSelect.selectedBeacons,
+				// 	data?.nonHideableEntities.beacons,
+				// 	data?.nonHideableEntities.servers,
+				// 	cantHideEntities,
+				// 	isDialogDisabled,
+				// 	state.isDialogDisabled,
+				// 	window.localStorage.getItem('disableDialog') === 'true',
+				// 	!cantHideEntities,
+				// 	bulkHideState.showHide
+				// );
+
+				if (isDialogDisabled) {
+					bulkHide.mutate();
+				} else {
+					state.setBulkShow(false);
+					bulkHideState.update('showHide', true);
+				}
+			},
+			[
+				store.campaign?.beaconGroupSelect.selectedBeacons,
+				store.campaign?.hostGroupSelect.selectedHosts,
+				state.bulkShow,
+				state.cantHideEntities,
+				state.isDialogDisabled,
+			]
+		);
 
 		return (
 			<>
@@ -112,7 +161,7 @@ export const BulkEdit = observer<HostRowProps>(
 						}
 					/>
 				</div>
-				{!isDialogDisabled && (
+				{!state.isDialogDisabled && (
 					<ToggleHiddenDialog
 						typeName={typeName.toLowerCase()}
 						isOpen={state.bulkShow ? bulkShowState.showHide : bulkHideState.showHide}
@@ -127,7 +176,7 @@ export const BulkEdit = observer<HostRowProps>(
 							}
 						}}
 						onHide={() => (state.bulkShow ? bulkShow.mutate() : bulkHide.mutate())}
-						// last={last}  // todo - need a way to disable hide last item
+						cantHideEntities={state.cantHideEntities}
 						bulk={count > 1}
 					/>
 				)}

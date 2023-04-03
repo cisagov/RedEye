@@ -19,7 +19,7 @@ import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-// import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
+import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -94,10 +94,9 @@ export const BeaconMeta = observer((props) => {
 
 	// hooks not working? AAA
 	// const { cantHideEntities: last, isDialogDisabled: is2 } = useCheckNonHideableEntities(
-	// 	'beacon',
-	// 	beacon?.hidden || false,
-	// 	[beacon?.id || '']
-	// );
+	const testAAA = useCheckNonHideableEntities('beacon', beacon?.hidden || false, [beacon?.id || '']);
+	console.log('testAAA: ', testAAA);
+	// test queryNonHideableEntities
 
 	const { data } = useQuery(
 		['beacons', 'can-hide', store.campaign?.id],

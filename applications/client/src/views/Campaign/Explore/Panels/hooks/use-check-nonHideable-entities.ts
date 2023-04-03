@@ -1,10 +1,9 @@
-import { isDefined } from '@redeye/client/components';
 import type { HostModel, BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-export const useCheckNonHideableEntities = (typeName: string, hidden: boolean, beaconIds: string[]) => {
+export const useCheckNonHideableEntities = async (typeName: string, hidden: boolean, beaconIds: string[]) => {
 	const store = useStore();
 
 	// const last = useMemo(
@@ -18,19 +17,32 @@ export const useCheckNonHideableEntities = (typeName: string, hidden: boolean, b
 	// 	// 	: false,
 	// 	[typeName, unhiddenServerCount, unhiddenHostCount, unhiddenBeaconCount, data?.nonHideableEntities]
 	// );
-
+	const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
 	const { data } = useQuery(
 		['beacons', 'can-hide', store.campaign?.id],
 		async () =>
 			await store.graphqlStore.queryNonHideableEntities({
 				campaignId: store.campaign.id!,
-				// beaconIds,
+				beaconIds,
 				// beaconIds: ['COMPUTER02-330588776'],
 				// beaconIds: ['COMPUTER03-500978634', 'COMPUTER03-1042756528'],
-				beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
+				// beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
 				// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-2146137244'],
+				// [entityIds]: ['COMPUTER03-1042756528'],
 			})
 	);
+
+	// const data = await store.graphqlStore.queryNonHideableEntities({
+	// 	campaignId: store.campaign.id!,
+	// 	beaconIds,
+	// 	// beaconIds: ['COMPUTER02-330588776'],
+	// 	// beaconIds: ['COMPUTER03-500978634', 'COMPUTER03-1042756528'],
+	// 	// beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
+	// 	// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-2146137244'],
+	// 	// [entityIds]: ['COMPUTER03-1042756528'],
+	// 	// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-330588776', 'COMPUTER02-2146137244'],
+	// });
+
 	if (data?.nonHideableEntities) {
 		console.log(
 			'2',

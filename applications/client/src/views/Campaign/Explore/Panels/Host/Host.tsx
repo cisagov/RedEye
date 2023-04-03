@@ -73,7 +73,6 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	);
 
 	const handleQuickMetaClick = useCallback(async () => {
-		// let data1:{ nonHideableEntities: CantHideEntitiesModel }
 		const data = await store.graphqlStore.queryNonHideableEntities({
 			campaignId: store.campaign.id!,
 			hostIds: [(host.cobaltStrikeServer ? host?.serverId : host?.id) || ''],
