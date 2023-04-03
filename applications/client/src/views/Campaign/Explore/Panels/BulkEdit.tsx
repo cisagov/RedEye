@@ -50,8 +50,7 @@ export const BulkEdit = observer<HostRowProps>(
 		// 	[window.localStorage.getItem('disableDialog')]
 		// );
 
-		const handleBulkShowClick = useCallback((e: React.SyntheticEvent) => {
-			e.stopPropagation();
+		const handleBulkShowClick = useCallback(() => {
 			if (window.localStorage.getItem('disableDialog') === 'true') {
 				bulkShow.mutate();
 			} else {
@@ -60,62 +59,57 @@ export const BulkEdit = observer<HostRowProps>(
 			}
 		}, []);
 
-		const handleBulkHideClick = useCallback(
-			async (e: React.SyntheticEvent) => {
-				e.stopPropagation();
-				state.update('cantHideEntities', false);
-				state.update('isDialogDisabled', window.localStorage.getItem('disableDialog') === 'true');
-				// const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
-				const data =
-					typeName === 'Beacon'
-						? await store.graphqlStore.queryNonHideableEntities({
-								campaignId: store.campaign.id!,
-								beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
-						  })
-						: await store.graphqlStore.queryNonHideableEntities({
-								campaignId: store.campaign.id!,
-								hostIds: [
-									...(store.campaign?.hostGroupSelect.selectedHosts || ''),
-									...(store.campaign?.hostGroupSelect.selectedServers || ''),
-								],
-						  });
-				const cantHideEntities =
-					((typeName === 'Beacon'
-						? data?.nonHideableEntities.beacons?.length
-						: [...(data?.nonHideableEntities.hosts || ''), ...(data?.nonHideableEntities.servers || '')]?.length) ||
-						0) > 0;
+		const handleBulkHideClick = useCallback(async () => {
+			state.update('cantHideEntities', false);
+			state.update('isDialogDisabled', window.localStorage.getItem('disableDialog') === 'true');
+			// const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
+			const data =
+				typeName === 'Beacon'
+					? await store.graphqlStore.queryNonHideableEntities({
+							campaignId: store.campaign.id!,
+							beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
+					  })
+					: await store.graphqlStore.queryNonHideableEntities({
+							campaignId: store.campaign.id!,
+							hostIds: [
+								...(store.campaign?.hostGroupSelect.selectedHosts || ''),
+								...(store.campaign?.hostGroupSelect.selectedServers || ''),
+							],
+					  });
+			const cantHideEntities =
+				((typeName === 'Beacon'
+					? data?.nonHideableEntities.beacons?.length
+					: [...(data?.nonHideableEntities.hosts || ''), ...(data?.nonHideableEntities.servers || '')]?.length) || 0) >
+				0;
 
-				const isDialogDisabled =
-					(window.localStorage.getItem('disableDialog') === 'true' && !cantHideEntities) || false;
-				state.update('cantHideEntities', cantHideEntities);
-				state.update('isDialogDisabled', isDialogDisabled);
-				// console.log(
-				// 	store.campaign?.beaconGroupSelect.selectedBeacons,
-				// 	data?.nonHideableEntities.beacons,
-				// 	data?.nonHideableEntities.servers,
-				// 	cantHideEntities,
-				// 	isDialogDisabled,
-				// 	state.isDialogDisabled,
-				// 	window.localStorage.getItem('disableDialog') === 'true',
-				// 	!cantHideEntities,
-				// 	bulkHideState.showHide
-				// );
+			const isDialogDisabled = (window.localStorage.getItem('disableDialog') === 'true' && !cantHideEntities) || false;
+			state.update('cantHideEntities', cantHideEntities);
+			state.update('isDialogDisabled', isDialogDisabled);
+			// console.log(
+			// 	store.campaign?.beaconGroupSelect.selectedBeacons,
+			// 	data?.nonHideableEntities.beacons,
+			// 	data?.nonHideableEntities.servers,
+			// 	cantHideEntities,
+			// 	isDialogDisabled,
+			// 	state.isDialogDisabled,
+			// 	window.localStorage.getItem('disableDialog') === 'true',
+			// 	!cantHideEntities,
+			// 	bulkHideState.showHide
+			// );
 
-				if (isDialogDisabled) {
-					bulkHide.mutate();
-				} else {
-					state.setBulkShow(false);
-					bulkHideState.update('showHide', true);
-				}
-			},
-			[
-				store.campaign?.beaconGroupSelect.selectedBeacons,
-				store.campaign?.hostGroupSelect.selectedHosts,
-				state.bulkShow,
-				state.cantHideEntities,
-				state.isDialogDisabled,
-			]
-		);
+			if (isDialogDisabled) {
+				bulkHide.mutate();
+			} else {
+				state.setBulkShow(false);
+				bulkHideState.update('showHide', true);
+			}
+		}, [
+			store.campaign?.beaconGroupSelect.selectedBeacons,
+			store.campaign?.hostGroupSelect.selectedHosts,
+			state.bulkShow,
+			state.cantHideEntities,
+			state.isDialogDisabled,
+		]);
 
 		return (
 			<>
