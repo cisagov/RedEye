@@ -27,6 +27,10 @@ jobs:
   install:
     needs: ['prepare']
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [16.19.0]
 
     steps:
       - name: Checkout
@@ -37,13 +41,12 @@ jobs:
       - name: Cache
         uses: actions/setup-node@v3
         with:
+          node-version: 16.19.0
           cache: 'yarn'
 
-      - name: set node version
-        uses: moonrepo/setup-moon-action@v1
       - run: yarn install --immutable --inline-builds
       - run: yarn moon ci
-      # - run: yarn run build
+      - run: yarn run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
