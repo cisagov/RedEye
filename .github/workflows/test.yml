@@ -42,9 +42,10 @@ jobs:
       - name: set node version
         uses: moonrepo/setup-moon-action@v1
 
+      - uses: moonrepo/setup-moon-action@v1
       - run: yarn install --immutable --inline-builds
       - run: yarn moon ci
-      - run: yarn run build
+      # - run: yarn run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -67,10 +68,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache
-        uses: actions/setup-node@v3
-        with:
-          cache: 'yarn'
+      # - name: Cache
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     cache: 'yarn'
 
       - name: Download the build folders
         uses: actions/download-artifact@v3
@@ -78,6 +79,7 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
+      - uses: moonrepo/setup-moon-action@v1
       - run: yarn install --immutable --inline-builds
       - run: yarn moon ci
 
@@ -112,10 +114,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache
-        uses: actions/setup-node@v3
-        with:
-          cache: 'yarn'
+      # - name: Cache
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     cache: 'yarn'
 
       - name: Download the build folders
         uses: actions/download-artifact@v3
@@ -123,6 +125,7 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
+      - uses: moonrepo/setup-moon-action@v1
       - run: yarn install --immutable --inline-builds
       - run: yarn moon ci
 
