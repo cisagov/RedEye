@@ -19,7 +19,7 @@ describe('Meta tab fields disabled', () => {
 
 		// Verify Display Name, TOD, and Type fields are disabled
 		cy.get('[cy-test=beacon-display-name]').should('be.disabled');
-		cy.get('[cy-test=beacon-time-of-death]').should('be.disabled');
+		cy.get('[cy-test=save-beacon-time-of-death]').should('be.disabled');
 		cy.get('[cy-test=type-dropdown]').should('be.disabled');
 	});
 
