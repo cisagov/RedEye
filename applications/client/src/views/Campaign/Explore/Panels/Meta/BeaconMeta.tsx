@@ -2,7 +2,7 @@ import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
 import { DateInput2 } from '@blueprintjs/datetime2';
 import { CarbonIcon, dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/store';
+import type { AppStore, CantHideEntitiesModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { BeaconType } from '@redeye/client/store/graphql/BeaconTypeEnum';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -20,6 +20,16 @@ import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
+
+type BeaconQueryResult = {
+	data:
+		| {
+				nonHideableEntities: CantHideEntitiesModel;
+		  }
+		| undefined;
+	cantHideEntities: boolean;
+	isDialogDisabled: boolean;
+};
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -92,10 +102,10 @@ export const BeaconMeta = observer((props) => {
 
 	// const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
 
-	// hooks not working? AAA
+	// hooks resolve promise? AAA
 	// const { cantHideEntities: last, isDialogDisabled: is2 } = useCheckNonHideableEntities(
-	const testAAA = useCheckNonHideableEntities('beacon', beacon?.hidden || false, [beacon?.id || '']);
-	console.log('testAAA: ', testAAA);
+	const beaconQueryResult = useCheckNonHideableEntities('Beacon', beacon?.hidden || false, [beacon?.id || '']);
+	console.log('beaconQueryResult: ', beaconQueryResult);
 	// test queryNonHideableEntities
 
 	const { data } = useQuery(

@@ -3,60 +3,47 @@ import { useStore } from '@redeye/client/store';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-export const useCheckNonHideableEntities = async (typeName: string, hidden: boolean, beaconIds: string[]) => {
+export const useCheckNonHideableEntities = async (typeName: 'Beacon' | 'Host', hidden: boolean, ids: string[]) => {
 	const store = useStore();
 
-	// const last = useMemo(
-	// 	() => data?.nonHideableEntities?.beacons?.[0] === beaconIds?.[0] || false,
-	// 	// typeName === 'server'
-	// 	// 	? unhiddenServerCount === 1
-	// 	// 	: typeName === 'host'
-	// 	// 	? unhiddenHostCount === 1
-	// 	// 	: typeName === 'beacon'
-	// 	// 	? unhiddenBeaconCount === 1
-	// 	// 	: false,
-	// 	[typeName, unhiddenServerCount, unhiddenHostCount, unhiddenBeaconCount, data?.nonHideableEntities]
-	// );
 	const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
 	const { data } = useQuery(
 		['beacons', 'can-hide', store.campaign?.id],
 		async () =>
 			await store.graphqlStore.queryNonHideableEntities({
 				campaignId: store.campaign.id!,
-				beaconIds,
+				[entityIds]: ids,
+				// beaconIds:ids,
 				// beaconIds: ['COMPUTER02-330588776'],
 				// beaconIds: ['COMPUTER03-500978634', 'COMPUTER03-1042756528'],
 				// beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
 				// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-2146137244'],
-				// [entityIds]: ['COMPUTER03-1042756528'],
 			})
 	);
 
+	// // Uncaught (in promise) Error: Invalid hook call. Hooks can only be called inside of the body of a function component.
 	// const data = await store.graphqlStore.queryNonHideableEntities({
 	// 	campaignId: store.campaign.id!,
-	// 	beaconIds,
+	// 	// ids,
 	// 	// beaconIds: ['COMPUTER02-330588776'],
 	// 	// beaconIds: ['COMPUTER03-500978634', 'COMPUTER03-1042756528'],
 	// 	// beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
 	// 	// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-2146137244'],
-	// 	// [entityIds]: ['COMPUTER03-1042756528'],
-	// 	// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-330588776', 'COMPUTER02-2146137244'],
+	// 	[entityIds]: ids,
 	// });
 
 	if (data?.nonHideableEntities) {
 		console.log(
 			'2',
 			store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
-			beaconIds,
+			ids,
 			data?.nonHideableEntities?.beacons,
-			beaconIds[0] === ['COMPUTER02-330588776'][0],
-			data?.nonHideableEntities?.beacons?.[0] === beaconIds?.[0]
+			ids[0] === ['COMPUTER02-330588776'][0],
+			data?.nonHideableEntities?.beacons?.[0] === ids?.[0]
 		);
-		// console.log(data?.nonHideableEntities, cantHideEntities, isDialogDisabled)
 	}
 
-	// const last = (data?.nonHideable/Entities?.beacons?.length || 0) > 0;
-	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.beacons?.length || 0) > 0, [beaconIds, data]);
+	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.beacons?.length || 0) > 0, [ids, data]);
 
 	const isDialogDisabled = useMemo(
 		() =>
