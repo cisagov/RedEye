@@ -8,7 +8,7 @@ tasks:
     options:
       runFromWorkspaceRoot: true
   open-cy-blue:
-    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:start-cypress"'
+    command: 'concurrently "start:server-blue" "yarn start:client" "yarn moon run redeye-e2e:start-cypress"'
     local: true
     options:
       runFromWorkspaceRoot: true

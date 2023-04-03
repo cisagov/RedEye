@@ -13,6 +13,19 @@ tasks:
       - ~:start-node
     options:
       runInCI: false
+      cache: false
+  start-dev-blue:
+    local: true
+    deps:
+      - ^:build
+      - ~:start-node
+    options:
+      runInCI: false
+      cache: false
+      outputStyle: 'stream'
+      mergeArgs: 'replace'
+    env:
+      SERVER_BLUE_TEAM: 'true'
   release-mac:
     deps:
       - '@redeye/client:build'

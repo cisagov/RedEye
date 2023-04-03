@@ -43,6 +43,7 @@ jobs:
         uses: moonrepo/setup-moon-action@v1
 
       - run: yarn install --immutable --inline-builds
+      - run: yarn moon ci
       - run: yarn run build
 
       - name: Save build folder
@@ -78,11 +79,12 @@ jobs:
           path: .moon/cache
 
       - run: yarn install --immutable --inline-builds
+      - run: yarn moon ci
 
       - name: Red Team Tests - Chrome
         uses: cypress-io/github-action@v5
         with:
-          start: yarn start
+          start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Red Team - Chrome'
@@ -122,11 +124,12 @@ jobs:
           path: .moon/cache
 
       - run: yarn install --immutable --inline-builds
+      - run: yarn moon ci
 
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5
         with:
-          start: SERVER_BLUE_TEAM=true yarn start
+          start: yarn start:client, yarn start:server-blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Blue Team - Chrome'
