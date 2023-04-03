@@ -1,6 +1,6 @@
 import type { BreadcrumbProps, BreadcrumbsProps } from '@blueprintjs/core';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { CommandModel } from '@redeye/client/store';
+import type { BeaconModel, CommandModel } from '@redeye/client/store';
 import { routes, useStore } from '@redeye/client/store';
 import type { BreadcrumbsStyledProps } from '@redeye/client/views';
 import { BreadcrumbsStyled } from '@redeye/client/views';
@@ -12,6 +12,8 @@ import type { UUID } from '../../../../types';
 
 type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 	BreadcrumbsStyledProps & {
+		/** if specified, show a nav to the beacon, otherwise display nav relative to the current route */
+		beacon?: BeaconModel;
 		/** if specified, show a nav from the command, otherwise display nav relative to the current route */
 		command?: CommandModel;
 		// from: ServerModel | HostModel | BeaconModelType | CommandModelType // instead of command
@@ -19,18 +21,21 @@ type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 		onNavigate?: (event: MouseEvent<HTMLElement>) => void;
 		/** hide the root "All" nav */
 		hideRoot?: boolean;
+		/** hide the root "All" nav and the Server */
+		hideServer?: boolean;
 		/** show the "current" part of the route */
 		showCurrent?: boolean;
 	};
 export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
-	({ command, onNavigate = () => {}, hideRoot = false, showCurrent = false, ...props }) => {
+	({ command, beacon, onNavigate = () => {}, hideRoot = false, hideServer = false, showCurrent = false, ...props }) => {
 		// TODO: maybe state.breadCrumbs and state.commandBreadCrumbs could be combined?
 
 		const store = useStore();
 
 		const state = createState({
 			command,
-			get breadCrumbs() {
+			beacon,
+			get relativeBreadCrumbs() {
 				const crumbs: Array<BreadcrumbProps> = [];
 
 				const isHome = !(
@@ -105,29 +110,39 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 				if (store.campaign?.interactionState.selectedBeacon) crumbs.push({ text: 'Beacon', current: true });
 				return crumbs;
 			},
-			get commandBreadCrumbs() {
+			get breadCrumbs() {
+				const currentBeacon = this.command?.beacon?.current ?? this.beacon;
+				if (!currentBeacon) return this.relativeBreadCrumbs;
+
+				// There must be a better way to know this
+				const beaconIsServer = currentBeacon.beaconName === currentBeacon.server?.name;
+
 				const crumbs: Array<BreadcrumbProps> = [];
 
-				if (!hideRoot)
+				if (!hideRoot && !hideServer)
 					crumbs.push({
 						text: 'All',
 						onClick: async (e) => {
 							e.stopPropagation();
 							await onNavigate(e);
-							await this.command?.beacon?.current?.select();
+							await currentBeacon?.select();
 						},
 					});
 
-				crumbs.push(
-					{
-						text: this.command?.beacon?.current?.server?.displayName ?? 'Server',
+				if (!hideServer || beaconIsServer)
+					crumbs.push({
+						text: currentBeacon?.server?.displayName ?? 'Server',
 						onClick: async (e) => {
 							await onNavigate(e);
-							this.command?.beacon?.current?.server?.select();
+							currentBeacon?.server?.select();
 						},
-					},
+					});
+
+				if (beaconIsServer) return crumbs;
+
+				crumbs.push(
 					{
-						text: this.command?.beacon?.current?.host?.current?.displayName,
+						text: currentBeacon?.host?.current?.displayName,
 						onClick: async (e) => {
 							e.stopPropagation();
 							if (
@@ -136,18 +151,16 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 								store.router.params.currentItem === 'command-type'
 							) {
 								await onNavigate(e);
-								this.command?.beacon?.current?.host?.current?.navCommandSelect();
+								currentBeacon?.host?.current?.navCommandSelect();
 							}
 						},
 					},
 					{
-						text: `${this.command?.beacon?.current?.displayName} ${
-							this.command?.beacon?.current?.meta?.[0]?.maybeCurrent?.username || ''
-						}`,
+						text: `${currentBeacon?.displayName} ${currentBeacon?.meta?.[0]?.maybeCurrent?.username || ''}`,
 						onClick: async (e) => {
 							e.stopPropagation();
 							await onNavigate(e);
-							this.command?.beacon?.current?.select('command', this.command?.id as UUID);
+							currentBeacon?.select('command', this.command?.id as UUID);
 						},
 					},
 					{
@@ -162,18 +175,11 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 
 		useEffect(() => {
 			state.update('command', command);
-		}, [command]);
+			state.update('beacon', beacon);
+		}, [command, beacon]);
 
-		const crumbs = (state.command != null ? state.commandBreadCrumbs : state.breadCrumbs).filter(
-			(crumb) => !crumb.current || showCurrent
-		);
+		const crumbs = state.breadCrumbs.filter((crumb) => !crumb.current || showCurrent);
 
-		return (
-			<BreadcrumbsStyled
-				// css={css``}
-				items={crumbs}
-				{...props}
-			/>
-		);
+		return <BreadcrumbsStyled items={crumbs} {...props} />;
 	}
 );

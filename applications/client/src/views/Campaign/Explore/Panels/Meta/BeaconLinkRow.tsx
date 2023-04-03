@@ -1,38 +1,46 @@
+import { Classes } from '@blueprintjs/core';
 import { css } from '@emotion/react';
-import { FlexSplitter, Spacer, Txt } from '@redeye/ui-styles';
-import type { ComponentProps, FC } from 'react';
-import { InfoRow } from '../../components';
+import { CarbonIcon, semanticIcons } from '@redeye/client/components';
+import type { LinkModel } from '@redeye/client/store';
+import { CoreTokens, Flex, FlexSplitter, Txt } from '@redeye/ui-styles';
+import type { FlexProps } from '@redeye/ui-styles';
+import { observer } from 'mobx-react-lite';
+import { NavBreadcrumbs } from '../../components';
 
-export type BeaconLinkRowProps = ComponentProps<'div'> & {
-	direction?: string | null;
-	host?: string | null;
-	beacon?: string | null;
-	command?: string | null;
+export type BeaconLinkRowProps = FlexProps & {
+	direction: 'To' | 'From';
+	link: LinkModel;
 };
 
-export const BeaconLinkRow: FC<BeaconLinkRowProps> = ({ direction, host, beacon, command, ...props }) => (
-	<InfoRow css={wrapperStyle} {...props}>
-		<Txt disabled css={directionStyle}>
-			{direction}
-		</Txt>
-		<Txt ellipsize>
-			<Txt>{host}</Txt>
-			<Spacer>/</Spacer>
-			<Txt>{beacon}</Txt>
-		</Txt>
+export const BeaconLinkRow = observer<BeaconLinkRowProps>(({ direction, link, ...props }) => (
+	<Flex gap={8} align="center" {...props}>
+		<Flex gap={4} align="center" css={{ flexBasis: 60, color: CoreTokens.TextMuted }}>
+			<CarbonIcon icon={direction === 'To' ? semanticIcons.linkTo : semanticIcons.linkFrom} />
+			<Txt>{direction}</Txt>
+		</Flex>
+		<NavBreadcrumbs
+			muted
+			hideServer
+			beacon={direction === 'To' ? link.destination?.current : link.origin?.current}
+			css={navBreadCrumbsStyle}
+		/>
+		{/* <Spacer>/</Spacer> */}
+		{link.command?.current ? (
+			<Txt muted>{link.command.current.inputText}</Txt>
+		) : (
+			<Txt disabled italic>
+				unknown
+			</Txt>
+		)}
 		<FlexSplitter />
-		<Txt muted>{command}</Txt>
-	</InfoRow>
-);
+		{/* TODO: comment related to link...
+			<HeroButton children={<CarbonIcon cy-test="add-comment" icon={semanticIcons.comment} />} /> 
+		*/}
+	</Flex>
+));
 
-const wrapperStyle = css`
-	display: flex;
-	padding: 0 0.25rem;
-	margin-left: -0.25rem;
-	height: auto;
-`;
-
-const directionStyle = css`
-	min-width: 6ch;
-	margin-right: 5px;
+const navBreadCrumbsStyle = css`
+	.${Classes.BREADCRUMB} {
+		color: ${CoreTokens.TextBody} !important;
+	}
 `;

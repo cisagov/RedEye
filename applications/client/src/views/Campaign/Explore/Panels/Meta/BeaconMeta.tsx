@@ -6,7 +6,7 @@ import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/s
 import { BeaconType } from '@redeye/client/store/graphql/BeaconTypeEnum';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
-import { Spacer, Txt } from '@redeye/ui-styles';
+import { Flex, Spacer, Txt } from '@redeye/ui-styles';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
@@ -18,7 +18,7 @@ import { CaretDown16 } from '@carbon/icons-react';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
+import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
@@ -57,7 +57,7 @@ const getMinMaxDate = (minDate: Date | null | undefined, maxDate: Date | null | 
 	return { minDate: min?.startOf('day').toDate(), maxDate: max?.add(1, 'day').startOf('day').toDate() };
 };
 
-export const BeaconMeta = observer(() => {
+export const BeaconMeta = observer((props) => {
 	const store = useStore();
 	const beacon = store.campaign.interactionState.selectedBeacon?.current;
 	const lastCommand = useGetLastBeaconCommand(store, beacon?.id as string, beacon?.host?.id as string);
@@ -126,6 +126,15 @@ export const BeaconMeta = observer(() => {
 		});
 	});
 
+	const dateInputOnChange = (datetime) => {
+		const min = store.campaign.timeline.maxRange?.[0];
+		const max = store.campaign.timeline.maxRange?.[1];
+		const clampedDatetime =
+			min && max && datetime ? momentClamp({ value: datetime, min, max }).toISOString() : datetime;
+		state.update('displayDeath', clampedDatetime);
+		state.update('displayDeathNeedsSaving', true);
+	};
+
 	const { mutate: beaconTypeMutate } = useMutation(
 		async () =>
 			await store.graphqlStore.mutateUpdateBeaconMetadata({
@@ -145,134 +154,113 @@ export const BeaconMeta = observer(() => {
 	};
 
 	return (
-		<MetaGridLayout>
-			<MetaHeader>Display Name</MetaHeader>
-			<InputGroup
-				cy-test="beacon-display-name"
-				fill
-				disabled={!!store.appMeta.blueTeam}
-				placeholder={beacon?.beaconName || ''}
-				value={state.displayName}
-				onChange={(e) => {
-					state.update('displayName', e.target.value);
-					state.update('displayNameNeedsSaving', true);
-				}}
-				// Add a button to save. can also have fxn that checks every n seconds and
-				// saves if no change or rely on tabbing away, clicking away, or hitting enter
-				rightElement={
-					<SaveInputButton
-						cy-test="save-beacon-name"
-						disabled={!state.displayNameNeedsSaving}
-						onClick={() => displayNameMutate()}
+		<div {...props}>
+			{/* <MetaCommentButton /> TODO: implement later */}
+			<MetaSection>
+				<MetaGridLayout>
+					<MetaLabel>Display Name</MetaLabel>
+					<InputGroup
+						cy-test="beacon-display-name"
+						fill
+						disabled={!!store.appMeta.blueTeam}
+						placeholder={beacon?.beaconName || ''}
+						value={state.displayName}
+						onChange={(e) => {
+							state.update('displayName', e.target.value);
+							state.update('displayNameNeedsSaving', true);
+						}}
+						// Add a button to save. can also have fxn that checks every n seconds and
+						// saves if no change or rely on tabbing away, clicking away, or hitting enter
+						rightElement={
+							<SaveInputButton
+								cy-test="save-beacon-name"
+								disabled={!state.displayNameNeedsSaving}
+								onClick={() => displayNameMutate()}
+							/>
+						}
 					/>
-				}
-			/>
-			<MetaHeader>Process</MetaHeader>
-			<Txt>{beacon?.meta[0]?.maybeCurrent?.ip}</Txt>
-			<MetaHeader>pid</MetaHeader>
-			<Txt>{beacon?.meta[0]?.maybeCurrent?.pid}</Txt>
-			<MetaHeader>Time of Death </MetaHeader>
-			<div cy-test="beacon-time-of-death">
-				<DateInput2
-					key={store.settings.timezone}
-					disabled={!!store.appMeta.blueTeam}
-					value={store.settings.momentTz(state.displayDeath).toISOString()}
-					disableTimezoneSelect
-					defaultTimezone={store.settings.timezone}
-					timePrecision="minute"
-					fill
-					closeOnSelection={false}
-					canClearSelection={false}
-					formatDate={(date) => (date == null ? '' : moment(date).format(dateTimeFormat))}
-					parseDate={(str) => store.settings.momentTz(str).toDate()}
-					onChange={(datetime) => {
-						const min = store.campaign.timeline.maxRange?.[0];
-						const max = store.campaign.timeline.maxRange?.[1];
-						const clampedDatetime =
-							min && max && datetime ? momentClamp({ value: datetime, min, max }).toISOString() : datetime;
-						state.update('displayDeath', clampedDatetime);
-						state.update('displayDeathNeedsSaving', true);
-					}}
-					{...getMinMaxDate(store.campaign.timeline.maxRange?.[0], store.campaign.timeline.maxRange?.[1])}
-					rightElement={
-						<SaveInputButton
-							cy-test="save-beacon-time-of-death"
-							disabled={!state.displayDeathNeedsSaving}
-							onClick={() => timeOfDeathMutate()}
+					<MetaLabel>Process</MetaLabel>
+					<Txt>{beacon?.meta[0]?.maybeCurrent?.ip}</Txt>
+					<MetaLabel>pid</MetaLabel>
+					<Txt>{beacon?.meta[0]?.maybeCurrent?.pid}</Txt>
+					<MetaLabel>Time of Death </MetaLabel>
+					<div cy-test="beacon-time-of-death">
+						<DateInput2
+							key={store.settings.timezone}
+							disabled={!!store.appMeta.blueTeam}
+							value={store.settings.momentTz(state.displayDeath).toISOString()}
+							disableTimezoneSelect
+							defaultTimezone={store.settings.timezone}
+							timePrecision="minute"
+							fill
+							closeOnSelection={false}
+							canClearSelection={false}
+							formatDate={(date) => (date == null ? '' : moment(date).format(dateTimeFormat))}
+							parseDate={(str) => store.settings.momentTz(str).toDate()}
+							onChange={dateInputOnChange}
+							{...getMinMaxDate(store.campaign.timeline.maxRange?.[0], store.campaign.timeline.maxRange?.[1])}
+							rightElement={
+								<SaveInputButton
+									cy-test="save-beacon-time-of-death"
+									disabled={!state.displayDeathNeedsSaving}
+									onClick={() => timeOfDeathMutate()}
+								/>
+							}
+							popoverProps={{
+								// defaultIsOpen: state.showDayTimePicker,
+								onOpened: () => state.toggleShowDayTimePicker(true),
+								onClosed: () => state.toggleShowDayTimePicker(false),
+							}}
 						/>
-					}
-					popoverProps={{
-						// defaultIsOpen: state.showDayTimePicker,
-						onOpened: () => state.toggleShowDayTimePicker(true),
-						onClosed: () => state.toggleShowDayTimePicker(false),
-					}}
-				/>
-				<div css={{ marginTop: '0.5rem' }}>
-					<Txt small bold>
-						Final Command
-					</Txt>
-					<Spacer />
-					<Txt small>{cmdText}</Txt>
-				</div>
-			</div>
-			<MetaHeader>Type</MetaHeader>
-			<Select2
-				disabled={!!store.appMeta.blueTeam}
-				items={beaconTypeSelectItems}
-				itemRenderer={renderSort}
-				activeItem={beaconTypeSelectItems.find((item) => item.key === state.selectedItem)}
-				onItemSelect={state.handleItemSelect}
-				filterable={false}
-				fill
-			>
-				<Button
-					cy-test="type-dropdown"
-					disabled={!!store.appMeta.blueTeam}
-					text={state.selectedItem}
-					alignText="left"
-					rightIcon={<CarbonIcon icon={CaretDown16} />}
-					fill
-				/>
-			</Select2>
-			<MetaHeader>Links</MetaHeader>
-			<div css={{ overflow: 'hidden' }}>
-				{!beacon?.links.from.length && !beacon?.links.to.length ? (
-					<Txt italic disabled>
-						No links
-					</Txt>
-				) : (
-					<>
-						{beacon?.links.from.map((link) => (
-							// TODO: would be nice to join these .maps into a single .map
-							<BeaconLinkRow
-								key={link.id}
-								direction="From"
-								host={link.origin?.current?.host?.current.displayName || link.origin?.current?.server?.displayName}
-								beacon={link.origin?.current?.displayName}
-								onClick={() =>
-									!link.origin?.current?.host?.maybeCurrent?.cobaltStrikeServer && link.origin?.current?.select()
-								}
-								command={link.command?.current?.inputText || 'unknown'}
-							/>
-						))}
-						{beacon?.links.to.map((link) => (
-							<BeaconLinkRow
-								key={link.id}
-								direction="To"
-								host={
-									link.destination?.current?.host?.current.displayName || link.destination?.current?.server?.displayName
-								}
-								beacon={link.destination?.current?.displayName}
-								onClick={() =>
-									!link.destination?.current?.host?.maybeCurrent?.cobaltStrikeServer &&
-									link.destination?.current?.select()
-								}
-								command={link.command?.current?.inputText || 'unknown'}
-							/>
-						))}
-					</>
-				)}
-			</div>
+						<div css={{ marginTop: '0.5rem' }}>
+							<Txt small bold>
+								Final Command
+							</Txt>
+							<Spacer />
+							<Txt small>{cmdText}</Txt>
+						</div>
+					</div>
+					<MetaLabel>Type</MetaLabel>
+					<Select2
+						disabled={!!store.appMeta.blueTeam}
+						items={beaconTypeSelectItems}
+						itemRenderer={renderSort}
+						activeItem={beaconTypeSelectItems.find((item) => item.key === state.selectedItem)}
+						onItemSelect={state.handleItemSelect}
+						filterable={false}
+						fill
+					>
+						<Button
+							cy-test="type-dropdown"
+							disabled={!!store.appMeta.blueTeam}
+							text={state.selectedItem}
+							alignText="left"
+							rightIcon={<CarbonIcon icon={CaretDown16} />}
+							fill
+						/>
+					</Select2>
+				</MetaGridLayout>
+			</MetaSection>
+
+			<MetaSection>
+				<Flex column gap={8}>
+					<MetaLabel>Links</MetaLabel>
+					{!beacon?.links.from.length && !beacon?.links.to.length ? (
+						<Txt italic disabled>
+							No links
+						</Txt>
+					) : (
+						<>
+							{beacon?.links.from.map((link) => (
+								<BeaconLinkRow key={link.id} direction="From" link={link} />
+							))}
+							{beacon?.links.to.map((link) => (
+								<BeaconLinkRow key={link.id} direction="To" link={link} />
+							))}
+						</>
+					)}
+				</Flex>
+			</MetaSection>
 			<ToggleHiddenButton
 				cy-test="show-hide-this-beacon"
 				disabled={!!store.appMeta.blueTeam}
@@ -289,7 +277,7 @@ export const BeaconMeta = observer(() => {
 				onHide={() => mutateToggleHidden.mutate()}
 				last={last}
 			/>
-		</MetaGridLayout>
+		</div>
 	);
 });
 
