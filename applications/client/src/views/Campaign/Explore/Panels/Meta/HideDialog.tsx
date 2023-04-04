@@ -49,7 +49,7 @@ export const ToggleHiddenDialog = observer<Props>(
 			  };
 
 		const dialogTitle = isHidingFinal
-			? `Cannot hide final ${infoType.toLowerCase()}`
+			? `Cannot hide final ${infoType.toLowerCase()}${bulk ? 's' : ''}`
 			: // : `${verb} this ${infoType.toLowerCase()}?`;
 				  `${verb} ${bulk ? 'these' : 'this'} ${infoType.toLowerCase()}${bulk ? 's' : ''}?`;
 
@@ -59,8 +59,12 @@ export const ToggleHiddenDialog = observer<Props>(
 					{isHidingFinal ? (
 						<>
 							<Txt cy-test="cannot-hide-final-text1" running>
-								{plural} this {infoType.toLowerCase()} will create a state in which the UI has no content. To hide this{' '}
-								{infoType}, you must unhide another {infoType.toLowerCase()}.
+								{`${plural} ${
+									bulk ? 'these' : 'this'
+								} ${infoType.toLowerCase()} will create a state in which the UI has no content. To hide ${
+									bulk ? 'these ' : 'this '
+								}${infoType.toLowerCase()}${bulk ? 's' : ''}, you must
+								unhide another ${infoType.toLowerCase()}.`}
 							</Txt>
 							<Txt cy-test="cannot-hide-final-text2" running>
 								To unhide {infoType.toLowerCase()}s, toggle
