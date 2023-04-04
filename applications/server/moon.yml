@@ -14,12 +14,13 @@ tasks:
     options:
       runInCI: false
       cache: false
-  start-dev-blue:
+  start-blue:
     local: true
     deps:
       - ^:build
       - ~:start-node
     options:
+      runDepsInParallel: false
       runInCI: false
       cache: false
       outputStyle: 'stream'

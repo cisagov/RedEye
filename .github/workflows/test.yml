@@ -82,7 +82,7 @@ jobs:
       - name: Red Team Tests - Chrome
         uses: cypress-io/github-action@v5
         with:
-          start: yarn start:client, yarn start:server
+          start: yarn moon run client:start-dev, yarn moon run server:start-dev
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Red Team - Chrome'
@@ -128,7 +128,8 @@ jobs:
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5
         with:
-          start: yarn start:client, yarn start:server-blue
+          start: yarn moon run client:start-dev, yarn moon run server:start-blue
+          env: SERVER_BLUE_TEAM=true
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Blue Team - Chrome'
