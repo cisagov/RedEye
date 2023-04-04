@@ -3,12 +3,12 @@ dependsOn:
   - 'client'
 tasks:
   open-cy:
-    command: 'concurrently "yarn start:client" "yarn start:server" "yarn moon run redeye-e2e:start-cypress"'
+    command: 'concurrently "yarn moon run client:start-dev" "yarn moon run server:start-dev" "yarn moon run redeye-e2e:start-cypress"'
     local: true
     options:
       runFromWorkspaceRoot: true
   open-cy-blue:
-    command: 'concurrently "start:server-blue" "yarn start:client" "yarn moon run redeye-e2e:start-cypress"'
+    command: 'concurrently "yarn moon run client:start-dev" "yarn moon run server:start-blue" "yarn moon run redeye-e2e:start-cypress"'
     local: true
     options:
       runFromWorkspaceRoot: true
