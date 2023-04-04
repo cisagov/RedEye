@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      matrix:
+        node-version: [16.19.0]
 
     steps:
       - name: Checkout
@@ -38,10 +40,12 @@ jobs:
 
       - name: Cache
         uses: actions/setup-node@v3
+        with:
+          node-version: 16.19.0
+          cache: 'yarn'
 
       - run: yarn install --immutable --inline-builds
-      # - run: yarn moon ci
-      - run: yarn run build
+      - run: yarn moon run server:build client:build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -57,6 +61,7 @@ jobs:
       fail-fast: false
       matrix:
         containers: [1, 2]
+        node-version: [16.19.0]
 
     steps:
       - name: Checkout
@@ -67,6 +72,7 @@ jobs:
       - name: Cache
         uses: actions/setup-node@v3
         with:
+          node-version: 16.19.0
           cache: 'yarn'
 
       - name: Download the build folders
@@ -80,6 +86,7 @@ jobs:
       - name: Red Team Tests - Chrome
         uses: cypress-io/github-action@v5
         with:
+          tag: node-${{ matrix.node }}
           install-command: yarn install --immutable --inline-builds
           start: yarn start:client, yarn start:server
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
@@ -102,6 +109,7 @@ jobs:
       fail-fast: false
       matrix:
         containers: [1, 2]
+        node-version: [16.19.0]
 
     steps:
       - name: Checkout
@@ -112,6 +120,7 @@ jobs:
       - name: Cache
         uses: actions/setup-node@v3
         with:
+          node-version: 16.19.0
           cache: 'yarn'
 
       - name: Download the build folders
@@ -125,6 +134,7 @@ jobs:
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5
         with:
+          tag: node-${{ matrix.node }}
           install-command: yarn install --immutable --inline-builds
           start: yarn start:client, yarn start server-blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
