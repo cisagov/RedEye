@@ -16,15 +16,13 @@ tasks:
       cache: false
   start-blue:
     local: true
+    command: 'server start-node'
     deps:
       - ^:build
-      - ~:start-node
     options:
       runDepsInParallel: false
       runInCI: false
       cache: false
-      outputStyle: 'stream'
-      mergeArgs: 'replace'
     env:
       SERVER_BLUE_TEAM: 'true'
   release-mac:
