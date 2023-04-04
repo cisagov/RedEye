@@ -12,6 +12,7 @@ tasks:
       - ~:start-vite
     options:
       runInCI: false
+      runFromWorkspaceRoot: true
       runDepsInParallel: false
   graphql:
     command: mk-gql --outDir=./src/store/graphql ../server/schema.graphql

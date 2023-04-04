@@ -13,6 +13,7 @@ tasks:
       - ~:start-node
     options:
       runInCI: false
+      runFromWorkspaceRoot: true
       cache: false
   start-blue:
     local: true
@@ -21,6 +22,7 @@ tasks:
       - ^:build
     options:
       runDepsInParallel: false
+      runFromWorkspaceRoot: true
       runInCI: false
       cache: false
     env:
