@@ -2,7 +2,7 @@ import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
 import { DateInput2 } from '@blueprintjs/datetime2';
 import { CarbonIcon, dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { AppStore, CantHideEntitiesModel, CommandGroupModel, CommandModel } from '@redeye/client/store';
+import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/store';
 import { BeaconType } from '@redeye/client/store/graphql/BeaconTypeEnum';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -11,7 +11,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import moment from 'moment-timezone';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { Select2 } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
@@ -20,16 +20,6 @@ import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
-
-type BeaconQueryResult = {
-	data:
-		| {
-				nonHideableEntities: CantHideEntitiesModel;
-		  }
-		| undefined;
-	cantHideEntities: boolean;
-	isDialogDisabled: boolean;
-};
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -100,30 +90,9 @@ export const BeaconMeta = observer((props) => {
 		},
 	});
 
-	// const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
-
-	// hooks resolve promise? AAA
-	// const { cantHideEntities: last, isDialogDisabled: is2 } = useCheckNonHideableEntities(
-	const beaconQueryResult = useCheckNonHideableEntities('Beacon', beacon?.hidden || false, [beacon?.id || '']);
-	console.log('beaconQueryResult: ', beaconQueryResult);
-	// test queryNonHideableEntities
-
-	const { data } = useQuery(
-		['beacons', 'can-hide', store.campaign?.id],
-		async () =>
-			await store.graphqlStore.queryNonHideableEntities({
-				campaignId: store.campaign.id!,
-				beaconIds: [beacon?.id!],
-			})
-	);
-	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.beacons?.length || 0) > 0, [beacon?.id, data]);
-
-	const isDialogDisabled = useMemo(
-		() =>
-			window.localStorage.getItem('disableDialog') === 'true' &&
-			(!cantHideEntities || (cantHideEntities && beacon?.hidden)),
-		[window.localStorage.getItem('disableDialog'), cantHideEntities, beacon?.hidden]
-	);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHideableEntities('beacons', beacon?.hidden || false, [
+		beacon?.id || '',
+	]);
 
 	useEffect(() => {
 		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
