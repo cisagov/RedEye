@@ -39,14 +39,21 @@ export const PresentationNavBar = observer<HeaderProps>(({}) => {
 					margin: 0 1rem;
 				`}
 			>
-				<Button icon={<CarbonIcon icon={ArrowLeft16} />} minimal onClick={routeBackToMenu} />
+				<Button
+					cy-test="back-to-presentations"
+					icon={<CarbonIcon icon={ArrowLeft16} />}
+					minimal
+					onClick={routeBackToMenu}
+				/>
 				<Divider
 					css={css`
 						height: 1rem;
 						margin: 0 1rem 0 0.5rem;
 					`}
 				/>
-				<Header small>{store.graphqlStore.presentationItems.get(store.router.params.presentation)?.key}</Header>
+				<Header cy-test="presentation-name" small>
+					{store.graphqlStore.presentationItems.get(store.router.params.presentation)?.key}
+				</Header>
 			</div>
 			<ButtonGroup
 				large

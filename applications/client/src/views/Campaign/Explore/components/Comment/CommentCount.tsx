@@ -1,5 +1,4 @@
-import { AddComment16, Chat16 } from '@carbon/icons-react';
-import { CarbonIcon } from '@redeye/client/components';
+import { CarbonIcon, semanticIcons } from '@redeye/client/components';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { CommentPopoverProps } from '@redeye/client/views';
@@ -60,7 +59,9 @@ export const CommentCount = observer<CommentCountProps>(
 				}}
 				renderTarget={({ onClick, className, ...targetProps }) => (
 					<HeroButton
-						children={<CarbonIcon cy-test="add-comment" icon={hasComments ? Chat16 : AddComment16} />}
+						children={
+							<CarbonIcon cy-test="add-comment" icon={hasComments ? semanticIcons.comment : semanticIcons.addComment} />
+						}
 						onClick={handleClick}
 						hover={isOpen}
 						className={[className, !hasComments && !isOpen ? UtilityStyles.hoverRevealClassName : undefined].join(' ')}

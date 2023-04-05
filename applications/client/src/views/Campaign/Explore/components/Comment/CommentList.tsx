@@ -1,7 +1,13 @@
 import { Alignment, Button, ButtonGroup, Divider, Intent } from '@blueprintjs/core';
-import { AddComment16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, customIconPaths, ScrollBox, ScrollChild, updatePopper } from '@redeye/client/components';
+import {
+	CarbonIcon,
+	customIconPaths,
+	ScrollBox,
+	ScrollChild,
+	semanticIcons,
+	updatePopper,
+} from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -104,7 +110,7 @@ export const CommentList = observer<CommentListProps>(({ command, onClose, popov
 							<Button
 								cy-test="add-new-comment"
 								text={['New comment']}
-								icon={<CarbonIcon icon={AddComment16} />}
+								icon={<CarbonIcon icon={semanticIcons.addComment} />}
 								intent={Intent.PRIMARY}
 								alignText={Alignment.LEFT}
 								minimal
