@@ -72,6 +72,14 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			: await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
+	const indeterminate = useMemo(
+		() =>
+			store.campaign.bulkSelectCantHideEntityIds.includes(
+				!!host?.serverId && host?.cobaltStrikeServer ? host?.serverId : host?.id
+			),
+		[store.campaign.bulkSelectCantHideEntityIds]
+	);
+
 	const checked = useMemo(
 		() =>
 			(!!host?.id &&
@@ -79,7 +87,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				host?.cobaltStrikeServer &&
 				store.campaign?.hostGroupSelect.selectedServers?.includes(host?.serverId)) ||
 			(!!host?.id && !host?.cobaltStrikeServer && store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id)),
-		[host]
+		[store.campaign?.hostGroupSelect.selectedServers, store.campaign?.hostGroupSelect.selectedHosts]
 	);
 
 	const handleCheck = useCallback(
@@ -130,9 +138,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				<Checkbox
 					checked={checked}
 					onClick={handleCheck}
-					indeterminate={store.campaign.bulkSelectCantHideEntityIds.includes(
-						!!host?.serverId && host?.cobaltStrikeServer ? host?.serverId : host?.id
-					)}
+					indeterminate={indeterminate}
 					css={css`
 						margin-bottom: 0;
 					`}

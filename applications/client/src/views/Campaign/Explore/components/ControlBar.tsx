@@ -181,6 +181,8 @@ export const ControlBar = observer<ControlBarProps>(
 									groupSelect: true,
 									selectedBeacons: [],
 								});
+								store.campaign?.setBulkSelectCantHideEntityIds([]);
+								store.campaign?.setBulkSelectStatus(Status.READY);
 							}}
 							minimal
 							text="Bulk Edit"
@@ -194,6 +196,8 @@ export const ControlBar = observer<ControlBarProps>(
 									groupSelect: false,
 									selectedBeacons: [],
 								});
+								store.campaign?.setBulkSelectCantHideEntityIds([]);
+								store.campaign?.setBulkSelectStatus(Status.READY);
 							}}
 							minimal
 							text="Cancel"

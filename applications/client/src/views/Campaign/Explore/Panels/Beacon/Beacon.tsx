@@ -54,6 +54,11 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 		[beacon.displayName, beacon.server?.displayName]
 	);
 
+	const indeterminate = useMemo(
+		() => store.campaign.bulkSelectCantHideEntityIds.includes(beacon?.id),
+		[store.campaign.bulkSelectCantHideEntityIds]
+	);
+
 	const [toggleHidden, mutateToggleHidden] = useToggleHidden(
 		async () =>
 			await store.graphqlStore.mutateToggleBeaconHidden({
@@ -103,7 +108,7 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			{store.campaign?.beaconGroupSelect.groupSelect && (
 				<Checkbox
 					checked={beacon?.id ? store.campaign?.beaconGroupSelect.selectedBeacons?.includes(beacon?.id) : false}
-					indeterminate={store.campaign.bulkSelectCantHideEntityIds.includes(beacon?.id)}
+					indeterminate={indeterminate}
 					onClick={handleCheck}
 					css={css`
 						margin-bottom: 0;
