@@ -48,11 +48,6 @@ export const BulkEdit = observer<HostRowProps>(
 			},
 		});
 
-		// const isDialogDisabled = useMemo(
-		// 	() => window.localStorage.getItem('disableDialog') === 'true',
-		// 	[window.localStorage.getItem('disableDialog')]
-		// );
-
 		const handleBulkShowClick = useCallback(() => {
 			if (window.localStorage.getItem('disableDialog') === 'true') {
 				bulkShow.mutate();
@@ -65,7 +60,6 @@ export const BulkEdit = observer<HostRowProps>(
 		const handleBulkHideClick = useCallback(async () => {
 			state.update('cantHideEntities', false);
 			state.update('isDialogDisabled', window.localStorage.getItem('disableDialog') === 'true');
-			// const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
 			const data =
 				typeName === 'beacons'
 					? await store.graphqlStore.queryNonHideableEntities({
@@ -142,13 +136,13 @@ export const BulkEdit = observer<HostRowProps>(
 							<Menu>
 								{store.settings.showHidden && (
 									<MenuItem2
-										text={`Show ${typeName}${count === 1 ? '' : 's'}`}
+										text={`Show ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 										icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 										onClick={handleBulkShowClick}
 									/>
 								)}
 								<MenuItem2
-									text={`Hide ${typeName}${count === 1 ? '' : 's'}`}
+									text={`Hide ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 									icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 									onClick={handleBulkHideClick}
 								/>
