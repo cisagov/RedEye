@@ -86,10 +86,10 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		this.labelSelection = this.rootGroupSelection
 			.append('g')
 			.attr('cy-test', 'selectedLabel')
-			.attr('id', assignIdLabel)
 			.selectAll('text')
-			.data(this.nodes)
+			.data(this.nodes.filter((d) => d.type === 'keyNode'))
 			.join('text')
+			.attr('id', assignIdLabel)
 			.each(addClassName)
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
