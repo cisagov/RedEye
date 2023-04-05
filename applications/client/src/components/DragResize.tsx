@@ -49,20 +49,29 @@ export const DragResize = observer<DragResizeProps>(
 		fixedCollapsedContent = () => <DefaultFixedCollapsedComponent />,
 		fluidCollapsedContent = () => <DefaultFluidCollapsedComponent />,
 		collapsedFixed: collapsedFixedDefault = false,
-		columnWidth: columnWidthDefault = 500,
+		collapsedFixed: collapsedFluidDefault = false,
+		columnWidth: columnWidthDefault = 600,
 		collapsedMinWidth = 300,
 		...props
 	}) => {
 		const state = createState({
-			columnWidthPrevious: columnWidthDefault,
-			columnWidth: columnWidthDefault,
-			collapsedFixed: collapsedFixedDefault,
-			collapsedFluid: collapsedFixedDefault,
+			columnWidthPrevious: getColumnWidthStorage(columnWidthDefault),
+			columnWidth: getColumnWidthStorage(columnWidthDefault),
+			collapsedFixed: collapsedFixedDefault && !collapsedFluidDefault,
+			collapsedFluid: collapsedFluidDefault && !collapsedFixedDefault,
 			isDragging: false,
 			fullWidth: collapsedMinWidth * 2,
 			collapsedMaxWidth: collapsedMinWidth * 2,
 			get commandProps() {
 				return { collapseFixed: this.collapseFixed, collapseFluid: this.collapseFluid, reset: this.reset };
+			},
+			// persisting the collapsedFluid state in window.localStorage breaks graph layout
+			// revert 9e3203e3 to restore this functionality
+			get columnWidthStorage() {
+				return getColumnWidthStorage(columnWidthDefault);
+			},
+			set columnWidthStorage(columnWidth: number) {
+				window.localStorage.setItem(columnWidthId, columnWidth.toString());
 			},
 			collapseFixed() {
 				this.columnWidth = 0;
@@ -80,10 +89,12 @@ export const DragResize = observer<DragResizeProps>(
 					this.columnWidthPrevious = this.fullWidth;
 				}
 			},
-			reset() {
+			reset(forceWidth?: number) {
 				if (this.isDragging) return;
-				this.columnWidth = columnWidthDefault;
-				this.columnWidthPrevious = columnWidthDefault;
+				const setWidth = forceWidth || this.columnWidthStorage;
+				this.columnWidth = setWidth;
+				this.columnWidthPrevious = setWidth;
+				this.columnWidthStorage = setWidth;
 				if (this.collapsedFixed) this.collapsedFixed = false;
 				if (this.collapsedFluid) this.collapsedFluid = false;
 			},
@@ -123,6 +134,7 @@ export const DragResize = observer<DragResizeProps>(
 		});
 
 		const wrapperElementRef = useRef<HTMLDivElement>(null);
+		const dragElementRef = useRef<HTMLDivElement>(null);
 
 		// update the full and max width when the screen changes size
 		useEffect(() => {
@@ -138,27 +150,36 @@ export const DragResize = observer<DragResizeProps>(
 			},
 			onDragStart: () => {
 				state.update('isDragging', true);
+				const dragElement = dragElementRef?.current;
+				const parentElement = wrapperElementRef?.current;
+				const columnWidthPrevious =
+					!dragElement || !parentElement ? state.columnWidth : dragElement.offsetLeft - parentElement.offsetLeft;
+				state.update('columnWidthPrevious', columnWidthPrevious);
 			},
 			onDragEnd: () => {
 				state.update('isDragging', false);
 				state.update('columnWidthPrevious', state.columnWidth);
+				if (!state.collapsedFixed && !state.collapsedFluid) {
+					state.update('columnWidthStorage', state.columnWidth);
+				}
+			},
+			onDoubleClick: () => {
+				state.reset(columnWidthDefault);
 			},
 		});
 
-		const gridFixedColumn = `minmax(${state.collapsedFixed ? 'min-content' : 'auto'}, ${state.columnWidth}px)`;
-		const gridFluidColumn = `minmax(${state.collapsedFluid ? 'min-content' : 'auto'}, 1fr)`;
+		const gridTemplateColumns = state.collapsedFixed
+			? `auto auto 1fr`
+			: state.collapsedFluid
+			? `1fr auto auto`
+			: `${state.columnWidth}px auto 1fr`;
 
 		return (
-			<div
-				{...props}
-				ref={wrapperElementRef}
-				css={wrapperStyle}
-				style={{ gridTemplateColumns: `${gridFixedColumn} auto ${gridFluidColumn}` }}
-			>
+			<div {...props} ref={wrapperElementRef} css={wrapperStyle} style={{ gridTemplateColumns }}>
 				{/* we need to keep these components mounted, so use hidden={isCollapsed} */}
 				<GridCell hidden={!state.collapsedFixed}>{fixedCollapsedContent(state.commandProps)}</GridCell>
 				<GridCell hidden={state.collapsedFixed}>{fixedContent(state.commandProps)}</GridCell>
-				<div css={draggerWrapperStyle} {...bind()}>
+				<div ref={dragElementRef} css={draggerWrapperStyle} {...bind()}>
 					<DraggerComponent isDragging={state.isDragging} />
 				</div>
 				<GridCell hidden={!state.collapsedFluid}>{fluidCollapsedContent(state.commandProps)}</GridCell>
@@ -167,6 +188,10 @@ export const DragResize = observer<DragResizeProps>(
 		);
 	}
 );
+
+const columnWidthId = 'columnWidth';
+const getColumnWidthStorage = (defaultWidth = 0) =>
+	parseInt(window.localStorage.getItem(columnWidthId) || defaultWidth.toString(), 10);
 
 const wrapperStyle = css`
 	display: grid;

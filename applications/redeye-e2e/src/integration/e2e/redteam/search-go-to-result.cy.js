@@ -65,7 +65,6 @@ describe('Search campaign and open one of the results', () => {
 			.invoke('text')
 			.then((text) => {
 				let lineOneText1 = text.split('/')[0];
-				cy.log(lineOneText1);
 
 				// line 1 - second part
 				cy.get('[cy-test=search-result-item]')
@@ -73,7 +72,6 @@ describe('Search campaign and open one of the results', () => {
 					.invoke('text')
 					.then((text) => {
 						let lineOneText2 = text.split('/')[1];
-						cy.log(lineOneText2);
 
 						// line 1- third part
 						cy.get('[cy-test=search-result-item]')
@@ -81,15 +79,12 @@ describe('Search campaign and open one of the results', () => {
 							.invoke('text')
 							.then((text) => {
 								let lineOneText3 = text.split('/')[2];
-								cy.log(lineOneText3);
 
 								// Log the text details for the Command
 								cy.get('[cy-test=search-item-details]')
 									.eq(0)
 									.invoke('text')
 									.then((commandDetails) => {
-										cy.log(commandDetails);
-
 										// Select first item from the search results and click to open details; verify against data in search modal
 										cy.get('[cy-test=search-result-item]').eq(0).click();
 										cy.get('[cy-test=navigation-breadcrumbs]')
