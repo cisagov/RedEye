@@ -166,6 +166,8 @@ export class HierarchicalGraphRenderer {
 
 	drawUpdateLabel() {}
 
+	drawUpdateNodeVisual() {}
+
 	isHidden = false;
 	hideLayout() {
 		if (!this.isHidden) this.rootGroupSelection.remove();
@@ -192,5 +194,6 @@ type HierarchicalGraphRendererMethods =
 	| 'drawTime'
 	| 'drawInteraction'
 	| 'drawUpdateLabel'
+	| 'drawUpdateNodeVisual'
 	| 'hideLayout'
 	| 'showLayout';

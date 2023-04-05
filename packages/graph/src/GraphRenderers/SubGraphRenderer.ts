@@ -62,10 +62,31 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.parentLink, (d) => d.type === 'parentLink')
 			.attr('cy-test', 'subLinkSelection');
 
-		this.nodeSelection = this.rootGroupSelection
-			.selectAll()
+		this.drawUpdateNodeVisual();
+
+		this.labelSelection = this.rootGroupSelection
+			.append('g')
+			.attr('cy-test', 'selectedLabel')
+			.selectAll('text')
 			.data(this.nodes)
-			.enter()
+			.join('text')
+			.each(addClassName)
+			.classed(classNames.subNodeNameLabel, true)
+			.text(createLabel);
+
+		super.initializeSelection();
+	}
+
+	drawUpdateNodeVisual() {
+		const nodeSelection = this.rootGroupSelection
+			.selectAll('.testing')
+			.data(this.nodes, (d) => (d as HierarchicalGraphNode).data.id)
+			.join('g')
+			.classed('testing', true);
+
+		nodeSelection.selectChildren().remove();
+
+		this.nodeSelection = nodeSelection
 			.append((d) => createSvgElement(d.data.shape === 'circle' || d.data.shape == null ? 'circle' : 'polygon'))
 			.attr('points', (d) =>
 				d.data.shape && d.data.shape !== 'circle'
@@ -81,18 +102,6 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.softwareNode, true)
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));
-
-		this.labelSelection = this.rootGroupSelection
-			.append('g')
-			.attr('cy-test', 'selectedLabel')
-			.selectAll('text')
-			.data(this.nodes)
-			.join('text')
-			.each(addClassName)
-			.classed(classNames.subNodeNameLabel, true)
-			.text(createLabel);
-
-		super.initializeSelection();
 	}
 
 	drawLayout() {

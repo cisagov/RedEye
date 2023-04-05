@@ -23,6 +23,7 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
+import { PolygonShapeEx } from './GraphRenderers/polygon-utils';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -319,11 +320,21 @@ export class GraphHandler {
 	// mouseOverLink(event: PointerEvent, node: HierarchyReturnNode) {}
 	// mouseOutLink(event: PointerEvent, node: HierarchyReturnNode) {}
 
-	updateNodeName(node: HierarchicalGraphNode | string, newName: string) {
-		const _node = typeof node === 'string' ? this.graphData.allNodes.get(node) : node;
-		if (!_node) return;
-		_node.data.name = newName;
+	updateNodeName(nodeId: string, newName: string) {
+		const node = this.graphData.allNodes.get(nodeId);
+		if (!node) return;
+		node.data.name = newName;
 		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
+	}
+
+	updateNodeVisual(nodeId: string, className?: string, shape?: PolygonShapeEx) {
+		const node = this.graphData.allNodes.get(nodeId);
+		if (!node) return;
+		if (className) node.data.className = className;
+		if (shape) node.data.shape = shape;
+		this.graphRoot.callChildrenRecursively('drawUpdateNodeVisual');
+		this.graphRoot.callChildrenRecursively('drawLayout');
+		this.graphRoot.callChildrenRecursively('drawInteraction');
 	}
 
 	useGraphForces() {
