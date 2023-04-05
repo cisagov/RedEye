@@ -33,10 +33,10 @@ export class HierarchicalGraphData {
 		previouslyParsedGraphData,
 	}: {
 		graphData: GraphData;
-		onSelectionChange: HierarchicalGraphData['onSelectionChange'];
-		onPreviewChange: HierarchicalGraphData['onPreviewChange'];
-		onTimeChange: HierarchicalGraphData['onTimeChange'];
-		onDataChange: HierarchicalGraphData['onDataChange'];
+		onSelectionChange?: HierarchicalGraphData['onSelectionChange'];
+		onPreviewChange?: HierarchicalGraphData['onPreviewChange'];
+		onTimeChange?: HierarchicalGraphData['onTimeChange'];
+		onDataChange?: HierarchicalGraphData['onDataChange'];
 		previouslyParsedGraphData?: SerializableHierarchicalGraphData;
 	}) {
 		this.onSelectionChange = onSelectionChange;
