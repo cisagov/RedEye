@@ -15,7 +15,7 @@ import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHid
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
 type HostRowProps = ComponentProps<'div'> & {
@@ -72,6 +72,34 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			: await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
+	const checked = useMemo(
+		() =>
+			(!!host?.id &&
+				!!host?.serverId &&
+				host?.cobaltStrikeServer &&
+				store.campaign?.hostGroupSelect.selectedServers?.includes(host?.serverId)) ||
+			(!!host?.id && !host?.cobaltStrikeServer && store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id)),
+		[host]
+	);
+
+	const handleCheck = useCallback(
+		async (e) => {
+			const cantHideEntityIds = store.campaign.bulkSelectCantHideEntityIds.filter(
+				(id) => id !== (host?.cobaltStrikeServer ? host?.serverId : host?.id)
+			);
+			store.campaign.setBulkSelectCantHideEntityIds(cantHideEntityIds);
+			// @ts-ignore
+			return e.target.checked && host?.id
+				? host?.cobaltStrikeServer
+					? state.AddServer(host?.serverId)
+					: state.AddHost(host?.id)
+				: host?.cobaltStrikeServer
+				? state.RemoveServer(host?.serverId)
+				: state.RemoveHost(host?.id);
+		},
+		[host]
+	);
+
 	const handleQuickMetaClick = useCallback(async () => {
 		const data = await store.graphqlStore.queryNonHideableEntities({
 			campaignId: store.campaign.id!,
@@ -100,29 +128,8 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 		>
 			{store.campaign?.hostGroupSelect.groupSelect && (
 				<Checkbox
-					checked={
-						(!!host?.id &&
-							!!host?.serverId &&
-							host?.cobaltStrikeServer &&
-							store.campaign?.hostGroupSelect.selectedServers?.includes(host?.serverId)) ||
-						(!!host?.id &&
-							!host?.cobaltStrikeServer &&
-							store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id))
-					}
-					onClick={(e) => {
-						const cantHideEntityIds = store.campaign.bulkSelectCantHideEntityIds.filter(
-							(id) => id !== (host?.cobaltStrikeServer ? host?.serverId : host?.id)
-						);
-						store.campaign.setBulkSelectCantHideEntityIds(cantHideEntityIds);
-						// @ts-ignore
-						return e.target.checked && host?.id
-							? host?.cobaltStrikeServer
-								? state.AddServer(host?.serverId)
-								: state.AddHost(host?.id)
-							: host?.cobaltStrikeServer
-							? state.RemoveServer(host?.serverId)
-							: state.RemoveHost(host?.id);
-					}}
+					checked={checked}
+					onClick={handleCheck}
 					indeterminate={store.campaign.bulkSelectCantHideEntityIds.includes(
 						!!host?.serverId && host?.cobaltStrikeServer ? host?.serverId : host?.id
 					)}
