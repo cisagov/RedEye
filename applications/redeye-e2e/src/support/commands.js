@@ -251,6 +251,7 @@ Cypress.Commands.add('showHiddenItems', () => {
 	cy.get('[cy-test=show-hide-beacons]').check({ force: true });
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
+	cy.wait(1000);
 });
 
 // Do not show hidden Beacons, Hosts, and Servers
@@ -259,6 +260,7 @@ Cypress.Commands.add('doNotShowHiddenItems', () => {
 	cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
+	cy.wait(1000);
 });
 
 Cypress.Commands.add('toggleLightTheme', () => {

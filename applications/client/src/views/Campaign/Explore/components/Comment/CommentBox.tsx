@@ -2,7 +2,6 @@ import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } f
 import type { ItemPredicate } from '@blueprintjs/select';
 import { MultiSelect2 } from '@blueprintjs/select';
 import {
-	AddComment16,
 	ArrowRight16,
 	Bookmark16,
 	BookmarkFilled16,
@@ -13,7 +12,7 @@ import {
 	TrashCan16,
 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { AlertEx, CarbonIcon, createState, customIconPaths, isDefined } from '@redeye/client/components';
+import { AlertEx, CarbonIcon, createState, customIconPaths, isDefined, semanticIcons } from '@redeye/client/components';
 import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from '@redeye/client/store';
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
@@ -569,7 +568,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								disabled={state.loading || !state.text}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
-								rightIcon={<CarbonIcon icon={AddComment16} />}
+								rightIcon={<CarbonIcon icon={semanticIcons.addComment} />}
 							/>
 						</ButtonGroup>
 					</form>

@@ -6,6 +6,6 @@ export * from './BeaconLinkRow';
 export * from './BeaconMeta';
 export * from './HideDialog';
 export * from './HostMeta';
-export * from './Meta.styles';
+export * from './MetaComponents';
 export * from './ServerMeta';
 export * from '../hooks/use-toggle-hidden';
