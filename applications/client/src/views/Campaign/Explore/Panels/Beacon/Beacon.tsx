@@ -93,10 +93,13 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			{store.campaign?.beaconGroupSelect.groupSelect && (
 				<Checkbox
 					checked={beacon?.id ? store.campaign?.beaconGroupSelect.selectedBeacons?.includes(beacon?.id) : false}
-					onClick={(e) =>
+					indeterminate={store.campaign.bulkSelectCantHideEntityIds.includes(beacon?.id)}
+					onClick={(e) => {
+						const cantHideEntityIds = store.campaign.bulkSelectCantHideEntityIds.filter((id) => id !== beacon?.id);
+						store.campaign.setBulkSelectCantHideEntityIds(cantHideEntityIds);
 						// @ts-ignore
-						e.target.checked && beacon?.id ? state.AddBeacon(beacon?.id) : state.RemoveBeacon(beacon?.id!)
-					}
+						return e.target.checked && beacon?.id ? state.AddBeacon(beacon?.id) : state.RemoveBeacon(beacon?.id!);
+					}}
 					css={css`
 						margin-bottom: 0;
 					`}

@@ -109,16 +109,23 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 							!host?.cobaltStrikeServer &&
 							store.campaign?.hostGroupSelect.selectedHosts?.includes(host?.id))
 					}
-					onClick={(e) =>
+					onClick={(e) => {
+						const cantHideEntityIds = store.campaign.bulkSelectCantHideEntityIds.filter(
+							(id) => id !== (host?.cobaltStrikeServer ? host?.serverId : host?.id)
+						);
+						store.campaign.setBulkSelectCantHideEntityIds(cantHideEntityIds);
 						// @ts-ignore
-						e.target.checked && host?.id
+						return e.target.checked && host?.id
 							? host?.cobaltStrikeServer
 								? state.AddServer(host?.serverId)
 								: state.AddHost(host?.id)
 							: host?.cobaltStrikeServer
 							? state.RemoveServer(host?.serverId)
-							: state.RemoveHost(host?.id)
-					}
+							: state.RemoveHost(host?.id);
+					}}
+					indeterminate={store.campaign.bulkSelectCantHideEntityIds.includes(
+						!!host?.serverId && host?.cobaltStrikeServer ? host?.serverId : host?.id
+					)}
 					css={css`
 						margin-bottom: 0;
 					`}

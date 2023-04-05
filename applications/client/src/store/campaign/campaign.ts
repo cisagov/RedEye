@@ -29,6 +29,12 @@ export enum CampaignLoadingMessage {
 	DONE = 'Done',
 }
 
+export enum Status {
+	READY = 'ready',
+	LOADING = 'loading',
+	CANT_HIDE = 'cantHide',
+}
+
 @model('CampaignStore')
 export class CampaignStore extends ExtendedModel(() => ({
 	baseModel: modelClass<RedEyeModel>(RedEyeModel),
@@ -48,6 +54,8 @@ export class CampaignStore extends ExtendedModel(() => ({
 		fetchEnabled: prop<boolean>(true).withSetter(),
 		isLoading: prop<string>('').withSetter().withSetter(),
 		error: prop<string>('').withSetter(),
+
+		// Bulk Selection
 		hostGroupSelect: prop<{
 			groupSelect: boolean;
 			selectedHosts: string[];
@@ -57,6 +65,8 @@ export class CampaignStore extends ExtendedModel(() => ({
 			groupSelect: boolean;
 			selectedBeacons: string[];
 		}>(() => ({ groupSelect: false, selectedBeacons: [] })).withSetter(),
+		bulkSelectStatus: prop<Status>(() => Status.READY).withSetter(),
+		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
 	},
 })) {
 	@observable sortMemory: {

@@ -4,7 +4,7 @@ import { Launch16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, ScrollBox } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import { SortDirection, useStore } from '@redeye/client/store';
+import { SortDirection, Status, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { TabsStyled, CoreTokens } from '@redeye/ui-styles';
 import { autorun } from 'mobx';
@@ -145,6 +145,12 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 				selectedHosts: [],
 				selectedServers: [],
 			});
+		}
+		if (store.campaign?.bulkSelectCantHideEntityIds.length > 0) {
+			store.campaign?.setBulkSelectCantHideEntityIds([]);
+		}
+		if (store.campaign?.bulkSelectStatus !== Status.READY) {
+			store.campaign?.setBulkSelectStatus(Status.READY);
 		}
 	}, [store.router.params.tab]);
 

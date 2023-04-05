@@ -43,6 +43,9 @@ export const BulkEdit = observer<HostRowProps>(
 			setBulkShow(bool: boolean) {
 				this.bulkShow = bool;
 			},
+			updateBulkSelect(ids: string[]) {
+				store.campaign.setBulkSelectCantHideEntityIds(ids);
+			},
 		});
 
 		// const isDialogDisabled = useMemo(
@@ -76,6 +79,13 @@ export const BulkEdit = observer<HostRowProps>(
 								...(store.campaign?.hostGroupSelect.selectedServers || ''),
 							],
 					  });
+			const cantHideEntityIds =
+				(typeName === 'beacons'
+					? data?.nonHideableEntities.beacons?.slice()
+					: [
+							...(data?.nonHideableEntities.hosts?.slice() || ''),
+							...(data?.nonHideableEntities.servers?.slice() || ''),
+					  ]) || [];
 			const cantHideEntities =
 				((typeName === 'beacons'
 					? data?.nonHideableEntities.beacons?.length
@@ -85,17 +95,7 @@ export const BulkEdit = observer<HostRowProps>(
 			const isDialogDisabled = (window.localStorage.getItem('disableDialog') === 'true' && !cantHideEntities) || false;
 			state.update('cantHideEntities', cantHideEntities);
 			state.update('isDialogDisabled', isDialogDisabled);
-			// console.log(
-			// 	store.campaign?.beaconGroupSelect.selectedBeacons,
-			// 	data?.nonHideableEntities.beacons,
-			// 	data?.nonHideableEntities.servers,
-			// 	cantHideEntities,
-			// 	isDialogDisabled,
-			// 	state.isDialogDisabled,
-			// 	window.localStorage.getItem('disableDialog') === 'true',
-			// 	!cantHideEntities,
-			// 	bulkHideState.showHide
-			// );
+			state.updateBulkSelect(cantHideEntityIds);
 
 			if (isDialogDisabled) {
 				bulkHide.mutate();
@@ -115,8 +115,8 @@ export const BulkEdit = observer<HostRowProps>(
 			<>
 				<div css={modeBarStyle}>
 					<Txt>
-						{count} {typeName}
-						{count === 1 ? '' : 's'} Selected
+						{count} {typeName === 'beacons' ? 'Beacon' : 'Host'}
+						{count <= 1 ? '' : 's'} Selected
 					</Txt>
 					<PopoverButton
 						cy-test="quick-meta-button"
@@ -126,6 +126,7 @@ export const BulkEdit = observer<HostRowProps>(
 							hasBackdrop: true,
 						}}
 						stopPropagation
+						disabled={count === 0}
 						icon={
 							<Button
 								disabled={count === 0}
