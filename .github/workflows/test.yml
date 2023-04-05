@@ -79,11 +79,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Cache
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16.19.0
-      #     cache: 'yarn'
+      - name: Cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
 
       - name: Download the build folders
         uses: actions/download-artifact@v3
@@ -98,7 +98,7 @@ jobs:
         with:
           # tag: node-${{ matrix.node }}
           # install-command: yarn install --immutable --inline-builds
-          start: yarn start:client, yarn start:server
+          start: yarn start
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           wait-on-timeout: 120
           browser: chrome
@@ -130,11 +130,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Cache
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16.19.0
-      #     cache: 'yarn'
+      - name: Cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
 
       - name: Download the build folders
         uses: actions/download-artifact@v3
@@ -147,7 +147,7 @@ jobs:
         with:
           # tag: node-${{ matrix.node }}
           # install-command: yarn install --immutable --inline-builds
-          start: yarn start:client, yarn start server-blue
+          start: yarn start:blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           wait-on-timeout: 120
           browser: chrome
