@@ -32,6 +32,7 @@ export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
 	start?: Date;
 	end?: Date;
 
+	removeClassName?: string;
 	className?: string;
 	shape?: PolygonShapeEx;
 

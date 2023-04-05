@@ -1,6 +1,12 @@
 import { BaseType, Force, SimulationLinkDatum, SimulationNodeDatum, ValueFn, ZoomTransform } from 'd3';
 import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
-import { HierarchicalGraphNode, InteractionState, NodeOrLink, WithShortLine } from '../GraphData/types';
+import {
+	HierarchicalGraphLink,
+	HierarchicalGraphNode,
+	InteractionState,
+	NodeOrLink,
+	WithShortLine,
+} from '../GraphData/types';
 import { defNum } from '../utils';
 
 export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {
@@ -179,9 +185,18 @@ export const interactionSort = (a: NodeOrLink, b: NodeOrLink) => {
 	return interactionPriority(a) - interactionPriority(b);
 };
 
-export const addClassName: ValueFn<BaseType | Element, HierarchicalGraphNode, void> = (datum, i, groups) => {
-	if (datum.data.className) (groups[i] as Element)?.classList?.add(datum.data.className);
+export const addClassName: ValueFn<Element | BaseType, HierarchicalGraphNode, void> = (datum, i, groups) => {
+	const element = groups[i] as Element;
+	if (datum.data.removeClassName) element?.classList?.remove(datum.data.removeClassName);
+	if (datum.data.className) element?.classList?.add(datum.data.className);
 };
+
+export const assignId = (datum: HierarchicalGraphNode | HierarchicalGraphLink) => {
+	return datum.type !== 'parentLinkNode' ? datum.data.id : null;
+};
+const assignIdLabelSuffix = '-label';
+export const assignIdLabel = (datum: HierarchicalGraphNode | HierarchicalGraphLink) =>
+	assignId(datum) + assignIdLabelSuffix;
 
 export function round(number: number, decimals = 0) {
 	decimals = Math.pow(10, decimals);

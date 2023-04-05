@@ -327,14 +327,17 @@ export class GraphHandler {
 		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
 	}
 
-	updateNodeVisual(nodeId: string, className?: string, shape?: PolygonShapeEx) {
+	updateNodeVisual({ nodeId, className, shape }: { nodeId: string; className?: string; shape?: PolygonShapeEx }) {
 		const node = this.graphData.allNodes.get(nodeId);
 		if (!node) return;
-		if (className) node.data.className = className;
+		if (className) {
+			node.data.removeClassName = node.data.className;
+			node.data.className = className;
+		}
 		if (shape) node.data.shape = shape;
 		this.graphRoot.callChildrenRecursively('drawUpdateNodeVisual');
-		this.graphRoot.callChildrenRecursively('drawLayout');
-		this.graphRoot.callChildrenRecursively('drawInteraction');
+		// this.graphRoot.callChildrenRecursively('drawLayout');
+		// this.graphRoot.callChildrenRecursively('drawInteraction');
 	}
 
 	useGraphForces() {

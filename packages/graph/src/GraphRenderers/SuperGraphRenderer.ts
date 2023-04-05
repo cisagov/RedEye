@@ -9,6 +9,8 @@ import { GroupGraphRenderer } from './GroupGraphRenderer';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
 import {
 	addClassName,
+	assignId,
+	assignIdLabel,
 	circleArea,
 	circleRadius,
 	classNames,
@@ -62,6 +64,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
+			.attr('id', assignId)
 			.classed(classNames.superGraph, true)
 			.attr('transform-origin', 'center');
 
@@ -71,9 +74,9 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
+			.attr('id', assignId)
 			.classed(classNames.parentLink, true)
 			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink');
-		// .attr('stroke-width', d => d.linkIndexes.length);
 
 		this.positionSelection = this.graphSelection
 			.selectAll('g')
@@ -103,6 +106,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.nodeSelection
 			.attr('data-id', (d) => d.data.id!)
 			.attr('cy-test', 'graphNode')
+			.attr('id', assignId)
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
 			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.superNode, true)
@@ -120,6 +124,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.join('text')
 			.attr('text-anchor', 'end')
 			.attr('cy-test', 'selectedLabel')
+			.attr('id', assignIdLabel)
 			.each(addClassName)
 			.classed(classNames.superNodeNameLabel, true)
 			.style('display', 'none') // start hidden
@@ -137,6 +142,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 
 		super.initializeSelection();
 	}
+
+	drawUpdateNodeVisual() {}
 
 	drawTime() {
 		super.drawTime([this.countLabelSelection]);
