@@ -47,11 +47,11 @@ export const ToggleHiddenDialog = observer<Props>(
 				<DialogBodyEx cy-test="show-hide-dialog-text">
 					{isHidingFinal ? (
 						<>
-							<Txt running>
+							<Txt cy-test="cannot-hide-final-text1" running>
 								{plural} this {infoType.toLowerCase()} will create a state in which the UI has no content. To hide this{' '}
 								{infoType}, you must unhide another {infoType.toLowerCase()}.
 							</Txt>
-							<Txt running>
+							<Txt cy-test="cannot-hide-final-text2" running>
 								To unhide {infoType.toLowerCase()}s, toggle
 								<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings, and go
 								select

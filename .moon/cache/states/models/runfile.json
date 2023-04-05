@@ -1,0 +1,1674 @@
+{
+  "aliases": [
+    "@redeye/models"
+  ],
+  "config": {
+    "tasks": {
+      "build": {
+        "deps": [
+          "~:build-node"
+        ]
+      },
+      "start-dev": {
+        "deps": [
+          "~:start-node"
+        ],
+        "options": {
+          "runInCI": false
+        }
+      },
+      "test": {
+        "deps": [
+          "~:test-jest"
+        ]
+      }
+    }
+  },
+  "dependencies": {},
+  "fileGroups": {
+    "configs": {
+      "files": [
+        "*.{js,json,yml,yaml}"
+      ],
+      "id": "configs"
+    },
+    "tests": {
+      "files": [
+        "tests/**/*.test.*",
+        "**/__tests__/**/*"
+      ],
+      "id": "tests"
+    },
+    "sources": {
+      "files": [
+        "src/**/*",
+        "types/**/*",
+        "package.json"
+      ],
+      "id": "sources"
+    },
+    "assets": {
+      "files": [
+        "assets/**/*",
+        "images/**/*",
+        "static/**/*",
+        "**/*.{scss,css}",
+        "**/*.mdx"
+      ],
+      "id": "assets"
+    }
+  },
+  "id": "models",
+  "inheritedConfig": {
+    "fileGroups": {
+      "configs": [
+        "*.{js,json,yml,yaml}"
+      ],
+      "sources": [
+        "src/**/*",
+        "types/**/*",
+        "package.json"
+      ],
+      "tests": [
+        "tests/**/*.test.*",
+        "**/__tests__/**/*"
+      ],
+      "assets": [
+        "assets/**/*",
+        "images/**/*",
+        "static/**/*",
+        "**/*.{scss,css}",
+        "**/*.mdx"
+      ]
+    },
+    "implicitInputs": [
+      "/.moon/*.yml"
+    ],
+    "tasks": {
+      "build-library": {
+        "command": "cross-env npx -c \"tsup-node ./src/index.ts --minify --format esm && tsc --emitDeclarationOnly --outDir dist\"",
+        "deps": [
+          "^:build",
+          "~:clean-dist"
+        ],
+        "env": {
+          "NODE_ENV": "production"
+        },
+        "inputs": [
+          "@globs(sources)",
+          "@globs(assets)",
+          "tsconfig.json"
+        ],
+        "outputs": [
+          "dist",
+          "tsconfig.tsbuildinfo"
+        ],
+        "options": {
+          "runDepsInParallel": false,
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "build-node": {
+        "command": "noop",
+        "deps": [
+          "^:build",
+          "~:build-swc",
+          "~:typecheck"
+        ],
+        "env": {
+          "NODE_ENV": "production"
+        },
+        "inputs": [
+          "@globs(sources)",
+          "@globs(tests)",
+          "tsconfig.json"
+        ],
+        "outputs": [
+          "dist",
+          "tsconfig.tsbuildinfo"
+        ],
+        "options": {
+          "runDepsInParallel": false,
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "build-swc": {
+        "command": "swc src -d @out(0) --copy-files",
+        "deps": [
+          "~:clean-dist"
+        ],
+        "inputs": [
+          "@globs(sources)",
+          ".swcrc"
+        ],
+        "outputs": [
+          "dist"
+        ],
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "build-vite": {
+        "command": "vite build",
+        "deps": [
+          "~:clean-dist",
+          "^:build"
+        ],
+        "env": {
+          "NODE_ENV": "production"
+        },
+        "inputs": [
+          "@globs(sources)",
+          "@globs(assets)",
+          "vite.config.ts",
+          "tsconfig.json"
+        ],
+        "outputs": [
+          "dist",
+          "tsconfig.tsbuildinfo"
+        ],
+        "options": {
+          "runDepsInParallel": false,
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "clean-dist": {
+        "command": "rimraf ./dist && rimraf tsconfig.tsbuildinfo",
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "fetch-pkg-linux": {
+        "command": "pkg-fetch --platform linux --node-range node16",
+        "options": {
+          "runInCI": false
+        }
+      },
+      "fetch-pkg-mac": {
+        "command": "pkg-fetch --platform mac --node-range node16",
+        "options": {
+          "runInCI": false
+        }
+      },
+      "fetch-pkg-windows": {
+        "command": "pkg-fetch --platform win --node-range node16",
+        "options": {
+          "runInCI": false
+        }
+      },
+      "format": {
+        "command": [
+          "prettier",
+          "**/*.+(ts|tsx|js|jsx|json|yml|yaml)",
+          "--write",
+          "--config",
+          "$workspaceRoot/.prettierrc.yaml",
+          "--ignore-unknown",
+          "--ignore-path",
+          "$workspaceRoot/.gitignore"
+        ],
+        "inputs": [
+          "@globs(sources)"
+        ],
+        "options": {
+          "affectedFiles": true,
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "lint": {
+        "command": "eslint src --fix --max-warnings 0",
+        "inputs": [
+          "@globs(sources)",
+          "@globs(tests)",
+          ".eslintignore",
+          ".eslintrc.yaml"
+        ],
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "lint-ci": {
+        "command": "eslint",
+        "options": {
+          "affectedFiles": true,
+          "runInCI": false
+        }
+      },
+      "noop": {
+        "command": "noop",
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "release-all": {
+        "command": "noop",
+        "deps": [
+          "~:release-linux",
+          "~:release-windows",
+          "~:release-mac"
+        ],
+        "options": {
+          "mergeOutputs": "replace",
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "release-linux": {
+        "command": "pkg ./package.json -t node16-linux -o @out(0)",
+        "deps": [
+          "~:build",
+          "~:fetch-pkg-linux"
+        ],
+        "outputs": [
+          "/release/linux/RedEye"
+        ],
+        "options": {
+          "mergeOutputs": "replace",
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "release-mac": {
+        "command": "pkg ./package.json -t node16-mac -o @out(0)",
+        "deps": [
+          "~:build",
+          "~:fetch-pkg-mac"
+        ],
+        "outputs": [
+          "/release/mac/RedEye"
+        ],
+        "options": {
+          "mergeOutputs": "replace",
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "release-windows": {
+        "command": "pkg ./package.json -t node16-win -o @out(0)",
+        "deps": [
+          "~:build",
+          "~:fetch-pkg-windows"
+        ],
+        "outputs": [
+          "/release/windows/RedEye"
+        ],
+        "options": {
+          "mergeOutputs": "replace",
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "run-cypress": {
+        "command": [
+          "cypress",
+          "run",
+          "--config-file",
+          "cypress.config.js"
+        ],
+        "env": {
+          "CYPRESS_BASE_URL": "http://localhost:3500"
+        },
+        "local": true,
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "start-cypress": {
+        "command": [
+          "cypress",
+          "open",
+          "--config-file",
+          "cypress.config.js"
+        ],
+        "env": {
+          "CYPRESS_BASE_URL": "http://localhost:3500"
+        },
+        "local": true,
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "start-node": {
+        "command": "nodemon --ext ts --watch src --exec \"swc src -d dist && yarn node ./dist/index.js\" --ignore \"src/**/*.test.ts\"",
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "inputs": [
+          "@globs(sources)",
+          "@globs(tests)",
+          "tsconfig.json"
+        ],
+        "local": true,
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "start-vite": {
+        "command": "vite",
+        "inputs": [
+          "@globs(sources)",
+          "@globs(assets)",
+          "vite.config.ts"
+        ],
+        "local": true,
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "test-jest": {
+        "command": "jest . --coverage --reporters=\"jest-junit\" --passWithNoTests",
+        "inputs": [
+          "@globs(sources)",
+          "@globs(tests)",
+          "jest.config.ts"
+        ],
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "typecheck": {
+        "command": "tsc --emitDeclarationOnly --outDir @out(0)",
+        "inputs": [
+          "@globs(sources)",
+          "@globs(tests)",
+          "tsconfig.json"
+        ],
+        "outputs": [
+          "dist",
+          "tsconfig.tsbuildinfo"
+        ],
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      },
+      "watch-library": {
+        "command": "tsup-node ./src/index.ts --watch --clean --minify --format esm",
+        "env": {
+          "NODE_ENV": "production"
+        },
+        "inputs": [
+          "@globs(sources)",
+          "@globs(assets)"
+        ],
+        "local": true,
+        "outputs": [
+          "dist"
+        ],
+        "options": {
+          "runInCI": false
+        },
+        "platform": "node"
+      }
+    }
+  },
+  "language": "typescript",
+  "root": "C:\\Users\\D3P014\\Projects\\RedEye\\packages\\models",
+  "source": "packages\\models",
+  "tasks": {
+    "build": {
+      "args": [],
+      "command": "noop",
+      "deps": [
+        "models:build-node"
+      ],
+      "env": {},
+      "id": "build",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": true,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:build",
+      "type": "test"
+    },
+    "build-library": {
+      "args": [
+        "npx",
+        "-c",
+        "tsup-node ./src/index.ts --minify --format esm && tsc --emitDeclarationOnly --outDir dist"
+      ],
+      "command": "cross-env",
+      "deps": [
+        "models:clean-dist"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "id": "build-library",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(assets)",
+        "tsconfig.json",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/static/**/*",
+        ".moon/*.yml",
+        "packages/models/src/**/*",
+        "packages/models/types/**/*",
+        "packages/models/images/**/*",
+        "packages/models/assets/**/*",
+        "packages/models/**/*.{scss,css}",
+        "packages/models/**/*.mdx"
+      ],
+      "inputPaths": [
+        "packages\\models\\tsconfig.json"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": false,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "dist",
+        "tsconfig.tsbuildinfo"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "packages\\models\\dist",
+        "packages\\models\\tsconfig.tsbuildinfo"
+      ],
+      "platform": "node",
+      "target": "models:build-library",
+      "type": "run"
+    },
+    "build-node": {
+      "args": [],
+      "command": "noop",
+      "deps": [
+        "models:build-swc",
+        "models:typecheck"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "id": "build-node",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(tests)",
+        "tsconfig.json",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/**/__tests__/**/*",
+        "packages/models/tests/**/*.test.*",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [
+        "packages\\models\\tsconfig.json"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": false,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "dist",
+        "tsconfig.tsbuildinfo"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "packages\\models\\dist",
+        "packages\\models\\tsconfig.tsbuildinfo"
+      ],
+      "platform": "node",
+      "target": "models:build-node",
+      "type": "run"
+    },
+    "build-swc": {
+      "args": [
+        "src",
+        "-d",
+        ".\\dist",
+        "--copy-files"
+      ],
+      "command": "swc",
+      "deps": [
+        "models:clean-dist"
+      ],
+      "env": {},
+      "id": "build-swc",
+      "inputs": [
+        "@globs(sources)",
+        ".swcrc",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [
+        "packages\\models\\.swcrc"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "dist"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "packages\\models\\dist"
+      ],
+      "platform": "node",
+      "target": "models:build-swc",
+      "type": "run"
+    },
+    "build-vite": {
+      "args": [
+        "build"
+      ],
+      "command": "vite",
+      "deps": [
+        "models:clean-dist"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "id": "build-vite",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(assets)",
+        "vite.config.ts",
+        "tsconfig.json",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/static/**/*",
+        ".moon/*.yml",
+        "packages/models/src/**/*",
+        "packages/models/types/**/*",
+        "packages/models/images/**/*",
+        "packages/models/assets/**/*",
+        "packages/models/**/*.{scss,css}",
+        "packages/models/**/*.mdx"
+      ],
+      "inputPaths": [
+        "packages\\models\\vite.config.ts",
+        "packages\\models\\tsconfig.json"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": false,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "dist",
+        "tsconfig.tsbuildinfo"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "packages\\models\\dist",
+        "packages\\models\\tsconfig.tsbuildinfo"
+      ],
+      "platform": "node",
+      "target": "models:build-vite",
+      "type": "run"
+    },
+    "clean-dist": {
+      "args": [
+        "./dist",
+        "&&",
+        "rimraf",
+        "tsconfig.tsbuildinfo"
+      ],
+      "command": "rimraf",
+      "deps": [],
+      "env": {},
+      "id": "clean-dist",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:clean-dist",
+      "type": "run"
+    },
+    "fetch-pkg-linux": {
+      "args": [
+        "--platform",
+        "linux",
+        "--node-range",
+        "node16"
+      ],
+      "command": "pkg-fetch",
+      "deps": [],
+      "env": {},
+      "id": "fetch-pkg-linux",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:fetch-pkg-linux",
+      "type": "run"
+    },
+    "fetch-pkg-mac": {
+      "args": [
+        "--platform",
+        "mac",
+        "--node-range",
+        "node16"
+      ],
+      "command": "pkg-fetch",
+      "deps": [],
+      "env": {},
+      "id": "fetch-pkg-mac",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:fetch-pkg-mac",
+      "type": "run"
+    },
+    "fetch-pkg-windows": {
+      "args": [
+        "--platform",
+        "win",
+        "--node-range",
+        "node16"
+      ],
+      "command": "pkg-fetch",
+      "deps": [],
+      "env": {},
+      "id": "fetch-pkg-windows",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:fetch-pkg-windows",
+      "type": "run"
+    },
+    "format": {
+      "args": [
+        "**/*.+(ts|tsx|js|jsx|json|yml|yaml)",
+        "--write",
+        "--config",
+        "C:\\Users\\D3P014\\Projects\\RedEye/.prettierrc.yaml",
+        "--ignore-unknown",
+        "--ignore-path",
+        "C:\\Users\\D3P014\\Projects\\RedEye/.gitignore"
+      ],
+      "command": "prettier",
+      "deps": [],
+      "env": {},
+      "id": "format",
+      "inputs": [
+        "@globs(sources)",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": "both",
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:format",
+      "type": "run"
+    },
+    "lint": {
+      "args": [
+        "src",
+        "--fix",
+        "--max-warnings",
+        "0"
+      ],
+      "command": "eslint",
+      "deps": [],
+      "env": {},
+      "id": "lint",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(tests)",
+        ".eslintignore",
+        ".eslintrc.yaml",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/**/__tests__/**/*",
+        "packages/models/tests/**/*.test.*",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [
+        "packages\\models\\.eslintrc.yaml",
+        "packages\\models\\.eslintignore"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:lint",
+      "type": "run"
+    },
+    "lint-ci": {
+      "args": [],
+      "command": "eslint",
+      "deps": [],
+      "env": {},
+      "id": "lint-ci",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": "both",
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:lint-ci",
+      "type": "run"
+    },
+    "noop": {
+      "args": [],
+      "command": "noop",
+      "deps": [],
+      "env": {},
+      "id": "noop",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:noop",
+      "type": "run"
+    },
+    "release-all": {
+      "args": [],
+      "command": "noop",
+      "deps": [
+        "models:release-linux",
+        "models:release-windows",
+        "models:release-mac"
+      ],
+      "env": {},
+      "id": "release-all",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "replace",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:release-all",
+      "type": "run"
+    },
+    "release-linux": {
+      "args": [
+        "./package.json",
+        "-t",
+        "node16-linux",
+        "-o",
+        "..\\..\\release\\linux\\RedEye"
+      ],
+      "command": "pkg",
+      "deps": [
+        "models:build",
+        "models:fetch-pkg-linux"
+      ],
+      "env": {},
+      "id": "release-linux",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "replace",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "/release/linux/RedEye"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "release\\linux\\RedEye"
+      ],
+      "platform": "node",
+      "target": "models:release-linux",
+      "type": "run"
+    },
+    "release-mac": {
+      "args": [
+        "./package.json",
+        "-t",
+        "node16-mac",
+        "-o",
+        "..\\..\\release\\mac\\RedEye"
+      ],
+      "command": "pkg",
+      "deps": [
+        "models:build",
+        "models:fetch-pkg-mac"
+      ],
+      "env": {},
+      "id": "release-mac",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "replace",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "/release/mac/RedEye"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "release\\mac\\RedEye"
+      ],
+      "platform": "node",
+      "target": "models:release-mac",
+      "type": "run"
+    },
+    "release-windows": {
+      "args": [
+        "./package.json",
+        "-t",
+        "node16-win",
+        "-o",
+        "..\\..\\release\\windows\\RedEye"
+      ],
+      "command": "pkg",
+      "deps": [
+        "models:build",
+        "models:fetch-pkg-windows"
+      ],
+      "env": {},
+      "id": "release-windows",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "replace",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "/release/windows/RedEye"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "release\\windows\\RedEye"
+      ],
+      "platform": "node",
+      "target": "models:release-windows",
+      "type": "run"
+    },
+    "run-cypress": {
+      "args": [
+        "run",
+        "--config-file",
+        "cypress.config.js"
+      ],
+      "command": "cypress",
+      "deps": [],
+      "env": {
+        "CYPRESS_BASE_URL": "http://localhost:3500"
+      },
+      "id": "run-cypress",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": false,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": "stream",
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:run-cypress",
+      "type": "run"
+    },
+    "start-cypress": {
+      "args": [
+        "open",
+        "--config-file",
+        "cypress.config.js"
+      ],
+      "command": "cypress",
+      "deps": [],
+      "env": {
+        "CYPRESS_BASE_URL": "http://localhost:3500"
+      },
+      "id": "start-cypress",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": false,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": "stream",
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:start-cypress",
+      "type": "run"
+    },
+    "start-dev": {
+      "args": [],
+      "command": "noop",
+      "deps": [
+        "models:start-node"
+      ],
+      "env": {},
+      "id": "start-dev",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:start-dev",
+      "type": "run"
+    },
+    "start-node": {
+      "args": [
+        "--ext",
+        "ts",
+        "--watch",
+        "src",
+        "--exec",
+        "swc src -d dist && yarn node ./dist/index.js",
+        "--ignore",
+        "src/**/*.test.ts"
+      ],
+      "command": "nodemon",
+      "deps": [],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "id": "start-node",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(tests)",
+        "tsconfig.json",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/**/__tests__/**/*",
+        "packages/models/tests/**/*.test.*",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [
+        "packages\\models\\tsconfig.json"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": false,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": "stream",
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:start-node",
+      "type": "run"
+    },
+    "start-vite": {
+      "args": [],
+      "command": "vite",
+      "deps": [],
+      "env": {},
+      "id": "start-vite",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(assets)",
+        "vite.config.ts",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/static/**/*",
+        ".moon/*.yml",
+        "packages/models/src/**/*",
+        "packages/models/types/**/*",
+        "packages/models/images/**/*",
+        "packages/models/assets/**/*",
+        "packages/models/**/*.{scss,css}",
+        "packages/models/**/*.mdx"
+      ],
+      "inputPaths": [
+        "packages\\models\\vite.config.ts"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": false,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": "stream",
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:start-vite",
+      "type": "run"
+    },
+    "test": {
+      "args": [],
+      "command": "noop",
+      "deps": [
+        "models:test-jest"
+      ],
+      "env": {},
+      "id": "test",
+      "inputs": [
+        "**/*",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        ".moon/*.yml",
+        "packages/models/**/*"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": true,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:test",
+      "type": "test"
+    },
+    "test-jest": {
+      "args": [
+        ".",
+        "--coverage",
+        "--reporters=jest-junit",
+        "--passWithNoTests"
+      ],
+      "command": "jest",
+      "deps": [],
+      "env": {},
+      "id": "test-jest",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(tests)",
+        "jest.config.ts",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/**/__tests__/**/*",
+        "packages/models/tests/**/*.test.*",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [
+        "packages\\models\\jest.config.ts"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [],
+      "outputGlobs": [],
+      "outputPaths": [],
+      "platform": "node",
+      "target": "models:test-jest",
+      "type": "run"
+    },
+    "typecheck": {
+      "args": [
+        "--emitDeclarationOnly",
+        "--outDir",
+        ".\\dist"
+      ],
+      "command": "tsc",
+      "deps": [],
+      "env": {},
+      "id": "typecheck",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(tests)",
+        "tsconfig.json",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/types/**/*",
+        ".moon/*.yml",
+        "packages/models/**/__tests__/**/*",
+        "packages/models/tests/**/*.test.*",
+        "packages/models/src/**/*"
+      ],
+      "inputPaths": [
+        "packages\\models\\tsconfig.json"
+      ],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": true,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": null,
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "dist",
+        "tsconfig.tsbuildinfo"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "packages\\models\\dist",
+        "packages\\models\\tsconfig.tsbuildinfo"
+      ],
+      "platform": "node",
+      "target": "models:typecheck",
+      "type": "run"
+    },
+    "watch-library": {
+      "args": [
+        "./src/index.ts",
+        "--watch",
+        "--clean",
+        "--minify",
+        "--format",
+        "esm"
+      ],
+      "command": "tsup-node",
+      "deps": [],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "id": "watch-library",
+      "inputs": [
+        "@globs(sources)",
+        "@globs(assets)",
+        "/.moon/*.yml"
+      ],
+      "inputGlobs": [
+        "packages/models/static/**/*",
+        ".moon/*.yml",
+        "packages/models/src/**/*",
+        "packages/models/types/**/*",
+        "packages/models/images/**/*",
+        "packages/models/assets/**/*",
+        "packages/models/**/*.{scss,css}",
+        "packages/models/**/*.mdx"
+      ],
+      "inputPaths": [],
+      "inputVars": [],
+      "options": {
+        "affectedFiles": null,
+        "cache": false,
+        "envFile": null,
+        "mergeArgs": "append",
+        "mergeDeps": "append",
+        "mergeEnv": "append",
+        "mergeInputs": "append",
+        "mergeOutputs": "append",
+        "outputStyle": "stream",
+        "retryCount": 0,
+        "runDepsInParallel": true,
+        "runInCi": false,
+        "runFromWorkspaceRoot": false
+      },
+      "outputs": [
+        "dist"
+      ],
+      "outputGlobs": [],
+      "outputPaths": [
+        "packages\\models\\dist"
+      ],
+      "platform": "node",
+      "target": "models:watch-library",
+      "type": "run"
+    }
+  },
+  "type": "unknown"
+}

@@ -81,6 +81,12 @@ declare namespace Cypress {
 		 */
 		clickBeaconsTab();
 
+		/**Clicks the Commands tab in Explorer mode.
+		 * @example
+		 * cy.clickCommandsTab()
+		 */
+		clickCommandsTab();
+
 		/**Clicks the tab to switch to the list of command types within the campaign.
 		 * @example
 		 * cy.clickCommandTypesTab()
@@ -104,6 +110,18 @@ declare namespace Cypress {
 		 * cy.clickGeneralSettings()
 		 */
 		clickGeneralSettings();
+
+		/**Clicks the Hosts tab in Explorer mode.
+		 * @example
+		 * cy.clickHostsTab()
+		 */
+		clickHostsTab();
+
+		/**Clicks the Meta tab in Explorer mode.
+		 * @example
+		 * cy.clickMetaTab()
+		 */
+		clickMetaTab();
 
 		/**Clicks the tab to open the list of Operators.
 		 * @example
@@ -134,6 +152,18 @@ declare namespace Cypress {
 		 * cy.closeRawLogs()
 		 */
 		closeRawLogs();
+
+		/**Closes the search modal.
+		 * @example
+		 * cy.closeSearch()
+		 */
+		closeSearch();
+
+		/**Clicks the confirmation button in the modal to confirm that you either want to hide or show an item.
+		 * @example
+		 * cy.confirmShowHide()
+		 */
+		confirmShowHide();
 
 		/**Deletes the campaign using GraphQL to ensure campaigns are always removed after testing.
 		 * @example
@@ -187,6 +217,36 @@ declare namespace Cypress {
 		 */
 		favoriteComment();
 
+		/**Opens the list of options in the Search modal to filter the search results.
+		 * @example
+		 * cy.filterSearchResults()
+		 */
+		filterSearchResults();
+
+		/**Chooses the Beacons option in the Search modal's list of filtering options.
+		 * @example
+		 * cy.filterToBeacons()
+		 */
+		filterToBeacons();
+
+		/**Chooses the Commands option in the Search modal's list of filtering options.
+		 * @example
+		 * cy.filterToCommands()
+		 */
+		filterToCommands();
+
+		/**Chooses the Hosts option in the Search modal's list of filtering options.
+		 * @example
+		 * cy.filterToHosts()
+		 */
+		filterToHosts();
+
+		/**Chooses the Servers option in the Search modal's list of filtering options.
+		 * @example
+		 * cy.filterToServers()
+		 */
+		filterToServers();
+
 		/**Checks that the number of info rows is as expected.
 		 * @example
 		 * cy.infoRowTotal(expectedRows)
@@ -211,6 +271,12 @@ declare namespace Cypress {
 		 */
 		numberOfBeacons();
 
+		/**Removes the selected filter in the Search modal.
+		 * @example
+		 * cy.removeFilter()
+		 */
+		removeFilter();
+
 		/**Reply to an existing comment. Will add text but no tags. Must indicate the index of the comment you are replying to. Will likely be used in conjunction with addExistingTagsToReply command.
 		 * @example
 		 * cy.replyToComment(index, comment)
@@ -228,6 +294,12 @@ declare namespace Cypress {
 		 * cy.searchForCampaign(campaign)
 		 */
 		searchForCampaign();
+
+		/**Verifies that a specific search result contains a specific word or phrase.
+		 * @example
+		 * cy.searchResultContains(index, term)
+		 */
+		searchResultContains();
 
 		/**Selects a specified campaign on the campaign card menu.
 		 * @example
@@ -247,6 +319,54 @@ declare namespace Cypress {
 		 */
 		showHiddenItems();
 
+		/**Clicks the "Show this Beacon" or "Hide this Beacon" link in the Meta tab.
+		 * @example
+		 * cy.showHideBeaconMetaTab()
+		 */
+		showHideBeaconMetaTab();
+
+		/**Clicks the "Show this Host" or "Hide this Host" link in the Meta tab.
+		 * @example
+		 * cy.showHideHostMetaTab()
+		 */
+		showHideHostMetaTab();
+
+		/**Uses the in-line kebab menu to show or hide a Beacon, Host, or Server.
+		 * @example
+		 * cy.showHideItem()
+		 */
+		showHideItem();
+
+		/**Clicks the "Show this Server" or "Hide this Server" link in the Meta tab.
+		 * @example
+		 * cy.showHideServerMetaTab()
+		 */
+		showHideServerMetaTab();
+
+		/**Sorts Search modal results by name.
+		 * @example
+		 * cy.sortByName()
+		 */
+		sortByName();
+
+		/**Sorts Search modal results by relevance.
+		 * @example
+		 * cy.sortByRelevance()
+		 */
+		sortByRelevance();
+
+		/**Sorts Search modal results by type.
+		 * @example
+		 * cy.sortByType()
+		 */
+		sortByType();
+
+		/**Opens the list of options in the Search modal to sort the results.
+		 * @example
+		 * cy.sortSearchResults()
+		 */
+		sortSearchResults();
+
 		/**Clicks the Back button on the timeline once.
 		 * @example
 		 * cy.timelineBack()
@@ -265,6 +385,18 @@ declare namespace Cypress {
 		 */
 		timelinePlayPause();
 
+		/**Toggle on Dark Theme
+		 * @example
+		 * cy.toggleDarkTheme()
+		 */
+		toggleDarkTheme();
+
+		/**Toggle on Light Theme
+		 * @example
+		 * cy.toggleLightTheme()
+		 */
+		toggleLightTheme();
+
 		/**Verifies that the beacon count is showing as expected.
 		 * @example
 		 * cy.totalBeacons(expectedCount)
@@ -277,28 +409,16 @@ declare namespace Cypress {
 		 */
 		uploadCampaign();
 
+		/**Verifies that the modal asking if you want to hide or show an item appears.
+		 * @example
+		 * cy.verifyDialogBoxAppears
+		 */
+		verifyDialogBoxAppears();
+
 		/**Verifies that the total number of commands is showing as expected.
 		 * @example
 		 * cy.verifyTotalCommands(expectedCount)
 		 */
 		verifyTotalCommands();
-
-		/**Toggle on Light Theme
-		 * @example
-		 * cy.toggleLightTheme()
-		 */
-		toggleLightTheme();
-
-		/**Toggle on Dark Theme
-		 * @example
-		 * cy.toggleDarkTheme()
-		 */
-		toggleDarkTheme();
-
-		/**Closes the search modal in explorer
-		 * @example
-		 * cy.toggleDarkTheme()
-		 */
-		closeSearch();
 	}
 }

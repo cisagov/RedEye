@@ -58,7 +58,6 @@ describe('Username shows on comments when appropriate', () => {
 			.eq(0)
 			.invoke('text')
 			.then((commentInfo2) => {
-				cy.log(commentInfo2);
 				expect(commentInfo2).to.contain(user);
 			});
 	});
@@ -81,7 +80,6 @@ describe('Username shows on comments when appropriate', () => {
 		cy.get('[cy-test=existing-comment-display]')
 			.invoke('text')
 			.then((commentInfo3) => {
-				cy.log(commentInfo3);
 				expect(commentInfo3).to.contain(user);
 			});
 	});

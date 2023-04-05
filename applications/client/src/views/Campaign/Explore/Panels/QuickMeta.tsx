@@ -40,7 +40,7 @@ export const QuickMetaPopoverButtonMenu = observer<PopoverButtonProps>(({ conten
 		stopPropagation
 		icon={<CarbonIcon icon={OverflowMenuVertical16} />}
 		css={buttonStyle}
-		content={<Menu onClick={(e) => e.stopPropagation()}>{content}</Menu>}
+		content={<Menu>{content}</Menu>}
 		{...props}
 	/>
 ));

@@ -10,6 +10,7 @@ describe('Add Delete Campaign Comments', () => {
 	let count;
 	it('Add campaign comments and check counts', () => {
 		cy.uploadCampaign(camp, fileName);
+		cy.searchForCampaign(camp);
 
 		cy.get('[cy-test=comment-count]')
 			.find('span')
@@ -50,7 +51,7 @@ describe('Add Delete Campaign Comments', () => {
 			});
 		});
 
-		// 		// Add a new comment
+		// Add a new comment
 		cy.clickExplorerMode();
 
 		cy.clickCommandTypesTab();
@@ -95,6 +96,8 @@ describe('Add Delete Campaign Comments', () => {
 
 		cy.wait(1000);
 
+		cy.searchForCampaign(camp);
+
 		cy.get('@campaignCommentCount').then((campaignCommentCount) => {
 			cy.get('[cy-test=comment-count]')
 				.find('span')
@@ -106,6 +109,8 @@ describe('Add Delete Campaign Comments', () => {
 	});
 
 	it('Delete campaign comments and check counts', () => {
+		cy.searchForCampaign(camp);
+
 		cy.get('[cy-test=comment-count]')
 			.find('span')
 			.invoke('text')
@@ -153,6 +158,8 @@ describe('Add Delete Campaign Comments', () => {
 		cy.returnToCampaignCard();
 
 		cy.wait(1000);
+
+		cy.searchForCampaign(camp);
 
 		cy.get('[cy-test=comment-count]')
 			.find('span')
