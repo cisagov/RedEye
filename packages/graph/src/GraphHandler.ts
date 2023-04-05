@@ -327,17 +327,33 @@ export class GraphHandler {
 		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
 	}
 
-	updateNodeVisual({ nodeId, className, shape }: { nodeId: string; className?: string; shape?: PolygonShapeEx }) {
+	updateNodeVisual({
+		nodeId,
+		className,
+		shape,
+	}: {
+		nodeId: string;
+		/** pass empty string to remove className */
+		className?: string;
+		shape?: PolygonShapeEx;
+	}) {
 		const node = this.graphData.allNodes.get(nodeId);
 		if (!node) return;
-		if (className) {
+		if (className != null) {
 			node.data.removeClassName = node.data.className;
 			node.data.className = className;
 		}
 		if (shape) node.data.shape = shape;
+
 		this.graphRoot.callChildrenRecursively('drawUpdateNodeVisual');
-		// this.graphRoot.callChildrenRecursively('drawLayout');
-		// this.graphRoot.callChildrenRecursively('drawInteraction');
+
+		/* 
+		// This function *could* be made more performant by selecting only the exact node for update
+		const nodeSelection = this.graphRoot.rootSelection.select('#' + nodeId)
+		// and sending it through a static method of a specific GraphRenderer class 
+		SomeGraphRenderer.updateNodeVisual(nodeSelection)
+		// this technique would also work in this.updateNodeName
+		*/
 	}
 
 	useGraphForces() {

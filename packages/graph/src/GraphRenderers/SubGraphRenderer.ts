@@ -11,7 +11,7 @@ import {
 	isInteractionRelated,
 	interactionSort,
 	createSvgElement,
-	addClassName,
+	updateClassName,
 	assignId,
 	assignIdLabel,
 } from './layout-utils';
@@ -73,7 +73,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.classed('testing', true)
 			.attr('cy-test', 'beaconsGraph')
 			.attr('id', assignId)
-			.each(addClassName)
+			.each(updateClassName)
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
 			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.subNode, true)
@@ -90,7 +90,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.data(this.nodes.filter((d) => d.type === 'keyNode'))
 			.join('text')
 			.attr('id', assignIdLabel)
-			.each(addClassName)
+			.each(updateClassName)
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
 
@@ -98,7 +98,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	drawUpdateNodeVisual() {
-		this.nodeSelection.each(addClassName);
+		this.nodeSelection.each(updateClassName);
 		this.nodeSelection.selectChildren().remove();
 		this.nodeSelection
 			.append((d) => createSvgElement(d.data.shape === 'circle' || d.data.shape == null ? 'circle' : 'polygon'))

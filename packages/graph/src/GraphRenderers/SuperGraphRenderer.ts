@@ -8,7 +8,7 @@ import {
 import { GroupGraphRenderer } from './GroupGraphRenderer';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
 import {
-	addClassName,
+	updateClassName,
 	assignId,
 	assignIdLabel,
 	circleArea,
@@ -89,7 +89,6 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.append('g')
 			.append('circle')
 			.attr('r', (d) => d.r || 0)
-			.each(addClassName)
 			.classed(classNames.computerNode, true);
 
 		this.serverSelection = this.positionSelection
@@ -97,16 +96,15 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.append('g')
 			.append('polygon')
 			.attr('points', (d) => polygonPointsSvg(6, d.r || 0))
-			.each(addClassName)
 			.classed(classNames.serverNode, true);
 
 		// select this.hostSelection & this.serverSelection
 		this.nodeSelection = this.positionSelection.selectChild().selectChild();
 
 		this.nodeSelection
-			.attr('data-id', (d) => d.data.id!)
 			.attr('cy-test', 'graphNode')
 			.attr('id', assignId)
+			.each(updateClassName)
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
 			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.superNode, true)
@@ -125,7 +123,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('text-anchor', 'end')
 			.attr('cy-test', 'selectedLabel')
 			.attr('id', assignIdLabel)
-			.each(addClassName)
+			.each(updateClassName)
 			.classed(classNames.superNodeNameLabel, true)
 			.style('display', 'none') // start hidden
 			.text(createLabel);
@@ -136,14 +134,16 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.data(this.nodes.filter((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length > 1))
 			.join('text')
 			.attr('text-anchor', 'middle')
-			.each(addClassName)
+			.each(updateClassName)
 			.classed(classNames.superNodeCountLabel, true)
 			.text((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length);
 
 		super.initializeSelection();
 	}
 
-	drawUpdateNodeVisual() {}
+	drawUpdateNodeVisual() {
+		this.nodeSelection.each(updateClassName);
+	}
 
 	drawTime() {
 		super.drawTime([this.countLabelSelection]);

@@ -185,7 +185,7 @@ export const interactionSort = (a: NodeOrLink, b: NodeOrLink) => {
 	return interactionPriority(a) - interactionPriority(b);
 };
 
-export const addClassName: ValueFn<Element | BaseType, HierarchicalGraphNode, void> = (datum, i, groups) => {
+export const updateClassName: ValueFn<Element | BaseType, HierarchicalGraphNode, void> = (datum, i, groups) => {
 	const element = groups[i] as Element;
 	if (datum.data.removeClassName) element?.classList?.remove(datum.data.removeClassName);
 	if (datum.data.className) element?.classList?.add(datum.data.className);
@@ -194,9 +194,12 @@ export const addClassName: ValueFn<Element | BaseType, HierarchicalGraphNode, vo
 export const assignId = (datum: HierarchicalGraphNode | HierarchicalGraphLink) => {
 	return datum.type !== 'parentLinkNode' ? datum.data.id : null;
 };
+
 const assignIdLabelSuffix = '-label';
-export const assignIdLabel = (datum: HierarchicalGraphNode | HierarchicalGraphLink) =>
-	assignId(datum) + assignIdLabelSuffix;
+
+export const assignIdLabel = (datum: HierarchicalGraphNode | HierarchicalGraphLink) => {
+	return assignId(datum) + assignIdLabelSuffix;
+};
 
 export function round(number: number, decimals = 0) {
 	decimals = Math.pow(10, decimals);
