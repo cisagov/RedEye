@@ -3,7 +3,7 @@ import { RedEyeGraph, getServers } from './src/index.ts';
 
 const getGraphData = async () => {
 	try {
-		return await json('./testData/large.json');
+		return await json('./testData/small.json');
 	} catch {
 		return getServers(75, 5);
 	}
@@ -25,6 +25,7 @@ export const testGraph = async (svgElementId) => {
 		graphData,
 		element: document.getElementById(svgElementId),
 		previouslyParsedGraphData,
+		onSelectionChange: (selectedNode) => console.log(selectedNode),
 	});
 	window.addEventListener('resize', () => window.graph.resize());
 	console.log(window.graph);
