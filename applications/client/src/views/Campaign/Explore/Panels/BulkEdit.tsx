@@ -14,7 +14,7 @@ import { MenuItem2 } from '@blueprintjs/popover2';
 import { ToggleHiddenDialog } from './Meta';
 
 type HostRowProps = ComponentProps<'div'> & {
-	typeName: 'Host' | 'Beacon';
+	typeName: 'hosts' | 'beacons';
 	count: number;
 	bulkShow: UseMutationResult<any, unknown, void, unknown>;
 	bulkHide: UseMutationResult<any, unknown, void, unknown>;
@@ -64,7 +64,7 @@ export const BulkEdit = observer<HostRowProps>(
 			state.update('isDialogDisabled', window.localStorage.getItem('disableDialog') === 'true');
 			// const entityIds = typeName === 'Beacon' ? 'beaconIds' : 'hostIds';
 			const data =
-				typeName === 'Beacon'
+				typeName === 'beacons'
 					? await store.graphqlStore.queryNonHideableEntities({
 							campaignId: store.campaign.id!,
 							beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
@@ -77,7 +77,7 @@ export const BulkEdit = observer<HostRowProps>(
 							],
 					  });
 			const cantHideEntities =
-				((typeName === 'Beacon'
+				((typeName === 'beacons'
 					? data?.nonHideableEntities.beacons?.length
 					: [...(data?.nonHideableEntities.hosts || ''), ...(data?.nonHideableEntities.servers || '')]?.length) || 0) >
 				0;
@@ -159,7 +159,7 @@ export const BulkEdit = observer<HostRowProps>(
 					<ToggleHiddenDialog
 						typeName={typeName.toLowerCase()}
 						isOpen={state.bulkShow ? bulkShowState.showHide : bulkHideState.showHide}
-						infoType={typeName === 'Beacon' ? InfoType.BEACON : InfoType.HOST}
+						infoType={typeName === 'beacons' ? InfoType.BEACON : InfoType.HOST}
 						isHiddenToggled={state.bulkShow}
 						onClose={(e) => {
 							e.stopPropagation();

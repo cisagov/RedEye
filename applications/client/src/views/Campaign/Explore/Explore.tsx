@@ -216,7 +216,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 
 								{store.router?.params.tab === Tabs.HOSTS && store.campaign?.hostGroupSelect.groupSelect && (
 									<BulkEdit
-										typeName="Host"
+										typeName="hosts"
 										count={state.hostCount}
 										bulkShow={bulkShowHost}
 										bulkHide={bulkHideHost}
@@ -227,7 +227,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 
 								{store.router?.params.tab === Tabs.BEACONS && store.campaign?.beaconGroupSelect.groupSelect && (
 									<BulkEdit
-										typeName="Beacon"
+										typeName="beacons"
 										count={state.beaconCount}
 										bulkShow={bulkShowBeacon}
 										bulkHide={bulkHideBeacon}
