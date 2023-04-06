@@ -11,7 +11,13 @@ import { ToggleHiddenDialog } from '@redeye/client/views';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { MenuItem2 } from '@blueprintjs/popover2';
-import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
+import {
+	MetaGridLayout,
+	MetaLabel,
+	MetaSection,
+	SaveInputButton,
+	ToggleHiddenButton,
+} from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 

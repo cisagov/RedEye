@@ -7,7 +7,13 @@ import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
+import {
+	MetaGridLayout,
+	MetaLabel,
+	MetaSection,
+	SaveInputButton,
+	ToggleHiddenButton,
+} from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 export const HostMeta = observer((props) => {

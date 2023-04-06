@@ -18,7 +18,13 @@ import { CaretDown16 } from '@carbon/icons-react';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
+import {
+	MetaGridLayout,
+	MetaLabel,
+	MetaSection,
+	SaveInputButton,
+	ToggleHiddenButton,
+} from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 
 const useGetLastBeaconCommand = (
@@ -238,6 +244,19 @@ export const BeaconMeta = observer((props) => {
 							fill
 						/>
 					</Select2>
+					<MetaLabel>Display</MetaLabel>
+					<Flex>
+						<Select2
+							disabled={!!store.appMeta.blueTeam}
+							items={['red', 'green', 'blue'].map((s) => ({ key: s, label: s }))}
+							itemRenderer={(item, itemProps) => <MenuItem text={item.label} />}
+							onItemSelect={(e) => console.log(e)}
+							filterable={false}
+							fill
+						>
+							<Button text={'Color'} alignText="left" rightIcon={<CarbonIcon icon={CaretDown16} />} fill />
+						</Select2>
+					</Flex>
 				</MetaGridLayout>
 			</MetaSection>
 
