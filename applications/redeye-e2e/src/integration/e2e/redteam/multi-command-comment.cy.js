@@ -37,7 +37,7 @@ describe('Multi-Command Comments', () => {
 		cy.get('[cy-test=comments-view]').should('contain', comment).and('contain', tag);
 		cy.clickPresentationMode();
 		cy.get('[cy-test=favorited]').click();
-		cy.get('[cy-test=presentation-item-root]').should('contain', comment).and('contain', tag);
+		cy.get('[cy-test=presentation-root]').should('contain', comment).and('contain', tag);
 	});
 
 	it('Add a new command to the comment', () => {
