@@ -26,6 +26,7 @@ import {
 	ToggleHiddenButton,
 } from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { GraphColorSelect } from './components/GraphAppearance';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -244,18 +245,9 @@ export const BeaconMeta = observer((props) => {
 							fill
 						/>
 					</Select2>
-					<MetaLabel>Display</MetaLabel>
+					<MetaLabel>Graph Appearance</MetaLabel>
 					<Flex>
-						<Select2
-							disabled={!!store.appMeta.blueTeam}
-							items={['red', 'green', 'blue'].map((s) => ({ key: s, label: s }))}
-							itemRenderer={(item, itemProps) => <MenuItem text={item.label} />}
-							onItemSelect={(e) => console.log(e)}
-							filterable={false}
-							fill
-						>
-							<Button text={'Color'} alignText="left" rightIcon={<CarbonIcon icon={CaretDown16} />} fill />
-						</Select2>
+						<GraphColorSelect />
 					</Flex>
 				</MetaGridLayout>
 			</MetaSection>
