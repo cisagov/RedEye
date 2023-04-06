@@ -95,7 +95,8 @@ tasks:
   format:
     command:
       - prettier
-      - '**/*.+(ts|tsx|js|jsx|json|yml|yaml)'
+      - '**/*.{ts,tsx,js,jsx,json,yml,yaml}'
+      - '!**/*.graphql'
       - --write
       - --config
       - $workspaceRoot/.prettierrc.yaml
