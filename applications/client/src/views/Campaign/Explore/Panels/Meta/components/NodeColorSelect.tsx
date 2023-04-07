@@ -6,6 +6,7 @@ import { CaretDown16 } from '@carbon/icons-react';
 import { CarbonIcon } from '@redeye/client/components';
 import type { NodeColor, NodeIconProps } from '@redeye/client/views/Campaign/Graph';
 import { nodeColor } from '@redeye/client/views/Campaign/Graph';
+import { largePopoverClassName } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import { NodePreview } from './NodePreview';
 
@@ -14,31 +15,37 @@ type NodeColorSelectProps = Partial<Select2Props<NodeColorOption>> & {
 	nodeIconProps?: NodeIconProps;
 };
 
-export const NodeColorSelect = observer<NodeColorSelectProps>(({ buttonProps, nodeIconProps, ...props }) => {
-	const itemRenderer: ItemRenderer<NodeColorOption> = ({ name }, { handleClick, handleFocus, modifiers }) => (
-		<MenuItem
-			active={modifiers.active}
-			disabled={modifiers.disabled}
-			key={name}
-			onClick={handleClick}
-			onFocus={handleFocus}
-			text={<NodePreview color={name} {...nodeIconProps} shape="circle" text="color" />}
-		/>
-	);
+export const NodeColorSelect = observer<NodeColorSelectProps>(
+	({ buttonProps, nodeIconProps, popoverContentProps, ...props }) => {
+		const itemRenderer: ItemRenderer<NodeColorOption> = ({ name }, { handleClick, handleFocus, modifiers }) => (
+			<MenuItem
+				active={modifiers.active}
+				disabled={modifiers.disabled}
+				key={name}
+				onClick={handleClick}
+				onFocus={handleFocus}
+				text={<NodePreview color={name} {...nodeIconProps} shape="circle" text="color" />}
+			/>
+		);
 
-	return (
-		<Select2
-			items={nodeColorOptions}
-			itemRenderer={itemRenderer}
-			onItemSelect={() => {}}
-			filterable={false}
-			fill
-			{...props}
-		>
-			<Button text="Color" alignText="left" rightIcon={<CarbonIcon icon={CaretDown16} />} fill {...buttonProps} />
-		</Select2>
-	);
-});
+		return (
+			<Select2
+				items={nodeColorOptions}
+				itemRenderer={itemRenderer}
+				onItemSelect={() => {}}
+				filterable={false}
+				fill
+				popoverContentProps={{
+					className: largePopoverClassName,
+					...popoverContentProps,
+				}}
+				{...props}
+			>
+				<Button text="Color" alignText="left" rightIcon={<CarbonIcon icon={CaretDown16} />} fill {...buttonProps} />
+			</Select2>
+		);
+	}
+);
 
 export type NodeColorOption = {
 	name: NodeColor;
