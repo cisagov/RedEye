@@ -1,6 +1,7 @@
 import { Beacon, Host, Link, Server } from '@redeye/models';
 import type { EntityManager } from '../../types';
 import { Field, ObjectType } from 'type-graphql';
+import { Loaded } from '@mikro-orm/core';
 
 export const ensureTreeHidden = async (
 	em: EntityManager,
@@ -16,6 +17,25 @@ export const ensureTreeHidden = async (
 			if (destinationLinks.every((l) => l.origin?.hidden === hidden || beaconsToHide.includes(l.origin?.id || ''))) {
 				await em.nativeUpdate(Beacon, { id: destinationBeacon.id }, { hidden });
 				await ensureTreeHidden(em, destinationBeacon.id, hidden, beaconsToHide);
+			}
+		}
+	}
+};
+
+export const findTree = async (
+	em: EntityManager,
+	id: string,
+	beaconsToHide: string[],
+	beaconsThatWillBeHidden: string[]
+): Promise<void> => {
+	const links = await em.find(Link, { origin: { id } });
+	for (const link of links) {
+		const destinationBeacon = link.destination;
+		if (destinationBeacon) {
+			const destinationLinks = await em.find(Link, { destination: { id: destinationBeacon?.id } });
+			if (destinationLinks.every((l) => l.origin?.hidden === false || beaconsToHide.includes(l.origin?.id || ''))) {
+				beaconsThatWillBeHidden.push(destinationBeacon.id);
+				await findTree(em, destinationBeacon.id, beaconsToHide, beaconsThatWillBeHidden);
 			}
 		}
 	}
@@ -58,16 +78,31 @@ export const checkCanHideEntities = async ({
 	const canHideBeacons: string[] = [];
 	const canHideHosts: string[] = [];
 	const canHideServers: string[] = [];
-
-	const cantHideBeacons = beacons.filter((beacon) => {
+	const cantHideBeacons = [];
+	const hostBeacons: Record<string, Loaded<Beacon>[]> = {};
+	const serverBeacons: Record<string, number> = {};
+	for (const beacon of beacons) {
+		const beaconsThatWillBeHidden: string[] = [beacon.id];
 		const beaconHost = beacon.host!;
-		const hostBeaconsNotHidden = beaconHost.beacons.getItems().filter((beacon) => !beacon.hidden);
-		if (checkCanHide(hostBeaconsNotHidden, canHideBeacons)) {
-			canHideBeacons.push(beacon.id);
-			return false;
+
+		// Find all sub beacons that will be hidden
+		await findTree(em, beacon.id, beaconsToHide, beaconsThatWillBeHidden);
+		if (beacon.server && !serverBeacons[beacon.server.id]) {
+			serverBeacons[beacon.server.id] = await em.count(Beacon, { server: { id: beacon.server.id }, hidden: false });
 		}
-		return true;
-	});
+		if (!hostBeacons[beaconHost.id]) {
+			hostBeacons[beaconHost.id] = (await beaconHost.beacons.init()).getItems();
+		}
+		const hostBeaconsNotHidden = hostBeacons[beaconHost.id].filter((beacon) => !beacon.hidden);
+		if (
+			checkCanHide(hostBeaconsNotHidden, canHideBeacons) &&
+			beaconsThatWillBeHidden.length < (beacon.server?.id ? serverBeacons[beacon.server.id] - 1 || 0 : 0)
+		) {
+			canHideBeacons.push(beacon.id);
+		} else {
+			cantHideBeacons.push(beacon);
+		}
+	}
 
 	const cantHideHosts = hosts.filter((host) => {
 		if (checkCanHide(notHiddenHosts, canHideHosts)) {
