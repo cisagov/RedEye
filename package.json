@@ -203,7 +203,7 @@
 		"vite-tsconfig-paths": "^3.5.0"
 	},
 	"lint-staged": {
-		"**/*.{json,yml,yaml,js,jsx,ts,tsx,graphql}": [
+		"**/*.{json,yml,yaml,js,jsx,ts,tsx}": [
 			"yarn prettier --ignore-path .gitignore --write"
 		]
 	},
