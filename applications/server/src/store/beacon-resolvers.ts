@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Query, Resolver, Mutation } from 'type-graphql';
-import { Beacon, BeaconType } from '@redeye/models';
+import { Beacon, BeaconType, Shapes } from '@redeye/models';
 import { ensureTreeHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import { RelationPath, type Relation } from './utils/relation-path';
@@ -28,7 +28,9 @@ export class BeaconResolvers {
 		@Arg('beaconId', () => String) beaconId: string,
 		@Arg('beaconDisplayName', { nullable: true }) beaconDisplayName?: string,
 		@Arg('beaconTimeOfDeath', { nullable: true }) beaconTimeOfDeath?: Date,
-		@Arg('beaconType', { nullable: true }) beaconType?: BeaconType
+		@Arg('beaconType', { nullable: true }) beaconType?: BeaconType,
+		@Arg('shape', { nullable: true }) shape?: Shapes,
+		@Arg('color', { nullable: true }) color?: string
 	): Promise<Beacon> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
@@ -41,6 +43,13 @@ export class BeaconResolvers {
 		if (beaconType) {
 			beacon.meta[0].type = beaconType;
 		}
+		if (shape) {
+			beacon.meta[0].shape = shape;
+		}
+		if (color) {
+			beacon.meta[0].color = color;
+		}
+
 		await em.persistAndFlush(beacon);
 		ctx.cm.forkProject(campaignId);
 		return beacon;
