@@ -11,6 +11,7 @@ import { ToggleHiddenDialog } from '@redeye/client/views';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { MenuItem2 } from '@blueprintjs/popover2';
+import { Flex } from '@redeye/ui-styles';
 import {
 	MetaGridLayout,
 	MetaLabel,
@@ -20,6 +21,8 @@ import {
 } from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
+import { NodePreviewBox } from './components/NodePreview';
+import { NodeColorSelect } from './components/NodeColorSelect';
 
 export const ServerMeta = observer((props) => {
 	const store = useStore();
@@ -128,6 +131,11 @@ export const ServerMeta = observer((props) => {
 							fill
 						/>
 					</Select2>
+					<MetaLabel>Graph Appearance</MetaLabel>
+					<Flex gap={1}>
+						<NodePreviewBox color="default" type="server" />
+						<NodeColorSelect css={{ flex: '1 1 auto' }} nodeIconProps={{ type: 'server' }} />
+					</Flex>
 				</MetaGridLayout>
 			</MetaSection>
 			<ToggleHiddenButton

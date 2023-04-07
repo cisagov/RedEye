@@ -2,7 +2,7 @@ import { InputGroup } from '@blueprintjs/core';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { hostQuery, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
-import { Txt } from '@redeye/ui-styles';
+import { Flex, Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
@@ -15,6 +15,8 @@ import {
 	ToggleHiddenButton,
 } from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { NodePreviewBox } from './components/NodePreview';
+import { NodeColorSelect } from './components/NodeColorSelect';
 
 export const HostMeta = observer((props) => {
 	const store = useStore();
@@ -85,6 +87,11 @@ export const HostMeta = observer((props) => {
 							</Txt>
 						))}
 					</div>
+					<MetaLabel>Graph Appearance</MetaLabel>
+					<Flex gap={1}>
+						<NodePreviewBox color="default" type="host" />
+						<NodeColorSelect css={{ flex: '1 1 auto' }} nodeIconProps={{ type: 'host' }} />
+					</Flex>
 				</MetaGridLayout>
 			</MetaSection>
 			<ToggleHiddenButton
