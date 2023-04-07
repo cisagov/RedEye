@@ -1,6 +1,7 @@
 import type { AppStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
+import { PanelHeader } from '@redeye/client/views';
+import { Txt } from '@redeye/ui-styles';
 import { BeaconsList, HostBeaconsList } from './Beacon';
 import { CommandsList } from './Command';
 import { CommentsList } from './Comment';
@@ -70,10 +71,12 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<DoublePanelHeader
-				primaryName={store.campaign?.interactionState.selectedBeacon?.current?.displayName}
-				secondaryName={store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.maybeCurrent?.username}
-			/>
+			<PanelHeader nodeIconProps={{ type: 'beacon' }}>
+				<Txt normal muted>
+					{store.campaign?.interactionState.selectedBeacon?.current?.displayName}
+				</Txt>
+				<Txt>{store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.maybeCurrent?.username}</Txt>
+			</PanelHeader>
 		),
 		panels: {
 			[Tabs.COMMANDS]: (props) => <CommandsList showPath={false} {...props} />,
@@ -97,7 +100,9 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.SERVER]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedServer?.current?.displayName}</PanelHeader>
+			<PanelHeader nodeIconProps={{ type: 'server' }}>
+				{store.campaign?.interactionState.selectedServer?.current?.displayName}
+			</PanelHeader>
 		),
 		panels: {
 			[Tabs.HOSTS]: HostsAndServersList,
@@ -108,7 +113,9 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.HOST]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedHost?.current?.displayName}</PanelHeader>
+			<PanelHeader nodeIconProps={{ type: 'host' }}>
+				{store.campaign?.interactionState.selectedHost?.current?.displayName}
+			</PanelHeader>
 		),
 		panels: {
 			[Tabs.COMMANDS]: CommandsList,

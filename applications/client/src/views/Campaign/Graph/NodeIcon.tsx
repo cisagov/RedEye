@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 import type { NodeColor } from './node-colors';
 import { nodeColorStyles, nodeColor } from './node-colors';
 
-type NodeIconProps = ComponentProps<'span'> & {
+export type NodeIconProps = ComponentProps<'span'> & {
 	type?: 'beacon' | 'server' | 'host';
 	shape?: NodeShape;
 	color?: NodeColor;

@@ -66,10 +66,10 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 				<NodeIcon type="beacon" shape="pentagonDown" color="lime" />
 				<NodeIcon type="beacon" shape="pentagonUp" color="gold" />
 				<NodeIcon type="beacon" shape="hexagonUp" color="orange" /> */}
-				<Txt cy-test="beacon-display-name">{beacon?.displayName || `${beacon.server?.displayName}`}</Txt>
-				<Txt cy-test="beacon-user" normal>
-					{beacon.meta?.[0]?.maybeCurrent?.username}
+				<Txt cy-test="beacon-display-name" normal muted>
+					{beacon?.displayName || `${beacon.server?.displayName}`}
 				</Txt>
+				<Txt cy-test="beacon-user">{beacon.meta?.[0]?.maybeCurrent?.username}</Txt>
 			</RowTitle>
 			<FlexSplitter />
 			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}

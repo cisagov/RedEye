@@ -6,7 +6,7 @@ import { CarbonIcon, customIconPaths, ScrollBox } from '@redeye/client/component
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { TabsStyled, Txt, CoreTokens, ThemeClasses } from '@redeye/ui-styles';
+import { TabsStyled, Txt, CoreTokens, ThemeClasses, Flex, AdvancedTokens } from '@redeye/ui-styles';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
@@ -81,32 +81,31 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 				overflow: hidden;
 			`}
 		>
-			<div css={headerStyles}>
-				<div cy-test="header">
+			<Flex cy-test="header" column align="stretch" css={headerStyles} gap={2}>
+				<Flex justify="space-between" align="center" css={{ minHeight: AdvancedTokens.PtButtonHeightSmall }}>
 					<NavBreadcrumbs cy-test="navigation-breadcrumbs" showCurrent />
-					{InfoPanelTabs[state.infoPanelType].title(store)}
-				</div>
-				{state.infoPanelType === InfoType.BEACON && (
-					<Button
-						// Maybe this should go next to the right of the Tabs
-						cy-test="openRawLogs"
-						text="Raw Logs"
-						rightIcon={<CarbonIcon icon={Launch16} />}
-						intent="primary"
-						css={css`
-							margin: 0rem -0.5rem;
-							flex: 0 0 auto;
-						`}
-						onClick={() => {
-							store.router.updateQueryParams({
-								queryParams: { 'raw-logs': `beacon-${store.campaign?.interactionState.selectedBeacon?.id}` },
-							});
-						}}
-						small
-						minimal
-					/>
-				)}
-			</div>
+					{state.infoPanelType === InfoType.BEACON && (
+						<Button
+							cy-test="openRawLogs"
+							text="Raw Logs"
+							rightIcon={<CarbonIcon icon={Launch16} />}
+							intent="primary"
+							css={css`
+								margin: 0rem -0.5rem;
+								flex: 0 0 auto;
+							`}
+							onClick={() => {
+								store.router.updateQueryParams({
+									queryParams: { 'raw-logs': `beacon-${store.campaign?.interactionState.selectedBeacon?.id}` },
+								});
+							}}
+							small
+							minimal
+						/>
+					)}
+				</Flex>
+				{InfoPanelTabs[state.infoPanelType].title(store)}
+			</Flex>
 			<TabsStyled
 				css={css`
 					.${Classes.TAB_LIST} {
@@ -197,9 +196,6 @@ const modeBarStyle = css`
 
 const headerStyles = css`
 	padding: 0.5rem 1rem 0.75rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
 `;
 
 // eslint-disable-next-line import/no-default-export
