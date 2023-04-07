@@ -1,6 +1,5 @@
-import { NodeIcon } from '@redeye/client/components';
 import type { NodeColor } from '@redeye/client/views/Campaign/Graph';
-import { nodeColor } from '@redeye/client/views/Campaign/Graph';
+import { NodeIcon, nodeColor } from '@redeye/client/views/Campaign/Graph';
 import type { NodeShape } from '@redeye/graph';
 import type { FlexProps } from '@redeye/ui-styles';
 import { Txt, Flex } from '@redeye/ui-styles';

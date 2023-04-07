@@ -1,11 +1,12 @@
 import { ViewOff16 } from '@carbon/icons-react';
-import { dateShortFormat, dateShortPlaceholder, NodeIcon, semanticIcons } from '@redeye/client/components';
+import { dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType, TimeStatus } from '@redeye/client/types';
 import {
 	IconLabel,
 	InfoRow,
+	NodeIcon,
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,

@@ -7,3 +7,4 @@ export * from './GraphControls';
 export * from './LoadingOverlay';
 export * from './graph-styles';
 export * from './node-colors';
+export * from './NodeIcon';

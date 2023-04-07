@@ -6,8 +6,8 @@ import { CoreTokens } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
-import type { NodeColor } from '../views';
-import { nodeColor, nodeColorStyles } from '../views';
+import type { NodeColor } from './node-colors';
+import { nodeColorStyles, nodeColor } from './node-colors';
 
 type NodeIconProps = ComponentProps<'span'> & {
 	type?: 'beacon' | 'server' | 'host';
@@ -56,7 +56,7 @@ export const NodeIcon = observer<NodeIconProps>(
 					css={{ overflow: 'visible' }}
 				>
 					{type === 'host' ? (
-						<circle r={radius + 1} cx={center} cy={center} css={hostStyle()} />
+						<circle r={radius + 1} cx={center} cy={center} css={hostStyle} />
 					) : shape2 === 'circle' ? (
 						<circle r={radius} cx={center} cy={center} css={nodeStyle} />
 					) : (
@@ -73,7 +73,7 @@ const nodeStyle = css`
 	stroke: ${CoreTokens.Background3};
 `;
 
-const hostStyle = () => css`
+const hostStyle = css`
 	stroke-width: 2px;
 	.${nodeColor.default.className} & {
 		stroke-width: 1px;

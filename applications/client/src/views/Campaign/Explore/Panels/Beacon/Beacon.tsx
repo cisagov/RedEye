@@ -1,6 +1,6 @@
 import { Classes } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { dateShortFormat, NodeIcon, semanticIcons } from '@redeye/client/components';
+import { dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -8,6 +8,7 @@ import { TimeStatus } from '@redeye/client/types/timeline';
 import {
 	IconLabel,
 	InfoRow,
+	NodeIcon,
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,
