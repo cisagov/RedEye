@@ -7,20 +7,38 @@ import {
 } from 'd3';
 import { GroupGraphRenderer } from './GroupGraphRenderer';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
-import { classNames, isInteractionFocus, isInteractionRelated, translateCenter } from './layout-utils';
-import { HierarchyNodeSelection, HierarchicalGraphNode } from '../GraphData/types';
+import {
+	updateClassName,
+	assignId,
+	assignIdLabel,
+	circleArea,
+	circleRadius,
+	classNames,
+	interactionSort,
+	isInteractionFocus,
+	isInteractionRelated,
+	translateCenter,
+} from './layout-utils';
+import { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
 import { defNum } from '../utils';
 import { polygonPointsSvg } from './polygon-utils';
 
 /** The super graph that contains all the group and sub graphs */
 export class SuperGraphRenderer extends HierarchicalGraphRenderer {
-	countLabelSelection: HierarchyNodeSelection;
-	positionSelection: HierarchyNodeSelection;
+	countLabelSelection!: HierarchyNodeSelection;
+	graphSelection!: HierarchyNodeSelection;
+	positionSelection!: HierarchyNodeSelection;
+	serverSelection!: HierarchyNodeSelection;
+	hostSelection!: HierarchyNodeSelection;
 
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
+		this.initialize();
+		this.initializeChildGraphs(GroupGraphRenderer);
+	}
 
-		this.nodes.forEach((d) => (d.r = SuperGraphRenderer.radius(d)));
+	initializeForces() {
+		this.nodes.forEach((d) => (d.r = d.data.isServer ? 10 : SuperGraphRenderer.radius(d)));
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength(
 			(d) => -300 * d.children!.filter((dd) => dd.type === 'parentLinkNode').length
@@ -120,7 +138,11 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.superNodeCountLabel, true)
 			.text((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length);
 
-		super.initialize(GroupGraphRenderer);
+		super.initializeSelection();
+	}
+
+	drawUpdateNodeVisual() {
+		this.nodeSelection.each(updateClassName);
 	}
 
 	drawTime() {

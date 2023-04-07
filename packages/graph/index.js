@@ -1,22 +1,32 @@
 import { json } from 'd3';
 import { RedEyeGraph, getServers } from './src/index.ts';
 
-export const testGraph = (svgElementId) => {
-	const randomGraphData = getServers(75, 5);
-	json('./testData/data1.json').then((rawGraphData) => {
-		window.graph = new RedEyeGraph({
-			// onSelectionChange: (node) => console.log(node?.id),
-			// onPreviewChange: (node) => console.log(node),
-			// graphData: randomGraphData,
-			graphData: {
-				...rawGraphData.graph,
-				parents: Object.keys(rawGraphData.hosts).map((hostId) => ({
-					name: rawGraphData.hosts[hostId].hostName,
-					id: hostId,
-				})),
-			},
-			element: document.getElementById('app'),
-		});
-		window.addEventListener('resize', () => window.graph.resize());
+const getGraphData = async () => {
+	try {
+		return await json('./testData/small.json');
+	} catch {
+		return getServers(75, 5);
+	}
+};
+
+const getPreviouslyParsedGraphData = async () => {
+	try {
+		return await json('./testData/parsedGraphData.json');
+	} catch {
+		return undefined;
+	}
+};
+
+export const testGraph = async (svgElementId) => {
+	const graphData = await getGraphData();
+	const previouslyParsedGraphData = await getPreviouslyParsedGraphData();
+
+	window.graph = new RedEyeGraph({
+		graphData,
+		element: document.getElementById(svgElementId),
+		previouslyParsedGraphData,
+		onSelectionChange: (selectedNode) => console.log(selectedNode),
 	});
+	window.addEventListener('resize', () => window.graph.resize());
+	console.log(window.graph);
 };
