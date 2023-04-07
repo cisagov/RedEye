@@ -8,7 +8,7 @@ import { Spacer, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
-type CommandProps = ComponentProps<'div'> & {
+type CommandSummaryProps = ComponentProps<'div'> & {
 	store: AppStore;
 	commandId?: string | undefined;
 	skeletonClass?: string;
@@ -17,7 +17,7 @@ type CommandProps = ComponentProps<'div'> & {
 	command?: CommandModel;
 };
 
-export const Command = observer<CommandProps>(
+export const CommandSummary = observer<CommandSummaryProps>(
 	({ store, skeletonClass, commandId, collapsed: isCollapsed = true, showPath = false, command }) => (
 		<>
 			<Button

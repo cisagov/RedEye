@@ -22,11 +22,11 @@ import { useMemo } from 'react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
 import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
-type BeaconProps = ComponentProps<'div'> & {
+type BeaconRowProps = ComponentProps<'div'> & {
 	beacon: BeaconModel;
 };
 
-export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
+export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 	const store = useStore();
 	const skeletonClass = useMemo(
 		() => (!(beacon.displayName || beacon.server?.displayName) ? Classes.SKELETON : ''),

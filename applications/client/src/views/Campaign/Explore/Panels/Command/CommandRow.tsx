@@ -4,7 +4,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
-import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
+import { CommandSummary, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
 import { UtilityStyles, CoreTokens } from '@redeye/ui-styles';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -27,7 +27,7 @@ type CommandContainerProps = ComponentProps<'div'> & {
 	scrollTarget?: boolean;
 };
 
-export const CommandContainer = observer<CommandContainerProps>(
+export const CommandRow = observer<CommandContainerProps>(
 	({
 		annotationId,
 		commandGroupId,
@@ -114,8 +114,8 @@ export const CommandContainer = observer<CommandContainerProps>(
 							store.campaign?.interactionState.onHover(state.command?.beacon?.current?.hierarchy || {})
 						}
 					>
-						<Suspense fallback={<Command store={store} skeletonClass={Classes.SKELETON} />}>
-							<Command
+						<Suspense fallback={<CommandSummary store={store} skeletonClass={Classes.SKELETON} />}>
+							<CommandSummary
 								store={store}
 								commandId={state.commandId}
 								skeletonClass={state.skeletonClass}

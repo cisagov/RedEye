@@ -1,13 +1,13 @@
 import type { AppStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
-import { Beacons, HostBeacons } from './Beacon';
-import { Commands } from './Command';
-import { Comments } from './Comment';
-import { Hosts } from './Host';
+import { BeaconsList, HostBeaconsList } from './Beacon';
+import { CommandsList } from './Command';
+import { CommentsList } from './Comment';
+import { HostsAndServersList } from './Host';
 import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
-import { Operators } from './Operator';
-import { OverviewBeacons, OverviewCommandTypes, OverviewHosts, OverviewOperators } from './Overview';
+import { OperatorsList } from './OperatorsList';
+import { OverviewBeaconsList, OverviewCommandTypesList, OverviewHostsList, OverviewOperatorsList } from './Overview';
 
 export interface SortOption {
 	label: string;
@@ -76,9 +76,9 @@ export const InfoPanelTabs = {
 			/>
 		),
 		panels: {
-			[Tabs.COMMANDS]: (props) => <Commands showPath={false} {...props} />,
-			[Tabs.OPERATORS]: Operators,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath={false} {...props} />,
+			[Tabs.OPERATORS]: OperatorsList,
+			[Tabs.COMMENTS]: CommentsList,
 			[Tabs.METADATA]: BeaconMeta,
 		},
 	},
@@ -88,11 +88,11 @@ export const InfoPanelTabs = {
 			return <PanelHeader>{campaign?.name}</PanelHeader>;
 		},
 		panels: {
-			[Tabs.HOSTS]: OverviewHosts,
-			[Tabs.OPERATORS]: OverviewOperators,
-			[Tabs.COMMENTS]: Comments,
-			[Tabs.BEACONS]: OverviewBeacons,
-			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
+			[Tabs.HOSTS]: OverviewHostsList,
+			[Tabs.OPERATORS]: OverviewOperatorsList,
+			[Tabs.COMMENTS]: CommentsList,
+			[Tabs.BEACONS]: OverviewBeaconsList,
+			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypesList,
 		},
 	},
 	[InfoType.SERVER]: {
@@ -100,9 +100,9 @@ export const InfoPanelTabs = {
 			<PanelHeader>{store.campaign?.interactionState.selectedServer?.current?.displayName}</PanelHeader>
 		),
 		panels: {
-			[Tabs.HOSTS]: Hosts,
-			[Tabs.OPERATORS]: Operators,
-			[Tabs.BEACONS]: Beacons,
+			[Tabs.HOSTS]: HostsAndServersList,
+			[Tabs.OPERATORS]: OperatorsList,
+			[Tabs.BEACONS]: BeaconsList,
 			[Tabs.METADATA]: ServerMeta,
 		},
 	},
@@ -111,25 +111,25 @@ export const InfoPanelTabs = {
 			<PanelHeader>{store.campaign?.interactionState.selectedHost?.current?.displayName}</PanelHeader>
 		),
 		panels: {
-			[Tabs.COMMANDS]: Commands,
-			[Tabs.OPERATORS]: Operators,
-			[Tabs.COMMENTS]: Comments,
-			[Tabs.BEACONS]: HostBeacons,
+			[Tabs.COMMANDS]: CommandsList,
+			[Tabs.OPERATORS]: OperatorsList,
+			[Tabs.COMMENTS]: CommentsList,
+			[Tabs.BEACONS]: HostBeaconsList,
 			[Tabs.METADATA]: HostMeta,
 		},
 	},
 	[InfoType.OPERATOR]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedOperator?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: Commands,
-			[Tabs.BEACONS]: Beacons,
+			[Tabs.COMMANDS]: CommandsList,
+			[Tabs.BEACONS]: BeaconsList,
 		},
 	},
 	[InfoType.COMMAND]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedCommandType?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: Commands,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMANDS]: CommandsList,
+			[Tabs.COMMENTS]: CommentsList,
 		},
 	},
 };

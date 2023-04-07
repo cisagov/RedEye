@@ -18,11 +18,11 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
-type HostRowProps = ComponentProps<'div'> & {
+type HostOrServerRowProps = ComponentProps<'div'> & {
 	host: HostModel;
 };
 
-export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
+export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props }) => {
 	const store = useStore();
 
 	if (!host) return null;

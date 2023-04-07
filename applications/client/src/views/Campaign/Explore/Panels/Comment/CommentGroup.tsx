@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { AnnotationModel, CommandGroupModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
-import { CommandContainer, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
+import { CommandRow, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
 import { CoreTokens, ThemeClasses, Flex } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
@@ -93,7 +93,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 					)}
 					{!hideCommands &&
 						commandGroup1?.commandIds?.map((commandId) => (
-							<CommandContainer
+							<CommandRow
 								commandGroupId={commandGroupId1}
 								commandId={commandId}
 								css={css`

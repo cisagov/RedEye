@@ -5,12 +5,12 @@ import { InfoType } from '@redeye/client/types';
 import type { Ref } from 'mobx-keystone';
 import type { ComponentProps } from 'react';
 
-export type HostsProps = ComponentProps<'div'> & {
+export type HostsAndServersListProps = ComponentProps<'div'> & {
 	type: InfoType;
 	sort: SortType;
 };
 
-export const useHosts = (props?: HostsProps) => {
+export const useHosts = (props?: HostsAndServersListProps) => {
 	const store = useStore();
 	const hosts = props
 		? Array.from<HostModel | Ref<HostModel>>(

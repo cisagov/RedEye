@@ -11,7 +11,7 @@ import type { ComponentProps } from 'react';
 import { useRef, useEffect } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
 
-type CommentsProps = ComponentProps<'div'> & {
+type CommentsListProps = ComponentProps<'div'> & {
 	sort: {
 		sortBy: string;
 		direction: SortDirection;
@@ -20,7 +20,7 @@ type CommentsProps = ComponentProps<'div'> & {
 
 const pageSize = 10;
 
-export const Comments = observer<CommentsProps>(({ sort }) => {
+export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 	const store = useStore();
 	const listRef = useRef<VirtuosoHandle | null>(null);
 	const state = createState({
