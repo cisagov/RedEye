@@ -31,11 +31,11 @@ const polygonShape = {
 	square: [4, 45],
 	pentagonUp: [5, 180],
 	pentagonDown: [5, 0],
-	HexagonUp: [6, 0],
-	HexagonDown: [6, 90],
-	// HeptagonUp: [7, 180],
-	// HeptagonDown: [7, 0],
-	// Octagon: [8, 22.5],
+	hexagonUp: [6, 0],
+	hexagonDown: [6, 90],
+	// heptagonUp: [7, 180],
+	// heptagonDown: [7, 0],
+	// octagon: [8, 22.5],
 };
 
 export type PolygonShape = keyof typeof polygonShape;
@@ -44,17 +44,25 @@ export type NodeShape = 'circle' | PolygonShape;
 
 export const nodeShapes = ['circle'].concat(Object.keys(polygonShape)) as NodeShape[];
 
+// this can be memoized
 export function polygonShapePoints(shape: PolygonShape, radius?: number, center?: number) {
 	const [sides, rotationDeg] = polygonShape[shape];
 	return polygonPointsSvg(sides, radius, rotationDeg, center);
 }
 
+const polygonShapePointsOpticallyEqualizedMemo: Record<string, string> = {};
 export function polygonShapePointsOpticallyEqualized(shape: PolygonShape, radius = 1, center?: number) {
-	const [sides, rotationDeg] = polygonShape[shape];
-	const area = Math.PI * radius * radius;
-	const adjust = 1 + sides * 0.03; // compensate slightly for the area equalization
-	const circumRadius = polygonCircumRadius(sides, area) * adjust;
-	return polygonPointsSvg(sides, circumRadius, rotationDeg, center);
+	const memoId = [shape, radius, center].join('-');
+	let points = polygonShapePointsOpticallyEqualizedMemo[memoId];
+	if (points == null) {
+		const [sides, rotationDeg] = polygonShape[shape];
+		const area = Math.PI * radius * radius;
+		const adjust = 1 + sides * 0.03; // compensate slightly for the area equalization
+		const circumRadius = polygonCircumRadius(sides, area) * adjust;
+		points = polygonPointsSvg(sides, circumRadius, rotationDeg, center);
+		polygonShapePointsOpticallyEqualizedMemo[memoId] = points;
+	}
+	return points;
 }
 
 /* function polygonArea(sides: number, radius = 1) {

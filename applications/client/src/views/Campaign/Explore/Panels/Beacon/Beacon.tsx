@@ -8,14 +8,13 @@ import { TimeStatus } from '@redeye/client/types/timeline';
 import {
 	IconLabel,
 	InfoRow,
-	RowMuted,
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,
 	useCheckLastUnhidden,
 	useToggleHidden,
 } from '@redeye/client/views';
-import { FlexSplitter } from '@redeye/ui-styles';
+import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
@@ -56,24 +55,21 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				{store.settings.momentTz(beacon.minTime)?.format(dateShortFormat)}&mdash;
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}
 			</RowTime>
-			<NodeIcon shape="circle" />
-			{/* 
-			<NodeIcon shape='triangleUp' />
-			<NodeIcon shape='triangleDown' />
-			<NodeIcon shape='diamond' />
-			<NodeIcon shape='square' />
-			<NodeIcon shape='pentagonUp' />
-			<NodeIcon shape='pentagonDown' />
-			<NodeIcon shape='HexagonUp' />
-			<NodeIcon shape='HexagonDown' /> 
-			<CarbonIcon icon={semanticIcons.beacon} />
-			*/}
-			<RowTitle cy-test="beacon-display-name" className={skeletonClass}>
-				{beacon?.displayName || `${beacon.server?.displayName}`}
+			<RowTitle className={skeletonClass}>
+				<NodeIcon type="beacon" shape="circle" color="default" />
+				{/* <NodeIcon type="beacon" shape="triangleUp" color="red" />
+				<NodeIcon type="beacon" shape="triangleDown" color="rose" />
+				<NodeIcon type="beacon" shape="diamond" color="indigo" />
+				<NodeIcon type="beacon" shape="hexagonDown" color="turquoise" />
+				<NodeIcon type="beacon" shape="square" color="forest" />
+				<NodeIcon type="beacon" shape="pentagonDown" color="lime" />
+				<NodeIcon type="beacon" shape="pentagonUp" color="gold" />
+				<NodeIcon type="beacon" shape="hexagonUp" color="orange" /> */}
+				<Txt cy-test="beacon-display-name">{beacon?.displayName || `${beacon.server?.displayName}`}</Txt>
+				<Txt cy-test="beacon-user" normal>
+					{beacon.meta?.[0]?.maybeCurrent?.username}
+				</Txt>
 			</RowTitle>
-			<RowMuted cy-test="beacon-user" className={skeletonClass}>
-				{beacon.meta?.[0]?.maybeCurrent?.username}
-			</RowMuted>
 			<FlexSplitter />
 			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />
