@@ -23,7 +23,7 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
-import { PolygonShapeEx } from './GraphRenderers/polygon-utils';
+import { NodeShape } from './GraphRenderers/polygon-utils';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -335,7 +335,7 @@ export class GraphHandler {
 		nodeId: string;
 		/** pass empty string to remove className */
 		className?: string;
-		shape?: PolygonShapeEx;
+		shape?: NodeShape;
 	}) {
 		const node = this.graphData.allNodes.get(nodeId);
 		if (!node) return;

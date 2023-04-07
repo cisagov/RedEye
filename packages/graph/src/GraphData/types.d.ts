@@ -1,5 +1,5 @@
 import { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
-import { PolygonShapeEx } from '../GraphRenderers/polygon-utils';
+import { NodeShape } from '../GraphRenderers/polygon-utils';
 import {
 	BaseLink,
 	HierarchicalGraphBaseLink,
@@ -27,7 +27,7 @@ export interface GraphNode {
 	start?: string;
 	end?: string;
 	className?: string;
-	shape?: PolygonShapeEx;
+	shape?: NodeShape;
 }
 
 export interface GraphNodeParent {

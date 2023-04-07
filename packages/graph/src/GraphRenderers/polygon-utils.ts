@@ -24,7 +24,7 @@ export function polygonPointsSvg(sides: number, radius?: number, rotationDeg?: n
 
 const polygonShape = {
 	// name: [sides, rotationDeg] //
-	// circle: [12, 0], // delete this!
+	// circle: [12, 0], // don't use this
 	triangleUp: [3, 180],
 	triangleDown: [3, 0],
 	diamond: [4, 90],
@@ -40,7 +40,9 @@ const polygonShape = {
 
 export type PolygonShape = keyof typeof polygonShape;
 
-export type PolygonShapeEx = PolygonShape | 'circle';
+export type NodeShape = 'circle' | PolygonShape;
+
+export const nodeShapes = ['circle'].concat(Object.keys(polygonShape)) as NodeShape[];
 
 export function polygonShapePoints(shape: PolygonShape, radius?: number, center?: number) {
 	const [sides, rotationDeg] = polygonShape[shape];

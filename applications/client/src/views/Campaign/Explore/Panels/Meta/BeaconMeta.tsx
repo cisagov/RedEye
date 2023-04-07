@@ -6,7 +6,7 @@ import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/s
 import { BeaconType } from '@redeye/client/store/graphql/BeaconTypeEnum';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
-import { Flex, Spacer, Txt } from '@redeye/ui-styles';
+import { CoreTokens, Flex, Spacer, Txt } from '@redeye/ui-styles';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
@@ -26,7 +26,9 @@ import {
 	ToggleHiddenButton,
 } from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { GraphColorSelect } from './components/GraphAppearance';
+import { NodeColorSelect } from './components/NodeColorSelect';
+import { NodePreview } from './components/NodePreview';
+import { NodeShapeSelect } from './components/NodeShapeSelect';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -246,8 +248,15 @@ export const BeaconMeta = observer((props) => {
 						/>
 					</Select2>
 					<MetaLabel>Graph Appearance</MetaLabel>
-					<Flex>
-						<GraphColorSelect />
+					<Flex gap={1}>
+						<NodePreview
+							color="default"
+							shape="circle"
+							css={{ height: 30, width: 30, border: `1px solid ${CoreTokens.TextDisabled}`, flex: '0 0 auto' }}
+							justify="center"
+						/>
+						<NodeColorSelect css={{ flex: '1 1 auto' }} />
+						<NodeShapeSelect css={{ flex: '1 1 auto' }} />
 					</Flex>
 				</MetaGridLayout>
 			</MetaSection>

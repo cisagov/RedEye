@@ -14,7 +14,7 @@ export * from './VirtualizedList';
 export * from './create-sorter';
 export * from './is-defined-guard';
 export * from './mobx-create-state';
-export * from './PolygonIcon';
+export * from './NodeIcon';
 export * from './utils-time';
 export * from './utils';
 export * from './Dialogs/index';

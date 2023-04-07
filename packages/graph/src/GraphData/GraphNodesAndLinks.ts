@@ -1,5 +1,5 @@
 import { SimulationNodeDatum } from 'd3';
-import { PolygonShapeEx } from '../GraphRenderers/polygon-utils';
+import { NodeShape } from '../GraphRenderers/polygon-utils';
 import { HierarchicalGraphLink, HierarchicalGraphNode, GraphLink, CurrentTimeState, CurrentTimeType } from './types';
 
 export interface HierarchicalGraphNodeDatumProps {
@@ -15,7 +15,7 @@ export interface HierarchicalGraphNodeDatumProps {
 	end?: string;
 
 	className?: string;
-	shape?: PolygonShapeEx;
+	shape?: NodeShape;
 }
 
 export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
@@ -34,7 +34,7 @@ export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
 
 	removeClassName?: string;
 	className?: string;
-	shape?: PolygonShapeEx;
+	shape?: NodeShape;
 
 	// SimulationNodeDatum
 	x?: number;

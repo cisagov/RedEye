@@ -1,6 +1,6 @@
 import { Classes } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { dateShortFormat, PolygonIcon, semanticIcons } from '@redeye/client/components';
+import { dateShortFormat, NodeIcon, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -56,16 +56,16 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				{store.settings.momentTz(beacon.minTime)?.format(dateShortFormat)}&mdash;
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}
 			</RowTime>
-			<PolygonIcon polygonShape="circle" />
+			<NodeIcon shape="circle" />
 			{/* 
-			<PolygonIcon polygonShape='triangleUp' />
-			<PolygonIcon polygonShape='triangleDown' />
-			<PolygonIcon polygonShape='diamond' />
-			<PolygonIcon polygonShape='square' />
-			<PolygonIcon polygonShape='pentagonUp' />
-			<PolygonIcon polygonShape='pentagonDown' />
-			<PolygonIcon polygonShape='HexagonUp' />
-			<PolygonIcon polygonShape='HexagonDown' /> 
+			<NodeIcon shape='triangleUp' />
+			<NodeIcon shape='triangleDown' />
+			<NodeIcon shape='diamond' />
+			<NodeIcon shape='square' />
+			<NodeIcon shape='pentagonUp' />
+			<NodeIcon shape='pentagonDown' />
+			<NodeIcon shape='HexagonUp' />
+			<NodeIcon shape='HexagonDown' /> 
 			<CarbonIcon icon={semanticIcons.beacon} />
 			*/}
 			<RowTitle cy-test="beacon-display-name" className={skeletonClass}>
