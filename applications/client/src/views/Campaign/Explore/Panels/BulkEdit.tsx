@@ -139,12 +139,27 @@ export const BulkEdit = observer<HostRowProps>(
 										text={`Show ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 										icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 										onClick={handleBulkShowClick}
+										disabled={
+											(typeName === 'beacons'
+												? store.campaign?.beaconGroupSelect.hiddenCount
+												: store.campaign?.hostGroupSelect.hiddenCount) === 0
+										}
 									/>
 								)}
 								<MenuItem2
 									text={`Hide ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 									icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 									onClick={handleBulkHideClick}
+									disabled={
+										typeName === 'beacons'
+											? store.campaign?.beaconGroupSelect.hiddenCount ===
+											  store.campaign?.beaconGroupSelect.selectedBeacons.length
+											: store.campaign?.hostGroupSelect.hiddenCount ===
+											  [
+													...(store.campaign?.hostGroupSelect.selectedHosts || ''),
+													...(store.campaign?.hostGroupSelect.selectedServers || ''),
+											  ].length
+									}
 								/>
 							</Menu>
 						}

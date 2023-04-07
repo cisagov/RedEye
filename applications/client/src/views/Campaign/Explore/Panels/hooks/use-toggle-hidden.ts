@@ -51,6 +51,7 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 				store.campaign?.setBeaconGroupSelect({
 					groupSelect: false,
 					selectedBeacons: [],
+					hiddenCount: 0,
 				});
 			}
 			if (store.campaign?.hostGroupSelect.groupSelect) {
@@ -58,6 +59,7 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 					groupSelect: false,
 					selectedHosts: [],
 					selectedServers: [],
+					hiddenCount: 0,
 				});
 			}
 		},

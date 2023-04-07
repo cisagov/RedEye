@@ -137,6 +137,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 			store.campaign?.setBeaconGroupSelect({
 				groupSelect: false,
 				selectedBeacons: [],
+				hiddenCount: 0,
 			});
 		}
 		if (store.campaign?.hostGroupSelect.groupSelect) {
@@ -144,6 +145,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 				groupSelect: false,
 				selectedHosts: [],
 				selectedServers: [],
+				hiddenCount: 0,
 			});
 		}
 		if (store.campaign?.bulkSelectCantHideEntityIds.length > 0) {

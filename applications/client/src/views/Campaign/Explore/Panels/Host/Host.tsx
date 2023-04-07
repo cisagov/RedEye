@@ -27,36 +27,44 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	const state = createState({
 		cantHideEntities: false,
 		isDialogDisabled: window.localStorage.getItem('disableDialog') === 'true',
-		AddServer(serverId) {
+		AddServer(serverId: string, hidden: boolean) {
 			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
+			const hiddenCount = store.campaign?.hostGroupSelect.hiddenCount;
 			selectedServers.push(serverId);
 			store.campaign?.setHostGroupSelect({
 				...store.campaign?.hostGroupSelect,
 				selectedServers,
+				hiddenCount: hiddenCount + (hidden ? 1 : 0),
 			});
 		},
-		RemoveServer(serverId) {
+		RemoveServer(serverId: string, hidden: boolean) {
 			const selectedServers = store.campaign?.hostGroupSelect.selectedServers.slice();
+			const hiddenCount = store.campaign?.hostGroupSelect.hiddenCount;
 			selectedServers.splice(selectedServers.indexOf(serverId), 1);
 			store.campaign?.setHostGroupSelect({
 				...store.campaign?.hostGroupSelect,
 				selectedServers,
+				hiddenCount: hiddenCount - (hidden ? 1 : 0),
 			});
 		},
-		AddHost(hostId) {
+		AddHost(hostId: string, hidden: boolean) {
 			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+			const hiddenCount = store.campaign?.hostGroupSelect.hiddenCount;
 			selectedHosts.push(hostId);
 			store.campaign?.setHostGroupSelect({
 				...store.campaign?.hostGroupSelect,
 				selectedHosts,
+				hiddenCount: hiddenCount + (hidden ? 1 : 0),
 			});
 		},
-		RemoveHost(hostId) {
+		RemoveHost(hostId: string, hidden: boolean) {
 			const selectedHosts = store.campaign?.hostGroupSelect.selectedHosts.slice();
+			const hiddenCount = store.campaign?.hostGroupSelect.hiddenCount;
 			selectedHosts.splice(selectedHosts.indexOf(hostId), 1);
 			store.campaign?.setHostGroupSelect({
 				...store.campaign?.hostGroupSelect,
 				selectedHosts,
+				hiddenCount: hiddenCount - (hidden ? 1 : 0),
 			});
 		},
 	});
@@ -99,11 +107,11 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 			// @ts-ignore
 			return e.target.checked && host?.id
 				? host?.cobaltStrikeServer
-					? state.AddServer(host?.serverId)
-					: state.AddHost(host?.id)
+					? state.AddServer(host?.serverId || '', !!host?.hidden)
+					: state.AddHost(host?.id || '', !!host?.hidden)
 				: host?.cobaltStrikeServer
-				? state.RemoveServer(host?.serverId)
-				: state.RemoveHost(host?.id);
+				? state.RemoveServer(host?.serverId || '', !!host?.hidden)
+				: state.RemoveHost(host?.id || '', !!host?.hidden);
 		},
 		[host]
 	);

@@ -31,20 +31,24 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	const state = createState({
 		cantHideEntities: false,
 		isDialogDisabled: window.localStorage.getItem('disableDialog') === 'true',
-		AddBeacon(beaconId) {
+		AddBeacon(beaconId: string, hidden) {
 			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
+			const hiddenCount = store.campaign?.beaconGroupSelect.hiddenCount;
 			selectedBeacons.push(beaconId);
 			store.campaign?.setBeaconGroupSelect({
 				...store.campaign?.beaconGroupSelect,
 				selectedBeacons,
+				hiddenCount: hiddenCount + (hidden ? 1 : 0),
 			});
 		},
-		RemoveBeacon(beaconId: string) {
+		RemoveBeacon(beaconId: string, hidden) {
 			const selectedBeacons = store.campaign?.beaconGroupSelect.selectedBeacons.slice();
+			const hiddenCount = store.campaign?.beaconGroupSelect.hiddenCount;
 			selectedBeacons.splice(selectedBeacons.indexOf(beaconId), 1);
 			store.campaign?.setBeaconGroupSelect({
 				...store.campaign?.beaconGroupSelect,
 				selectedBeacons,
+				hiddenCount: hiddenCount - (hidden ? 1 : 0),
 			});
 		},
 	});
@@ -72,7 +76,9 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			const cantHideEntityIds = store.campaign.bulkSelectCantHideEntityIds.filter((id) => id !== beacon?.id);
 			store.campaign.setBulkSelectCantHideEntityIds(cantHideEntityIds);
 			// @ts-ignore
-			return e.target.checked && beacon?.id ? state.AddBeacon(beacon?.id) : state.RemoveBeacon(beacon?.id!);
+			return e.target.checked && beacon?.id
+				? state.AddBeacon(beacon?.id, !!beacon?.hidden)
+				: state.RemoveBeacon(beacon?.id, !!beacon?.hidden);
 		},
 		[beacon]
 	);

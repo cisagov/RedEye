@@ -60,11 +60,13 @@ export class CampaignStore extends ExtendedModel(() => ({
 			groupSelect: boolean;
 			selectedHosts: string[];
 			selectedServers: string[];
-		}>(() => ({ groupSelect: false, selectedHosts: [], selectedServers: [] })).withSetter(),
+			hiddenCount: number;
+		}>(() => ({ groupSelect: false, selectedHosts: [], selectedServers: [], hiddenCount: 0 })).withSetter(),
 		beaconGroupSelect: prop<{
 			groupSelect: boolean;
 			selectedBeacons: string[];
-		}>(() => ({ groupSelect: false, selectedBeacons: [] })).withSetter(),
+			hiddenCount: number;
+		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
 		bulkSelectStatus: prop<Status>(() => Status.READY).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
 	},

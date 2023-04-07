@@ -144,6 +144,7 @@ export const ControlBar = observer<ControlBarProps>(
 									groupSelect: true,
 									selectedHosts: [],
 									selectedServers: [],
+									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
 								store.campaign?.setBulkSelectStatus(Status.READY);
@@ -160,6 +161,7 @@ export const ControlBar = observer<ControlBarProps>(
 									groupSelect: false,
 									selectedHosts: [],
 									selectedServers: [],
+									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
 								store.campaign?.setBulkSelectStatus(Status.READY);
@@ -180,6 +182,7 @@ export const ControlBar = observer<ControlBarProps>(
 								store.campaign?.setBeaconGroupSelect({
 									groupSelect: true,
 									selectedBeacons: [],
+									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
 								store.campaign?.setBulkSelectStatus(Status.READY);
@@ -195,6 +198,7 @@ export const ControlBar = observer<ControlBarProps>(
 								store.campaign?.setBeaconGroupSelect({
 									groupSelect: false,
 									selectedBeacons: [],
+									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
 								store.campaign?.setBulkSelectStatus(Status.READY);
