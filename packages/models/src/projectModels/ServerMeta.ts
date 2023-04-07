@@ -1,7 +1,8 @@
-import { Entity, Enum, OneToOne, PrimaryKey } from '@mikro-orm/core';
+import { Entity, Enum, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { randomUUID } from 'crypto';
 import { Field, ObjectType, registerEnumType } from 'type-graphql';
 import { Server } from './Server';
+import { Shapes } from './shared';
 
 export enum ServerType {
 	HTTP = 'http',
@@ -30,6 +31,14 @@ export class ServerMeta {
 	@Field(() => ServerType)
 	@Enum(() => ServerType)
 	type: ServerType = ServerType.HTTP;
+
+	@Field(() => Shapes, { nullable: true })
+	@Property({ type: 'string' })
+	shape: Shapes = Shapes.hexagonUp;
+
+	@Field(() => String, { nullable: true, description: 'The color of the node' })
+	@Property({ type: 'string', nullable: true })
+	color?: string;
 
 	/**
 	 * Relationships

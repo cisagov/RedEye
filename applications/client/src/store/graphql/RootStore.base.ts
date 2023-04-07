@@ -79,6 +79,7 @@ import type { LogType } from './LogTypeEnum';
 import type { MitreTechniques } from './MitreTechniquesEnum';
 import type { ParsingStatus } from './ParsingStatusEnum';
 import type { ServerType } from './ServerTypeEnum';
+import type { Shapes } from './ShapesEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';

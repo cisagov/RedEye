@@ -32,6 +32,7 @@ export * from './ServerModel';
 export * from './ServerMetaModel';
 export * from './ServerParsingProgressModel';
 export * from './ServerTypeEnum';
+export * from './ShapesEnum';
 export * from './SortDirectionEnum';
 export * from './SortOptionEnum';
 export * from './SortOptionCommentsEnum';

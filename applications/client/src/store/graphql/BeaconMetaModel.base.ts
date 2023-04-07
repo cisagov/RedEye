@@ -7,6 +7,7 @@ import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
 import type { BeaconType } from './BeaconTypeEnum';
 import type { LogEntryModel } from './LogEntryModel';
+import type { Shapes } from './ShapesEnum';
 
 import { LogEntryModelSelector, logEntryModelPrimitives } from './LogEntryModel';
 
@@ -23,6 +24,8 @@ type Refs = {
  */
 export class BeaconMetaModelBase extends Model({
 	__typename: tProp('BeaconMeta'),
+	/** The color of the node */
+	color: prop<string | null>().withSetter(),
 	/** The time that the last command was run */
 	endTime: prop<any | null>().withSetter(),
 	id: prop<string>().withSetter(),
@@ -30,6 +33,8 @@ export class BeaconMetaModelBase extends Model({
 	ip: prop<string | null>().withSetter(),
 	/** Process Identifier the beacon is running on */
 	pid: prop<number | null>().withSetter(),
+	/** The shape of the beacon */
+	shape: prop<Shapes | null>().withSetter(),
 	/** The log line from which the BeaconMeta was extracted */
 	source: prop<Ref<LogEntryModel>>().withSetter(),
 	/** The start time of the beacon */
@@ -45,6 +50,9 @@ export class BeaconMetaModelBase extends Model({
 }
 
 export class BeaconMetaModelSelector extends QueryBuilder {
+	get color() {
+		return this.__attr(`color`);
+	}
 	get endTime() {
 		return this.__attr(`endTime`);
 	}
@@ -56,6 +64,9 @@ export class BeaconMetaModelSelector extends QueryBuilder {
 	}
 	get pid() {
 		return this.__attr(`pid`);
+	}
+	get shape() {
+		return this.__attr(`shape`);
 	}
 	get startTime() {
 		return this.__attr(`startTime`);
@@ -74,4 +85,4 @@ export function selectFromBeaconMeta() {
 	return new BeaconMetaModelSelector();
 }
 
-export const beaconMetaModelPrimitives = selectFromBeaconMeta().endTime.ip.pid.startTime.type.username;
+export const beaconMetaModelPrimitives = selectFromBeaconMeta().color.endTime.ip.pid.shape.startTime.type.username;

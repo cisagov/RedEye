@@ -15,8 +15,6 @@ tasks:
       runDepsInParallel: false
   graphql:
     command: mk-gql --outDir=./src/store/graphql ../server/schema.graphql
-    deps:
-      - ~:build
     options:
       runInCI: false
   generate-graphql:

@@ -56,6 +56,9 @@ enum BeaconLineType {
 
 """Data derived from the Beacon metadata line"""
 type BeaconMeta {
+  """The color of the node"""
+  color: String
+
   """The time that the last command was run"""
   endTime: DateTime
   id: String!
@@ -65,6 +68,9 @@ type BeaconMeta {
 
   """Process Identifier the beacon is running on"""
   pid: Int
+
+  """The shape of the beacon"""
+  shape: Shapes
 
   """The log line from which the BeaconMeta was extracted"""
   source: LogEntry!
@@ -188,9 +194,12 @@ type Host {
 }
 
 type HostMeta {
+  """The color of the node"""
+  color: String
   id: String!
   ip: String
   os: String
+  shape: Shapes
   type: String
 }
 
@@ -514,7 +523,10 @@ type Server {
 }
 
 type ServerMeta {
+  """The color of the node"""
+  color: String
   id: String!
+  shape: Shapes
   type: ServerType!
 }
 
@@ -531,6 +543,19 @@ enum ServerType {
   HTTP
   HTTPS
   SMB
+}
+
+"""The shape of the node"""
+enum Shapes {
+  circle
+  diamond
+  hexagonDown
+  hexagonUp
+  pentagonDown
+  pentagonUp
+  square
+  triangleDown
+  triangleUp
 }
 
 """The desired sort direction"""
