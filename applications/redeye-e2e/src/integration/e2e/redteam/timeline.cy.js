@@ -218,7 +218,7 @@ describe('Timeline tests', () => {
 	});
 
 	after(() => {
-		// cy.deleteCampaignGraphQL(camp);
+		cy.deleteCampaignGraphQL(camp);
 		cy.deleteCampaignGraphQL(camp2);
 	});
 });

@@ -111,6 +111,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache
         uses: actions/setup-node@v3
@@ -124,10 +126,6 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
         uses: cypress-io/github-action@v5.3.1
