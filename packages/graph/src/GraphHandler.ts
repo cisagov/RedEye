@@ -101,17 +101,17 @@ export class GraphHandler {
 	}
 
 	private _onSelectionChange: HierarchicalGraphData['onSelectionChange'] = (...args) => {
-		this.graphRoot.drawInteractionAllChildren();
+		this.graphRoot.callChildrenRecursively('drawInteraction');
 		this.drawTextOcclusion();
 		this.onSelectionChange(...args);
 	};
 	private _onPreviewChange: HierarchicalGraphData['onPreviewChange'] = (...args) => {
-		this.graphRoot.drawInteractionAllChildren();
+		this.graphRoot.callChildrenRecursively('drawInteraction');
 		this.drawTextOcclusion();
 		this.onPreviewChange(...args);
 	};
 	private _onTimeChange: HierarchicalGraphData['onTimeChange'] = () => {
-		this.graphRoot.drawTimeAllChildren();
+		this.graphRoot.callChildrenRecursively('drawTime');
 		this.drawTextOcclusion();
 		this.onTimeChange();
 	};
@@ -134,7 +134,7 @@ export class GraphHandler {
 
 		const zoomed = () => {
 			this.graphRoot.freeze(); // for draw performance...
-			this.graphRoot.drawLayoutAllChildren();
+			this.graphRoot.callChildrenRecursively('drawLayout');
 			// drawDotGrid() may decrease draw performance
 			// drawDotGrid(this.zoomTransform);
 		};
@@ -319,7 +319,14 @@ export class GraphHandler {
 		const _node = typeof node === 'string' ? this.graphData.allNodes.get(node) : node;
 		if (!_node) return;
 		_node.data.name = newName;
-		this.graphRoot.drawUpdateLabelAllChildren();
+		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
+	}
+
+	useGraphForces() {
+		this.graphRoot.callChildrenRecursively('useGraphForces');
+	}
+	useSimpleForces() {
+		this.graphRoot.callChildrenRecursively('useSimpleForces');
 	}
 
 	static scaleRadius = (zk: number) => Math.min(zk, (zk - 1) * 0.3 + 1);

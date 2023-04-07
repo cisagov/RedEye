@@ -4,6 +4,7 @@ node_modules
 dist
 build
 @redeye/darwin-x64
+packages/graph/testData
 applications/server/dev-databases
 applications/server/campaign
 .eslintcache
