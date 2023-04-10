@@ -16,6 +16,7 @@ import {
 	isInteractionFocus,
 	circleArea,
 	circleRadius,
+	interactionSort,
 } from './layout-utils';
 import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
@@ -24,7 +25,8 @@ import { defNum } from '../utils';
 export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
-		super.initialize(SubGraphRenderer, true);
+		this.initialize(true);
+		this.initializeChildGraphs(SubGraphRenderer);
 	}
 
 	initializeForces() {
@@ -34,8 +36,8 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			return d.type === 'keyNode' ? (d.graphLinks.length || 1) * -2 - 1 : 0;
 		});
 		const forceLink = d3ForceLink(this.links)
-			// .strength(d=>d.children.length > 1 ? 0. : 0)
-			// .strength(d => d.group ? 0.2 : 0.05)
+			// .strength((d) => (d.children.length > 1 ? 0 : 0))
+			// .strength((d) => (d.group ? 0.2 : 0.05))
 			.strength((d) => d.source.graphLinks.length / 100)
 			.distance(
 				this.keyNodes.length < 2
@@ -71,14 +73,13 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('transform-origin', 'center');
 
 		this.linkSelection = this.rootGroupSelection
-			.append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
-			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink));
+			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink')
+			.classed(classNames.parentLink, (d) => d.type === 'parentLink');
 
 		this.childGraphRootSelection = this.rootGroupSelection
-			.append('g')
 			.selectAll('g')
 			.data(this.nodes)
 			.join('g')
@@ -89,7 +90,8 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.append('circle')
 			.attr('r', (d) => d.r || 0)
 			.style('pointer-events', 'none') // not interactive, layout only
-			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
+			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
+			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.groupNode, true);
 
 		super.initializeSelection();
@@ -124,6 +126,9 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 		if (isInteractionFocus(this.rootNode!)) {
 			this.showLayout();
 			super.drawInteraction();
+			this.rootGroupSelection
+				.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>()
+				.sort(interactionSort);
 		} else {
 			this.hideLayout();
 		}

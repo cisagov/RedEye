@@ -17,6 +17,7 @@ export const graphStyles = css`
 	}
 	.${GCN.superNode}, .${GCN.subNode} {
 		cursor: pointer;
+		/* &:active { cursor: grabbing; } */
 	}
 	.${GCN.groupNode} {
 		/* pointer-events: none; */ // set in code
@@ -24,7 +25,7 @@ export const graphStyles = css`
 	&:not(.${GCN.isZooming}) .${GCN.superNode} {
 		transition: r 0.2s cubic-bezier(0, 1, 0, 1);
 	}
-	.${GCN.occludedLabel} {
+	.${GCN.occludedLabel}, .${GCN.subNodeNameLabel}:not(.${GCN.selectedFocus}):not(.${GCN.previewedFocus}) {
 		display: none;
 	}
 	.${GCN.parentLinkNode} {
@@ -88,7 +89,7 @@ export const graphStyles = css`
 		stroke: ${GraphTokens.GroupNodeStrokeColor};
 	}
 
-	.${GCN.superNode} {
+	.${GCN.computerNode} {
 		fill: ${GraphTokens.PresentBgColor};
 		stroke: ${GraphTokens.PresentFgColor};
 
@@ -99,6 +100,10 @@ export const graphStyles = css`
 		&.${GCN.future} {
 			fill: ${GraphTokens.FutureBgColor};
 			stroke: ${GraphTokens.FutureFgColor};
+		}
+
+		&.${GCN.selectedParent} {
+			stroke: ${GraphTokens.PreviewFgColor};
 		}
 
 		&.${GCN.previewed} {
@@ -131,7 +136,7 @@ export const graphStyles = css`
 		stroke: ${GraphTokens.PresentBgColor};
 	}
 
-	.${GCN.subNode} {
+	.${GCN.softwareNode}, .${GCN.serverNode} {
 		fill: ${GraphTokens.PresentFgColor};
 		stroke: ${GraphTokens.PresentBgColor};
 		r: 4px;
