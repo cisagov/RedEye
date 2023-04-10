@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { select as d3Select, forceSimulation as d3ForceSimulation } from 'd3';
 import { GraphHandler } from '../GraphHandler';
-import { classNames, isInteractionRelated } from './layout-utils';
+import { classNames } from './layout-utils';
 import {
 	HierarchyLinkSelection,
 	HierarchyNodeSelection,
@@ -51,12 +51,11 @@ export class HierarchicalGraphRenderer {
 		this.rootSelection = rootSelection;
 	}
 
-	initialize(ChildGraphClass?: typeof HierarchicalGraphRenderer, startHidden = false) {
+	initialize(startHidden = false) {
 		this.initializeForces();
 		this.initializeSelection();
 		if (startHidden) this.hideLayout();
 		this.initializeSimulationLayout();
-		this.initializeChildGraphs(ChildGraphClass);
 	}
 	initializeForces() {
 		this.simulation = d3ForceSimulation(this.nodes).on('tick', this.drawLayout.bind(this));
@@ -130,7 +129,6 @@ export class HierarchicalGraphRenderer {
 	drawLayout() {}
 
 	drawInteraction() {
-		// could use selection.merge()... instead of array?
 		[
 			this.rootSelection,
 			this.rootGroupSelection,
@@ -141,10 +139,10 @@ export class HierarchicalGraphRenderer {
 			selection
 				?.classed(classNames.selected, (d) => !!d.selected)
 				.classed(classNames.selectedFocus, (d) => !!d.selectedFocus)
+				.classed(classNames.selectedParent, (d) => !!d.selectedParent)
 				.classed(classNames.previewed, (d) => !!d.previewed)
 				.classed(classNames.previewedFocus, (d) => !!d.previewedFocus)
-				.filter(isInteractionRelated)
-				.raise();
+				.classed(classNames.previewedParent, (d) => !!d.previewedParent);
 		});
 	}
 

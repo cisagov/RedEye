@@ -79,6 +79,12 @@ export const textOcclusionSort: TextOcclusionProps<HierarchicalGraphNode>['prior
 			return a.d[priority] ? -1 : 1;
 		}
 	}
+	if (a.d.depth !== b.d.depth) {
+		return a.d.depth - b.d.depth;
+	}
+	if (a.d.children?.length !== b.d.children?.length) {
+		return (a.d.children?.length || 0) - (b.d.children?.length || 0);
+	}
 	// if (size of thing?)
 	return 0;
 };
