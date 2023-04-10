@@ -2,7 +2,6 @@ import {
 	forceLink as d3ForceLink,
 	forceCollide as d3ForceCollide,
 	forceManyBody as d3ForceManyBody,
-	forceSimulation as d3ForceSimulation,
 	forceX as d3ForceX,
 	forceY as d3ForceY,
 } from 'd3';
@@ -15,6 +14,8 @@ import {
 	shortenLine,
 	translateCenter,
 	isInteractionFocus,
+	circleArea,
+	circleRadius,
 } from './layout-utils';
 import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
@@ -23,7 +24,10 @@ import { defNum } from '../utils';
 export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
+		super.initialize(SubGraphRenderer, true);
+	}
 
+	initializeForces() {
 		this.nodes.forEach((d) => (d.r = d.type === 'keyNode' ? GroupGraphRenderer.radius(d) : 1.5));
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => {
@@ -34,31 +38,32 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			// .strength(d => d.group ? 0.2 : 0.05)
 			.strength((d) => d.source.graphLinks.length / 100)
 			.distance(
-				// @ts-ignore
 				this.keyNodes.length < 2
-					? this.rootNode.r!
-					: (d: HierarchicalGraphLink) =>
-							//
-							this.rootNode.r! / this.links.length + (d.source.r || 1)
+					? () => this.rootNode.r!
+					: (d: HierarchicalGraphLink) => this.rootNode.r! / this.links.length + (d.source.r || 1)
 			);
 		const forceClamp = forceClampToRadius<HierarchicalGraphNode>((d) =>
-			d.type === 'keyNode' ? d.parent!.r! - d.r! - 2 : undefined
+			d.type === 'keyNode' ? d.parent!.r! - d.r! - 2 : 0
 		);
-		const forceCollide = d3ForceCollide<HierarchicalGraphNode>().radius((d): number =>
-			d.type === 'keyNode' ? d.r! + 2 : 0
-		);
+		const forceCollide = d3ForceCollide<HierarchicalGraphNode>()
+			.strength(0.5)
+			.radius((d): number => (d.type === 'keyNode' ? d.r! + 2 : 0));
 		const forcePositionParentLinkNodes = () => positionParentLinkNodes(this.rootNode);
 
-		this.simulation = d3ForceSimulation(this.nodes)
-			.force('positionParentLinkNodes', forcePositionParentLinkNodes)
-			.force('link', forceLink)
-			.force('charge', forceNode)
-			.force('collide', forceCollide)
-			.force('x', d3ForceX(0).strength(0.05))
-			.force('y', d3ForceY(0).strength(0.05))
-			.force('clamp', forceClamp)
-			.on('tick', this.drawLayout.bind(this));
+		const optional = true;
+		this.simulationForces = [
+			{ name: 'positionParentLinkNodes', force: forcePositionParentLinkNodes },
+			{ name: 'link', force: forceLink, optional },
+			{ name: 'charge', force: forceNode, optional },
+			{ name: 'x', force: d3ForceX(0).strength(0.05), optional },
+			{ name: 'y', force: d3ForceY(0).strength(0.05), optional },
+			{ name: 'collide', force: forceCollide },
+			{ name: 'clamp', force: forceClamp },
+		];
+		super.initializeForces();
+	}
 
+	initializeSelection() {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
@@ -73,7 +78,6 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink));
 
 		this.childGraphRootSelection = this.rootGroupSelection
-			//
 			.append('g')
 			.selectAll('g')
 			.data(this.nodes)
@@ -88,9 +92,7 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
 			.classed(classNames.groupNode, true);
 
-		this.hideLayout(); // start hidden
-		// super.initialize();
-		super.initialize(SubGraphRenderer);
+		super.initializeSelection();
 	}
 
 	drawLayout() {
@@ -128,9 +130,12 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	static radius = (d: HierarchicalGraphNode): number => {
-		const childNeededRadius = 4;
-		const childCount = d.children ? d.children.filter((d) => d.type === 'keyNode').length : 1;
-		const areaNeeded = Math.pow(childNeededRadius, 2) * Math.PI * childCount;
-		return Math.sqrt(areaNeeded / Math.PI);
+		const keyNodeChildren = d.children?.filter((d) => d.type === 'keyNode') || [];
+		let areaNeeded = 0;
+		for (let i = 0; i < keyNodeChildren.length; i++) {
+			const keyNodeChild = keyNodeChildren[i];
+			areaNeeded += circleArea(SubGraphRenderer.radius(keyNodeChild) + 3);
+		}
+		return circleRadius(areaNeeded);
 	};
 }

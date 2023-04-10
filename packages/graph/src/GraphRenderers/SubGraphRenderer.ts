@@ -1,10 +1,4 @@
-import {
-	forceLink as d3ForceLink,
-	forceManyBody as d3ForceManyBody,
-	forceSimulation as d3ForceSimulation,
-	forceX as d3ForceX,
-	forceY as d3ForceY,
-} from 'd3';
+import { forceLink as d3ForceLink, forceManyBody as d3ForceManyBody, forceX as d3ForceX, forceY as d3ForceY } from 'd3';
 import { HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
@@ -21,27 +15,34 @@ import {
 export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
+		super.initialize(undefined, true);
+	}
 
-		this.nodes.forEach((d) => (d.r = d.type === 'parentLinkNode' ? 1 : SubGraphRenderer.radius()));
+	initializeForces() {
+		this.nodes.forEach((d) => (d.r = d.type === 'parentLinkNode' ? 1 : SubGraphRenderer.radius(d)));
 
-		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => (d.type === 'keyNode' ? -1 : 0));
+		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => (d.type === 'keyNode' ? -4 : 0));
 		const forceLink = d3ForceLink(this.links)
-			//
 			.strength(0)
 			.distance(this.rootNode.r! * 0.3);
 		const forceClamp = forceClampToRadius<HierarchicalGraphNode>((d) =>
-			d.type === 'keyNode' ? this.rootNode.r! - 2 : undefined
+			d.type === 'keyNode' ? this.rootNode.r! - 2 : 0
 		);
 
-		this.simulation = d3ForceSimulation(this.nodes)
-			.force('positionParentLinkNodes', () => positionParentLinkNodes(this.rootNode))
-			.force('link', forceLink)
-			.force('charge', forceNode)
-			.force('x', d3ForceX(0))
-			.force('y', d3ForceY(0))
-			.force('clamp', forceClamp)
-			.on('tick', this.drawLayout.bind(this));
+		const optional = true;
+		this.simulationForces = [
+			{ name: 'positionParentLinkNodes', force: () => positionParentLinkNodes(this.rootNode) },
+			{ name: 'link', force: forceLink, optional },
+			{ name: 'charge', force: forceNode, optional },
+			{ name: 'x', force: d3ForceX(0), optional },
+			{ name: 'y', force: d3ForceY(0), optional },
+			{ name: 'clamp', force: forceClamp },
+		];
 
+		super.initializeForces();
+	}
+
+	initializeSelection() {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
@@ -81,8 +82,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
 
-		this.hideLayout(); // start hidden
-		super.initialize();
+		super.initializeSelection();
 	}
 
 	drawLayout() {
@@ -115,7 +115,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		this.labelSelection?.text(createLabel);
 	}
 
-	static radius = () => 4;
+	static radius = (_d: HierarchicalGraphNode) => 4;
 	// static radius = (d: HierarchyReturnNode): number => 2 + (d.descendants ? d.descendants().length : 0);
 }
 
