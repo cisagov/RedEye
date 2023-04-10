@@ -1,5 +1,5 @@
 import { forceLink as d3ForceLink, forceManyBody as d3ForceManyBody, forceX as d3ForceX, forceY as d3ForceY } from 'd3';
-import { HierarchicalGraphNode } from '../GraphData/types';
+import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
 import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
 import {
@@ -9,13 +9,14 @@ import {
 	translateCenter,
 	isInteractionFocus,
 	isInteractionRelated,
+	interactionSort,
 } from './layout-utils';
 
 /** a graph that handles sub nodes (that have all been grouped because the same 'signature') */
 export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
-		super.initialize(undefined, true);
+		super.initialize(true);
 	}
 
 	initializeForces() {
@@ -46,39 +47,37 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
-			.attr('class', classNames.subGraph)
+			.attr(classNames.subGraph, true)
 			.attr('transform-origin', 'center')
 			.attr('cy-test', 'subGSelection');
 
 		this.linkSelection = this.rootGroupSelection
-			.append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
-			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink))
+			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink')
+			.classed(classNames.parentLink, (d) => d.type === 'parentLink')
 			.attr('cy-test', 'subLinkSelection');
 
 		this.nodeSelection = this.rootGroupSelection
-			.append('g')
 			.selectAll('circle')
 			.data(this.nodes)
 			.join('circle')
 			.attr('r', (d) => d.r || 0)
 			.attr('cy-test', 'beaconsGraph')
-			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
+			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
+			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.subNode, true)
+			.classed(classNames.softwareNode, true)
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));
 
-		// TODO: this will currently z-index under (some) super and group nodes
-		// ... to fix this, these will need to render inside the SuperGraph.rootSelection
 		this.labelSelection = this.rootGroupSelection
 			.append('g')
 			.attr('cy-test', 'selectedLabel')
 			.selectAll('text')
 			.data(this.nodes)
 			.join('text')
-			// .attr('text-anchor', 'end')
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
 
@@ -106,6 +105,9 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 		if (isInteractionFocus(this.parentNode!)) {
 			this.showLayout();
 			super.drawInteraction();
+			this.rootGroupSelection
+				.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>()
+				.sort(interactionSort);
 		} else {
 			this.hideLayout();
 		}

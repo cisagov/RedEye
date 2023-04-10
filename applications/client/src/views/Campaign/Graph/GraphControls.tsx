@@ -60,14 +60,14 @@ export const GraphControls = observer<GraphControlsProps>(({ zoomIn, zoomOut, zo
 									cx={svgStyle.center}
 									cy={svgStyle.center}
 									css={[legendNodeStyle]}
-									className={[GCN.subNode, ...legendItem[1]].join(' ')}
+									className={[GCN.subNode, GCN.softwareNode, ...legendItem[1]].join(' ')}
 								/>
 								<circle
 									r={svgStyle.center}
 									cx={svgStyle.width - svgStyle.center}
 									cy={svgStyle.center}
 									css={[legendNodeStyle]}
-									className={[GCN.subNode, ...(legendItem[3] ?? legendItem[1])].join(' ')}
+									className={[GCN.subNode, GCN.softwareNode, ...(legendItem[3] ?? legendItem[1])].join(' ')}
 								/>
 							</svg>
 							<Txt css={[legendLabelStyle]}>{legendItem[0]}</Txt>

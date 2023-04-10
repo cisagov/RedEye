@@ -1,5 +1,6 @@
 import { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
-import { HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
+import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
+import { HierarchicalGraphLink, HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
 export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {
@@ -135,6 +136,7 @@ export function shortenLine(
 }
 
 export const circleArea = (radius: number) => Math.PI * radius * radius;
+
 export const circleRadius = (area: number) => Math.sqrt(area / Math.PI);
 
 export const translateCenter = ({
@@ -160,10 +162,54 @@ export const isInteractionFocus = (d: InteractionState) =>
 
 export const isInteractionRelated = (d: InteractionState) => d.selected || d.previewed || isInteractionFocus(d);
 
+export const isInteractionSelected = (d: InteractionState) =>
+	d.selected || d.selectedFocus || d.selectedParent || false;
+
+export const isInteractionPreviewed = (d: InteractionState) =>
+	d.previewed || d.previewedFocus || d.previewedParent || false;
+
+type CompareDatum = HierarchicalGraphNode | HierarchicalGraphLink;
+
+const interactionPriority = (a: CompareDatum) => {
+	if (isInteractionPreviewed(a)) return 3;
+	if (isInteractionSelected(a)) return 2;
+	if (a.data instanceof HierarchicalGraphNodeDatum) return 1;
+	return 0;
+};
+
+export const interactionSort = (a: CompareDatum, b: CompareDatum) => {
+	return interactionPriority(a) - interactionPriority(b);
+};
+
+export function polygonPoints(sides: number, radius: number, rotationDeg = 0): [number, number][] {
+	rotationDeg = (rotationDeg * Math.PI) / 180;
+	const angle = (2 * Math.PI) / sides;
+
+	const points = [] as [number, number][];
+	for (let i = 0; i < sides; i++) {
+		points.push([
+			round(radius * Math.sin(i * angle + rotationDeg), 2), // x
+			round(radius * Math.cos(i * angle + rotationDeg), 2), // y
+		]);
+	}
+
+	return points;
+}
+export function polygonPointsSVG(sides: number, radius: number, rotationDeg = 0) {
+	return polygonPoints(sides, radius, rotationDeg)
+		.map((xy) => xy.join(','))
+		.join(' ');
+}
+export function round(number: number, decimals = 0) {
+	decimals = Math.pow(10, decimals);
+	return Math.round(number * decimals) / decimals;
+}
+
 export const classNames = {
 	// Root //
 	graphRoot: 'graphRoot',
 	isZooming: 'isZooming',
+	// isDragging: 'isDragging', // TODO
 
 	transformWrapper: 'transformWrapper',
 
@@ -176,7 +222,11 @@ export const classNames = {
 	superNode: 'superNode',
 	groupNode: 'groupNode',
 	subNode: 'subNode',
+
+	// Network Types //
 	serverNode: 'serverNode',
+	computerNode: 'computerNode',
+	softwareNode: 'softwareNode',
 
 	// Label Types //
 	superNodeCountLabel: 'superNodeCountLabel',
@@ -193,8 +243,10 @@ export const classNames = {
 	// Interaction State //
 	previewed: 'previewed',
 	previewedFocus: 'previewedFocus',
+	previewedParent: 'previewedParent',
 	selected: 'selected',
 	selectedFocus: 'selectedFocus',
+	selectedParent: 'selectedParent',
 
 	// Time State //
 	future: 'future',

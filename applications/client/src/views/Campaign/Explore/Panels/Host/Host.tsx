@@ -51,12 +51,13 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				{host.maxTime ? store.settings.momentTz(host.maxTime)?.format(dateShortFormat) : dateShortPlaceholder}
 			</RowTime>
 			<RowTitle>
-				{host.cobaltStrikeServer && (
+				{host.cobaltStrikeServer ? (
 					<>
-						<CarbonIcon icon={semanticIcons.teamServer} css={{ verticalAlign: 'sub' }} />
-						<Txt muted> Server: </Txt>
+						<CarbonIcon icon={semanticIcons.teamServer} css={{ verticalAlign: 'sub' }} /> <Txt muted>Server:</Txt>
 					</>
-				)}
+				) : (
+					<CarbonIcon icon={semanticIcons.host} css={{ verticalAlign: 'sub' }} />
+				)}{' '}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
 					{host.displayName}
 				</Txt>
