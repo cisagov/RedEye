@@ -16,11 +16,6 @@ export const useCheckNonHideableEntities = (
 			await store.graphqlStore.queryNonHideableEntities({
 				campaignId: store.campaign.id!,
 				[entityIds]: ids,
-				// beaconIds: ids,
-				// beaconIds: ['COMPUTER02-330588776'],
-				// beaconIds: ['COMPUTER03-500978634', 'COMPUTER03-1042756528'],
-				// beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons.map((beaconId) => beaconId),
-				// beaconIds: ['COMPUTER02-1166658656', 'COMPUTER02-330588776', 'COMPUTER02-2146137244'],
 			})
 	);
 
@@ -32,6 +27,5 @@ export const useCheckNonHideableEntities = (
 		[window.localStorage.getItem('disableDialog'), cantHideEntities, hidden]
 	);
 
-	// console.log('data', data, 'cantHideEntities: ', cantHideEntities, 'isDialogDisabled: ', isDialogDisabled);
 	return { data, cantHideEntities, isDialogDisabled };
 };
