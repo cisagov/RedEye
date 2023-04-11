@@ -231,6 +231,7 @@ export const BeaconMeta = observer((props) => {
 						fill
 					>
 						<Button
+							cy-test="type-dropdown"
 							disabled={!!store.appMeta.blueTeam}
 							text={state.selectedItem}
 							alignText="left"

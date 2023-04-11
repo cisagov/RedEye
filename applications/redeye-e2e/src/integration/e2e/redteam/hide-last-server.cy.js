@@ -1,5 +1,16 @@
 /// <reference types="cypress" />
 
+function showHideConfirm(index) {
+	// Hide the first server in the list
+	cy.showHideItem(index);
+
+	// Verify confirmation modal appears
+	cy.verifyDialogBoxAppears();
+
+	// Confirm that you want to hide the server
+	cy.confirmShowHide();
+}
+
 describe('Hide last server', () => {
 	const camp = 'hideonlyserver';
 	const fileName = 'gt.redeye';
@@ -32,6 +43,9 @@ describe('Hide last server', () => {
 
 				// Verify last host still shows in UI
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
+
+				// Delete campaign
+				cy.deleteCampaignGraphQL(camp);
 			});
 	});
 
@@ -48,13 +62,7 @@ describe('Hide last server', () => {
 			.as('server')
 			.then((serverName1) => {
 				// Hide the first server in the list
-				cy.showHideItem(0);
-
-				// Verify confirmation modal appears
-				cy.verifyDialogBoxAppears();
-
-				// Confirm that you want to hide the server
-				cy.confirmShowHide();
+				showHideConfirm(0);
 
 				// Confirm first server does not show in list
 				cy.get('[cy-test=hostName]').each(($servers) => {
@@ -65,13 +73,7 @@ describe('Hide last server', () => {
 		// Get name of seccond server
 		cy.get('@server').then((serverName2) => {
 			// Hide the first server in the list
-			cy.showHideItem(0);
-
-			// Verify confirmation modal appears
-			cy.verifyDialogBoxAppears();
-
-			// Confirm that you want to hide the host
-			cy.confirmShowHide();
+			showHideConfirm(0);
 
 			// Confirm first host does not show in list
 			cy.get('[cy-test=hostName]').each(($servers) => {
@@ -82,13 +84,7 @@ describe('Hide last server', () => {
 		// Get name of third server
 		cy.get('@server').then((serverName3) => {
 			// Hide the first server in the list
-			cy.showHideItem(0);
-
-			// Verify confirmation modal appears
-			cy.verifyDialogBoxAppears();
-
-			// Confirm that you want to hide the host
-			cy.confirmShowHide();
+			showHideConfirm(0);
 
 			// Confirm first host does not show in list
 			cy.get('[cy-test=hostName]').each(($servers) => {
@@ -114,7 +110,6 @@ describe('Hide last server', () => {
 	});
 
 	after(() => {
-		cy.deleteCampaignGraphQL(camp);
 		cy.deleteCampaignGraphQL(camp2);
 	});
 });
