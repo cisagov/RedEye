@@ -18,13 +18,13 @@ describe('Testing of Adding Privilege Escalation & Lateral Movement Tags', () =>
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=LateralMovement] [cy-test=count]')
+		cy.get('[cy-test=LateralMovement] [cy-test=count]')
 			.invoke('text')
+			.as('LMTagCount')
 			.then((resultLMCount1) => {
-				cy
-					.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+				cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
 					.invoke('text')
+					.as('PETagCount')
 					.then((resultPECount1) => {
 						// Go to Commands, select command, verify icons are not there
 						cy.clickExplorerMode();
@@ -48,25 +48,15 @@ describe('Testing of Adding Privilege Escalation & Lateral Movement Tags', () =>
 						// Log new number of applicable comments and compare to original count
 						cy.clickPresentationMode();
 
-						cy
-							.get('[cy-test=LateralMovement] [cy-test=count]')
-							.should('be.visible')
-							.invoke('text')
-							.then((resultLMCount2) => {
-								// cy.log(resultLMCount2);
-								expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
-								cy
-									.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
-									.should('be.visible')
-									.invoke('text')
-									.then((resultPECount2) => {
-										// cy.log(resultPECount2);
-										expect(+resultPECount2).to.equal(+resultPECount1 + +'1');
+						cy.get('@LMTagCount').then((resultLMCount2) => {
+							expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
+							cy.get('@PETagCount').then((resultPECount2) => {
+								expect(+resultPECount2).to.equal(+resultPECount1 + +'1');
 
-										cy.get('[cy-test=LateralMovement]').should('have.length', 1);
-										cy.get('[cy-test=PrivilegeEscalation]').should('have.length', 1);
-									});
+								cy.get('[cy-test=LateralMovement]').should('have.length', 1);
+								cy.get('[cy-test=PrivilegeEscalation]').should('have.length', 1);
 							});
+						});
 					});
 			});
 	});

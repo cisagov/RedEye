@@ -1,4 +1,5 @@
-import { Alignment, Button, Intent, MenuItem } from '@blueprintjs/core';
+import { Alignment, Button, Intent } from '@blueprintjs/core';
+import { MenuItem2 } from '@blueprintjs/popover2';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { CaretDown16, CaretUp16, CollapseCategories16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -28,7 +29,7 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 		return null;
 	}
 	return (
-		<MenuItem
+		<MenuItem2
 			css={css`
 				text-transform: capitalize;
 			`}
@@ -56,25 +57,25 @@ export const ControlBar = observer<ControlBarProps>(
 				{...props}
 			>
 				{/*
-          <Select // TODO: Filter things?
-            popoverProps={{ minimal: true }}
-            filterable={false}
-            activeItem={null}
-            itemRenderer={renderSort}
-            items={[]}
-            onItemSelect={() => null}
-          >
-            <Button
-              icon={<CarbonIcon icon={Filter16} />}
-              // rightIcon={<CarbonIcon icon={ChevronDown16} />}
-              text={<Txt>
-                <Txt css={labelStyle}>Filter:</Txt>
-                <Txt css={valueStyle}>{filter}</Txt>
-              </Txt>}
-              minimal
-            />
-          </Select>
-        */}
+					<Select2 // TODO: Filter things?
+						popoverProps={{ minimal: true }}
+						filterable={false}
+						activeItem={null}
+						itemRenderer={renderSort}
+						items={[]}
+						onItemSelect={() => null}
+					>
+						<Button
+						icon={<CarbonIcon icon={Filter16} />}
+						// rightIcon={<CarbonIcon icon={ChevronDown16} />}
+						text={<Txt>
+							<Txt css={labelStyle}>Filter:</Txt>
+							<Txt css={valueStyle}>{filter}</Txt>
+						</Txt>}
+						minimal
+						/>
+					</Select2>
+				*/}
 				{isCollapsible && (
 					<Button
 						cy-test="collapse-all"

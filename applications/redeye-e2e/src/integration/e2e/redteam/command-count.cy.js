@@ -18,23 +18,15 @@ describe('Command counts', () => {
 
 			// Open campaign and log command counts showing under Host tab - should equal number showing on campaign card
 			cy.selectCampaign(camp);
-			cy
-				.get('[cy-test=row-command-count]')
-				.eq(0)
-				.invoke('text')
-				.then((countRow1) => {
-					// cy.log(countRow1);
 
-					cy
-						.get('[cy-test=row-command-count]')
-						.eq(1)
-						.invoke('text')
-						.then((countRow2) => {
-							// cy.log(countRow2);
-
-							expect(+countRow1 + +countRow2).to.eq(+commandTotal);
-						});
+			cy.get('[cy-test=row-command-count]').then(() => {
+				let sum = 0;
+				Cypress.$('[cy-test=row-command-count]').each(function () {
+					sum += +Cypress.$(this).text() || 0;
 				});
+				cy.log(sum);
+				expect(sum).to.eq(+commandTotal);
+			});
 		});
 	});
 
@@ -51,47 +43,15 @@ describe('Command counts', () => {
 			cy.clickBeaconsTab();
 
 			// Log number of commands for each beacon - should equal number on campaign card
-			cy
-				.get('[cy-test=row-command-count]')
-				.eq(0)
-				.invoke('text')
-				.then((countRow1) => {
-					// cy.log(countRow1);
 
-					cy
-						.get('[cy-test=row-command-count]')
-						.eq(1)
-						.invoke('text')
-						.then((countRow2) => {
-							// cy.log(countRow2);
-
-							cy
-								.get('[cy-test=row-command-count]')
-								.eq(2)
-								.invoke('text')
-								.then((countRow3) => {
-									// cy.log(countRow3);
-
-									cy
-										.get('[cy-test=row-command-count]')
-										.eq(3)
-										.invoke('text')
-										.then((countRow4) => {
-											// cy.log(countRow4);
-
-											cy
-												.get('[cy-test=row-command-count]')
-												.eq(4)
-												.invoke('text')
-												.then((countRow5) => {
-													// cy.log(countRow5);
-
-													expect(+countRow1 + +countRow2 + +countRow3 + +countRow4 + +countRow5).to.eq(+commandTotal);
-												});
-										});
-								});
-						});
+			cy.get('[cy-test=row-command-count]').then(() => {
+				let sum = 0;
+				Cypress.$('[cy-test=row-command-count]').each(function () {
+					sum += +Cypress.$(this).text() || 0;
 				});
+				cy.log(sum);
+				expect(sum).to.eq(+commandTotal);
+			});
 		});
 	});
 
@@ -99,15 +59,13 @@ describe('Command counts', () => {
 		cy.selectCampaign(camp);
 
 		// Log name and command count for first host
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((nameHost1) => {
 				// cy.log(nameHost1);
 
-				cy
-					.get('[cy-test=row-command-count]')
+				cy.get('[cy-test=row-command-count]')
 					.eq(0)
 					.invoke('text')
 					.then((countHost1) => {
@@ -137,15 +95,13 @@ describe('Command counts', () => {
 
 		// Go back to Host list; log name and command count for second host
 		cy.clickExplorerMode();
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(2)
 			.invoke('text')
 			.then((nameHost2) => {
 				// cy.log(nameHost2);
 
-				cy
-					.get('[cy-test=row-command-count]')
+				cy.get('[cy-test=row-command-count]')
 					.eq(1)
 					.invoke('text')
 					.then((countHost2) => {
@@ -183,16 +139,14 @@ describe('Command counts', () => {
 		cy.searchCampaignFor('exit');
 
 		// Log the number of commands showing for the Command Type result
-		cy
-			.get('[cy-test=command-count]')
+		cy.get('[cy-test=command-count]')
 			.invoke('text')
 			.then((commandCount1) => {
 				// cy.log(commandCount1);
 
 				// Click the Command Type to go to the list of commands; verify count matches number in search
 				cy.get('[cy-test=search-result-item]').contains('Command Type').click();
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((commandCount2) => {
 						// cy.log(commandCount2);

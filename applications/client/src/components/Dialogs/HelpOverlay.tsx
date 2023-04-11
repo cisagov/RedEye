@@ -1,20 +1,19 @@
 import type { DrawerProps } from '@blueprintjs/core';
 import { css } from '@emotion/react';
-import { Header, Spacer, Txt } from '@redeye/ui-styles';
+import { ExternalLink, Header, Spacer, Txt } from '@redeye/ui-styles';
 import type { FC, ReactNode } from 'react';
 import { Logo } from '../Header';
-import { externalLinkAttributes as external } from '../utils';
-import { DialogCustom } from './DialogCustom';
+import { DialogEx } from './DialogEx';
 
 const appVersion = PACKAGE_VERSION;
 
 type HelpOverlayProps = DrawerProps & {};
 
 export const HelpOverlay: FC<HelpOverlayProps> = ({ ...props }) => (
-	<DialogCustom css={layoutStyle} {...props}>
-		<section cy-test="about-modal" css={{ padding: '1.5rem 3rem' }}>
-			<Header large css={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-				<Logo css={{ height: '4rem', marginLeft: -16 }} />
+	<DialogEx css={layoutStyle} {...props}>
+		<section cy-test="about-modal" css={{ padding: '1.5rem 3rem 2rem' }}>
+			<Header cy-test="about-modal-header" large css={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+				<Logo cy-test="redeye-logo" css={{ height: '4rem', marginLeft: -16 }} />
 				<Spacer />
 				<Txt>
 					RedEye{' '}
@@ -24,22 +23,22 @@ export const HelpOverlay: FC<HelpOverlayProps> = ({ ...props }) => (
 				</Txt>
 			</Header>
 
-			<Txt tagName="p">
+			<Txt cy-test="about-modal-description" tagName="p">
 				RedEye is a red team C2 log visualization tool developed by <ExternalLink regular {...pnnlLink} /> for the{' '}
 				<ExternalLink regular {...cisaLink} />.
 			</Txt>
 
-			<Txt tagName="p">
+			<Txt cy-test="about-modal-links" tagName="p">
 				<ExternalLink {...githubLink} />
 				<Spacer>|</Spacer>
 				<ExternalLink {...cobaltStrikeLink} />
 			</Txt>
 
-			<Txt tagName="p" muted small>
+			<Txt cy-test="about-modal-copyright" tagName="p" muted small>
 				Copyright {new Date().getFullYear()} PNNL &amp; CISA - <ExternalLink muted {...licenseLink} />
 			</Txt>
 		</section>
-	</DialogCustom>
+	</DialogEx>
 );
 
 const layoutStyle = css`
@@ -79,5 +78,3 @@ const cisaLink: LinkInfo = {
 	href: 'https://www.cisa.gov',
 	children: 'CyberSecurity and Infrastructure Security Agency',
 };
-
-const ExternalLink = (props) => <Txt tagName="a" {...external} {...props} />;

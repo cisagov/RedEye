@@ -3,8 +3,17 @@
 /* tslint:disable */
 // @ts-nocheck
 
+import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
-import { Model, prop, tProp } from 'mobx-keystone';
+import type { BeaconType } from './BeaconTypeEnum';
+import type { LogEntryModel } from './LogEntryModel';
+
+import { LogEntryModelSelector, logEntryModelPrimitives } from './LogEntryModel';
+
+/* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
+type Refs = {
+	source: LogEntryModel;
+};
 
 /**
  * BeaconMetaBase
@@ -21,8 +30,12 @@ export class BeaconMetaModelBase extends Model({
 	ip: prop<string | null>().withSetter(),
 	/** Process Identifier the beacon is running on */
 	pid: prop<number | null>().withSetter(),
+	/** The log line from which the BeaconMeta was extracted */
+	source: prop<Ref<LogEntryModel>>().withSetter(),
 	/** The start time of the beacon */
 	startTime: prop<any | null>().withSetter(),
+	/** The communication type used by the beacon */
+	type: prop<BeaconType | null>().withSetter(),
 	/** The username the beacon is running under */
 	username: prop<string | null>().withSetter(),
 }) {
@@ -47,12 +60,18 @@ export class BeaconMetaModelSelector extends QueryBuilder {
 	get startTime() {
 		return this.__attr(`startTime`);
 	}
+	get type() {
+		return this.__attr(`type`);
+	}
 	get username() {
 		return this.__attr(`username`);
+	}
+	source(builder?: string | LogEntryModelSelector | ((selector: LogEntryModelSelector) => LogEntryModelSelector)) {
+		return this.__child(`source`, LogEntryModelSelector, builder);
 	}
 }
 export function selectFromBeaconMeta() {
 	return new BeaconMetaModelSelector();
 }
 
-export const beaconMetaModelPrimitives = selectFromBeaconMeta().endTime.ip.pid.startTime.username;
+export const beaconMetaModelPrimitives = selectFromBeaconMeta().endTime.ip.pid.startTime.type.username;

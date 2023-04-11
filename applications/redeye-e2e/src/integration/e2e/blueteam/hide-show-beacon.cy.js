@@ -11,7 +11,7 @@ describe('Hide a beacon', () => {
 		cy.selectCampaign(camp);
 
 		// Toggle off switch for hidden beacons
-		cy.get('[cy-test=general-settings]').click();
+		cy.get('[cy-test=settings]').click();
 
 		cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 
@@ -22,7 +22,7 @@ describe('Hide a beacon', () => {
 		// Verify unable to hide/show new beacons/host
 		cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]').eq(0).click();
 
-		cy.get('[cy-test=Metadata]').click();
+		cy.clickMetaTab();
 
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});

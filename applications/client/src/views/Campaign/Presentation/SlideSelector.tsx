@@ -1,5 +1,6 @@
-import { Button, MenuItem } from '@blueprintjs/core';
-import { Select } from '@blueprintjs/select';
+import { Button } from '@blueprintjs/core';
+import { MenuItem2 } from '@blueprintjs/popover2';
+import { Select2 } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, dateTimeFormat, timeFormat } from '@redeye/client/components';
@@ -43,18 +44,24 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 					</>
 				)}
 			</Txt>
-			<Txt muted>
+			<Txt cy-test="slide-count" muted>
 				<span>Slide:</span>
-				<Select
+				<Select2
 					// TODO: maybe set activeItem onActiveItemChange so keyboard works
 					activeItem={store.campaign.presentation.index}
 					items={Array.from(Array(store.campaign.presentation.selectedItem?.commandGroups?.length).keys(), (x) => x++)}
 					onItemSelect={(item) => store.campaign.presentation.changeIndex(item)}
 					itemRenderer={(item, { handleClick, modifiers }) => (
-						<MenuItem active={modifiers.active} onClick={handleClick} key={item + 1} text={item + 1} />
+						<MenuItem2
+							cy-test="slide-number-selector"
+							active={modifiers.active}
+							onClick={handleClick}
+							key={item + 1}
+							text={item + 1}
+						/>
 					)}
 					filterable={false}
-					matchTargetWidth
+					// matchTargetWidth
 					popoverProps={{
 						minimal: true,
 					}}
@@ -63,6 +70,7 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 					`}
 				>
 					<Button
+						cy-test="slide-selector"
 						rightIcon={<CarbonIcon icon={CaretDown16} />}
 						minimal
 						small
@@ -71,8 +79,8 @@ export const SlideSelector = observer<SlideSelectorProps>(({}) => {
 							margin-top: -3px;
 						`}
 					/>
-				</Select>
-				<span>of {store.campaign.presentation.selectedItem?.commandGroups?.length}</span>
+				</Select2>
+				<span cy-test="total-slides">of {store.campaign.presentation.selectedItem?.commandGroups?.length}</span>
 			</Txt>
 		</div>
 	);

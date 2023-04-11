@@ -1,52 +1,79 @@
-import { SimulationNodeDatum, ZoomTransform } from 'd3';
-import { HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
+import { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
+import { HierarchicalGraphLink, HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
-export const clampXyToRadius = ([x, y]: [number, number], radius?: number) => {
+export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {
+	let x = x1;
+	let y = y1;
 	if (!radius) return { x, y, wasClamped: false };
 	if (radius < 0) return { x: 0, y: 0, wasClamped: true };
-	const length = Math.hypot(x, y);
-	if (length > radius) {
+	const xyRadius = Math.hypot(x, y);
+	if (xyRadius > radius) {
 		const theta = Math.atan2(x, y);
 		x = Math.sin(theta) * radius;
 		y = Math.cos(theta) * radius;
 	}
-	return { x, y, wasClamped: length > radius };
+	const wasClamped = xyRadius > radius;
+	return { x, y, wasClamped, xyRadius, radius };
 };
 
-export function forceClampToRadius<T extends SimulationNodeDatum = SimulationNodeDatum>(
-	radius: number | ((node: T, i: number, nodes: T[]) => number | undefined) = 30
-) {
-	let nodes: T[];
+type ForceFunction<T> = (node: T, i: number, nodes: T[]) => number;
 
-	function force() {
-		nodes.forEach((node, i) => {
-			const r = typeof radius === 'function' ? radius(node, i, nodes) : radius;
-			const { wasClamped } = clampXyToRadius([node.x! + node.vx!, node.y! + node.vy!], r);
+export function forceClampToRadius<NodeDatum extends SimulationNodeDatum = SimulationNodeDatum>(
+	radius: number | ForceFunction<NodeDatum> = 30
+): Force<NodeDatum, SimulationLinkDatum<NodeDatum>> {
+	let nodes: NodeDatum[];
+	let radiuses: number[];
+	const radius2 = typeof radius !== 'function' ? (constant(+radius) as ForceFunction<NodeDatum>) : radius;
+
+	function force(_alpha: number) {
+		for (let i = 0, n = nodes.length; i < n; ++i) {
+			const node = nodes[i];
+			const r = radiuses[i];
+			const xNext = node.x! + node.vx!;
+			const yNext = node.y! + node.vy!;
+			const { wasClamped, x: fx, y: fy } = clampXyToRadius([xNext, yNext], r);
 			if (wasClamped) {
-				const vHypot = Math.hypot(node.vx!, node.vy!);
-				const { x: fx, y: fy } = clampXyToRadius([node.x!, node.y!], r! - vHypot);
 				node.vx = 0;
 				node.vy = 0;
 				node.x = fx;
 				node.y = fy;
 			}
-		});
+		}
 	}
-	force.initialize = function (_: T[]) {
-		nodes = _;
+
+	function initialize() {
+		if (!nodes) return;
+		let i;
+		const n = nodes.length;
+		radiuses = new Array(n);
+		for (i = 0; i < n; ++i) {
+			radiuses[i] = +radius2(nodes[i], i, nodes);
+		}
+	}
+
+	force.initialize = function (_: NodeDatum[]) {
+		(nodes = _), initialize();
 	};
+
 	return force;
+}
+
+function constant(x: any) {
+	return function (..._: any[]) {
+		return x;
+	};
 }
 
 export function dotGrid(element: HTMLElement | SVGElement = document.documentElement, dotDistance = 40) {
 	function draw(transform: ZoomTransform) {
 		// https://stackoverflow.com/a/466256/5648839
-		let roundDownToPower = Math.pow(2, Math.floor(Math.log2(transform.k)));
-		let dotSpacing = (transform.k / roundDownToPower) * dotDistance;
-		let dotOffsetX = transform.x % dotSpacing;
-		let dotOffsetY = transform.y % dotSpacing;
-		let dotSubOpacity = (dotSpacing - dotDistance) / dotDistance;
+		const roundDownToPower = Math.pow(2, Math.floor(Math.log2(transform.k)));
+		const dotSpacing = (transform.k / roundDownToPower) * dotDistance;
+		const dotOffsetX = transform.x % dotSpacing;
+		const dotOffsetY = transform.y % dotSpacing;
+		const dotSubOpacity = (dotSpacing - dotDistance) / dotDistance;
 
 		element.style.setProperty('--dot-spacing', dotSpacing + 'px');
 		element.style.setProperty('--dot-offset-x', dotOffsetX + 'px');
@@ -92,8 +119,8 @@ export function shortenLine(
 	length: number = 1,
 	toOrBy: 'to' | 'by' = 'by'
 ): WithShortLine['shortLink'] {
-	let x = targetX - sourceX;
-	let y = targetY - sourceY;
+	const x = targetX - sourceX;
+	const y = targetY - sourceY;
 	const radius = toOrBy === 'to' ? length : Math.hypot(x, y) - length;
 	const [shortX, shortY] = pointAlongLine(x, y, radius);
 	return {
@@ -107,6 +134,10 @@ export function shortenLine(
 		},
 	};
 }
+
+export const circleArea = (radius: number) => Math.PI * radius * radius;
+
+export const circleRadius = (area: number) => Math.sqrt(area / Math.PI);
 
 export const translateCenter = ({
 	d,
@@ -131,10 +162,54 @@ export const isInteractionFocus = (d: InteractionState) =>
 
 export const isInteractionRelated = (d: InteractionState) => d.selected || d.previewed || isInteractionFocus(d);
 
+export const isInteractionSelected = (d: InteractionState) =>
+	d.selected || d.selectedFocus || d.selectedParent || false;
+
+export const isInteractionPreviewed = (d: InteractionState) =>
+	d.previewed || d.previewedFocus || d.previewedParent || false;
+
+type CompareDatum = HierarchicalGraphNode | HierarchicalGraphLink;
+
+const interactionPriority = (a: CompareDatum) => {
+	if (isInteractionPreviewed(a)) return 3;
+	if (isInteractionSelected(a)) return 2;
+	if (a.data instanceof HierarchicalGraphNodeDatum) return 1;
+	return 0;
+};
+
+export const interactionSort = (a: CompareDatum, b: CompareDatum) => {
+	return interactionPriority(a) - interactionPriority(b);
+};
+
+export function polygonPoints(sides: number, radius: number, rotationDeg = 0): [number, number][] {
+	rotationDeg = (rotationDeg * Math.PI) / 180;
+	const angle = (2 * Math.PI) / sides;
+
+	const points = [] as [number, number][];
+	for (let i = 0; i < sides; i++) {
+		points.push([
+			round(radius * Math.sin(i * angle + rotationDeg), 2), // x
+			round(radius * Math.cos(i * angle + rotationDeg), 2), // y
+		]);
+	}
+
+	return points;
+}
+export function polygonPointsSVG(sides: number, radius: number, rotationDeg = 0) {
+	return polygonPoints(sides, radius, rotationDeg)
+		.map((xy) => xy.join(','))
+		.join(' ');
+}
+export function round(number: number, decimals = 0) {
+	decimals = Math.pow(10, decimals);
+	return Math.round(number * decimals) / decimals;
+}
+
 export const classNames = {
 	// Root //
 	graphRoot: 'graphRoot',
 	isZooming: 'isZooming',
+	// isDragging: 'isDragging', // TODO
 
 	transformWrapper: 'transformWrapper',
 
@@ -147,7 +222,11 @@ export const classNames = {
 	superNode: 'superNode',
 	groupNode: 'groupNode',
 	subNode: 'subNode',
+
+	// Network Types //
 	serverNode: 'serverNode',
+	computerNode: 'computerNode',
+	softwareNode: 'softwareNode',
 
 	// Label Types //
 	superNodeCountLabel: 'superNodeCountLabel',
@@ -164,8 +243,10 @@ export const classNames = {
 	// Interaction State //
 	previewed: 'previewed',
 	previewedFocus: 'previewedFocus',
+	previewedParent: 'previewedParent',
 	selected: 'selected',
 	selectedFocus: 'selectedFocus',
+	selectedParent: 'selectedParent',
 
 	// Time State //
 	future: 'future',

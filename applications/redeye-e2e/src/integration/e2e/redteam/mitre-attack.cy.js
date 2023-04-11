@@ -16,13 +16,11 @@ describe('Mitre attack tests', () => {
 
 		cy.get('[cy-test=expand]').eq(1).click();
 
-		cy
-			.get('[cy-test=mitre-attack-link]')
-			.eq(0)
-			.invoke('text')
-			.then((mitre1) => {
-				cy.get('[cy-test=mitre-attack-link]').eq(0).should('have.attr', 'href').and('include', mitre1);
-			});
+		cy.get('[cy-test=mitre-attack-link]')
+			.then(($el) => {
+				return Cypress._.map($el, 'innerText');
+			})
+			.should('deep.equal', ['T1003: OS Credential Dumping', 'T1093: Process Hollowing']);
 	});
 
 	after(() => {

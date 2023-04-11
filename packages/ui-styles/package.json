@@ -1,0 +1,16 @@
+{
+	"name": "@redeye/ui-styles",
+	"version": "1.1.0",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./src/index.ts",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js"
+		}
+	}
+}

@@ -1,7 +1,7 @@
 // Project Models
 import { Annotation } from './Annotation';
 import { Beacon } from './Beacon';
-import { BeaconMeta } from './BeaconMeta';
+import { BeaconMeta, BeaconType } from './BeaconMeta';
 import { Command } from './Command';
 import { CommandGroup } from './CommandGroup';
 import { File, FileFlag } from './File';
@@ -47,6 +47,7 @@ export {
 	Annotation,
 	Beacon,
 	BeaconMeta,
+	BeaconType,
 	Command,
 	CommandGroup,
 	File,

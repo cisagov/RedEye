@@ -9,8 +9,7 @@ describe('Command row navigation', () => {
 
 		// Open campaign and select a Host (log Host name)
 		cy.selectCampaign(camp);
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName1) => {
@@ -35,8 +34,7 @@ describe('Command row navigation', () => {
 						expect(currentURL2).to.equal(currentURL1);
 
 						// Click Command name and confirm page changes and goes to the correct command
-						cy
-							.get('[cy-test=hostBeaconInfo] > li')
+						cy.get('[cy-test=hostBeaconInfo] > li')
 							.last()
 							.invoke('text')
 							.then((commandName1) => {
@@ -58,8 +56,7 @@ describe('Command row navigation', () => {
 	it('Quicklink breadcrumbs should navigate to the Host/Commands tab', () => {
 		// Open campaign and select a Host
 		cy.selectCampaign(camp);
-		cy
-			.get('[cy-test=hostName]')
+		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName1) => {
@@ -70,8 +67,7 @@ describe('Command row navigation', () => {
 
 				// Expand comment details, log details, and click on Host name
 				cy.get('[cy-test=expand]').eq(0).click();
-				cy
-					.get('[cy-test=info-row]')
+				cy.get('[cy-test=info-row]')
 					.eq(0)
 					.invoke('text')
 					.then((text) => {

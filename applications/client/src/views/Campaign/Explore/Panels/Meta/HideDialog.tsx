@@ -1,57 +1,100 @@
-import type { DialogProps } from '@blueprintjs/core';
-import { Button, Classes, Dialog, Intent } from '@blueprintjs/core';
+import { Checkbox, Button, Intent } from '@blueprintjs/core';
 import { View16, ViewOff16 } from '@carbon/icons-react';
-import { CarbonIcon } from '@redeye/client/components';
+import type { DialogExProps } from '@redeye/client/components';
+import { CarbonIcon, DialogBodyEx, DialogEx, DialogFooterEx } from '@redeye/client/components';
 import type { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useState, useCallback } from 'react';
 
-type Props = DialogProps & {
+type Props = DialogExProps & {
+	typeName: string;
 	infoType: InfoType;
 	onHide?: () => void;
 	isHiddenToggled?: boolean;
+	last?: boolean;
 };
 
 export const ToggleHiddenDialog = observer<Props>(
-	({ infoType, onClose, isHiddenToggled = true, onHide = () => undefined, ...props }) => {
+	({ typeName, infoType, onClose, isHiddenToggled = true, onHide = () => undefined, last, ...props }) => {
 		const [loading, setLoading] = useState(false);
+		const [checked, setChecked] = useState(window.localStorage.getItem('disableDialog') === 'true');
 		const plural = isHiddenToggled ? 'Showing' : 'Hiding';
 		const verb = isHiddenToggled ? 'Show' : 'Hide';
+
+		const handleCheck = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+			setChecked(e.target.checked);
+			window.localStorage.setItem('disableDialog', e.target.checked.toString());
+		}, []);
+
+		const isHidingFinal = last && !isHiddenToggled;
+
+		const confirmShowHide = isHidingFinal
+			? onClose
+			: (e: React.SyntheticEvent) => {
+					e.stopPropagation();
+					setLoading(true);
+					onHide();
+			  };
+
+		const dialogTitle = isHidingFinal
+			? `Cannot hide final ${infoType.toLowerCase()}`
+			: `${verb} this ${infoType.toLowerCase()}?`;
+
 		return (
-			<Dialog onClose={onClose} title={`${verb} This ${infoType}?`} {...props}>
-				<div className={Classes.DIALOG_BODY}>
-					<Txt tagName="p">
-						{plural} this {infoType} will make it {isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
-					</Txt>
-					{!isHiddenToggled && (
-						<Txt tagName="p">
-							{plural} this {infoType} will NOT delete it. Hidden {infoType}s can be shown again by toggling the
-							<Txt bold>&quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
-						</Txt>
+			<DialogEx onClose={onClose} title={dialogTitle} {...props}>
+				<DialogBodyEx cy-test="show-hide-dialog-text">
+					{isHidingFinal ? (
+						<>
+							<Txt cy-test="cannot-hide-final-text1" running>
+								{plural} this {infoType.toLowerCase()} will create a state in which the UI has no content. To hide this{' '}
+								{infoType}, you must unhide another {infoType.toLowerCase()}.
+							</Txt>
+							<Txt cy-test="cannot-hide-final-text2" running>
+								To unhide {infoType.toLowerCase()}s, toggle
+								<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings, and go
+								select
+								<Txt bold> &quot;Show {infoType}&quot;</Txt> on one of the hidden {infoType.toLowerCase()}s.
+							</Txt>
+						</>
+					) : (
+						<>
+							<Txt cy-test="dialog-text-line1" running>
+								{plural} this {infoType.toLowerCase()} will make it{' '}
+								{isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
+							</Txt>
+							{!isHiddenToggled && (
+								<Txt cy-test="dialog-text-line2" running>
+									{plural} this {infoType.toLowerCase()} will NOT delete it. Hidden {infoType.toLowerCase()}s can be
+									shown again by toggling the
+									<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
+								</Txt>
+							)}
+							<Txt cy-test="dialog-text-line3" running>
+								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}.
+							</Txt>
+							<Checkbox label="Don't show this warning again" checked={checked} onChange={handleCheck} />
+						</>
 					)}
-					<Txt tagName="p">
-						This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}
-					</Txt>
-				</div>
-				<div className={Classes.DIALOG_FOOTER}>
-					<div className={Classes.DIALOG_FOOTER_ACTIONS}>
-						<Button onClick={onClose}>Cancel</Button>
-						<Button
-							intent={Intent.PRIMARY}
-							rightIcon={<CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
-							loading={loading}
-							onClick={(e) => {
-								e.stopPropagation();
-								setLoading(true);
-								onHide();
-							}}
-						>
-							{verb} {infoType}
-						</Button>
-					</div>
-				</div>
-			</Dialog>
+				</DialogBodyEx>
+				<DialogFooterEx
+					actions={
+						<>
+							{!isHidingFinal && <Button cy-test="cancel-show-hide" onClick={onClose} text="Cancel" />}
+							<Button
+								cy-test="confirm-show-hide"
+								intent={Intent.PRIMARY}
+								rightIcon={!last && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
+								loading={loading}
+								text={isHidingFinal ? 'Cancel' : `${verb} ${infoType}`}
+								onClick={confirmShowHide}
+								alignText="left"
+							/>
+						</>
+					}
+				/>
+			</DialogEx>
 		);
 	}
 );

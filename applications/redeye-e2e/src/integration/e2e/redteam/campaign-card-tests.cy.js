@@ -17,7 +17,7 @@ describe('Search and filter campaigns and verify beacon counts', () => {
 		cy.get('[cy-test=search]').click().type(cmd).type('{enter}');
 		cy.wait('@searchCommands');
 		cy.get('[cy-test=search-result-item]').should('have.length.gt', 0).and('contain', cmd);
-		cy.get('[cy-test=close-search]').click();
+		cy.closeSearch();
 	});
 
 	it('Verify campaign card beacon number matches actual campaign', () => {
@@ -31,8 +31,7 @@ describe('Search and filter campaigns and verify beacon counts', () => {
 
 		cy.clickBeaconsTab();
 
-		cy
-			.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]')
+		cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]')
 			.its('length')
 			.then((resultSearch1) => {
 				expect(+divNumber).to.equal(resultSearch1 + 1);

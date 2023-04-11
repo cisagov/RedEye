@@ -3,6 +3,7 @@ import { TimezoneSelect } from '@blueprintjs/datetime2';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { sortOptions } from '@redeye/client/views';
+import { Txt, unRedactedFontClassName } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps } from 'react';
 import { CampaignViews, Tabs } from '../../types';
@@ -73,12 +74,29 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 						clear: true,
 					});
 				}}
-				label="Show Hidden Beacons, Host, and Servers"
+				label="Show Hidden Beacons, Hosts, and Servers"
 			/>
-			<Switch // Uncomment to test light theme
+			<Switch
+				cy-test="toggle-theme"
 				checked={store.settings.theme === 'light'}
 				onChange={(event) => store.settings.setTheme(event.currentTarget.checked ? 'light' : 'dark')}
 				label="Light Theme (beta)"
+			/>
+			<Switch
+				cy-test="toggle-redacted-mode"
+				checked={store.settings.redactedMode}
+				onChange={(event) => store.settings.setRedactedMode(event.currentTarget.checked)}
+				className={unRedactedFontClassName}
+				// @ts-ignore // `label` prop actually supports JSX elements, but TypeScript will throw an error because HTMLAttributes only allows strings.
+				label={
+					<span>
+						<Txt>Redacted Screenshot Mode</Txt>
+						<br />
+						<Txt small muted>
+							WARNING: Beacon, Host, and Server names may still be visible in url
+						</Txt>
+					</span>
+				}
 			/>
 		</form>
 	);

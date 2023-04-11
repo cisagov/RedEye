@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+//CLICK CAMPAIGN CARD
 Cypress.Commands.add('clickCampaignCard', (index) => {
 	cy.get('[cy-test=campaign-card]').eq(index).click();
 });
@@ -9,9 +10,10 @@ Cypress.Commands.add('selectCampaign', (camp) => {
 	cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
 	//  cy.wait(['@servers', '@beacons', '@hosts', '@links', '@commandTypes', '@operators', '@timeline']);
 	cy.get('.superGraph').should('be.visible');
+	cy.get('[cy-test=timeline]').should('be.visible');
 });
 
-//DELETE CAMPAIGN
+//DELETE CAMPAIGN USING THE UI
 Cypress.Commands.add('deleteCampaign', (camp) => {
 	cy.get('[cy-test=search]').click({ force: true }).type(camp).type('{enter}');
 	cy.get('[cy-test=campaign-name]').should('contain', camp);
@@ -43,6 +45,7 @@ Cypress.Commands.add('uploadCampaign', (camp, fileName) => {
 	cy.wait(1000);
 });
 
+//UPLOAD FOLDER
 Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').click();
 	cy.get('[cy-test=new-camp-name]').eq(0).click().type(camp);

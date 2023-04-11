@@ -6,6 +6,7 @@ services:
     environment:
       - NODE_ENV=production
       - SERVER_BLUE_TEAM=false
+      - AUTHENTICATION_PASSWORD=8888
     ports:
       - 4000:4000
     build:

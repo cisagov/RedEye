@@ -6,7 +6,6 @@ describe('Privilege Escalation Tag', () => {
 	const cmd = 'keylogger';
 	const comment = 'Privilege Escalation comment';
 	const partialTag = 'Privilege';
-	const existingTag = '#PrivilegeEscalation';
 
 	it('Privilege Escalation icon should appear when PE tag is used on a comment; Presentation Mode reflects the count of PE tags', () => {
 		cy.uploadCampaign(camp, fileName);
@@ -14,12 +13,10 @@ describe('Privilege Escalation Tag', () => {
 		// Open campaign and log current number of Privilege Escalation tags
 		cy.selectCampaign(camp);
 		cy.clickPresentationMode();
-		cy
-			.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+		cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
 			.invoke('text')
-			.then((resultLMCount1) => {
-				// cy.log(resultLMCount1);
-
+			.as('PETagCount')
+			.then((resultPECount1) => {
 				// Go to Commands, select command, verify Privilege Escalation icon is not there
 				cy.clickExplorerMode();
 
@@ -40,16 +37,11 @@ describe('Privilege Escalation Tag', () => {
 				// Log new number of Privilege Escalation comments and compare to original count
 				cy.clickPresentationMode();
 
-				cy
-					.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
-					.should('be.visible')
-					.invoke('text')
-					.then((resultLMCount2) => {
-						// cy.log(resultLMCount2);
-						expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
+				cy.get('@PETagCount').then((resultPECount2) => {
+					expect(+resultPECount2).to.equal(+resultPECount1 + +'1');
 
-						cy.get('[cy-test=PrivilegeEscalation]').should('have.length', 1);
-					});
+					cy.get('[cy-test=PrivilegeEscalation]').should('have.length', 1);
+				});
 			});
 	});
 

@@ -1,90 +1,68 @@
-import { Popover2 } from '@blueprintjs/popover2';
-import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
-import { CoreTokens, Txt } from '@redeye/ui-styles';
+import { useStore } from '@redeye/client/store';
+import type { PopoverButtonProps } from '@redeye/ui-styles';
+import { Flex, ExternalLink, CoreTokens, PopoverButton, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 
-type ModeIndicatorProps = {
-	isRedTeam: boolean;
-};
+export const ModeIndicator = observer<Omit<PopoverButtonProps, 'content'> & { fullName?: boolean }>(
+	({ popoverProps, fullName, ...props }) => {
+		const store = useStore();
+		const isRedTeam = !store.appMeta.blueTeam;
 
-export const ModeIndicator = observer<ModeIndicatorProps>(({ isRedTeam }) => {
-	let teamAcronym: string = 'BT';
-	let team: string = 'Blue Team ';
-	let description: string = 'Restricted RedEye functionality. Editing and commenting features are not available.';
-	let teamCSS: SerializedStyles = blueStyle;
+		let teamAcronym = fullName ? 'Blue Team' : 'BT';
+		let team = 'Blue Team';
+		let description = 'Restricted RedEye functionality. Editing and commenting features are not available.';
+		let teamCSS = blueStyle;
 
-	if (isRedTeam) {
-		teamAcronym = 'RT';
-		team = 'Red Team ';
-		description = 'Full RedEye functionality. Editing and commenting is not restricted.';
-		teamCSS = redStyle;
-	}
+		if (isRedTeam) {
+			teamAcronym = fullName ? 'Red Team' : 'RT';
+			team = 'Red Team';
+			description = 'Full RedEye functionality. Editing and commenting is not restricted.';
+			teamCSS = redStyle;
+		}
 
-	return (
-		<>
-			<div css={dividerStyle} />
-			<Popover2
-				position="right"
-				autoFocus={false}
-				interactionKind="hover"
-				usePortal={false}
+		return (
+			<PopoverButton
+				popoverProps={{
+					position: 'right',
+					interactionKind: 'hover',
+					...popoverProps,
+				}}
 				content={
-					<div css={hoverInfoStyle}>
-						<Txt>
-							<Txt bold>{team}</Txt> <Txt muted>Mode </Txt>
+					<Flex column gap={4} align="start" css={{ width: 320, padding: 12 }}>
+						<Txt large bold>
+							<Txt>{team}</Txt> <Txt muted>Mode</Txt>
 						</Txt>
 						<Txt muted>{description}</Txt>
-					</div>
+						<ExternalLink href="https://github.com/cisagov/redeye#red-team--blue-team-modes">Learn more</ExternalLink>
+					</Flex>
 				}
+				active={false}
+				{...props}
 			>
 				<div cy-test={teamAcronym} css={teamCSS}>
 					{teamAcronym}
 				</div>
-			</Popover2>
-		</>
-	);
-});
+			</PopoverButton>
+		);
+	}
+);
 
-const dividerStyle = css`
-	width: 15px;
-	height: 10px;
-	align-content: middle;
-	padding-top: 1px;
-	padding-bottom: 10px;
-	border-top: 2px solid ${CoreTokens.Colors.Black};
-`;
-
-const hoverInfoStyle = css`
-	display: flex;
-	flex-direction: column;
-	padding: 8px;
-	min-width: 20em;
-	max-width: 23em;
-	height: 5.25em;
-	gap: 4px;
+const indicatorStyle = css`
+	padding: 2px;
+	font-weight: 800;
+	font-size: 11px;
+	line-height: 11px;
+	text-transform: uppercase;
+	color: ${CoreTokens.Colors.Black};
 `;
 
 const blueStyle = css`
-	padding-right: 2px;
-	padding-left: 2px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	font-weight: 700;
-	font-size: 11px;
-	line-height: 14px;
+	${indicatorStyle};
 	background-color: ${CoreTokens.Colors.Blue3};
-	color: ${CoreTokens.Colors.Black};
 `;
 
 const redStyle = css`
-	padding-right: 1px;
-	padding-left: 1px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	font-weight: 700;
-	font-size: 11px;
-	line-height: 14px;
+	${indicatorStyle};
 	background-color: ${CoreTokens.Colors.Red3};
-	color: ${CoreTokens.Colors.Black};
 `;

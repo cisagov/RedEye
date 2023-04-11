@@ -1,4 +1,5 @@
-// <reference types="cypress" />
+/// <reference types="cypress" />
+let first;
 
 describe('Search campaign and open one of the results', () => {
 	const camp = 'searchcampaign';
@@ -19,26 +20,26 @@ describe('Search campaign and open one of the results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 		// Log total number of results
-		cy
-			.get('@list')
+		cy.get('@list')
 			.its('length')
 			.then((resultSearch1) => {
-				// cy.log(resultSearch1);
+				first = resultSearch1;
+			});
 
-				// Close search box
-				cy.get('[cy-test=close-search]').click();
+		// Close search box
+		cy.closeSearch();
 
-				// Re-open search box; verify same results are showing
-				cy.clickSearch();
-				cy.get('[cy-test=search]').invoke('attr', 'value').should('include', searchTerm1);
-				cy.get('@list').should('contain', searchTerm1);
-				cy
-					.get('@list')
-					.its('length')
-					.then((resultSearch2) => {
-						// cy.log(resultSearch2);
-						expect(resultSearch2).to.equal(resultSearch1);
-					});
+		// Re-open search box; verify same results are showing
+		cy.clickSearch();
+
+		cy.get('[cy-test=search]').invoke('attr', 'value').should('include', searchTerm1);
+
+		cy.get('@list').should('contain', searchTerm1);
+
+		cy.get('@list')
+			.its('length')
+			.then((resultSearch2) => {
+				expect(resultSearch2).to.equal(first);
 			});
 	});
 
@@ -54,49 +55,39 @@ describe('Search campaign and open one of the results', () => {
 		cy.get('[cy-test=search-result-item]').as('list').should('have.length.gt', 0).and('contain', searchTerm1);
 
 		// Filter on Commands only
-		cy.get('[cy-test=filter-search]').click();
-		cy.get('[cy-test=Commands]').click();
+		cy.filterSearchResults();
+		cy.filterToCommands();
 
 		// Log text showing in the first result
 		// line 1 - first part
-		cy
-			.get('[cy-test=search-result-item]')
+		cy.get('[cy-test=search-result-item]')
 			.eq(0)
 			.invoke('text')
 			.then((text) => {
 				let lineOneText1 = text.split('/')[0];
-				cy.log(lineOneText1);
 
 				// line 1 - second part
-				cy
-					.get('[cy-test=search-result-item]')
+				cy.get('[cy-test=search-result-item]')
 					.eq(0)
 					.invoke('text')
 					.then((text) => {
 						let lineOneText2 = text.split('/')[1];
-						cy.log(lineOneText2);
 
 						// line 1- third part
-						cy
-							.get('[cy-test=search-result-item]')
+						cy.get('[cy-test=search-result-item]')
 							.eq(0)
 							.invoke('text')
 							.then((text) => {
 								let lineOneText3 = text.split('/')[2];
-								cy.log(lineOneText3);
 
 								// Log the text details for the Command
-								cy
-									.get('[cy-test=search-item-details]')
+								cy.get('[cy-test=search-item-details]')
 									.eq(0)
 									.invoke('text')
 									.then((commandDetails) => {
-										cy.log(commandDetails);
-
 										// Select first item from the search results and click to open details; verify against data in search modal
 										cy.get('[cy-test=search-result-item]').eq(0).click();
-										cy
-											.get('[cy-test=navigation-breadcrumbs]')
+										cy.get('[cy-test=navigation-breadcrumbs]')
 											.invoke('text')
 											.should('contain', lineOneText1)
 											.and('contain', lineOneText2);

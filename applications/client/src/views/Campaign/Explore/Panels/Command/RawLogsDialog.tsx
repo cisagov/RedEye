@@ -1,8 +1,9 @@
-import type { DialogProps } from '@blueprintjs/core';
+import type {} from '@blueprintjs/core';
 import { Button, ButtonGroup, Divider, NonIdealState, Spinner } from '@blueprintjs/core';
 import { Copy16, UpToTop16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
-import { CarbonIcon, DialogCustom } from '@redeye/client/components';
+import type { DialogExProps } from '@redeye/client/components';
+import { CarbonIcon, DialogEx } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel, LogEntryModel } from '@redeye/client/store';
 import { selectFromLogEntry, useStore } from '@redeye/client/store';
@@ -14,7 +15,7 @@ import { observer } from 'mobx-react-lite';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 
-interface RawLogsViewerProps extends Omit<DialogProps, 'isOpen'> {
+interface RawLogsViewerProps extends Omit<DialogExProps, 'isOpen'> {
 	command?: CommandModel;
 	beacon?: BeaconModel;
 }
@@ -81,15 +82,16 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 	if (!state.command && !state.beacon) return null;
 
 	return (
-		<DialogCustom
+		<DialogEx
 			{...props}
+			wide
 			isOpen={state.isOpen}
 			onClose={state.onClose}
 			css={logModelStyles}
 			headerProps={{ css: headerStyles }}
 			title={
 				<>
-					<NavBreadcrumbs command={state.command} onNavigate={state.onClose} />
+					<NavBreadcrumbs beacon={state.beacon} onNavigate={state.onClose} />
 					<div
 						css={css`
 							display: flex;
@@ -135,25 +137,22 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 					{logsByBeaconId
 						?.filter((logEntry) => !!getTextFromLog(logEntry))
 						.map((logEntry) => {
-							const scrollToCommand = state.commandLogEntryIds?.includes?.(logEntry.id);
-							const Component = scrollToCommand ? AutoScrollPre : 'pre';
+							const isScrollTarget = state.commandLogEntryIds?.includes?.(logEntry.id);
+							const Component = isScrollTarget ? ScrollTargetPre : 'pre';
 							return (
-								<Component key={logEntry.id} cy-test="log-entry" css={[preStyles, scrollToCommand && highlightedStyles]}>
+								<Component key={logEntry.id} cy-test="log-entry" css={[preStyles]}>
 									{getTextFromLog(logEntry)}
 								</Component>
 							);
 						})}
 				</div>
 			</div>
-		</DialogCustom>
+		</DialogEx>
 	);
 });
 
 const logModelStyles = css`
-	max-width: 95vw;
-	min-width: 40vw;
-	width: unset;
-	padding: 0;
+	max-width: unset;
 `;
 const preStyles = css`
 	padding: 0.5rem 1rem;
@@ -190,25 +189,19 @@ const outputOverflowWrapperStyle = css`
 const messagePaddingStyles = css`
 	padding: 30px;
 `;
-const highlightedStyles = css`
-	background: ${CoreTokens.Background1};
-`;
 
-const AutoScrollPre: FC = (props) => {
+const ScrollTargetPre: FC = (props) => {
 	const ref = useRef<HTMLPreElement>(null);
 	useEffect(
 		() => () => {
 			const el = ref.current;
-			if (el) {
-				setTimeout(() => {
-					scrollIntoView(el);
-				}, 500);
-			}
+			// wait 500ms to scrollIntoView for React to finish layout
+			if (el) setTimeout(() => scrollIntoView(el), 500);
 		},
-		[]
+		[ref.current]
 	);
 
-	return <pre {...props} ref={ref} />;
+	return <pre css={scrollTargetStyles} ref={ref} {...props} />;
 };
 
 // Only fire one scrollIntoView every 1s
@@ -219,6 +212,8 @@ const scrollIntoView: (el: HTMLElement) => void = throttle(
 	},
 	{ noTrailing: true }
 );
+
+const scrollTargetStyles = UtilityStyles.scrollTarget(4000);
 
 function getTextFromLog(logEntry: LogEntryModel) {
 	return logEntry.blob ? logEntry.blob.trim() : null;

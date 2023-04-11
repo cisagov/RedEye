@@ -4,7 +4,9 @@ node_modules
 dist
 build
 @redeye/darwin-x64
-dev-databases
+packages/graph/testData
+applications/server/dev-databases
+applications/server/campaign
 .eslintcache
 
 .yarn/*
@@ -25,7 +27,6 @@ junit.xml
 .vim
 .nova
 
-server/.env
 [diff]
     tool = vscode
 [difftool "vscode"]
@@ -36,3 +37,7 @@ test.sqlite*
 junit.*.xml
 release
 tmp
+# moon
+.moon/cache
+.moon/docker
+*.tsbuildinfo

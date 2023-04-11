@@ -6,7 +6,6 @@ describe('Golden Ticket', () => {
 	const cmd = 'keylogger';
 	const comment = 'Willy Wonka';
 	const partialTag = 'Golden';
-	const existingTag = '#GoldenTicket';
 
 	it('Golden Ticket icon appears when GT tag is used; Presentation Mode reflects the count of Golden Ticket tags', () => {
 		cy.uploadCampaign(camp, fileName);
@@ -16,9 +15,9 @@ describe('Golden Ticket', () => {
 
 		cy.clickPresentationMode();
 
-		cy
-			.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
 			.invoke('text')
+			.as('GTTagCount')
 			.then((resultGTCount1) => {
 				// Go to Commands, select command, verify Golden Ticket icon is not there
 				cy.clickExplorerMode();
@@ -40,16 +39,11 @@ describe('Golden Ticket', () => {
 				// Log new number of Golden Ticket comments and compare to original count; verify GT only appears once in list
 				cy.clickPresentationMode();
 
-				cy
-					.get('[cy-test=GoldenTicket] [cy-test=count]')
-					.should('be.visible')
-					.invoke('text')
-					.then((resultGTCount2) => {
-						// cy.log(resultGTCount2);
-						expect(+resultGTCount2).to.equal(+resultGTCount1 + +'1');
+				cy.get('@GTTagCount').then((resultGTCount2) => {
+					expect(+resultGTCount2).to.equal(+resultGTCount1 + +'1');
 
-						cy.get('[cy-test=GoldenTicket]').should('have.length', 1);
-					});
+					cy.get('[cy-test=GoldenTicket]').should('have.length', 1);
+				});
 			});
 	});
 

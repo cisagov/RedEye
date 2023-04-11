@@ -11,6 +11,7 @@ import {
 } from '@redeye/client/components';
 import type { AppStore } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
+import { Border } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { UseCreateState } from '../mobx-create-state';
 import { createState } from '../mobx-create-state';
@@ -101,43 +102,40 @@ const HeaderOptions = ({
 			}}
 			rightIcon={<CarbonIcon icon={Help16} />}
 		/>
+		<ModeIndicator fullName css={{ marginRight: -8, padding: '0px 8px' }} popoverProps={{ position: 'top-right' }} />
 	</ButtonGroup>
 );
 
-const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => {
-	const store = useStore();
-	const isRedTeam = !store.appMeta.blueTeam;
-
-	return (
-		<>
-			<NavButton
-				cy-test="user-settings"
-				icon={<CarbonIcon icon={User24} />}
-				title="User Settings"
-				onClick={() => {
-					state.update('isUserSettingsOpen', true);
-				}}
-				active={state.isUserSettingsOpen}
-			/>
-			<NavButton
-				cy-test="general-settings"
-				icon={<CarbonIcon icon={Settings24} />}
-				title="General Settings"
-				onClick={() => {
-					state.update('isGeneralSettingsOpen', true);
-				}}
-				active={state.isGeneralSettingsOpen}
-			/>
-			<NavButton
-				cy-test="help-btn"
-				icon={<CarbonIcon icon={Help24} />}
-				title="Help"
-				onClick={() => {
-					state.update('isHelpPanelOpen', true);
-				}}
-				active={state.isHelpPanelOpen}
-			/>
-			<ModeIndicator isRedTeam={isRedTeam} />
-		</>
-	);
-};
+const NavBarOptions = ({ state }: { state: UseCreateState<SettingsOverlayState> }) => (
+	<>
+		<NavButton
+			cy-test="user-settings"
+			icon={<CarbonIcon icon={User24} />}
+			title="User Settings"
+			onClick={() => {
+				state.update('isUserSettingsOpen', true);
+			}}
+			active={state.isUserSettingsOpen}
+		/>
+		<NavButton
+			cy-test="settings"
+			icon={<CarbonIcon icon={Settings24} />}
+			title="General Settings"
+			onClick={() => {
+				state.update('isGeneralSettingsOpen', true);
+			}}
+			active={state.isGeneralSettingsOpen}
+		/>
+		<NavButton
+			cy-test="help-btn"
+			icon={<CarbonIcon icon={Help24} />}
+			title="Help"
+			onClick={() => {
+				state.update('isHelpPanelOpen', true);
+			}}
+			active={state.isHelpPanelOpen}
+		/>
+		<Border css={{ margin: '16px 0', width: 16 }} invert />
+		<ModeIndicator css={{ alignSelf: 'stretch', height: 48 }} />
+	</>
+);

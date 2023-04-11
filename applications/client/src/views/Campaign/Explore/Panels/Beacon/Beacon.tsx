@@ -1,6 +1,6 @@
 import { Classes } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { dateShortFormat, semanticIcons } from '@redeye/client/components';
+import { CarbonIcon, dateShortFormat, semanticIcons } from '@redeye/client/components';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -12,6 +12,7 @@ import {
 	RowTime,
 	RowTitle,
 	ToggleHiddenDialog,
+	useCheckLastUnhidden,
 	useToggleHidden,
 } from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
@@ -19,7 +20,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
-import { QuickMeta } from '../QuickMeta';
+import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
 type BeaconProps = ComponentProps<'div'> & {
 	beacon: BeaconModel;
@@ -39,10 +40,13 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				beaconId: beacon?.id!,
 			})
 	);
+
+	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
+
 	return (
 		<InfoRow
 			cy-test="info-row"
-			onClick={() => beacon.select()}
+			onClick={() => (!toggleHidden.showHide ? beacon.select() : null)}
 			onMouseEnter={() =>
 				beacon.state !== TimeStatus.FUTURE && store.campaign?.interactionState.onHover(beacon?.hierarchy)
 			}
@@ -52,8 +56,13 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				{store.settings.momentTz(beacon.minTime)?.format(dateShortFormat)}&mdash;
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}
 			</RowTime>
-			<RowTitle className={skeletonClass}>{beacon?.displayName || `${beacon.server?.displayName}`}</RowTitle>
-			<RowMuted className={skeletonClass}>{beacon.meta?.[0]?.maybeCurrent?.username}</RowMuted>
+			<CarbonIcon icon={semanticIcons.beacon} />
+			<RowTitle cy-test="beacon-display-name" className={skeletonClass}>
+				{beacon?.displayName || `${beacon.server?.displayName}`}
+			</RowTitle>
+			<RowMuted cy-test="beacon-user" className={skeletonClass}>
+				{beacon.meta?.[0]?.maybeCurrent?.username}
+			</RowMuted>
 			<FlexSplitter />
 			{beacon?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />
@@ -64,22 +73,32 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				icon={semanticIcons.commands}
 				className={skeletonClass}
 			/>
-			<QuickMeta
-				modal={beacon}
-				mutateToggleHidden={mutateToggleHidden}
-				disabled={!!store.appMeta.blueTeam}
-				click={() => toggleHidden.update('showHide', true)}
-			/>
-			<ToggleHiddenDialog
-				isOpen={toggleHidden.showHide}
-				infoType={InfoType.BEACON}
-				isHiddenToggled={!!beacon?.hidden}
-				onClose={(e) => {
-					e.stopPropagation();
-					toggleHidden.update('showHide', false);
-				}}
-				onHide={() => mutateToggleHidden.mutate()}
-			/>
+			{beacon != null && (
+				<QuickMetaPopoverButtonMenu
+					content={
+						// <MenuItem2 text="Add Comment" />
+						<ShowHideMenuItem
+							model={beacon}
+							disabled={!!store.appMeta.blueTeam}
+							onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
+						/>
+					}
+				/>
+			)}
+			{!isDialogDisabled && (
+				<ToggleHiddenDialog
+					typeName="beacon"
+					isOpen={toggleHidden.showHide}
+					infoType={InfoType.BEACON}
+					isHiddenToggled={!!beacon?.hidden}
+					onClose={(e) => {
+						e.stopPropagation();
+						toggleHidden.update('showHide', false);
+					}}
+					onHide={() => mutateToggleHidden.mutate()}
+					last={last}
+				/>
+			)}
 		</InfoRow>
 	);
 });
