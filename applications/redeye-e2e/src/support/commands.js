@@ -274,3 +274,15 @@ Cypress.Commands.add('toggleDarkTheme', () => {
 	cy.get('[cy-test=toggle-theme]').uncheck({ force: true });
 	cy.get('[cy-test=close-log]').click();
 });
+
+Cypress.Commands.add('toggleRedacted', () => {
+	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=toggle-redacted-mode]').check({ force: true });
+	cy.get('[cy-test=close-log]').click();
+});
+
+Cypress.Commands.add('toggleUnredacted', () => {
+	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=toggle-redacted-mode]').uncheck({ force: true });
+	cy.get('[cy-test=close-log]').click();
+});
