@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 import type { DropdownItem } from '@redeye/client/components';
 import { CarbonIcon, createSorter, customIconPaths, Dropdown } from '@redeye/client/components';
 import type { SortOption } from '@redeye/client/store';
-import { Status, useStore } from '@redeye/client/store';
+import { useStore } from '@redeye/client/store';
 import { Tabs } from '@redeye/client/types/explore';
 import { sortOptions } from '@redeye/client/views';
 import { FlexSplitter, CoreTokens } from '@redeye/ui-styles';
@@ -147,7 +147,6 @@ export const ControlBar = observer<ControlBarProps>(
 									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
-								store.campaign?.setBulkSelectStatus(Status.READY);
 							}}
 							minimal
 							text="Bulk Edit"
@@ -164,7 +163,6 @@ export const ControlBar = observer<ControlBarProps>(
 									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
-								store.campaign?.setBulkSelectStatus(Status.READY);
 							}}
 							minimal
 							text="Cancel"
@@ -185,7 +183,6 @@ export const ControlBar = observer<ControlBarProps>(
 									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
-								store.campaign?.setBulkSelectStatus(Status.READY);
 							}}
 							minimal
 							text="Bulk Edit"
@@ -201,7 +198,6 @@ export const ControlBar = observer<ControlBarProps>(
 									hiddenCount: 0,
 								});
 								store.campaign?.setBulkSelectCantHideEntityIds([]);
-								store.campaign?.setBulkSelectStatus(Status.READY);
 							}}
 							minimal
 							text="Cancel"

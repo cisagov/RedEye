@@ -29,12 +29,6 @@ export enum CampaignLoadingMessage {
 	DONE = 'Done',
 }
 
-export enum Status {
-	READY = 'ready',
-	LOADING = 'loading',
-	CANT_HIDE = 'cantHide',
-}
-
 @model('CampaignStore')
 export class CampaignStore extends ExtendedModel(() => ({
 	baseModel: modelClass<RedEyeModel>(RedEyeModel),
@@ -67,7 +61,6 @@ export class CampaignStore extends ExtendedModel(() => ({
 			selectedBeacons: string[];
 			hiddenCount: number;
 		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
-		bulkSelectStatus: prop<Status>(() => Status.READY).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
 	},
 })) {
