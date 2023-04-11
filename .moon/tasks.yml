@@ -241,7 +241,6 @@ tasks:
     command: 'pkg ./package.json -t node16-mac -o @out(0)'
     deps:
       - ~:build
-      - ~:fetch-pkg-mac
     platform: node
     outputs:
       - /release/mac/RedEye
@@ -252,7 +251,6 @@ tasks:
     command: 'pkg ./package.json -t node16-linux -o @out(0)'
     deps:
       - ~:build
-      - ~:fetch-pkg-linux
     platform: node
     outputs:
       - /release/linux/RedEye
@@ -263,7 +261,6 @@ tasks:
     command: 'pkg ./package.json -t node16-win -o @out(0)'
     deps:
       - ~:build
-      - ~:fetch-pkg-windows
     outputs:
       - /release/windows/RedEye
     options:
