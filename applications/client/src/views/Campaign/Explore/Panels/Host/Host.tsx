@@ -181,10 +181,8 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					<IconLabel cy-test="row-beacon-count" value={host.beaconCount} title="Beacons" icon={semanticIcons.beacon} />
 				</>
 			)}
-			{host != null && (
-				<QuickMetaPopoverButtonMenu
-					content={<ShowHideMenuItem model={host} disabled={!!store.appMeta.blueTeam} onClick={handleQuickMetaClick} />}
-				/>
+			{host != null && !store.appMeta.blueTeam && (
+				<QuickMetaPopoverButtonMenu content={<ShowHideMenuItem model={host} onClick={handleQuickMetaClick} />} />
 			)}
 			{!state.isDialogDisabled && (
 				<ToggleHiddenDialog

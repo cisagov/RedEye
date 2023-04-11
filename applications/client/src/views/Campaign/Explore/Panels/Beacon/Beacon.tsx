@@ -142,11 +142,11 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 				icon={semanticIcons.commands}
 				className={skeletonClass}
 			/>
-			{beacon != null && (
+			{beacon != null && !store.appMeta.blueTeam && (
 				<QuickMetaPopoverButtonMenu
 					content={
 						// <MenuItem2 text="Add Comment" />
-						<ShowHideMenuItem model={beacon} disabled={!!store.appMeta.blueTeam} onClick={handleQuickMetaClick} />
+						<ShowHideMenuItem model={beacon} onClick={handleQuickMetaClick} />
 					}
 				/>
 			)}
