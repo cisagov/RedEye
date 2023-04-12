@@ -2,7 +2,7 @@ import { useStore } from '@redeye/client/store';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-export const useCheckNonHideableEntities = (
+export const useCheckNonHidableEntities = (
 	typeName: 'beacons' | 'hosts' | 'servers',
 	hidden: boolean,
 	ids: string[]
@@ -13,13 +13,13 @@ export const useCheckNonHideableEntities = (
 	const { data } = useQuery(
 		[typeName, 'can-hide', store.campaign?.id, ids],
 		async () =>
-			await store.graphqlStore.queryNonHideableEntities({
+			await store.graphqlStore.queryNonHidableEntities({
 				campaignId: store.campaign.id!,
 				[entityIds]: ids,
 			})
 	);
 
-	const cantHideEntities = useMemo(() => (data?.nonHideableEntities?.[typeName]?.length || 0) > 0, [ids, data]);
+	const cantHideEntities = useMemo(() => (data?.nonHidableEntities?.[typeName]?.length || 0) > 0, [ids, data]);
 
 	const isDialogDisabled = useMemo(
 		() =>

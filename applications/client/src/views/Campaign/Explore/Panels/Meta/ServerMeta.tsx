@@ -13,7 +13,7 @@ import { observer } from 'mobx-react-lite';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 export const ServerMeta = observer((props) => {
 	const store = useStore();
@@ -29,7 +29,7 @@ export const ServerMeta = observer((props) => {
 		},
 	});
 
-	const { cantHideEntities, isDialogDisabled } = useCheckNonHideableEntities('servers', !!server?.hidden, [
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('servers', !!server?.hidden, [
 		server?.id || '',
 	]);
 

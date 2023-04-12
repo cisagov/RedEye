@@ -117,14 +117,13 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 	);
 
 	const handleQuickMetaClick = useCallback(async () => {
-		const data = await store.graphqlStore.queryNonHideableEntities({
+		const data = await store.graphqlStore.queryNonHidableEntities({
 			campaignId: store.campaign.id!,
 			hostIds: [(host.cobaltStrikeServer ? host?.serverId : host?.id) || ''],
 		});
 		const cantHideEntities =
-			((host?.cobaltStrikeServer
-				? data?.nonHideableEntities.servers?.length
-				: data?.nonHideableEntities.hosts?.length) || 0) > 0;
+			((host?.cobaltStrikeServer ? data?.nonHidableEntities.servers?.length : data?.nonHidableEntities.hosts?.length) ||
+				0) > 0;
 
 		const isDialogDisabled =
 			(window.localStorage.getItem('disableDialog') === 'true' &&

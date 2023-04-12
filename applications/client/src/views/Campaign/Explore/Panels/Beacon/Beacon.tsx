@@ -84,11 +84,11 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	);
 
 	const handleQuickMetaClick = useCallback(async () => {
-		const data = await store.graphqlStore.queryNonHideableEntities({
+		const data = await store.graphqlStore.queryNonHidableEntities({
 			campaignId: store.campaign.id!,
 			beaconIds: [beacon?.id],
 		});
-		const cantHideEntities = (data?.nonHideableEntities.beacons?.length || 0) > 0;
+		const cantHideEntities = (data?.nonHidableEntities.beacons?.length || 0) > 0;
 
 		const isDialogDisabled =
 			(window.localStorage.getItem('disableDialog') === 'true' &&

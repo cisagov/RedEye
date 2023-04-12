@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 export const HostMeta = observer((props) => {
 	const store = useStore();
@@ -23,11 +23,9 @@ export const HostMeta = observer((props) => {
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
-	const { cantHideEntities, isDialogDisabled } = useCheckNonHideableEntities(
-		'hosts',
-		!!host?.current?.hidden || false,
-		[host?.id || '']
-	);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('hosts', !!host?.current?.hidden || false, [
+		host?.id || '',
+	]);
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {

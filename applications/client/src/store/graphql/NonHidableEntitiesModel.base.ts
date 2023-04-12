@@ -7,17 +7,17 @@ import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
 
 /**
- * CantHideEntitiesBase
- * auto generated base class for the model CantHideEntitiesModel.
+ * NonHidableEntitiesBase
+ * auto generated base class for the model NonHidableEntitiesModel.
  */
-export class CantHideEntitiesModelBase extends Model({
-	__typename: tProp('CantHideEntities'),
+export class NonHidableEntitiesModelBase extends Model({
+	__typename: tProp('NonHidableEntities'),
 	beacons: prop<string[] | null>().withSetter(),
 	hosts: prop<string[] | null>().withSetter(),
 	servers: prop<string[] | null>().withSetter(),
 }) {}
 
-export class CantHideEntitiesModelSelector extends QueryBuilder {
+export class NonHidableEntitiesModelSelector extends QueryBuilder {
 	get beacons() {
 		return this.__attr(`beacons`);
 	}
@@ -28,8 +28,8 @@ export class CantHideEntitiesModelSelector extends QueryBuilder {
 		return this.__attr(`servers`);
 	}
 }
-export function selectFromCantHideEntities() {
-	return new CantHideEntitiesModelSelector();
+export function selectFromNonHidableEntities() {
+	return new NonHidableEntitiesModelSelector();
 }
 
-export const cantHideEntitiesModelPrimitives = selectFromCantHideEntities().beacons.hosts.servers;
+export const nonHidableEntitiesModelPrimitives = selectFromNonHidableEntities().beacons.hosts.servers;

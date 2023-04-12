@@ -25,11 +25,6 @@ import { AnnotationModel, annotationModelPrimitives, AnnotationModelSelector } f
 import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
 import { BeaconMetaModel, beaconMetaModelPrimitives, BeaconMetaModelSelector } from './BeaconMetaModel';
 import { CampaignModel, campaignModelPrimitives, CampaignModelSelector } from './CampaignModel';
-import {
-	CantHideEntitiesModel,
-	cantHideEntitiesModelPrimitives,
-	CantHideEntitiesModelSelector,
-} from './CantHideEntitiesModel';
 import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
 import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import {
@@ -44,6 +39,11 @@ import { HostMetaModel, hostMetaModelPrimitives, HostMetaModelSelector } from '.
 import { ImageModel, imageModelPrimitives, ImageModelSelector } from './ImageModel';
 import { LinkModel, linkModelPrimitives, LinkModelSelector } from './LinkModel';
 import { LogEntryModel, logEntryModelPrimitives, LogEntryModelSelector } from './LogEntryModel';
+import {
+	NonHidableEntitiesModel,
+	nonHidableEntitiesModelPrimitives,
+	NonHidableEntitiesModelSelector,
+} from './NonHidableEntitiesModel';
 import { OperatorModel, operatorModelPrimitives, OperatorModelSelector } from './OperatorModel';
 import {
 	ParsingProgressModel,
@@ -157,7 +157,7 @@ export enum RootStoreBaseQueries {
 	queryLinks = 'queryLinks',
 	queryLogs = 'queryLogs',
 	queryLogsByBeaconId = 'queryLogsByBeaconId',
-	queryNonHideableEntities = 'queryNonHideableEntities',
+	queryNonHidableEntities = 'queryNonHidableEntities',
 	queryOperators = 'queryOperators',
 	queryParsingProgress = 'queryParsingProgress',
 	queryPresentationItems = 'queryPresentationItems',
@@ -201,7 +201,6 @@ export class RootStoreBase extends ExtendedModel(
 			['Beacon', () => BeaconModel],
 			['BeaconMeta', () => BeaconMetaModel],
 			['Campaign', () => CampaignModel],
-			['CantHideEntities', () => CantHideEntitiesModel],
 			['Command', () => CommandModel],
 			['CommandGroup', () => CommandGroupModel],
 			['CommandTypeCount', () => CommandTypeCountModel],
@@ -212,6 +211,7 @@ export class RootStoreBase extends ExtendedModel(
 			['Image', () => ImageModel],
 			['Link', () => LinkModel],
 			['LogEntry', () => LogEntryModel],
+			['NonHidableEntities', () => NonHidableEntitiesModel],
 			['Operator', () => OperatorModel],
 			['ParsingProgress', () => ParsingProgressModel],
 			['PresentationCommandGroup', () => PresentationCommandGroupModel],
@@ -640,21 +640,21 @@ export class RootStoreBase extends ExtendedModel(
 			!!clean
 		);
 	}
-	@modelAction queryNonHideableEntities(
+	@modelAction queryNonHidableEntities(
 		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
 		resultSelector:
 			| string
 			| ((
-					qb: typeof CantHideEntitiesModelSelector
-			  ) => typeof CantHideEntitiesModelSelector) = cantHideEntitiesModelPrimitives.toString(),
+					qb: typeof NonHidableEntitiesModelSelector
+			  ) => typeof NonHidableEntitiesModelSelector) = nonHidableEntitiesModelPrimitives.toString(),
 		options: QueryOptions = {},
 		clean?: boolean
 	) {
-		return this.query<{ nonHideableEntities: CantHideEntitiesModel }>(
-			`query nonHideableEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { nonHideableEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
+		return this.query<{ nonHidableEntities: NonHidableEntitiesModel }>(
+			`query nonHidableEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { nonHidableEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
         ${
 					typeof resultSelector === 'function'
-						? resultSelector(CantHideEntitiesModelSelector).toString()
+						? resultSelector(NonHidableEntitiesModelSelector).toString()
 						: resultSelector
 				}
       } }`,

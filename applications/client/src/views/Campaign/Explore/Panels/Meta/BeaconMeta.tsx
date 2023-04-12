@@ -19,7 +19,7 @@ import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { useCheckNonHideableEntities } from '../hooks/use-check-nonHideable-entities';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -90,7 +90,7 @@ export const BeaconMeta = observer((props) => {
 		},
 	});
 
-	const { cantHideEntities, isDialogDisabled } = useCheckNonHideableEntities('beacons', beacon?.hidden || false, [
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('beacons', beacon?.hidden || false, [
 		beacon?.id || '',
 	]);
 

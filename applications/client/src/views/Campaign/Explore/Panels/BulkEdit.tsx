@@ -62,11 +62,11 @@ export const BulkEdit = observer<HostRowProps>(
 			state.update('isDialogDisabled', window.localStorage.getItem('disableDialog') === 'true');
 			const data =
 				typeName === 'beacons'
-					? await store.graphqlStore.queryNonHideableEntities({
+					? await store.graphqlStore.queryNonHidableEntities({
 							campaignId: store.campaign.id!,
 							beaconIds: store.campaign?.beaconGroupSelect.selectedBeacons,
 					  })
-					: await store.graphqlStore.queryNonHideableEntities({
+					: await store.graphqlStore.queryNonHidableEntities({
 							campaignId: store.campaign.id!,
 							hostIds: [
 								...(store.campaign?.hostGroupSelect.selectedHosts || ''),
@@ -75,16 +75,15 @@ export const BulkEdit = observer<HostRowProps>(
 					  });
 			const cantHideEntityIds =
 				(typeName === 'beacons'
-					? data?.nonHideableEntities.beacons?.slice()
+					? data?.nonHidableEntities.beacons?.slice()
 					: [
-							...(data?.nonHideableEntities.hosts?.slice() || ''),
-							...(data?.nonHideableEntities.servers?.slice() || ''),
+							...(data?.nonHidableEntities.hosts?.slice() || ''),
+							...(data?.nonHidableEntities.servers?.slice() || ''),
 					  ]) || [];
 			const cantHideEntities =
 				((typeName === 'beacons'
-					? data?.nonHideableEntities.beacons?.length
-					: [...(data?.nonHideableEntities.hosts || ''), ...(data?.nonHideableEntities.servers || '')]?.length) || 0) >
-				0;
+					? data?.nonHidableEntities.beacons?.length
+					: [...(data?.nonHidableEntities.hosts || ''), ...(data?.nonHidableEntities.servers || '')]?.length) || 0) > 0;
 
 			const isDialogDisabled = (window.localStorage.getItem('disableDialog') === 'true' && !cantHideEntities) || false;
 			state.update('cantHideEntities', cantHideEntities);
