@@ -105,8 +105,11 @@ export const getNonHidableEntities = async ({
 		if (beaconsThatWillBeHidden.length >= beaconsCount) {
 			cantHideBeacons.push(beacon);
 		}
-
-		if (Object.entries(hiddenHosts).every(([, host]) => host.beaconIds.length === host.hiddenBeaconIds.length)) {
+		const hiddenHostsEntries = Object.entries(hiddenHosts);
+		if (
+			hiddenHostsEntries.length &&
+			hiddenHostsEntries.every(([, host]) => host.beaconIds.length === host.hiddenBeaconIds.length)
+		) {
 			cantHideBeacons.push(beacon);
 		}
 	}
