@@ -60,7 +60,7 @@ export class BeaconResolvers {
 
 		if (beaconId) {
 			const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
-			beacon.hidden = setHidden;
+			beacon.hidden = !beacon.hidden;
 			await em.persistAndFlush(beacon);
 			await ensureTreeHidden(em, beacon.id, !!beacon.hidden, []);
 			ctx.cm.forkProject(campaignId);
