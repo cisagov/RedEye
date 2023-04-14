@@ -19,9 +19,9 @@ export const ensureTreeHidden = async (
 			}
 		}
 	}
-	const hostCount = await em.count(Beacon, { host: links.at(0)?.origin?.host });
-	if (!hostCount && links.at(0)?.origin?.host) {
-		await em.nativeUpdate(Host, { id: links.at(0)?.origin?.host?.id }, { hidden });
+	if (links.at(0)?.origin?.host) {
+		const hostCount = await em.count(Beacon, { host: links.at(0)?.origin?.host, hidden: false });
+		await em.nativeUpdate(Host, { id: links.at(0)?.origin?.host?.id }, { hidden: !hostCount });
 	}
 };
 
