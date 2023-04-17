@@ -14,7 +14,6 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
     outputs:
       uuid: ${{ steps.uuid.outputs.value }}
     steps:
@@ -28,7 +27,6 @@ jobs:
   install:
     needs: ['prepare']
     runs-on: ubuntu-latest
-    container: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
     strategy:
       fail-fast: false
       matrix:
@@ -45,13 +43,6 @@ jobs:
         with:
           node-version: 16.19.0
           cache: 'yarn'
-
-      # - name: Cypress install
-      #   uses: cypress-io/github-action@v5
-      #   with:
-      #     runTests: false
-      #     install-command: yarn install --immutable --inline-builds
-      #     build: yarn moon run server:build client:build
 
       - run: yarn install --immutable --inline-builds
       - run: yarn moon run server:build client:build
