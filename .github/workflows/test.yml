@@ -86,7 +86,6 @@ jobs:
       - name: Red Team Tests - Chrome v${{ matrix.node }}
         uses: cypress-io/github-action@v5
         with:
-          install: false
           tag: node-${{ matrix.node }}
           start: yarn start:dev
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
@@ -135,7 +134,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           tag: node-${{ matrix.node }}
-          install: false
           start: yarn start:blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
