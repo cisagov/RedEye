@@ -11,19 +11,30 @@ describe('Hide a beacon', () => {
 		cy.selectCampaign(camp);
 
 		// Toggle off switch for hidden beacons
-		cy.get('[cy-test=settings]').click();
+		cy.doNotShowHiddenItems();
 
-		cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
+		// Toggle switch back on
+		cy.showHiddenItems();
+	});
 
-		cy.closeRawLogs();
+	it('Toggle hide/show switch from main page', () => {
+		// Toggle off switch for hidden beacons
+		cy.doNotShowHiddenItems();
 
+		// Toggle switch back on
+		cy.showHiddenItems();
+	});
+
+	it('Verify Hide button is disabled in Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Go to Beacons tab; open first beacon; go to Meta tab
 		cy.clickBeaconsTab();
-
-		// Verify unable to hide/show new beacons/host
-		cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]').eq(0).click();
-
+		cy.get('[cy-test=beacons-row]').eq(0).click();
 		cy.clickMetaTab();
 
+		// Verify unable to hide/show new beacons/host
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});
 
@@ -31,13 +42,10 @@ describe('Hide a beacon', () => {
 		// Toggle off switch for hidden beacons
 		cy.get('[cy-test=settings]').click();
 
-		cy.get('[cy-test=show-hide-beacons]').check({ force: true });
-
-		cy.closeRawLogs();
-
-		cy.get('[cy-test=settings]').click();
-
-		cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
+		// Navigate to the Beacons tab and open kebab menu for first beacon
+		cy.clickBeaconsTab();
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').should('be.disabled');
 	});
 
 	it.skip('Verify Hide option is disabled in kebab menu', () => {

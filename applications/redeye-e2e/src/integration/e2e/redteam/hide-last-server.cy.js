@@ -47,6 +47,9 @@ describe('Hide last server', () => {
 
 				// Verify last host still shows in UI
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
+
+				// Delete campaign
+				cy.deleteCampaignGraphQL(camp);
 			});
 
 		// Delete campaign
