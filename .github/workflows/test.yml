@@ -45,15 +45,15 @@ jobs:
           node-version: 16.19.0
           cache: 'yarn'
 
-      - name: Cypress install
-        uses: cypress-io/github-action@v5
-        with:
-          runTests: false
-          install-command: yarn install --immutable --inline-builds
-          build: yarn moon run server:build client:build
+      # - name: Cypress install
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     runTests: false
+      #     install-command: yarn install --immutable --inline-builds
+      #     build: yarn moon run server:build client:build
 
-      # - run: yarn install --immutable --inline-builds
-      # - run: yarn moon run server:build client:build
+      - run: yarn install --immutable --inline-builds
+      - run: yarn moon run server:build client:build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
