@@ -27,10 +27,12 @@ jobs:
   install:
     needs: ['prepare']
     runs-on: ubuntu-latest
+    container: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
     strategy:
       fail-fast: false
       matrix:
         node-version: [16.19.0]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,8 +45,15 @@ jobs:
           node-version: 16.19.0
           cache: 'yarn'
 
-      - run: yarn install --immutable --inline-builds
-      - run: yarn moon run server:build client:build
+      - name: Cypress install
+        uses: cypress-io/github-action@v5
+        with:
+          runTests: false
+          install-command: yarn install --immutable --inline-builds
+          build: yarn moon run server:build client:build
+
+      # - run: yarn install --immutable --inline-builds
+      # - run: yarn moon run server:build client:build
 
       - name: Save build folder
         uses: actions/upload-artifact@v3
@@ -55,6 +64,7 @@ jobs:
 
   RedTeamChrome:
     runs-on: ubuntu-latest
+    container: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
     needs: [prepare, install]
     strategy:
       fail-fast: false
@@ -80,10 +90,11 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: yarn install  --immutable --inline-builds
+      # - run: yarn install  --immutable --inline-builds
       - name: Red Team Tests - Chrome v${{ matrix.node }}
-        uses: cypress-io/github-action@v5.3.1
+        uses: cypress-io/github-action@v5
         with:
+          install: false
           tag: node-${{ matrix.node }}
           start: yarn start:dev
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
@@ -101,6 +112,7 @@ jobs:
 
   BlueTeamChrome:
     runs-on: ubuntu-latest
+    container: cypress/browsers:node-16.18.1-chrome-110.0.5481.96-1-ff-109.0-edge-110.0.1587.41-1
     needs: [prepare, install]
     strategy:
       fail-fast: false
@@ -126,11 +138,12 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: yarn install  --immutable --inline-builds
+      # - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
-        uses: cypress-io/github-action@v5.3.1
+        uses: cypress-io/github-action@v5
         with:
           tag: node-${{ matrix.node }}
+          install: false
           start: yarn start:blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
