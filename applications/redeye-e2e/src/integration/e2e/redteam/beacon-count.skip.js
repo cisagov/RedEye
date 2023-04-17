@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-// PENDING BUG FIX FOR FIRST 2 TESTS BELOW
+// PENDING BUG FIX FOR FIRST 2 TESTS BELOW (BLDSTRIKE-529)
 
 describe('Beacon counts', () => {
 	const camp = 'beaconcounts';

@@ -1,5 +1,16 @@
 /// <reference types="cypress" />
 
+function showHideConfirm(index) {
+	// Hide the second beacon (now first showing in list)
+	cy.showHideItem(index);
+
+	// Verify confirmation modal appears
+	cy.verifyDialogBoxAppears();
+
+	// Confirm that you want to hide the beacon
+	cy.confirmShowHide();
+}
+
 describe('Hide last beacon', () => {
 	const camp = 'hidelastbeacon';
 	const fileName = 'smalldata.redeye';
@@ -18,13 +29,7 @@ describe('Hide last beacon', () => {
 			.as('beacon')
 			.then((beaconName1) => {
 				// Hide the first beacon in the list
-				cy.showHideItem(0);
-
-				// Verify confirmation modal appears
-				cy.verifyDialogBoxAppears();
-
-				// Confirm that you want to hide the beacon
-				cy.confirmShowHide();
+				showHideConfirm(0);
 
 				// Confirm first beacon does not show in list
 				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
@@ -35,13 +40,7 @@ describe('Hide last beacon', () => {
 		// Get name of second beacon
 		cy.get('@beacon').then((beaconName2) => {
 			// Hide the second beacon (now first showing in list)
-			cy.showHideItem(0);
-
-			// Verify confirmation modal appears
-			cy.verifyDialogBoxAppears();
-
-			// Confirm that you want to hide the beacon
-			cy.confirmShowHide();
+			showHideConfirm(0);
 
 			// Confirm second beacon does not show in list
 			cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
@@ -55,8 +54,7 @@ describe('Hide last beacon', () => {
 			cy.showHideItem(0);
 
 			// Verify notification appears saying it cannot be hidden
-			cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-			cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+			cy.verifyCannotHideFinal();
 
 			// Click to confirm
 			cy.confirmShowHide();

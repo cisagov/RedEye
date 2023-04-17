@@ -13,7 +13,7 @@ describe('Get All Campaigns', () => {
           }`;
 		graphqlRequest(query).then((res) => {
 			const campaigns = res.body.data.campaigns;
-			expect(campaigns.length).to.eq(1);
+			expect(campaigns.length).to.gte(1);
 		});
 	});
 

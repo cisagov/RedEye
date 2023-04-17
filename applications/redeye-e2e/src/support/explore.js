@@ -245,18 +245,21 @@ Cypress.Commands.add('closeSearch', () => {
 Cypress.Commands.add('showHideBeaconMetaTab', () => {
 	cy.get('[cy-test=show-hide-this-beacon]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE HOST FROM META TAB
 Cypress.Commands.add('showHideHostMetaTab', () => {
 	cy.get('[cy-test=show-hide-this-host]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE SERVER FROM META TAB
 Cypress.Commands.add('showHideServerMetaTab', () => {
 	cy.get('[cy-test=show-hide-this-server]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE ITEM FROM IN-LINE KEBAB MENU
@@ -283,10 +286,16 @@ Cypress.Commands.add('verifyDialogBoxDisappears', () => {
 	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
 });
 
+// VERIFY CANNOT HIDE FINAL ITEM
+Cypress.Commands.add('verifyCannotHideFinal', () => {
+	cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
+	cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+});
+
 // CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
 Cypress.Commands.add('confirmShowHide', () => {
 	cy.get('[cy-test=confirm-show-hide]').click();
-	cy.wait(1000);
+	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
 });
 
 // CANCEL SHOW OR HIDE FROM CONFIRMATION MODAL

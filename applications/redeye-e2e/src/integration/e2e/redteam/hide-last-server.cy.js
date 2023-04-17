@@ -1,5 +1,27 @@
 /// <reference types="cypress" />
 
+function showHideConfirm(index) {
+	// Hide the first server in the list
+	cy.showHideItem(index);
+
+	// Verify confirmation modal appears
+	cy.verifyDialogBoxAppears();
+
+	// Confirm that you want to hide the server
+	cy.confirmShowHide();
+}
+
+function tryToHideFinal(index) {
+	// Try to hide the only server
+	cy.showHideItem(0);
+
+	// Verify notification appears saying it cannot be hidden
+	cy.verifyCannotHideFinal();
+
+	// Click to confirm
+	cy.confirmShowHide();
+}
+
 describe('Hide last server', () => {
 	const camp = 'hideonlyserver';
 	const fileName = 'gt.redeye';
@@ -21,18 +43,14 @@ describe('Hide last server', () => {
 			.as('server')
 			.then((serverName) => {
 				// Try to hide the only server
-				cy.showHideItem(0);
-
-				// Verify notification appears saying it cannot be hidden
-				cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-				cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
-
-				// Click to confirm
-				cy.confirmShowHide();
+				tryToHideFinal(0);
 
 				// Verify last host still shows in UI
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
 			});
+
+		// Delete campaign
+		cy.deleteCampaignGraphQL(camp);
 	});
 
 	it('Should not be able to hide last server', () => {
@@ -48,13 +66,7 @@ describe('Hide last server', () => {
 			.as('server')
 			.then((serverName1) => {
 				// Hide the first server in the list
-				cy.showHideItem(0);
-
-				// Verify confirmation modal appears
-				cy.verifyDialogBoxAppears();
-
-				// Confirm that you want to hide the server
-				cy.confirmShowHide();
+				showHideConfirm(0);
 
 				// Confirm first server does not show in list
 				cy.get('[cy-test=hostName]').each(($servers) => {
@@ -65,13 +77,7 @@ describe('Hide last server', () => {
 		// Get name of seccond server
 		cy.get('@server').then((serverName2) => {
 			// Hide the first server in the list
-			cy.showHideItem(0);
-
-			// Verify confirmation modal appears
-			cy.verifyDialogBoxAppears();
-
-			// Confirm that you want to hide the host
-			cy.confirmShowHide();
+			showHideConfirm(0);
 
 			// Confirm first host does not show in list
 			cy.get('[cy-test=hostName]').each(($servers) => {
@@ -82,13 +88,7 @@ describe('Hide last server', () => {
 		// Get name of third server
 		cy.get('@server').then((serverName3) => {
 			// Hide the first server in the list
-			cy.showHideItem(0);
-
-			// Verify confirmation modal appears
-			cy.verifyDialogBoxAppears();
-
-			// Confirm that you want to hide the host
-			cy.confirmShowHide();
+			showHideConfirm(0);
 
 			// Confirm first host does not show in list
 			cy.get('[cy-test=hostName]').each(($servers) => {
@@ -99,14 +99,7 @@ describe('Hide last server', () => {
 		// Get name of fourth/last server
 		cy.get('@server').then((serverName4) => {
 			// Try to hide the fourth/last server
-			cy.showHideItem(0);
-
-			// Verify notification appears saying it cannot be hidden
-			cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-			cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
-
-			// Click to confirm
-			cy.confirmShowHide();
+			tryToHideFinal(0);
 
 			// Verify last server still shows in UI
 			cy.get('[cy-test=hosts-view]').should('contain', serverName4);
@@ -114,7 +107,6 @@ describe('Hide last server', () => {
 	});
 
 	after(() => {
-		cy.deleteCampaignGraphQL(camp);
 		cy.deleteCampaignGraphQL(camp2);
 	});
 });
