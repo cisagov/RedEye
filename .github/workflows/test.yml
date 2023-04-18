@@ -98,6 +98,7 @@ jobs:
           config: baseUrl=http://localhost:3500
           record: true
           parallel: true
+          headed: true
           config-file: applications/redeye-e2e/cypress.config.js
           spec: applications/redeye-e2e/src/integration/e2e/redteam/**/**/**/*.cy.js
           ci-build-id: ${{ needs.prepare.outputs.uuid }}
@@ -147,6 +148,7 @@ jobs:
           config: baseUrl=http://localhost:3500
           record: true
           parallel: true
+          headed: true
           config-file: applications/redeye-e2e/cypress.config.js
           spec: applications/redeye-e2e/src/integration/e2e/blueteam/**/*.cy.js
           ci-build-id: ${{ needs.prepare.outputs.uuid }}
