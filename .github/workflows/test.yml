@@ -26,6 +26,7 @@ jobs:
 
   install:
     needs: ['prepare']
+    container: cypress/browsers:node16.18.0-chrome107-ff106-edge
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -55,6 +56,7 @@ jobs:
 
   RedTeamChrome:
     runs-on: ubuntu-latest
+    container: cypress/browsers:node16.18.0-chrome107-ff106-edge
     needs: [prepare, install]
     strategy:
       fail-fast: false
@@ -101,6 +103,7 @@ jobs:
 
   BlueTeamChrome:
     runs-on: ubuntu-latest
+    container: cypress/browsers:node16.18.0-chrome107-ff106-edge
     needs: [prepare, install]
     strategy:
       fail-fast: false
