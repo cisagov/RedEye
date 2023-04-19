@@ -52,7 +52,7 @@ export const findTree = async (
 			}
 		}
 	}
-	beaconsThatWillBeHidden.push(id);
+	if (!beaconsThatWillBeHidden.includes(id)) beaconsThatWillBeHidden.push(id);
 	const originBeacon = await em.findOneOrFail(Beacon, { id }, { populate: ['host.beacons'] });
 	if (originBeacon?.host?.id) {
 		if (!(originBeacon.host.id in hiddenHosts)) {
