@@ -53,7 +53,7 @@ export const findTree = async (
 		}
 	}
 	beaconsThatWillBeHidden.push(id);
-	const originBeacon = await em.findOneOrFail(Beacon, { id });
+	const originBeacon = await em.findOneOrFail(Beacon, { id }, { populate: ['host.beacons'] });
 	if (originBeacon?.host?.id) {
 		if (!(originBeacon.host.id in hiddenHosts)) {
 			hiddenHosts[originBeacon.host.id] = {
@@ -97,28 +97,33 @@ export const getNonHidableEntities = async ({
 	const beaconsCount = beaconsToHide?.length
 		? await em.count(Beacon, { hidden: false, host: { cobaltStrikeServer: false } })
 		: 0;
+	const beaconsNotHidden = beaconsToHide?.length
+		? await em.find(Beacon, { id: beaconsToHide, hidden: false, host: { cobaltStrikeServer: false } })
+		: [];
+	const notHiddenHosts = await em.find(Host, { hidden: false, beacons: { hidden: false }, cobaltStrikeServer: false });
 	const cantHideBeacons: string[] = [];
 	const hiddenHosts: Record<string, { beaconIds: string[]; hiddenBeaconIds: string[] }> = {};
 	const beaconsThatWillBeHidden: string[] = [];
-	for await (const beacon of beaconsToHide) {
-		await findTree(em, beacon, beaconsToHide, beaconsThatWillBeHidden, hiddenHosts, beaconsCount);
+	for await (const beacon of beaconsNotHidden) {
+		await findTree(em, beacon.id, beaconsToHide, beaconsThatWillBeHidden, hiddenHosts, beaconsCount);
 
 		if (beaconsThatWillBeHidden.length >= beaconsCount) {
-			cantHideBeacons.push(beacon);
+			cantHideBeacons.push(beacon.id);
 		}
 		const hiddenHostsEntries = Object.entries(hiddenHosts);
 		if (
 			hiddenHostsEntries.length &&
-			hiddenHostsEntries.every(([, host]) => host.beaconIds.length === host.hiddenBeaconIds.length)
+			hiddenHostsEntries.every(([, host]) => host.beaconIds.length === host.hiddenBeaconIds.length) &&
+			hiddenHostsEntries.length === notHiddenHosts.length
 		) {
-			cantHideBeacons.push(beacon);
+			cantHideBeacons.push(beacon.id);
 		}
 	}
 
 	const hosts = hostsToHide?.length
 		? await em.find(Host, { id: hostsToHide, cobaltStrikeServer: false }, { populate: true })
 		: [];
-	const notHiddenHosts = await em.find(Host, { hidden: false, beacons: { hidden: false }, cobaltStrikeServer: false });
+	//
 	const canHideHosts: string[] = [];
 	const cantHideHosts = hosts.filter((host) => {
 		if (checkCanHide(notHiddenHosts, canHideHosts)) {
