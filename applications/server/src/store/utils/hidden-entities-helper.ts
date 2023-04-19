@@ -38,8 +38,11 @@ export const findTree = async (
 	for (const link of links) {
 		const destinationBeacon = link.destination;
 		if (destinationBeacon) {
-			const destinationLinks = await em.find(Link, { destination: { id: destinationBeacon?.id } });
-			if (destinationLinks.every((l) => l.origin?.hidden === false || beaconsToHide.includes(l.origin?.id || ''))) {
+			const destinationLinks = await em.find(Link, { destination: { id: destinationBeacon?.id, hidden: false } });
+			if (
+				destinationLinks.length &&
+				destinationLinks.every((l) => l.origin?.hidden === false || beaconsToHide.includes(l.origin?.id || ''))
+			) {
 				const finalBeaconId = await findTree(
 					em,
 					destinationBeacon.id,
