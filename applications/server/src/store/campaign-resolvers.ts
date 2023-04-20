@@ -84,7 +84,7 @@ export class CampaignResolvers {
 	async renameCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('name') name: string
+		@Arg('name', () => String) name: string
 	): Promise<Campaign> {
 		const em = getMainEmOrFail(ctx);
 		const campaign = await em.findOneOrFail(Campaign, campaignId);
@@ -99,7 +99,7 @@ export class CampaignResolvers {
 	async anonymizeCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('anonymizeOptions') anonymizeOptions: AnonymizationInput
+		@Arg('anonymizeOptions', () => AnonymizationInput) anonymizeOptions: AnonymizationInput
 	): Promise<string | void> {
 		if (ctx.config.blueTeam) throw new AuthenticationError('Blue team cannot export');
 		const tempCampaignFolder = `campaign-${randomUUID()}`;
