@@ -16,14 +16,14 @@ type Annotation {
 }
 
 input AnonymizationInput {
-  findReplace: [FindReplaceInput!] = []
-  removeHidden: Boolean = false
-  removeKeystrokes: Boolean = false
-  removePasswordsHashes: Boolean = false
-  removeScreenshots: Boolean = false
-  replaceDomainsAndIps: Boolean = false
-  replaceHostnames: Boolean = false
-  replaceUsernames: Boolean = false
+  findReplace: [FindReplaceInput!]! = []
+  removeHidden: Boolean! = false
+  removeKeystrokes: Boolean! = false
+  removePasswordsHashes: Boolean! = false
+  removeScreenshots: Boolean! = false
+  replaceDomainsAndIps: Boolean! = false
+  replaceHostnames: Boolean! = false
+  replaceUsernames: Boolean! = false
 }
 
 type Beacon {
@@ -161,8 +161,8 @@ enum FileFlag {
 }
 
 input FindReplaceInput {
-  find: String = ""
-  replace: String = ""
+  find: String! = ""
+  replace: String! = ""
 }
 
 """How the entity was generated"""
@@ -195,7 +195,7 @@ type HostMeta {
 }
 
 type Image {
-  fileType: String
+  fileType: String!
   id: String!
   url: String
 }
@@ -207,7 +207,7 @@ type Link {
   id: String!
 
   """Was this Link manually created"""
-  manual: Boolean
+  manual: Boolean!
 
   """The display name of the link"""
   name: String
@@ -407,7 +407,7 @@ type Query {
   annotations(campaignId: String!): [Annotation]
 
   """Get all the beacons for a project"""
-  beacons(campaignId: String!, hidden: Boolean = false): [Beacon]
+  beacons(campaignId: String!, hidden: Boolean! = false): [Beacon]
 
   """Get a single campaign"""
   campaign(campaignId: String!): Campaign
@@ -416,13 +416,13 @@ type Query {
   campaigns: [Campaign]
 
   """Get command group by id"""
-  commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean = false): CommandGroup
+  commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean! = false): CommandGroup
 
   """Get command groups ids"""
-  commandGroupIds(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [String]
+  commandGroupIds(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean! = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [String]
 
   """Get command groups by ids"""
-  commandGroups(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [CommandGroup]
+  commandGroups(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean! = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [CommandGroup]
 
   """Get commands by ids"""
   commandIds(
@@ -432,7 +432,7 @@ type Query {
     commandType: String
 
     """Should show hidden values"""
-    hidden: Boolean = false
+    hidden: Boolean! = false
     hostId: String
     operatorId: String
     sort: SortType = {sortBy: name}
@@ -443,11 +443,11 @@ type Query {
     campaignId: String!
 
     """Should show hidden values"""
-    hidden: Boolean = false
+    hidden: Boolean! = false
   ): [CommandTypeCount]
 
   """Get commands by ids"""
-  commands(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortType = {sortBy: name}): [Command]
+  commands(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean! = false, hostId: String, operatorId: String, sort: SortType = {sortBy: name}): [Command]
 
   """Get images by ids"""
   files(beaconId: String, campaignId: String!, hostId: String): [File]
@@ -456,13 +456,13 @@ type Query {
   globalOperators(password: String!): [GlobalOperator]
 
   """Get all the hosts for a project"""
-  hosts(campaignId: String!, hidden: Boolean = false): [Host]
+  hosts(campaignId: String!, hidden: Boolean! = false): [Host]
 
   """Get images by ids"""
   images(beaconId: String, campaignId: String!, hostId: String): [Image]
 
   """Get all links"""
-  links(campaignId: String!, hidden: Boolean = false): [Link]
+  links(campaignId: String!, hidden: Boolean! = false): [Link]
 
   """Get log entries by ids"""
   logs(beaconId: String, campaignId: String!, hostId: String): [LogEntry]
@@ -473,26 +473,26 @@ type Query {
   logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
 
   """Get all the operators for a project"""
-  operators(campaignId: String!, hidden: Boolean = false): [Operator]
+  operators(campaignId: String!, hidden: Boolean! = false): [Operator]
 
   """Get the current progress of the parser"""
   parsingProgress: ParsingProgress!
 
   """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, hidden: Boolean = false): [PresentationItem]
+  presentationItems(campaignId: String!, hidden: Boolean! = false): [PresentationItem]
 
   """Search Annotations from textQuery"""
-  searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
+  searchAnnotations(campaignId: String!, hidden: Boolean! = false, searchQuery: String!): [Annotation!]
 
   """Search Commands from textQuery"""
-  searchCommands(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Command!]
+  searchCommands(campaignId: String!, hidden: Boolean! = false, searchQuery: String!): [Command!]
 
   """Get the list of servers for a project"""
   servers(
     campaignId: String!
 
     """Should show hidden values"""
-    hidden: Boolean = false
+    hidden: Boolean! = false
     username: String!
   ): [Server]
 
@@ -500,7 +500,7 @@ type Query {
   tags(campaignId: String!): [Tag]
 
   """Get a bucketed summary of active beacons and links with commands"""
-  timeline(campaignId: String!, hidden: Boolean = false, suggestedBuckets: Float = 100, suggestedEndTime: DateTime = "+275760-09-12T23:50:00.000Z", suggestedStartTime: DateTime = "1970-01-01T00:00:00.001Z"): Timeline!
+  timeline(campaignId: String!, hidden: Boolean! = false, suggestedBuckets: Float! = 100, suggestedEndTime: DateTime! = "+275760-09-12T23:50:00.000Z", suggestedStartTime: DateTime! = "1970-01-01T00:00:00.001Z"): Timeline!
 }
 
 type Server {
