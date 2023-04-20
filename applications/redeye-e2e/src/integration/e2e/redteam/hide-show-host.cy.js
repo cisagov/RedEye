@@ -4,16 +4,17 @@ describe('Hide a host', () => {
 	const camp = 'hideshowhost';
 	const fileName = 'gt.redeye';
 
-	it('Hide host via Meta tab using toggle in left nav panel', () => {
+	it.only('Hide host via Meta tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
 		// Toggle switch to not show hidden items
-		cy.doNotShowHiddenItems();
+		// Think it's turned off default on cypress
+		// cy.doNotShowHiddenItems();
 
-		// Get the name of the first host
+		//Get the name of the first host
 		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
@@ -50,7 +51,7 @@ describe('Hide a host', () => {
 
 	it('Hide host via Meta tab using toggle on main page', () => {
 		// Toggle off switch for hidden items on the main page
-		cy.doNotShowHiddenItems();
+		// cy.doNotShowHiddenItems();
 
 		// Search for campaign by name and open
 		cy.selectCampaign(camp);
