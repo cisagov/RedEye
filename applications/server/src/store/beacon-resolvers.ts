@@ -47,7 +47,7 @@ export class BeaconResolvers {
 	}
 
 	@Authorized()
-	@Mutation(() => Beacon, { description: 'Toggle beacon hidden state' })
+	@Mutation(() => [Beacon], { description: 'Toggle beacon hidden state' })
 	async toggleBeaconHidden(
 		@Ctx() ctx: GraphQLContext,
 		@RelationPath() relationPaths: Relation<Beacon>,

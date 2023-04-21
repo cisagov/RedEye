@@ -327,13 +327,13 @@ type Mutation {
   serversParse(campaignId: String!): Boolean!
 
   """Toggle beacon hidden state"""
-  toggleBeaconHidden(beaconId: String, beaconIds: [String!], campaignId: String!, setHidden: Boolean): Beacon!
+  toggleBeaconHidden(beaconId: String, beaconIds: [String!], campaignId: String!, setHidden: Boolean): [Beacon!]!
 
   """Toggle host hidden state"""
-  toggleHostHidden(campaignId: String!, hostId: String, hostIds: [String!], setHidden: Boolean): Host!
+  toggleHostHidden(campaignId: String!, hostId: String, hostIds: [String!], setHidden: Boolean): [Host!]!
 
   """Toggle server hidden state"""
-  toggleServerHidden(campaignId: String!, serverId: String, serverIds: [String!], setHidden: Boolean): Server!
+  toggleServerHidden(campaignId: String!, serverId: String, serverIds: [String!], setHidden: Boolean): [Server!]!
 
   """Update existing Annotation"""
   updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!

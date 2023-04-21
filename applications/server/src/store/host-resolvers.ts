@@ -40,7 +40,7 @@ export class HostResolvers {
 	}
 
 	@Authorized()
-	@Mutation(() => Host, { description: 'Toggle host hidden state' })
+	@Mutation(() => [Host], { description: 'Toggle host hidden state' })
 	async toggleHostHidden(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,

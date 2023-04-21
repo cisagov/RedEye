@@ -75,7 +75,7 @@ export class ServerResolvers {
 	}
 
 	@Authorized()
-	@Mutation(() => Server, { description: 'Toggle server hidden state' })
+	@Mutation(() => [Server], { description: 'Toggle server hidden state' })
 	async toggleServerHidden(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
