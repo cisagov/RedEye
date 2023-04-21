@@ -11,6 +11,10 @@ Cypress.on('uncaught:exception', (err, runnable, promise) => {
 	if (promise) {
 		return false;
 	}
+	if (err.message.includes('ResizeObserver loop limit exceeded')) {
+		// ignore the error
+		return false;
+	}
 });
 
 export const hasOperationName = (req, operationName) => {
