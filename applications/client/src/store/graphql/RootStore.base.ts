@@ -773,10 +773,10 @@ export class RootStoreBase extends ExtendedModel(
 	@modelAction queryTimeline(
 		variables: {
 			campaignId: string;
-			hidden: boolean;
-			suggestedBuckets: number;
-			suggestedEndTime: any;
-			suggestedStartTime: any;
+			hidden?: boolean;
+			suggestedBuckets?: number;
+			suggestedEndTime?: any;
+			suggestedStartTime?: any;
 		},
 		resultSelector:
 			| string
@@ -785,7 +785,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ timeline: TimelineModel }>(
-			`query timeline($campaignId: String!, $hidden: Boolean!, $suggestedBuckets: Float!, $suggestedEndTime: DateTime!, $suggestedStartTime: DateTime!) { timeline(campaignId: $campaignId, hidden: $hidden, suggestedBuckets: $suggestedBuckets, suggestedEndTime: $suggestedEndTime, suggestedStartTime: $suggestedStartTime) {
+			`query timeline($campaignId: String!, $hidden: Boolean, $suggestedBuckets: Float, $suggestedEndTime: DateTime, $suggestedStartTime: DateTime) { timeline(campaignId: $campaignId, hidden: $hidden, suggestedBuckets: $suggestedBuckets, suggestedEndTime: $suggestedEndTime, suggestedStartTime: $suggestedStartTime) {
         ${typeof resultSelector === 'function' ? resultSelector(TimelineModelSelector).toString() : resultSelector}
       } }`,
 			variables,

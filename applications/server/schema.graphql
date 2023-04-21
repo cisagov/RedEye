@@ -495,7 +495,7 @@ type Query {
   tags(campaignId: String!): [Tag]
 
   """Get a bucketed summary of active beacons and links with commands"""
-  timeline(campaignId: String!, hidden: Boolean! = false, suggestedBuckets: Float! = 100, suggestedEndTime: DateTime! = "+275760-09-12T23:50:00.000Z", suggestedStartTime: DateTime! = "1970-01-01T00:00:00.001Z"): Timeline!
+  timeline(campaignId: String!, hidden: Boolean = false, suggestedBuckets: Float = 100, suggestedEndTime: DateTime = "+275760-09-12T23:50:00.000Z", suggestedStartTime: DateTime = "1970-01-01T00:00:00.001Z"): Timeline!
 }
 
 type Server {
