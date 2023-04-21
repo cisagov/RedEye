@@ -427,7 +427,7 @@ type Query {
     commandType: String
 
     """Should show hidden values"""
-    hidden: Boolean! = false
+    hidden: Boolean = false
     hostId: String
     operatorId: String
     sort: SortType = {sortBy: name}
@@ -442,7 +442,7 @@ type Query {
   ): [CommandTypeCount]
 
   """Get commands by ids"""
-  commands(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean! = false, hostId: String, operatorId: String, sort: SortType = {sortBy: name}): [Command]
+  commands(beaconId: String, campaignId: String!, commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortType = {sortBy: name}): [Command]
 
   """Get images by ids"""
   files(beaconId: String, campaignId: String!, hostId: String): [File]

@@ -42,10 +42,9 @@ export class CommandResolvers {
 		@Arg('operatorId', () => String, { nullable: true }) operatorId?: string,
 		@Arg('commandType', () => String, { nullable: true }) commandType?: string,
 		@Arg('commandIds', () => [String], { nullable: true }) commandIds?: Array<string>,
-
 		@Arg('sort', () => SortType, { nullable: true, defaultValue: { sortBy: SortOption.name } })
 		sort: SortType = { sortBy: SortOption.name },
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false,
+		@Arg('hidden', () => Boolean, { nullable: true, defaultValue: false }) hidden: boolean = false,
 		ids?: boolean
 	): Promise<Command[] | null> {
 		const filter = getOrderByFromSort(sort);
@@ -120,8 +119,7 @@ export class CommandResolvers {
 		@Arg('commandType', () => String, { nullable: true }) commandType?: string,
 		@Arg('commandIds', () => [String], { nullable: true }) commandIds?: Array<string>,
 		@Arg('sort', () => SortType, { nullable: true, defaultValue: { sortBy: SortOption.name } }) sort?: SortType,
-
-		@Arg('hidden', () => Boolean, { defaultValue: false, description: 'Should show hidden values' })
+		@Arg('hidden', () => Boolean, { nullable: true, defaultValue: false, description: 'Should show hidden values' })
 		hidden: boolean = false
 	): Promise<UUID[] | undefined> {
 		const commands = await this.commands(
@@ -199,7 +197,7 @@ export class CommandTypeCountResolvers {
 			else acc[current.inputText] = 1;
 			return acc;
 		}, {});
-		return Object.entries(countObj).map(([text, count]) => ({ id: text, text, count }));
+		return Object.entries(countObj).map(([text, count]) => ({ id: text, text, count })) as CommandTypeCount[];
 	}
 }
 

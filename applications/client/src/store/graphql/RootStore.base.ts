@@ -436,7 +436,7 @@ export class RootStoreBase extends ExtendedModel(
 			campaignId: string;
 			commandIds?: string[];
 			commandType?: string;
-			hidden: boolean;
+			hidden?: boolean;
 			hostId?: string;
 			operatorId?: string;
 			sort?: SortType;
@@ -446,7 +446,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandIds: any }>(
-			`query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean!, $hostId: String, $operatorId: String, $sort: SortType) { commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
+			`query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortType) { commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
 			variables,
 			options,
 			!!clean
@@ -483,7 +483,7 @@ export class RootStoreBase extends ExtendedModel(
 			campaignId: string;
 			commandIds?: string[];
 			commandType?: string;
-			hidden: boolean;
+			hidden?: boolean;
 			hostId?: string;
 			operatorId?: string;
 			sort?: SortType;
@@ -495,7 +495,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commands: CommandModel[] }>(
-			`query commands($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean!, $hostId: String, $operatorId: String, $sort: SortType) { commands(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
+			`query commands($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortType) { commands(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
         ${typeof resultSelector === 'function' ? resultSelector(CommandModelSelector).toString() : resultSelector}
       } }`,
 			variables,

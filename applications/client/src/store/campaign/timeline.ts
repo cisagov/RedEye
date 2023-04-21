@@ -171,7 +171,7 @@ export class TimelineStore extends ExtendedModel(() => ({
 		const data = yield this.appStore?.graphqlStore.queryTimeline(
 			{
 				campaignId: campaignId!,
-				suggestedBuckets: this.suggestedBucketCount,
+				suggestedBuckets: this.suggestedBucketCount ?? 0,
 				suggestedStartTime,
 				hidden: !!this.appStore?.settings.showHidden,
 				suggestedEndTime,
