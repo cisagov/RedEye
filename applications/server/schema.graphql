@@ -149,12 +149,7 @@ type File {
   md5: String
 }
 
-"""
-Designates if this is an upload or download
-    UPLOAD: File was put on or replace on a target host
-    DOWNLOAD: File was taken from a target host
-  
-"""
+"Designates if this is an upload or download\n    UPLOAD: File was put on or replace on a target host\n    DOWNLOAD: File was taken from a target host\n  "
 enum FileFlag {
   DOWNLOAD
   UPLOAD
