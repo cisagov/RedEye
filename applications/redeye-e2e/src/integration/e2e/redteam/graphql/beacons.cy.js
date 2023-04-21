@@ -17,7 +17,7 @@ describe('Query Beacons', () => {
         id
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.beacons;
 				expect(comp.length).to.eq(6);
