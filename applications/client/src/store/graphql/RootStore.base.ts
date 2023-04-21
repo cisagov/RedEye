@@ -84,18 +84,18 @@ import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
 
 export type AnonymizationInput = {
-	findReplace?: FindReplaceInput[];
-	removeHidden?: boolean;
-	removeKeystrokes?: boolean;
-	removePasswordsHashes?: boolean;
-	removeScreenshots?: boolean;
-	replaceDomainsAndIps?: boolean;
-	replaceHostnames?: boolean;
-	replaceUsernames?: boolean;
+	findReplace: FindReplaceInput[];
+	removeHidden: boolean;
+	removeKeystrokes: boolean;
+	removePasswordsHashes: boolean;
+	removeScreenshots: boolean;
+	replaceDomainsAndIps: boolean;
+	replaceHostnames: boolean;
+	replaceUsernames: boolean;
 };
 export type FindReplaceInput = {
-	find?: string;
-	replace?: string;
+	find: string;
+	replace: string;
 };
 export type SortType = {
 	direction?: SortDirection;
@@ -303,7 +303,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get all the beacons for a project
 	@modelAction queryBeacons(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: { campaignId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof BeaconModelSelector) => typeof BeaconModelSelector) = beaconModelPrimitives.toString(),
@@ -311,7 +311,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ beacons: BeaconModel[] }>(
-			`query beacons($campaignId: String!, $hidden: Boolean) { beacons(campaignId: $campaignId, hidden: $hidden) {
+			`query beacons($campaignId: String!, $hidden: Boolean!) { beacons(campaignId: $campaignId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -357,7 +357,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get command group by id
 	@modelAction queryCommandGroup(
-		variables: { campaignId: string; commandGroupId: string; hidden?: boolean },
+		variables: { campaignId: string; commandGroupId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((
@@ -367,7 +367,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandGroup: CommandGroupModel }>(
-			`query commandGroup($campaignId: String!, $commandGroupId: String!, $hidden: Boolean) { commandGroup(campaignId: $campaignId, commandGroupId: $commandGroupId, hidden: $hidden) {
+			`query commandGroup($campaignId: String!, $commandGroupId: String!, $hidden: Boolean!) { commandGroup(campaignId: $campaignId, commandGroupId: $commandGroupId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(CommandGroupModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -383,7 +383,7 @@ export class RootStoreBase extends ExtendedModel(
 			commandGroupIds?: string[];
 			commandIds?: string[];
 			commandType?: string;
-			hidden?: boolean;
+			hidden: boolean;
 			hostId?: string;
 			operatorId?: string;
 			sort?: SortTypeComments;
@@ -393,7 +393,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandGroupIds: any }>(
-			`query commandGroupIds($beaconId: String, $campaignId: String!, $commandGroupIds: [String!], $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortTypeComments) { commandGroupIds(beaconId: $beaconId, campaignId: $campaignId, commandGroupIds: $commandGroupIds, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
+			`query commandGroupIds($beaconId: String, $campaignId: String!, $commandGroupIds: [String!], $commandIds: [String!], $commandType: String, $hidden: Boolean!, $hostId: String, $operatorId: String, $sort: SortTypeComments) { commandGroupIds(beaconId: $beaconId, campaignId: $campaignId, commandGroupIds: $commandGroupIds, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
 			variables,
 			options,
 			!!clean
@@ -407,7 +407,7 @@ export class RootStoreBase extends ExtendedModel(
 			commandGroupIds?: string[];
 			commandIds?: string[];
 			commandType?: string;
-			hidden?: boolean;
+			hidden: boolean;
 			hostId?: string;
 			operatorId?: string;
 			sort?: SortTypeComments;
@@ -421,7 +421,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandGroups: CommandGroupModel[] }>(
-			`query commandGroups($beaconId: String, $campaignId: String!, $commandGroupIds: [String!], $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortTypeComments) { commandGroups(beaconId: $beaconId, campaignId: $campaignId, commandGroupIds: $commandGroupIds, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
+			`query commandGroups($beaconId: String, $campaignId: String!, $commandGroupIds: [String!], $commandIds: [String!], $commandType: String, $hidden: Boolean!, $hostId: String, $operatorId: String, $sort: SortTypeComments) { commandGroups(beaconId: $beaconId, campaignId: $campaignId, commandGroupIds: $commandGroupIds, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
         ${typeof resultSelector === 'function' ? resultSelector(CommandGroupModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -436,7 +436,7 @@ export class RootStoreBase extends ExtendedModel(
 			campaignId: string;
 			commandIds?: string[];
 			commandType?: string;
-			hidden?: boolean;
+			hidden: boolean;
 			hostId?: string;
 			operatorId?: string;
 			sort?: SortType;
@@ -446,7 +446,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandIds: any }>(
-			`query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortType) { commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
+			`query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean!, $hostId: String, $operatorId: String, $sort: SortType) { commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort)  }`,
 			variables,
 			options,
 			!!clean
@@ -454,7 +454,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get command types
 	@modelAction queryCommandTypes(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: { campaignId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((
@@ -464,7 +464,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commandTypes: CommandTypeCountModel[] }>(
-			`query commandTypes($campaignId: String!, $hidden: Boolean) { commandTypes(campaignId: $campaignId, hidden: $hidden) {
+			`query commandTypes($campaignId: String!, $hidden: Boolean!) { commandTypes(campaignId: $campaignId, hidden: $hidden) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(CommandTypeCountModelSelector).toString()
@@ -483,7 +483,7 @@ export class RootStoreBase extends ExtendedModel(
 			campaignId: string;
 			commandIds?: string[];
 			commandType?: string;
-			hidden?: boolean;
+			hidden: boolean;
 			hostId?: string;
 			operatorId?: string;
 			sort?: SortType;
@@ -495,7 +495,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ commands: CommandModel[] }>(
-			`query commands($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean, $hostId: String, $operatorId: String, $sort: SortType) { commands(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
+			`query commands($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hidden: Boolean!, $hostId: String, $operatorId: String, $sort: SortType) { commands(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hidden: $hidden, hostId: $hostId, operatorId: $operatorId, sort: $sort) {
         ${typeof resultSelector === 'function' ? resultSelector(CommandModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -545,7 +545,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get all the hosts for a project
 	@modelAction queryHosts(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: { campaignId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
@@ -553,7 +553,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ hosts: HostModel[] }>(
-			`query hosts($campaignId: String!, $hidden: Boolean) { hosts(campaignId: $campaignId, hidden: $hidden) {
+			`query hosts($campaignId: String!, $hidden: Boolean!) { hosts(campaignId: $campaignId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -581,7 +581,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get all links
 	@modelAction queryLinks(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: { campaignId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof LinkModelSelector) => typeof LinkModelSelector) = linkModelPrimitives.toString(),
@@ -589,7 +589,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ links: LinkModel[] }>(
-			`query links($campaignId: String!, $hidden: Boolean) { links(campaignId: $campaignId, hidden: $hidden) {
+			`query links($campaignId: String!, $hidden: Boolean!) { links(campaignId: $campaignId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -635,7 +635,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get all the operators for a project
 	@modelAction queryOperators(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: { campaignId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof OperatorModelSelector) => typeof OperatorModelSelector) = operatorModelPrimitives.toString(),
@@ -643,7 +643,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ operators: OperatorModel[] }>(
-			`query operators($campaignId: String!, $hidden: Boolean) { operators(campaignId: $campaignId, hidden: $hidden) {
+			`query operators($campaignId: String!, $hidden: Boolean!) { operators(campaignId: $campaignId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(OperatorModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -677,7 +677,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get categories for presentation mode
 	@modelAction queryPresentationItems(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: { campaignId: string; hidden: boolean },
 		resultSelector:
 			| string
 			| ((
@@ -687,7 +687,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $hidden: Boolean) { presentationItems(campaignId: $campaignId, hidden: $hidden) {
+			`query presentationItems($campaignId: String!, $hidden: Boolean!) { presentationItems(campaignId: $campaignId, hidden: $hidden) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()
@@ -701,7 +701,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Search Annotations from textQuery
 	@modelAction querySearchAnnotations(
-		variables: { campaignId: string; hidden?: boolean; searchQuery: string },
+		variables: { campaignId: string; hidden: boolean; searchQuery: string },
 		resultSelector:
 			| string
 			| ((qb: typeof AnnotationModelSelector) => typeof AnnotationModelSelector) = annotationModelPrimitives.toString(),
@@ -709,7 +709,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ searchAnnotations: AnnotationModel[] }>(
-			`query searchAnnotations($campaignId: String!, $hidden: Boolean, $searchQuery: String!) { searchAnnotations(campaignId: $campaignId, hidden: $hidden, searchQuery: $searchQuery) {
+			`query searchAnnotations($campaignId: String!, $hidden: Boolean!, $searchQuery: String!) { searchAnnotations(campaignId: $campaignId, hidden: $hidden, searchQuery: $searchQuery) {
         ${typeof resultSelector === 'function' ? resultSelector(AnnotationModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -719,7 +719,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Search Commands from textQuery
 	@modelAction querySearchCommands(
-		variables: { campaignId: string; hidden?: boolean; searchQuery: string },
+		variables: { campaignId: string; hidden: boolean; searchQuery: string },
 		resultSelector:
 			| string
 			| ((qb: typeof CommandModelSelector) => typeof CommandModelSelector) = commandModelPrimitives.toString(),
@@ -727,7 +727,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ searchCommands: CommandModel[] }>(
-			`query searchCommands($campaignId: String!, $hidden: Boolean, $searchQuery: String!) { searchCommands(campaignId: $campaignId, hidden: $hidden, searchQuery: $searchQuery) {
+			`query searchCommands($campaignId: String!, $hidden: Boolean!, $searchQuery: String!) { searchCommands(campaignId: $campaignId, hidden: $hidden, searchQuery: $searchQuery) {
         ${typeof resultSelector === 'function' ? resultSelector(CommandModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -737,7 +737,7 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get the list of servers for a project
 	@modelAction queryServers(
-		variables: { campaignId: string; hidden?: boolean; username: string },
+		variables: { campaignId: string; hidden: boolean; username: string },
 		resultSelector:
 			| string
 			| ((qb: typeof ServerModelSelector) => typeof ServerModelSelector) = serverModelPrimitives.toString(),
@@ -745,7 +745,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ servers: ServerModel[] }>(
-			`query servers($campaignId: String!, $hidden: Boolean, $username: String!) { servers(campaignId: $campaignId, hidden: $hidden, username: $username) {
+			`query servers($campaignId: String!, $hidden: Boolean!, $username: String!) { servers(campaignId: $campaignId, hidden: $hidden, username: $username) {
         ${typeof resultSelector === 'function' ? resultSelector(ServerModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -773,10 +773,10 @@ export class RootStoreBase extends ExtendedModel(
 	@modelAction queryTimeline(
 		variables: {
 			campaignId: string;
-			hidden?: boolean;
-			suggestedBuckets?: number;
-			suggestedEndTime?: any;
-			suggestedStartTime?: any;
+			hidden: boolean;
+			suggestedBuckets: number;
+			suggestedEndTime: any;
+			suggestedStartTime: any;
 		},
 		resultSelector:
 			| string
@@ -785,7 +785,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ timeline: TimelineModel }>(
-			`query timeline($campaignId: String!, $hidden: Boolean, $suggestedBuckets: Float, $suggestedEndTime: DateTime, $suggestedStartTime: DateTime) { timeline(campaignId: $campaignId, hidden: $hidden, suggestedBuckets: $suggestedBuckets, suggestedEndTime: $suggestedEndTime, suggestedStartTime: $suggestedStartTime) {
+			`query timeline($campaignId: String!, $hidden: Boolean!, $suggestedBuckets: Float!, $suggestedEndTime: DateTime!, $suggestedStartTime: DateTime!) { timeline(campaignId: $campaignId, hidden: $hidden, suggestedBuckets: $suggestedBuckets, suggestedEndTime: $suggestedEndTime, suggestedStartTime: $suggestedStartTime) {
         ${typeof resultSelector === 'function' ? resultSelector(TimelineModelSelector).toString() : resultSelector}
       } }`,
 			variables,

@@ -29,7 +29,7 @@ export class LinkModelBase extends Model({
 	endTime: prop<any | null>().withSetter(),
 	id: prop<string>().withSetter(),
 	/** Was this Link manually created */
-	manual: prop<boolean | null>().withSetter(),
+	manual: prop<boolean>().withSetter(),
 	/** The display name of the link */
 	name: prop<string | null>().withSetter(),
 	origin: prop<Ref<BeaconModel> | null>().withSetter(),
