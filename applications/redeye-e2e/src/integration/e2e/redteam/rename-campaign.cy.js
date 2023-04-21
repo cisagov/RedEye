@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe('Rename campaign', () => {
-	const camp = 'Rename';
+	const camp = 'renameCampaignRedTeam';
 	const fileName = 'gt.redeye';
 	const rename = '_updated';
 
