@@ -84,7 +84,7 @@ import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
 
 export type AnonymizationInput = {
-	findReplace: FindReplaceInput[];
+	findReplace?: FindReplaceInput[];
 	removeHidden?: boolean;
 	removeKeystrokes?: boolean;
 	removePasswordsHashes?: boolean;

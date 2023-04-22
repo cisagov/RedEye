@@ -34,7 +34,7 @@ export class AnonymizationInput {
 	@Field(() => Boolean, { defaultValue: false, nullable: true })
 	replaceDomainsAndIps: boolean = false;
 
-	@Field(() => [FindReplaceInput])
+	@Field(() => [FindReplaceInput], { nullable: true })
 	findReplace: FindReplaceInput[] = [];
 }
 

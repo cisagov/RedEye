@@ -16,7 +16,7 @@ type Annotation {
 }
 
 input AnonymizationInput {
-  findReplace: [FindReplaceInput!]! = []
+  findReplace: [FindReplaceInput!] = []
   removeHidden: Boolean = false
   removeKeystrokes: Boolean = false
   removePasswordsHashes: Boolean = false
