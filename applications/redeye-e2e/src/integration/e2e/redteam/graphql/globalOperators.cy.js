@@ -14,7 +14,7 @@ describe('Query Global Operators', () => {
         name
       }
     }`;
-		const variables = `{"password": "937038570"}`;
+		const variables = { password: '937038570' };
 		graphqlRequest(query, variables).then((response) => {
 			const res = response.body.data.globalOperators;
 			const match = Cypress._.find(res, { id: 'cypress' });

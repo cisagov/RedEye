@@ -13,14 +13,15 @@ export class TimelineResolvers {
 	async timeline(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('suggestedBuckets', () => Number, { defaultValue: 100 }) suggestedBuckets: number,
-
-		@Arg('suggestedStartTime', () => GraphQLISODateTime, { defaultValue: new Date(1) })
+		@Arg('suggestedBuckets', () => Number, { defaultValue: 100, nullable: true }) suggestedBuckets: number,
+		@Arg('suggestedStartTime', () => GraphQLISODateTime, { defaultValue: new Date(1), nullable: true })
 		suggestedStartTime: Date,
-
-		@Arg('suggestedEndTime', () => GraphQLISODateTime, { defaultValue: new Date(8640000000000000 - 600000) })
+		@Arg('suggestedEndTime', () => GraphQLISODateTime, {
+			defaultValue: new Date(8640000000000000 - 600000),
+			nullable: true,
+		})
 		suggestedEndTime: Date,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
 	): Promise<Timeline> {
 		// The reference to defaults is always the same. Thus we shouldn't mutate them
 		suggestedStartTime = new Date(suggestedStartTime);

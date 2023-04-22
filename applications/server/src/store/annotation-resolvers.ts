@@ -51,11 +51,11 @@ export class AnnotationResolvers {
 	async addCommandGroupAnnotation(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('text') text: string,
+		@Arg('text', () => String) text: string,
 		@Arg('tags', () => [String]) tags: string[],
-		@Arg('user') user: string,
+		@Arg('user', () => String) user: string,
 		@Arg('commandIds', () => [String]) commandIds: string[],
-		@Arg('favorite', { nullable: true }) favorite?: boolean
+		@Arg('favorite', () => Boolean, { nullable: true }) favorite?: boolean
 	): Promise<Annotation> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const annotation = await Annotation.createAnnotation(em, text, user, { favorite, tags });
@@ -76,11 +76,11 @@ export class AnnotationResolvers {
 	async updateAnnotation(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('text') text: string,
+		@Arg('text', () => String) text: string,
 		@Arg('tags', () => [String]) tags: string[],
-		@Arg('user') user: string,
+		@Arg('user', () => String) user: string,
 		@Arg('annotationId', () => String) annotationId: string,
-		@Arg('favorite', { nullable: true }) favorite?: boolean
+		@Arg('favorite', () => Boolean, { nullable: true }) favorite?: boolean
 	): Promise<Annotation> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		let annotation = await em.findOneOrFail<Annotation>(Annotation, annotationId);
@@ -120,11 +120,11 @@ export class AnnotationResolvers {
 	async addAnnotationToCommandGroup(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('text') text: string,
+		@Arg('text', () => String) text: string,
 		@Arg('tags', () => [String]) tags: string[],
-		@Arg('user') user: string,
+		@Arg('user', () => String) user: string,
 		@Arg('commandGroupId', () => String) commandGroupId: string,
-		@Arg('favorite', { nullable: true }) favorite?: boolean
+		@Arg('favorite', () => Boolean, { nullable: true }) favorite?: boolean
 	): Promise<Annotation> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const commandGroup = await em.findOneOrFail(CommandGroup, commandGroupId);
@@ -148,7 +148,7 @@ export class AnnotationResolvers {
 		@RelationPath() relationPaths: Relation<Annotation>,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('searchQuery', () => String) searchQuery: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
 	): Promise<Annotation[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const likeQuery = `%${searchQuery}%`;
