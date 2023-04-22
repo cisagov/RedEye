@@ -15,7 +15,7 @@ export class ServerResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('username', () => String) username: string,
 
-		@Arg('hidden', () => Boolean, { defaultValue: false, description: 'Should show hidden values' })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Server>
 	): Promise<Server[]> {

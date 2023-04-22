@@ -148,7 +148,7 @@ export class AnnotationResolvers {
 		@RelationPath() relationPaths: Relation<Annotation>,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('searchQuery', () => String) searchQuery: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
 	): Promise<Annotation[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const likeQuery = `%${searchQuery}%`;

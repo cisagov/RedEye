@@ -17,13 +17,13 @@ type Annotation {
 
 input AnonymizationInput {
   findReplace: [FindReplaceInput!]! = []
-  removeHidden: Boolean! = false
-  removeKeystrokes: Boolean! = false
-  removePasswordsHashes: Boolean! = false
-  removeScreenshots: Boolean! = false
-  replaceDomainsAndIps: Boolean! = false
-  replaceHostnames: Boolean! = false
-  replaceUsernames: Boolean! = false
+  removeHidden: Boolean = false
+  removeKeystrokes: Boolean = false
+  removePasswordsHashes: Boolean = false
+  removeScreenshots: Boolean = false
+  replaceDomainsAndIps: Boolean = false
+  replaceHostnames: Boolean = false
+  replaceUsernames: Boolean = false
 }
 
 type Beacon {
@@ -156,8 +156,8 @@ enum FileFlag {
 }
 
 input FindReplaceInput {
-  find: String! = ""
-  replace: String! = ""
+  find: String = ""
+  replace: String = ""
 }
 
 """How the entity was generated"""
@@ -402,7 +402,7 @@ type Query {
   annotations(campaignId: String!): [Annotation]
 
   """Get all the beacons for a project"""
-  beacons(campaignId: String!, hidden: Boolean! = false): [Beacon]
+  beacons(campaignId: String!, hidden: Boolean = false): [Beacon]
 
   """Get a single campaign"""
   campaign(campaignId: String!): Campaign
@@ -411,13 +411,13 @@ type Query {
   campaigns: [Campaign]
 
   """Get command group by id"""
-  commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean! = false): CommandGroup
+  commandGroup(campaignId: String!, commandGroupId: String!, hidden: Boolean = false): CommandGroup
 
   """Get command groups ids"""
-  commandGroupIds(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean! = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [String]
+  commandGroupIds(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [String]
 
   """Get command groups by ids"""
-  commandGroups(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean! = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [CommandGroup]
+  commandGroups(beaconId: String, campaignId: String!, commandGroupIds: [String!], commandIds: [String!], commandType: String, hidden: Boolean = false, hostId: String, operatorId: String, sort: SortTypeComments = {sortBy: time}): [CommandGroup]
 
   """Get commands by ids"""
   commandIds(
@@ -438,7 +438,7 @@ type Query {
     campaignId: String!
 
     """Should show hidden values"""
-    hidden: Boolean! = false
+    hidden: Boolean = false
   ): [CommandTypeCount]
 
   """Get commands by ids"""
@@ -451,13 +451,13 @@ type Query {
   globalOperators(password: String!): [GlobalOperator]
 
   """Get all the hosts for a project"""
-  hosts(campaignId: String!, hidden: Boolean! = false): [Host]
+  hosts(campaignId: String!, hidden: Boolean = false): [Host]
 
   """Get images by ids"""
   images(beaconId: String, campaignId: String!, hostId: String): [Image]
 
   """Get all links"""
-  links(campaignId: String!, hidden: Boolean! = false): [Link]
+  links(campaignId: String!, hidden: Boolean = false): [Link]
 
   """Get log entries by ids"""
   logs(beaconId: String, campaignId: String!, hostId: String): [LogEntry]
@@ -468,26 +468,26 @@ type Query {
   logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
 
   """Get all the operators for a project"""
-  operators(campaignId: String!, hidden: Boolean! = false): [Operator]
+  operators(campaignId: String!, hidden: Boolean = false): [Operator]
 
   """Get the current progress of the parser"""
   parsingProgress: ParsingProgress!
 
   """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, hidden: Boolean! = false): [PresentationItem]
+  presentationItems(campaignId: String!, hidden: Boolean = false): [PresentationItem]
 
   """Search Annotations from textQuery"""
-  searchAnnotations(campaignId: String!, hidden: Boolean! = false, searchQuery: String!): [Annotation!]
+  searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
 
   """Search Commands from textQuery"""
-  searchCommands(campaignId: String!, hidden: Boolean! = false, searchQuery: String!): [Command!]
+  searchCommands(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Command!]
 
   """Get the list of servers for a project"""
   servers(
     campaignId: String!
 
     """Should show hidden values"""
-    hidden: Boolean! = false
+    hidden: Boolean = false
     username: String!
   ): [Server]
 

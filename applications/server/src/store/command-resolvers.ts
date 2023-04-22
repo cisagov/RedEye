@@ -145,7 +145,7 @@ export class CommandResolvers {
 		@RelationPath() relationPaths: Relation<Command>,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('searchQuery', () => String) searchQuery: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
 	): Promise<Command[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const likeQuery = `%${searchQuery}%`;
@@ -186,7 +186,7 @@ export class CommandTypeCountResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
 
-		@Arg('hidden', () => Boolean, { defaultValue: false, description: 'Should show hidden values' })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false
 	): Promise<CommandTypeCount[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
