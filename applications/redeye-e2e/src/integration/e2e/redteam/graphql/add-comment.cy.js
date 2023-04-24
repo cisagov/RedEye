@@ -1,13 +1,13 @@
 import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
 describe('Add a comment using GraphQL', () => {
-	const camp = 'hideHostGraphQL';
+	const camp = 'addCommentGraphQL';
 	const commandId = '1166658656-1597693201000-2';
 	const comment = 'Text for comment.';
 	const tags = 'GoldenTicket';
 	const commentUser = 'cypress';
 
-	it('Hide a comment', () => {
+	it('Add a comment', () => {
 		cy.uploadCampaign(camp, 'gt.redeye');
 
 		cy.selectCampaign(camp);

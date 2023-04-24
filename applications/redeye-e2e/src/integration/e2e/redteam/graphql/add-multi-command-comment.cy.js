@@ -1,13 +1,14 @@
 import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
-describe('Mark comment as favorite using GraphQL', () => {
-	const camp = 'favoriteCommentGraphQL';
+describe('Add multi-command comment using GraphQL', () => {
+	const camp = 'addMultiCommandCommentGraphQL';
 	const commandId = '1166658656-1597693201000-2';
-	const comment = 'Text for comment.';
+	// UPDATE
+	const comment = 'Multi-command comment text.';
 	const tags = 'GoldenTicket';
 	const commentUser = 'cypress';
 
-	it('Favorite a comment', () => {
+	it('Add a multi-command comment', () => {
 		cy.uploadCampaign(camp, 'gt.redeye');
 
 		cy.selectCampaign(camp);
@@ -18,7 +19,8 @@ describe('Mark comment as favorite using GraphQL', () => {
 			const returnedUrl = url.split('/')[5];
 			cy.log(returnedUrl);
 
-			const mutation1 = `mutation addCommandGroupAnnotation(
+			// START HERE WITH UPDATES
+			const mutation = `mutation addCommandGroupAnnotation(
 				$campaignId: String!
 				$commandIds: [String!]!
 				$tags: [String!]!
@@ -44,7 +46,7 @@ describe('Mark comment as favorite using GraphQL', () => {
 
 			const variables1 = `{"campaignId": "${returnedUrl}", "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
 
-			mutRequest(mutation1, variables1).then((res) => {
+			mutRequest(mutation, variables1).then((res) => {
 				const response = res.body.data.addCommandGroupAnnotation;
 
 				const commentText = response.text;
@@ -55,43 +57,6 @@ describe('Mark comment as favorite using GraphQL', () => {
 
 				const userName = response.user;
 				expect(userName).to.include(commentUser);
-
-				const annotId = response.id;
-				cy.log(annotId);
-
-				const mutation2 = `mutation updateAnnotation(
-				$annotationId: String!
-				$campaignId: String!
-				$favorite: Boolean
-				$tags: [String!]!
-				$text: String!
-				$user: String!
-			  ) {
-				updateAnnotation(
-					annotationId: $annotationId
-					campaignId: $campaignId
-					favorite: $favorite
-					tags: $tags
-					text: $text
-					user: $user
-				) {
-				  id
-				  commandIds
-				  favorite
-				  text
-				  user
-				  tags {
-					id
-				  }
-				}
-			  }`;
-
-				const variables2 = `{"annotationId": "${annotId}", "campaignId": "${returnedUrl}", "favorite": true, "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
-
-				mutRequest(mutation2, variables2).then((res2) => {
-					const favoriteStatus = res2.body.data.updateAnnotation.favorite;
-					expect(favoriteStatus).to.eq(true);
-				});
 			});
 		});
 	});

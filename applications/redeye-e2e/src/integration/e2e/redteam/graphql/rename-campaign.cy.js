@@ -1,4 +1,3 @@
-import { renderMatches } from 'react-router-dom';
 import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
 describe('Rename Campaign', () => {
