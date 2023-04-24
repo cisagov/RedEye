@@ -12,7 +12,7 @@ export class HostResolvers {
 	async hosts(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false,
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Host>
 	): Promise<Host[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);

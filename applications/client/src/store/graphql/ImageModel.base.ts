@@ -12,7 +12,7 @@ import { QueryBuilder } from 'mk-gql';
  */
 export class ImageModelBase extends Model({
 	__typename: tProp('Image'),
-	fileType: prop<string | null>().withSetter(),
+	fileType: prop<string>().withSetter(),
 	id: prop<string>().withSetter(),
 	url: prop<string | null>().withSetter(),
 }) {

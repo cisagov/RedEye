@@ -17,7 +17,7 @@ describe('Get All Links', () => {
         id
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const search = res.body.data.links;
 				cy.log(search);

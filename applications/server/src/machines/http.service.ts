@@ -1,19 +1,22 @@
-import { ApolloServer, ApolloServerExpressConfig } from 'apollo-server-express';
+import { ApolloServer, ApolloServerOptions } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express from 'express';
+import express, { Express } from 'express';
 import fileUpload from 'express-fileupload';
 import fs from 'fs-extra';
 import path from 'path';
 import 'reflect-metadata';
 import { AuthChecker, buildSchema } from 'type-graphql';
+import { json } from 'body-parser';
 import { asciiArt, consoleFormatting as cf } from '../asciiArt';
 import { isAuth } from '../auth';
 import { addRestRoutes } from '../routes';
 import { ServerMachineContext } from './server.machine';
 import { resolvers } from '../store';
 import { getRootPath } from '../util';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import type { EndpointContext, GraphQLContext } from '../types';
 import handler from 'serve-handler';
 import open from 'open';
@@ -50,21 +53,36 @@ const serverStartLogs = async (ctx: ServerMachineContext, clientUrl?: string): P
 	console.info(logLine.join('\n\n'));
 };
 
-export const startHttpServerService = (ctx: ServerMachineContext) => {
-	const serverPort = ctx.config.port;
+const createServer = async ({
+	ctx,
+	authChecker,
+	clientPort,
+}: {
+	ctx: ServerMachineContext;
+	authChecker: AuthChecker;
+	clientPort: number;
+}): Promise<[Express, ApolloServer<GraphQLContext>]> => {
 	const corsOptions = {
-		origin: getOrigins(ctx.config.clientPort),
+		origin: getOrigins(clientPort),
 		credentials: true,
 	};
-
-	const authChecker: AuthChecker<any, string> = (resolverData, _roles) => {
-		const authStatus = isAuth(ctx.config, resolverData.context.req?.cookies);
-		return authStatus;
-	};
-
-	const production = ctx.config.production;
-
 	const schemaFilePath = path.resolve(getRootPath(), 'schema.graphql');
+	const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
+	const production = ctx.config.production;
+	const schema = await buildSchema({
+		resolvers,
+		emitSchemaFile: schemaFilePath,
+		authMode: 'error',
+		validate: false,
+		authChecker,
+	});
+	const apolloConfig = {
+		cache: 'bounded',
+		schema: schema,
+		typeDefs: schemaFile,
+		plugins: !production ? [ApolloServerPluginLandingPageLocalDefault()] : undefined,
+		introspection: !production,
+	};
 
 	const endpointContext: EndpointContext = {
 		config: ctx.config,
@@ -72,42 +90,41 @@ export const startHttpServerService = (ctx: ServerMachineContext) => {
 		messengerMachine: ctx.messagingService,
 	};
 
+	// Create apollo server
+	const apolloServer = new ApolloServer<GraphQLContext>(apolloConfig as unknown as ApolloServerOptions<GraphQLContext>);
+
+	const app = express();
+	app.use(fileUpload({ createParentPath: true }));
+	app.use(cors(corsOptions));
+	app.use(cookieParser());
+	addRestRoutes(app, endpointContext);
+	await apolloServer.start();
+	app.use(
+		graphqlPath,
+		cors(corsOptions),
+		json(),
+		expressMiddleware(apolloServer, {
+			context: async ({ req, res }) => ({
+				req,
+				res,
+				...endpointContext,
+			}),
+		})
+	);
+
+	return [app, apolloServer];
+};
+
+export const startHttpServerService = (ctx: ServerMachineContext) => {
+	const serverPort = ctx.config.port;
+	const authChecker: AuthChecker<any, string> = (resolverData, _roles) => {
+		const authStatus = isAuth(ctx.config, resolverData.context.req?.cookies);
+		return authStatus;
+	};
+
 	return new Promise<void>(async (resolve, reject) => {
 		try {
-			const schema = await buildSchema({
-				resolvers,
-				emitSchemaFile: schemaFilePath,
-				authMode: 'error',
-				validate: false,
-				authChecker,
-			});
-
-			const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
-
-			const apolloConfig: ApolloServerExpressConfig = {
-				cache: 'bounded',
-				schema,
-				typeDefs: schemaFile,
-				plugins: !production ? [ApolloServerPluginLandingPageGraphQLPlayground()] : undefined,
-				debug: !production,
-				introspection: !production,
-				context: ({ req, res }): GraphQLContext => ({
-					req,
-					res,
-					...endpointContext,
-				}),
-			};
-
-			// Create apollo server
-			const apolloServer: ApolloServer = new ApolloServer(apolloConfig);
-
-			const app = express();
-			app.use(fileUpload({ createParentPath: true }));
-			app.use(cors(corsOptions));
-			app.use(cookieParser());
-			addRestRoutes(app, endpointContext);
-			await apolloServer.start();
-			apolloServer.applyMiddleware({ app, path: graphqlPath, cors: corsOptions });
+			const [app] = await createServer({ ctx, authChecker, clientPort: ctx.config.clientPort });
 
 			if (process.pkg) {
 				// Only used during pkg build, needs to be a hard path for pkg to bundle properly
@@ -131,56 +148,12 @@ export const startHttpServerService = (ctx: ServerMachineContext) => {
 };
 
 export const startBlueTeamHttpServerService = (ctx: ServerMachineContext) => {
-	const schemaFilePath = path.join(getRootPath(), 'schema.graphql');
 	const PORT = ctx.config.port;
 	const CLIENT_PORT = process.pkg ? PORT : ctx.config.clientPort;
-	const corsOptions = {
-		origin: getOrigins(CLIENT_PORT),
-		credentials: true,
-	};
-	const production = ctx.config.production;
-
-	const endpointContext: EndpointContext = {
-		config: ctx.config,
-		messengerMachine: ctx.messagingService,
-		cm: ctx.cm,
-	};
 
 	return new Promise<void>(async (resolve, reject) => {
 		try {
-			const schema = await buildSchema({
-				resolvers,
-				emitSchemaFile: schemaFilePath,
-				authMode: 'error',
-				validate: false,
-				authChecker: () => true,
-			});
-			const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
-
-			const apolloConfig: ApolloServerExpressConfig = {
-				cache: 'bounded',
-				schema,
-				typeDefs: schemaFile,
-				plugins: production ? [ApolloServerPluginLandingPageGraphQLPlayground()] : undefined,
-				debug: !production,
-				introspection: !production,
-				context: ({ req, res }): GraphQLContext => ({
-					req,
-					res,
-					...endpointContext,
-				}),
-			};
-
-			// Create apollo server
-			const apolloServer: ApolloServer = new ApolloServer(apolloConfig);
-
-			const app = express();
-			app.use(cors(corsOptions));
-			app.use(cookieParser());
-			app.use(fileUpload({ createParentPath: true }));
-			addRestRoutes(app, endpointContext);
-			await apolloServer.start();
-			apolloServer.applyMiddleware({ app, path: graphqlPath, cors: corsOptions });
+			const [app] = await createServer({ ctx, authChecker: () => true, clientPort: CLIENT_PORT });
 
 			const clientLocal = `http://localhost:${CLIENT_PORT}/index.html`;
 

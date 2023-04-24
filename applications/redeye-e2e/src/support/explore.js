@@ -38,9 +38,11 @@ Cypress.Commands.add('clickExplorerMode', () => {
 Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();
 	cy.wait('@presentationItems');
+	cy.get('div.bp4-spinner-annimation').should('not.exist');
 	cy.get('[cy-test=favorited]').should('be.visible');
 	cy.get('.superGraph').should('be.visible');
-	cy.wait(800);
+
+	cy.wait(1000);
 });
 
 // CLICK SEARCH ON EXPLORER PANEL

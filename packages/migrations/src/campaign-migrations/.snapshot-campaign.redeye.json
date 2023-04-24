@@ -1,1538 +1,1754 @@
 {
-	"namespaces": [],
-	"tables": [
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"generation": {
-					"name": "generation",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "command_group",
-			"indexes": [
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"text": {
-					"name": "text",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"generation": {
-					"name": "generation",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"date": {
-					"name": "date",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"user": {
-					"name": "user",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"favorite": {
-					"name": "favorite",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "integer"
-				},
-				"command_group_id": {
-					"name": "command_group_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "annotation",
-			"indexes": [
-				{
-					"columnNames": ["command_group_id"],
-					"composite": false,
-					"keyName": "annotation_command_group_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"annotation_command_group_id_foreign": {
-					"constraintName": "annotation_command_group_id_foreign",
-					"columnNames": ["command_group_id"],
-					"localTableName": "annotation",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "command_group",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"cobalt_strike_server": {
-					"name": "cobalt_strike_server",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "integer"
-				},
-				"host_name": {
-					"name": "host_name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"display_name": {
-					"name": "display_name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"hidden": {
-					"name": "hidden",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "integer"
-				}
-			},
-			"name": "host",
-			"indexes": [
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"os": {
-					"name": "os",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"ip": {
-					"name": "ip",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"type": {
-					"name": "type",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"host_id": {
-					"name": "host_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "host_meta",
-			"indexes": [
-				{
-					"columnNames": ["host_id"],
-					"composite": false,
-					"keyName": "host_meta_host_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "host_meta_os_ip_host_id_unique",
-					"columnNames": ["os", "ip", "host_id"],
-					"composite": true,
-					"primary": false,
-					"unique": true
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"host_meta_host_id_foreign": {
-					"constraintName": "host_meta_host_id_foreign",
-					"columnNames": ["host_id"],
-					"localTableName": "host_meta",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "host",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"start_time": {
-					"name": "start_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"end_time": {
-					"name": "end_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				}
-			},
-			"name": "operator",
-			"indexes": [
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"name": {
-					"name": "name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"parsing_path": {
-					"name": "parsing_path",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"display_name": {
-					"name": "display_name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"hidden": {
-					"name": "hidden",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "integer"
-				}
-			},
-			"name": "server",
-			"indexes": [
-				{
-					"keyName": "server_parsing_path_unique",
-					"columnNames": ["parsing_path"],
-					"composite": false,
-					"primary": false,
-					"unique": true
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"beacon_name": {
-					"name": "beacon_name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"display_name": {
-					"name": "display_name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"hidden": {
-					"name": "hidden",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "integer"
-				},
-				"host_id": {
-					"name": "host_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"server_id": {
-					"name": "server_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "beacon",
-			"indexes": [
-				{
-					"columnNames": ["host_id"],
-					"composite": false,
-					"keyName": "beacon_host_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["server_id"],
-					"composite": false,
-					"keyName": "beacon_server_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"beacon_host_id_foreign": {
-					"constraintName": "beacon_host_id_foreign",
-					"columnNames": ["host_id"],
-					"localTableName": "beacon",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "host",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				},
-				"beacon_server_id_foreign": {
-					"constraintName": "beacon_server_id_foreign",
-					"columnNames": ["server_id"],
-					"localTableName": "beacon",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "server",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"file_type": {
-					"name": "file_type",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"blob": {
-					"name": "blob",
-					"type": "blob",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "blob"
-				},
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "image",
-			"indexes": [
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "image_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"image_beacon_id_foreign": {
-					"constraintName": "image_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "image",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"file_name": {
-					"name": "file_name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"location": {
-					"name": "location",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"date_time": {
-					"name": "date_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"md5": {
-					"name": "md5",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"ip": {
-					"name": "ip",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"file_flag": {
-					"name": "file_flag",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "file",
-			"indexes": [
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "file_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"file_beacon_id_foreign": {
-					"constraintName": "file_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "file",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "set null",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"blob": {
-					"name": "blob",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"filepath": {
-					"name": "filepath",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"line_number": {
-					"name": "line_number",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "integer"
-				},
-				"line_type": {
-					"name": "line_type",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"log_type": {
-					"name": "log_type",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"date_time": {
-					"name": "date_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"beacon_meta_id": {
-					"name": "beacon_meta_id",
-					"type": "json",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "json"
-				},
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"command_id": {
-					"name": "command_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "log_entry",
-			"indexes": [
-				{
-					"columnNames": ["beacon_meta_id"],
-					"composite": false,
-					"keyName": "log_entry_beacon_meta_id_unique",
-					"primary": false,
-					"unique": true
-				},
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "log_entry_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["command_id"],
-					"composite": false,
-					"keyName": "log_entry_command_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"log_entry_beacon_meta_id_foreign": {
-					"constraintName": "log_entry_beacon_meta_id_foreign",
-					"columnNames": ["beacon_meta_id"],
-					"localTableName": "log_entry",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon_meta",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				},
-				"log_entry_beacon_id_foreign": {
-					"constraintName": "log_entry_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "log_entry",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				},
-				"log_entry_command_id_foreign": {
-					"constraintName": "log_entry_command_id_foreign",
-					"columnNames": ["command_id"],
-					"localTableName": "log_entry",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "command",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"command_failed": {
-					"name": "command_failed",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "integer"
-				},
-				"parsing_rule": {
-					"name": "parsing_rule",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"attack_ids": {
-					"name": "attack_ids",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"input_id": {
-					"name": "input_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"input_text": {
-					"name": "input_text",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"operator_id": {
-					"name": "operator_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "command",
-			"indexes": [
-				{
-					"columnNames": ["input_id"],
-					"composite": false,
-					"keyName": "command_input_id_unique",
-					"primary": false,
-					"unique": true
-				},
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "command_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["operator_id"],
-					"composite": false,
-					"keyName": "command_operator_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"command_input_id_foreign": {
-					"constraintName": "command_input_id_foreign",
-					"columnNames": ["input_id"],
-					"localTableName": "command",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "log_entry",
-					"deleteRule": "cascade"
-				},
-				"command_beacon_id_foreign": {
-					"constraintName": "command_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "command",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "cascade"
-				},
-				"command_operator_id_foreign": {
-					"constraintName": "command_operator_id_foreign",
-					"columnNames": ["operator_id"],
-					"localTableName": "command",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "operator",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"name": {
-					"name": "name",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"start_time": {
-					"name": "start_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"end_time": {
-					"name": "end_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"manual": {
-					"name": "manual",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"default": "false",
-					"mappedType": "integer"
-				},
-				"origin_id": {
-					"name": "origin_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"destination_id": {
-					"name": "destination_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"command_id": {
-					"name": "command_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				}
-			},
-			"name": "link",
-			"indexes": [
-				{
-					"columnNames": ["origin_id"],
-					"composite": false,
-					"keyName": "link_origin_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["destination_id"],
-					"composite": false,
-					"keyName": "link_destination_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["command_id"],
-					"composite": false,
-					"keyName": "link_command_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"link_origin_id_foreign": {
-					"constraintName": "link_origin_id_foreign",
-					"columnNames": ["origin_id"],
-					"localTableName": "link",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "set null",
-					"updateRule": "cascade"
-				},
-				"link_destination_id_foreign": {
-					"constraintName": "link_destination_id_foreign",
-					"columnNames": ["destination_id"],
-					"localTableName": "link",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "set null",
-					"updateRule": "cascade"
-				},
-				"link_command_id_foreign": {
-					"constraintName": "link_command_id_foreign",
-					"columnNames": ["command_id"],
-					"localTableName": "link",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "command",
-					"deleteRule": "set null",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"command_group_id": {
-					"name": "command_group_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"command_id": {
-					"name": "command_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "command_group_commands",
-			"indexes": [
-				{
-					"columnNames": ["command_group_id"],
-					"composite": false,
-					"keyName": "command_group_commands_command_group_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["command_id"],
-					"composite": false,
-					"keyName": "command_group_commands_command_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["command_group_id", "command_id"],
-					"composite": true,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"command_group_commands_command_group_id_foreign": {
-					"constraintName": "command_group_commands_command_group_id_foreign",
-					"columnNames": ["command_group_id"],
-					"localTableName": "command_group_commands",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "command_group",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				},
-				"command_group_commands_command_id_foreign": {
-					"constraintName": "command_group_commands_command_id_foreign",
-					"columnNames": ["command_id"],
-					"localTableName": "command_group_commands",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "command",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "json",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "json"
-				},
-				"pid": {
-					"name": "pid",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "integer"
-				},
-				"username": {
-					"name": "username",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"start_time": {
-					"name": "start_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"end_time": {
-					"name": "end_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"ip": {
-					"name": "ip",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"origin": {
-					"name": "origin",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"source_id": {
-					"name": "source_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "beacon_meta",
-			"indexes": [
-				{
-					"columnNames": ["source_id"],
-					"composite": false,
-					"keyName": "beacon_meta_source_id_unique",
-					"primary": false,
-					"unique": true
-				},
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "beacon_meta_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "beacon_meta_pid_username_start_time_end_time_ip_beacon_id_unique",
-					"columnNames": ["pid", "username", "start_time", "end_time", "ip", "beacon_id"],
-					"composite": true,
-					"primary": false,
-					"unique": true
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"beacon_meta_source_id_foreign": {
-					"constraintName": "beacon_meta_source_id_foreign",
-					"columnNames": ["source_id"],
-					"localTableName": "beacon_meta",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "log_entry",
-					"updateRule": "cascade"
-				},
-				"beacon_meta_beacon_id_foreign": {
-					"constraintName": "beacon_meta_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "beacon_meta",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"operator_id": {
-					"name": "operator_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "beacon_operators",
-			"indexes": [
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "beacon_operators_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["operator_id"],
-					"composite": false,
-					"keyName": "beacon_operators_operator_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["beacon_id", "operator_id"],
-					"composite": true,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"beacon_operators_beacon_id_foreign": {
-					"constraintName": "beacon_operators_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "beacon_operators",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				},
-				"beacon_operators_operator_id_foreign": {
-					"constraintName": "beacon_operators_operator_id_foreign",
-					"columnNames": ["operator_id"],
-					"localTableName": "beacon_operators",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "operator",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"type": {
-					"name": "type",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"default": "'http'",
-					"enumItems": ["http", "https", "smb", "dns"],
-					"mappedType": "enum"
-				},
-				"server_id": {
-					"name": "server_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "server_meta",
-			"indexes": [
-				{
-					"columnNames": ["server_id"],
-					"composite": false,
-					"keyName": "server_meta_server_id_unique",
-					"primary": false,
-					"unique": true
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"server_meta_server_id_foreign": {
-					"constraintName": "server_meta_server_id_foreign",
-					"columnNames": ["server_id"],
-					"localTableName": "server_meta",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "server",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"text": {
-					"name": "text",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "tag",
-			"indexes": [
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {}
-		},
-		{
-			"columns": {
-				"annotation_id": {
-					"name": "annotation_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"tag_id": {
-					"name": "tag_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "annotation_tags",
-			"indexes": [
-				{
-					"columnNames": ["annotation_id"],
-					"composite": false,
-					"keyName": "annotation_tags_annotation_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"columnNames": ["tag_id"],
-					"composite": false,
-					"keyName": "annotation_tags_tag_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["annotation_id", "tag_id"],
-					"composite": true,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"annotation_tags_annotation_id_foreign": {
-					"constraintName": "annotation_tags_annotation_id_foreign",
-					"columnNames": ["annotation_id"],
-					"localTableName": "annotation_tags",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "annotation",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				},
-				"annotation_tags_tag_id_foreign": {
-					"constraintName": "annotation_tags_tag_id_foreign",
-					"columnNames": ["tag_id"],
-					"localTableName": "annotation_tags",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "tag",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		}
-	]
+  "namespaces": [],
+  "tables": [
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "generation": {
+          "name": "generation",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "command_group",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "generation": {
+          "name": "generation",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "date": {
+          "name": "date",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "user": {
+          "name": "user",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "favorite": {
+          "name": "favorite",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "command_group_id": {
+          "name": "command_group_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "annotation",
+      "indexes": [
+        {
+          "columnNames": [
+            "command_group_id"
+          ],
+          "composite": false,
+          "keyName": "annotation_command_group_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "annotation_command_group_id_foreign": {
+          "constraintName": "annotation_command_group_id_foreign",
+          "columnNames": [
+            "command_group_id"
+          ],
+          "localTableName": "annotation",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "command_group",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "cobalt_strike_server": {
+          "name": "cobalt_strike_server",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "host_name": {
+          "name": "host_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "hidden": {
+          "name": "hidden",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        }
+      },
+      "name": "host",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "os": {
+          "name": "os",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "ip": {
+          "name": "ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "host_id": {
+          "name": "host_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "host_meta",
+      "indexes": [
+        {
+          "columnNames": [
+            "host_id"
+          ],
+          "composite": false,
+          "keyName": "host_meta_host_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "host_meta_os_ip_host_id_unique",
+          "columnNames": [
+            "os",
+            "ip",
+            "host_id"
+          ],
+          "composite": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "host_meta_host_id_foreign": {
+          "constraintName": "host_meta_host_id_foreign",
+          "columnNames": [
+            "host_id"
+          ],
+          "localTableName": "host_meta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "host",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "end_time": {
+          "name": "end_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        }
+      },
+      "name": "operator",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "parsing_path": {
+          "name": "parsing_path",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "hidden": {
+          "name": "hidden",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        }
+      },
+      "name": "server",
+      "indexes": [
+        {
+          "keyName": "server_parsing_path_unique",
+          "columnNames": [
+            "parsing_path"
+          ],
+          "composite": false,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "beacon_name": {
+          "name": "beacon_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "hidden": {
+          "name": "hidden",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "host_id": {
+          "name": "host_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "server_id": {
+          "name": "server_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "beacon",
+      "indexes": [
+        {
+          "columnNames": [
+            "host_id"
+          ],
+          "composite": false,
+          "keyName": "beacon_host_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "server_id"
+          ],
+          "composite": false,
+          "keyName": "beacon_server_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "beacon_host_id_foreign": {
+          "constraintName": "beacon_host_id_foreign",
+          "columnNames": [
+            "host_id"
+          ],
+          "localTableName": "beacon",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "host",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "beacon_server_id_foreign": {
+          "constraintName": "beacon_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "beacon",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "server",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "file_type": {
+          "name": "file_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "blob": {
+          "name": "blob",
+          "type": "blob",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "blob"
+        },
+        "beacon_id": {
+          "name": "beacon_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "image",
+      "indexes": [
+        {
+          "columnNames": [
+            "beacon_id"
+          ],
+          "composite": false,
+          "keyName": "image_beacon_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "image_beacon_id_foreign": {
+          "constraintName": "image_beacon_id_foreign",
+          "columnNames": [
+            "beacon_id"
+          ],
+          "localTableName": "image",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "file_name": {
+          "name": "file_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "date_time": {
+          "name": "date_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "md5": {
+          "name": "md5",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "ip": {
+          "name": "ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "file_flag": {
+          "name": "file_flag",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "beacon_id": {
+          "name": "beacon_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "file",
+      "indexes": [
+        {
+          "columnNames": [
+            "beacon_id"
+          ],
+          "composite": false,
+          "keyName": "file_beacon_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "file_beacon_id_foreign": {
+          "constraintName": "file_beacon_id_foreign",
+          "columnNames": [
+            "beacon_id"
+          ],
+          "localTableName": "file",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "blob": {
+          "name": "blob",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "filepath": {
+          "name": "filepath",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "line_number": {
+          "name": "line_number",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "line_type": {
+          "name": "line_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "log_type": {
+          "name": "log_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "date_time": {
+          "name": "date_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "beacon_meta_id": {
+          "name": "beacon_meta_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "beacon_id": {
+          "name": "beacon_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "command_id": {
+          "name": "command_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "log_entry",
+      "indexes": [
+        {
+          "columnNames": [
+            "beacon_meta_id"
+          ],
+          "composite": false,
+          "keyName": "log_entry_beacon_meta_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "beacon_id"
+          ],
+          "composite": false,
+          "keyName": "log_entry_beacon_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "command_id"
+          ],
+          "composite": false,
+          "keyName": "log_entry_command_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "log_entry_beacon_meta_id_foreign": {
+          "constraintName": "log_entry_beacon_meta_id_foreign",
+          "columnNames": [
+            "beacon_meta_id"
+          ],
+          "localTableName": "log_entry",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon_meta",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "log_entry_beacon_id_foreign": {
+          "constraintName": "log_entry_beacon_id_foreign",
+          "columnNames": [
+            "beacon_id"
+          ],
+          "localTableName": "log_entry",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "log_entry_command_id_foreign": {
+          "constraintName": "log_entry_command_id_foreign",
+          "columnNames": [
+            "command_id"
+          ],
+          "localTableName": "log_entry",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "command",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "command_failed": {
+          "name": "command_failed",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "parsing_rule": {
+          "name": "parsing_rule",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "attack_ids": {
+          "name": "attack_ids",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "input_id": {
+          "name": "input_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "input_text": {
+          "name": "input_text",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "beacon_id": {
+          "name": "beacon_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "operator_id": {
+          "name": "operator_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "command",
+      "indexes": [
+        {
+          "columnNames": [
+            "input_id"
+          ],
+          "composite": false,
+          "keyName": "command_input_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "beacon_id"
+          ],
+          "composite": false,
+          "keyName": "command_beacon_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "operator_id"
+          ],
+          "composite": false,
+          "keyName": "command_operator_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "command_input_id_foreign": {
+          "constraintName": "command_input_id_foreign",
+          "columnNames": [
+            "input_id"
+          ],
+          "localTableName": "command",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "log_entry",
+          "deleteRule": "cascade"
+        },
+        "command_beacon_id_foreign": {
+          "constraintName": "command_beacon_id_foreign",
+          "columnNames": [
+            "beacon_id"
+          ],
+          "localTableName": "command",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "cascade"
+        },
+        "command_operator_id_foreign": {
+          "constraintName": "command_operator_id_foreign",
+          "columnNames": [
+            "operator_id"
+          ],
+          "localTableName": "command",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "operator",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "end_time": {
+          "name": "end_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "manual": {
+          "name": "manual",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "integer"
+        },
+        "origin_id": {
+          "name": "origin_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "destination_id": {
+          "name": "destination_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "command_id": {
+          "name": "command_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "link",
+      "indexes": [
+        {
+          "columnNames": [
+            "origin_id"
+          ],
+          "composite": false,
+          "keyName": "link_origin_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "destination_id"
+          ],
+          "composite": false,
+          "keyName": "link_destination_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "command_id"
+          ],
+          "composite": false,
+          "keyName": "link_command_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "link_origin_id_foreign": {
+          "constraintName": "link_origin_id_foreign",
+          "columnNames": [
+            "origin_id"
+          ],
+          "localTableName": "link",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "link_destination_id_foreign": {
+          "constraintName": "link_destination_id_foreign",
+          "columnNames": [
+            "destination_id"
+          ],
+          "localTableName": "link",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "link_command_id_foreign": {
+          "constraintName": "link_command_id_foreign",
+          "columnNames": [
+            "command_id"
+          ],
+          "localTableName": "link",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "command",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "command_group_id": {
+          "name": "command_group_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "command_id": {
+          "name": "command_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "command_group_commands",
+      "indexes": [
+        {
+          "columnNames": [
+            "command_group_id"
+          ],
+          "composite": false,
+          "keyName": "command_group_commands_command_group_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "command_id"
+          ],
+          "composite": false,
+          "keyName": "command_group_commands_command_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "command_group_id",
+            "command_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "command_group_commands_command_group_id_foreign": {
+          "constraintName": "command_group_commands_command_group_id_foreign",
+          "columnNames": [
+            "command_group_id"
+          ],
+          "localTableName": "command_group_commands",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "command_group",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "command_group_commands_command_id_foreign": {
+          "constraintName": "command_group_commands_command_id_foreign",
+          "columnNames": [
+            "command_id"
+          ],
+          "localTableName": "command_group_commands",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "command",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "pid": {
+          "name": "pid",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "end_time": {
+          "name": "end_time",
+          "type": "datetime",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "datetime"
+        },
+        "ip": {
+          "name": "ip",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "http",
+            "https",
+            "smb",
+            "dns"
+          ],
+          "mappedType": "enum"
+        },
+        "origin": {
+          "name": "origin",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "source_id": {
+          "name": "source_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "beacon_id": {
+          "name": "beacon_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "beacon_meta",
+      "indexes": [
+        {
+          "columnNames": [
+            "source_id"
+          ],
+          "composite": false,
+          "keyName": "beacon_meta_source_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "columnNames": [
+            "beacon_id"
+          ],
+          "composite": false,
+          "keyName": "beacon_meta_beacon_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "beacon_meta_pid_username_start_time_end_time_ip_beacon_id_unique",
+          "columnNames": [
+            "pid",
+            "username",
+            "start_time",
+            "end_time",
+            "ip",
+            "beacon_id"
+          ],
+          "composite": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "beacon_meta_source_id_foreign": {
+          "constraintName": "beacon_meta_source_id_foreign",
+          "columnNames": [
+            "source_id"
+          ],
+          "localTableName": "beacon_meta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "log_entry",
+          "updateRule": "cascade"
+        },
+        "beacon_meta_beacon_id_foreign": {
+          "constraintName": "beacon_meta_beacon_id_foreign",
+          "columnNames": [
+            "beacon_id"
+          ],
+          "localTableName": "beacon_meta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "beacon_id": {
+          "name": "beacon_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "operator_id": {
+          "name": "operator_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "beacon_operators",
+      "indexes": [
+        {
+          "columnNames": [
+            "beacon_id"
+          ],
+          "composite": false,
+          "keyName": "beacon_operators_beacon_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "operator_id"
+          ],
+          "composite": false,
+          "keyName": "beacon_operators_operator_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "beacon_id",
+            "operator_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "beacon_operators_beacon_id_foreign": {
+          "constraintName": "beacon_operators_beacon_id_foreign",
+          "columnNames": [
+            "beacon_id"
+          ],
+          "localTableName": "beacon_operators",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "beacon",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "beacon_operators_operator_id_foreign": {
+          "constraintName": "beacon_operators_operator_id_foreign",
+          "columnNames": [
+            "operator_id"
+          ],
+          "localTableName": "beacon_operators",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "operator",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'http'",
+          "enumItems": [
+            "http",
+            "https",
+            "smb",
+            "dns"
+          ],
+          "mappedType": "enum"
+        },
+        "server_id": {
+          "name": "server_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "server_meta",
+      "indexes": [
+        {
+          "columnNames": [
+            "server_id"
+          ],
+          "composite": false,
+          "keyName": "server_meta_server_id_unique",
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "server_meta_server_id_foreign": {
+          "constraintName": "server_meta_server_id_foreign",
+          "columnNames": [
+            "server_id"
+          ],
+          "localTableName": "server_meta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "server",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "tag",
+      "indexes": [
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "annotation_id": {
+          "name": "annotation_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "tag_id": {
+          "name": "tag_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        }
+      },
+      "name": "annotation_tags",
+      "indexes": [
+        {
+          "columnNames": [
+            "annotation_id"
+          ],
+          "composite": false,
+          "keyName": "annotation_tags_annotation_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "tag_id"
+          ],
+          "composite": false,
+          "keyName": "annotation_tags_tag_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "primary",
+          "columnNames": [
+            "annotation_id",
+            "tag_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "annotation_tags_annotation_id_foreign": {
+          "constraintName": "annotation_tags_annotation_id_foreign",
+          "columnNames": [
+            "annotation_id"
+          ],
+          "localTableName": "annotation_tags",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "annotation",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "annotation_tags_tag_id_foreign": {
+          "constraintName": "annotation_tags_tag_id_foreign",
+          "columnNames": [
+            "tag_id"
+          ],
+          "localTableName": "annotation_tags",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "tag",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    }
+  ]
 }

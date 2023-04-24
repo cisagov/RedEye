@@ -5,12 +5,22 @@ describe('Hide a beacon', () => {
 	const fileName = 'gt.redeye';
 
 	it('Toggle hide/show switch using left nav panel', () => {
+	it('Toggle hide/show switch using left nav panel', () => {
 		cy.uploadCampaignBlue(camp, fileName);
 
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
 		// Toggle off switch for hidden beacons
+		cy.doNotShowHiddenItems();
+
+		// Toggle switch back on
+		cy.showHiddenItems();
+	});
+
+	it('Toggle hide/show switch from main page', () => {
+		// Toggle off switch for hidden beacons
+		cy.doNotShowHiddenItems();
 		cy.doNotShowHiddenItems();
 
 		// Toggle switch back on
