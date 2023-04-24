@@ -42,9 +42,15 @@ describe('Add a comment using GraphQL', () => {
 				}
 			  }`;
 
-			const variables1 = `{"campaignId": "${returnedUrl}", "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
+			const variables = {
+				campaignId: returnedUrl,
+				commandIds: commandId,
+				tags: tags,
+				text: comment,
+				user: commentUser,
+			};
 
-			mutRequest(mutation, variables1).then((res) => {
+			mutRequest(mutation, variables).then((res) => {
 				const response = res.body.data.addCommandGroupAnnotation;
 
 				const commentText = response.text;

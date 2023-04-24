@@ -42,7 +42,13 @@ describe('Mark comment as favorite using GraphQL', () => {
 				}
 			  }`;
 
-			const variables1 = `{"campaignId": "${returnedUrl}", "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
+			const variables1 = {
+				campaignId: returnedUrl,
+				commandIds: commandId,
+				tags: tags,
+				text: comment,
+				user: commentUser,
+			};
 
 			mutRequest(mutation1, variables1).then((res) => {
 				const response = res.body.data.addCommandGroupAnnotation;
@@ -86,7 +92,15 @@ describe('Mark comment as favorite using GraphQL', () => {
 				}
 			  }`;
 
-				const variables2 = `{"annotationId": "${annotId}", "campaignId": "${returnedUrl}", "favorite": true, "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
+				const variables2 = {
+					annotationId: annotId,
+					campaignId: returnedUrl,
+					favorite: true,
+					commandIds: commandId,
+					tags: tags,
+					text: comment,
+					user: commentUser,
+				};
 
 				mutRequest(mutation2, variables2).then((res2) => {
 					const favoriteStatus = res2.body.data.updateAnnotation.favorite;

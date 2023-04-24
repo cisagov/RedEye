@@ -22,7 +22,7 @@ describe('Rename Campaign', () => {
 			  }
 			  `;
 
-			const variables = `{"campaignId": "${returnedUrl}", "name": "${renamedCamp}"}`;
+			const variables = { campaignId: returnedUrl, name: renamedCamp };
 
 			mutRequest(mutation, variables).then((res) => {
 				// cy.log(res.body.data);

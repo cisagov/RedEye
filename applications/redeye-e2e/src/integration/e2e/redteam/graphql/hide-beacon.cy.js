@@ -26,7 +26,7 @@ describe('Hide a Beacon using GraphQL', () => {
 			  }
 				  `;
 
-			const variables1 = `{"beaconId": "COMPUTER02-1166658656", "campaignId": "${returnedUrl}"}`;
+			const variables1 = { beaconId: 'COMPUTER02-1166658656', campaignId: returnedUrl };
 			mutRequest(mutation, variables1).then((res) => {
 				cy.log(res.body.data);
 			});
@@ -41,7 +41,7 @@ describe('Hide a Beacon using GraphQL', () => {
 				  }
 				  `;
 
-			const variables2 = `{"campaignId": "${returnedUrl}"}`;
+			const variables2 = { campaignId: returnedUrl };
 
 			graphqlRequest(query, variables2).then((res) => {
 				const comp = res.body.data.beacons;

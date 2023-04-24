@@ -1,9 +1,9 @@
 import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
-describe('Update beacon display name using GraphQL', () => {
-	const camp = 'beaconNameGraphQL';
+describe('Update beacon type using GraphQL', () => {
+	const camp = 'beaconTypeGraphQL';
 
-	it('Change beacon display name', () => {
+	it('Change beacon type', () => {
 		cy.uploadCampaign(camp, 'gt.redeye');
 
 		cy.selectCampaign(camp);
@@ -13,6 +13,8 @@ describe('Update beacon display name using GraphQL', () => {
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
 			cy.log(returnedUrl);
+
+			//HAS NOT YET BEEN UPDATED
 
 			const mutation = `mutation updateBeaconMetadata(
 				$beaconDisplayName: String

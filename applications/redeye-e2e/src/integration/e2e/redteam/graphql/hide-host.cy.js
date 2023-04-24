@@ -23,7 +23,7 @@ describe('Hide a Host using GraphQL', () => {
 				  }
 				  `;
 
-			const variables1 = `{"campaignId": "${returnedUrl}", "hostId": "COMPUTER03"}`;
+			const variables1 = { campaignId: returnedUrl, hostId: 'COMPUTER03' };
 			mutRequest(mutation, variables1).then((res) => {
 				cy.log(res.body.data);
 			});
@@ -39,7 +39,7 @@ describe('Hide a Host using GraphQL', () => {
 				  }
 				  `;
 
-			const variables2 = `{"campaignId": "${returnedUrl}"}`;
+			const variables2 = { campaignId: returnedUrl };
 
 			graphqlRequest(query, variables2).then((res) => {
 				const comp = res.body.data.hosts;

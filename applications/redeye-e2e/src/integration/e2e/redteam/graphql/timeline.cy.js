@@ -26,7 +26,8 @@ describe('Query Timeline', () => {
 				}
 			  }`;
 
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
+
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.timeline.buckets;
 				cy.log(comp);

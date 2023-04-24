@@ -2,8 +2,8 @@ import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
 describe('Add multi-command comment using GraphQL', () => {
 	const camp = 'addMultiCommandCommentGraphQL';
-	const commandId = '1166658656-1597693201000-2';
-	// UPDATE
+	const commandId1 = '1166658656-1597693201000-2';
+	const commandId2 = '1166658656-1597693205000-4';
 	const comment = 'Multi-command comment text.';
 	const tags = 'GoldenTicket';
 	const commentUser = 'cypress';
@@ -19,7 +19,6 @@ describe('Add multi-command comment using GraphQL', () => {
 			const returnedUrl = url.split('/')[5];
 			cy.log(returnedUrl);
 
-			// START HERE WITH UPDATES
 			const mutation = `mutation addCommandGroupAnnotation(
 				$campaignId: String!
 				$commandIds: [String!]!
@@ -35,18 +34,27 @@ describe('Add multi-command comment using GraphQL', () => {
 				  user: $user
 				) {
 				  id
-				  commandIds
+				  commandGroupId
 				  text
 				  user
 				  tags {
 					id
 				  }
 				}
-			  }`;
+			  }
+			  `;
 
-			const variables1 = `{"campaignId": "${returnedUrl}", "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
+			const variables = {
+				campaignId: returnedUrl,
+				commandIds: [commandId1, commandId2],
+				tags: tags,
+				text: comment,
+				user: commentUser,
+			};
 
-			mutRequest(mutation, variables1).then((res) => {
+			mutRequest(mutation, variables).then((res) => {
+				cy.log(res.body.data);
+
 				const response = res.body.data.addCommandGroupAnnotation;
 
 				const commentText = response.text;
@@ -57,6 +65,38 @@ describe('Add multi-command comment using GraphQL', () => {
 
 				const userName = response.user;
 				expect(userName).to.include(commentUser);
+
+				const groupId = response.id;
+				cy.log(groupId);
+
+				const query = `query commands(
+						$campaignId: String!
+						$commandIds: [String!]
+					  ) {
+						commands(
+						  campaignId: $campaignId
+						  commandIds: $commandIds
+						) {
+						  commandGroups {
+							annotations {
+							  text
+							  user
+							  commandIds
+							  commandGroupId
+							  tags {
+								id
+							  }
+							}
+						  }
+						}
+					  }
+					  `;
+
+				const queryVariables = { campaignId: returnedUrl, commandIds: [commandId1, commandId2] };
+
+				graphqlRequest(query, queryVariables).then((queryRes) => {
+					cy.log(queryRes.body.data);
+				});
 			});
 		});
 	});

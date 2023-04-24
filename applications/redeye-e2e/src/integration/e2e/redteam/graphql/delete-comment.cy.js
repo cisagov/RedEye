@@ -43,7 +43,13 @@ describe('Delete a comment using GraphQL', () => {
 				}
 			  }`;
 
-			const variables1 = `{"campaignId": "${returnedUrl}", "commandIds": "${commandId}", "tags": "${tags}", "text": "${comment}", "user": "${commentUser}"}`;
+			const variables1 = {
+				campaignId: returnedUrl,
+				commandIds: commandId,
+				tags: tags,
+				text: comment,
+				user: commentUser,
+			};
 
 			mutRequest(mutation, variables1).then((res) => {
 				const response = res.body.data.addCommandGroupAnnotation;
@@ -73,7 +79,7 @@ describe('Delete a comment using GraphQL', () => {
 					}
 				  }`;
 
-				const variables2 = `{"annotationId": "${annotId}", "campaignId": "${returnedUrl}"}`;
+				const variables2 = { annotationId: annotId, campaignId: returnedUrl };
 
 				mutRequest(mutationDelete, variables2).then((res2) => {
 					const responseDelete = res2.body.data.deleteAnnotation;

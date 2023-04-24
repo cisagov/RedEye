@@ -35,8 +35,13 @@ describe('Update beacon time of deathusing GraphQL', () => {
 			  
 				  `;
 
-			const variables1 = `{"beaconId": "COMPUTER02-1166658656", "beaconTimeOfDeath": "2020-08-17T19:37:00.000Z", "campaignId": "${returnedUrl}"}`;
-			mutRequest(mutation, variables1).then((res) => {
+			const variables = {
+				beaconId: 'COMPUTER02-1166658656',
+				beaconTimeOfDeath: '2020-08-17T19:37:00.000Z',
+				campaignId: returnedUrl,
+			};
+
+			mutRequest(mutation, variables).then((res) => {
 				cy.log(res.body.data);
 
 				const response = res.body.data.updateBeaconMetadata;
