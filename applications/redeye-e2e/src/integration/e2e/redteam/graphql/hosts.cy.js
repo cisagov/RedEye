@@ -17,7 +17,7 @@ describe('Query Hosts', () => {
         id
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.hosts;
 				expect(comp.length).to.eq(3);

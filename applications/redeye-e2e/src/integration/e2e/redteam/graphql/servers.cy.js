@@ -18,7 +18,7 @@ describe('Query Servers', () => {
       }
     }`;
 
-			const variables = `{"campaignId": "${returnedUrl}", "username": "seb" }`;
+			const variables = { campaignId: returnedUrl, username: 'seb' };
 			graphqlRequest(query, variables).then((res) => {
 				expect(res.body.data.servers.length).to.eq(1);
 			});
