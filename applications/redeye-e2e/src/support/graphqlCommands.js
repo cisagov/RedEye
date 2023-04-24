@@ -12,7 +12,7 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
     }
   }`;
 
-	const variables = `{"creatorName": "${creatorName}", "name": "${folderName}"}`;
+	const variables = { creatorName: creatorName, name: folderName };
 	mutRequest(mutation, variables).then((res) => {
 		let camp = res.body.data.createCampaign.id;
 
@@ -24,7 +24,7 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
       }
 		}`;
 		cy.task('getPath', { dirPath: path.join(__dirname, '..', 'fixtures', 'smalldata') }).then((logPath) => {
-			const variables1 = `{"campaignId": "${camp}", "name": "200817", "path": "${logPath}"}`;
+			const variables1 = { campaignId: camp, name: '200817', path: logPath };
 			mutRequest(mutation2, variables1).then((res) => {
 				cy.log(res);
 			});
@@ -42,7 +42,7 @@ Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
 		      serversParse(campaignId: $campaignId)
 		  }`;
 
-			const variables = `{"campaignId": "${camp}"}`;
+			const variables = { campaignId: camp };
 			mutRequest(mutation1, variables).then((res) => {
 				cy.log(res);
 			});

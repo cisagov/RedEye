@@ -737,12 +737,12 @@
 				},
 				"beacon_meta_id": {
 					"name": "beacon_meta_id",
-					"type": "json",
+					"type": "text",
 					"unsigned": false,
 					"autoincrement": false,
 					"primary": false,
 					"nullable": true,
-					"mappedType": "json"
+					"mappedType": "text"
 				},
 				"beacon_id": {
 					"name": "beacon_id",
@@ -1171,12 +1171,12 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "json",
+					"type": "text",
 					"unsigned": false,
 					"autoincrement": false,
 					"primary": false,
 					"nullable": false,
-					"mappedType": "json"
+					"mappedType": "text"
 				},
 				"pid": {
 					"name": "pid",
@@ -1224,6 +1224,16 @@
 					"primary": false,
 					"nullable": true,
 					"mappedType": "text"
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"enumItems": ["http", "https", "smb", "dns"],
+					"mappedType": "enum"
 				},
 				"origin": {
 					"name": "origin",

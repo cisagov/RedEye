@@ -12,7 +12,7 @@ export class BeaconResolvers {
 	async beacons(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false,
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Beacon>
 	): Promise<Beacon[] | null> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
@@ -26,9 +26,9 @@ export class BeaconResolvers {
 		@RelationPath() relationPaths: Relation<Beacon>,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('beaconId', () => String) beaconId: string,
-		@Arg('beaconDisplayName', { nullable: true }) beaconDisplayName?: string,
-		@Arg('beaconTimeOfDeath', { nullable: true }) beaconTimeOfDeath?: Date,
-		@Arg('beaconType', { nullable: true }) beaconType?: BeaconType
+		@Arg('beaconDisplayName', () => String, { nullable: true }) beaconDisplayName?: string,
+		@Arg('beaconTimeOfDeath', () => Date, { nullable: true }) beaconTimeOfDeath?: Date,
+		@Arg('beaconType', () => BeaconType, { nullable: true }) beaconType?: BeaconType
 	): Promise<Beacon> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });

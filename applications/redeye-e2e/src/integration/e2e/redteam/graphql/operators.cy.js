@@ -18,7 +18,7 @@ describe('Query Operators', () => {
       }
     }`;
 
-			const variables = `{"campaignId": "${returnedUrl}" }`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const resp = res.body.data.operators[0];
 				cy.log(resp);

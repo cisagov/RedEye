@@ -19,7 +19,7 @@ describe('Query Presentation Items', () => {
         id
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.presentationItems;
 				cy.log(comp);

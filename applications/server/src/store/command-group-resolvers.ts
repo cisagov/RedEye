@@ -48,7 +48,7 @@ export class CommandGroupResolvers {
 		@Arg('commandIds', () => [String], { nullable: true })
 		commandIds?: Array<string>,
 		@Arg('commandGroupIds', () => [String], { nullable: true }) commandGroupIds?: Array<string>,
-		@Arg('hidden', () => Boolean, { defaultValue: false })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true })
 		hidden: boolean = false,
 		@Arg('sort', () => SortTypeComments, {
 			nullable: true,
@@ -160,7 +160,7 @@ export class CommandGroupResolvers {
 		@Arg('commandIds', () => [String], { nullable: true })
 		commandIds?: Array<string>,
 		@Arg('commandGroupIds', () => [String], { nullable: true }) commandGroupIds?: Array<string>,
-		@Arg('hidden', () => Boolean, { defaultValue: false })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true })
 		hidden: boolean = false,
 		@Arg('sort', () => SortTypeComments, {
 			nullable: true,
@@ -194,7 +194,7 @@ export class CommandGroupResolvers {
 		@RelationPath() relationPaths: Relation<CommandGroup>,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('commandGroupId', () => String) commandGroupId: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true })
 		hidden: boolean = false
 	): Promise<CommandGroup> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
