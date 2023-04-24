@@ -26,6 +26,9 @@ describe('Hide last beacon', () => {
 				// Confirm that you want to hide the beacon
 				cy.confirmShowHide();
 
+				// Navigate back to beacons list
+				cy.clickBeaconsTab();
+
 				// Confirm first beacon does not show in list
 				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
 					expect($beacons.text()).to.not.contain(beaconName1);
@@ -42,6 +45,9 @@ describe('Hide last beacon', () => {
 
 			// Confirm that you want to hide the beacon
 			cy.confirmShowHide();
+
+			// Navigate back to beacons list
+			cy.clickBeaconsTab();
 
 			// Confirm second beacon does not show in list
 			cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
@@ -60,6 +66,9 @@ describe('Hide last beacon', () => {
 
 			// Click to confirm
 			cy.confirmShowHide();
+
+			// Navigate back to beacons list
+			cy.clickBeaconsTab();
 
 			// Verify last beacon still shows in UI
 			cy.get('[cy-test=beacons-view]').should('contain', beaconName3);
