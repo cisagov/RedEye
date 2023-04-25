@@ -15,11 +15,11 @@ import { useEffect } from 'react';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { Select2 } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 const useGetLastBeaconCommand = (
 	store: AppStore,
@@ -90,7 +90,9 @@ export const BeaconMeta = observer((props) => {
 		},
 	});
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('beacon', beacon?.hidden || false);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('beacons', beacon?.hidden || false, [
+		beacon?.id || '',
+	]);
 
 	useEffect(() => {
 		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
@@ -275,7 +277,7 @@ export const BeaconMeta = observer((props) => {
 				isHiddenToggled={!!beacon?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
-				last={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);
