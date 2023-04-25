@@ -120,6 +120,9 @@ describe('Hide a beacon', () => {
 				// Confirm that you want to hide the beacon
 				cy.confirmShowHide();
 
+				// Navigate back to beacons list
+				cy.clickBeaconsTab();
+
 				// Verify hidden beacon does not show in the list
 				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
 					expect($beacons.text()).to.not.contain(beaconName);

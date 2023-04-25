@@ -13,7 +13,7 @@ import { observer } from 'mobx-react-lite';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 export const ServerMeta = observer((props) => {
 	const store = useStore();
@@ -29,7 +29,9 @@ export const ServerMeta = observer((props) => {
 		},
 	});
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('server', server?.hidden || false);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('servers', !!server?.hidden, [
+		server?.id || '',
+	]);
 
 	const { mutate: serverMetaUpdate } = useMutation(
 		async () => {
@@ -138,7 +140,7 @@ export const ServerMeta = observer((props) => {
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				isOpen={toggleHidden.showHide}
-				last={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);

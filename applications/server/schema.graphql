@@ -322,13 +322,13 @@ type Mutation {
   serversParse(campaignId: String!): Boolean!
 
   """Toggle beacon hidden state"""
-  toggleBeaconHidden(beaconId: String!, campaignId: String!): Beacon!
+  toggleBeaconHidden(beaconId: String, beaconIds: [String!], campaignId: String!, setHidden: Boolean): [Beacon!]!
 
   """Toggle host hidden state"""
-  toggleHostHidden(campaignId: String!, hostId: String!): Host!
+  toggleHostHidden(campaignId: String!, hostId: String, hostIds: [String!], setHidden: Boolean): [Host!]!
 
   """Toggle server hidden state"""
-  toggleServerHidden(campaignId: String!, serverId: String!): Server!
+  toggleServerHidden(campaignId: String!, serverId: String, serverIds: [String!], setHidden: Boolean): [Server!]!
 
   """Update existing Annotation"""
   updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
@@ -341,6 +341,12 @@ type Mutation {
 
   """Update existing Server name"""
   updateServerMetadata(campaignId: String!, serverDisplayName: String, serverId: String!, serverType: ServerType): Server!
+}
+
+type NonHidableEntities {
+  beacons: [String!]
+  hosts: [String!]
+  servers: [String!]
 }
 
 type Operator {
@@ -466,6 +472,9 @@ type Query {
   Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.
   """
   logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
+
+  """"""
+  nonHidableEntities(beaconIds: [String!] = [], campaignId: String!, hostIds: [String!] = []): NonHidableEntities!
 
   """Get all the operators for a project"""
   operators(campaignId: String!, hidden: Boolean = false): [Operator]
