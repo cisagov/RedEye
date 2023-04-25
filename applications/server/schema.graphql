@@ -149,12 +149,7 @@ type File {
   md5: String
 }
 
-"""
-Designates if this is an upload or download
-    UPLOAD: File was put on or replace on a target host
-    DOWNLOAD: File was taken from a target host
-  
-"""
+"Designates if this is an upload or download\n    UPLOAD: File was put on or replace on a target host\n    DOWNLOAD: File was taken from a target host\n  "
 enum FileFlag {
   DOWNLOAD
   UPLOAD
@@ -195,7 +190,7 @@ type HostMeta {
 }
 
 type Image {
-  fileType: String
+  fileType: String!
   id: String!
   url: String
 }
@@ -207,7 +202,7 @@ type Link {
   id: String!
 
   """Was this Link manually created"""
-  manual: Boolean
+  manual: Boolean!
 
   """The display name of the link"""
   name: String
@@ -479,7 +474,7 @@ type Query {
   logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
 
   """"""
-  nonHidableEntities(beaconIds: [String!] = [], campaignId: String!, hostIds: [String!] = []): NonHidableEntities!
+  nonHidableEntities(beaconIds: [String!]! = [], campaignId: String!, hostIds: [String!]! = []): NonHidableEntities!
 
   """Get all the operators for a project"""
   operators(campaignId: String!, hidden: Boolean = false): [Operator]
