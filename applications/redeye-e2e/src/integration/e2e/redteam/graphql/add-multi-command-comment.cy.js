@@ -4,6 +4,7 @@ describe('Add multi-command comment using GraphQL', () => {
 	const camp = 'addMultiCommandCommentGraphQL';
 	const commandId1 = '1166658656-1597693201000-2';
 	const commandId2 = '1166658656-1597693205000-4';
+	const commandId3 = '1166658656-1597693271000-7';
 	const comment = 'Multi-command comment text.';
 	const tags = 'GoldenTicket';
 	const commentUser = 'cypress';
@@ -46,15 +47,13 @@ describe('Add multi-command comment using GraphQL', () => {
 
 			const variables = {
 				campaignId: returnedUrl,
-				commandIds: [commandId1, commandId2],
+				commandIds: [commandId1, commandId2, commandId3],
 				tags: tags,
 				text: comment,
 				user: commentUser,
 			};
 
 			mutRequest(mutation, variables).then((res) => {
-				cy.log(res.body.data);
-
 				const response = res.body.data.addCommandGroupAnnotation;
 
 				const commentText = response.text;
@@ -92,10 +91,16 @@ describe('Add multi-command comment using GraphQL', () => {
 					  }
 					  `;
 
-				const queryVariables = { campaignId: returnedUrl, commandIds: [commandId1, commandId2] };
+				const queryVariables = { campaignId: returnedUrl, commandIds: [commandId1, commandId2, commandId3] };
 
 				graphqlRequest(query, queryVariables).then((queryRes) => {
 					cy.log(queryRes.body.data);
+
+					const commandCommentCount = queryRes.body.data.commands;
+					expect(commandCommentCount.length).to.eq(3);
+
+					// const commandGroups = queryRes.body.data.map((cg) => cg.commandGroups);
+					// expect(commandGroups).to.include(groupId);
 				});
 			});
 		});
