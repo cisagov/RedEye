@@ -17,13 +17,13 @@ describe('Update beacon type using GraphQL', () => {
 			//HAS NOT YET BEEN UPDATED
 
 			const mutation = `mutation updateBeaconMetadata(
-				$beaconDisplayName: String
 				$beaconId: String!
+				$beaconType: BeaconType
 				$campaignId: String!
 			  ) {
 				updateBeaconMetadata(
-				  beaconDisplayName: $beaconDisplayName
 				  beaconId: $beaconId
+				  beaconType: $beaconType
 				  campaignId: $campaignId
 				) {
 				  id
@@ -31,13 +31,14 @@ describe('Update beacon type using GraphQL', () => {
 				  displayName
 				  meta {
 					id
+					type
 				  }
 				}
 			  }
 			  
 				  `;
 
-			const variables = { beaconDisplayName: 'newName', beaconId: 'COMPUTER02-1166658656', campaignId: returnedUrl };
+			const variables = { beaconId: 'COMPUTER02-1166658656', beaconType: 'SMB', campaignId: returnedUrl };
 
 			mutRequest(mutation, variables).then((res) => {
 				cy.log(res.body.data);
@@ -47,8 +48,8 @@ describe('Update beacon type using GraphQL', () => {
 				const beaconIdName = response.beaconName;
 				expect(beaconIdName).to.include('1166658656');
 
-				const beaconData = response.displayName;
-				expect(beaconData).to.include('newName');
+				const newType = response.meta.map((type) => type.type);
+				expect(newType).to.include('SMB');
 			});
 		});
 	});
