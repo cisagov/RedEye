@@ -5,10 +5,10 @@ import { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { ToggleHiddenDialog } from './HideDialog';
 import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 export const HostMeta = observer((props) => {
 	const store = useStore();
@@ -23,7 +23,9 @@ export const HostMeta = observer((props) => {
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('host', host?.current?.hidden || false);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('hosts', !!host?.current?.hidden || false, [
+		host?.id || '',
+	]);
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {
@@ -95,7 +97,7 @@ export const HostMeta = observer((props) => {
 				isHiddenToggled={!!host?.current?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
-				last={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);

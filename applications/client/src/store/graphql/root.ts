@@ -23,6 +23,7 @@ export * from './LinkModel';
 export * from './LogEntryModel';
 export * from './LogTypeEnum';
 export * from './MitreTechniquesEnum';
+export * from './NonHidableEntitiesModel';
 export * from './OperatorModel';
 export * from './ParsingProgressModel';
 export * from './ParsingStatusEnum';

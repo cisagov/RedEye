@@ -62,14 +62,19 @@ export const useBeacons = (props?: BeaconsProps) => {
 
 	const tabBeaconCount = useMemo(
 		() =>
-			window.localStorage.getItem('showHidden') === 'true'
+			store.settings.showHidden
 				? getBeacons()?.length
 				: getBeacons()?.filter((beacon) => !currentBeacon(beacon).hidden).length,
-		[window.localStorage.getItem('showHidden'), getBeacons]
+		[store.settings.showHidden, getBeacons]
 	);
 
-	const lastTabBeaconToHide =
-		tabBeaconCount === 1 && !currentBeacon(getBeacons()?.[0]).hidden && !store.settings.showHidden;
+	const lastTabBeaconToHide = useMemo(
+		() =>
+			((tabBeaconCount === 1 && !currentBeacon(getBeacons()?.[0]).hidden) ||
+				tabBeaconCount === store.campaign.beaconGroupSelect.selectedBeacons.length) &&
+			!store.settings.showHidden,
+		[store.settings.showHidden, tabBeaconCount, store.campaign.beaconGroupSelect.selectedBeacons]
+	);
 
 	return { beacons: getBeacons(), tabBeaconCount, lastTabBeaconToHide };
 };
