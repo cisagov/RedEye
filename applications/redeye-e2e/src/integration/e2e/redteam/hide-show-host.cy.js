@@ -2,7 +2,7 @@
 
 function hideUnhideHost(hostName) {
 	cy.get('[cy-test=info-row]').contains(hostName).click();
-	cy.get('[cy-test=panel-header]').should('contain', hostName);
+	cy.contains('[cy-test=panel-header]', hostName);
 	cy.clickMetaTab();
 	cy.showHideHostMetaTab();
 }

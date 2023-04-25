@@ -3,7 +3,7 @@
 function hideUnhideBeacon(beaconName) {
 	// Hide a beacon
 	cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-	cy.get('[cy-test=beaconName]').should('contain', beaconName);
+	cy.contains('[cy-test=beaconName]', beaconName);
 	cy.clickMetaTab();
 	cy.showHideBeaconMetaTab();
 }

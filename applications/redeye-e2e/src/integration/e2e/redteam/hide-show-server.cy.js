@@ -3,7 +3,7 @@
 function hideUnhideServer(serverName) {
 	// Hide/unhide server via the Meta tab
 	cy.get('[cy-test=info-row]').contains(serverName).click();
-	cy.get('[cy-test=panel-header]').should('contain', serverName);
+	cy.contains('[cy-test=panel-header]', serverName);
 	cy.clickMetaTab();
 	cy.showHideServerMetaTab();
 }
