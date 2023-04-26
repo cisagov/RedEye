@@ -56,6 +56,9 @@ describe('Add multi-command comment using GraphQL', () => {
 			mutRequest(mutation, variables).then((res) => {
 				const response = res.body.data.addCommandGroupAnnotation;
 
+				const commentCount = response.commandIds;
+				expect(commentCount.length).to.eq(3);
+
 				const commentText = response.text;
 				expect(commentText).to.include(comment);
 
@@ -70,11 +73,9 @@ describe('Add multi-command comment using GraphQL', () => {
 
 				const query = `query commands(
 						$campaignId: String!
-						$commandIds: [String!]
 					  ) {
 						commands(
 						  campaignId: $campaignId
-						  commandIds: $commandIds
 						) {
 						  commandGroups {
 							annotations {
@@ -91,16 +92,13 @@ describe('Add multi-command comment using GraphQL', () => {
 					  }
 					  `;
 
-				const queryVariables = { campaignId: returnedUrl, commandIds: [commandId1, commandId2, commandId3] };
+				const queryVariables = { campaignId: returnedUrl };
 
 				graphqlRequest(query, queryVariables).then((queryRes) => {
 					cy.log(queryRes.body.data);
 
-					const commandCommentCount = queryRes.body.data.commands;
-					expect(commandCommentCount.length).to.eq(3);
-
-					// const commandGroups = queryRes.body.data.map((cg) => cg.commandGroups);
-					// expect(commandGroups).to.include(groupId);
+					// const commandCommentCount = queryRes.body.data.commands;
+					// expect(commandCommentCount.length).to.eq(3);
 				});
 			});
 		});
