@@ -25,6 +25,14 @@ describe('Hide a beacon', () => {
 		cy.showHiddenItems();
 	});
 
+	it('Toggle hide/show switch from main page', () => {
+		// Toggle off switch for hidden beacons
+		cy.doNotShowHiddenItems();
+
+		// Toggle switch back on
+		cy.showHiddenItems();
+	});
+
 	it('Verify Hide button is disabled in Meta tab', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
@@ -38,15 +46,19 @@ describe('Hide a beacon', () => {
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});
 
-	// THIS TEST IS PENDING A BUG FIX (TICKET #580)
-	it.skip('Verify Hide option is disabled in kebab menu', () => {
-		// Open campaign
+	it('Toggle hide/show switch from main page', () => {
+		// Toggle off switch for hidden beacons
+		cy.get('[cy-test=settings]').click();
+		cy.doNotShowHiddenItems();
+
+		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
 		// Navigate to the Beacons tab and open kebab menu for first beacon
 		cy.clickBeaconsTab();
-		cy.get('[cy-test=quick-meta-button]').eq(0).click();
-		cy.get('[cy-test=show-hide-item]').should('be.disabled');
+		cy.get('[cy-test=beacons-row]').eq(0).click();
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});
 
 	after(() => {

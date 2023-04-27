@@ -246,9 +246,9 @@ export const BeaconMeta = observer((props) => {
 
 			<MetaSection>
 				<Flex column gap={8}>
-					<MetaLabel>Links</MetaLabel>
+					<MetaLabel cy-test="links">Links</MetaLabel>
 					{!beacon?.links.from.length && !beacon?.links.to.length ? (
-						<Txt italic disabled>
+						<Txt cy-test="no-links" italic disabled>
 							No links
 						</Txt>
 					) : (

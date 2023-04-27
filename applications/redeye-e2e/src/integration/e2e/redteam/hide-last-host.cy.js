@@ -37,8 +37,7 @@ describe('Hide last host', () => {
 			cy.showHideItem(1);
 
 			// Verify notification appears saying it cannot be hidden
-			cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
-			cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+			cy.verifyCannotHideFinal();
 
 			// Click to confirm
 			cy.confirmShowHide();

