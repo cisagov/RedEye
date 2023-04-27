@@ -62,6 +62,8 @@ describe('Timeline tests', () => {
 					});
 				});
 			});
+		// Delete campaign
+		cy.deleteCampaignGraphQL(camp2);
 	});
 
 	it('Change timeline dates', () => {
@@ -176,9 +178,9 @@ describe('Timeline tests', () => {
 						const day = timelineDay;
 						const timelineDate = month.concat('/').concat(day);
 
-						// cy.get('[cy-test=command-date-time]').each(($date) => {
-						// 	expect($date.text()).to.contain(timelineDate);
-						// });
+						cy.get('[cy-test=command-date-time]').each(($date) => {
+							expect($date.text()).to.contain(timelineDate);
+						});
 					});
 			});
 
@@ -207,11 +209,11 @@ describe('Timeline tests', () => {
 								const timelineEndUnix = dayjs(timelineEnd).unix();
 
 								// Verfy all times are within the appropriate timeframe
-								// cy.get('[cy-test=command-header]').each(($lineDate) => {
-								// 	const commandInfo = $lineDate.attr('title').split(' <')[0];
-								// 	const commandInfoUnix = dayjs(commandInfo).unix();
-								// 	expect(commandInfoUnix).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
-								// });
+								cy.get('[cy-test=command-header]').each(($lineDate) => {
+									const commandInfo = $lineDate.attr('title').split(' <')[0];
+									const commandInfoUnix = dayjs(commandInfo).unix();
+									expect(commandInfoUnix).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
+								});
 							});
 					});
 			});
@@ -219,6 +221,5 @@ describe('Timeline tests', () => {
 
 	after(() => {
 		cy.deleteCampaignGraphQL(camp);
-		cy.deleteCampaignGraphQL(camp2);
 	});
 });

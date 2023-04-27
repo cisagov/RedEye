@@ -1,0 +1,33 @@
+08/17 19:48:20 UTC Received keystrokes
+
+
+
+CProgram Manager
+E=======
+test02
+
+
+
+C*test02 - Notepad
+E=======
+I'm really not 
+08/17 19:48:29 UTC Received keystrokes
+
+sure2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]2[backspace]password: 12[backspace]pas
+08/17 19:48:39 UTC Received keystrokes
+
+4realPassword1234!!2[control]2[ctrl]
+
+Ctest02 - Notepad
+E=======
+s
+08/17 19:52:10 UTC Received keystrokes
+
+
+
+CDownloads
+E=======
+2[control]2[ctrl]2[control]2[ctrl]2[control]2[ctrl]2[control]2[ctrl]2[control]2[ctrl]c
+08/17 19:56:20 UTC Received keystrokes
+
+2[control]2[ctrl]2[control]2[ctrl]2[control]2[ctrl]2[control]2[ctrl]c

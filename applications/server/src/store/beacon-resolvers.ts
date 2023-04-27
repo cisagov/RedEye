@@ -47,19 +47,36 @@ export class BeaconResolvers {
 	}
 
 	@Authorized()
-	@Mutation(() => Beacon, { description: 'Toggle beacon hidden state' })
+	@Mutation(() => [Beacon], { description: 'Toggle beacon hidden state' })
 	async toggleBeaconHidden(
 		@Ctx() ctx: GraphQLContext,
 		@RelationPath() relationPaths: Relation<Beacon>,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('beaconId', () => String) beaconId: string
-	): Promise<Beacon> {
+		@Arg('beaconId', () => String, { nullable: true }) beaconId?: string,
+		@Arg('beaconIds', () => [String], { nullable: true }) beaconIds?: Array<string>,
+		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
+	): Promise<Beacon[] | undefined> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
-		beacon.hidden = !beacon.hidden;
-		await em.persistAndFlush(beacon);
-		await ensureTreeHidden(em, beacon.id, beacon.hidden, []);
-		ctx.cm.forkProject(campaignId);
-		return beacon;
+
+		if (beaconId) {
+			const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });
+			beacon.hidden = !beacon.hidden;
+			await em.persistAndFlush(beacon);
+			await ensureTreeHidden(em, beacon.id, !!beacon.hidden, []);
+			ctx.cm.forkProject(campaignId);
+			return [beacon];
+		} else if (beaconIds) {
+			const beacons = await em.find(Beacon, beaconIds, { populate: relationPaths });
+			for (const beacon of beacons) {
+				if (beacon.hidden !== setHidden && setHidden !== undefined) {
+					beacon.hidden = setHidden;
+					await em.persistAndFlush(beacon);
+					await ensureTreeHidden(em, beacon.id, beacon.hidden, []);
+				}
+			}
+			ctx.cm.forkProject(campaignId);
+			return beacons;
+		}
+		return undefined;
 	}
 }

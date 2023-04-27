@@ -28,6 +28,7 @@ export const DialogEx: FC<DialogExProps> = ({
 }) => (
 	<Dialog css={[dialogStyles, wide && wideStyles, fixedHeight && fixedHeightStyles]} {...props}>
 		<div
+			cy-test="modal-header"
 			{...headerProps}
 			css={[dialogHeaderStyles, title == null && dialogHeaderEmptyStyles, headerProps?.css]}
 			className={Classes.DIALOG_HEADER}

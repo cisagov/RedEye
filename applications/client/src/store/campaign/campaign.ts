@@ -8,6 +8,8 @@ import { ExtendedModel, model, modelAction, modelClass, modelFlow, objectMap, pr
 import { isDefined } from '../../components';
 import type { CurrentItem } from '../../types';
 import { CampaignViews } from '../../types';
+// import type { BeaconModel, CommandGroupModel, LinkModel, SortOption, SortType } from '../graphql';
+// import { CommandModel, SortDirection } from '../graphql';
 import type { BeaconModel, CommandGroupModel, LinkModel } from '../graphql';
 import { CommandModel, SortDirection, SortOption, SortType } from '../graphql';
 import { disposeList } from '../util';
@@ -46,7 +48,20 @@ export class CampaignStore extends ExtendedModel(() => ({
 		fetchEnabled: prop<boolean>(true).withSetter(),
 		isLoading: prop<string>('').withSetter().withSetter(),
 		error: prop<string>('').withSetter(),
-		isLoadingCommands: prop<boolean>(false).withSetter(),
+
+		// Bulk Selection
+		hostGroupSelect: prop<{
+			groupSelect: boolean;
+			selectedHosts: string[];
+			selectedServers: string[];
+			hiddenCount: number;
+		}>(() => ({ groupSelect: false, selectedHosts: [], selectedServers: [], hiddenCount: 0 })).withSetter(),
+		beaconGroupSelect: prop<{
+			groupSelect: boolean;
+			selectedBeacons: string[];
+			hiddenCount: number;
+		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
+		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
 	},
 })) {
 	@observable sortMemory: {

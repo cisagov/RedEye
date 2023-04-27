@@ -1,5 +1,12 @@
 /// <reference types="cypress" />
 
+function hideUnhideHost(hostName) {
+	cy.get('[cy-test=info-row]').contains(hostName).click();
+	cy.contains('[cy-test=panel-header]', hostName);
+	cy.clickMetaTab();
+	cy.showHideHostMetaTab();
+}
+
 describe('Hide a host', () => {
 	const camp = 'hideshowhost';
 	const fileName = 'gt.redeye';
@@ -20,9 +27,7 @@ describe('Hide a host', () => {
 			.invoke('text')
 			.then((hostName) => {
 				// Hide a host via the Meta tab
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Verify host no longer shows
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -36,9 +41,7 @@ describe('Hide a host', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 
 				// Unhide the host
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Toggle off switch for hidden items
 				cy.doNotShowHiddenItems();
@@ -62,9 +65,7 @@ describe('Hide a host', () => {
 			.invoke('text')
 			.then((hostName) => {
 				// Hide the host via the Meta tab
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Verify host no longer shows
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -80,9 +81,7 @@ describe('Hide a host', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 
 				// Unhide the host
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Toggle switch off to hide hidden items
 				cy.returnToCampaignCard();
