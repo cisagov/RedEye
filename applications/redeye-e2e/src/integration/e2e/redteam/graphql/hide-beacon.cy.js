@@ -18,6 +18,7 @@ describe('Hide a Beacon using GraphQL', () => {
 				toggleBeaconHidden(beaconId: $beaconId, campaignId: $campaignId) {
 				  id
 				  beaconName
+				  hidden
 				  meta {
 					id
 
