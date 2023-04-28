@@ -10,6 +10,7 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useRef, useEffect } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
+import { OverviewComments } from './CommentList';
 
 type CommentsProps = ComponentProps<'div'> & {
 	sort: {
@@ -142,6 +143,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				<MessageRow>No comments</MessageRow>
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
+			) : store.router.params.currentItem === 'all' ? (
+				<OverviewComments comments={data?.commandGroupIds} />
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
