@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-function showHideConfirm(index) {
+function showHideConfirm() {
 	// Hide the second beacon (now first showing in list)
-	cy.showHideItem(index);
+	cy.showHideItem(0);
 
 	// Verify confirmation modal appears
 	cy.verifyDialogBoxAppears();
@@ -29,7 +29,7 @@ describe('Hide last beacon', () => {
 			.as('beacon')
 			.then((beaconName1) => {
 				// Hide the first beacon in the list
-				showHideConfirm(0);
+				showHideConfirm();
 
 				// Navigate back to beacons list
 				cy.clickBeaconsTab();
@@ -43,7 +43,7 @@ describe('Hide last beacon', () => {
 		// Get name of second beacon
 		cy.get('@beacon').then((beaconName2) => {
 			// Hide the second beacon (now first showing in list)
-			showHideConfirm(0);
+			showHideConfirm();
 
 			// Navigate back to beacons list
 			cy.clickBeaconsTab();

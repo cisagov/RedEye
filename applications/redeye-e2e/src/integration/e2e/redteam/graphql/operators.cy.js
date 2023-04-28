@@ -22,7 +22,7 @@ describe('Query Operators', () => {
 			graphqlRequest(query, variables).then((res) => {
 				const resp = res.body.data.operators[0];
 				cy.log(resp);
-				expect(resp.id).to.eq('analyst');
+				expect(resp.id).to.eq('analyst01');
 			});
 		});
 

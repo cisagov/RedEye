@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-function showHideConfirm(index) {
+function showHideConfirm() {
 	// Hide the first server in the list
-	cy.showHideItem(index);
+	cy.showHideItem(0);
 
 	// Verify confirmation modal appears
 	cy.verifyDialogBoxAppears();
@@ -11,7 +11,7 @@ function showHideConfirm(index) {
 	cy.confirmShowHide();
 }
 
-function tryToHideFinal(index) {
+function tryToHideFinal() {
 	// Try to hide the only server
 	cy.showHideItem(0);
 
@@ -43,13 +43,10 @@ describe('Hide last server', () => {
 			.as('server')
 			.then((serverName) => {
 				// Try to hide the only server
-				tryToHideFinal(0);
+				tryToHideFinal();
 
 				// Verify last host still shows in UI
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
-
-				// Delete campaign
-				cy.deleteCampaignGraphQL(camp);
 			});
 
 		// Delete campaign
@@ -69,7 +66,7 @@ describe('Hide last server', () => {
 			.as('server')
 			.then((serverName1) => {
 				// Hide the first server in the list
-				showHideConfirm(0);
+				showHideConfirm();
 
 				// Confirm first server does not show in list
 				cy.get('[cy-test=hostName]').each(($servers) => {
@@ -80,7 +77,7 @@ describe('Hide last server', () => {
 		// Get name of seccond server
 		cy.get('@server').then((serverName2) => {
 			// Hide the first server in the list
-			showHideConfirm(0);
+			showHideConfirm();
 
 			// Confirm first host does not show in list
 			cy.get('[cy-test=hostName]').each(($servers) => {
@@ -91,7 +88,7 @@ describe('Hide last server', () => {
 		// Get name of third server
 		cy.get('@server').then((serverName3) => {
 			// Hide the first server in the list
-			showHideConfirm(0);
+			showHideConfirm();
 
 			// Confirm first host does not show in list
 			cy.get('[cy-test=hostName]').each(($servers) => {
@@ -102,7 +99,7 @@ describe('Hide last server', () => {
 		// Get name of fourth/last server
 		cy.get('@server').then((serverName4) => {
 			// Try to hide the fourth/last server
-			tryToHideFinal(0);
+			tryToHideFinal();
 
 			// Verify last server still shows in UI
 			cy.get('[cy-test=hosts-view]').should('contain', serverName4);
