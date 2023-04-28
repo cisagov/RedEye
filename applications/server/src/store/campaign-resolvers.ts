@@ -1,5 +1,4 @@
 import { MikroORM } from '@mikro-orm/core';
-import { AuthenticationError } from 'apollo-server-express';
 import { existsSync } from 'fs';
 import path from 'path';
 import { interpret } from 'xstate';
@@ -12,6 +11,7 @@ import fs from 'fs-extra';
 import { RelationPath, type Relation } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
 import { randomUUID } from 'crypto';
+import { GraphQLError } from 'graphql';
 
 @Resolver(Campaign)
 export class CampaignResolvers {
@@ -84,7 +84,7 @@ export class CampaignResolvers {
 	async renameCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('name') name: string
+		@Arg('name', () => String) name: string
 	): Promise<Campaign> {
 		const em = getMainEmOrFail(ctx);
 		const campaign = await em.findOneOrFail(Campaign, campaignId);
@@ -99,9 +99,14 @@ export class CampaignResolvers {
 	async anonymizeCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('anonymizeOptions') anonymizeOptions: AnonymizationInput
+		@Arg('anonymizeOptions', () => AnonymizationInput) anonymizeOptions: AnonymizationInput
 	): Promise<string | void> {
-		if (ctx.config.blueTeam) throw new AuthenticationError('Blue team cannot export');
+		if (ctx.config.blueTeam)
+			throw new GraphQLError('Blue team cannot export', undefined, undefined, undefined, undefined, undefined, {
+				extensions: {
+					code: 'UNAUTHENTICATED',
+				},
+			});
 		const tempCampaignFolder = `campaign-${randomUUID()}`;
 		const dbPath = path.join(getDbPath(ctx.config.databaseMode), 'campaign', campaignId);
 		const anonymizedDbPath = path.join(getDbPath(ctx.config.databaseMode), 'anonymized-campaigns', tempCampaignFolder);

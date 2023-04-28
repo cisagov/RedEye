@@ -4,7 +4,7 @@ describe('Search campaign and filter results', () => {
 	const camp = 'searchfilter';
 	const fileName = 'gt.redeye';
 	const searchTerm1 = 'SYSTEM';
-	const searchTerm2 = 'Dataset';
+	const searchTerm2 = 'TestData';
 
 	it('Search and filter by Beacons and Commands', () => {
 		cy.uploadCampaignBlue(camp, fileName);

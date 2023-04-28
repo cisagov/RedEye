@@ -1,5 +1,13 @@
 /// <reference types="cypress" />
 
+function hideUnhideBeacon(beaconName) {
+	// Hide a beacon
+	cy.get('[cy-test=beacons-row]').contains(beaconName).click();
+	cy.contains('[cy-test=beaconName]', beaconName);
+	cy.clickMetaTab();
+	cy.showHideBeaconMetaTab();
+}
+
 describe('Hide a beacon', () => {
 	const camp = 'hideshowbeacon';
 	const fileName = 'gt.redeye';
@@ -20,9 +28,7 @@ describe('Hide a beacon', () => {
 			.invoke('text')
 			.then((beaconName) => {
 				// Hide a beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Verify beacon no longer shows
 				cy.clickBeaconsTab();
@@ -38,9 +44,7 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Unhide the beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Toggle off switch for hidden beacons
 				cy.doNotShowHiddenItems();
@@ -65,9 +69,7 @@ describe('Hide a beacon', () => {
 			.invoke('text')
 			.then((beaconName) => {
 				// Hide a beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Verify beacon no longer shows
 				cy.clickBeaconsTab();
@@ -85,9 +87,7 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Unhide the beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Toggle off switch for hidden beacons
 				cy.returnToCampaignCard();
@@ -119,6 +119,9 @@ describe('Hide a beacon', () => {
 
 				// Confirm that you want to hide the beacon
 				cy.confirmShowHide();
+
+				// Navigate back to beacons list
+				cy.clickBeaconsTab();
 
 				// Verify hidden beacon does not show in the list
 				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {

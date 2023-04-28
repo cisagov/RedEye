@@ -23,7 +23,7 @@ describe('Delete Campaign', () => {
         mutation deleteCampaign($campaignId: String!) {
          deleteCampaign(campaignId: $campaignId) 
       }`;
-			const variables = `{"campaignId": "${campToDelete}"}`;
+			const variables = { campaignId: campToDelete };
 			mutRequest(mutation, variables).then((res) => {
 				cy.log(res);
 			});

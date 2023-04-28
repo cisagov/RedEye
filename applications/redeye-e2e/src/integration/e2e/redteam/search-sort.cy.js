@@ -3,7 +3,7 @@
 describe('Search campaign and sort results', () => {
 	const camp = 'searchsort';
 	const fileName = 'gt.redeye';
-	const searchTerm1 = 'Dataset';
+	const searchTerm1 = 'TestData';
 
 	it('Search and sort by Name', () => {
 		cy.uploadCampaign(camp, fileName);

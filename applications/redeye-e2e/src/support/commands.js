@@ -203,7 +203,7 @@ Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
     mutation deleteCampaign($campaignId: String!) {
      deleteCampaign(campaignId: $campaignId) 
   }`;
-		const variables = `{"campaignId": "${campToDelete}"}`;
+		const variables = { campaignId: campToDelete };
 		mutRequest(mutation, variables).then((res) => {
 			cy.log(res);
 		});
@@ -251,6 +251,7 @@ Cypress.Commands.add('showHiddenItems', () => {
 	cy.get('[cy-test=show-hide-beacons]').check({ force: true });
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 	cy.wait(1000);
 });
 
@@ -260,6 +261,7 @@ Cypress.Commands.add('doNotShowHiddenItems', () => {
 	cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 	cy.wait(1000);
 });
 
