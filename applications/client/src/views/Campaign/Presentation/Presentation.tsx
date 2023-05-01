@@ -103,9 +103,11 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 							path="*"
 							element={
 								<>
-									{data?.presentationItems?.map((presentationItem) => (
-										<PresentationTopicItem key={presentationItem.id} presentationItem={presentationItem} />
-									))}
+									{data?.presentationItems
+										?.filter((presentationItem) => !['procedural', 'manual'].includes(presentationItem.id))
+										.map((presentationItem) => (
+											<PresentationTopicItem key={presentationItem.id} presentationItem={presentationItem} />
+										))}
 								</>
 							}
 						/>

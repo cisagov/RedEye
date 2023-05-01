@@ -215,6 +215,32 @@ export class PresentationResolvers {
 			})
 		);
 
+		// procedural comments
+		const proceduralComments = await em.find(
+			CommandGroup,
+			{ annotations: { generation: 'PROCEDURAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+			{
+				populate: ['commands', 'annotations'],
+				orderBy: { commands: { input: { dateTime: 'asc' } } },
+			}
+		);
+		const proceduralCommandGroupsLink = await this.getBeaconLinks(proceduralComments, linkTree, em, hidden);
+		const proceduralCommandCount = proceduralCommandGroupsLink.commandGroups.reduce(
+			(count, commandGroup) => count + commandGroup.commandIds.length,
+			0
+		);
+		const proceduralCommandGroupIds = proceduralCommandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
+		presentationItems.push(
+			new PresentationItem({
+				id: 'procedural',
+				key: 'parser-generated',
+				count: proceduralComments.length,
+				commandCount: proceduralCommandCount,
+				commandGroupIds: proceduralCommandGroupIds,
+				...proceduralCommandGroupsLink,
+			})
+		);
+
 		// Populate Tags
 		const tags = await em.find(Tag, {}, { populate: false });
 		const commandsByTag: PresentationItem[] = [];
