@@ -9,9 +9,12 @@ import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
-type CommentListProps = { comments: string[] };
+type CommentListProps = {
+	setShowCommentList: (showCommentList: boolean) => void;
+	setCommandGroupIds: (groupIDs: string[]) => void;
+};
 
-export const OverviewComments = observer<CommentListProps>(({}) => {
+export const OverviewComments = observer<CommentListProps>(({ setShowCommentList, setCommandGroupIds }) => {
 	const store = useStore();
 	const { data } = useQuery(
 		['presentation-items', store.campaign.id],
@@ -27,7 +30,13 @@ export const OverviewComments = observer<CommentListProps>(({}) => {
 	return (
 		<>
 			{data?.presentationItems?.map((presentationItem, i) => (
-				<InfoRow key={presentationItem.id}>
+				<InfoRow
+					key={presentationItem.id}
+					onClick={() => {
+						setCommandGroupIds(presentationItem.commandGroupIds);
+						setShowCommentList(false);
+					}}
+				>
 					<RowTitle bold={i < 2}>{presentationItem.key}</RowTitle>
 					<FlexSplitter />
 					<IconLabel title="Commands" value={presentationItem.commandCount} icon={semanticIcons.commands} />

@@ -389,6 +389,7 @@ type PresentationItem {
   """
   beaconIds: [String!]!
   commandCount: Float!
+  commandGroupIds: [String!]!
   commandGroups: [PresentationCommandGroup!]!
 
   """

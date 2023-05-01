@@ -36,6 +36,9 @@ class PresentationItem {
 	@Field(() => Number)
 	commandCount: number = 0;
 
+	@Field(() => [String])
+	commandGroupIds: string[] = [];
+
 	constructor(props: PresentationItem) {
 		Object.assign(this, props);
 	}
@@ -174,12 +177,14 @@ export class PresentationResolvers {
 			(count, commandGroup) => count + commandGroup.commandIds.length,
 			0
 		);
+		const allCommandGroupIds = commandGroups.commandGroups.map((commandGroup) => commandGroup.id);
 		presentationItems.push(
 			new PresentationItem({
 				id: 'all',
 				key: 'All Comments',
 				count: commandGroups.commandGroups.length,
 				commandCount: allCommandCount,
+				commandGroupIds: allCommandGroupIds,
 				...commandGroups,
 			})
 		);
@@ -194,16 +199,18 @@ export class PresentationResolvers {
 			}
 		);
 		const commandGroupsLink = await this.getBeaconLinks(favoritedComments, linkTree, em, hidden);
-		const favoritedCommandCount = commandGroupsLink.commandGroups.reduce(
+		const commandCount = commandGroupsLink.commandGroups.reduce(
 			(count, commandGroup) => count + commandGroup.commandIds.length,
 			0
 		);
+		const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
 		presentationItems.push(
 			new PresentationItem({
 				id: 'favorited',
 				key: 'Favorited Comments',
 				count: favoritedComments.length,
-				commandCount: favoritedCommandCount,
+				commandCount,
+				commandGroupIds,
 				...commandGroupsLink,
 			})
 		);
@@ -225,12 +232,14 @@ export class PresentationResolvers {
 				(count, commandGroup) => count + commandGroup.commandIds.length,
 				0
 			);
+			const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
 			if (cmdGroup.length) {
 				commandsByTag.push({
 					id: tag.text,
 					key: `#${tag.text}`,
 					count: cmdGroup.length,
 					commandCount,
+					commandGroupIds,
 					...commandGroupsLink,
 				});
 			}

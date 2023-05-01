@@ -1,7 +1,7 @@
 import { Intent, ProgressBar } from '@blueprintjs/core';
 import { isDefined, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { CommandGroupModel, SortDirection } from '@redeye/client/store';
+import type { SortDirection } from '@redeye/client/store';
 import { commandQuery, SortOptionComments, useStore, commandGroupCommentsQuery } from '@redeye/client/store';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
@@ -30,7 +30,18 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		toggleNewComment(id?: string) {
 			this.newComment = id;
 		},
-		commandGroups: [] as CommandGroupModel[],
+		commandGroupIds: [] as string[],
+		setCommandGroupIds(groupIds: string[]) {
+			this.commandGroupIds = groupIds;
+		},
+		// commandGroupIds: observable.array<string>([]),
+		// setCommandGroupIds(groupIds: string[]) {
+		// 	this.commandGroupIds.replace(groupIds);
+		// },
+		showCommentList: true,
+		setShowCommentList(showCommentList: boolean) {
+			this.showCommentList = showCommentList;
+		},
 		visibleRange: {
 			startIndex: 0,
 			endIndex: 0,
@@ -144,7 +155,24 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
 			) : store.router.params.currentItem === 'all' ? (
-				<OverviewComments comments={data?.commandGroupIds} />
+				state.showCommentList ? (
+					<OverviewComments
+						setShowCommentList={state.setShowCommentList}
+						setCommandGroupIds={state.setCommandGroupIds}
+					/>
+				) : (
+					state.commandGroupIds.map((commandGroupId) => (
+						<CommentGroup
+							cy-test="comment-group"
+							key={commandGroupId}
+							commandGroupId={commandGroupId}
+							toggleNewComment={state.toggleNewComment}
+							newComment={state.newComment}
+							expandedCommandIDs={state.expandedCommandIDs}
+							removeExpandedCommandID={state.removeExpandedCommandID}
+						/>
+					))
+				)
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
