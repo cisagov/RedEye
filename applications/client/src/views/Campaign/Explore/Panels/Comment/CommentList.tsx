@@ -1,4 +1,5 @@
-import { semanticIcons } from '@redeye/client/components';
+import { CarbonIcon, semanticIcons } from '@redeye/client/components';
+import type { PresentationItemModel } from '@redeye/client/store';
 import {
 	OverviewCommentList,
 	presentationCommandGroupModelPrimitives,
@@ -8,6 +9,8 @@ import {
 import { FlexSplitter } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
+import { Bookmark16 } from '@carbon/icons-react';
+import { Hashtag } from '@carbon/icons-react/next';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
 type CommentListProps = {
@@ -31,13 +34,17 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 		<>
 			{data?.presentationItems?.map((presentationItem, i) => (
 				<InfoRow
-					key={presentationItem.id}
+					// eslint-disable-next-line react/no-array-index-key
+					key={`${presentationItem.id}-${i}`}
 					onClick={() => {
 						setCommandGroupIds(presentationItem.commandGroupIds);
 						store.campaign.setOverviewCommentList(OverviewCommentList.COMMENTS);
 					}}
 				>
-					<RowTitle bold={i < 2}>{presentationItem.key}</RowTitle>
+					{presentationItem.id !== 'all' && <CarbonIcon icon={getIcon(presentationItem)} />}
+					<RowTitle bold={['all', 'favorited'].includes(presentationItem.id)}>
+						{presentationItem.key[0] === '#' ? presentationItem.key.slice(1) : presentationItem.key}
+					</RowTitle>
 					<FlexSplitter />
 					<IconLabel title="Commands" value={presentationItem.commandCount} icon={semanticIcons.commands} />
 					<IconLabel title="comments" value={presentationItem.count} icon={semanticIcons.comment} />
@@ -46,3 +53,8 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 		</>
 	);
 });
+
+const getIcon = (presentationItem: PresentationItemModel): any => {
+	if (presentationItem.id === 'favorited') return Bookmark16;
+	else return Hashtag;
+};
