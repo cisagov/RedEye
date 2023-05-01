@@ -1,5 +1,4 @@
 import { CarbonIcon, semanticIcons } from '@redeye/client/components';
-import type { PresentationItemModel } from '@redeye/client/store';
 import {
 	OverviewCommentList,
 	presentationCommandGroupModelPrimitives,
@@ -10,7 +9,7 @@ import { FlexSplitter } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { Bookmark16 } from '@carbon/icons-react';
-import { Hashtag } from '@carbon/icons-react/next';
+import { Hashtag, User, Strawberry } from '@carbon/icons-react/next';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
 type CommentListProps = {
@@ -41,7 +40,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 						store.campaign.setOverviewCommentList(OverviewCommentList.COMMENTS);
 					}}
 				>
-					{presentationItem.id !== 'all' && <CarbonIcon icon={getIcon(presentationItem)} />}
+					{presentationItem.id !== 'all' && <CarbonIcon icon={getIcon(presentationItem.id)} />}
 					<RowTitle bold={['all', 'favorited'].includes(presentationItem.id)}>
 						{presentationItem.key[0] === '#' ? presentationItem.key.slice(1) : presentationItem.key}
 					</RowTitle>
@@ -50,11 +49,31 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 					<IconLabel title="comments" value={presentationItem.count} icon={semanticIcons.comment} />
 				</InfoRow>
 			))}
+			{/* mockup for now */}
+			<InfoRow>
+				<CarbonIcon icon={getIcon('parser-generated')} />
+				<RowTitle muted italic bold={false}>
+					parser-generated
+				</RowTitle>
+				<FlexSplitter />
+				<IconLabel title="Commands" value={66} icon={semanticIcons.commands} />
+				<IconLabel title="comments" value={8} icon={semanticIcons.comment} />
+			</InfoRow>
+			<InfoRow>
+				<CarbonIcon icon={getIcon('user')} />
+				<RowTitle bold={false}>userName</RowTitle>
+				<FlexSplitter />
+				<IconLabel title="Commands" value={66} icon={semanticIcons.commands} />
+				<IconLabel title="comments" value={8} icon={semanticIcons.comment} />
+			</InfoRow>
 		</>
 	);
 });
 
-const getIcon = (presentationItem: PresentationItemModel): any => {
-	if (presentationItem.id === 'favorited') return Bookmark16;
+const getIcon = (itemId: string): any => {
+	if (itemId === 'favorited') return Bookmark16;
+	// replace parser-generated icon
+	if (itemId === 'parser-generated') return Strawberry;
+	if (itemId === 'user') return User;
 	else return Hashtag;
 };
