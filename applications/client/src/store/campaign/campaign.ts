@@ -29,6 +29,12 @@ export enum CampaignLoadingMessage {
 	DONE = 'Done',
 }
 
+export enum OverviewCommentList {
+	ALL = 'All',
+	COMMENTS = 'Comments',
+	USER_COMMENTS = 'User Comments',
+}
+
 @model('CampaignStore')
 export class CampaignStore extends ExtendedModel(() => ({
 	baseModel: modelClass<RedEyeModel>(RedEyeModel),
@@ -62,6 +68,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 			hiddenCount: number;
 		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
+		overviewCommentList: prop<OverviewCommentList>(OverviewCommentList.ALL).withSetter(),
 	},
 })) {
 	@observable sortMemory: {

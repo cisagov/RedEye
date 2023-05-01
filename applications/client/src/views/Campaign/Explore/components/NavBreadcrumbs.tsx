@@ -1,7 +1,7 @@
 import type { BreadcrumbProps, BreadcrumbsProps } from '@blueprintjs/core';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel } from '@redeye/client/store';
-import { routes, useStore } from '@redeye/client/store';
+import { OverviewCommentList, routes, useStore } from '@redeye/client/store';
 import type { BreadcrumbsStyledProps } from '@redeye/client/views';
 import { BreadcrumbsStyled } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
@@ -45,6 +45,19 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 					store.campaign?.interactionState.selectedHost ||
 					store.campaign?.interactionState.selectedBeacon
 				);
+
+				if (store.campaign.overviewCommentList !== OverviewCommentList.ALL) {
+					crumbs.push({
+						text: 'All',
+						onClick: () => {
+							store.campaign.setOverviewCommentList(OverviewCommentList.ALL);
+						},
+					});
+					crumbs.push({
+						text: store.campaign.overviewCommentList,
+					});
+					return crumbs;
+				}
 
 				if (!hideRoot)
 					crumbs.push({
