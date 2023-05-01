@@ -33,6 +33,9 @@ class PresentationItem {
 	@Field(() => [PresentationCommandGroup])
 	commandGroups: PresentationCommandGroup[] = [];
 
+	@Field(() => Number)
+	commandCount: number = 0;
+
 	constructor(props: PresentationItem) {
 		Object.assign(this, props);
 	}
@@ -167,11 +170,16 @@ export class PresentationResolvers {
 			orderBy: { commands: { input: { dateTime: 'asc' } } },
 		});
 		const commandGroups = await this.getBeaconLinks(allComments, linkTree, em, hidden);
+		const allCommandCount = commandGroups.commandGroups.reduce(
+			(count, commandGroup) => count + commandGroup.commandIds.length,
+			0
+		);
 		presentationItems.push(
 			new PresentationItem({
 				id: 'all',
 				key: 'All Comments',
 				count: commandGroups.commandGroups.length,
+				commandCount: allCommandCount,
 				...commandGroups,
 			})
 		);
@@ -186,11 +194,16 @@ export class PresentationResolvers {
 			}
 		);
 		const commandGroupsLink = await this.getBeaconLinks(favoritedComments, linkTree, em, hidden);
+		const favoritedCommandCount = commandGroupsLink.commandGroups.reduce(
+			(count, commandGroup) => count + commandGroup.commandIds.length,
+			0
+		);
 		presentationItems.push(
 			new PresentationItem({
 				id: 'favorited',
 				key: 'Favorited Comments',
 				count: favoritedComments.length,
+				commandCount: favoritedCommandCount,
 				...commandGroupsLink,
 			})
 		);
@@ -208,11 +221,16 @@ export class PresentationResolvers {
 				}
 			);
 			const commandGroupsLink = await this.getBeaconLinks(cmdGroup, linkTree, em, hidden);
+			const commandCount = commandGroupsLink.commandGroups.reduce(
+				(count, commandGroup) => count + commandGroup.commandIds.length,
+				0
+			);
 			if (cmdGroup.length) {
 				commandsByTag.push({
 					id: tag.text,
 					key: `#${tag.text}`,
 					count: cmdGroup.length,
+					commandCount,
 					...commandGroupsLink,
 				});
 			}
@@ -223,7 +241,6 @@ export class PresentationResolvers {
 		commandsByTag.forEach((commandGroup) => {
 			presentationItems.push(commandGroup);
 		});
-
 		return presentationItems;
 	}
 }

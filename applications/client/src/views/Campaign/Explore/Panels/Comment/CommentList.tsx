@@ -30,7 +30,7 @@ export const OverviewComments = observer<CommentListProps>(({}) => {
 				<InfoRow key={presentationItem.id}>
 					<RowTitle bold={i < 2}>{presentationItem.key}</RowTitle>
 					<FlexSplitter />
-					<IconLabel title="Commands" value={88} icon={semanticIcons.commands} />
+					<IconLabel title="Commands" value={presentationItem.commandCount} icon={semanticIcons.commands} />
 					<IconLabel title="comments" value={presentationItem.count} icon={semanticIcons.comment} />
 				</InfoRow>
 			))}

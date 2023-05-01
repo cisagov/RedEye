@@ -26,6 +26,7 @@ export class PresentationItemModelBase extends Model({
 	__typename: tProp('PresentationItem'),
 	/** Every beacon in the presentation. Including both presentation beacons and connection beacons. */
 	beaconIds: prop<string[]>().withSetter(),
+	commandCount: prop<number>().withSetter(),
 	commandGroups: prop<Ref<PresentationCommandGroupModel>[]>(() => []).withSetter(),
 	/** Beacon Ids that are not in the command groups but are needed to link beacons to other beacons in the graph */
 	connectionBeaconIds: prop<string[]>().withSetter(),
@@ -42,6 +43,9 @@ export class PresentationItemModelBase extends Model({
 export class PresentationItemModelSelector extends QueryBuilder {
 	get beaconIds() {
 		return this.__attr(`beaconIds`);
+	}
+	get commandCount() {
+		return this.__attr(`commandCount`);
 	}
 	get connectionBeaconIds() {
 		return this.__attr(`connectionBeaconIds`);
@@ -72,4 +76,4 @@ export function selectFromPresentationItem() {
 }
 
 export const presentationItemModelPrimitives =
-	selectFromPresentationItem().beaconIds.connectionBeaconIds.count.key.linkIds;
+	selectFromPresentationItem().beaconIds.commandCount.connectionBeaconIds.count.key.linkIds;

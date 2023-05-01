@@ -388,6 +388,7 @@ type PresentationItem {
   Every beacon in the presentation. Including both presentation beacons and connection beacons.
   """
   beaconIds: [String!]!
+  commandCount: Float!
   commandGroups: [PresentationCommandGroup!]!
 
   """
