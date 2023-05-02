@@ -67,7 +67,6 @@ const createServer = async ({
 		credentials: true,
 	};
 	const schemaFilePath = path.resolve(getRootPath(), 'schema.graphql');
-	const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
 	const production = ctx.config.production;
 	const schema = await buildSchema({
 		resolvers,
@@ -76,6 +75,8 @@ const createServer = async ({
 		validate: false,
 		authChecker,
 	});
+
+	const schemaFile = await fs.readFile(schemaFilePath, 'utf-8');
 	const apolloConfig = {
 		cache: 'bounded',
 		schema: schema,
