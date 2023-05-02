@@ -64,7 +64,6 @@ describe('Delete a comment using GraphQL', () => {
 				expect(userName).to.include(commentUser);
 
 				const annotId = response.id;
-				cy.log(annotId);
 
 				// Delete comment
 				const mutationDelete = `mutation deleteAnnotation($annotationId: String!, $campaignId: String!) {
