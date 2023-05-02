@@ -23,12 +23,12 @@ describe('Cannot add comment without text', () => {
 		cy.get('[cy-test=save-comment]').should('be.disabled');
 
 		// Add a tag only (no comment), verify button is still disabled
-		cy.get('[cy-test=tag-input]').type(tag);
+		cy.get('[cy-test=tag-input]').realType(tag);
 		cy.get('[cy-test=add-tag]').contains(tag).click({ force: true });
 		cy.get('[cy-test=save-comment]').should('be.disabled');
 
 		// Type in comment box, verify button is enabled
-		cy.get('[cy-test=comment-input]').realClick().type('Test comment');
+		cy.get('[cy-test=comment-input]').realClick().realType('Test comment');
 		cy.get('[cy-test=save-comment]').should('be.enabled');
 	});
 

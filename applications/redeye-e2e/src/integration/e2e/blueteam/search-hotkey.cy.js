@@ -10,9 +10,9 @@ describe('Control/CMD K should bring up search modal', () => {
 		// Open campaign and go to Search page
 		cy.selectCampaign(camp);
 
-		cy.get('body').type('{meta}k');
+		cy.get('body').realType('{meta}k');
 
-		cy.get('body').type('{ctrl}k');
+		cy.get('body').realType('{ctrl}k');
 
 		cy.get('[cy-test=search-modal]').should('be.visible');
 

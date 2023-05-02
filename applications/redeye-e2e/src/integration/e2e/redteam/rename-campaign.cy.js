@@ -14,7 +14,7 @@ describe('Rename campaign', () => {
 
 		cy.get('[cy-test=rename-campaign]').realClick();
 
-		cy.get('[cy-test=new-campaign-name').realClick().type(rename, { force: true });
+		cy.get('[cy-test=new-campaign-name').realClick().realType(rename, { force: true });
 
 		cy.wait(100);
 
@@ -26,7 +26,7 @@ describe('Rename campaign', () => {
 
 		cy.get('[cy-test=rename-campaign]').realClick();
 
-		cy.get('[cy-test=new-campaign-name').realClick().clear().type(camp, { force: true });
+		cy.get('[cy-test=new-campaign-name').realClick().clear().realType(camp, { force: true });
 
 		cy.wait(500);
 

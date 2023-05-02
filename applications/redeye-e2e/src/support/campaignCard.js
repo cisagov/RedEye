@@ -15,7 +15,7 @@ Cypress.Commands.add('selectCampaign', (camp) => {
 
 //DELETE CAMPAIGN USING THE UI
 Cypress.Commands.add('deleteCampaign', (camp) => {
-	cy.get('[cy-test=search]').click({ force: true }).type(camp).type('{enter}');
+	cy.get('[cy-test=search]').click({ force: true }).realType(camp).realType('{enter}');
 	cy.get('[cy-test=campaign-name]').should('contain', camp);
 	cy.get('[cy-test=campaign-options]').realClick();
 	cy.get('[cy-test=delete-campaign]').realClick();
@@ -24,7 +24,7 @@ Cypress.Commands.add('deleteCampaign', (camp) => {
 
 //SEARCH FOR CAMPAIGN IN CAMPAIGN CARD SCREEN
 Cypress.Commands.add('searchForCampaign', (camp) => {
-	cy.get('[cy-test=search]').realClick().type(camp).type('{enter}');
+	cy.get('[cy-test=search]').realClick().realType(camp).realType('{enter}');
 	cy.get('[cy-test=campaign-name]').should('contain', camp);
 });
 
@@ -38,7 +38,7 @@ Cypress.Commands.add('clickAboutOnCampaignCard', () => {
 Cypress.Commands.add('uploadCampaign', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').realClick();
 	cy.get('[cy-test=upload-from-file]').realClick();
-	cy.get('[cy-test=new-camp-name]').eq(1).realClick().type(camp);
+	cy.get('[cy-test=new-camp-name]').eq(1).realClick().realType(camp);
 	cy.fixture(fileName, { encoding: null }).as('myFixture');
 	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 	cy.get('[cy-test=import-database]').realClick();
@@ -48,7 +48,7 @@ Cypress.Commands.add('uploadCampaign', (camp, fileName) => {
 //UPLOAD FOLDER
 Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').realClick();
-	cy.get('[cy-test=new-camp-name]').eq(0).realClick().type(camp);
+	cy.get('[cy-test=new-camp-name]').eq(0).realClick().realType(camp);
 	cy.get('[cy-test=single-server-upload]').click({ force: true });
 	cy.get('[cy-test=upload-folder]').selectFile(fileName, { encoding: 'utf8' }, { force: true });
 	cy.wait(1000);
@@ -58,7 +58,7 @@ Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 Cypress.Commands.add('uploadCampaignBlue', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').realClick();
 	cy.get('[cy-test=upload-from-file]').realClick();
-	cy.get('[cy-test=new-camp-name]').realClick().type(camp);
+	cy.get('[cy-test=new-camp-name]').realClick().realType(camp);
 	cy.fixture(fileName, { encoding: null }).as('myFixture');
 	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 	cy.get('[cy-test=import-database]').realClick();

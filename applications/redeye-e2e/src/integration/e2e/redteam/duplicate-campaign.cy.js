@@ -16,23 +16,23 @@ describe('Duplicate Campaign', () => {
 
 		// Upload another campaign with the same name
 		cy.get('[cy-test=add-campaign-btn]').realClick();
-		cy.get('[cy-test=new-camp-name]').eq(1).realClick().type(camp);
+		cy.get('[cy-test=new-camp-name]').eq(1).realClick().realType(camp);
 		cy.fixture(fileName, { encoding: null }).as('myFixture');
 		cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 		cy.get('[cy-test=import-database]').should('be.disabled');
 
 		// Try using the same name but different case
-		cy.get('[cy-test=new-camp-name]').eq(1).realClick().clear().type(camp1);
+		cy.get('[cy-test=new-camp-name]').eq(1).realClick().clear().realType(camp1);
 		cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 		cy.get('[cy-test=import-database]').should('be.disabled');
 
 		// Try using the same name but different case
-		cy.get('[cy-test=new-camp-name]').eq(1).realClick().clear().type(camp2);
+		cy.get('[cy-test=new-camp-name]').eq(1).realClick().clear().realType(camp2);
 		cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 		cy.get('[cy-test=import-database]').should('be.disabled');
 
 		// Try using the same name but different case
-		cy.get('[cy-test=new-camp-name]').eq(1).realClick().clear().type(camp3);
+		cy.get('[cy-test=new-camp-name]').eq(1).realClick().clear().realType(camp3);
 		cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 		cy.get('[cy-test=import-database]').should('be.disabled');
 	});

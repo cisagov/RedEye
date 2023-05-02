@@ -167,12 +167,12 @@ Cypress.Commands.add('editTimelineDates', () => {
 
 // CHANGE TIMELINE START DATE
 Cypress.Commands.add('changeTimelineStartDate', (newStartDate) => {
-	cy.get('.bp4-input').eq(0).realClick().clear().type(newStartDate);
+	cy.get('.bp4-input').eq(0).realClick().clear().realType(newStartDate);
 });
 
 // CHANGE TIMELINE END DATE
 Cypress.Commands.add('changeTimelineEndDate', (newEndDate) => {
-	cy.get('.bp4-input').eq(1).realClick().clear().type(newEndDate);
+	cy.get('.bp4-input').eq(1).realClick().clear().realType(newEndDate);
 });
 
 // *******************************************

@@ -22,12 +22,12 @@ describe('Update Beacon metadata', () => {
 			.invoke('attr', 'value')
 			.then((resultBeacon1) => {
 				// Change beacon name and save
-				cy.get('[cy-test=beacon-display-name]').realClick().clear().type(newBeaconName);
+				cy.get('[cy-test=beacon-display-name]').realClick().clear().realType(newBeaconName);
 
 				cy.get('[cy-test=save-beacon-name]').realClick();
 
 				// Change TOD and save
-				cy.get('input[type=text]').eq(1).realClick().clear().type(newTOD);
+				cy.get('input[type=text]').eq(1).realClick().clear().realType(newTOD);
 				cy.wait(500);
 				cy.get('[cy-test=save-beacon-time-of-death]').realClick();
 				cy.wait(500);

@@ -26,7 +26,7 @@ describe('Multi-Command Comments', () => {
 
 		// Enter comment and tag and save comment
 		cy.favoriteComment(0);
-		cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
+		cy.get('[cy-test=comment-input]').realType(comment).realType('{enter}');
 		cy.addNewTags(tag);
 		// cy.get('[cy-test=save-comment]').realClick();
 		// cy.wait(1000);
