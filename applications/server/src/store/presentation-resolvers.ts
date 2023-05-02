@@ -241,6 +241,33 @@ export class PresentationResolvers {
 			})
 		);
 
+		// Populate User comments
+		const manualComments = await em.find(
+			CommandGroup,
+			{ annotations: { generation: 'MANUAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+			{
+				populate: ['commands', 'annotations'],
+				orderBy: { commands: { input: { dateTime: 'asc' } } },
+			}
+		);
+
+		const manualCommandGroupsLink = await this.getBeaconLinks(manualComments, linkTree, em, hidden);
+		const manualCommandCount = manualCommandGroupsLink.commandGroups.reduce(
+			(count, commandGroup) => count + commandGroup.commandIds.length,
+			0
+		);
+		const manualCommandGroupIds = manualCommandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
+		presentationItems.push(
+			new PresentationItem({
+				id: 'manual',
+				key: 'User Comments',
+				count: manualComments.length,
+				commandCount: manualCommandCount,
+				commandGroupIds: manualCommandGroupIds,
+				...manualCommandGroupsLink,
+			})
+		);
+
 		// Populate Tags
 		const tags = await em.find(Tag, {}, { populate: false });
 		const commandsByTag: PresentationItem[] = [];

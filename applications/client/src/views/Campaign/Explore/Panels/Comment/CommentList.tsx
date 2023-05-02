@@ -64,14 +64,6 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 					<IconLabel title="comments" value={presentationItem.count} icon={semanticIcons.comment} />
 				</InfoRow>
 			))}
-			{/* mockup for now */}
-			<InfoRow>
-				<CarbonIcon icon={getIcon('manual')} />
-				<RowTitle bold={false}>userName</RowTitle>
-				<FlexSplitter />
-				<IconLabel title="Commands" value={66} icon={semanticIcons.commands} />
-				<IconLabel title="comments" value={8} icon={semanticIcons.comment} />
-			</InfoRow>
 		</>
 	);
 });
