@@ -32,6 +32,7 @@ export enum CampaignLoadingMessage {
 export enum OverviewCommentList {
 	ALL = 'All',
 	COMMENTS = 'Comments',
+	PROCEDURAL = 'parser-generated',
 	USER_COMMENTS = 'User Comments',
 }
 

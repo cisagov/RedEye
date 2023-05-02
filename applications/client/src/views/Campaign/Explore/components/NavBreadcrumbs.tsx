@@ -54,7 +54,10 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						},
 					});
 					crumbs.push({
-						text: store.campaign.overviewCommentList,
+						text:
+							store.campaign.overviewCommentList === 'parser-generated'
+								? 'User Comments'
+								: store.campaign.overviewCommentList,
 					});
 					return crumbs;
 				}

@@ -37,7 +37,13 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 					key={`${presentationItem.id}-${i}`}
 					onClick={() => {
 						setCommandGroupIds(presentationItem.commandGroupIds);
-						store.campaign.setOverviewCommentList(OverviewCommentList.COMMENTS);
+						store.campaign.setOverviewCommentList(
+							presentationItem.id === 'procedural'
+								? OverviewCommentList.PROCEDURAL
+								: presentationItem.id === 'manual'
+								? OverviewCommentList.USER_COMMENTS
+								: OverviewCommentList.COMMENTS
+						);
 					}}
 				>
 					{presentationItem.id !== 'all' && (
