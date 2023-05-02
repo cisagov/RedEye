@@ -1,7 +1,7 @@
 {
 	"name": "redeye",
 	"productName": "RedEye",
-	"version": "0.8.4",
+	"version": "0.8.5",
 	"private": true,
 	"workspaces": [
 		"applications/**",
