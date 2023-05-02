@@ -242,6 +242,8 @@ export class PresentationResolvers {
 		);
 
 		// Populate User comments
+		const userComments: Record<string, CommandGroup[]> = {};
+		const commandsByUser: PresentationItem[] = [];
 		const manualComments = await em.find(
 			CommandGroup,
 			{ annotations: { generation: 'MANUAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
@@ -250,23 +252,34 @@ export class PresentationResolvers {
 				orderBy: { commands: { input: { dateTime: 'asc' } } },
 			}
 		);
-
-		const manualCommandGroupsLink = await this.getBeaconLinks(manualComments, linkTree, em, hidden);
-		const manualCommandCount = manualCommandGroupsLink.commandGroups.reduce(
-			(count, commandGroup) => count + commandGroup.commandIds.length,
-			0
-		);
-		const manualCommandGroupIds = manualCommandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
-		presentationItems.push(
-			new PresentationItem({
-				id: 'manual',
-				key: 'User Comments',
-				count: manualComments.length,
-				commandCount: manualCommandCount,
-				commandGroupIds: manualCommandGroupIds,
-				...manualCommandGroupsLink,
-			})
-		);
+		for (const manualComment of manualComments) {
+			userComments[manualComment.annotations[0].user] = (userComments[manualComment.annotations[0].user] || []).concat(
+				manualComment
+			);
+		}
+		for (const user of Object.keys(userComments)) {
+			const manualCommandGroupsLink = await this.getBeaconLinks(userComments[user], linkTree, em, hidden);
+			const manualCommandCount = manualCommandGroupsLink.commandGroups.reduce(
+				(count, commandGroup) => count + commandGroup.commandIds.length,
+				0
+			);
+			const manualCommandGroupIds = manualCommandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
+			commandsByUser.push(
+				new PresentationItem({
+					id: `user-${user}`,
+					key: user,
+					count: userComments[user].length,
+					commandCount: manualCommandCount,
+					commandGroupIds: manualCommandGroupIds,
+					...manualCommandGroupsLink,
+				})
+			);
+		}
+		// Sort the documents by userId
+		commandsByUser.sort((a, b) => a.id.localeCompare(b.id));
+		commandsByUser.forEach((commandGroup) => {
+			presentationItems.push(commandGroup);
+		});
 
 		// Populate Tags
 		const tags = await em.find(Tag, {}, { populate: false });

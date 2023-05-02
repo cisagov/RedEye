@@ -40,7 +40,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 						store.campaign.setOverviewCommentList(
 							presentationItem.id === 'procedural'
 								? OverviewCommentList.PROCEDURAL
-								: presentationItem.id === 'manual'
+								: presentationItem.id.slice(0, 5) === 'user-'
 								? OverviewCommentList.USER_COMMENTS
 								: OverviewCommentList.COMMENTS
 						);
@@ -71,6 +71,6 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 const getIcon = (itemId: string): any => {
 	if (itemId === 'favorited') return Bookmark16;
 	if (itemId === 'procedural') return ChatLaunch16;
-	if (itemId === 'manual') return User;
+	if (itemId.slice(0, 5) === 'user-') return User;
 	else return Hashtag;
 };
