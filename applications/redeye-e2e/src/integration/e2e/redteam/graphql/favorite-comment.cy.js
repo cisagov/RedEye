@@ -63,7 +63,6 @@ describe('Mark comment as favorite using GraphQL', () => {
 				expect(userName).to.include(commentUser);
 
 				const annotId = response.id;
-				cy.log(annotId);
 
 				const mutation2 = `mutation updateAnnotation(
 				$annotationId: String!

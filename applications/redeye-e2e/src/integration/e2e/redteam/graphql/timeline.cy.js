@@ -30,12 +30,9 @@ describe('Query Timeline', () => {
 
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.timeline.buckets;
-				cy.log(comp);
 				expect(comp.length).to.eq(67);
 			});
 		});
-
-		// cy.returnToCampaignCard();
 	});
 
 	after(() => {

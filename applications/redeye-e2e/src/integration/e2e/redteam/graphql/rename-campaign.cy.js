@@ -24,9 +24,7 @@ describe('Rename Campaign', () => {
 
 			const variables = { campaignId: returnedUrl, name: renamedCamp };
 
-			mutRequest(mutation, variables).then((res) => {
-				// cy.log(res.body.data);
-			});
+			mutRequest(mutation, variables);
 
 			const query = `query campaigns {
 				campaigns {
@@ -37,7 +35,6 @@ describe('Rename Campaign', () => {
 
 			graphqlRequest(query).then((res) => {
 				const campNames = res.body.data.campaigns.map((ty) => ty.name);
-				cy.log(campNames);
 				expect(campNames).to.include(renamedCamp);
 			});
 		});

@@ -28,9 +28,7 @@ describe('Hide a Beacon using GraphQL', () => {
 				  `;
 
 			const variables1 = { beaconId: 'COMPUTER02-1166658656', campaignId: returnedUrl };
-			mutRequest(mutation, variables1).then((res) => {
-				cy.log(res.body.data);
-			});
+			mutRequest(mutation, variables1);
 
 			const query = `query beacons($campaignId: String!) {
 					beacons(campaignId: $campaignId) {
@@ -49,10 +47,23 @@ describe('Hide a Beacon using GraphQL', () => {
 				expect(comp.length).to.eq(5);
 
 				const co = res.body.data.beacons.map((ty) => ty.id);
-
 				expect(co).to.not.include('1166658656');
 			});
 		});
+		cy.doNotShowHiddenItems();
+		cy.clickBeaconsTab();
+		const beacs = [];
+		cy.get('[cy-test=beacons-row]')
+			.each(($li) => beacs.push($li.text()))
+			.then(() => {
+				cy.log(beacs.join(', '));
+				cy.wrap(beacs).should('deep.equal', [
+					'08/17—08/17330588776jdoe9',
+					'08/17—08/172146137244jdoe *9',
+					'08/17—08/17500978634SYSTEM *8',
+					'08/17—08/171042756528user0114',
+				]);
+			});
 	});
 
 	after(() => {

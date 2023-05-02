@@ -4,6 +4,7 @@ describe('Hide a Beacon using GraphQL', () => {
 	const camp = 'hideBeaconGraphQL';
 	const beaconId1 = 'COMPUTER02-1166658656';
 	const beaconId2 = 'COMPUTER02-330588776';
+	const beaconId3 = 'COMPUTER02-2146137244';
 
 	it('Hide a beacon', () => {
 		cy.showHiddenItems();
@@ -36,14 +37,13 @@ describe('Hide a Beacon using GraphQL', () => {
 			  }	  
 				  `;
 
-			const variables1 = { beaconIds: [beaconId1, beaconId2], campaignId: returnedUrl, setHidden: true };
+			const variables1 = { beaconIds: [beaconId1, beaconId2, beaconId3], campaignId: returnedUrl, setHidden: true };
 
 			mutRequest(mutation, variables1).then((res) => {
-				cy.log(res.body.data);
 				const mutResponse = res.body.data.toggleBeaconHidden;
 
 				const hiddenStatus = mutResponse.map((hidden) => hidden.hidden);
-				expect(hiddenStatus).to.include(true, true);
+				expect(hiddenStatus).to.deep.equal([true, true, true]);
 			});
 
 			const query = `query beacons($campaignId: String!, $hidden: Boolean) {
@@ -61,15 +61,21 @@ describe('Hide a Beacon using GraphQL', () => {
 			const variables2 = { campaignId: returnedUrl, hidden: true };
 
 			graphqlRequest(query, variables2).then((res) => {
-				const comp = res.body.data.beacons;
-				cy.log(comp);
-				// expect(comp.length).to.eq(2);
+				const qResp = res.body.data.beacons;
 
-				const hiddenBeacons = res.body.data.beacons.map((hidden) => hidden.hidden);
-
-				// expect(hiddenBeacons.length).to.eq(2);
+				const beaconStatus = Cypress._.filter(qResp, { hidden: true });
+				cy.get(beaconStatus).its('length').should('equal', 3);
 			});
 		});
+		cy.doNotShowHiddenItems();
+		cy.clickBeaconsTab();
+		const beacs = [];
+		cy.get('[cy-test=beacons-row]')
+			.each(($li) => beacs.push($li.text()))
+			.then(() => {
+				cy.log(beacs.join(', '));
+				cy.wrap(beacs).should('deep.equal', ['08/17—08/17500978634SYSTEM *8', '08/17—08/171042756528user0114']);
+			});
 	});
 
 	after(() => {

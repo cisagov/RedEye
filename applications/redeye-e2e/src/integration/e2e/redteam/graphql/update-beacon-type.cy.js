@@ -2,6 +2,7 @@ import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
 describe('Update beacon type using GraphQL', () => {
 	const camp = 'beaconTypeGraphQL';
+	const newBeaconType = 'SMB';
 
 	it('Change beacon type', () => {
 		cy.uploadCampaign(camp, 'gt.redeye');
@@ -38,18 +39,16 @@ describe('Update beacon type using GraphQL', () => {
 			  
 				  `;
 
-			const variables = { beaconId: 'COMPUTER02-1166658656', beaconType: 'SMB', campaignId: returnedUrl };
+			const variables = { beaconId: 'COMPUTER02-1166658656', beaconType: newBeaconType, campaignId: returnedUrl };
 
 			mutRequest(mutation, variables).then((res) => {
-				cy.log(res.body.data);
-
 				const response = res.body.data.updateBeaconMetadata;
 
 				const beaconIdName = response.beaconName;
 				expect(beaconIdName).to.include('1166658656');
 
 				const newType = response.meta.map((type) => type.type);
-				expect(newType).to.include('SMB');
+				expect(newType).to.include(newBeaconType);
 			});
 		});
 	});

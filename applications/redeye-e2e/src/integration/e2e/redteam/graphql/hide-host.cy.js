@@ -2,6 +2,7 @@ import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
 describe('Hide a Host using GraphQL', () => {
 	const camp = 'hideHostGraphQL';
+	const hiddenHost = 'COMPUTER03';
 
 	it('Hide a host', () => {
 		cy.showHiddenItems();
@@ -23,10 +24,8 @@ describe('Hide a Host using GraphQL', () => {
 				  }
 				  `;
 
-			const variables1 = { campaignId: returnedUrl, hostId: 'COMPUTER03' };
-			mutRequest(mutation, variables1).then((res) => {
-				cy.log(res.body.data);
-			});
+			const variables1 = { campaignId: returnedUrl, hostId: hiddenHost };
+			mutRequest(mutation, variables1);
 
 			const query = `query hosts($campaignId: String!) {
 					hosts(campaignId: $campaignId) {
@@ -46,10 +45,17 @@ describe('Hide a Host using GraphQL', () => {
 				expect(comp.length).to.eq(2);
 
 				const co = res.body.data.hosts.map((ty) => ty.id);
-
-				expect(co).to.not.include('COMPUTER03');
+				expect(co).to.not.include(hiddenHost);
 			});
 		});
+		cy.doNotShowHiddenItems();
+		const hostsList = [];
+		cy.get('[cy-test=info-row]')
+			.each(($li) => hostsList.push($li.text()))
+			.then(() => {
+				cy.log(hostsList.join(', '));
+				cy.wrap(hostsList).should('deep.equal', ['08/17—08/17 Server: 200817', '08/17—08/17 COMPUTER02243']);
+			});
 	});
 
 	after(() => {
