@@ -25,7 +25,7 @@ describe('Delete Campaign', () => {
       }`;
 			const variables = { campaignId: campToDelete };
 			mutRequest(mutation, variables).then((res) => {
-				cy.log(res);
+				// cy.log(res);
 			});
 		});
 

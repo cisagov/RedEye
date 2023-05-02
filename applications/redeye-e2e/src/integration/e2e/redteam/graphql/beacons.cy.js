@@ -10,7 +10,6 @@ describe('Query Beacons', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query beacons($campaignId: String!) {
        beacons(campaignId: $campaignId) {

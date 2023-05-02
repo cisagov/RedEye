@@ -16,7 +16,6 @@ describe('Mark comment as favorite using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const mutation1 = `mutation addCommandGroupAnnotation(
 				$campaignId: String!

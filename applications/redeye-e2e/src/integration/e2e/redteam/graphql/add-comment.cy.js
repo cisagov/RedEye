@@ -16,7 +16,6 @@ describe('Add a comment using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const mutation = `mutation addCommandGroupAnnotation(
 				$campaignId: String!

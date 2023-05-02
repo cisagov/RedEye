@@ -16,7 +16,6 @@ describe('Delete a comment using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			// Add comment first
 			const mutation = `mutation addCommandGroupAnnotation(

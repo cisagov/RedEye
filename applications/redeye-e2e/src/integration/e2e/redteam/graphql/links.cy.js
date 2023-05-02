@@ -10,7 +10,6 @@ describe('Get All Links', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query links($campaignId: String!) {
       links(campaignId: $campaignId) {
@@ -20,7 +19,6 @@ describe('Get All Links', () => {
 			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const search = res.body.data.links;
-				cy.log(search);
 				expect(search.length).to.eq(5);
 			});
 		});

@@ -10,7 +10,6 @@ describe('Rename Campaign', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			cy.returnToCampaignCard();
 			cy.wait(1000);

@@ -10,7 +10,6 @@ describe('Query Timeline', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query timeline(
 				$campaignId: String!

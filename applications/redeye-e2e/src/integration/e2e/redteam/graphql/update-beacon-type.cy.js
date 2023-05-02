@@ -13,7 +13,6 @@ describe('Update beacon type using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			//HAS NOT YET BEEN UPDATED
 

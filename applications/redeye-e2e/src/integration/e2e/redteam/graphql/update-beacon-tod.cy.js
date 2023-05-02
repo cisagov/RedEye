@@ -13,7 +13,6 @@ describe('Update beacon time of deathusing GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const mutation = `mutation updateBeaconMetadata(
 				$beaconId: String!

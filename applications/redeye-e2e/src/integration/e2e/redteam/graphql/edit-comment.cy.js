@@ -17,7 +17,6 @@ describe('Edit a comment using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			// Add a comment for editing
 			const mutationAdd = `mutation addCommandGroupAnnotation(

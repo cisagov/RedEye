@@ -18,7 +18,6 @@ describe('Add multi-command comment using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const mutation = `mutation addCommandGroupAnnotation(
 				$campaignId: String!
@@ -68,42 +67,6 @@ describe('Add multi-command comment using GraphQL', () => {
 
 				const userName = response.user;
 				expect(userName).to.include(commentUser);
-
-				const groupId = response.id;
-				cy.log(groupId);
-
-				const query = `query commands(
-						$campaignId: String!
-						$commandIds: [String!]
-					  ) {
-						commands(
-						  campaignId: $campaignId
-						  commandIds: $commandIds
-						) {
-						  commandGroups {
-							annotations {
-							  text
-							  user
-							  commandIds
-							  commandGroupId
-							  tags {
-								id
-							  }
-							}
-						  }
-						}
-					  }
-					  `;
-
-				const queryVariables = { campaignId: returnedUrl, commandIds: [commandId1, commandId2, commandId3] };
-
-				graphqlRequest(query, queryVariables).then((queryRes) => {
-					cy.log(queryRes.body.data);
-
-					const commandMetadata = queryRes.body.data.commands.map((info) => info.annotations);
-					cy.log(commandMetadata);
-					// expect(commandMetadata).to.include(comment);
-				});
 			});
 		});
 	});

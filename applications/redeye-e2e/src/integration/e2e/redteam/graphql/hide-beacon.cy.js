@@ -12,7 +12,6 @@ describe('Hide a Beacon using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const mutation = `mutation toggleBeaconHidden($beaconId: String!, $campaignId: String!) {
 				toggleBeaconHidden(beaconId: $beaconId, campaignId: $campaignId) {
@@ -56,7 +55,7 @@ describe('Hide a Beacon using GraphQL', () => {
 		cy.get('[cy-test=beacons-row]')
 			.each(($li) => beacs.push($li.text()))
 			.then(() => {
-				cy.log(beacs.join(', '));
+				// cy.log(beacs.join(', '));
 				cy.wrap(beacs).should('deep.equal', [
 					'08/17—08/17330588776jdoe9',
 					'08/17—08/172146137244jdoe *9',

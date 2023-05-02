@@ -12,7 +12,6 @@ describe('Hide a Host using GraphQL', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const mutation = `mutation toggleHostHidden($campaignId: String!, $hostId: String!) {
 					toggleHostHidden(campaignId: $campaignId, hostId: $hostId) {
@@ -53,7 +52,7 @@ describe('Hide a Host using GraphQL', () => {
 		cy.get('[cy-test=info-row]')
 			.each(($li) => hostsList.push($li.text()))
 			.then(() => {
-				cy.log(hostsList.join(', '));
+				// cy.log(hostsList.join(', '));
 				cy.wrap(hostsList).should('deep.equal', ['08/17—08/17 Server: 200817', '08/17—08/17 COMPUTER02243']);
 			});
 	});
