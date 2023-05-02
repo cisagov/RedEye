@@ -12,7 +12,6 @@ describe('Search Request', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query searchCommands($campaignId: String!, $searchQuery: String!) {
         searchCommands(campaignId: $campaignId, searchQuery: $searchQuery) {

@@ -34,7 +34,9 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 			cacheAcrossSpecs: true,
 		}
 	),
-		cy.visit('http://localhost:3500/#/campaigns/all');
+		cy.visit('http://localhost:3500/#/campaigns/all', {
+			timeout: 50000,
+		});
 });
 
 Cypress.Commands.add('loginBlue', (user) => {
@@ -64,14 +66,10 @@ Cypress.Commands.add('addComment', (index, cmt) => {
 
 //DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
-	cy.get('[cy-test=add-comment]')
-		.eq(index)
-		.click()
-		.wait(100)
-		.then(() => {
-			cy.get('[cy-test=comment-dialog]').should('be.visible');
-		});
+	cy.get('[cy-test=command-info]').should('be.visible');
+	cy.get('[cy-test=add-comment]').should('be.visible').eq(index).click();
 
+	cy.get('[cy-test=comment-dialog]').should('be.visible');
 	cy.get('[cy-test=delete-comment]').click();
 	cy.contains('Delete Comment').click();
 });
@@ -84,7 +82,7 @@ Cypress.Commands.add('addToExistingComment', (index, cmt) => {
 		.should('be.visible')
 		.click({ force: true });
 	cy.get('[cy-test=comment-box]').should('be.visible');
-	cy.get('[cy-test=add-command-existing-comment]').click({ force: true });
+	cy.get('[cy-test=add-command-existing-comment]').should('be.visible').click({ force: true });
 	cy.get('[cy-test=search-comments]').type(cmt);
 });
 

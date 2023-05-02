@@ -78,7 +78,6 @@ describe('Command counts', () => {
 
 						cy.url().then((url) => {
 							const returnedUrl = url.split('/')[5];
-							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
 						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
@@ -118,7 +117,6 @@ describe('Command counts', () => {
 
 						cy.url().then((url) => {
 							const returnedUrl = url.split('/')[5];
-							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
 						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
