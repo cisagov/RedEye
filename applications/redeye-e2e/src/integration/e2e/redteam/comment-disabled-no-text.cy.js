@@ -28,7 +28,7 @@ describe('Cannot add comment without text', () => {
 		cy.get('[cy-test=save-comment]').should('be.disabled');
 
 		// Type in comment box, verify button is enabled
-		cy.get('[cy-test=comment-input]').click().type('Test comment');
+		cy.get('[cy-test=comment-input]').realClick().type('Test comment');
 		cy.get('[cy-test=save-comment]').should('be.enabled');
 	});
 

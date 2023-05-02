@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 function hideUnhideHost(hostName) {
-	cy.get('[cy-test=info-row]').contains(hostName).click();
+	cy.get('[cy-test=info-row]').contains(hostName).realClick();
 	cy.contains('[cy-test=panel-header]', hostName);
 	cy.clickMetaTab();
 	cy.showHideHostMetaTab();
@@ -144,9 +144,9 @@ describe('Hide a host', () => {
 		cy.selectCampaign(camp);
 
 		// Select the first host, go to Meta tab, click show/hide link
-		cy.get('[cy-test=hostName]').eq(1).click();
+		cy.get('[cy-test=hostName]').eq(1).realClick();
 		cy.clickMetaTab();
-		cy.get('[cy-test=show-hide-this-host]').click();
+		cy.get('[cy-test=show-hide-this-host]').realClick();
 
 		// Verify modal shows; click Cancel
 		cy.verifyDialogBoxAppears();
@@ -164,8 +164,8 @@ describe('Hide a host', () => {
 		cy.selectCampaign(camp);
 
 		// Click kebab menu for first hostto bring up options; click "Hide Host"
-		cy.get('[cy-test=quick-meta-button]').eq(1).click();
-		cy.get('[cy-test=show-hide-item]').click();
+		cy.get('[cy-test=quick-meta-button]').eq(1).realClick();
+		cy.get('[cy-test=show-hide-item]').realClick();
 
 		// Verify modal shows; click Cancel
 		cy.verifyDialogBoxAppears();
@@ -176,7 +176,7 @@ describe('Hide a host', () => {
 		cy.verifyDialogBoxDisappears();
 
 		// Verify the kebab menu link still says "Hide Host" vs. "Show"
-		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=quick-meta-button]').eq(1).realClick();
 		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Host');
 	});
 

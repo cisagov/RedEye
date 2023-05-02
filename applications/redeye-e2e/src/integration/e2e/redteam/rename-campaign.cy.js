@@ -10,33 +10,33 @@ describe('Rename campaign', () => {
 
 		cy.searchForCampaign(camp);
 
-		cy.get('[cy-test=campaign-options]').click();
+		cy.get('[cy-test=campaign-options]').realClick();
 
-		cy.get('[cy-test=rename-campaign]').click();
+		cy.get('[cy-test=rename-campaign]').realClick();
 
-		cy.get('[cy-test=new-campaign-name').click().type(rename, { force: true });
+		cy.get('[cy-test=new-campaign-name').realClick().type(rename, { force: true });
 
 		cy.wait(100);
 
-		cy.get('[cy-test=rename-button]').click();
+		cy.get('[cy-test=rename-button]').realClick();
 
 		cy.get('[cy-test=campaign-name]').eq(0).should('contain', rename);
 
-		cy.get('[cy-test=campaign-options]').eq(0).click();
+		cy.get('[cy-test=campaign-options]').eq(0).realClick();
 
-		cy.get('[cy-test=rename-campaign]').click();
+		cy.get('[cy-test=rename-campaign]').realClick();
 
-		cy.get('[cy-test=new-campaign-name').click().clear().type(camp, { force: true });
+		cy.get('[cy-test=new-campaign-name').realClick().clear().type(camp, { force: true });
 
 		cy.wait(500);
 
-		cy.get('[cy-test=rename-button]').click();
+		cy.get('[cy-test=rename-button]').realClick();
 
 		cy.wait(500);
 
 		cy.get('[cy-test=campaign-name]').eq(0).should('not.contain', rename);
 
-		cy.get('[cy-test=search]').click().clear();
+		cy.get('[cy-test=search]').realClick().clear();
 
 		cy.deleteCampaignGraphQL(camp);
 	});

@@ -52,7 +52,7 @@ describe('Timeline tests', () => {
 						expect(+position3).to.be.lessThan(+position2);
 
 						// Click the forward button to move the timeline ahead; verify its position is more than the previous position
-						cy.timelineForward().click();
+						cy.timelineForward().realClick();
 						cy.get('@timeline').then((text4) => {
 							const pattern4 = /[0-9]+/g;
 							const position4 = text4.match(pattern4)[0];
@@ -77,7 +77,7 @@ describe('Timeline tests', () => {
 		cy.changeTimelineEndDate('10/19/20');
 
 		// Close date picker; verify new dates stuck
-		cy.get('[cy-test=timeline-header]').click();
+		cy.get('[cy-test=timeline-header]').realClick();
 		cy.get('[cy-test=timeline-start-date]').invoke('text').should('contain', '10/15/20');
 		cy.get('[cy-test=timeline-end-date]').invoke('text').should('contain', '10/19/20');
 
@@ -101,7 +101,7 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
 		// Click on the timeline bar and verify that the second tooltip appears showing beacon details
-		cy.get('[cy-test=timeline-show-more-less]').click();
+		cy.get('[cy-test=timeline-show-more-less]').realClick();
 		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
 		cy.get('[cy-test=timeline-tooltip-date-time]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
@@ -127,10 +127,10 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
 
 		// Show the beacon names
-		cy.get('[cy-test=timeline-show-more-less]').click();
+		cy.get('[cy-test=timeline-show-more-less]').realClick();
 
 		// Click to open beacon info for the second one showing
-		cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
+		cy.get('[cy-test=timeline-beacon-name]').eq(1).realClick();
 		cy.wait(1000);
 
 		// Verify timeline beacon name matches beacon info

@@ -5,13 +5,13 @@ describe('Timeline tests', () => {
 	const camp = '200817';
 
 	it('Verify timeline features', () => {
-		cy.get('[cy-test=add-campaign-btn]').click();
+		cy.get('[cy-test=add-campaign-btn]').realClick();
 
 		cy.uploadLogs('seb', camp);
 
 		cy.wait(500);
 
-		cy.get('[cy-test=close-log]').click();
+		cy.get('[cy-test=close-log]').realClick();
 
 		cy.reload();
 

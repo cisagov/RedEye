@@ -17,7 +17,7 @@ describe('Expand/collapse explorer panel', () => {
 		cy.get('[cy-test=command-overview]').should('be.visible');
 
 		// Click collapse button and verify panel is collapsed
-		cy.get('[cy-test=collapse-panel]').click();
+		cy.get('[cy-test=collapse-panel]').realClick();
 		cy.get('[cy-test=hosts]').should('not.be.visible');
 		cy.get('[cy-test=operators]').should('not.be.visible');
 		cy.get('[cy-test=comments]').should('not.be.visible');
@@ -25,7 +25,7 @@ describe('Expand/collapse explorer panel', () => {
 		cy.get('[cy-test=command-overview]').should('not.be.visible');
 
 		// Click button again and verify panel is expanded
-		cy.get('[cy-test=expand-panel]').eq(0).click();
+		cy.get('[cy-test=expand-panel]').eq(0).realClick();
 		cy.get('[cy-test=hosts]').should('be.visible');
 		cy.get('[cy-test=operators]').should('be.visible');
 		cy.get('[cy-test=comments]').should('be.visible');

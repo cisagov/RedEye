@@ -22,13 +22,13 @@ describe('Multi-Command Comments', () => {
 		cy.get('[type=checkbox]').check({ force: true });
 
 		// Click on "Comment on commands"
-		cy.get('[cy-test=comment-on-commands').click();
+		cy.get('[cy-test=comment-on-commands').realClick();
 
 		// Enter comment and tag and save comment
 		cy.favoriteComment(0);
 		cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
 		cy.addNewTags(tag);
-		// cy.get('[cy-test=save-comment]').click();
+		// cy.get('[cy-test=save-comment]').realClick();
 		// cy.wait(1000);
 
 		// Verify comments are saved
@@ -36,7 +36,7 @@ describe('Multi-Command Comments', () => {
 		cy.clickCommentsTab();
 		cy.get('[cy-test=comments-view]').should('contain', comment).and('contain', tag);
 		cy.clickPresentationMode();
-		cy.get('[cy-test=favorited]').click();
+		cy.get('[cy-test=favorited]').realClick();
 		cy.get('[cy-test=presentation-root]').should('contain', comment).and('contain', tag);
 	});
 
@@ -58,7 +58,7 @@ describe('Multi-Command Comments', () => {
 			cy.get('[cy-test=number-commands]').should('contain', startingCommands);
 			// cy.log(startingCommands);
 
-			cy.get('[cy-test=add-command-this-comment]').click();
+			cy.get('[cy-test=add-command-this-comment]').realClick();
 			cy.wait('@addCommandToCommandGroup');
 			cy.get('[cy-test=command-added]').should('be.visible');
 			// cy.wait(1000);
@@ -71,7 +71,7 @@ describe('Multi-Command Comments', () => {
 				expect(+updatedCommands).to.equal(+startingCommands + +'1');
 			});
 		});
-		cy.get('[cy-test=done-button]').click();
+		cy.get('[cy-test=done-button]').realClick();
 
 		// Verify new comment is on the command
 		cy.get('[cy-test=add-comment]').eq(0).click({ force: true });

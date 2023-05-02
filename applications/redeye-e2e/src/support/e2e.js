@@ -6,6 +6,8 @@ import './beacon';
 import './computer';
 import './campaignCard';
 import './utils';
+import 'cypress-map';
+import 'cypress-real-events';
 
 Cypress.on('uncaught:exception', (err, runnable, promise) => {
 	if (promise) {

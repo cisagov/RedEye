@@ -86,7 +86,7 @@ describe('Search campaign and open one of the results', () => {
 									.invoke('text')
 									.then((commandDetails) => {
 										// Select first item from the search results and click to open details; verify against data in search modal
-										cy.get('[cy-test=search-result-item]').eq(0).click();
+										cy.get('[cy-test=search-result-item]').eq(0).realClick();
 										cy.get('[cy-test=navigation-breadcrumbs]')
 											.invoke('text')
 											.should('contain', lineOneText1)

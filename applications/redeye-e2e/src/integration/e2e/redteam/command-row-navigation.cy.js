@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 function selectHost(index) {
-	cy.get('[cy-test=hostName]').eq(index).click();
+	cy.get('[cy-test=hostName]').eq(index).realClick();
 	cy.get('[cy-test=command-header]').should('be.visible');
 }
 
@@ -18,7 +18,7 @@ describe('Command row navigation', () => {
 			.eq(1)
 			.invoke('text')
 			.then((hostName1) => {
-				cy.get('[cy-test=info-row]').eq(1).click();
+				cy.get('[cy-test=info-row]').eq(1).realClick();
 				cy.get('[cy-test=header]').should('contain', hostName1);
 
 				// Select a command to expand details; verify its background is colored differently
@@ -28,7 +28,7 @@ describe('Command row navigation', () => {
 
 				// Click Host name and confirm page does not change
 				cy.url().then((currentURL1) => {
-					cy.get('[cy-test=hostBeaconInfo] > li').contains(hostName1).click();
+					cy.get('[cy-test=hostBeaconInfo] > li').contains(hostName1).realClick();
 
 					cy.url().then((currentURL2) => {
 						expect(currentURL2).to.equal(currentURL1);
@@ -38,7 +38,7 @@ describe('Command row navigation', () => {
 							.last()
 							.invoke('text')
 							.then((commandName1) => {
-								cy.get('[cy-test=hostBeaconInfo] > li').last().click();
+								cy.get('[cy-test=hostBeaconInfo] > li').last().realClick();
 
 								cy.get('[cy-test=beacon-username]').should('contain', commandName1);
 								cy.url().then((currentURL3) => {
@@ -61,14 +61,14 @@ describe('Command row navigation', () => {
 				cy.clickCommentsTab();
 
 				// Expand comment details, log details, and click on Host name
-				cy.get('[cy-test=expand]').eq(0).click();
+				cy.get('[cy-test=expand]').eq(0).realClick();
 				cy.get('[cy-test=info-row]')
 					.eq(0)
 					.invoke('text')
 					.then((text) => {
 						let commentText = text.split(' ')[1];
 
-						cy.get('[cy-test=hostBeaconInfo] > li').contains(hostName1).click();
+						cy.get('[cy-test=hostBeaconInfo] > li').contains(hostName1).realClick();
 
 						// Page should navigate back to Host/Commands tab -- Host name at top, Commands tab selected
 						cy.get('[cy-test=header]').should('contain', hostName1);
@@ -91,7 +91,7 @@ describe('Command row navigation', () => {
 				// Click to expand; verify that the height increased
 				cy.get('[cy-test=command-info]')
 					.eq(0)
-					.click()
+					.realClick()
 					.invoke('height')
 					.then((expandedHeight1) => {
 						expect(expandedHeight1).to.be.gt(startingHeight1);
@@ -107,11 +107,11 @@ describe('Command row navigation', () => {
 		// Click first line to expand; log height
 		cy.get('[cy-test=command-info]')
 			.eq(0)
-			.click()
+			.realClick()
 			.invoke('height')
 			.then((expandedHeight1) => {
 				// Click third line to expand; verify height of first line did not change
-				cy.get('[cy-test=command-info]').eq(4).click();
+				cy.get('[cy-test=command-info]').eq(4).realClick();
 
 				cy.get('[cy-test=command-info]')
 					.eq(0)
@@ -133,9 +133,9 @@ describe('Command row navigation', () => {
 			.invoke('height')
 			.then((startingRowHeight) => {
 				// Click to expand first 3 rows
-				cy.get('[cy-test=command-info]').eq(0).click();
-				cy.get('[cy-test=command-info]').eq(2).click();
-				cy.get('[cy-test=command-info]').eq(4).click();
+				cy.get('[cy-test=command-info]').eq(0).realClick();
+				cy.get('[cy-test=command-info]').eq(2).realClick();
+				cy.get('[cy-test=command-info]').eq(4).realClick();
 
 				// Log new height of rows; should be larger than starting height
 				cy.get('[cy-test=command-info]')
@@ -157,7 +157,7 @@ describe('Command row navigation', () => {
 										expect(expandedRow3).to.be.gt(startingRowHeight);
 
 										// Click "Collapse All" button
-										cy.get('[cy-test=collapse-all]').click();
+										cy.get('[cy-test=collapse-all]').realClick();
 
 										// Log new heights; should equal starting height
 										cy.get('[cy-test=command-info]')

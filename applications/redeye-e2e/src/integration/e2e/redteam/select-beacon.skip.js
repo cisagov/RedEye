@@ -20,7 +20,7 @@ describe('Selecting Host Via Graph', () => {
 			cy.get('[cy-test=panel-header]').should('contain.text', 'COMPUTER03');
 
 			// //return to main page
-			cy.get('[cy-test=return-campaign-menu').click();
+			cy.get('[cy-test=return-campaign-menu').realClick();
 		}
 
 		if (Cypress.isBrowser('firefox')) {
@@ -32,7 +32,7 @@ describe('Selecting Host Via Graph', () => {
 			cy.get('[cy-test=panel-header]').should('contain.text', 'COMPUTER03');
 
 			// //return to main page
-			cy.get('[cy-test=return-campaign-menu').click();
+			cy.get('[cy-test=return-campaign-menu').realClick();
 		}
 	});
 

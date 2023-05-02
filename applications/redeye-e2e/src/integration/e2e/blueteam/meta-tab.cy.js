@@ -14,7 +14,7 @@ describe('Meta tab fields disabled', () => {
 		cy.clickBeaconsTab();
 
 		// Select beacon and go to Meta tab
-		cy.get('[cy-test=beacons-row]').eq(0).click();
+		cy.get('[cy-test=beacons-row]').eq(0).realClick();
 		cy.clickMetaTab();
 
 		// Verify Display Name, TOD, and Type fields are disabled

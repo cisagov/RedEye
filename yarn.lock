@@ -6118,6 +6118,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cypress-map@npm:^1.19.1":
+  version: 1.19.1
+  resolution: "cypress-map@npm:1.19.1"
+  dependencies:
+    string-format: ^2.0.0
+  peerDependencies:
+    cypress: ">=12"
+  checksum: a46add387b1b094632db7b2f8dd1f2833ff3c2fa7a89f00d1fb1d517b053dd1e0a9d5149d5b7bc12bfcd03e3a51af8e27560a3c43dab1ca406e2a542ed9ac878
+  languageName: node
+  linkType: hard
+
 "cypress-multi-reporters@npm:^1.6.1":
   version: 1.6.1
   resolution: "cypress-multi-reporters@npm:1.6.1"
@@ -6127,6 +6138,15 @@ __metadata:
   peerDependencies:
     mocha: ">=3.1.2"
   checksum: 6cd6d8e0733a91b7fa1ff559f84bd75ca6ced3798cbf40054363281b307f77d70e17b22ced981472a706ba289598e2cb8a8f0db5f1c4da055ab665ff8936c4e6
+  languageName: node
+  linkType: hard
+
+"cypress-real-events@npm:^1.7.6":
+  version: 1.7.6
+  resolution: "cypress-real-events@npm:1.7.6"
+  peerDependencies:
+    cypress: ^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x || ^11.x || ^12.x
+  checksum: 715ead42990e5464a2613dea2ebbcdfd093b47beee38f7afdff817e5dd701753e103103b2806864771a55aee700580253534497ca6802c88ef9688c6b095917c
   languageName: node
   linkType: hard
 
@@ -13178,7 +13198,9 @@ __metadata:
     cross-env: ^7.0.3
     crypto-js: ^4.0.0
     cypress: ^12.11.0
+    cypress-map: ^1.19.1
     cypress-multi-reporters: ^1.6.1
+    cypress-real-events: ^1.7.6
     d3: ^6.7.0
     dayjs: ^1.11.7
     dotenv: ^8.2.0
@@ -14257,6 +14279,13 @@ __metadata:
   version: 0.3.1
   resolution: "string-argv@npm:0.3.1"
   checksum: efbd0289b599bee808ce80820dfe49c9635610715429c6b7cc50750f0437e3c2f697c81e5c390208c13b5d5d12d904a1546172a88579f6ee5cbaaaa4dc9ec5cf
+  languageName: node
+  linkType: hard
+
+"string-format@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "string-format@npm:2.0.0"
+  checksum: dada2ef95f6d36c66562c673d95315f80457fa7dce2f3609a2e75d1190b98c88319028cf0a5b6c043d01c18d581b2641579f79480584ba030d6ac6fceb30bc55
   languageName: node
   linkType: hard
 

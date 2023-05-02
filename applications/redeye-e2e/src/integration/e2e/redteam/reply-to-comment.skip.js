@@ -41,7 +41,7 @@ describe('Reply to  Campaign Comments', () => {
 
 							// Reply to one of the comments
 							cy.replyToComment(0, 'Replying to above comment.');
-							cy.get('[cy-test=save-comment]').should('be.visible').click();
+							cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 
 							// Go back to Presentation mode and verify that the comment count did not change
 							cy.clickPresentationMode();

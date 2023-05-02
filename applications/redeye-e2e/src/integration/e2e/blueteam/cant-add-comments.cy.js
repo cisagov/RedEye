@@ -12,7 +12,7 @@ describe('Verify Adding Comments are disabled, but able to view exisiting commen
 		cy.selectHostByName('COMPUTER02');
 
 		//Click on first visible add comment button
-		cy.get('[cy-test=add-comment]').should('be.visible').first().click();
+		cy.get('[cy-test=add-comment]').should('be.visible').first().realClick();
 
 		//Comment box should not exist
 		cy.get('[cy-test=comment-input]').should('not.exist');

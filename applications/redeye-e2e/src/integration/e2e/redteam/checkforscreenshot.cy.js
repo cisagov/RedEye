@@ -17,7 +17,7 @@ describe('Check and verify screenshots are available', () => {
 
 		cy.get('[cy-test=screenshot]').should('be.visible');
 
-		cy.get('[cy-test=screenshot]').click();
+		cy.get('[cy-test=screenshot]').realClick();
 
 		cy.get('[cy-test=large-screenshot]').should('be.visible');
 

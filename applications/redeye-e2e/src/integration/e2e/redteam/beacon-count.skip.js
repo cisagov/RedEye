@@ -67,7 +67,7 @@ describe('Beacon counts', () => {
 				// cy.log(countHost1);
 
 				// Click host to open details
-				cy.get('[cy-test=info-row]').eq(1).click();
+				cy.get('[cy-test=info-row]').eq(1).realClick();
 
 				// Go to Beacons tab and log number of beacons showing - should match count in host row
 				cy.clickBeaconsTab();
@@ -87,7 +87,7 @@ describe('Beacon counts', () => {
 				// cy.log(countHost2);
 
 				// Click host to open deatails
-				cy.get('[cy-test=info-row]').eq(2).click();
+				cy.get('[cy-test=info-row]').eq(2).realClick();
 
 				// Go to Beacons tab and log number of beacons showing - should match count in host row
 				cy.clickBeaconsTab();
@@ -111,7 +111,7 @@ describe('Beacon counts', () => {
 				// cy.log(countRow);
 
 				// Open operator and go to Beacons tab
-				cy.get('[cy-test=operator-row]').click();
+				cy.get('[cy-test=operator-row]').realClick();
 				cy.clickBeaconsTab();
 				// Log number of beacons showing - should match number from Operator tab count
 				cy.get('[cy-test=info-row]')
@@ -138,7 +138,7 @@ describe('Beacon counts', () => {
 				// cy.log(beaconCount1);
 
 				// Click the Operator, go to list of beacons; verify count matches number in search
-				cy.get('[cy-test=search-result-item]').contains('Operator').click();
+				cy.get('[cy-test=search-result-item]').contains('Operator').realClick();
 				cy.clickBeaconsTab();
 				cy.get('[cy-test=info-row]')
 					.its('length')

@@ -12,7 +12,7 @@ describe('Links on Meta tab', () => {
 		cy.clickBeaconsTab();
 
 		// Select first beacon; go to Meta tab
-		cy.get('[cy-test=beacons-row]').eq(0).click();
+		cy.get('[cy-test=beacons-row]').eq(0).realClick();
 		cy.clickMetaTab();
 
 		// Log location name under Links
@@ -22,7 +22,7 @@ describe('Links on Meta tab', () => {
 			.invoke('text')
 			.then((metaLink) => {
 				// Click on location under Links
-				cy.get('@metaLink').click();
+				cy.get('@metaLink').realClick();
 
 				// Verify link went to the correct location
 				cy.get('[cy-test=panel-header]')

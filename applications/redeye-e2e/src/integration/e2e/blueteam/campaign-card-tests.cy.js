@@ -8,13 +8,13 @@ describe('Search and filter campaigns and verify beacon counts', () => {
 	it('Filter campaign card', () => {
 		cy.uploadCampaignBlue(camp, fileName);
 		cy.searchForCampaign(camp);
-		cy.get('[cy-test=search]').click().clear();
+		cy.get('[cy-test=search]').realClick().clear();
 	});
 
 	it('Open campaign to search', () => {
 		cy.selectCampaign(camp);
 		cy.clickSearch();
-		cy.get('[cy-test=search]').click().type(cmd).type('{enter}');
+		cy.get('[cy-test=search]').realClick().type(cmd).type('{enter}');
 		cy.wait('@searchCommands');
 		cy.get('[cy-test=search-result-item]').should('have.length.gt', 0).and('contain', cmd);
 		cy.closeSearch();

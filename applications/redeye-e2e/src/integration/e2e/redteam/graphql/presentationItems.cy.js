@@ -12,7 +12,6 @@ describe('Query Presentation Items', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query presentationItems($campaignId: String!) {
         presentationItems(campaignId: $campaignId) {

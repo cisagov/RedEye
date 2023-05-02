@@ -12,13 +12,13 @@ describe('Delete Campaigns', () => {
 		cy.searchForCampaign(camp);
 
 		// Start the delete process but cancel to ensure Cancel button works
-		cy.get('[cy-test=campaign-options]').click();
-		cy.get('[cy-test=delete-campaign]').click();
-		cy.contains('Cancel').click();
+		cy.get('[cy-test=campaign-options]').realClick();
+		cy.get('[cy-test=delete-campaign]').realClick();
+		cy.contains('Cancel').realClick();
 		cy.get('[cy-test=campaign-card]').should('contain', camp);
 
 		// Delete campaign
-		cy.get('[cy-test=search]').click().clear({ force: true });
+		cy.get('[cy-test=search]').realClick().clear({ force: true });
 		cy.wait(1000);
 		cy.deleteCampaign(camp);
 

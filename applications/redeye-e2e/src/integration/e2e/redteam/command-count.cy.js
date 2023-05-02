@@ -72,7 +72,7 @@ describe('Command counts', () => {
 						// cy.log(countHost1);
 
 						// Click host to open details
-						cy.get('[cy-test=info-row]').eq(1).click();
+						cy.get('[cy-test=info-row]').eq(1).realClick();
 
 						// Log number of commands showing - should match umber in host row
 
@@ -112,7 +112,7 @@ describe('Command counts', () => {
 						// cy.log(countHost2);
 
 						// Click host to open details
-						cy.get('[cy-test=info-row]').eq(2).click();
+						cy.get('[cy-test=info-row]').eq(2).realClick();
 
 						// Log number of commands showing - should match umber in host row
 
@@ -153,7 +153,7 @@ describe('Command counts', () => {
 				// cy.log(commandCount1);
 
 				// Click the Command Type to go to the list of commands; verify count matches number in search
-				cy.get('[cy-test=search-result-item]').contains('Command Type').click();
+				cy.get('[cy-test=search-result-item]').contains('Command Type').realClick();
 				cy.get('[cy-test=info-row]')
 					.its('length')
 					.then((commandCount2) => {

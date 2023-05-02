@@ -9,10 +9,10 @@ describe('Navigate to beacon through command details', () => {
 
 		// Open campaign and select a host
 		cy.selectCampaign(camp);
-		cy.get('[cy-test=info-row]').eq(1).click();
+		cy.get('[cy-test=info-row]').eq(1).realClick();
 
 		// Click to expand the first command
-		cy.get('[cy-test=info-row]').eq(0).click();
+		cy.get('[cy-test=info-row]').eq(0).realClick();
 		cy.wait(1000);
 
 		// Log the beacon name
@@ -23,7 +23,7 @@ describe('Navigate to beacon through command details', () => {
 			.invoke('text')
 			.then((text) => {
 				// Click on the beacon name
-				cy.get('[cy-test=hostBeaconInfo]').contains(text).click();
+				cy.get('[cy-test=hostBeaconInfo]').contains(text).realClick();
 
 				// Verify that the page directed to the appropriate beacon
 				cy.get('[cy-test=beaconName]')

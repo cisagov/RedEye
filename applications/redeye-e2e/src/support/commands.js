@@ -34,7 +34,9 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 			cacheAcrossSpecs: true,
 		}
 	),
-		cy.visit('http://localhost:3500/#/campaigns/all');
+		cy.visit('http://localhost:3500/#/campaigns/all', {
+			timeout: 50000,
+		});
 });
 
 Cypress.Commands.add('loginBlue', (user) => {
@@ -44,7 +46,7 @@ Cypress.Commands.add('loginBlue', (user) => {
 });
 
 Cypress.Commands.add('logout', () => {
-	cy.get('[cy-test=logged-in-user]').click();
+	cy.get('[cy-test=logged-in-user]').realClick();
 });
 
 // *******************************************
@@ -64,16 +66,13 @@ Cypress.Commands.add('addComment', (index, cmt) => {
 
 //DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
-	cy.get('[cy-test=add-comment]')
-		.eq(index)
-		.click()
-		.wait(100)
-		.then(() => {
-			cy.get('[cy-test=comment-dialog]').should('be.visible');
-		});
+	cy.get('[cy-test=command-info]').should('be.visible');
+	cy.get('[cy-test=add-comment]').should('be.visible').eq(index).realClick();
 
-	cy.get('[cy-test=delete-comment]').click();
-	cy.contains('Delete Comment').click();
+	cy.get('[cy-test=comment-dialog]').should('be.visible');
+
+	cy.get('[cy-test=delete-comment]').realClick();
+	cy.contains('Delete Comment').realClick();
 });
 
 // ADD TO EXISTING COMMENT
@@ -92,9 +91,9 @@ Cypress.Commands.add('addToExistingComment', (index, cmt) => {
 Cypress.Commands.add('addExistingTags', (...term) => {
 	term.forEach((tags) => {
 		cy.get('[cy-test=tag-input]').type(tags);
-		cy.get('[cy-test=tag-list-item]').contains(tags).click();
+		cy.get('[cy-test=tag-list-item]').contains(tags).realClick();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 	cy.wait('@addCommandGroupAnnotation');
 });
 
@@ -104,7 +103,7 @@ Cypress.Commands.add('addNewTags', { prevSubject: false }, (...term) => {
 		cy.get('[cy-test=tag-input]').type(tags);
 		cy.get('[cy-test=add-tag]').contains(tags).click({ force: true });
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 	cy.wait('@addCommandGroupAnnotation');
 });
 
@@ -140,15 +139,15 @@ Cypress.Commands.add('addNewComment', (index, comment, tag) => {
 
 // Edit an existing comment; do not edit tags
 Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
-	cy.get('[cy-test=edit-comment]').eq(index).click();
-	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
-	cy.get('[cy-test=save-comment]').click();
+	cy.get('[cy-test=edit-comment]').eq(index).realClick();
+	cy.get('[cy-test=comment-input]').realClick().clear().type(editedCommentText);
+	cy.get('[cy-test=save-comment]').realClick();
 	cy.wait('@updateAnnotation');
 });
 
 // Reply to a comment (only adds text, no tags)
 Cypress.Commands.add('replyToComment', (index, cmt) => {
-	cy.get('[cy-test=reply]').eq(index).click();
+	cy.get('[cy-test=reply]').eq(index).realClick();
 	cy.get('[cy-test=comment-input]').type(cmt);
 });
 
@@ -156,9 +155,9 @@ Cypress.Commands.add('replyToComment', (index, cmt) => {
 Cypress.Commands.add('addExistingTagsToReply', (...term) => {
 	term.forEach((tags) => {
 		cy.get('[cy-test=tag-input]').type(tags);
-		cy.get('[cy-test=tag-list-item]').contains(tags).click();
+		cy.get('[cy-test=tag-list-item]').contains(tags).realClick();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 });
 
 // *******************************************
@@ -170,7 +169,7 @@ Cypress.Commands.add('hostNameEquals', (name) => {
 });
 
 Cypress.Commands.add('openRawLogs', () => {
-	cy.get('[cy-test=openRawLogs]').click();
+	cy.get('[cy-test=openRawLogs]').realClick();
 });
 
 Cypress.Commands.add('infoRowTotal', (num) => {
@@ -179,7 +178,7 @@ Cypress.Commands.add('infoRowTotal', (num) => {
 
 //ACTUAL COMMANDS
 Cypress.Commands.add('selectCommandType', (cmd) => {
-	cy.get('[cy-test=commands]').contains(cmd).click();
+	cy.get('[cy-test=commands]').contains(cmd).realClick();
 	cy.wait(['@commands', '@commandIds']);
 });
 
@@ -212,27 +211,27 @@ Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
 
 // Close raw logs
 Cypress.Commands.add('closeRawLogs', () => {
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 	cy.wait(200);
 });
 
 // Search campaign for specific term
 Cypress.Commands.add('searchCampaignFor', (searchTerm) => {
-	cy.get('[cy-test=search]').click().clear().type(searchTerm).type('{enter}');
+	cy.get('[cy-test=search]').realClick().clear().type(searchTerm).type('{enter}');
 	cy.wait('@searchAnnotations');
 });
 
 // Edit an existing comment; do not edit tags
 Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
-	cy.get('[cy-test=edit-comment]').eq(index).click();
-	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
-	cy.get('[cy-test=save-comment]').click();
+	cy.get('[cy-test=edit-comment]').eq(index).realClick();
+	cy.get('[cy-test=comment-input]').realClick().clear().type(editedCommentText);
+	cy.get('[cy-test=save-comment]').realClick();
 	cy.wait('@updateAnnotation');
 });
 
 // Reply to a comment (only adds text, no tags)
 Cypress.Commands.add('replyToComment', (index, cmt) => {
-	cy.get('[cy-test=reply]').eq(index).click();
+	cy.get('[cy-test=reply]').eq(index).realClick();
 	cy.get('[cy-test=comment-input]').type(cmt);
 });
 
@@ -240,9 +239,9 @@ Cypress.Commands.add('replyToComment', (index, cmt) => {
 Cypress.Commands.add('addExistingTagsToReply', (...term) => {
 	term.forEach((tags) => {
 		cy.get('[cy-test=tag-input]').type(tags);
-		cy.get('[cy-test=tag-list-item]').contains(tags).click();
+		cy.get('[cy-test=tag-list-item]').contains(tags).realClick();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 });
 
 // Show hidden Beacons, Hosts, and Servers
@@ -250,7 +249,7 @@ Cypress.Commands.add('showHiddenItems', () => {
 	cy.get('[cy-test=settings]').click({ force: true });
 	cy.get('[cy-test=show-hide-beacons]').check({ force: true });
 	// cy.wait('@servers');
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 	cy.get('[cy-test=modal-header]').should('not.exist');
 	cy.wait(1000);
 });
@@ -260,31 +259,31 @@ Cypress.Commands.add('doNotShowHiddenItems', () => {
 	cy.get('[cy-test=settings]').click({ force: true });
 	cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 	// cy.wait('@servers');
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 	cy.get('[cy-test=modal-header]').should('not.exist');
 	cy.wait(1000);
 });
 
 Cypress.Commands.add('toggleLightTheme', () => {
-	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=settings]').realClick();
 	cy.get('[cy-test=toggle-theme]').check({ force: true });
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 });
 
 Cypress.Commands.add('toggleDarkTheme', () => {
-	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=settings]').realClick();
 	cy.get('[cy-test=toggle-theme]').uncheck({ force: true });
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 });
 
 Cypress.Commands.add('toggleRedacted', () => {
-	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=settings]').realClick();
 	cy.get('[cy-test=toggle-redacted-mode]').check({ force: true });
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 });
 
 Cypress.Commands.add('toggleUnredacted', () => {
-	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=settings]').realClick();
 	cy.get('[cy-test=toggle-redacted-mode]').uncheck({ force: true });
-	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=close-log]').realClick();
 });

@@ -2,7 +2,7 @@
 
 function hideUnhideServer(serverName) {
 	// Hide/unhide server via the Meta tab
-	cy.get('[cy-test=info-row]').contains(serverName).click();
+	cy.get('[cy-test=info-row]').contains(serverName).realClick();
 	cy.contains('[cy-test=panel-header]', serverName);
 	cy.clickMetaTab();
 	cy.showHideServerMetaTab();
@@ -146,9 +146,9 @@ describe('Hide a server', () => {
 		cy.selectCampaign(camp);
 
 		// Select the server, go to Meta tab, click show/hide link
-		cy.get('[cy-test=hostName]').eq(0).click();
+		cy.get('[cy-test=hostName]').eq(0).realClick();
 		cy.clickMetaTab();
-		cy.get('[cy-test=show-hide-this-server]').click();
+		cy.get('[cy-test=show-hide-this-server]').realClick();
 
 		// Verify modal shows; click Cancel
 		cy.verifyDialogBoxAppears();
@@ -167,8 +167,8 @@ describe('Hide a server', () => {
 		cy.selectCampaign(camp);
 
 		// Click kebab menu for first hostto bring up options; click "Hide Server"
-		cy.get('[cy-test=quick-meta-button]').eq(0).click();
-		cy.get('[cy-test=show-hide-item]').click();
+		cy.get('[cy-test=quick-meta-button]').eq(0).realClick();
+		cy.get('[cy-test=show-hide-item]').realClick();
 
 		// Verify modal shows; click Cancel
 		cy.verifyDialogBoxAppears();
@@ -179,7 +179,7 @@ describe('Hide a server', () => {
 		cy.verifyDialogBoxDisappears();
 
 		// Verify the kebab menu link still says "Hide Server" vs. "Show"
-		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=quick-meta-button]').eq(0).realClick();
 		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Server');
 	});
 

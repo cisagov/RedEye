@@ -26,7 +26,7 @@ Cypress.Commands.add('logsShouldContain', (txt) => {
 
 //VERIFY THAT COMMAND LOGS CONTAIN TEXT
 Cypress.Commands.add('showMoreLines', () => {
-	cy.get('[cy-test=showMoreLines]').click();
+	cy.get('[cy-test=showMoreLines]').realClick();
 });
 
 Cypress.Commands.add('expandedLogsContain', (log) => {
@@ -57,12 +57,12 @@ Cypress.Commands.add('verifyTotalCommands', (num) => {
 
 //ADD COMMENTS
 Cypress.Commands.add('clickAddComments', (index) => {
-	cy.get('[cy-test=add-comment]').eq(index).click();
+	cy.get('[cy-test=add-comment]').eq(index).realClick();
 });
 
 //ADD MULTI COMMAND COMMENTS
 Cypress.Commands.add('addMultiCommandComment', () => {
-	cy.get('[cy-test=multi-command-comment]').click();
+	cy.get('[cy-test=multi-command-comment]').realClick();
 	cy.get('[cy-test=comment-on-commands]').should('be.disabled');
 });
 

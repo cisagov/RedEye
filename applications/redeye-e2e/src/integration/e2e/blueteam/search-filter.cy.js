@@ -27,8 +27,8 @@ describe('Search campaign and filter results', () => {
 				// cy.log(resultSearch1);
 
 				// Filter to Beacons
-				cy.get('[cy-test=filter-search]').click();
-				cy.get('[cy-test=Beacons]').click();
+				cy.get('[cy-test=filter-search]').realClick();
+				cy.get('[cy-test=Beacons]').realClick();
 
 				// Log filtered results and compare to original
 				cy.get('@list')
@@ -38,8 +38,8 @@ describe('Search campaign and filter results', () => {
 						expect(resultSearch2).to.be.lt(resultSearch1);
 
 						// Change filter to Commands
-						cy.get('[cy-test=filter-search]').click();
-						cy.get('[cy-test=Commands]').click();
+						cy.get('[cy-test=filter-search]').realClick();
+						cy.get('[cy-test=Commands]').realClick();
 
 						cy.wait(500);
 						// Log filtered results and compare to original
@@ -72,8 +72,8 @@ describe('Search campaign and filter results', () => {
 				// cy.log(resultSearch1);
 
 				// Filter to Host
-				cy.get('[cy-test=filter-search]').click();
-				cy.get('[cy-test=Hosts]').click();
+				cy.get('[cy-test=filter-search]').realClick();
+				cy.get('[cy-test=Hosts]').realClick();
 
 				// Log filtered results and compare to original
 				cy.get('@list')
@@ -83,8 +83,8 @@ describe('Search campaign and filter results', () => {
 						expect(resultSearch2).to.be.lt(resultSearch1);
 
 						// Change filter to Server
-						cy.get('[cy-test=filter-search]').click();
-						cy.get('[cy-test=Teamservers]').click();
+						cy.get('[cy-test=filter-search]').realClick();
+						cy.get('[cy-test=Teamservers]').realClick();
 
 						// Log filtered results and compare to original
 						cy.get('@list')
@@ -94,8 +94,8 @@ describe('Search campaign and filter results', () => {
 								expect(resultSearch3).to.be.lt(resultSearch1);
 
 								// Change filter to Beacon
-								cy.get('[cy-test=filter-search]').click();
-								cy.get('[cy-test=Beacons]').click();
+								cy.get('[cy-test=filter-search]').realClick();
+								cy.get('[cy-test=Beacons]').realClick();
 
 								// Log filtered results and compare to original
 								cy.get('@list')
@@ -124,8 +124,8 @@ describe('Search campaign and filter results', () => {
 		cy.clickSearch();
 
 		// Set filter to Beacons
-		cy.get('[cy-test=filter-search]').click();
-		cy.get('[cy-test=Beacons]').click();
+		cy.get('[cy-test=filter-search]').realClick();
+		cy.get('[cy-test=Beacons]').realClick();
 		cy.get('[cy-test=search-result-item]').should('not.exist');
 
 		// Enter search term and log number of results
@@ -141,7 +141,7 @@ describe('Search campaign and filter results', () => {
 			.its('length')
 			.then((count1) => {
 				// Remove filter, verify more items appear
-				cy.get('[cy-test=remove-filter]').click();
+				cy.get('[cy-test=remove-filter]').realClick();
 				cy.get('[cy-test=search-result-item]')
 					.its('length')
 					.then((count2) => {

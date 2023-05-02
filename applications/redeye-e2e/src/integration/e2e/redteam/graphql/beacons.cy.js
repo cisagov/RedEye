@@ -10,7 +10,6 @@ describe('Query Beacons', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query beacons($campaignId: String!) {
        beacons(campaignId: $campaignId) {
@@ -19,12 +18,9 @@ describe('Query Beacons', () => {
     }`;
 			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
-				const comp = res.body.data.beacons;
-				expect(comp.length).to.eq(6);
+				expect(res.body.data.beacons.length).to.eq(6);
 			});
 		});
-
-		cy.returnToCampaignCard();
 	});
 
 	after(() => {

@@ -29,7 +29,7 @@ describe('Search campaign and sort results', () => {
 		cy.searchResultContains(2, 'Host');
 
 		// Sort by NAME ascending
-		cy.get('[cy-test=sort-order]').click();
+		cy.get('[cy-test=sort-order]').realClick();
 		cy.wait(500);
 
 		// Verify list order
@@ -60,7 +60,7 @@ describe('Search campaign and sort results', () => {
 		cy.searchResultContains(2, 'Beacon');
 
 		// Sort by TYPE ascending
-		cy.get('[cy-test=sort-order]').click();
+		cy.get('[cy-test=sort-order]').realClick();
 		cy.wait(500);
 
 		// Verify list order
@@ -87,7 +87,7 @@ describe('Search campaign and sort results', () => {
 		cy.searchResultContains(2, 'Beacon');
 
 		// Sort by RELEVANCE ascending
-		cy.get('[cy-test=sort-order]').click();
+		cy.get('[cy-test=sort-order]').realClick();
 		cy.wait(500);
 
 		// Verify list order

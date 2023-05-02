@@ -21,12 +21,12 @@ describe('View Raw Logs', () => {
 		cy.selectCommandType('ps');
 
 		// Expand first command
-		cy.get('[cy-test=info-row]').eq(0).click();
+		cy.get('[cy-test=info-row]').eq(0).realClick();
 		cy.wait(500);
 		cy.get('[cy-test=openRawLogs]').should('be.visible');
 
 		// Click "Show Raw Logs" link; verify log appears
-		cy.get('[cy-test=openRawLogs]').click();
+		cy.get('[cy-test=openRawLogs]').realClick();
 		verifyRawLogs();
 	});
 
@@ -36,12 +36,12 @@ describe('View Raw Logs', () => {
 		cy.clickCommentsTab();
 
 		// Click expandable row under first comment
-		cy.get('[cy-test=command-info]').eq(0).click();
+		cy.get('[cy-test=command-info]').eq(0).realClick();
 		cy.wait(500);
 		cy.get('[cy-test=openRawLogs]').should('be.visible');
 
 		// Click "Show Raw Logs" link; verify log appears
-		cy.get('[cy-test=openRawLogs]').click();
+		cy.get('[cy-test=openRawLogs]').realClick();
 		verifyRawLogs();
 	});
 

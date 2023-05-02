@@ -39,7 +39,7 @@ describe('Hide a beacon', () => {
 
 		// Go to Beacons tab; open first beacon; go to Meta tab
 		cy.clickBeaconsTab();
-		cy.get('[cy-test=beacons-row]').eq(0).click();
+		cy.get('[cy-test=beacons-row]').eq(0).realClick();
 		cy.clickMetaTab();
 
 		// Verify unable to hide/show new beacons/host
@@ -48,7 +48,7 @@ describe('Hide a beacon', () => {
 
 	it('Toggle hide/show switch from main page', () => {
 		// Toggle off switch for hidden beacons
-		cy.get('[cy-test=settings]').click();
+		cy.get('[cy-test=settings]').realClick();
 		cy.doNotShowHiddenItems();
 
 		// Search for new campaign by name
@@ -56,7 +56,7 @@ describe('Hide a beacon', () => {
 
 		// Navigate to the Beacons tab and open kebab menu for first beacon
 		cy.clickBeaconsTab();
-		cy.get('[cy-test=beacons-row]').eq(0).click();
+		cy.get('[cy-test=beacons-row]').eq(0).realClick();
 		cy.clickMetaTab();
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});

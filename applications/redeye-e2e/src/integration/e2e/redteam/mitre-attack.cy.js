@@ -14,7 +14,7 @@ describe('Mitre attack tests', () => {
 
 		cy.selectCommandType(cmd);
 
-		cy.get('[cy-test=expand]').eq(1).click();
+		cy.get('[cy-test=expand]').eq(1).realClick();
 
 		cy.get('[cy-test=mitre-attack-link]')
 			.then(($el) => {
