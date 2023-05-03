@@ -197,11 +197,15 @@ export class CampaignStore extends ExtendedModel(() => ({
 	getDefaultSort(tab?: Tabs) {
 		if (tab) {
 			const memorySortBy = this.sortMemory[tab];
-			const sortOption = sortOptions[tab].find((option) => option.key === this.sort.sortBy);
+			const sortOption = sortOptions(this.appStore?.campaign.overviewCommentList === OverviewCommentList.ALL)[tab].find(
+				(option) => option.key === this.sort.sortBy
+			);
 			// 1) Use the option in memory if it exists
 			// 2) Otherwise use an option that has the same key as what was previously being searched
 			// 3) if that isn't valid for the current newTab use the first option in sortOptions
-			const sortBy = (memorySortBy?.sortBy ?? sortOption?.key ?? sortOptions[tab][0].key) as SortOption;
+			const sortBy = (memorySortBy?.sortBy ??
+				sortOption?.key ??
+				sortOptions(this.appStore?.campaign.overviewCommentList === OverviewCommentList.ALL)[tab][0].key) as SortOption;
 			const direction = memorySortBy?.direction ?? SortDirection.ASC;
 			return { sortBy, direction };
 		}

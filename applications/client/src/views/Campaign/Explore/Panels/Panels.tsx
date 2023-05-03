@@ -35,8 +35,28 @@ export enum CommentFilterOptions {
 	TIME = 'minTime',
 }
 
+export enum OverviewCommentListFilterOptions {
+	COMMENT_COUNT = 'commentCount',
+	COMMAND_COUNT = 'commandCount',
+	ALPHABETICAL = 'alphabetical',
+}
+
+export const commentsTabSort = [
+	{ label: 'Time', key: CommentFilterOptions.TIME },
+	{ label: 'Operator', key: CommentFilterOptions.OPERATOR },
+	{ label: 'Favorited', key: CommentFilterOptions.FAVORITE },
+];
+
+export const overviewCommentListSort = [
+	{ label: 'Comment Count', key: CommentFilterOptions.TIME },
+	{ label: 'Command Count', key: CommentFilterOptions.OPERATOR },
+	{ label: 'Alphabetical', key: CommentFilterOptions.FAVORITE },
+];
+
 // Defaults to the first one if unable to find a similar key
-export const sortOptions: Record<Tabs, SortOption[]> = {
+export const sortOptions: (overviewCommentList?: boolean) => Record<Tabs, SortOption[]> = (
+	overviewCommentList = false
+) => ({
 	[Tabs.BEACONS]: [SortBy.TIME, { label: 'Name', key: 'beaconName' }, SortBy.ID],
 	[Tabs.HOSTS]: [SortBy.TIME, { label: 'Name', key: 'hostName' }, SortBy.ID],
 	[Tabs.COMMANDS_OVERVIEW]: [{ label: 'Name', key: 'text' }, SortBy.ID],
@@ -44,11 +64,7 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 		{ label: 'Time', key: 'time' },
 		{ label: 'Name', key: 'name' },
 	],
-	[Tabs.COMMENTS]: [
-		{ label: 'Time', key: CommentFilterOptions.TIME },
-		{ label: 'Operator', key: CommentFilterOptions.OPERATOR },
-		{ label: 'Favorited', key: CommentFilterOptions.FAVORITE },
-	],
+	[Tabs.COMMENTS]: overviewCommentList ? overviewCommentListSort : commentsTabSort,
 	[Tabs.OPERATORS]: [
 		{
 			label: 'Time',
@@ -65,7 +81,7 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 		{ label: 'Name', key: 'name' },
 		SortBy.ID,
 	],
-};
+});
 
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {

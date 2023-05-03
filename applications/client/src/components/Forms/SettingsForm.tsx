@@ -69,7 +69,7 @@ export const SettingsForm = observer<SettingsFormProps>(({ ...props }) => {
 						},
 						queryParams:
 							store.router.params.view === CampaignViews.EXPLORE
-								? { sort: `${sortOptions[Tabs.HOSTS][0].key} ${SortDirection.ASC}` }
+								? { sort: `${sortOptions()[Tabs.HOSTS][0].key} ${SortDirection.ASC}` }
 								: {},
 						clear: true,
 					});
