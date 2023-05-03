@@ -35,7 +35,7 @@ export enum OverviewCommentList {
 	FAVORITED_COMMENTS = 'Comments',
 	PROCEDURAL = 'parser-generated',
 	USER_COMMENTS = 'User Comments',
-	TAG_COMMENTS = 'TAG Comments',
+	TAG_COMMENTS = 'Tag Comments',
 }
 
 @model('CampaignStore')
