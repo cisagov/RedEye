@@ -31,9 +31,11 @@ export enum CampaignLoadingMessage {
 
 export enum OverviewCommentList {
 	ALL = 'All',
-	COMMENTS = 'Comments',
+	ALL_COMMENTS = 'Comments',
+	FAVORITED_COMMENTS = 'Comments',
 	PROCEDURAL = 'parser-generated',
 	USER_COMMENTS = 'User Comments',
+	TAG_COMMENTS = 'TAG Comments',
 }
 
 @model('CampaignStore')
@@ -70,6 +72,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
 		overviewCommentList: prop<OverviewCommentList>(OverviewCommentList.ALL).withSetter(),
+		overviewCommentType: prop<string>('').withSetter(),
 	},
 })) {
 	@observable sortMemory: {

@@ -1,4 +1,5 @@
 import type { AppStore } from '@redeye/client/store';
+import { OverviewCommentList } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
 import { Beacons, HostBeacons } from './Beacon';
@@ -101,7 +102,11 @@ export const InfoPanelTabs = {
 	[InfoType.OVERVIEW]: {
 		title: (store: AppStore) => {
 			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
-			return <PanelHeader>{campaign?.name}</PanelHeader>;
+			const title =
+				store.router.params.tab === Tabs.COMMENTS && store.campaign.overviewCommentList !== OverviewCommentList.ALL
+					? store.campaign.overviewCommentType
+					: campaign?.name;
+			return <PanelHeader>{title}</PanelHeader>;
 		},
 		panels: {
 			[Tabs.HOSTS]: OverviewHosts,

@@ -267,7 +267,7 @@ export class PresentationResolvers {
 			commandsByUser.push(
 				new PresentationItem({
 					id: `user-${user}`,
-					key: user,
+					key: `user-${user}`,
 					count: userComments[user].length,
 					commandCount: manualCommandCount,
 					commandGroupIds: manualCommandGroupIds,

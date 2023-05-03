@@ -38,11 +38,24 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 					onClick={() => {
 						setCommandGroupIds(presentationItem.commandGroupIds);
 						store.campaign.setOverviewCommentList(
-							presentationItem.id === 'procedural'
+							presentationItem.id === 'all' && presentationItem.key === 'All Comments'
+								? OverviewCommentList.ALL_COMMENTS
+								: presentationItem.id === 'favorited' && presentationItem.key === 'Favorited Comments'
+								? OverviewCommentList.FAVORITED_COMMENTS
+								: presentationItem.id === 'procedural' && presentationItem.key === 'parser-generated'
 								? OverviewCommentList.PROCEDURAL
-								: presentationItem.id.slice(0, 5) === 'user-'
+								: presentationItem.id.slice(0, 5) === 'user-' && presentationItem.key.slice(0, 5) === 'user-'
 								? OverviewCommentList.USER_COMMENTS
-								: OverviewCommentList.COMMENTS
+								: OverviewCommentList.TAG_COMMENTS
+						);
+						store.campaign.setOverviewCommentType(
+							(presentationItem.id === 'all' && presentationItem.key === 'All Comments') ||
+								(presentationItem.id === 'favorited' && presentationItem.key === 'Favorited Comments') ||
+								(presentationItem.id === 'procedural' && presentationItem.key === 'parser-generated')
+								? presentationItem.key
+								: presentationItem.id.slice(0, 5) === 'user-' && presentationItem.key.slice(0, 5) === 'user-'
+								? presentationItem.id.slice(5)
+								: `#${presentationItem.id}`
 						);
 					}}
 				>
@@ -57,7 +70,11 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 						muted={presentationItem.id === 'procedural'}
 						italic={presentationItem.id === 'procedural'}
 					>
-						{presentationItem.key[0] === '#' ? presentationItem.key.slice(1) : presentationItem.key}
+						{presentationItem.key[0] === '#'
+							? presentationItem.key.slice(1)
+							: presentationItem.key.slice(0, 5) === 'user-'
+							? presentationItem.key.slice(5)
+							: presentationItem.key}
 					</RowTitle>
 					<FlexSplitter />
 					<IconLabel title="Commands" value={presentationItem.commandCount} icon={semanticIcons.commands} />
