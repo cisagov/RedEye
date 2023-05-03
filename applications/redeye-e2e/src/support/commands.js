@@ -1,5 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /// <reference types="cypress" />
+import 'cypress-real-events';
 
 import { graphqlRequest, mutRequest } from '../support/utils';
 
@@ -57,6 +58,7 @@ Cypress.Commands.add('logout', () => {
 Cypress.Commands.add('addComment', (index, cmt) => {
 	cy.get('[cy-test=add-comment]')
 		.eq(index)
+		.realHover()
 		.invoke('attr', 'style', 'visibility: visible')
 		.should('be.visible')
 		.click({ force: true });
@@ -178,6 +180,7 @@ Cypress.Commands.add('infoRowTotal', (num) => {
 Cypress.Commands.add('selectCommandType', (cmd) => {
 	cy.get('[cy-test=commands]').contains(cmd).click();
 	cy.wait(['@commands', '@commandIds']);
+	cy.wait(500);
 });
 
 // Delete campaign using GraphQL

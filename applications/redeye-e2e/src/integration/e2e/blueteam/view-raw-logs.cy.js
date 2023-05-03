@@ -23,10 +23,8 @@ describe('View Raw Logs', () => {
 		// Expand first command
 		cy.get('[cy-test=info-row]').eq(0).click();
 		cy.wait(500);
-		cy.get('[cy-test=openRawLogs]').should('be.visible');
+		cy.get('[cy-test=openRawLogs]').should('be.visible').click();
 
-		// Click "Show Raw Logs" link; verify log appears
-		cy.get('[cy-test=openRawLogs]').click();
 		verifyRawLogs();
 	});
 
@@ -38,10 +36,8 @@ describe('View Raw Logs', () => {
 		// Click expandable row under first comment
 		cy.get('[cy-test=command-info]').eq(0).click();
 		cy.wait(500);
-		cy.get('[cy-test=openRawLogs]').should('be.visible');
+		cy.get('[cy-test=openRawLogs]').should('be.visible').click();
 
-		// Click "Show Raw Logs" link; verify log appears
-		cy.get('[cy-test=openRawLogs]').click();
 		verifyRawLogs();
 	});
 
