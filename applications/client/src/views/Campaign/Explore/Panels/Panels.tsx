@@ -106,7 +106,9 @@ export const InfoPanelTabs = {
 				store.router.params.tab === Tabs.COMMENTS && store.campaign.overviewCommentList !== OverviewCommentList.ALL
 					? store.campaign.overviewCommentType
 					: campaign?.name;
-			return <PanelHeader>{title}</PanelHeader>;
+			return (
+				<PanelHeader css={title === OverviewCommentList.PROCEDURAL && { fontStyle: 'italic' }}>{title}</PanelHeader>
+			);
 		},
 		panels: {
 			[Tabs.HOSTS]: OverviewHosts,

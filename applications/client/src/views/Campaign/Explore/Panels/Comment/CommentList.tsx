@@ -1,4 +1,5 @@
 import { CarbonIcon, semanticIcons } from '@redeye/client/components';
+import type { PresentationItemModel } from '@redeye/client/store';
 import {
 	OverviewCommentList,
 	presentationCommandGroupModelPrimitives,
@@ -8,8 +9,7 @@ import {
 import { CoreTokens, FlexSplitter } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { Bookmark16, ChatLaunch16 } from '@carbon/icons-react';
-import { Hashtag, User } from '@carbon/icons-react/next';
+import { Bookmark16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
 import { useCallback, useMemo } from 'react';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
@@ -30,32 +30,27 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 			)
 	);
 
+	// For presentationItem.id by User or Tag, make sure use a prefix in case it's same to other general types.
 	const handleClickType = useCallback((presentationItem) => {
 		setCommandGroupIds(presentationItem.commandGroupIds);
 		store.campaign.setOverviewCommentList(
-			presentationItem.id === 'all' && presentationItem.key === 'All Comments'
+			presentationItem.id === 'all'
 				? OverviewCommentList.ALL_COMMENTS
-				: presentationItem.id === 'favorited' && presentationItem.key === 'Favorited Comments'
+				: presentationItem.id === 'favorited'
 				? OverviewCommentList.FAVORITED_COMMENTS
-				: presentationItem.id === 'procedural' && presentationItem.key === 'parser-generated'
+				: presentationItem.id === 'procedural'
 				? OverviewCommentList.PROCEDURAL
-				: presentationItem.id.slice(0, 5) === 'user-' && presentationItem.key.slice(0, 5) === 'user-'
+				: presentationItem.id.slice(0, 5) === 'user-'
 				? OverviewCommentList.USER_COMMENTS
 				: OverviewCommentList.TAG_COMMENTS
 		);
 		store.campaign.setOverviewCommentType(
-			(presentationItem.id === 'all' && presentationItem.key === 'All Comments') ||
-				(presentationItem.id === 'favorited' && presentationItem.key === 'Favorited Comments') ||
-				(presentationItem.id === 'procedural' && presentationItem.key === 'parser-generated')
-				? presentationItem.key
-				: presentationItem.id.slice(0, 5) === 'user-' && presentationItem.key.slice(0, 5) === 'user-'
-				? presentationItem.id.slice(5)
-				: `#${presentationItem.id}`
+			presentationItem.key.slice(0, 5) === 'user-' ? presentationItem.key.slice(5) : presentationItem.key
 		);
 	}, []);
 
 	const rowTitle = useMemo(
-		() => (presentationItem) =>
+		() => (presentationItem: PresentationItemModel) =>
 			presentationItem.key[0] === '#'
 				? presentationItem.key.slice(1)
 				: presentationItem.key.slice(0, 5) === 'user-'
@@ -96,7 +91,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 
 const getIcon = (itemId: string): any => {
 	if (itemId === 'favorited') return Bookmark16;
-	if (itemId === 'procedural') return ChatLaunch16;
-	if (itemId.slice(0, 5) === 'user-') return User;
-	else return Hashtag;
+	if (itemId === 'procedural') return Playlist16;
+	if (itemId.slice(0, 5) === 'user-') return User16;
+	else return Hashtag16;
 };
