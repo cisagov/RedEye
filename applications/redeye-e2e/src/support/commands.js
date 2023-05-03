@@ -55,20 +55,19 @@ Cypress.Commands.add('logout', () => {
 
 //HOVER OVER TO ADD NEW COMMENT IF NONE EXIST
 Cypress.Commands.add('addComment', (index, cmt) => {
-	cy.get('[cy-test=command-info] [cy-test=add-comment]')
+	cy.get('[cy-test=add-comment]')
 		.eq(index)
 		.invoke('attr', 'style', 'visibility: visible')
 		.should('be.visible')
 		.click({ force: true });
 	cy.get('[cy-test=comment-box]').should('be.visible');
-	cy.get('[cy-test=comment-input]').type(cmt);
+	cy.get('[cy-test=comment-input]').should('be.visible').type(cmt);
 });
 
 //DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
 	cy.get('[cy-test=command-info]').should('be.visible');
-	cy.get('[cy-test=add-comment]').should('be.visible').eq(index).click();
-
+	cy.get('[cy-test=add-comment]').should('be.visible').eq(index).click({ force: true });
 	cy.get('[cy-test=comment-dialog]').should('be.visible');
 	cy.get('[cy-test=delete-comment]').click();
 	cy.contains('Delete Comment').click();

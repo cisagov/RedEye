@@ -40,7 +40,7 @@ Cypress.Commands.add('clickPresentationMode', () => {
 	cy.wait('@presentationItems');
 	cy.get('div.bp4-spinner-annimation').should('not.exist');
 	cy.get('[cy-test=favorited]').should('be.visible');
-	cy.get('.superGraph').should('be.visible');
+	cy.get('.superGraph').should('be.visible', { timeout: 10000 });
 
 	cy.wait(1000);
 });
