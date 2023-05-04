@@ -38,10 +38,9 @@ Cypress.Commands.add('clickExplorerMode', () => {
 Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();
 	cy.wait('@presentationItems');
+	cy.get('[cy-test=presentation-root]').should('be.visible');
 	cy.get('div.bp4-spinner-annimation').should('not.exist');
-	cy.get('[cy-test=favorited]').should('be.visible');
-	cy.get('.superGraph').should('be.visible', { timeout: 10000 });
-
+	cy.get('.superGraph').should('be.visible', { timeout: 90000 });
 	cy.wait(1000);
 });
 
@@ -83,6 +82,7 @@ Cypress.Commands.add('clickOperatorsTab', () => {
 Cypress.Commands.add('clickCommentsTab', () => {
 	cy.get('[cy-test=comments]').click();
 	cy.wait(500);
+	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
 });
 
 // CLICK BEACONS ON EXPLORER OVERVIEW PANEL

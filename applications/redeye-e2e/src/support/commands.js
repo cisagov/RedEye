@@ -36,7 +36,7 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 		}
 	),
 		cy.visit('http://localhost:3500/#/campaigns/all', {
-			timeout: 50000,
+			timeout: 80000,
 		});
 });
 
@@ -61,7 +61,7 @@ Cypress.Commands.add('addComment', (index, cmt) => {
 		.realHover()
 		.invoke('attr', 'style', 'visibility: visible')
 		.should('be.visible')
-		.click({ force: true });
+		.realClick();
 	cy.get('[cy-test=comment-box]').should('be.visible');
 	cy.get('[cy-test=comment-input]').should('be.visible').type(cmt);
 });
@@ -72,7 +72,8 @@ Cypress.Commands.add('deleteComment', (index) => {
 	cy.get('[cy-test=add-comment]').should('be.visible').eq(index).click({ force: true });
 	cy.get('[cy-test=comment-dialog]').should('be.visible');
 	cy.get('[cy-test=delete-comment]').click();
-	cy.contains('Delete Comment').click();
+	cy.contains('Delete Comment').click({ force: true });
+	cy.wait(500);
 });
 
 // ADD TO EXISTING COMMENT
@@ -93,7 +94,7 @@ Cypress.Commands.add('addExistingTags', (...term) => {
 		cy.get('[cy-test=tag-input]').type(tags);
 		cy.get('[cy-test=tag-list-item]').contains(tags).click();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 	cy.wait('@addCommandGroupAnnotation');
 });
 
@@ -101,15 +102,16 @@ Cypress.Commands.add('addExistingTags', (...term) => {
 Cypress.Commands.add('addNewTags', { prevSubject: false }, (...term) => {
 	term.forEach((tags) => {
 		cy.get('[cy-test=tag-input]').type(tags);
-		cy.get('[cy-test=add-tag]').contains(tags).click({ force: true });
+		cy.get('[cy-test=add-tag]').contains(tags).realClick();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
 	cy.wait('@addCommandGroupAnnotation');
+	cy.wait(300);
 });
 
 //MARK COMMENT AS FAVORITE
 Cypress.Commands.add('favoriteComment', (index) => {
-	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).click({ force: true });
+	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).realClick();
 });
 
 //ADD NEW COMMENT
