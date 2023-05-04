@@ -116,27 +116,47 @@ Cypress.Commands.add('favoriteComment', (index) => {
 
 //ADD NEW COMMENT
 Cypress.Commands.add('addNewComment', (index, comment, tag) => {
-	cy.get('[cy-test=command-info]')
+	cy.get('[cy-test=add-comment]')
 		.eq(index)
-		.then(($co) => {
-			if ($co.find('[cy-test=add-comment]').length > 0) {
-				cy.get('[cy-test=add-comment]').then(($btn) => {
-					if ($btn.is(':visible')) {
-						cy.log('COMMENT ALREADY HERE');
-						cy.get('[cy-test=add-comment]').click({ force: true });
-						cy.get('[cy-test=add-new-comment]').click({ force: true });
-						cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
-						cy.addExistingTags(tag);
-						cy.wait(300);
-					} else {
-						cy.log('NEW COMMENT ');
-						cy.addComment(index, comment);
-						cy.addNewTags(tag);
-						cy.wait(300);
-					}
+		.should((_) => {})
+		.then(($button) => {
+			if (!$button.is(':visible')) {
+				cy.addComment(index, comment);
+				cy.addNewTags(tag);
+				cy.wait(300);
+				return;
+			} else {
+				cy.window().then((win) => {
+					cy.spy(win.console, 'log').as('log');
 				});
+				cy.wrap($button).click();
+				cy.get('[cy-test=add-new-comment]').click({ force: true });
+				cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
+				cy.addExistingTags(tag);
+				cy.get('@log').should('have.been.calledOnceWith', 'Clicked');
 			}
 		});
+	// cy.get('[cy-test=command-info]')
+	// 	.eq(index)
+	// 	.then(($co) => {
+	// 		if ($co.find('[cy-test=add-comment]').length > 0) {
+	// 			cy.get('[cy-test=add-comment]').then(($btn) => {
+	// 				if ($btn.is(':visible')) {
+	// 					cy.log('COMMENT ALREADY HERE');
+	// 					cy.get('[cy-test=add-comment]').click({ force: true });
+	// 					cy.get('[cy-test=add-new-comment]').click({ force: true });
+	// 					cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
+	// 					cy.addExistingTags(tag);
+	// 					cy.wait(300);
+	// 				} else {
+	// 					cy.log('NEW COMMENT ');
+	// 					cy.addComment(index, comment);
+	// 					cy.addNewTags(tag);
+	// 					cy.wait(300);
+	// 				}
+	// 			});
+	// 		}
+	// 	});
 });
 
 // Edit an existing comment; do not edit tags
