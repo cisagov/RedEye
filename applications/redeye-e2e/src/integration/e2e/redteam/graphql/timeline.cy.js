@@ -13,11 +13,9 @@ describe('Query Timeline', () => {
 
 			const query = `query timeline(
 				$campaignId: String!
-				$suggestedBuckets: Float
 			  ) {
 				timeline(
 				  campaignId: $campaignId
-				  suggestedBuckets: $suggestedBuckets
 				) {
 				  buckets {
 					bucketStartTime

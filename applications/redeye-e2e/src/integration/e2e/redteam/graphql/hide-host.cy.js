@@ -16,9 +16,6 @@ describe('Hide a Host using GraphQL', () => {
 			const mutation = `mutation toggleHostHidden($campaignId: String!, $hostId: String!) {
 					toggleHostHidden(campaignId: $campaignId, hostId: $hostId) {
 					  id
-					  meta {
-						id
-					  }
 					}
 				  }
 				  `;
@@ -28,8 +25,6 @@ describe('Hide a Host using GraphQL', () => {
 
 			const query = `query hosts($campaignId: String!) {
 					hosts(campaignId: $campaignId) {
-					  id
-					 hostName
 					  meta {
 						id
 					  }

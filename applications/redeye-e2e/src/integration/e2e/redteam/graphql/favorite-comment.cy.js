@@ -79,14 +79,7 @@ describe('Mark comment as favorite using GraphQL', () => {
 					text: $text
 					user: $user
 				) {
-				  id
-				  commandIds
 				  favorite
-				  text
-				  user
-				  tags {
-					id
-				  }
 				}
 			  }`;
 

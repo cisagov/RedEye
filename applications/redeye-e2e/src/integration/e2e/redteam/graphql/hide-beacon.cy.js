@@ -15,13 +15,7 @@ describe('Hide a Beacon using GraphQL', () => {
 
 			const mutation = `mutation toggleBeaconHidden($beaconId: String!, $campaignId: String!) {
 				toggleBeaconHidden(beaconId: $beaconId, campaignId: $campaignId) {
-				  id
-				  beaconName
 				  hidden
-				  meta {
-					id
-
-				  }
 				}
 			  }
 				  `;
@@ -31,7 +25,6 @@ describe('Hide a Beacon using GraphQL', () => {
 
 			const query = `query beacons($campaignId: String!) {
 					beacons(campaignId: $campaignId) {
-					  id
 					  meta {
 						id
 					  }

@@ -26,12 +26,7 @@ describe('Hide a Beacon using GraphQL', () => {
 				  campaignId: $campaignId
 				  setHidden: $setHidden
 				) {
-				  id
-				  beaconName
 				  hidden
-				  meta {
-					id
-				  }
 				}
 			  }	  
 				  `;
@@ -47,12 +42,7 @@ describe('Hide a Beacon using GraphQL', () => {
 
 			const query = `query beacons($campaignId: String!, $hidden: Boolean) {
 				beacons(campaignId: $campaignId, hidden: $hidden) {
-				  id
-				  beaconName
 				  hidden
-				  meta {
-					id
-				  }
 				}
 			  }
 				  `;

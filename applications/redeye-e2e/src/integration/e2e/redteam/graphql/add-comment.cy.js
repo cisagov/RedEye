@@ -31,7 +31,6 @@ describe('Add a comment using GraphQL', () => {
 				  text: $text
 				  user: $user
 				) {
-				  id
 				  commandIds
 				  text
 				  user

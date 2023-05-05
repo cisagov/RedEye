@@ -67,8 +67,6 @@ describe('Delete a comment using GraphQL', () => {
 				// Delete comment
 				const mutationDelete = `mutation deleteAnnotation($annotationId: String!, $campaignId: String!) {
 					deleteAnnotation(annotationId: $annotationId, campaignId: $campaignId) {
-					  id
-					  commandIds
 					  text
 					  user
 					  tags {

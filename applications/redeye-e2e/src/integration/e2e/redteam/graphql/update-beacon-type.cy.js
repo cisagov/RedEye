@@ -14,8 +14,6 @@ describe('Update beacon type using GraphQL', () => {
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
 
-			//HAS NOT YET BEEN UPDATED
-
 			const mutation = `mutation updateBeaconMetadata(
 				$beaconId: String!
 				$beaconType: BeaconType
@@ -28,9 +26,7 @@ describe('Update beacon type using GraphQL', () => {
 				) {
 				  id
 				  beaconName
-				  displayName
 				  meta {
-					id
 					type
 				  }
 				}

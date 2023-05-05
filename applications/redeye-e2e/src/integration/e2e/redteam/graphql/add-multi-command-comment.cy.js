@@ -33,8 +33,6 @@ describe('Add multi-command comment using GraphQL', () => {
 				  text: $text
 				  user: $user
 				) {
-				  id
-				  commandGroupId
 				  commandIds
 				  text
 				  user

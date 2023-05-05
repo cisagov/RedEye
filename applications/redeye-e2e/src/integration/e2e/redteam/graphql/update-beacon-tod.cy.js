@@ -24,10 +24,8 @@ describe('Update beacon time of deathusing GraphQL', () => {
 				  beaconTimeOfDeath: $beaconTimeOfDeath
 				  campaignId: $campaignId
 				) {
-				  id
 				  beaconName
 				  meta {
-					id
 					endTime
 				  }
 				}

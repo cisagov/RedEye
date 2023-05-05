@@ -24,12 +24,8 @@ describe('Update beacon display name using GraphQL', () => {
 				  beaconId: $beaconId
 				  campaignId: $campaignId
 				) {
-				  id
 				  beaconName
 				  displayName
-				  meta {
-					id
-				  }
 				}
 			  }
 			  
