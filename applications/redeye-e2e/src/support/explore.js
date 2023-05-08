@@ -268,6 +268,7 @@ Cypress.Commands.add('showHideServerMetaTab', () => {
 Cypress.Commands.add('showHideItem', (index) => {
 	cy.get('[cy-test=quick-meta-button]').eq(index).click();
 	cy.get('[cy-test=show-hide-item]').click();
+	cy.wait(400);
 });
 
 // VERIFY SHOW/HIDE DIALOG BOX APPEARS
@@ -296,8 +297,9 @@ Cypress.Commands.add('verifyCannotHideFinal', () => {
 
 // CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
 Cypress.Commands.add('confirmShowHide', () => {
-	cy.get('[cy-test=confirm-show-hide]').click();
-	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
+	cy.get('[cy-test=confirm-show-hide]').should('be.visible').click();
+	cy.wait(400);
+	cy.get('[cy-test=confirm-show-hide]').should('be.visible');
 });
 
 // CANCEL SHOW OR HIDE FROM CONFIRMATION MODAL

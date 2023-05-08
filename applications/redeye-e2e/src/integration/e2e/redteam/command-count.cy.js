@@ -24,7 +24,6 @@ describe('Command counts', () => {
 				Cypress.$('[cy-test=row-command-count]').each(function () {
 					sum += +Cypress.$(this).text() || 0;
 				});
-				cy.log(sum);
 				expect(sum).to.eq(+commandTotal);
 			});
 		});
@@ -49,7 +48,6 @@ describe('Command counts', () => {
 				Cypress.$('[cy-test=row-command-count]').each(function () {
 					sum += +Cypress.$(this).text() || 0;
 				});
-				cy.log(sum);
 				expect(sum).to.eq(+commandTotal);
 			});
 		});
@@ -69,8 +67,6 @@ describe('Command counts', () => {
 					.eq(0)
 					.invoke('text')
 					.then((countHost1) => {
-						// cy.log(countHost1);
-
 						// Click host to open details
 						cy.get('[cy-test=info-row]').eq(1).click();
 
