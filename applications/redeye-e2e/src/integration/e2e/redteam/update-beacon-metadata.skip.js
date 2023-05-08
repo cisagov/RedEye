@@ -28,6 +28,7 @@ describe('Update Beacon metadata', () => {
 
 				// Change TOD and save
 				cy.get('input[type=text]').eq(1).click().clear().type(newTOD);
+				cy.wait(500);
 				cy.get('[cy-test=save-beacon-time-of-death]').click();
 				cy.wait(500);
 
@@ -45,7 +46,6 @@ describe('Update Beacon metadata', () => {
 					.find('.bp4-input')
 					.invoke('attr', 'value')
 					.then((resultTOD1) => {
-						// cy.log(resultTOD1);
 						expect(resultTOD1).to.equal(newTOD);
 					});
 			});

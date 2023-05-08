@@ -38,9 +38,11 @@ Cypress.Commands.add('clickExplorerMode', () => {
 Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();
 	cy.wait('@presentationItems');
+	cy.get('div.bp4-spinner-annimation').should('not.exist');
 	cy.get('[cy-test=favorited]').should('be.visible');
 	cy.get('.superGraph').should('be.visible');
-	cy.wait(800);
+
+	cy.wait(1000);
 });
 
 // CLICK SEARCH ON EXPLORER PANEL
@@ -245,22 +247,60 @@ Cypress.Commands.add('closeSearch', () => {
 Cypress.Commands.add('showHideBeaconMetaTab', () => {
 	cy.get('[cy-test=show-hide-this-beacon]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE HOST FROM META TAB
 Cypress.Commands.add('showHideHostMetaTab', () => {
 	cy.get('[cy-test=show-hide-this-host]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE SERVER FROM META TAB
 Cypress.Commands.add('showHideServerMetaTab', () => {
 	cy.get('[cy-test=show-hide-this-server]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE ITEM FROM IN-LINE KEBAB MENU
 Cypress.Commands.add('showHideItem', (index) => {
 	cy.get('[cy-test=quick-meta-button]').eq(index).click();
 	cy.get('[cy-test=show-hide-item]').click();
+});
+
+// VERIFY SHOW/HIDE DIALOG BOX APPEARS
+Cypress.Commands.add('verifyDialogBoxAppears', () => {
+	cy.get('[cy-test=dialog-text-line1]').should('exist');
+	cy.get('[cy-test=dialog-text-line2]').should('exist');
+	cy.get('[cy-test=dialog-text-line3]').should('exist');
+	cy.get('[cy-test=cancel-show-hide]').should('exist');
+	cy.get('[cy-test=confirm-show-hide]').should('exist');
+});
+
+// VERIFY SHOW/HIDE CONFIRMATION MODAL DISAPPEARS
+Cypress.Commands.add('verifyDialogBoxDisappears', () => {
+	cy.get('[cy-test=dialog-text-line1]').should('not.exist');
+	cy.get('[cy-test=dialog-text-line2]').should('not.exist');
+	cy.get('[cy-test=dialog-text-line3]').should('not.exist');
+	cy.get('[cy-test=cancel-show-hide]').should('not.exist');
+	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
+});
+
+// VERIFY CANNOT HIDE FINAL ITEM
+Cypress.Commands.add('verifyCannotHideFinal', () => {
+	cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
+	cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+});
+
+// CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
+Cypress.Commands.add('confirmShowHide', () => {
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
+});
+
+// CANCEL SHOW OR HIDE FROM CONFIRMATION MODAL
+Cypress.Commands.add('cancelShowHide', () => {
+	cy.get('[cy-test=cancel-show-hide]').click();
 });

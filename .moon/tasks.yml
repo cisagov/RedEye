@@ -95,7 +95,8 @@ tasks:
   format:
     command:
       - prettier
-      - '**/*.+(ts|tsx|js|jsx|json|yml|yaml)'
+      - '**/*.{ts,tsx,js,jsx,json,yml,yaml}'
+      - '!**/*.graphql'
       - --write
       - --config
       - $workspaceRoot/.prettierrc.yaml
@@ -232,57 +233,69 @@ tasks:
       - ~:release-linux
       - ~:release-windows
       - ~:release-mac
-    platform: node
+    platform: system
     options:
       mergeOutputs: 'replace'
       runInCI: false
   release-mac:
-    command: 'pkg ./package.json -t node16-mac -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node16-mac -o @out(0)'
     deps:
-      - ~:build
       - ~:fetch-pkg-mac
-    platform: node
+      - ~:build
+    platform: system
     outputs:
       - /release/mac/RedEye
     options:
       mergeOutputs: 'replace'
       runInCI: false
+      runFromWorkspaceRoot: true
   release-linux:
-    command: 'pkg ./package.json -t node16-linux -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node16-linux -o @out(0)'
     deps:
-      - ~:build
       - ~:fetch-pkg-linux
-    platform: node
+      - ~:build
+    platform: system
     outputs:
       - /release/linux/RedEye
     options:
       mergeOutputs: 'replace'
       runInCI: false
+      runFromWorkspaceRoot: true
   release-windows:
-    command: 'pkg ./package.json -t node16-win -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node16-win -o @out(0)'
     deps:
-      - ~:build
       - ~:fetch-pkg-windows
+      - ~:build
     outputs:
       - /release/windows/RedEye
     options:
       mergeOutputs: 'replace'
       runInCI: false
+      runFromWorkspaceRoot: true
     platform: node
 
   ## Fetch pkg commands
   fetch-pkg-mac:
-    command: 'pkg-fetch --platform mac --node-range node16'
+    command: 'yarn pkg-fetch --platform mac --node-range node16'
+    platform: system
     options:
       runInCI: false
+      retryCount: 2
+      runFromWorkspaceRoot: true
   fetch-pkg-linux:
-    command: 'pkg-fetch --platform linux --node-range node16'
+    command: 'yarn pkg-fetch --platform linux --node-range node16'
+    platform: system
     options:
       runInCI: false
+      retryCount: 2
+      runFromWorkspaceRoot: true
   fetch-pkg-windows:
-    command: 'pkg-fetch --platform win --node-range node16'
+    command: 'yarn pkg-fetch --platform win --node-range node16'
+    platform: system
     options:
       runInCI: false
+      retryCount: 2
+      runFromWorkspaceRoot: true
 
   ## Clean
   clean-dist:

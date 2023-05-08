@@ -2,7 +2,6 @@ import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } f
 import type { ItemPredicate } from '@blueprintjs/select';
 import { MultiSelect2 } from '@blueprintjs/select';
 import {
-	AddComment16,
 	ArrowRight16,
 	Bookmark16,
 	BookmarkFilled16,
@@ -575,7 +574,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								disabled={state.loading || !state.text}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
-								rightIcon={<CarbonIcon icon={AddComment16} />}
+								rightIcon={<CarbonIcon icon={semanticIcons.addComment} />}
 							/>
 						</ButtonGroup>
 					</form>

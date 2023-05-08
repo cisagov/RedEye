@@ -203,7 +203,7 @@ Cypress.Commands.add('deleteCampaignGraphQL', (name) => {
     mutation deleteCampaign($campaignId: String!) {
      deleteCampaign(campaignId: $campaignId) 
   }`;
-		const variables = `{"campaignId": "${campToDelete}"}`;
+		const variables = { campaignId: campToDelete };
 		mutRequest(mutation, variables).then((res) => {
 			cy.log(res);
 		});
@@ -251,6 +251,8 @@ Cypress.Commands.add('showHiddenItems', () => {
 	cy.get('[cy-test=show-hide-beacons]').check({ force: true });
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
+	cy.wait(1000);
 });
 
 // Do not show hidden Beacons, Hosts, and Servers
@@ -259,6 +261,8 @@ Cypress.Commands.add('doNotShowHiddenItems', () => {
 	cy.get('[cy-test=show-hide-beacons]').uncheck({ force: true });
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
+	cy.get('[cy-test=modal-header]').should('not.exist');
+	cy.wait(1000);
 });
 
 Cypress.Commands.add('toggleLightTheme', () => {
@@ -270,5 +274,17 @@ Cypress.Commands.add('toggleLightTheme', () => {
 Cypress.Commands.add('toggleDarkTheme', () => {
 	cy.get('[cy-test=settings]').click();
 	cy.get('[cy-test=toggle-theme]').uncheck({ force: true });
+	cy.get('[cy-test=close-log]').click();
+});
+
+Cypress.Commands.add('toggleRedacted', () => {
+	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=toggle-redacted-mode]').check({ force: true });
+	cy.get('[cy-test=close-log]').click();
+});
+
+Cypress.Commands.add('toggleUnredacted', () => {
+	cy.get('[cy-test=settings]').click();
+	cy.get('[cy-test=toggle-redacted-mode]').uncheck({ force: true });
 	cy.get('[cy-test=close-log]').click();
 });

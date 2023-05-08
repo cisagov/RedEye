@@ -20,7 +20,7 @@ describe('Search Request', () => {
         inputText
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}", "searchQuery": "exit"}`;
+			const variables = { campaignId: returnedUrl, searchQuery: 'exit' };
 			graphqlRequest(query, variables).then((res) => {
 				const search = res.body.data.searchCommands;
 				cy.log(search);

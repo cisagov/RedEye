@@ -1,6 +1,6 @@
 import { Classes } from '@blueprintjs/core';
+import { AddComment16, Chat16, List16, Tag16, User16 } from '@carbon/icons-react';
 import type { CarbonIconType } from '@carbon/icons-react';
-import { Chat16, List16, Tag16, User16 } from '@carbon/icons-react';
 import type { ComponentProps, FC } from 'react';
 
 export type CarbonIconProps = ComponentProps<'span'> & {
@@ -59,6 +59,7 @@ export const customIconPaths = {
 export const semanticIcons = {
 	commands: List16,
 	comment: Chat16,
+	addComment: AddComment16,
 	operator: User16,
 	beacon: customIconPaths.beacon16,
 	host: customIconPaths.host16,

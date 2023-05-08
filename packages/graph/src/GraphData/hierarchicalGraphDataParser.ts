@@ -209,7 +209,7 @@ function addSiblingLink(
 ) {
 	const source = sourceNode.id!;
 	const target = targetNode.id!;
-	const parentNode = sourceNode.parent?.id!; // also targetNode.parent.id
+	const parentNode = sourceNode.parent!.id!; // also targetNode.parent.id
 	const siblingLinkId = createLinkId(source, target);
 	setMapKeyIfUnset(
 		linkMap,
@@ -259,7 +259,7 @@ function addParentLink(
 			id: parentLinkId,
 			parent: linkId,
 			type: 'parentLink',
-			parentNode: node.parent?.id!,
+			parentNode: node.parent!.id!,
 		})
 	)?.baseLinks.push(baseLink.id);
 

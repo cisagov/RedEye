@@ -45,8 +45,20 @@ const BarLabelHeader = observer<BarLabelsProps>(({ bar, dateFormatter, ...props 
 	<Flex css={headerStyles} {...props}>
 		<BarLabelDate bar={bar} dateFormatter={dateFormatter} />
 		<FlexSplitter />
-		<IconLabel value={bar?.beaconNumbers} title="Beacons" icon={semanticIcons.beacon} css={{ margin: 0 }} />
-		<IconLabel title="Commands" value={bar?.beaconCount} icon={semanticIcons.commands} css={{ margin: 0 }} />
+		<IconLabel
+			cy-test="timeline-beacon-count"
+			value={bar?.beaconNumbers}
+			title="Beacons"
+			icon={semanticIcons.beacon}
+			css={{ margin: 0 }}
+		/>
+		<IconLabel
+			cy-test="timeline-command-count"
+			title="Commands"
+			value={bar?.beaconCount}
+			icon={semanticIcons.commands}
+			css={{ margin: 0 }}
+		/>
 	</Flex>
 ));
 
@@ -101,6 +113,7 @@ export const TimelineBarHoverPopover = observer<BarLabelsProps>(({ bar, dateForm
 				</ScrollBox>
 			)}
 			<Button
+				cy-test="timeline-show-more-less"
 				text={isListOpen ? 'Show Less' : 'List Beacons'}
 				rightIcon={<CarbonIcon icon={isListOpen ? ChevronUp16 : ChevronDown16} />}
 				onClick={() => setListOpen(!isListOpen)}

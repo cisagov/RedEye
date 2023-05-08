@@ -1,8 +1,16 @@
 /// <reference types="cypress" />
 
+function hideUnhideServer(serverName) {
+	// Hide/unhide server via the Meta tab
+	cy.get('[cy-test=info-row]').contains(serverName).click();
+	cy.contains('[cy-test=panel-header]', serverName);
+	cy.clickMetaTab();
+	cy.showHideServerMetaTab();
+}
+
 describe('Hide a server', () => {
 	const camp = 'hideshowserver';
-	const fileName = 'gt.redeye';
+	const fileName = 'smalldata.redeye';
 
 	it('Hide server via Meta tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
@@ -19,23 +27,22 @@ describe('Hide a server', () => {
 			.invoke('text')
 			.then((serverName) => {
 				// Hide server via the Meta tab
-				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.clickMetaTab();
-				cy.showHideServerMetaTab();
+				hideUnhideServer(serverName);
 
-				// Verify list shows nothing (hiding server hides all hosts under it)
-				// cy.get('[cy-test=message-row]').contains('No Hosts').should('exist');
+				// Verify server no longer shows
+				cy.get('[cy-test=hostName]').each(($servers) => {
+					expect($servers.text()).to.not.contain(serverName);
+				});
 
 				// Toggle switch back on
 				cy.showHiddenItems();
+				cy.reload();
 
 				// Verify hidden server now shows again
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
 
 				// Unhide the server
-				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.clickMetaTab();
-				cy.showHideServerMetaTab();
+				hideUnhideServer(serverName);
 
 				// Toggle off switch for hidden items
 				cy.doNotShowHiddenItems();
@@ -57,15 +64,14 @@ describe('Hide a server', () => {
 		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
-			.as('hiddenHost')
 			.then((serverName) => {
 				// Hide the server via the Meta tab
-				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.clickMetaTab();
-				cy.showHideServerMetaTab();
+				hideUnhideServer(serverName);
 
-				// Verify list shows nothing (hiding server hides all hosts under it)
-				// cy.get('[cy-test=message-row]').contains('No Hosts').should('exist');
+				// Verify server no longer shows
+				cy.get('[cy-test=hostName]').each(($servers) => {
+					expect($servers.text()).to.not.contain(serverName);
+				});
 
 				// Toggle switch back on to show hidden items
 				cy.returnToCampaignCard();
@@ -76,9 +82,7 @@ describe('Hide a server', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
 
 				// Unhide the server
-				cy.get('[cy-test=info-row]').contains(serverName).click();
-				cy.clickMetaTab();
-				cy.showHideServerMetaTab();
+				hideUnhideServer(serverName);
 
 				// Toggle switch off to hide hidden items
 				cy.returnToCampaignCard();
@@ -94,7 +98,7 @@ describe('Hide a server', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Get the name of the first host
+		// Get the name of the first server
 		cy.get('[cy-test=hostName]')
 			.eq(0)
 			.invoke('text')
@@ -103,17 +107,19 @@ describe('Hide a server', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('.bp4-dialog-body').should('exist');
+				cy.get('[cy-test=modal-header]').should('exist');
 
 				// Confirm that you want to hide the server
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
-				// Verify list shows nothing (hiding server hides all hosts under it)
-				// cy.get('[cy-test=message-row]').contains('No Hosts').should('exist');
+				// Verify hidden server does not show in the list
+				cy.get('[cy-test=hostName]').each(($servers) => {
+					expect($servers.text()).to.not.contain(serverName);
+				});
 
 				// Go to settings and toggle swtich to show hidden
 				cy.showHiddenItems();
+				cy.reload();
 
 				// Verify hidden server now shows in the list again
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
@@ -122,11 +128,10 @@ describe('Hide a server', () => {
 				cy.showHideItem(0);
 
 				// Verify confirmation modal appears
-				cy.get('.bp4-dialog-body').should('exist');
+				cy.get('[cy-test=modal-header]').should('exist');
 
 				// Confirm that you want to show the host
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Go to settings and toggle switch to not show hidden
 				cy.doNotShowHiddenItems();
@@ -134,6 +139,48 @@ describe('Hide a server', () => {
 				// Verify host still appears in the list
 				cy.get('[cy-test=hosts-view]').should('contain', serverName);
 			});
+	});
+
+	it('Verify Cancel button works from Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Select the server, go to Meta tab, click show/hide link
+		cy.get('[cy-test=hostName]').eq(0).click();
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-server]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the Meta tab link says "Hide this server" vs. "Show"
+		cy.get('[cy-test=show-hide-this-server]').invoke('text').should('eq', 'Hide this server');
+	});
+
+	it('Verify Cancel button works from kebab menu', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Click kebab menu for first hostto bring up options; click "Hide Server"
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the kebab menu link still says "Hide Server" vs. "Show"
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Server');
 	});
 
 	after(() => {

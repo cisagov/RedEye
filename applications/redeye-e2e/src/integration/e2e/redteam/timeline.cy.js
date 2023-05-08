@@ -6,51 +6,69 @@ dayjs().format();
 describe('Timeline tests', () => {
 	const camp = 'timelinetests';
 	const fileName = 'smalldata.redeye';
+	const camp2 = 'timelinepositions';
+	const fileName2 = 'gt.redeye';
 
-	it.skip('Verify timeline navigation features', () => {
+	it('Verify timeline navigation features', () => {
 		// Upload campaign and open
-		cy.uploadCampaign(camp, fileName);
-
-		cy.selectCampaign(camp);
+		cy.uploadCampaign(camp2, fileName2);
+		cy.selectCampaign(camp2);
 
 		// Log the starting position of the timeline bar
 		cy.get('[cy-test=timeline-scrubber]')
-			.invoke('attr', 'x1') // @QA - we are now moving the scrubber using `style="transform:translateX(00px)"`, not `x1` & `x2`
+			.invoke('attr', 'style')
 			.as('timeline')
-			.then((position1) => {
-				// cy.log(position1);
+			.then((text1) => {
+				const pattern1 = /[0-9]+/g;
+				const position1 = text1.match(pattern1)[0];
+
+				// Verify "All Time" toggle is on
+				cy.get('[cy-test=all-time-switch]').should('be.checked');
 
 				// Click Play and let the timeline run for a few seconds
 				cy.timelinePlayPause();
-				cy.wait(1500);
+				cy.wait(1000);
 
 				// Pause the timeline and log its new position - should be different than the starting position
 				cy.timelinePlayPause();
-				cy.get('@timeline').then((position2) => {
-					// cy.log(position2);
+				cy.wait(1000);
+				cy.get('@timeline').then((text2) => {
+					const pattern2 = /[0-9]+/g;
+					const position2 = text2.match(pattern2)[0];
+
 					expect(+position1).to.not.equal(+position2);
 
-					cy.timelineBack();
-					cy.wait(500);
+					// Verify "All Time" toggle is off
+					cy.get('[cy-test=all-time-switch]').should('not.be.checked');
 
-					cy.get('@timeline').then((position3) => {
-						// cy.log(position3);
+					// Click the back button to move the timeline backward; verify its position is less than the previous position
+					cy.timelineBack();
+					cy.wait(1000);
+
+					cy.get('@timeline').then((text3) => {
+						const pattern3 = /[0-9]+/g;
+						const position3 = text3.match(pattern3)[0];
+
 						expect(+position3).to.be.lessThan(+position2);
 
-						// Click the forward button to move the timeline ahead; verify it is more than the previous position
+						// Click the forward button to move the timeline ahead; verify its position is more than the previous position
 						cy.timelineForward().click();
-						cy.get('@timeline').then((position4) => {
-							// cy.log(position4);
+						cy.get('@timeline').then((text4) => {
+							const pattern4 = /[0-9]+/g;
+							const position4 = text4.match(pattern4)[0];
+
 							expect(+position4).to.be.greaterThan(+position3);
 						});
 					});
 				});
 			});
+		// Delete campaign
+		cy.deleteCampaignGraphQL(camp2);
 	});
 
 	it('Change timeline dates', () => {
+		// Upload campaign and open
 		cy.uploadCampaign(camp, fileName);
-		// Open campaign
 		cy.selectCampaign(camp);
 
 		// Update start and end dates
@@ -74,78 +92,24 @@ describe('Timeline tests', () => {
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
 		cy.changeTimelineStartDate('10/13/20');
-		cy.changeTimelineEndDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20{enter}');
 
-		// Hover over a bar on the timeline and verify that the first tooltip appears showing beacon/command info
+		// Hover over a bar on the timeline and verify that the condensed tooltip info appears
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
 		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
-		// cy.get('[cy-test=timeline-beacons]').should('be.visible');
-		// cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
-		// cy.get('[cy-test=timeline-total-commands]').should('be.visible');
-		// cy.get('[cy-test=timeline-total-command-count]').should('be.visible');
-		// cy.get('[cy-test=timeline-active-beacons]').should('be.visible');
-		// cy.get('[cy-test=timeline-active-beacon-count]').should('be.visible');
+		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
+		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
 		// Click on the timeline bar and verify that the second tooltip appears showing beacon details
-		// cy.get('[cy-test=timeline-bar]').eq(1).click();
-		// cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
-		// cy.get('[cy-test=timeline-beacon-header]').should('be.visible');
-		// cy.get('[cy-test=timeline-command-header]').should('be.visible');
-		// cy.get('[cy-test=timeline-beacon-name]').should('be.visible');
-		// cy.get('[cy-test=timeline-beacon-operator]').should('be.visible');
-		// cy.get('[cy-test=timeline-beacon-command-count]').should('be.visible');
+		cy.get('[cy-test=timeline-show-more-less]').click();
+		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
+		cy.get('[cy-test=timeline-tooltip-date-time]').should('be.visible');
+		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
+		cy.get('[cy-test=timeline-beacon-name]').should('be.visible');
+		cy.get('[cy-test=timeline-beacon-operator]').should('be.visible');
+		cy.get('[cy-test=timeline-beacon-command-count]').should('be.visible');
+		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
-		// Reset dates for next test
-		cy.resetTimelineDates();
-	});
-
-	it('Information mactches in the two tooltip views', () => {
-		// Open campaign
-		cy.selectCampaign(camp);
-
-		// Update start and end dates to narrow down timeline
-		cy.editTimelineDates();
-		cy.changeTimelineStartDate('10/13/20');
-		cy.changeTimelineEndDate('10/13/20');
-
-		// Hover to show the first tooltip
-		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
-
-		// Log information in the first tooltip that appears
-		// cy
-		// 	.get('[cy-test=timeline-beacon-count]')
-		// 	.invoke('text')
-		// 	.then((beaconCount1) => {
-		// 		cy
-		// 			.get('[cy-test=timeline-total-command-count]')
-		// 			.invoke('text')
-		// 			.then((totalCommandCount1) => {
-		// 				// Click to change to second tooltip view
-		// 				cy.get('[cy-test=timeline-bar]').eq(1).click();
-
-		// 				// Log information in the second tooltip and verify it matches the first
-		// 				cy
-		// 					.get('[cy-test=timeline-beacon-name]')
-		// 					.its('length')
-		// 					.then((beaconCount2) => {
-		// 						expect(+beaconCount2).to.eq(+beaconCount1);
-
-		// 						cy
-		// 							.get('[cy-test=timeline-beacon-command-count]')
-		// 							.eq(0)
-		// 							.invoke('text')
-		// 							.then((totalCommandCount2) => {
-		// 								cy
-		// 									.get('[cy-test=timeline-beacon-command-count]')
-		// 									.eq(1)
-		// 									.invoke('text')
-		// 									.then((totalCommandCount3) => {
-		// 										expect(+totalCommandCount2 + +totalCommandCount3).to.eq(+totalCommandCount1);
-		// 									});
-		// 							});
-		// 					});
-		// 			});
-		// 	});
 		// Reset dates for next test
 		cy.resetTimelineDates();
 	});
@@ -157,51 +121,47 @@ describe('Timeline tests', () => {
 		// Update start and end dates to narrow down timeline
 		cy.editTimelineDates();
 		cy.changeTimelineStartDate('10/13/20');
-		cy.changeTimelineEndDate('10/13/20');
+		cy.changeTimelineEndDate('10/13/20{enter}');
 
-		// Hover to show the first tooltip
+		// Hover to show the tooltip
 		cy.get('[cy-test=timeline-bar]').eq(1).trigger('mouseover');
 
-		// Click to switch to clickable tooltip
-		cy.get('[cy-test=timeline-bar]').eq(1).click();
+		// Show the beacon names
+		cy.get('[cy-test=timeline-show-more-less]').click();
 
-		// Click to open beacon info
-		// cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
-		// cy.wait(1000);
+		// Click to open beacon info for the second one showing
+		cy.get('[cy-test=timeline-beacon-name]').eq(1).click();
+		cy.wait(1000);
 
-		// // Verify timeline beacon name matches beacon info
-		// cy
-		// 	.get('[cy-test=timeline-beacon-name]')
-		// 	.eq(1)
-		// 	.invoke('text')
-		// 	.then((timelineBeaconName) => {
-		// 		// cy.log(timelineBeaconName);
+		// Verify timeline beacon name matches beacon info
+		cy.get('[cy-test=timeline-beacon-name]')
+			.eq(1)
+			.invoke('text')
+			.then((timelineBeaconName) => {
+				// cy.log(timelineBeaconName);
 
-		// 		cy
-		// 			.get('[cy-test=beaconName]')
-		// 			.invoke('text')
-		// 			.then((beaconName) => {
-		// 				// cy.log(beaconName);
-		// 				expect(beaconName).to.eq(timelineBeaconName);
-		// 			});
-		// 	});
+				cy.get('[cy-test=beaconName]')
+					.invoke('text')
+					.then((beaconName) => {
+						// cy.log(beaconName);
+						expect(beaconName).to.eq(timelineBeaconName);
+					});
+			});
 
 		// Verify timeline beacon operator matches beacon info
-		// cy
-		// 	.get('[cy-test=timeline-beacon-operator]')
-		// 	.eq(1)
-		// 	.invoke('text')
-		// 	.then((timelineBeaconOperator) => {
-		// 		// cy.log(timelineBeaconOperator);
+		cy.get('[cy-test=timeline-beacon-operator]')
+			.eq(1)
+			.invoke('text')
+			.then((timelineBeaconOperator) => {
+				// cy.log(timelineBeaconOperator);
 
-		// 		cy
-		// 			.get('[cy-test=userName]')
-		// 			.invoke('text')
-		// 			.then((userName) => {
-		// 				// cy.log(userName);
-		// 				expect(userName).to.eq(timelineBeaconOperator);
-		// 			});
-		// 	});
+				cy.get('[cy-test=userName]')
+					.invoke('text')
+					.then((userName) => {
+						// cy.log(userName);
+						expect(userName).to.eq(timelineBeaconOperator);
+					});
+			});
 
 		// Verify tooltip date matches beacon info (log month and day, then concat -- don't want the year for this test)
 		cy.get('[cy-test=timeline-tooltip-date-time]')
@@ -218,9 +178,9 @@ describe('Timeline tests', () => {
 						const day = timelineDay;
 						const timelineDate = month.concat('/').concat(day);
 
-						// cy.get('[cy-test=command-date-time]').each(($date) => {
-						// 	expect($date.text()).to.contain(timelineDate);
-						// });
+						cy.get('[cy-test=command-date-time]').each(($date) => {
+							expect($date.text()).to.contain(timelineDate);
+						});
 					});
 			});
 
@@ -249,11 +209,11 @@ describe('Timeline tests', () => {
 								const timelineEndUnix = dayjs(timelineEnd).unix();
 
 								// Verfy all times are within the appropriate timeframe
-								// cy.get('[cy-test=command-header]').each(($lineDate) => {
-								// 	const commandInfo = $lineDate.attr('title').split(' <')[0];
-								// 	const commandInfoUnix = dayjs(commandInfo).unix();
-								// 	expect(commandInfoUnix).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
-								// });
+								cy.get('[cy-test=command-header]').each(($lineDate) => {
+									const commandInfo = $lineDate.attr('title').split(' <')[0];
+									const commandInfoUnix = dayjs(commandInfo).unix();
+									expect(commandInfoUnix).to.be.gte(timelineStartUnix).and.to.be.lte(timelineEndUnix);
+								});
 							});
 					});
 			});

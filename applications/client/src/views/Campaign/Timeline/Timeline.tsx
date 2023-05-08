@@ -168,6 +168,7 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 
 				<div css={rightContentStyles}>
 					<Switch
+						cy-test="all-time-switch"
 						label="All Time"
 						alignIndicator="right"
 						css={timeSwitchStyles}

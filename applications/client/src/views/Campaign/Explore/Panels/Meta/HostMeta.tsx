@@ -5,12 +5,12 @@ import { InfoType } from '@redeye/client/types';
 import { Txt } from '@redeye/ui-styles';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaHeader, SaveInputButton, ToggleHiddenButton } from './Meta.styles';
+import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
-export const HostMeta = observer(() => {
+export const HostMeta = observer((props) => {
 	const store = useStore();
 	const host = store.campaign.interactionState.selectedHost;
 
@@ -23,7 +23,9 @@ export const HostMeta = observer(() => {
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('host', host?.current?.hidden || false);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('hosts', !!host?.current?.hidden || false, [
+		host?.id || '',
+	]);
 
 	const { mutate: displayNameMutate } = useMutation(
 		async () => {
@@ -48,33 +50,39 @@ export const HostMeta = observer(() => {
 	);
 
 	return (
-		<MetaGridLayout>
-			<MetaHeader>Display Name</MetaHeader>
-			<InputGroup
-				disabled={!!store.appMeta.blueTeam}
-				placeholder={store.campaign.interactionState.selectedHost?.current.hostName || ''}
-				value={state.displayName}
-				onChange={(e) => {
-					state.update('displayName', e.target.value);
-					state.update('displayNameNeedsSaving', true);
-				}}
-				onSubmit={() => displayNameMutate()}
-				// Add a button to save. can also have fxn that checks every n seconds and
-				// saves if no change or rely on tabbing away, clicking away, or hitting enter
-				rightElement={<SaveInputButton disabled={!state.displayNameNeedsSaving} onClick={() => displayNameMutate()} />}
-			/>
-			<MetaHeader>Type</MetaHeader>
-			<Txt>{host?.maybeCurrent?.$modelType}</Txt>
-			<MetaHeader>OS</MetaHeader>
-			<Txt>{host?.current?.meta.map((meta) => meta.maybeCurrent?.os).join(', ')}</Txt>
-			<MetaHeader>IPs</MetaHeader>
-			<div>
-				{host?.maybeCurrent?.meta.map((metaItem) => (
-					<Txt block key={metaItem.id}>
-						{metaItem.maybeCurrent?.ip}
-					</Txt>
-				))}
-			</div>
+		<div {...props}>
+			<MetaSection>
+				<MetaGridLayout>
+					<MetaLabel>Display Name</MetaLabel>
+					<InputGroup
+						disabled={!!store.appMeta.blueTeam}
+						placeholder={store.campaign.interactionState.selectedHost?.current.hostName || ''}
+						value={state.displayName}
+						onChange={(e) => {
+							state.update('displayName', e.target.value);
+							state.update('displayNameNeedsSaving', true);
+						}}
+						onSubmit={() => displayNameMutate()}
+						// Add a button to save. can also have fxn that checks every n seconds and
+						// saves if no change or rely on tabbing away, clicking away, or hitting enter
+						rightElement={
+							<SaveInputButton disabled={!state.displayNameNeedsSaving} onClick={() => displayNameMutate()} />
+						}
+					/>
+					<MetaLabel>Type</MetaLabel>
+					<Txt>{host?.maybeCurrent?.$modelType}</Txt>
+					<MetaLabel>OS</MetaLabel>
+					<Txt>{host?.current?.meta.map((meta) => meta.maybeCurrent?.os).join(', ')}</Txt>
+					<MetaLabel>IPs</MetaLabel>
+					<div>
+						{host?.maybeCurrent?.meta.map((metaItem) => (
+							<Txt block key={metaItem.id}>
+								{metaItem.maybeCurrent?.ip}
+							</Txt>
+						))}
+					</div>
+				</MetaGridLayout>
+			</MetaSection>
 			<ToggleHiddenButton
 				cy-test="show-hide-this-host"
 				disabled={!!store.appMeta.blueTeam}
@@ -89,8 +97,8 @@ export const HostMeta = observer(() => {
 				isHiddenToggled={!!host?.current?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
-				last={last}
+				cantHideEntities={cantHideEntities}
 			/>
-		</MetaGridLayout>
+		</div>
 	);
 });

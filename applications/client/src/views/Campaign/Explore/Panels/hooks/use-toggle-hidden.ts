@@ -47,6 +47,21 @@ export function useToggleHidden(mutation: () => Promise<any>) {
 	const mutate = useMutation(async () => await mutation(), {
 		onSuccess: () => {
 			state.refreshHiddenState();
+			if (store.campaign?.beaconGroupSelect.groupSelect) {
+				store.campaign?.setBeaconGroupSelect({
+					groupSelect: false,
+					selectedBeacons: [],
+					hiddenCount: 0,
+				});
+			}
+			if (store.campaign?.hostGroupSelect.groupSelect) {
+				store.campaign?.setHostGroupSelect({
+					groupSelect: false,
+					selectedHosts: [],
+					selectedServers: [],
+					hiddenCount: 0,
+				});
+			}
 		},
 	});
 	return [state, mutate] as const;

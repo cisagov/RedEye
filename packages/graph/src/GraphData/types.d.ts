@@ -1,4 +1,4 @@
-import { HierarchyNode, Selection, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
 import {
 	BaseLink,
 	HierarchicalGraphBaseLink,
@@ -101,6 +101,13 @@ export type GenericSelection = Selection<any, any, any, any | undefined>;
 export type GraphZoomTransform = ZoomTransform & {
 	/** radius(r) scale(k) */
 	rk: number;
+};
+
+export type HierarchicalSimulation = Simulation<HierarchicalGraphNode, HierarchicalGraphLinkDatum>;
+export type HierarchicalSimulationForce = {
+	name: string;
+	force: Force<HierarchicalGraphNode, HierarchicalGraphLinkDatum>;
+	optional?: boolean;
 };
 
 export type NodeOrLink = HierarchicalGraphNode | HierarchicalGraphLink;

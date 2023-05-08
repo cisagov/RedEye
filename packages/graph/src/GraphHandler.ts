@@ -1,4 +1,4 @@
-import * as svgExportPng from 'save-svg-as-png';
+import * as saveSvgAsPng from 'save-svg-as-png';
 import { HierarchicalGraphData } from './GraphData/HierarchicalGraphData';
 import { clampXyToRadius, classNames } from './GraphRenderers/layout-utils';
 import {
@@ -22,7 +22,6 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
-import { CoreTokens } from '@redeye/ui-styles';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -102,17 +101,17 @@ export class GraphHandler {
 	}
 
 	private _onSelectionChange: HierarchicalGraphData['onSelectionChange'] = (...args) => {
-		this.graphRoot.drawInteractionAllChildren();
+		this.graphRoot.callChildrenRecursively('drawInteraction');
 		this.drawTextOcclusion();
 		this.onSelectionChange(...args);
 	};
 	private _onPreviewChange: HierarchicalGraphData['onPreviewChange'] = (...args) => {
-		this.graphRoot.drawInteractionAllChildren();
+		this.graphRoot.callChildrenRecursively('drawInteraction');
 		this.drawTextOcclusion();
 		this.onPreviewChange(...args);
 	};
 	private _onTimeChange: HierarchicalGraphData['onTimeChange'] = () => {
-		this.graphRoot.drawTimeAllChildren();
+		this.graphRoot.callChildrenRecursively('drawTime');
 		this.drawTextOcclusion();
 		this.onTimeChange();
 	};
@@ -135,7 +134,7 @@ export class GraphHandler {
 
 		const zoomed = () => {
 			this.graphRoot.freeze(); // for draw performance...
-			this.graphRoot.drawLayoutAllChildren();
+			this.graphRoot.callChildrenRecursively('drawLayout');
 			// drawDotGrid() may decrease draw performance
 			// drawDotGrid(this.zoomTransform);
 		};
@@ -226,19 +225,19 @@ export class GraphHandler {
 		this.svg.transition().call(this.zoom.scaleBy, 0.7, [0, 0]);
 	}
 
-	exportSVG() {
-		const viewbox = this.svg.node()?.getAttribute('viewBox')?.split(/\s+|,/);
-		svgExportPng.saveSvgAsPng(
+	exportSVG(backgroundColor?: string) {
+		const viewBox = this.svg.node()?.getAttribute('viewBox')?.split(/\s+|,/);
+		saveSvgAsPng.saveSvgAsPng(
 			this.svg.node(), // SVG DOM Element object to be exported. Alternatively, a string of the serialized SVG can be passed
 			'graph.png', // file name of exported image
 			{
-				top: `${viewbox?.[1]}`,
-				left: `${viewbox?.[0]}`,
-				width: `${viewbox?.[2]}`,
-				height: `${viewbox?.[3]}`,
+				top: `${viewBox?.[1]}`,
+				left: `${viewBox?.[0]}`,
+				width: `${viewBox?.[2]}`,
+				height: `${viewBox?.[3]}`,
 				encoderOptions: 1,
-				backgroundColor: `${CoreTokens.Background3}`,
-			} //viewBox
+				backgroundColor,
+			}
 		);
 	}
 
@@ -320,7 +319,14 @@ export class GraphHandler {
 		const _node = typeof node === 'string' ? this.graphData.allNodes.get(node) : node;
 		if (!_node) return;
 		_node.data.name = newName;
-		this.graphRoot.drawUpdateLabelAllChildren();
+		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
+	}
+
+	useGraphForces() {
+		this.graphRoot.callChildrenRecursively('useGraphForces');
+	}
+	useSimpleForces() {
+		this.graphRoot.callChildrenRecursively('useSimpleForces');
 	}
 
 	static scaleRadius = (zk: number) => Math.min(zk, (zk - 1) * 0.3 + 1);

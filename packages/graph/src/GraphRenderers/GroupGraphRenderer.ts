@@ -2,7 +2,6 @@ import {
 	forceLink as d3ForceLink,
 	forceCollide as d3ForceCollide,
 	forceManyBody as d3ForceManyBody,
-	forceSimulation as d3ForceSimulation,
 	forceX as d3ForceX,
 	forceY as d3ForceY,
 } from 'd3';
@@ -15,6 +14,9 @@ import {
 	shortenLine,
 	translateCenter,
 	isInteractionFocus,
+	circleArea,
+	circleRadius,
+	interactionSort,
 } from './layout-utils';
 import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
@@ -23,42 +25,47 @@ import { defNum } from '../utils';
 export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 	constructor(props: GraphHierarchicalConstructorProps) {
 		super(props);
+		this.initialize(true);
+		this.initializeChildGraphs(SubGraphRenderer);
+	}
 
+	initializeForces() {
 		this.nodes.forEach((d) => (d.r = d.type === 'keyNode' ? GroupGraphRenderer.radius(d) : 1.5));
 
 		const forceNode = d3ForceManyBody<HierarchicalGraphNode>().strength((d) => {
 			return d.type === 'keyNode' ? (d.graphLinks.length || 1) * -2 - 1 : 0;
 		});
 		const forceLink = d3ForceLink(this.links)
-			// .strength(d=>d.children.length > 1 ? 0. : 0)
-			// .strength(d => d.group ? 0.2 : 0.05)
+			// .strength((d) => (d.children.length > 1 ? 0 : 0))
+			// .strength((d) => (d.group ? 0.2 : 0.05))
 			.strength((d) => d.source.graphLinks.length / 100)
 			.distance(
-				// @ts-ignore
 				this.keyNodes.length < 2
-					? this.rootNode.r!
-					: (d: HierarchicalGraphLink) =>
-							//
-							this.rootNode.r! / this.links.length + (d.source.r || 1)
+					? () => this.rootNode.r!
+					: (d: HierarchicalGraphLink) => this.rootNode.r! / this.links.length + (d.source.r || 1)
 			);
 		const forceClamp = forceClampToRadius<HierarchicalGraphNode>((d) =>
-			d.type === 'keyNode' ? d.parent!.r! - d.r! - 2 : undefined
+			d.type === 'keyNode' ? d.parent!.r! - d.r! - 2 : 0
 		);
-		const forceCollide = d3ForceCollide<HierarchicalGraphNode>().radius((d): number =>
-			d.type === 'keyNode' ? d.r! + 2 : 0
-		);
+		const forceCollide = d3ForceCollide<HierarchicalGraphNode>()
+			.strength(0.5)
+			.radius((d): number => (d.type === 'keyNode' ? d.r! + 2 : 0));
 		const forcePositionParentLinkNodes = () => positionParentLinkNodes(this.rootNode);
 
-		this.simulation = d3ForceSimulation(this.nodes)
-			.force('positionParentLinkNodes', forcePositionParentLinkNodes)
-			.force('link', forceLink)
-			.force('charge', forceNode)
-			.force('collide', forceCollide)
-			.force('x', d3ForceX(0).strength(0.05))
-			.force('y', d3ForceY(0).strength(0.05))
-			.force('clamp', forceClamp)
-			.on('tick', this.drawLayout.bind(this));
+		const optional = true;
+		this.simulationForces = [
+			{ name: 'positionParentLinkNodes', force: forcePositionParentLinkNodes },
+			{ name: 'link', force: forceLink, optional },
+			{ name: 'charge', force: forceNode, optional },
+			{ name: 'x', force: d3ForceX(0).strength(0.05), optional },
+			{ name: 'y', force: d3ForceY(0).strength(0.05), optional },
+			{ name: 'collide', force: forceCollide },
+			{ name: 'clamp', force: forceClamp },
+		];
+		super.initializeForces();
+	}
 
+	initializeSelection() {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
@@ -66,15 +73,13 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('transform-origin', 'center');
 
 		this.linkSelection = this.rootGroupSelection
-			.append('g')
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
-			.attr('class', (d) => (d.type === 'siblingLink' ? classNames.siblingLink : classNames.parentLink));
+			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink')
+			.classed(classNames.parentLink, (d) => d.type === 'parentLink');
 
 		this.childGraphRootSelection = this.rootGroupSelection
-			//
-			.append('g')
 			.selectAll('g')
 			.data(this.nodes)
 			.join('g')
@@ -85,12 +90,11 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 			.append('circle')
 			.attr('r', (d) => d.r || 0)
 			.style('pointer-events', 'none') // not interactive, layout only
-			.attr('class', (d) => (d.type === 'parentLinkNode' ? classNames.parentLinkNode : classNames.keyNode))
+			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
+			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.groupNode, true);
 
-		this.hideLayout(); // start hidden
-		// super.initialize();
-		super.initialize(SubGraphRenderer);
+		super.initializeSelection();
 	}
 
 	drawLayout() {
@@ -122,15 +126,21 @@ export class GroupGraphRenderer extends HierarchicalGraphRenderer {
 		if (isInteractionFocus(this.rootNode!)) {
 			this.showLayout();
 			super.drawInteraction();
+			this.rootGroupSelection
+				.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>()
+				.sort(interactionSort);
 		} else {
 			this.hideLayout();
 		}
 	}
 
 	static radius = (d: HierarchicalGraphNode): number => {
-		const childNeededRadius = 4;
-		const childCount = d.children ? d.children.filter((d) => d.type === 'keyNode').length : 1;
-		const areaNeeded = Math.pow(childNeededRadius, 2) * Math.PI * childCount;
-		return Math.sqrt(areaNeeded / Math.PI);
+		const keyNodeChildren = d.children?.filter((d) => d.type === 'keyNode') || [];
+		let areaNeeded = 0;
+		for (let i = 0; i < keyNodeChildren.length; i++) {
+			const keyNodeChild = keyNodeChildren[i];
+			areaNeeded += circleArea(SubGraphRenderer.radius(keyNodeChild) + 3);
+		}
+		return circleRadius(areaNeeded);
 	};
 }

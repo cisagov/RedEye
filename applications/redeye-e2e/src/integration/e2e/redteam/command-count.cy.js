@@ -84,7 +84,11 @@ describe('Command counts', () => {
 						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
 					  }`;
 
-							const variables = `{"campaignId": "${returnedUrl}", "hostId": "${nameHost1}", "sort": { "sortBy": "time", "direction": "ASC"}}`;
+							const variables = {
+								campaignId: returnedUrl,
+								hostId: nameHost1,
+								sort: { sortBy: 'time', direction: 'ASC' },
+							};
 							graphqlRequest(query, variables).then((res) => {
 								// cy.log(res.body.data.commandIds);
 								expect(res.body.data.commandIds).length(countHost1);
@@ -120,7 +124,11 @@ describe('Command counts', () => {
 						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
 					  }`;
 
-							const variables = `{"campaignId": "${returnedUrl}", "hostId": "${nameHost2}", "sort": { "sortBy": "time", "direction": "ASC"}}`;
+							const variables = {
+								campaignId: returnedUrl,
+								hostId: nameHost2,
+								sort: { sortBy: 'time', direction: 'ASC' },
+							};
 							graphqlRequest(query, variables).then((res) => {
 								// cy.log(res.body.data.commandIds);
 								expect(res.body.data.commandIds).length(countHost2);

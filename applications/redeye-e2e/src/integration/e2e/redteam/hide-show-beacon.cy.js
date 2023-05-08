@@ -1,5 +1,13 @@
 /// <reference types="cypress" />
 
+function hideUnhideBeacon(beaconName) {
+	// Hide a beacon
+	cy.get('[cy-test=beacons-row]').contains(beaconName).click();
+	cy.contains('[cy-test=beaconName]', beaconName);
+	cy.clickMetaTab();
+	cy.showHideBeaconMetaTab();
+}
+
 describe('Hide a beacon', () => {
 	const camp = 'hideshowbeacon';
 	const fileName = 'gt.redeye';
@@ -20,9 +28,7 @@ describe('Hide a beacon', () => {
 			.invoke('text')
 			.then((beaconName) => {
 				// Hide a beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Verify beacon no longer shows
 				cy.clickBeaconsTab();
@@ -38,9 +44,7 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Unhide the beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Toggle off switch for hidden beacons
 				cy.doNotShowHiddenItems();
@@ -65,9 +69,7 @@ describe('Hide a beacon', () => {
 			.invoke('text')
 			.then((beaconName) => {
 				// Hide a beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Verify beacon no longer shows
 				cy.clickBeaconsTab();
@@ -85,9 +87,7 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Unhide the beacon
-				cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-				cy.clickMetaTab();
-				cy.showHideBeaconMetaTab();
+				hideUnhideBeacon(beaconName);
 
 				// Toggle off switch for hidden beacons
 				cy.returnToCampaignCard();
@@ -118,9 +118,10 @@ describe('Hide a beacon', () => {
 				cy.get('.bp4-dialog-body').should('be.visible').and('contain.text', 'Hiding this beacon');
 
 				// Confirm that you want to hide the beacon
-				cy.get('[cy-test=confirm-show-hide]').click();
+				cy.confirmShowHide();
 
-				cy.wait(1000);
+				// Navigate back to beacons list
+				cy.clickBeaconsTab();
 
 				// Verify hidden beacon does not show in the list
 				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
@@ -141,9 +142,7 @@ describe('Hide a beacon', () => {
 				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the beacon
-				cy.get('[cy-test=confirm-show-hide]').click();
-
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Go to settings and toggle switch to not show hidden
 				cy.doNotShowHiddenItems();
@@ -153,6 +152,54 @@ describe('Hide a beacon', () => {
 
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 			});
+	});
+
+	it('Verify Cancel button works from Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Go to Beacons tab and select the first one
+		cy.clickBeaconsTab();
+		cy.get('[cy-test=beacons-row]').eq(0).click();
+
+		// Go to Meta tab and click show/hide link
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-beacon]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the Meta tab link says "Hide this beacon" vs. "Show"
+		cy.get('[cy-test=show-hide-this-beacon]').invoke('text').should('eq', 'Hide this beacon');
+	});
+
+	it('Verify Cancel button works from kebab menu', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Go to Beacons tab
+		cy.clickBeaconsTab();
+
+		// Click first kebab menu to bring up options; click "Hide Beacon"
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the kebab menu link still says "Hide Beacon" vs. "Show"
+		cy.get('[cy-test=quick-meta-button]').eq(0).click();
+		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Beacon');
 	});
 
 	after(() => {

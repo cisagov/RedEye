@@ -26,6 +26,9 @@ jobs:
 
   install:
     needs: ['prepare']
+    container:
+      image: cypress/browsers:node16.16.0-chrome105-ff104-edge
+      options: --user 1001
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -55,6 +58,9 @@ jobs:
 
   RedTeamChrome:
     runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.16.0-chrome105-ff104-edge
+      options: --user 1001
     needs: [prepare, install]
     strategy:
       fail-fast: false
@@ -82,7 +88,7 @@ jobs:
 
       - run: yarn install  --immutable --inline-builds
       - name: Red Team Tests - Chrome v${{ matrix.node }}
-        uses: cypress-io/github-action@v5.3.1
+        uses: cypress-io/github-action@v5
         with:
           tag: node-${{ matrix.node }}
           start: yarn start:dev
@@ -92,6 +98,7 @@ jobs:
           config: baseUrl=http://localhost:3500
           record: true
           parallel: true
+          headed: true
           config-file: applications/redeye-e2e/cypress.config.js
           spec: applications/redeye-e2e/src/integration/e2e/redteam/**/**/**/*.cy.js
           ci-build-id: ${{ needs.prepare.outputs.uuid }}
@@ -101,6 +108,9 @@ jobs:
 
   BlueTeamChrome:
     runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.16.0-chrome105-ff104-edge
+      options: --user 1001
     needs: [prepare, install]
     strategy:
       fail-fast: false
@@ -111,6 +121,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Cache
         uses: actions/setup-node@v3
@@ -124,13 +136,9 @@ jobs:
           name: moon-cache
           path: .moon/cache
 
-      - run: |
-          git fetch
-          git config pull.rebase true
-          git pull origin $GITHUB_HEAD_REF
       - run: yarn install  --immutable --inline-builds
       - name: 'Blue Team Tests - Chrome'
-        uses: cypress-io/github-action@v5.3.1
+        uses: cypress-io/github-action@v5
         with:
           tag: node-${{ matrix.node }}
           start: yarn start:blue
@@ -140,6 +148,7 @@ jobs:
           config: baseUrl=http://localhost:3500
           record: true
           parallel: true
+          headed: true
           config-file: applications/redeye-e2e/cypress.config.js
           spec: applications/redeye-e2e/src/integration/e2e/blueteam/**/*.cy.js
           ci-build-id: ${{ needs.prepare.outputs.uuid }}

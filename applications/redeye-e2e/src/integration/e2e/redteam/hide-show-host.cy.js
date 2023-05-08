@@ -1,27 +1,33 @@
 /// <reference types="cypress" />
 
+function hideUnhideHost(hostName) {
+	cy.get('[cy-test=info-row]').contains(hostName).click();
+	cy.contains('[cy-test=panel-header]', hostName);
+	cy.clickMetaTab();
+	cy.showHideHostMetaTab();
+}
+
 describe('Hide a host', () => {
 	const camp = 'hideshowhost';
 	const fileName = 'gt.redeye';
 
-	it('Hide host via Meta tab using toggle in left nav panel', () => {
+	it.only('Hide host via Meta tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
 		// Toggle switch to not show hidden items
-		cy.doNotShowHiddenItems();
+		// Think it's turned off default on cypress
+		// cy.doNotShowHiddenItems();
 
-		// Get the name of the first host
+		//Get the name of the first host
 		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
 			.then((hostName) => {
 				// Hide a host via the Meta tab
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Verify host no longer shows
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -35,9 +41,7 @@ describe('Hide a host', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 
 				// Unhide the host
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Toggle off switch for hidden items
 				cy.doNotShowHiddenItems();
@@ -50,7 +54,7 @@ describe('Hide a host', () => {
 
 	it('Hide host via Meta tab using toggle on main page', () => {
 		// Toggle off switch for hidden items on the main page
-		cy.doNotShowHiddenItems();
+		// cy.doNotShowHiddenItems();
 
 		// Search for campaign by name and open
 		cy.selectCampaign(camp);
@@ -61,9 +65,7 @@ describe('Hide a host', () => {
 			.invoke('text')
 			.then((hostName) => {
 				// Hide the host via the Meta tab
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Verify host no longer shows
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -79,9 +81,7 @@ describe('Hide a host', () => {
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 
 				// Unhide the host
-				cy.get('[cy-test=info-row]').contains(hostName).click();
-				cy.clickMetaTab();
-				cy.showHideHostMetaTab();
+				hideUnhideHost(hostName);
 
 				// Toggle switch off to hide hidden items
 				cy.returnToCampaignCard();
@@ -109,8 +109,7 @@ describe('Hide a host', () => {
 				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to hide the host
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Verify hidden host does not show in the list
 				cy.get('[cy-test=hostName]').each(($hosts) => {
@@ -130,8 +129,7 @@ describe('Hide a host', () => {
 				cy.get('.bp4-dialog-body').should('exist');
 
 				// Confirm that you want to show the host
-				cy.get('[cy-test=confirm-show-hide]').click();
-				cy.wait(1000);
+				cy.confirmShowHide();
 
 				// Go to settings and toggle switch to not show hidden
 				cy.doNotShowHiddenItems();
@@ -139,6 +137,47 @@ describe('Hide a host', () => {
 				// Verify host still appears in the list
 				cy.get('[cy-test=hosts-view]').should('contain', hostName);
 			});
+	});
+
+	it('Verify Cancel button works from Meta tab', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Select the first host, go to Meta tab, click show/hide link
+		cy.get('[cy-test=hostName]').eq(1).click();
+		cy.clickMetaTab();
+		cy.get('[cy-test=show-hide-this-host]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+		// Verify the Meta tab link says "Hide this host" vs. "Show"
+		cy.get('[cy-test=show-hide-this-host]').invoke('text').should('eq', 'Hide this host');
+	});
+
+	it('Verify Cancel button works from kebab menu', () => {
+		// Search for new campaign by name
+		cy.selectCampaign(camp);
+
+		// Click kebab menu for first hostto bring up options; click "Hide Host"
+		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=show-hide-item]').click();
+
+		// Verify modal shows; click Cancel
+		cy.verifyDialogBoxAppears();
+
+		cy.cancelShowHide();
+
+		// Verify modal disappears
+		cy.verifyDialogBoxDisappears();
+
+		// Verify the kebab menu link still says "Hide Host" vs. "Show"
+		cy.get('[cy-test=quick-meta-button]').eq(1).click();
+		cy.get('[cy-test=show-hide-item]').invoke('text').should('eq', 'Hide  Host');
 	});
 
 	after(() => {
