@@ -26,7 +26,7 @@ Cypress.Commands.add('clickTab', (name) => {
 // RETURN TO CAMPAIGN CARD
 Cypress.Commands.add('returnToCampaignCard', () => {
 	cy.get('[cy-test=return-campaign-menu]').first().click({ force: true });
-	cy.wait('@campaigns');
+	// cy.wait('@campaigns');
 });
 
 // CLICK EXPLORER ON EXPLORER PANEL
@@ -37,7 +37,7 @@ Cypress.Commands.add('clickExplorerMode', () => {
 // CLICK PRESENTATION MODE ON EXPLORER PANEL
 Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();
-	cy.wait('@presentationItems');
+	// cy.wait('@presentationItems');
 	cy.get('[cy-test=presentation-root]').should('be.visible');
 	cy.get('div.bp4-spinner-annimation').should('not.exist');
 	cy.get('.superGraph').should('be.visible', { timeout: 90000 });

@@ -5,10 +5,6 @@ describe('Add Delete Campaign Comments', () => {
 	const camp = 'addDeleteComments';
 	const fileName = 'gt.redeye';
 	const cmd = 'dcsync';
-	// const comment = 'Another comment';
-	// const tag = 'testing';
-
-	let count;
 
 	it('Add campaign comments and check counts', () => {
 		cy.uploadCampaign(camp, fileName);

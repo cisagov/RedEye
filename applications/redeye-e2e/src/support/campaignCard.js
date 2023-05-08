@@ -8,7 +8,6 @@ Cypress.Commands.add('clickCampaignCard', (index) => {
 //SELECT CAMPAIGN
 Cypress.Commands.add('selectCampaign', (camp) => {
 	cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
-	//  cy.wait(['@servers', '@beacons', '@hosts', '@links', '@commandTypes', '@operators', '@timeline']);
 	cy.get('.superGraph').should('be.visible');
 	cy.get('[cy-test=timeline]').should('be.visible');
 });
