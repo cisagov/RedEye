@@ -15,7 +15,6 @@ describe('Search and filter campaigns and verify beacon counts', () => {
 		cy.selectCampaign(camp);
 		cy.clickSearch();
 		cy.get('[cy-test=search]').click().type(cmd).type('{enter}');
-		cy.wait('@searchCommands');
 		cy.get('[cy-test=search-result-item]').should('have.length.gt', 0).and('contain', cmd);
 		cy.closeSearch();
 	});
