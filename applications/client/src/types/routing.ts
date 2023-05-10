@@ -1,14 +1,24 @@
 import type { UUID } from './uuid';
 
-export type CurrentItem = 'beacon' | 'host' | 'server' | 'operator' | 'command' | 'command-type' | 'all';
+export type CurrentItem =
+	| 'beacon'
+	| 'host'
+	| 'server'
+	| 'operator'
+	| 'command'
+	| 'command-type'
+	| 'all'
+	| 'comments_list';
+
+export type CommentItem = 'comments' | 'allComments' | 'favComments' | 'user' | 'tag';
 
 export interface CurrentItemWithId {
 	currentItem?: CurrentItem;
-	currentItemId?: UUID | undefined;
+	currentItemId?: UUID | undefined | string;
 }
 
 export interface ActiveItemWithId {
-	activeItem?: CurrentItem;
+	activeItem?: CurrentItem | CommentItem;
 	activeItemId?: UUID | undefined;
 }
 

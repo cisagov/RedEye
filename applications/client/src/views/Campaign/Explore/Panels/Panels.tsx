@@ -27,6 +27,7 @@ export const TabNames: Record<Tabs, string> = {
 	[Tabs.COMMANDS_OVERVIEW]: 'Command Types',
 	[Tabs.OPERATORS]: 'Operators',
 	[Tabs.COMMENTS]: 'Comments',
+	[Tabs.COMMENTS_LIST]: 'Comments List',
 	[Tabs.METADATA]: 'Meta',
 };
 
@@ -55,9 +56,7 @@ export const overviewCommentListSort = [
 ];
 
 // Defaults to the first one if unable to find a similar key
-export const sortOptions: (overviewCommentList?: boolean) => Record<Tabs, SortOption[]> = (
-	overviewCommentList = false
-) => ({
+export const sortOptions: (overviewCommentList?: boolean) => Record<Tabs, SortOption[]> = () => ({
 	[Tabs.BEACONS]: [SortBy.TIME, { label: 'Name', key: 'beaconName' }, SortBy.ID],
 	[Tabs.HOSTS]: [SortBy.TIME, { label: 'Name', key: 'hostName' }, SortBy.ID],
 	[Tabs.COMMANDS_OVERVIEW]: [{ label: 'Name', key: 'text' }, SortBy.ID],
@@ -65,7 +64,8 @@ export const sortOptions: (overviewCommentList?: boolean) => Record<Tabs, SortOp
 		{ label: 'Time', key: 'time' },
 		{ label: 'Name', key: 'name' },
 	],
-	[Tabs.COMMENTS]: overviewCommentList ? overviewCommentListSort : commentsTabSort,
+	[Tabs.COMMENTS]: commentsTabSort,
+	[Tabs.COMMENTS_LIST]: overviewCommentListSort,
 	[Tabs.OPERATORS]: [
 		{
 			label: 'Time',
@@ -103,7 +103,7 @@ export const InfoPanelTabs = {
 		title: (store: AppStore) => {
 			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
 			const title =
-				store.router.params.tab === Tabs.COMMENTS && store.campaign.overviewCommentList !== OverviewCommentList.ALL
+				store.router.params.tab === Tabs.COMMENTS_LIST && store.campaign.overviewCommentList !== OverviewCommentList.ALL
 					? store.campaign.overviewCommentType
 					: campaign?.name;
 			return (
@@ -113,7 +113,8 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.HOSTS]: OverviewHosts,
 			[Tabs.OPERATORS]: OverviewOperators,
-			[Tabs.COMMENTS]: Comments,
+			// [Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS_LIST]: Comments,
 			[Tabs.BEACONS]: OverviewBeacons,
 			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
 		},
@@ -153,6 +154,27 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.COMMANDS]: Commands,
 			[Tabs.COMMENTS]: Comments,
+		},
+	},
+	[InfoType.COMMENTS_LIST]: {
+		title: (store: AppStore) => {
+			console.log('???????????');
+			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
+			const title =
+				store.router.params.tab === Tabs.COMMENTS_LIST && store.campaign.overviewCommentList !== OverviewCommentList.ALL
+					? store.campaign.overviewCommentType
+					: campaign?.name;
+			return (
+				<PanelHeader css={title === OverviewCommentList.PROCEDURAL && { fontStyle: 'italic' }}>{title}</PanelHeader>
+			);
+		},
+		panels: {
+			[Tabs.HOSTS]: OverviewHosts,
+			[Tabs.OPERATORS]: OverviewOperators,
+			// [Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: Comments,
+			[Tabs.BEACONS]: OverviewBeacons,
+			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
 		},
 	},
 };

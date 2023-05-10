@@ -17,6 +17,7 @@ import type { ComponentProps } from 'react';
 import { useRef, useEffect } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
 import { OverviewComments } from './CommentList';
+import { Tabs } from '@redeye/client/types';
 
 type CommentsProps = ComponentProps<'div'> & {
 	sort: {
@@ -60,6 +61,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign?.interactionState.selectedOperator?.id,
 			store.campaign?.interactionState.selectedCommandType?.id,
 			sort,
+			store.router.params,
 		],
 		async () =>
 			await store.graphqlStore.queryCommandGroupIds({
@@ -84,6 +86,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign.id,
 			data?.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
+			store.router.params,
 		],
 		async () => {
 			if (data?.commandGroupIds?.length) {
@@ -141,7 +144,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			}
 		}
 	}, [data]);
-
+	console.log('tab: ', store.router.params);
 	return (
 		<VirtualizedList
 			rangeChanged={(visibleRange) => state.update('visibleRange', visibleRange)}
@@ -152,22 +155,20 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				<MessageRow>No comments</MessageRow>
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
-			) : store.router.params.currentItem === 'all' ? (
-				store.campaign.overviewCommentList === OverviewCommentList.ALL ? (
-					<OverviewComments setCommandGroupIds={state.setCommandGroupIds} />
-				) : (
-					state.commandGroupIds.map((commandGroupId) => (
-						<CommentGroup
-							cy-test="comment-group"
-							key={commandGroupId}
-							commandGroupId={commandGroupId}
-							toggleNewComment={state.toggleNewComment}
-							newComment={state.newComment}
-							expandedCommandIDs={state.expandedCommandIDs}
-							removeExpandedCommandID={state.removeExpandedCommandID}
-						/>
-					))
-				)
+			) : store.router.params.tab === Tabs.COMMENTS_LIST ? (
+				<OverviewComments setCommandGroupIds={state.setCommandGroupIds} />
+			) : store.router.params.currentItem === 'comments_list' ? (
+				state.commandGroupIds.map((commandGroupId) => (
+					<CommentGroup
+						cy-test="comment-group"
+						key={commandGroupId}
+						commandGroupId={commandGroupId}
+						toggleNewComment={state.toggleNewComment}
+						newComment={state.newComment}
+						expandedCommandIDs={state.expandedCommandIDs}
+						removeExpandedCommandID={state.removeExpandedCommandID}
+					/>
+				))
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup

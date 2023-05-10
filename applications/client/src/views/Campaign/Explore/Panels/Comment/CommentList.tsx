@@ -1,5 +1,5 @@
 import { CarbonIcon, semanticIcons } from '@redeye/client/components';
-import type { PresentationItemModel } from '@redeye/client/store';
+import { PresentationItemModel, routes } from '@redeye/client/store';
 import {
 	OverviewCommentList,
 	presentationCommandGroupModelPrimitives,
@@ -12,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { Bookmark16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
 import { useCallback, useMemo } from 'react';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
+import { CampaignViews, Tabs } from '@redeye/client/types';
 
 type CommentListProps = {
 	setCommandGroupIds: (groupIDs: string[]) => void;
@@ -32,6 +33,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 
 	// For presentationItem.id by User or Tag, make sure use a prefix in case it's same to other general types.
 	const handleClickType = useCallback((presentationItem) => {
+		console.log('tab1: ', store.router.params.tab);
 		setCommandGroupIds(presentationItem.commandGroupIds);
 		store.campaign.setOverviewCommentList(
 			presentationItem.id === 'all'
@@ -47,6 +49,20 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 		store.campaign.setOverviewCommentType(
 			presentationItem.key.slice(0, 5) === 'user-' ? presentationItem.key.slice(5) : presentationItem.key
 		);
+		store.router.updateRoute({
+			path: routes[CampaignViews.EXPLORE],
+			params: {
+				id: store.campaign.id,
+				view: CampaignViews.EXPLORE,
+				tab: Tabs.COMMENTS,
+				currentItem: 'comments_list',
+				currentItemId: 'allComments',
+				activeItem: undefined,
+				activeItemId: undefined,
+			},
+			// clear: store.router.params.tab !== 'beacons' && store.router.params.currentItem !== 'all',
+		});
+		console.log('tab2: ', store.router.params.currentItem, store.router.params.tab, store.router.params);
 	}, []);
 
 	const rowTitle = useMemo(

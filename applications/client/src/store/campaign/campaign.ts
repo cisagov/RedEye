@@ -75,6 +75,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 		overviewCommentType: prop<string>('').withSetter(),
 	},
 })) {
+	// comments vs commentsList???
 	@observable sortMemory: {
 		[key in Tabs]: SortType;
 	} = {} as any;
@@ -224,6 +225,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 	}
 
 	@modelAction setSelectedTab(newTab: Tabs) {
+		console.log(newTab, this.appStore?.router.params.tab);
 		if (newTab !== this.appStore?.router.params.tab) {
 			const sort = this.getDefaultSort(newTab);
 			this.appStore?.router.updateRoute({
