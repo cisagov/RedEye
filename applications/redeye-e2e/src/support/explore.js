@@ -299,7 +299,7 @@ Cypress.Commands.add('verifyCannotHideFinal', () => {
 Cypress.Commands.add('confirmShowHide', () => {
 	cy.get('[cy-test=confirm-show-hide]').click();
 	cy.wait(400);
-	cy.get('[cy-test=confirm-show-hide]').should('be.visible');
+	cy.get('[cy-test=confirm-show-hide]').should('not.exist');
 });
 
 // CANCEL SHOW OR HIDE FROM CONFIRMATION MODAL
