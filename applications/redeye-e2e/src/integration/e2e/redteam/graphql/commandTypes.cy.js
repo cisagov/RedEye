@@ -10,7 +10,6 @@ describe('Query CommandTypes', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query commandTypes($campaignId: String!) {
        commandTypes(campaignId: $campaignId) {
