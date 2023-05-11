@@ -21,7 +21,6 @@ describe('Query Presentation Items', () => {
 			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.presentationItems;
-				cy.log(comp);
 				//SHOULD AT LEAST HAVE ALL COMMENTS & FAVORITED COMMENTS
 				expect(comp.length).to.be.gt(0);
 			});

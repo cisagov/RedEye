@@ -19,7 +19,6 @@ describe('Get All Links', () => {
 			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const search = res.body.data.links;
-				cy.log(search);
 				expect(search.length).to.eq(5);
 			});
 		});

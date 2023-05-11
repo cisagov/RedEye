@@ -22,7 +22,6 @@ describe('Search Request', () => {
 			const variables = { campaignId: returnedUrl, searchQuery: 'exit' };
 			graphqlRequest(query, variables).then((res) => {
 				const search = res.body.data.searchCommands;
-				cy.log(search);
 				expect(search.length).to.eq(4);
 			});
 		});

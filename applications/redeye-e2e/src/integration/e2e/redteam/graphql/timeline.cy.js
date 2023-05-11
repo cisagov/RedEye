@@ -1,9 +1,9 @@
 import { graphqlRequest } from '../../../../support/utils';
 
-describe('Query Operators', () => {
-	const camp = 'operatorsGraphQL';
+describe('Query Timeline', () => {
+	const camp = 'timelineGraphQL';
 
-	it('Query Operators', () => {
+	it('Query Timeline', () => {
 		cy.uploadCampaign(camp, 'gt.redeye');
 
 		cy.selectCampaign(camp);
@@ -11,20 +11,25 @@ describe('Query Operators', () => {
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
 
-			const query = `query operators($campaignId: String!) {
-        operators(campaignId: $campaignId) {
-        id
-      }
-    }`;
+			const query = `query timeline(
+				$campaignId: String!
+			  ) {
+				timeline(
+				  campaignId: $campaignId
+				) {
+				  buckets {
+					bucketStartTime
+				  }
+				}
+			  }`;
 
 			const variables = { campaignId: returnedUrl };
+
 			graphqlRequest(query, variables).then((res) => {
-				const resp = res.body.data.operators[0];
-				expect(resp.id).to.eq('analyst01');
+				const comp = res.body.data.timeline.buckets;
+				expect(comp.length).to.eq(67);
 			});
 		});
-
-		cy.returnToCampaignCard();
 	});
 
 	after(() => {
