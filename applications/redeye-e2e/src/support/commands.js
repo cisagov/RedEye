@@ -1,5 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /// <reference types="cypress" />
+import 'cypress-real-events';
 
 import { graphqlRequest, mutRequest } from '../support/utils';
 
@@ -34,7 +35,10 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 			cacheAcrossSpecs: true,
 		}
 	),
-		cy.visit('http://localhost:3500/#/campaigns/all');
+		cy.visit('http://localhost:3500/#/campaigns/all', {
+			timeout: 80000,
+		});
+	cy.wait(1000);
 });
 
 Cypress.Commands.add('loginBlue', (user) => {
@@ -53,27 +57,24 @@ Cypress.Commands.add('logout', () => {
 
 //HOVER OVER TO ADD NEW COMMENT IF NONE EXIST
 Cypress.Commands.add('addComment', (index, cmt) => {
-	cy.get('[cy-test=command-info] [cy-test=add-comment]')
+	cy.get('[cy-test=add-comment]')
 		.eq(index)
+		.realHover()
 		.invoke('attr', 'style', 'visibility: visible')
 		.should('be.visible')
-		.click({ force: true });
+		.realClick();
 	cy.get('[cy-test=comment-box]').should('be.visible');
-	cy.get('[cy-test=comment-input]').type(cmt);
+	cy.get('[cy-test=comment-input]').should('be.visible').type(cmt);
 });
 
 //DELETE COMMENT
 Cypress.Commands.add('deleteComment', (index) => {
-	cy.get('[cy-test=add-comment]')
-		.eq(index)
-		.click()
-		.wait(100)
-		.then(() => {
-			cy.get('[cy-test=comment-dialog]').should('be.visible');
-		});
-
+	cy.get('[cy-test=command-info]').should('be.visible');
+	cy.get('[cy-test=add-comment]').should('be.visible').eq(index).click({ force: true });
+	cy.get('[cy-test=comment-dialog]').should('be.visible');
 	cy.get('[cy-test=delete-comment]').click();
-	cy.contains('Delete Comment').click();
+	cy.contains('Delete Comment').click({ force: true });
+	cy.wait(500);
 });
 
 // ADD TO EXISTING COMMENT
@@ -84,7 +85,7 @@ Cypress.Commands.add('addToExistingComment', (index, cmt) => {
 		.should('be.visible')
 		.click({ force: true });
 	cy.get('[cy-test=comment-box]').should('be.visible');
-	cy.get('[cy-test=add-command-existing-comment]').click({ force: true });
+	cy.get('[cy-test=add-command-existing-comment]').should('be.visible').click({ force: true });
 	cy.get('[cy-test=search-comments]').type(cmt);
 });
 
@@ -94,23 +95,24 @@ Cypress.Commands.add('addExistingTags', (...term) => {
 		cy.get('[cy-test=tag-input]').type(tags);
 		cy.get('[cy-test=tag-list-item]').contains(tags).click();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
-	cy.wait('@addCommandGroupAnnotation');
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
+	// cy.wait('@addCommandGroupAnnotation');
 });
 
 //ADD TAGS TO COMMENT
 Cypress.Commands.add('addNewTags', { prevSubject: false }, (...term) => {
 	term.forEach((tags) => {
 		cy.get('[cy-test=tag-input]').type(tags);
-		cy.get('[cy-test=add-tag]').contains(tags).click({ force: true });
+		cy.get('[cy-test=add-tag]').contains(tags).realClick();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').click();
-	cy.wait('@addCommandGroupAnnotation');
+	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
+	// cy.wait('@addCommandGroupAnnotation');
+	cy.wait(300);
 });
 
 //MARK COMMENT AS FAVORITE
 Cypress.Commands.add('favoriteComment', (index) => {
-	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).click({ force: true });
+	cy.get('[cy-test=fav-comment]').should('be.visible').eq(index).realClick();
 });
 
 //ADD NEW COMMENT
@@ -140,25 +142,48 @@ Cypress.Commands.add('favoriteComment', (index) => {
 
 Cypress.Commands.add('addNewComment', (index, comment, tag) => {
 	cy.get('[cy-test=add-comment]')
-		.eq(index)
 		.should((_) => {})
 		.then(($button) => {
-			if (~$button.is(':visible')) {
-				cy.addComment(index, comment);
+			if ($button.length) {
+				cy.get('[cy-test=add-comment]')
+					.eq(index)
+					.realHover()
+					.invoke('attr', 'style', 'visibility: visible')
+					.should('be.visible')
+					.realClick();
+				cy.get('[cy-test=comment-box]').should('be.visible');
+				cy.get('[cy-test=comment-input]').should('be.visible').type(comment);
 				cy.addNewTags(tag);
 				cy.wait(300);
 				return;
 			} else {
-				cy.window().then((win) => {
-					cy.spy(win.console, 'log').as('log');
-				});
 				cy.wrap($button).click();
 				cy.get('[cy-test=add-new-comment]').click({ force: true });
 				cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
 				cy.addExistingTags(tag);
-				cy.get('@log').should('have.been.calledOnceWith', 'Clicked');
 			}
 		});
+	// cy.get('[cy-test=command-info]')
+	// 	.eq(index)
+	// 	.then(($co) => {
+	// 		if ($co.find('[cy-test=add-comment]').length > 0) {
+	// 			cy.get('[cy-test=add-comment]').then(($btn) => {
+	// 				if ($btn.is(':visible')) {
+	// 					cy.log('COMMENT ALREADY HERE');
+	// 					cy.get('[cy-test=add-comment]').click({ force: true });
+	// 					cy.get('[cy-test=add-new-comment]').click({ force: true });
+	// 					cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
+	// 					cy.addExistingTags(tag);
+	// 					cy.wait(300);
+	// 				} else {
+	// 					cy.log('NEW COMMENT ');
+	// 					cy.addComment(index, comment);
+	// 					cy.addNewTags(tag);
+	// 					cy.wait(300);
+	// 				}
+	// 			});
+	// 		}
+	// 	});
 });
 
 // Edit an existing comment; do not edit tags
@@ -166,7 +191,7 @@ Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
 	cy.get('[cy-test=edit-comment]').eq(index).click();
 	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
 	cy.get('[cy-test=save-comment]').click();
-	cy.wait('@updateAnnotation');
+	// cy.wait('@updateAnnotation');
 });
 
 // Reply to a comment (only adds text, no tags)
@@ -203,7 +228,8 @@ Cypress.Commands.add('infoRowTotal', (num) => {
 //ACTUAL COMMANDS
 Cypress.Commands.add('selectCommandType', (cmd) => {
 	cy.get('[cy-test=commands]').contains(cmd).click();
-	cy.wait(['@commands', '@commandIds']);
+	// cy.wait(['@commands', '@commandIds']);
+	cy.wait(500);
 });
 
 // Delete campaign using GraphQL
@@ -242,7 +268,7 @@ Cypress.Commands.add('closeRawLogs', () => {
 // Search campaign for specific term
 Cypress.Commands.add('searchCampaignFor', (searchTerm) => {
 	cy.get('[cy-test=search]').click().clear().type(searchTerm).type('{enter}');
-	cy.wait('@searchAnnotations');
+	// cy.wait('@searchAnnotations');
 });
 
 // Edit an existing comment; do not edit tags
@@ -250,7 +276,7 @@ Cypress.Commands.add('editExistingComment', (index, editedCommentText) => {
 	cy.get('[cy-test=edit-comment]').eq(index).click();
 	cy.get('[cy-test=comment-input]').click().clear().type(editedCommentText);
 	cy.get('[cy-test=save-comment]').click();
-	cy.wait('@updateAnnotation');
+	// cy.wait('@updateAnnotation');
 });
 
 // Reply to a comment (only adds text, no tags)

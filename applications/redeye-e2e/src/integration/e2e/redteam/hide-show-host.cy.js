@@ -11,7 +11,7 @@ describe('Hide a host', () => {
 	const camp = 'hideshowhost';
 	const fileName = 'gt.redeye';
 
-	it.only('Hide host via Meta tab using toggle in left nav panel', () => {
+	it('Hide host via Meta tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
