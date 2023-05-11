@@ -20,7 +20,7 @@ import {
 	ToggleHiddenButton,
 } from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
-import { useCheckLastUnhidden } from '../hooks/use-check-last-unhidden';
+import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 import { NodePreviewBox } from './components/NodePreview';
 import { NodeColorSelect } from './components/NodeColorSelect';
 
@@ -38,7 +38,9 @@ export const ServerMeta = observer((props) => {
 		},
 	});
 
-	const { last, isDialogDisabled } = useCheckLastUnhidden('server', server?.hidden || false);
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('servers', !!server?.hidden, [
+		server?.id || '',
+	]);
 
 	const { mutate: serverMetaUpdate } = useMutation(
 		async () => {
@@ -152,7 +154,7 @@ export const ServerMeta = observer((props) => {
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				isOpen={toggleHidden.showHide}
-				last={last}
+				cantHideEntities={cantHideEntities}
 			/>
 		</div>
 	);

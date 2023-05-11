@@ -24,7 +24,6 @@ describe('Command counts', () => {
 				Cypress.$('[cy-test=row-command-count]').each(function () {
 					sum += +Cypress.$(this).text() || 0;
 				});
-				cy.log(sum);
 				expect(sum).to.eq(+commandTotal);
 			});
 		});
@@ -49,7 +48,6 @@ describe('Command counts', () => {
 				Cypress.$('[cy-test=row-command-count]').each(function () {
 					sum += +Cypress.$(this).text() || 0;
 				});
-				cy.log(sum);
 				expect(sum).to.eq(+commandTotal);
 			});
 		});
@@ -69,8 +67,6 @@ describe('Command counts', () => {
 					.eq(0)
 					.invoke('text')
 					.then((countHost1) => {
-						// cy.log(countHost1);
-
 						// Click host to open details
 						cy.get('[cy-test=info-row]').eq(1).click();
 
@@ -78,13 +74,16 @@ describe('Command counts', () => {
 
 						cy.url().then((url) => {
 							const returnedUrl = url.split('/')[5];
-							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
 						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
 					  }`;
 
-							const variables = `{"campaignId": "${returnedUrl}", "hostId": "${nameHost1}", "sort": { "sortBy": "time", "direction": "ASC"}}`;
+							const variables = {
+								campaignId: returnedUrl,
+								hostId: nameHost1,
+								sort: { sortBy: 'time', direction: 'ASC' },
+							};
 							graphqlRequest(query, variables).then((res) => {
 								// cy.log(res.body.data.commandIds);
 								expect(res.body.data.commandIds).length(countHost1);
@@ -114,13 +113,16 @@ describe('Command counts', () => {
 
 						cy.url().then((url) => {
 							const returnedUrl = url.split('/')[5];
-							// cy.log(returnedUrl);
 
 							const query = `query commandIds($beaconId: String, $campaignId: String!, $commandIds: [String!], $commandType: String, $hostId: String, $operatorId: String, $sort: SortType) {
 						commandIds(beaconId: $beaconId, campaignId: $campaignId, commandIds: $commandIds, commandType: $commandType, hostId: $hostId, operatorId: $operatorId, sort: $sort)
 					  }`;
 
-							const variables = `{"campaignId": "${returnedUrl}", "hostId": "${nameHost2}", "sort": { "sortBy": "time", "direction": "ASC"}}`;
+							const variables = {
+								campaignId: returnedUrl,
+								hostId: nameHost2,
+								sort: { sortBy: 'time', direction: 'ASC' },
+							};
 							graphqlRequest(query, variables).then((res) => {
 								// cy.log(res.body.data.commandIds);
 								expect(res.body.data.commandIds).length(countHost2);

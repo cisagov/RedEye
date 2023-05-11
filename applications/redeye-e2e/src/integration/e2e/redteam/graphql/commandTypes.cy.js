@@ -10,14 +10,13 @@ describe('Query CommandTypes', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query commandTypes($campaignId: String!) {
        commandTypes(campaignId: $campaignId) {
         id
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.commandTypes;
 				//23 Unique Command Types

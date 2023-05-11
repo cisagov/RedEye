@@ -2,9 +2,9 @@
 
 describe('Search campaign and filter results', () => {
 	const camp = 'searchfilter';
-	const fileName = 'gt.redeye';
+	const fileName = 'smalldata.redeye';
 	const searchTerm1 = 'SYSTEM';
-	const searchTerm2 = 'Dataset';
+	const searchTerm2 = '012';
 
 	it('Search and filter by Beacons and Commands', () => {
 		cy.uploadCampaignBlue(camp, fileName);
@@ -34,7 +34,6 @@ describe('Search campaign and filter results', () => {
 				cy.get('@list')
 					.its('length')
 					.then((resultSearch2) => {
-						// cy.log(resultSearch2);
 						expect(resultSearch2).to.be.lt(resultSearch1);
 
 						// Change filter to Commands
@@ -46,7 +45,6 @@ describe('Search campaign and filter results', () => {
 						cy.get('@list')
 							.its('length')
 							.then((resultSearch3) => {
-								// cy.log(resultSearch3);
 								expect(resultSearch3).to.be.lt(resultSearch1);
 								expect(resultSearch2 + resultSearch3).to.equal(resultSearch1);
 							});
@@ -69,8 +67,6 @@ describe('Search campaign and filter results', () => {
 		cy.get('@list')
 			.its('length')
 			.then((resultSearch1) => {
-				// cy.log(resultSearch1);
-
 				// Filter to Host
 				cy.get('[cy-test=filter-search]').click();
 				cy.get('[cy-test=Hosts]').click();
@@ -79,7 +75,6 @@ describe('Search campaign and filter results', () => {
 				cy.get('@list')
 					.its('length')
 					.then((resultSearch2) => {
-						// cy.log(resultSearch2);
 						expect(resultSearch2).to.be.lt(resultSearch1);
 
 						// Change filter to Server
@@ -90,7 +85,6 @@ describe('Search campaign and filter results', () => {
 						cy.get('@list')
 							.its('length')
 							.then((resultSearch3) => {
-								// cy.log(resultSearch3);
 								expect(resultSearch3).to.be.lt(resultSearch1);
 
 								// Change filter to Beacon
@@ -101,14 +95,12 @@ describe('Search campaign and filter results', () => {
 								cy.get('@list')
 									.its('length')
 									.then((resultSearch4) => {
-										// cy.log(resultSearch4);
 										expect(resultSearch4).to.be.lt(resultSearch1);
 
 										// Log filtered results and compare to original
 										cy.get('@list')
 											.its('length')
 											.then((resultSearch5) => {
-												// cy.log(resultSearch5);
 												expect(resultSearch5).to.be.lt(resultSearch1);
 											});
 									});

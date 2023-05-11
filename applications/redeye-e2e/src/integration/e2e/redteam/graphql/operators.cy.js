@@ -10,7 +10,6 @@ describe('Query Operators', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query operators($campaignId: String!) {
         operators(campaignId: $campaignId) {
@@ -18,11 +17,10 @@ describe('Query Operators', () => {
       }
     }`;
 
-			const variables = `{"campaignId": "${returnedUrl}" }`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const resp = res.body.data.operators[0];
-				cy.log(resp);
-				expect(resp.id).to.eq('analyst');
+				expect(resp.id).to.eq('analyst01');
 			});
 		});
 

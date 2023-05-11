@@ -12,7 +12,6 @@ describe('Search Request', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query searchCommands($campaignId: String!, $searchQuery: String!) {
         searchCommands(campaignId: $campaignId, searchQuery: $searchQuery) {
@@ -20,10 +19,9 @@ describe('Search Request', () => {
         inputText
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}", "searchQuery": "exit"}`;
+			const variables = { campaignId: returnedUrl, searchQuery: 'exit' };
 			graphqlRequest(query, variables).then((res) => {
 				const search = res.body.data.searchCommands;
-				cy.log(search);
 				expect(search.length).to.eq(4);
 			});
 		});

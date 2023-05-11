@@ -12,7 +12,7 @@ export class HostResolvers {
 	async hosts(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false }) hidden: boolean = false,
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Host>
 	): Promise<Host[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
@@ -48,22 +48,42 @@ export class HostResolvers {
 	}
 
 	@Authorized()
-	@Mutation(() => Host, { description: 'Toggle host hidden state' })
+	@Mutation(() => [Host], { description: 'Toggle host hidden state' })
 	async toggleHostHidden(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hostId', () => String) hostId: string
-	): Promise<Host> {
+		@Arg('hostId', () => String, { nullable: true }) hostId?: string,
+		@Arg('hostIds', () => [String], { nullable: true }) hostIds?: Array<string>,
+		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
+	): Promise<Host[] | undefined> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const host = await em.findOneOrFail(Host, hostId);
-		host.hidden = !host.hidden;
-		await host.beacons.loadItems();
-		for (const beacon of host.beacons) {
-			await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });
-			await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
+		if (hostId) {
+			const host = await em.findOneOrFail(Host, hostId);
+			host.hidden = !host.hidden;
+			await host.beacons.loadItems();
+			for (const beacon of host.beacons) {
+				await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });
+				await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
+			}
+			await em.persistAndFlush(host);
+			ctx.cm.forkProject(campaignId);
+			return [host];
+		} else if (hostIds) {
+			const hosts = await em.find(Host, hostIds);
+			for (const host of hosts) {
+				if (setHidden !== undefined) {
+					host.hidden = setHidden;
+					await host.beacons.loadItems();
+					for (const beacon of host.beacons) {
+						await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: host.hidden });
+						await ensureTreeHidden(em, beacon.id, host.hidden, host.beacons.getIdentifiers());
+					}
+					await em.persistAndFlush(host);
+				}
+			}
+			ctx.cm.forkProject(campaignId);
+			return hosts;
 		}
-		await em.persistAndFlush(host);
-		ctx.cm.forkProject(campaignId);
-		return host;
+		return undefined;
 	}
 }

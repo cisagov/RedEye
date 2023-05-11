@@ -12,17 +12,15 @@ describe('Query Presentation Items', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query presentationItems($campaignId: String!) {
         presentationItems(campaignId: $campaignId) {
         id
       }
     }`;
-			const variables = `{"campaignId": "${returnedUrl}"}`;
+			const variables = { campaignId: returnedUrl };
 			graphqlRequest(query, variables).then((res) => {
 				const comp = res.body.data.presentationItems;
-				cy.log(comp);
 				//SHOULD AT LEAST HAVE ALL COMMENTS & FAVORITED COMMENTS
 				expect(comp.length).to.be.gt(0);
 			});

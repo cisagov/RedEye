@@ -19,6 +19,7 @@ export const BeaconLinkRow = observer<BeaconLinkRowProps>(({ direction, link, ..
 			<Txt>{direction}</Txt>
 		</Flex>
 		<NavBreadcrumbs
+			cy-test="meta-link"
 			muted
 			hideServer
 			beacon={direction === 'To' ? link.destination?.current : link.origin?.current}

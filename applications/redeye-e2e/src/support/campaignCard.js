@@ -7,8 +7,8 @@ Cypress.Commands.add('clickCampaignCard', (index) => {
 
 //SELECT CAMPAIGN
 Cypress.Commands.add('selectCampaign', (camp) => {
-	cy.get('[cy-test=campaign-name]').contains(camp).scrollIntoView().click();
-	//  cy.wait(['@servers', '@beacons', '@hosts', '@links', '@commandTypes', '@operators', '@timeline']);
+	cy.get('[cy-test=campaign-name]').contains(camp).should('be.visible').scrollIntoView().click();
+	cy.wait(1000);
 	cy.get('.superGraph').should('be.visible');
 	cy.get('[cy-test=timeline]').should('be.visible');
 });
@@ -57,6 +57,7 @@ Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 //UPLOAD CAMPAIGN DB FILE
 Cypress.Commands.add('uploadCampaignBlue', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').click();
+	cy.get('[cy-test=upload-from-file]').click();
 	cy.get('[cy-test=new-camp-name]').click().type(camp);
 	cy.fixture(fileName, { encoding: null }).as('myFixture');
 	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');

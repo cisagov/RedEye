@@ -39,6 +39,11 @@ import { HostMetaModel, hostMetaModelPrimitives, HostMetaModelSelector } from '.
 import { ImageModel, imageModelPrimitives, ImageModelSelector } from './ImageModel';
 import { LinkModel, linkModelPrimitives, LinkModelSelector } from './LinkModel';
 import { LogEntryModel, logEntryModelPrimitives, LogEntryModelSelector } from './LogEntryModel';
+import {
+	NonHidableEntitiesModel,
+	nonHidableEntitiesModelPrimitives,
+	NonHidableEntitiesModelSelector,
+} from './NonHidableEntitiesModel';
 import { OperatorModel, operatorModelPrimitives, OperatorModelSelector } from './OperatorModel';
 import {
 	ParsingProgressModel,
@@ -153,6 +158,7 @@ export enum RootStoreBaseQueries {
 	queryLinks = 'queryLinks',
 	queryLogs = 'queryLogs',
 	queryLogsByBeaconId = 'queryLogsByBeaconId',
+	queryNonHidableEntities = 'queryNonHidableEntities',
 	queryOperators = 'queryOperators',
 	queryParsingProgress = 'queryParsingProgress',
 	queryPresentationItems = 'queryPresentationItems',
@@ -206,6 +212,7 @@ export class RootStoreBase extends ExtendedModel(
 			['Image', () => ImageModel],
 			['Link', () => LinkModel],
 			['LogEntry', () => LogEntryModel],
+			['NonHidableEntities', () => NonHidableEntitiesModel],
 			['Operator', () => OperatorModel],
 			['ParsingProgress', () => ParsingProgressModel],
 			['PresentationCommandGroup', () => PresentationCommandGroupModel],
@@ -634,6 +641,29 @@ export class RootStoreBase extends ExtendedModel(
 			!!clean
 		);
 	}
+	@modelAction queryNonHidableEntities(
+		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
+		resultSelector:
+			| string
+			| ((
+					qb: typeof NonHidableEntitiesModelSelector
+			  ) => typeof NonHidableEntitiesModelSelector) = nonHidableEntitiesModelPrimitives.toString(),
+		options: QueryOptions = {},
+		clean?: boolean
+	) {
+		return this.query<{ nonHidableEntities: NonHidableEntitiesModel }>(
+			`query nonHidableEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { nonHidableEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
+        ${
+					typeof resultSelector === 'function'
+						? resultSelector(NonHidableEntitiesModelSelector).toString()
+						: resultSelector
+				}
+      } }`,
+			variables,
+			options,
+			!!clean
+		);
+	}
 	// Get all the operators for a project
 	@modelAction queryOperators(
 		variables: { campaignId: string; hidden?: boolean },
@@ -1026,14 +1056,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Toggle beacon hidden state
 	@modelAction mutateToggleBeaconHidden(
-		variables: { beaconId: string; campaignId: string },
+		variables: { beaconId?: string; beaconIds?: string[]; campaignId: string; setHidden?: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof BeaconModelSelector) => typeof BeaconModelSelector) = beaconModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ toggleBeaconHidden: BeaconModel }>(
-			`mutation toggleBeaconHidden($beaconId: String!, $campaignId: String!) { toggleBeaconHidden(beaconId: $beaconId, campaignId: $campaignId) {
+			`mutation toggleBeaconHidden($beaconId: String, $beaconIds: [String!], $campaignId: String!, $setHidden: Boolean) { toggleBeaconHidden(beaconId: $beaconId, beaconIds: $beaconIds, campaignId: $campaignId, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -1042,14 +1072,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Toggle host hidden state
 	@modelAction mutateToggleHostHidden(
-		variables: { campaignId: string; hostId: string },
+		variables: { campaignId: string; hostId?: string; hostIds?: string[]; setHidden?: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ toggleHostHidden: HostModel }>(
-			`mutation toggleHostHidden($campaignId: String!, $hostId: String!) { toggleHostHidden(campaignId: $campaignId, hostId: $hostId) {
+			`mutation toggleHostHidden($campaignId: String!, $hostId: String, $hostIds: [String!], $setHidden: Boolean) { toggleHostHidden(campaignId: $campaignId, hostId: $hostId, hostIds: $hostIds, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -1058,14 +1088,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Toggle server hidden state
 	@modelAction mutateToggleServerHidden(
-		variables: { campaignId: string; serverId: string },
+		variables: { campaignId: string; serverId?: string; serverIds?: string[]; setHidden?: boolean },
 		resultSelector:
 			| string
 			| ((qb: typeof ServerModelSelector) => typeof ServerModelSelector) = serverModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ toggleServerHidden: ServerModel }>(
-			`mutation toggleServerHidden($campaignId: String!, $serverId: String!) { toggleServerHidden(campaignId: $campaignId, serverId: $serverId) {
+			`mutation toggleServerHidden($campaignId: String!, $serverId: String, $serverIds: [String!], $setHidden: Boolean) { toggleServerHidden(campaignId: $campaignId, serverId: $serverId, serverIds: $serverIds, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(ServerModelSelector).toString() : resultSelector}
       } }`,
 			variables,

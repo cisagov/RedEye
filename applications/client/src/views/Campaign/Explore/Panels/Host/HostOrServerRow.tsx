@@ -93,7 +93,7 @@ export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props 
 						toggleHidden.update('showHide', false);
 					}}
 					onHide={() => mutateToggleHidden.mutate()}
-					last={last}
+					cantHideEntities={last}
 				/>
 			)}
 		</InfoRow>

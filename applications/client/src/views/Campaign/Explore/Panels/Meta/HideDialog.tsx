@@ -13,11 +13,21 @@ type Props = DialogExProps & {
 	infoType: InfoType;
 	onHide?: () => void;
 	isHiddenToggled?: boolean;
-	last?: boolean;
+	cantHideEntities?: boolean;
+	bulk?: boolean;
 };
 
 export const ToggleHiddenDialog = observer<Props>(
-	({ typeName, infoType, onClose, isHiddenToggled = true, onHide = () => undefined, last, ...props }) => {
+	({
+		typeName,
+		infoType,
+		onClose,
+		isHiddenToggled = true,
+		onHide = () => undefined,
+		cantHideEntities,
+		bulk = false,
+		...props
+	}) => {
 		const [loading, setLoading] = useState(false);
 		const [checked, setChecked] = useState(window.localStorage.getItem('disableDialog') === 'true');
 		const plural = isHiddenToggled ? 'Showing' : 'Hiding';
@@ -28,7 +38,7 @@ export const ToggleHiddenDialog = observer<Props>(
 			window.localStorage.setItem('disableDialog', e.target.checked.toString());
 		}, []);
 
-		const isHidingFinal = last && !isHiddenToggled;
+		const isHidingFinal = cantHideEntities && !isHiddenToggled;
 
 		const confirmShowHide = isHidingFinal
 			? onClose
@@ -39,8 +49,9 @@ export const ToggleHiddenDialog = observer<Props>(
 			  };
 
 		const dialogTitle = isHidingFinal
-			? `Cannot hide final ${infoType.toLowerCase()}`
-			: `${verb} this ${infoType.toLowerCase()}?`;
+			? `Cannot hide final ${infoType.toLowerCase()}${bulk ? 's' : ''}`
+			: // : `${verb} this ${infoType.toLowerCase()}?`;
+			  `${verb} ${bulk ? 'these' : 'this'} ${infoType.toLowerCase()}${bulk ? 's' : ''}?`;
 
 		return (
 			<DialogEx onClose={onClose} title={dialogTitle} {...props}>
@@ -48,8 +59,12 @@ export const ToggleHiddenDialog = observer<Props>(
 					{isHidingFinal ? (
 						<>
 							<Txt cy-test="cannot-hide-final-text1" running>
-								{plural} this {infoType.toLowerCase()} will create a state in which the UI has no content. To hide this{' '}
-								{infoType}, you must unhide another {infoType.toLowerCase()}.
+								{`${plural} ${
+									bulk ? 'these' : 'this'
+								} ${infoType.toLowerCase()} will create a state in which the UI has no content. To hide ${
+									bulk ? 'these ' : 'this '
+								}${infoType.toLowerCase()}${bulk ? 's' : ''}, you must
+								unhide another ${infoType.toLowerCase()}.`}
 							</Txt>
 							<Txt cy-test="cannot-hide-final-text2" running>
 								To unhide {infoType.toLowerCase()}s, toggle
@@ -61,18 +76,21 @@ export const ToggleHiddenDialog = observer<Props>(
 					) : (
 						<>
 							<Txt cy-test="dialog-text-line1" running>
-								{plural} this {infoType.toLowerCase()} will make it{' '}
-								{isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.
+								{`${plural} ${bulk ? 'these' : 'this'} ${infoType.toLowerCase()}${bulk ? 's' : ''} will make ${
+									bulk ? 'them' : 'it'
+								} ${isHiddenToggled ? 'appear' : 'disappear from display'} in the UI.`}
 							</Txt>
 							{!isHiddenToggled && (
 								<Txt cy-test="dialog-text-line2" running>
-									{plural} this {infoType.toLowerCase()} will NOT delete it. Hidden {infoType.toLowerCase()}s can be
-									shown again by toggling the
+									{`${plural} ${bulk ? 'these' : 'this'} ${infoType.toLowerCase()}${bulk ? 's' : ''} will NOT delete ${
+										bulk ? 'them' : 'it'
+									}. Hidden ${infoType.toLowerCase()}s can be shown again by toggling the`}
 									<Txt bold> &quot;Show Hidden Beacons, Hosts, and Servers&quot;</Txt> in the Application Settings.
 								</Txt>
 							)}
 							<Txt cy-test="dialog-text-line3" running>
-								This will also {verb.toLowerCase()} descendants that are linked to this {infoType.toLowerCase()}.
+								{`This will also ${verb.toLowerCase()} descendants that are linked to ${bulk ? 'these' : 'this'}
+								${infoType.toLowerCase()}${bulk ? 's' : ''}.`}
 							</Txt>
 							<Checkbox label="Don't show this warning again" checked={checked} onChange={handleCheck} />
 						</>
@@ -85,9 +103,9 @@ export const ToggleHiddenDialog = observer<Props>(
 							<Button
 								cy-test="confirm-show-hide"
 								intent={Intent.PRIMARY}
-								rightIcon={!last && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
+								rightIcon={!cantHideEntities && <CarbonIcon icon={isHiddenToggled ? View16 : ViewOff16} />}
 								loading={loading}
-								text={isHidingFinal ? 'Cancel' : `${verb} ${infoType}`}
+								text={isHidingFinal ? 'Cancel' : `${verb} ${infoType}${bulk ? 's' : ''}`}
 								onClick={confirmShowHide}
 								alignText="left"
 							/>

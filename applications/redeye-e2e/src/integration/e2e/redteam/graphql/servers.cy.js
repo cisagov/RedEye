@@ -10,7 +10,6 @@ describe('Query Servers', () => {
 
 		cy.url().then((url) => {
 			const returnedUrl = url.split('/')[5];
-			cy.log(returnedUrl);
 
 			const query = `query servers($campaignId: String!, $username: String!) {
         servers(campaignId: $campaignId, username: $username) {
@@ -18,7 +17,7 @@ describe('Query Servers', () => {
       }
     }`;
 
-			const variables = `{"campaignId": "${returnedUrl}", "username": "seb" }`;
+			const variables = { campaignId: returnedUrl, username: 'seb' };
 			graphqlRequest(query, variables).then((res) => {
 				expect(res.body.data.servers.length).to.eq(1);
 			});

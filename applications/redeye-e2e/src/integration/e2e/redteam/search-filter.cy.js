@@ -2,9 +2,9 @@
 
 describe('Search campaign and filter results', () => {
 	const camp = 'searchfilter';
-	const fileName = 'gt.redeye';
+	const fileName = 'smalldata.redeye';
 	const searchTerm1 = 'SYSTEM';
-	const searchTerm2 = 'Dataset';
+	const searchTerm2 = '012';
 
 	it('Search and filter by Beacons and Commands', () => {
 		cy.uploadCampaign(camp, fileName);

@@ -10,7 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      CYPRESS_INSTALL_BINARY: 0
     strategy:
       matrix:
         node-version: [16.19.0]
@@ -20,33 +21,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.19.0
-          cache: 'yarn'
       - run: |
-          npm install -g pkg-fetch
-          pkg-fetch --platform linux --node-range node16
-          pkg-fetch --platform mac --node-range node16
-          pkg-fetch --platform win --node-range node16
-      - run: |
-          yarn install --immutable --inline-builds
-          yarn run release:all
-          chmod +x release/mac/RedEye
-          chmod +x release/linux/RedEye
-      - name: Archive mac production artifacts
+          docker-compose -f docker-compose.yml up -d redeye-artifacts
+          docker create -ti --name redeye-artifacts redeye-builder bash
+          docker cp redeye-artifacts:/app/outputs ./artifacts
+          docker rm -f redeye-artifacts
+      - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: mac
-          path: release/mac
-      - name: Archive linux production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux
-          path: release/linux
-      - name: Archive windows production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: windows
-          path: release/windows
+          name: RedEye
+          path: artifacts

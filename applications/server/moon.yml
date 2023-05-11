@@ -16,7 +16,7 @@ tasks:
       runDepsInParallel: false
   release-mac:
     deps:
-      - '@redeye/client:build'
+      - client:build
       - ~:build
     outputs:
       - /release/mac/RedEye
@@ -24,7 +24,7 @@ tasks:
       runInCI: false
   release-linux:
     deps:
-      - '@redeye/client:build'
+      - client:build
       - ~:build
     outputs:
       - /release/linux/RedEye
@@ -32,7 +32,7 @@ tasks:
       runInCI: false
   release-windows:
     deps:
-      - '@redeye/client:build'
+      - client:build
       - ~:build
     outputs:
       - /release/windows/RedEye
