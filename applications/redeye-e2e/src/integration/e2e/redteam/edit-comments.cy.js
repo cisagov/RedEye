@@ -5,8 +5,6 @@ describe('Edit Campaign Comments', () => {
 	const editedComment = 'Edited comment text';
 	const fileName = 'gt.redeye';
 	const comment = 'commenthere';
-	const tag = 'testing';
-	const tag1 = 'test_1';
 	const tag2 = 'test_2';
 
 	it('Add comment and edit the text afterward', () => {
@@ -21,15 +19,11 @@ describe('Edit Campaign Comments', () => {
 
 		cy.addNewComment('0', comment, tag2);
 
-		cy.get('[cy-test=add-comment]').eq(0).scrollIntoView().should('be.visible').click({ force: true });
+		cy.get('[cy-test=add-comment]').eq(0).should('be.visible').click({ force: true });
 
-		cy.get('[cy-test=existing-comment-display]')
-			.scrollIntoView()
-			.should('be.visible')
-			.and('contain', comment)
-			.and('contain', tag2);
+		cy.get('[cy-test=existing-comment-display]').should('be.visible').should('contain', comment).and('contain', tag2);
 
-		cy.get('[cy-test=add-comment]').eq(0).click({ force: true });
+		cy.get('[cy-test=add-comment]').eq(0).should('be.visible').click({ force: true });
 
 		// After saving comment, edit the comment text
 		cy.editExistingComment(0, editedComment);
