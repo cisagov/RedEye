@@ -7,7 +7,6 @@ import {
 	BookmarkFilled16,
 	Chat16,
 	Checkmark16,
-	Close16,
 	Edit16,
 	TrashCan16,
 } from '@carbon/icons-react';
@@ -24,7 +23,6 @@ import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from '
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MenuItem2 } from '@blueprintjs/popover2';
-import { BeaconSuggest } from './BeaconSuggest';
 import { getManualCommandLinks } from './CheckForAddedLink';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
@@ -427,8 +425,11 @@ export const CommentBox = observer<CommentBoxProps>(
 						}}
 					>
 						<div css={formInputStyle}>
-							{/* { // store.router.params.currentItem === 'beacon' && // why is this necessary? */}
-							{/* {(state.destinationBeacon || state.manualLink) && (
+							{/* { // store.router.params.currentItem === 'beacon' && // why is this check necessary? 
+							
+							// BLDSTRIKE-591 Finish implementing creating/commenting on links
+							// TODO: This should be the Comment title, not just the Link title
+							{(state.destinationBeacon || state.manualLink) && (
 								<InputGroup
 									fill
 									onChange={state.handleManualLinkNameChange}
@@ -522,7 +523,9 @@ export const CommentBox = observer<CommentBoxProps>(
 								tagRenderer={(item) => item}
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
-							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this necessary? */}
+							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this check necessary? 
+
+							// BLDSTRIKE-591 Finish implementing creating/commenting on links
 							{!state.showBeaconSuggest && state.manualLink == null ? (
 								<Button
 									text="Link to another beacon"
@@ -555,7 +558,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									}}
 								/>
 							)}
-							{/* </> )} */}
+							</> )} */}
 						</div>
 						<ButtonGroup fill css={formSubmitStyle}>
 							<Button

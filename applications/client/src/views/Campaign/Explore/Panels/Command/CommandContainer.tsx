@@ -10,7 +10,6 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
-import { CarbonIcon, semanticIcons } from '@redeye/client/components';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
 import { getManualCommandLinks } from '../../components/Comment/CheckForAddedLink';
 
@@ -130,9 +129,10 @@ export const CommandContainer = observer<CommandContainerProps>(
 							/>
 						</Suspense>
 						<MitreTechniqueIcons mitreAttackIds={state.command?.mitreTechniques} />
+						{/* BLDSTRIKE-591 Finish implementing creating/commenting on links
 						{store.router.params.currentItem === 'beacon' && state.manualLink != null && (
 							<CarbonIcon icon={semanticIcons.link} />
-						)}
+						)} */}
 					</InfoRow>
 					{!hideCommentButton && (
 						<CommentCount
