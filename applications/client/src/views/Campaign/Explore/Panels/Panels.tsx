@@ -1,4 +1,4 @@
-import type { AppStore } from '@redeye/client/store';
+import { AppStore, CommentListTitle } from '@redeye/client/store';
 import { OverviewCommentList } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
@@ -9,6 +9,7 @@ import { Hosts } from './Host';
 import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
 import { Operators } from './Operator';
 import { OverviewBeacons, OverviewCommandTypes, OverviewHosts, OverviewOperators } from './Overview';
+import { OverviewComments } from './Comment/CommentList';
 
 export interface SortOption {
 	label: string;
@@ -50,9 +51,9 @@ export const commentsTabSort = [
 ];
 
 export const overviewCommentListSort = [
-	{ label: 'Comment Count', key: CommentFilterOptions.TIME },
-	{ label: 'Command Count', key: CommentFilterOptions.OPERATOR },
-	{ label: 'Alphabetical', key: CommentFilterOptions.FAVORITE },
+	{ label: 'Comment Count', key: OverviewCommentListFilterOptions.COMMENT_COUNT },
+	{ label: 'Command Count', key: OverviewCommentListFilterOptions.COMMAND_COUNT },
+	{ label: 'Alphabetical', key: OverviewCommentListFilterOptions.ALPHABETICAL },
 ];
 
 // Defaults to the first one if unable to find a similar key
@@ -102,19 +103,13 @@ export const InfoPanelTabs = {
 	[InfoType.OVERVIEW]: {
 		title: (store: AppStore) => {
 			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
-			const title =
-				store.router.params.tab === Tabs.COMMENTS_LIST && store.campaign.overviewCommentList !== OverviewCommentList.ALL
-					? store.campaign.overviewCommentType
-					: campaign?.name;
-			return (
-				<PanelHeader css={title === OverviewCommentList.PROCEDURAL && { fontStyle: 'italic' }}>{title}</PanelHeader>
-			);
+			return <PanelHeader>{campaign?.name}</PanelHeader>;
 		},
 		panels: {
 			[Tabs.HOSTS]: OverviewHosts,
 			[Tabs.OPERATORS]: OverviewOperators,
 			// [Tabs.COMMENTS]: Comments,
-			[Tabs.COMMENTS_LIST]: Comments,
+			[Tabs.COMMENTS_LIST]: OverviewComments,
 			[Tabs.BEACONS]: OverviewBeacons,
 			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
 		},
@@ -158,12 +153,14 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.COMMENTS_LIST]: {
 		title: (store: AppStore) => {
-			console.log('???????????');
 			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
-			const title =
-				store.router.params.tab === Tabs.COMMENTS_LIST && store.campaign.overviewCommentList !== OverviewCommentList.ALL
-					? store.campaign.overviewCommentType
-					: campaign?.name;
+			const title = store.router.params.currentItemId
+				? store.router.params.currentItemId.slice(0, 5) === 'user-'
+					? CommentListTitle.user
+					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+					? CommentListTitle.tag
+					: CommentListTitle[store.router.params.currentItemId]
+				: campaign?.name;
 			return (
 				<PanelHeader css={title === OverviewCommentList.PROCEDURAL && { fontStyle: 'italic' }}>{title}</PanelHeader>
 			);

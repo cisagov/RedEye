@@ -1,4 +1,4 @@
-import { CarbonIcon, semanticIcons } from '@redeye/client/components';
+import { CarbonIcon, VirtualizedList, semanticIcons } from '@redeye/client/components';
 import { PresentationItemModel, routes } from '@redeye/client/store';
 import {
 	OverviewCommentList,
@@ -34,7 +34,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 	// For presentationItem.id by User or Tag, make sure use a prefix in case it's same to other general types.
 	const handleClickType = useCallback((presentationItem) => {
 		console.log('tab1: ', store.router.params.tab);
-		setCommandGroupIds(presentationItem.commandGroupIds);
+		// setCommandGroupIds(presentationItem.commandGroupIds);
 		store.campaign.setOverviewCommentList(
 			presentationItem.id === 'all'
 				? OverviewCommentList.ALL_COMMENTS
@@ -46,9 +46,6 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 				? OverviewCommentList.USER_COMMENTS
 				: OverviewCommentList.TAG_COMMENTS
 		);
-		store.campaign.setOverviewCommentType(
-			presentationItem.key.slice(0, 5) === 'user-' ? presentationItem.key.slice(5) : presentationItem.key
-		);
 		store.router.updateRoute({
 			path: routes[CampaignViews.EXPLORE],
 			params: {
@@ -56,7 +53,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 				view: CampaignViews.EXPLORE,
 				tab: Tabs.COMMENTS,
 				currentItem: 'comments_list',
-				currentItemId: 'allComments',
+				currentItemId: presentationItem.id,
 				activeItem: undefined,
 				activeItemId: undefined,
 			},
@@ -76,7 +73,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 	);
 
 	return (
-		<>
+		<VirtualizedList>
 			{data?.presentationItems?.map((presentationItem, i) => (
 				<InfoRow
 					// eslint-disable-next-line react/no-array-index-key
@@ -101,7 +98,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 					<IconLabel title="comments" value={presentationItem.count} icon={semanticIcons.comment} />
 				</InfoRow>
 			))}
-		</>
+		</VirtualizedList>
 	);
 });
 

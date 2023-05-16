@@ -155,20 +155,24 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				<MessageRow>No comments</MessageRow>
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
-			) : store.router.params.tab === Tabs.COMMENTS_LIST ? (
-				<OverviewComments setCommandGroupIds={state.setCommandGroupIds} />
-			) : store.router.params.currentItem === 'comments_list' ? (
-				state.commandGroupIds.map((commandGroupId) => (
-					<CommentGroup
-						cy-test="comment-group"
-						key={commandGroupId}
-						commandGroupId={commandGroupId}
-						toggleNewComment={state.toggleNewComment}
-						newComment={state.newComment}
-						expandedCommandIDs={state.expandedCommandIDs}
-						removeExpandedCommandID={state.removeExpandedCommandID}
-					/>
-				))
+			) : //  store.router.params.tab === Tabs.COMMENTS_LIST ? (
+			// 	<OverviewComments setCommandGroupIds={state.setCommandGroupIds} />
+			// ) :
+			store.router.params.currentItem === 'comments_list' ? (
+				// state.commandGroupIds.map((commandGroupId) => (
+				data?.commandGroupIds
+					.slice(0, 3)
+					.map((commandGroupId) => (
+						<CommentGroup
+							cy-test="comment-group"
+							key={commandGroupId}
+							commandGroupId={commandGroupId}
+							toggleNewComment={state.toggleNewComment}
+							newComment={state.newComment}
+							expandedCommandIDs={state.expandedCommandIDs}
+							removeExpandedCommandID={state.removeExpandedCommandID}
+						/>
+					))
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup

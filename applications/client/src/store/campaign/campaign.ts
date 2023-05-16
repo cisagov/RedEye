@@ -38,6 +38,14 @@ export enum OverviewCommentList {
 	TAG_COMMENTS = 'Tag Comments',
 }
 
+export enum CommentListTitle {
+	all = 'All Comments',
+	favorited = 'Favorited Comments',
+	procedural = 'parser-generated',
+	user = 'User Comments',
+	tag = 'Tag Comments',
+}
+
 @model('CampaignStore')
 export class CampaignStore extends ExtendedModel(() => ({
 	baseModel: modelClass<RedEyeModel>(RedEyeModel),
@@ -72,7 +80,6 @@ export class CampaignStore extends ExtendedModel(() => ({
 		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
 		overviewCommentList: prop<OverviewCommentList>(OverviewCommentList.ALL).withSetter(),
-		overviewCommentType: prop<string>('').withSetter(),
 	},
 })) {
 	// comments vs commentsList???
@@ -225,7 +232,6 @@ export class CampaignStore extends ExtendedModel(() => ({
 	}
 
 	@modelAction setSelectedTab(newTab: Tabs) {
-		console.log(newTab, this.appStore?.router.params.tab);
 		if (newTab !== this.appStore?.router.params.tab) {
 			const sort = this.getDefaultSort(newTab);
 			this.appStore?.router.updateRoute({

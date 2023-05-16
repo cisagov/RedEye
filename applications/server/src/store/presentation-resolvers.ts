@@ -301,7 +301,7 @@ export class PresentationResolvers {
 			const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
 			if (cmdGroup.length) {
 				commandsByTag.push({
-					id: `#${tag.text}`,
+					id: `tag-${tag.text}`,
 					key: `#${tag.text}`,
 					count: cmdGroup.length,
 					commandCount,
