@@ -1,5 +1,5 @@
-import { AppStore, CommentListTitle } from '@redeye/client/store';
-import { OverviewCommentList } from '@redeye/client/store';
+import type { AppStore } from '@redeye/client/store';
+import { CommentListTitle, OverviewCommentList } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
 import { Beacons, HostBeacons } from './Beacon';
@@ -9,7 +9,7 @@ import { Hosts } from './Host';
 import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
 import { Operators } from './Operator';
 import { OverviewBeacons, OverviewCommandTypes, OverviewHosts, OverviewOperators } from './Overview';
-import { OverviewComments } from './Comment/CommentList';
+import { CommentsList } from './Comment/CommentsList';
 
 export interface SortOption {
 	label: string;
@@ -109,7 +109,7 @@ export const InfoPanelTabs = {
 			[Tabs.HOSTS]: OverviewHosts,
 			[Tabs.OPERATORS]: OverviewOperators,
 			// [Tabs.COMMENTS]: Comments,
-			[Tabs.COMMENTS_LIST]: OverviewComments,
+			[Tabs.COMMENTS_LIST]: CommentsList,
 			[Tabs.BEACONS]: OverviewBeacons,
 			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
 		},
@@ -156,9 +156,9 @@ export const InfoPanelTabs = {
 			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
 			const title = store.router.params.currentItemId
 				? store.router.params.currentItemId.slice(0, 5) === 'user-'
-					? CommentListTitle.user
+					? store.router.params.currentItemId.slice(5)
 					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
-					? CommentListTitle.tag
+					? `#${store.router.params.currentItemId.slice(4)}`
 					: CommentListTitle[store.router.params.currentItemId]
 				: campaign?.name;
 			return (

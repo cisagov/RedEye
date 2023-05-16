@@ -38,6 +38,14 @@ export enum OverviewCommentList {
 	TAG_COMMENTS = 'Tag Comments',
 }
 
+export enum CommentListBreadCrumb {
+	all = 'Comments',
+	favorited = 'Comments',
+	procedural = 'User Comments',
+	user = 'User Comments',
+	tag = 'Tag Comments',
+}
+
 export enum CommentListTitle {
 	all = 'All Comments',
 	favorited = 'Favorited Comments',

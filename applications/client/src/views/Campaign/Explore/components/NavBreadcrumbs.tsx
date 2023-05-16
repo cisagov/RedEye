@@ -1,7 +1,7 @@
 import type { BreadcrumbProps, BreadcrumbsProps } from '@blueprintjs/core';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel } from '@redeye/client/store';
-import { OverviewCommentList, routes, useStore } from '@redeye/client/store';
+import { CommentListBreadCrumb, routes, useStore } from '@redeye/client/store';
 import type { BreadcrumbsStyledProps } from '@redeye/client/views';
 import { BreadcrumbsStyled } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
@@ -46,18 +46,30 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 					store.campaign?.interactionState.selectedBeacon
 				);
 
-				if (store.campaign.overviewCommentList !== OverviewCommentList.ALL) {
+				if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
 					crumbs.push({
 						text: 'All',
 						onClick: () => {
-							store.campaign.setOverviewCommentList(OverviewCommentList.ALL);
+							store.router.updateRoute({
+								path: routes[CampaignViews.EXPLORE],
+								params: {
+									id: store.campaign.id,
+									view: CampaignViews.EXPLORE,
+									tab: Tabs.COMMENTS_LIST,
+									currentItem: 'all',
+									currentItemId: undefined,
+								},
+							});
 						},
 					});
 					crumbs.push({
 						text:
-							store.campaign.overviewCommentList === 'parser-generated'
-								? 'User Comments'
-								: store.campaign.overviewCommentList,
+							store.router.params.currentItemId.slice(0, 5) === 'user-'
+								? CommentListBreadCrumb.user
+								: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+								? CommentListBreadCrumb.tag
+								: CommentListBreadCrumb[store.router.params.currentItemId],
+						current: true,
 					});
 					return crumbs;
 				}
@@ -84,6 +96,25 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 							  }
 							: undefined,
 					});
+
+				// if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
+				// 	// crumbs.push({
+				// 	// 	text: 'All',
+				// 	// 	onClick: () => {
+				// 	// 		store.campaign.setOverviewCommentList(OverviewCommentList.ALL);
+				// 	// 	},
+				// 	// });
+				// 	crumbs.push({
+				// 		text:
+				// 			store.router.params.currentItemId.slice(0, 5) === 'user-'
+				// 				? CommentListBreadCrumb.user
+				// 				: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+				// 				? CommentListBreadCrumb.tag
+				// 				: CommentListBreadCrumb[store.router.params.currentItemId],
+				// 		current: true,
+				// 	});
+				// 	return crumbs;
+				// }
 
 				if (store.campaign?.interactionState.selectedCommandType)
 					crumbs.push({

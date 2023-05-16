@@ -2,13 +2,7 @@ import { Intent, ProgressBar } from '@blueprintjs/core';
 import { isDefined, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { SortDirection } from '@redeye/client/store';
-import {
-	OverviewCommentList,
-	commandQuery,
-	SortOptionComments,
-	useStore,
-	commandGroupCommentsQuery,
-} from '@redeye/client/store';
+import { commandQuery, SortOptionComments, useStore, commandGroupCommentsQuery } from '@redeye/client/store';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observable } from 'mobx';
@@ -16,8 +10,6 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useRef, useEffect } from 'react';
 import type { VirtuosoHandle } from 'react-virtuoso';
-import { OverviewComments } from './CommentList';
-import { Tabs } from '@redeye/client/types';
 
 type CommentsProps = ComponentProps<'div'> & {
 	sort: {

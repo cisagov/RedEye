@@ -1,6 +1,7 @@
 import { CarbonIcon, VirtualizedList, semanticIcons } from '@redeye/client/components';
-import { PresentationItemModel, routes } from '@redeye/client/store';
+import type { PresentationItemModel } from '@redeye/client/store';
 import {
+	routes,
 	OverviewCommentList,
 	presentationCommandGroupModelPrimitives,
 	presentationItemModelPrimitives,
@@ -11,14 +12,14 @@ import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { Bookmark16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
 import { useCallback, useMemo } from 'react';
-import { InfoRow, RowTitle, IconLabel } from '../../components';
 import { CampaignViews, Tabs } from '@redeye/client/types';
+import { InfoRow, RowTitle, IconLabel } from '../../components';
 
 type CommentListProps = {
 	setCommandGroupIds: (groupIDs: string[]) => void;
 };
 
-export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds }) => {
+export const CommentsList = observer<CommentListProps>(({ setCommandGroupIds }) => {
 	const store = useStore();
 	const { data } = useQuery(
 		['presentation-items', store.campaign.id],
@@ -54,10 +55,7 @@ export const OverviewComments = observer<CommentListProps>(({ setCommandGroupIds
 				tab: Tabs.COMMENTS,
 				currentItem: 'comments_list',
 				currentItemId: presentationItem.id,
-				activeItem: undefined,
-				activeItemId: undefined,
 			},
-			// clear: store.router.params.tab !== 'beacons' && store.router.params.currentItem !== 'all',
 		});
 		console.log('tab2: ', store.router.params.currentItem, store.router.params.tab, store.router.params);
 	}, []);
