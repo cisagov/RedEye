@@ -169,12 +169,7 @@ export const InfoPanelTabs = {
 			);
 		},
 		panels: {
-			[Tabs.HOSTS]: OverviewHosts,
-			[Tabs.OPERATORS]: OverviewOperators,
-			// [Tabs.COMMENTS]: Comments,
 			[Tabs.COMMENTS]: Comments,
-			[Tabs.BEACONS]: OverviewBeacons,
-			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
 		},
 	},
 };
