@@ -7,9 +7,9 @@ import type { GraphQLContext } from '../types';
 import { SortDirection } from './command-resolvers';
 
 enum SortOptionCommentsList {
-	commentCount = 'commentCount',
-	commandCount = 'commandCount',
-	alphabetical = 'alphabetical',
+	ALPHABETICAL = 'alphabetical',
+	COMMENT_COUNT = 'commentCount',
+	COMMAND_COUNT = 'commandCount',
 }
 
 registerEnumType(SortOptionCommentsList, {
@@ -17,10 +17,33 @@ registerEnumType(SortOptionCommentsList, {
 	description: 'The desired property to sort Comments List on',
 });
 
+enum SortOptionCommentsTab {
+	FAVORITE = 'fav',
+	OPERATOR = 'user',
+	TIME = 'minTime',
+}
+
+registerEnumType(SortOptionCommentsTab, {
+	name: 'SortOptionCommentsTab',
+	description: 'The desired property to sort overview Comments Tab on',
+});
+
 @InputType('SortTypeCommentsList')
 class SortTypeCommentsList {
-	@Field(() => SortOptionCommentsList, { nullable: true, defaultValue: SortOptionCommentsList.alphabetical })
+	@Field(() => SortOptionCommentsList, { nullable: true, defaultValue: SortOptionCommentsList.ALPHABETICAL })
 	sortBy?: SortOptionCommentsList;
+
+	@Field(() => SortDirection, {
+		nullable: true,
+		defaultValue: SortDirection.ASC,
+	})
+	direction?: SortDirection = SortDirection.ASC;
+}
+
+@InputType('SortTypeCommentsTab')
+class SortTypeCommentsTab {
+	@Field(() => SortOptionCommentsTab, { nullable: true, defaultValue: SortOptionCommentsTab.TIME })
+	sortBy?: SortOptionCommentsTab;
 
 	@Field(() => SortDirection, {
 		nullable: true,
@@ -179,14 +202,14 @@ export class PresentationResolvers {
 		forOverviewComments: boolean = false,
 		@Arg('listSort', () => SortTypeCommentsList, {
 			nullable: true,
-			defaultValue: { sortBy: SortOptionCommentsList.alphabetical },
+			defaultValue: { sortBy: SortOptionCommentsList.ALPHABETICAL },
 		})
-		listSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.alphabetical },
-		@Arg('commandGroupSort', () => SortTypeCommentsList, {
+		listSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.ALPHABETICAL },
+		@Arg('commentsTabSort', () => SortTypeCommentsTab, {
 			nullable: true,
-			defaultValue: { sortBy: SortOptionCommentsList.alphabetical },
+			defaultValue: { sortBy: SortOptionCommentsTab.TIME },
 		})
-		commandGroupSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.alphabetical }
+		commentsTabSort: SortTypeCommentsTab = { sortBy: SortOptionCommentsTab.TIME }
 		// @Arg('listSortBy', () => String, { defaultValue: 'alphabetical', nullable: true })
 		// listSortBy: string = 'alphabetical',
 		// @Arg('listDirection', () => String, { defaultValue: 'ASC', nullable: true }) listDirection: string = 'ASC',
@@ -194,7 +217,7 @@ export class PresentationResolvers {
 		// commentsSortBy: string = 'minTime',
 		// @Arg('commentsDirection', () => String, { defaultValue: 'ASC', nullable: true }) commentsDirection: string = 'ASC'
 	): Promise<PresentationItem[]> {
-		console.log(forOverviewComments, listSort, commandGroupSort);
+		console.log(forOverviewComments, listSort, commentsTabSort);
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const presentationItems: PresentationItem[] = [];
 		const links = await em.find(Link, {}, { populate: false });

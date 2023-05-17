@@ -37,6 +37,7 @@ export * from './SortDirectionEnum';
 export * from './SortOptionEnum';
 export * from './SortOptionCommentsEnum';
 export * from './SortOptionCommentsListEnum';
+export * from './SortOptionCommentsTabEnum';
 export * from './TagModel';
 export * from './TimelineModel';
 export * from './TimelineBucketModel';

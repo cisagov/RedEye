@@ -485,7 +485,7 @@ type Query {
   parsingProgress: ParsingProgress!
 
   """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, commandGroupSort: SortTypeCommentsList = {sortBy: alphabetical}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: alphabetical}): [PresentationItem]
+  presentationItems(campaignId: String!, commentsTabSort: SortTypeCommentsTab = {sortBy: TIME}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: ALPHABETICAL}): [PresentationItem]
 
   """Search Annotations from textQuery"""
   searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
@@ -561,9 +561,16 @@ enum SortOptionComments {
 
 """The desired property to sort Comments List on"""
 enum SortOptionCommentsList {
-  alphabetical
-  commandCount
-  commentCount
+  ALPHABETICAL
+  COMMAND_COUNT
+  COMMENT_COUNT
+}
+
+"""The desired property to sort overview Comments Tab on"""
+enum SortOptionCommentsTab {
+  FAVORITE
+  OPERATOR
+  TIME
 }
 
 input SortType {
@@ -578,7 +585,12 @@ input SortTypeComments {
 
 input SortTypeCommentsList {
   direction: SortDirection = ASC
-  sortBy: SortOptionCommentsList = alphabetical
+  sortBy: SortOptionCommentsList = ALPHABETICAL
+}
+
+input SortTypeCommentsTab {
+  direction: SortDirection = ASC
+  sortBy: SortOptionCommentsTab = TIME
 }
 
 type Tag {

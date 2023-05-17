@@ -88,6 +88,7 @@ import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
 import type { SortOptionCommentsList } from './SortOptionCommentsListEnum';
+import type { SortOptionCommentsTab } from './SortOptionCommentsTabEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -114,6 +115,10 @@ export type SortTypeComments = {
 export type SortTypeCommentsList = {
 	direction?: SortDirection;
 	sortBy?: SortOptionCommentsList;
+};
+export type SortTypeCommentsTab = {
+	direction?: SortDirection;
+	sortBy?: SortOptionCommentsTab;
 };
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 
@@ -714,7 +719,7 @@ export class RootStoreBase extends ExtendedModel(
 	@modelAction queryPresentationItems(
 		variables: {
 			campaignId: string;
-			commandGroupSort?: SortTypeCommentsList;
+			commentsTabSort?: SortTypeCommentsTab;
 			forOverviewComments?: boolean;
 			hidden?: boolean;
 			listSort?: SortTypeCommentsList;
@@ -728,7 +733,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $commandGroupSort: SortTypeCommentsList, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commandGroupSort: $commandGroupSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
+			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()
