@@ -87,6 +87,7 @@ import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
+import type { SortOptionCommentsList } from './SortOptionCommentsListEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -109,6 +110,10 @@ export type SortType = {
 export type SortTypeComments = {
 	direction?: SortDirection;
 	sortBy?: SortOptionComments;
+};
+export type SortTypeCommentsList = {
+	direction?: SortDirection;
+	sortBy?: SortOptionCommentsList;
 };
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 
@@ -707,7 +712,13 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get categories for presentation mode
 	@modelAction queryPresentationItems(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: {
+			campaignId: string;
+			commandGroupSort?: SortTypeCommentsList;
+			forOverviewComments?: boolean;
+			hidden?: boolean;
+			listSort?: SortTypeCommentsList;
+		},
 		resultSelector:
 			| string
 			| ((
@@ -717,7 +728,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $hidden: Boolean) { presentationItems(campaignId: $campaignId, hidden: $hidden) {
+			`query presentationItems($campaignId: String!, $commandGroupSort: SortTypeCommentsList, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commandGroupSort: $commandGroupSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()
