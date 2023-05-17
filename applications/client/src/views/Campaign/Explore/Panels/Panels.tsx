@@ -1,5 +1,5 @@
 import type { AppStore } from '@redeye/client/store';
-import { CommentListTitle, OverviewCommentList } from '@redeye/client/store';
+import { CommentListTitle } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
 import { Beacons, HostBeacons } from './Beacon';
@@ -57,7 +57,7 @@ export const overviewCommentListSort = [
 ];
 
 // Defaults to the first one if unable to find a similar key
-export const sortOptions: (overviewCommentList?: boolean) => Record<Tabs, SortOption[]> = () => ({
+export const sortOptions: Record<Tabs, SortOption[]> = {
 	[Tabs.BEACONS]: [SortBy.TIME, { label: 'Name', key: 'beaconName' }, SortBy.ID],
 	[Tabs.HOSTS]: [SortBy.TIME, { label: 'Name', key: 'hostName' }, SortBy.ID],
 	[Tabs.COMMANDS_OVERVIEW]: [{ label: 'Name', key: 'text' }, SortBy.ID],
@@ -83,7 +83,7 @@ export const sortOptions: (overviewCommentList?: boolean) => Record<Tabs, SortOp
 		{ label: 'Name', key: 'name' },
 		SortBy.ID,
 	],
-});
+};
 
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
@@ -161,9 +161,7 @@ export const InfoPanelTabs = {
 					? `#${store.router.params.currentItemId.slice(4)}`
 					: CommentListTitle[store.router.params.currentItemId]
 				: campaign?.name;
-			return (
-				<PanelHeader css={title === OverviewCommentList.PROCEDURAL && { fontStyle: 'italic' }}>{title}</PanelHeader>
-			);
+			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
 		},
 		panels: {
 			[Tabs.COMMENTS]: Comments,

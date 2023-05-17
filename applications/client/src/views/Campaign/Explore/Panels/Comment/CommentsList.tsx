@@ -2,7 +2,6 @@ import { CarbonIcon, VirtualizedList, semanticIcons } from '@redeye/client/compo
 import type { PresentationItemModel } from '@redeye/client/store';
 import {
 	routes,
-	OverviewCommentList,
 	presentationCommandGroupModelPrimitives,
 	presentationItemModelPrimitives,
 	useStore,
@@ -34,19 +33,7 @@ export const CommentsList = observer<CommentListProps>(({ setCommandGroupIds }) 
 
 	// For presentationItem.id by User or Tag, make sure use a prefix in case it's same to other general types.
 	const handleClickType = useCallback((presentationItem) => {
-		console.log('tab1: ', store.router.params.tab);
 		// setCommandGroupIds(presentationItem.commandGroupIds);
-		store.campaign.setOverviewCommentList(
-			presentationItem.id === 'all'
-				? OverviewCommentList.ALL_COMMENTS
-				: presentationItem.id === 'favorited'
-				? OverviewCommentList.FAVORITED_COMMENTS
-				: presentationItem.id === 'procedural'
-				? OverviewCommentList.PROCEDURAL
-				: presentationItem.id.slice(0, 5) === 'user-'
-				? OverviewCommentList.USER_COMMENTS
-				: OverviewCommentList.TAG_COMMENTS
-		);
 		store.router.updateRoute({
 			path: routes[CampaignViews.EXPLORE],
 			params: {
@@ -57,7 +44,6 @@ export const CommentsList = observer<CommentListProps>(({ setCommandGroupIds }) 
 				currentItemId: presentationItem.id,
 			},
 		});
-		console.log('tab2: ', store.router.params.currentItem, store.router.params.tab, store.router.params);
 	}, []);
 
 	const rowTitle = useMemo(

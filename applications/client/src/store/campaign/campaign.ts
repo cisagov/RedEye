@@ -29,16 +29,7 @@ export enum CampaignLoadingMessage {
 	DONE = 'Done',
 }
 
-export enum OverviewCommentList {
-	ALL = 'All',
-	ALL_COMMENTS = 'Comments',
-	FAVORITED_COMMENTS = 'Comments',
-	PROCEDURAL = 'parser-generated',
-	USER_COMMENTS = 'User Comments',
-	TAG_COMMENTS = 'Tag Comments',
-}
-
-export enum CommentListBreadCrumb {
+export enum CommentListType {
 	all = 'Comments',
 	favorited = 'Comments',
 	procedural = 'User Comments',
@@ -50,8 +41,6 @@ export enum CommentListTitle {
 	all = 'All Comments',
 	favorited = 'Favorited Comments',
 	procedural = 'parser-generated',
-	user = 'User Comments',
-	tag = 'Tag Comments',
 }
 
 @model('CampaignStore')
@@ -87,7 +76,6 @@ export class CampaignStore extends ExtendedModel(() => ({
 			hiddenCount: number;
 		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
-		overviewCommentList: prop<OverviewCommentList>(OverviewCommentList.ALL).withSetter(),
 	},
 })) {
 	// comments vs commentsList???
@@ -216,15 +204,11 @@ export class CampaignStore extends ExtendedModel(() => ({
 	getDefaultSort(tab?: Tabs) {
 		if (tab) {
 			const memorySortBy = this.sortMemory[tab];
-			const sortOption = sortOptions(this.appStore?.campaign.overviewCommentList === OverviewCommentList.ALL)[tab].find(
-				(option) => option.key === this.sort.sortBy
-			);
+			const sortOption = sortOptions[tab].find((option) => option.key === this.sort.sortBy);
 			// 1) Use the option in memory if it exists
 			// 2) Otherwise use an option that has the same key as what was previously being searched
 			// 3) if that isn't valid for the current newTab use the first option in sortOptions
-			const sortBy = (memorySortBy?.sortBy ??
-				sortOption?.key ??
-				sortOptions(this.appStore?.campaign.overviewCommentList === OverviewCommentList.ALL)[tab][0].key) as SortOption;
+			const sortBy = (memorySortBy?.sortBy ?? sortOption?.key ?? sortOptions[tab][0].key) as SortOption;
 			const direction = memorySortBy?.direction ?? SortDirection.ASC;
 			return { sortBy, direction };
 		}
