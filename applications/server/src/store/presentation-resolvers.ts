@@ -1,9 +1,33 @@
 import { EntityManager } from '@mikro-orm/core';
-import { Arg, Authorized, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Field, InputType, ObjectType, Query, Resolver, registerEnumType } from 'type-graphql';
 import { CommandGroup, Link, Server, Tag } from '@redeye/models';
 import { beaconHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import type { GraphQLContext } from '../types';
+import { SortDirection } from './command-resolvers';
+
+enum SortOptionCommentsList {
+	commentCount = 'commentCount',
+	commandCount = 'commandCount',
+	alphabetical = 'alphabetical',
+}
+
+registerEnumType(SortOptionCommentsList, {
+	name: 'SortOptionCommentsList',
+	description: 'The desired property to sort Comments List on',
+});
+
+@InputType('SortTypeCommentsList')
+class SortTypeCommentsList {
+	@Field(() => SortOptionCommentsList, { nullable: true, defaultValue: SortOptionCommentsList.alphabetical })
+	sortBy?: SortOptionCommentsList;
+
+	@Field(() => SortDirection, {
+		nullable: true,
+		defaultValue: SortDirection.ASC,
+	})
+	direction?: SortDirection = SortDirection.ASC;
+}
 
 @ObjectType('PresentationItem')
 class PresentationItem {
@@ -150,8 +174,27 @@ export class PresentationResolvers {
 	async presentationItems(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
+		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false,
+		@Arg('forOverviewComments', () => Boolean, { defaultValue: false, nullable: true })
+		forOverviewComments: boolean = false,
+		@Arg('listSort', () => SortTypeCommentsList, {
+			nullable: true,
+			defaultValue: { sortBy: SortOptionCommentsList.alphabetical },
+		})
+		listSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.alphabetical },
+		@Arg('commandGroupSort', () => SortTypeCommentsList, {
+			nullable: true,
+			defaultValue: { sortBy: SortOptionCommentsList.alphabetical },
+		})
+		commandGroupSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.alphabetical }
+		// @Arg('listSortBy', () => String, { defaultValue: 'alphabetical', nullable: true })
+		// listSortBy: string = 'alphabetical',
+		// @Arg('listDirection', () => String, { defaultValue: 'ASC', nullable: true }) listDirection: string = 'ASC',
+		// @Arg('commentsSortBy', () => String, { defaultValue: 'minTime', nullable: true })
+		// commentsSortBy: string = 'minTime',
+		// @Arg('commentsDirection', () => String, { defaultValue: 'ASC', nullable: true }) commentsDirection: string = 'ASC'
 	): Promise<PresentationItem[]> {
+		console.log(forOverviewComments, listSort, commandGroupSort);
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const presentationItems: PresentationItem[] = [];
 		const links = await em.find(Link, {}, { populate: false });
