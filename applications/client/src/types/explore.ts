@@ -5,7 +5,7 @@ export enum InfoType {
 	HOST = 'Host',
 	OPERATOR = 'Operator',
 	COMMAND = 'Command',
-	COMMENTS_LIST = 'comments_list',
+	COMMENTS_LIST = 'CommentsList',
 }
 
 export enum Tabs {
