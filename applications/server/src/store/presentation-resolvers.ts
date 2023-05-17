@@ -242,6 +242,7 @@ export class PresentationResolvers {
 		);
 
 		// Populate User comments
+		// For User comments, make sure use a 'user-' prefix in case the username is same to other general types.
 		const userComments: Record<string, CommandGroup[]> = {};
 		const commandsByUser: PresentationItem[] = [];
 		const manualComments = await em.find(
@@ -282,6 +283,7 @@ export class PresentationResolvers {
 		});
 
 		// Populate Tags
+		// For Tag comments, make sure use a 'tag-' id prefix in case the tag name is same to other general types.
 		const tags = await em.find(Tag, {}, { populate: false });
 		const commandsByTag: PresentationItem[] = [];
 		for (const tag of tags) {

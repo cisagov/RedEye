@@ -14,11 +14,7 @@ import { useCallback, useMemo } from 'react';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
-type CommentListProps = {
-	setCommandGroupIds: (groupIDs: string[]) => void;
-};
-
-export const CommentsList = observer<CommentListProps>(({ setCommandGroupIds }) => {
+export const CommentsList = observer(() => {
 	const store = useStore();
 	const { data } = useQuery(
 		['presentation-items', store.campaign.id],
@@ -33,7 +29,9 @@ export const CommentsList = observer<CommentListProps>(({ setCommandGroupIds }) 
 
 	// For presentationItem.id by User or Tag, make sure use a prefix in case it's same to other general types.
 	const handleClickType = useCallback((presentationItem) => {
-		// setCommandGroupIds(presentationItem.commandGroupIds);
+		store.campaign?.setCommentsList({
+			commandGroupIds: Array.from(presentationItem.commandGroupIds),
+		});
 		store.router.updateRoute({
 			path: routes[CampaignViews.EXPLORE],
 			params: {

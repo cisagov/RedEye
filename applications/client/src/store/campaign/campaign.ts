@@ -76,9 +76,9 @@ export class CampaignStore extends ExtendedModel(() => ({
 			hiddenCount: number;
 		}>(() => ({ groupSelect: false, selectedBeacons: [], hiddenCount: 0 })).withSetter(),
 		bulkSelectCantHideEntityIds: prop<string[]>(() => []).withSetter(),
+		CommentsList: prop<{ commandGroupIds: string[] }>(() => ({ commandGroupIds: [] })).withSetter(),
 	},
 })) {
-	// comments vs commentsList???
 	@observable sortMemory: {
 		[key in Tabs]: SortType;
 	} = {} as any;
