@@ -1,5 +1,4 @@
 import type { AppStore } from '@redeye/client/store';
-import { CommentListTitle } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
 import { Beacons, HostBeacons } from './Beacon';
@@ -10,6 +9,12 @@ import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
 import { Operators } from './Operator';
 import { OverviewBeacons, OverviewCommandTypes, OverviewHosts, OverviewOperators } from './Overview';
 import { CommentsList } from './Comment/CommentsList';
+
+export enum CommentListTitle {
+	all = 'All Comments',
+	favorited = 'Favorited Comments',
+	procedural = 'parser-generated',
+}
 
 export interface SortOption {
 	label: string;
@@ -39,9 +44,9 @@ export enum CommentFilterOptions {
 }
 
 export enum OverviewCommentListFilterOptions {
+	ALPHABETICAL = 'alphabetical',
 	COMMENT_COUNT = 'commentCount',
 	COMMAND_COUNT = 'commandCount',
-	ALPHABETICAL = 'alphabetical',
 }
 
 export const commentsTabSort = [
@@ -51,9 +56,9 @@ export const commentsTabSort = [
 ];
 
 export const overviewCommentListSort = [
+	{ label: 'Alphabetical', key: OverviewCommentListFilterOptions.ALPHABETICAL },
 	{ label: 'Comment Count', key: OverviewCommentListFilterOptions.COMMENT_COUNT },
 	{ label: 'Command Count', key: OverviewCommentListFilterOptions.COMMAND_COUNT },
-	{ label: 'Alphabetical', key: OverviewCommentListFilterOptions.ALPHABETICAL },
 ];
 
 // Defaults to the first one if unable to find a similar key

@@ -1,7 +1,7 @@
 import type { BreadcrumbProps, BreadcrumbsProps } from '@blueprintjs/core';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel } from '@redeye/client/store';
-import { CommentListType, routes, useStore } from '@redeye/client/store';
+import { routes, useStore } from '@redeye/client/store';
 import type { BreadcrumbsStyledProps } from '@redeye/client/views';
 import { BreadcrumbsStyled } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
@@ -9,6 +9,14 @@ import type { MouseEvent } from 'react';
 import { useEffect } from 'react';
 import { CampaignViews, Tabs } from '../../../../types';
 import type { UUID } from '../../../../types';
+
+export enum CommentListType {
+	all = 'Comments',
+	favorited = 'Comments',
+	procedural = 'User Comments',
+	user = 'User Comments',
+	tag = 'Tag Comments',
+}
 
 type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 	BreadcrumbsStyledProps & {

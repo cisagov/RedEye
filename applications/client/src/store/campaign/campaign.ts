@@ -29,20 +29,6 @@ export enum CampaignLoadingMessage {
 	DONE = 'Done',
 }
 
-export enum CommentListType {
-	all = 'Comments',
-	favorited = 'Comments',
-	procedural = 'User Comments',
-	user = 'User Comments',
-	tag = 'Tag Comments',
-}
-
-export enum CommentListTitle {
-	all = 'All Comments',
-	favorited = 'Favorited Comments',
-	procedural = 'parser-generated',
-}
-
 @model('CampaignStore')
 export class CampaignStore extends ExtendedModel(() => ({
 	baseModel: modelClass<RedEyeModel>(RedEyeModel),
