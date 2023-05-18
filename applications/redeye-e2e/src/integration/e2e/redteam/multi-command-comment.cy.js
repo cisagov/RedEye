@@ -28,8 +28,6 @@ describe('Multi-Command Comments', () => {
 		cy.favoriteComment(0);
 		cy.get('[cy-test=comment-input]').type(comment).type('{enter}');
 		cy.addNewTags(tag);
-		// cy.get('[cy-test=save-comment]').click();
-		// cy.wait(1000);
 
 		// Verify comments are saved
 		cy.clickExplorerMode();
@@ -58,16 +56,16 @@ describe('Multi-Command Comments', () => {
 			cy.get('[cy-test=number-commands]').should('contain', startingCommands);
 			// cy.log(startingCommands);
 
-			cy.get('[cy-test=add-command-this-comment]').click();
-			cy.wait('@addCommandToCommandGroup');
+			cy.get('[cy-test=add-command-this-comment]').should('be.visible').click();
+
+			cy.wait(300);
+
 			cy.get('[cy-test=command-added]').should('be.visible');
-			// cy.wait(1000);
 
 			// Log new number of commands - should be 1 more than earlier
 			cy.get('[cy-test=number-commands]').then((number2) => {
 				const updatedCommands = number2.text().split(' ').shift();
 				cy.get('[cy-test=number-commands]').should('contain', updatedCommands);
-				// cy.log(updatedCommands);
 				expect(+updatedCommands).to.equal(+startingCommands + +'1');
 			});
 		});

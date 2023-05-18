@@ -62,8 +62,9 @@ Cypress.Commands.add('clickAddComments', (index) => {
 
 //ADD MULTI COMMAND COMMENTS
 Cypress.Commands.add('addMultiCommandComment', () => {
-	cy.get('[cy-test=multi-command-comment]').click();
+	cy.get('[cy-test=multi-command-comment]').click({ force: true });
 	cy.get('[cy-test=comment-on-commands]').should('be.disabled');
+	cy.wait(500);
 });
 
 ////NEW

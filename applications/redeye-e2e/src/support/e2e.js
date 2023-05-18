@@ -6,13 +6,13 @@ import './beacon';
 import './computer';
 import './campaignCard';
 import './utils';
+// import 'cypress-map';
 
 Cypress.on('uncaught:exception', (err, runnable, promise) => {
 	if (promise) {
 		return false;
 	}
 	if (err.message.includes('ResizeObserver loop limit exceeded')) {
-		// ignore the error
 		return false;
 	}
 });
@@ -40,54 +40,54 @@ export const aliasMutation = (req, operationName) => {
 
 //LOGIN LOCALLY
 beforeEach(() => {
-	cy.intercept('POST', 'http://localhost:4000/api/graphql', (req) => {
-		// Queries
-		aliasQuery(req, 'searchCommands');
-		aliasQuery(req, 'annotation');
-		aliasQuery(req, 'annotations');
-		aliasQuery(req, 'beacons');
-		aliasQuery(req, 'campaign');
-		aliasQuery(req, 'campaigns');
-		aliasQuery(req, 'commandGroup');
-		aliasQuery(req, 'commandGroups');
-		aliasQuery(req, 'commandIds');
-		aliasQuery(req, 'commandTypes');
-		aliasQuery(req, 'commands');
-		aliasQuery(req, 'files');
-		aliasQuery(req, 'globalOperators');
-		aliasQuery(req, 'hosts');
-		aliasQuery(req, 'images');
-		aliasQuery(req, 'links');
-		aliasQuery(req, 'logs');
-		aliasQuery(req, 'logsByBeaconId');
-		aliasQuery(req, 'operators');
-		aliasQuery(req, 'parsingProgress');
-		aliasQuery(req, 'presentationItems');
-		aliasQuery(req, 'searchAnnotations');
-		aliasQuery(req, 'searchCommands');
-		aliasQuery(req, 'servers');
-		aliasQuery(req, 'tags');
-		aliasQuery(req, 'timeline');
+	// cy.intercept('POST', 'http://localhost:4000/api/graphql', (req) => {
+	// 	// Queries
+	// 	aliasQuery(req, 'searchCommands');
+	// 	aliasQuery(req, 'annotation');
+	// 	aliasQuery(req, 'annotations');
+	// 	aliasQuery(req, 'beacons');
+	// 	aliasQuery(req, 'campaign');
+	// 	aliasQuery(req, 'campaigns');
+	// 	aliasQuery(req, 'commandGroup');
+	// 	aliasQuery(req, 'commandGroups');
+	// 	aliasQuery(req, 'commandIds');
+	// 	aliasQuery(req, 'commandTypes');
+	// 	aliasQuery(req, 'commands');
+	// 	aliasQuery(req, 'files');
+	// 	aliasQuery(req, 'globalOperators');
+	// 	aliasQuery(req, 'hosts');
+	// 	aliasQuery(req, 'images');
+	// 	aliasQuery(req, 'links');
+	// 	aliasQuery(req, 'logs');
+	// 	aliasQuery(req, 'logsByBeaconId');
+	// 	aliasQuery(req, 'operators');
+	// 	aliasQuery(req, 'parsingProgress');
+	// 	aliasQuery(req, 'presentationItems');
+	// 	aliasQuery(req, 'searchAnnotations');
+	// 	aliasQuery(req, 'searchCommands');
+	// 	aliasQuery(req, 'servers');
+	// 	aliasQuery(req, 'tags');
+	// 	aliasQuery(req, 'timeline');
 
-		// Mutations
-		aliasMutation(req, 'addAnnotationToCommandGroup');
-		aliasMutation(req, 'addCommandGroupAnnotation');
-		aliasMutation(req, 'addCommandToCommandGroup');
-		aliasMutation(req, 'addLocalServerFolder');
-		aliasMutation(req, 'anonymizeCampaign');
-		aliasMutation(req, 'createCampaign');
-		aliasMutation(req, 'createGlobalOperator');
-		aliasMutation(req, 'deleteAnnotation');
-		aliasMutation(req, 'deleteCampaign');
-		aliasMutation(req, 'renameCampaign');
-		aliasMutation(req, 'serversParse');
-		aliasMutation(req, 'toggleBeaconHidden');
-		aliasMutation(req, 'toggleHostHidden');
-		aliasMutation(req, 'toggleServerHidden');
-		aliasMutation(req, 'updateAnnotation');
-		aliasMutation(req, 'updateBeaconMetadata');
-		aliasMutation(req, 'updateHostMetadata');
-		aliasMutation(req, 'updateServerMetadata');
-	});
+	// 	// Mutations
+	// 	aliasMutation(req, 'addAnnotationToCommandGroup');
+	// 	aliasMutation(req, 'addCommandGroupAnnotation');
+	// 	aliasMutation(req, 'addCommandToCommandGroup');
+	// 	aliasMutation(req, 'addLocalServerFolder');
+	// 	aliasMutation(req, 'anonymizeCampaign');
+	// 	aliasMutation(req, 'createCampaign');
+	// 	aliasMutation(req, 'createGlobalOperator');
+	// 	aliasMutation(req, 'deleteAnnotation');
+	// 	aliasMutation(req, 'deleteCampaign');
+	// 	aliasMutation(req, 'renameCampaign');
+	// 	aliasMutation(req, 'serversParse');
+	// 	aliasMutation(req, 'toggleBeaconHidden');
+	// 	aliasMutation(req, 'toggleHostHidden');
+	// 	aliasMutation(req, 'toggleServerHidden');
+	// 	aliasMutation(req, 'updateAnnotation');
+	// 	aliasMutation(req, 'updateBeaconMetadata');
+	// 	aliasMutation(req, 'updateHostMetadata');
+	// 	aliasMutation(req, 'updateServerMetadata');
+	// });
 	cy.loginAPI();
 });
