@@ -306,3 +306,22 @@ Cypress.Commands.add('confirmShowHide', () => {
 Cypress.Commands.add('cancelShowHide', () => {
 	cy.get('[cy-test=cancel-show-hide]').click();
 });
+
+// CLICK BULK EDIT BUTTON TO SHOW/HIDE MULTIPLE ITEMS
+Cypress.Commands.add('clickBulkEdit', () => {
+	cy.get('[cy-test=bulk-edit]').click();
+});
+
+// HIDE ITEMS USING BULK EDIT
+Cypress.Commands.add('bulkEditHide', () => {
+	cy.get('[cy-test=hide]').click();
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.wait(1000);
+});
+
+// SHOW ITEMS USING BULK EDIT
+Cypress.Commands.add('bulkEditShow', () => {
+	cy.get('[cy-test=show]').click();
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.wait(1000);
+});
