@@ -1,5 +1,5 @@
 import { CarbonIcon, VirtualizedList, semanticIcons } from '@redeye/client/components';
-import type { PresentationItemModel } from '@redeye/client/store';
+import type { PresentationItemModel, SortDirection, SortTypeCommentsList } from '@redeye/client/store';
 import {
 	routes,
 	presentationCommandGroupModelPrimitives,
@@ -10,17 +10,36 @@ import { CoreTokens, FlexSplitter } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { Bookmark16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
+import type { ComponentProps } from 'react';
 import { useCallback, useMemo } from 'react';
 import { CampaignViews, Tabs } from '@redeye/client/types';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
-export const CommentsList = observer(() => {
+type CommentsListProps = ComponentProps<'div'> & {
+	sort: {
+		sortBy: string;
+		direction: SortDirection;
+	};
+};
+
+// Fetch presentationData again when changing sort
+export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 	const store = useStore();
 	const { data } = useQuery(
-		['presentation-items', store.campaign.id],
+		[
+			'presentation-items',
+			store.campaign.id,
+			store.campaign.sortMemory.comments_list,
+			store.campaign.sortMemory.comments,
+		],
 		async () =>
 			await store.graphqlStore.queryPresentationItems(
-				{ campaignId: store.campaign.id!, hidden: store.settings.showHidden },
+				{
+					campaignId: store.campaign.id!,
+					hidden: store.settings.showHidden,
+					forOverviewComments: true,
+					listSort: sort as SortTypeCommentsList,
+				},
 				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
 				undefined,
 				true

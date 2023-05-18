@@ -7,9 +7,9 @@ import type { GraphQLContext } from '../types';
 import { SortDirection } from './command-resolvers';
 
 enum SortOptionCommentsList {
-	ALPHABETICAL = 'alphabetical',
-	COMMENT_COUNT = 'commentCount',
-	COMMAND_COUNT = 'commandCount',
+	alphabetical = 'alphabetical',
+	commentCount = 'commentCount',
+	commandCount = 'commandCount',
 }
 
 registerEnumType(SortOptionCommentsList, {
@@ -18,9 +18,9 @@ registerEnumType(SortOptionCommentsList, {
 });
 
 enum SortOptionCommentsTab {
-	FAVORITE = 'fav',
-	OPERATOR = 'user',
-	TIME = 'minTime',
+	fav = 'fav',
+	user = 'user',
+	minTime = 'minTime',
 }
 
 registerEnumType(SortOptionCommentsTab, {
@@ -30,7 +30,7 @@ registerEnumType(SortOptionCommentsTab, {
 
 @InputType('SortTypeCommentsList')
 class SortTypeCommentsList {
-	@Field(() => SortOptionCommentsList, { nullable: true, defaultValue: SortOptionCommentsList.ALPHABETICAL })
+	@Field(() => SortOptionCommentsList, { nullable: true, defaultValue: SortOptionCommentsList.alphabetical })
 	sortBy?: SortOptionCommentsList;
 
 	@Field(() => SortDirection, {
@@ -42,7 +42,7 @@ class SortTypeCommentsList {
 
 @InputType('SortTypeCommentsTab')
 class SortTypeCommentsTab {
-	@Field(() => SortOptionCommentsTab, { nullable: true, defaultValue: SortOptionCommentsTab.TIME })
+	@Field(() => SortOptionCommentsTab, { nullable: true, defaultValue: SortOptionCommentsTab.minTime })
 	sortBy?: SortOptionCommentsTab;
 
 	@Field(() => SortDirection, {
@@ -202,22 +202,16 @@ export class PresentationResolvers {
 		forOverviewComments: boolean = false,
 		@Arg('listSort', () => SortTypeCommentsList, {
 			nullable: true,
-			defaultValue: { sortBy: SortOptionCommentsList.ALPHABETICAL },
+			defaultValue: { sortBy: SortOptionCommentsList.alphabetical },
 		})
-		listSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.ALPHABETICAL },
+		listSort: SortTypeCommentsList = { sortBy: SortOptionCommentsList.alphabetical },
 		@Arg('commentsTabSort', () => SortTypeCommentsTab, {
 			nullable: true,
-			defaultValue: { sortBy: SortOptionCommentsTab.TIME },
+			defaultValue: { sortBy: SortOptionCommentsTab.minTime },
 		})
-		commentsTabSort: SortTypeCommentsTab = { sortBy: SortOptionCommentsTab.TIME }
-		// @Arg('listSortBy', () => String, { defaultValue: 'alphabetical', nullable: true })
-		// listSortBy: string = 'alphabetical',
-		// @Arg('listDirection', () => String, { defaultValue: 'ASC', nullable: true }) listDirection: string = 'ASC',
-		// @Arg('commentsSortBy', () => String, { defaultValue: 'minTime', nullable: true })
-		// commentsSortBy: string = 'minTime',
-		// @Arg('commentsDirection', () => String, { defaultValue: 'ASC', nullable: true }) commentsDirection: string = 'ASC'
+		commentsTabSort: SortTypeCommentsTab = { sortBy: SortOptionCommentsTab.minTime }
 	): Promise<PresentationItem[]> {
-		console.log(forOverviewComments, listSort, commentsTabSort);
+		console.log(forOverviewComments, commentsTabSort);
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const presentationItems: PresentationItem[] = [];
 		const links = await em.find(Link, {}, { populate: false });
@@ -233,10 +227,49 @@ export class PresentationResolvers {
 		Object.entries(linkItems).forEach(([key, link]) => {
 			linkTree[key] = { parents: Array.from(link.parents) };
 		});
+
+		// sort helper function for both presentation and overview comments list/tab
+		// for overview comment list sorting
+		const sortCommentList = (items: PresentationItem[]) => {
+			if (listSort.sortBy === SortOptionCommentsList.alphabetical) {
+				items.sort((a, b) => (listSort.direction === 'DESC' ? b.id.localeCompare(a.id) : a.id.localeCompare(b.id)));
+			}
+			if (listSort.sortBy === SortOptionCommentsList.commentCount) {
+				items.sort((a, b) => (listSort.direction === 'DESC' ? b.count - a.count : a.count - b.count));
+			}
+			if (listSort.sortBy === SortOptionCommentsList.commandCount) {
+				items.sort((a, b) =>
+					listSort.direction === 'DESC' ? b.commandCount - a.commandCount : a.commandCount - b.commandCount
+				);
+			}
+			return items;
+		};
+		// for overview comments/commandGroups under each list category
+		// const getOrderByFromSort = (forOverviewComments: boolean, sorBy: string, direction: string) => {
+		// 	let orderBy;
+		// 	if (!forOverviewComments) {
+		// 		return { commands: { input: { dateTime: 'asc' } } };
+		// 	} else if (sorBy === 'minTime') {
+		// 		return { annotations: { date: direction } };
+		// 	} else if (sorBy === 'fav') {
+		// 		return { annotations: { favorite: direction } };
+		// 	} else {
+		// 		return { annotations: { user: direction } };
+		// 	}
+		// 	return orderBy;
+		// };
+		const orderBy = !forOverviewComments
+			? { commands: { input: { dateTime: SortDirection.ASC } } }
+			: commentsTabSort.sortBy === SortOptionCommentsTab.minTime
+			? { annotations: { date: commentsTabSort.direction } }
+			: commentsTabSort.sortBy === SortOptionCommentsTab.fav
+			? { annotations: { favorite: commentsTabSort.direction } }
+			: { annotations: { user: commentsTabSort.direction } };
+
 		// All Comments
 		const allComments = await em.find(CommandGroup, !hidden ? { commands: { ...beaconHidden(hidden) } } : {}, {
 			populate: ['commands', 'annotations'],
-			orderBy: { commands: { input: { dateTime: 'asc' } } },
+			orderBy,
 		});
 		const commandGroups = await this.getBeaconLinks(allComments, linkTree, em, hidden);
 		const allCommandCount = commandGroups.commandGroups.reduce(
@@ -261,7 +294,7 @@ export class PresentationResolvers {
 			{ annotations: { favorite: true }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
 			{
 				populate: ['commands', 'annotations'],
-				orderBy: { commands: { input: { dateTime: 'asc' } } },
+				orderBy,
 			}
 		);
 		const commandGroupsLink = await this.getBeaconLinks(favoritedComments, linkTree, em, hidden);
@@ -287,7 +320,7 @@ export class PresentationResolvers {
 			{ annotations: { generation: 'PROCEDURAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
 			{
 				populate: ['commands', 'annotations'],
-				orderBy: { commands: { input: { dateTime: 'asc' } } },
+				orderBy,
 			}
 		);
 		const proceduralCommandGroupsLink = await this.getBeaconLinks(proceduralComments, linkTree, em, hidden);
@@ -310,13 +343,13 @@ export class PresentationResolvers {
 		// Populate User comments
 		// For User comments, make sure use a 'user-' prefix in case the username is same to other general types.
 		const userComments: Record<string, CommandGroup[]> = {};
-		const commandsByUser: PresentationItem[] = [];
+		let commandsByUser: PresentationItem[] = [];
 		const manualComments = await em.find(
 			CommandGroup,
 			{ annotations: { generation: 'MANUAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
 			{
 				populate: ['commands', 'annotations'],
-				orderBy: { commands: { input: { dateTime: 'asc' } } },
+				orderBy,
 			}
 		);
 		for (const manualComment of manualComments) {
@@ -343,7 +376,7 @@ export class PresentationResolvers {
 			);
 		}
 		// Sort the documents by userId
-		commandsByUser.sort((a, b) => a.id.localeCompare(b.id));
+		commandsByUser = sortCommentList(commandsByUser);
 		commandsByUser.forEach((commandGroup) => {
 			presentationItems.push(commandGroup);
 		});
@@ -351,14 +384,14 @@ export class PresentationResolvers {
 		// Populate Tags
 		// For Tag comments, make sure use a 'tag-' id prefix in case the tag name is same to other general types.
 		const tags = await em.find(Tag, {}, { populate: false });
-		const commandsByTag: PresentationItem[] = [];
+		let commandsByTag: PresentationItem[] = [];
 		for (const tag of tags) {
 			const cmdGroup = await em.find(
 				CommandGroup,
 				{ annotations: { tags: tag }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
 				{
 					populate: ['commands', 'annotations'],
-					orderBy: { commands: { input: { dateTime: 'asc' } } },
+					orderBy,
 				}
 			);
 			const commandGroupsLink = await this.getBeaconLinks(cmdGroup, linkTree, em, hidden);
@@ -380,7 +413,7 @@ export class PresentationResolvers {
 		}
 
 		// Sort the documents tag.text
-		commandsByTag.sort((a, b) => a.id.localeCompare(b.id));
+		commandsByTag = sortCommentList(commandsByTag);
 		commandsByTag.forEach((commandGroup) => {
 			presentationItems.push(commandGroup);
 		});

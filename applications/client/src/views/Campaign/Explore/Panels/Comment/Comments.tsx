@@ -1,7 +1,7 @@
 import { Intent, ProgressBar } from '@blueprintjs/core';
 import { isDefined, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { SortDirection } from '@redeye/client/store';
+import type { SortDirection, SortTypeCommentsTab } from '@redeye/client/store';
 import {
 	presentationCommandGroupModelPrimitives,
 	presentationItemModelPrimitives,
@@ -144,12 +144,22 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	}, [data]);
 
-	// To fetch presentationData again when refreshing browser @comments_list-[currentItemId]
+	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
 	const { data: presentationData } = useQuery(
-		['presentation-items', store.campaign.id],
+		[
+			'presentation-items',
+			store.campaign.id,
+			store.campaign.sortMemory.comments_list,
+			store.campaign.sortMemory.comments,
+		],
 		async () =>
 			await store.graphqlStore.queryPresentationItems(
-				{ campaignId: store.campaign.id!, hidden: store.settings.showHidden },
+				{
+					campaignId: store.campaign.id!,
+					hidden: store.settings.showHidden,
+					forOverviewComments: true,
+					commentsTabSort: sort as SortTypeCommentsTab,
+				},
 				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
 				undefined,
 				true
@@ -157,11 +167,12 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	);
 	useEffect(() => {
 		if (
-			store.router.params.currentItem &&
-			store.router.params.currentItemId &&
-			presentationData &&
-			store.campaign.CommentsList.commandGroupIds.length === 0 &&
-			presentationData?.presentationItems.length > 0
+			store.router.params.currentItem === 'comments_list' &&
+			store.router.params.currentItemId
+			//  &&
+			// presentationData &&
+			// store.campaign.CommentsList.commandGroupIds.length === 0 &&
+			// presentationData?.presentationItems.length > 0
 		) {
 			const filteredData = presentationData?.presentationItems.find(
 				(item) => item.id === store.router.params.currentItemId
@@ -170,7 +181,15 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
 			});
 		}
-	}, [store.router.params.currentItemId, sort, store.router.params]);
+	}, [
+		store.router.params.currentItem,
+		store.router.params.currentItemId,
+		// sort,
+		store.router.params,
+		store.campaign.sortMemory.comments,
+		store.campaign.sortMemory.comments_list,
+		store.campaign.commentsList.commandGroupIds,
+	]);
 
 	return (
 		<VirtualizedList
@@ -183,7 +202,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
 			) : store.router.params.currentItem === 'comments_list' ? (
-				store.campaign.CommentsList.commandGroupIds.map((commandGroupId) => (
+				store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
 						cy-test="comment-group"
 						key={commandGroupId}

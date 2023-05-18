@@ -9,9 +9,9 @@ import { types, prop, tProp, Model, Ref } from 'mobx-keystone';
  */
 
 export enum SortOptionCommentsTab {
-	FAVORITE = 'FAVORITE',
-	OPERATOR = 'OPERATOR',
-	TIME = 'TIME',
+	fav = 'fav',
+	minTime = 'minTime',
+	user = 'user',
 }
 
 /**

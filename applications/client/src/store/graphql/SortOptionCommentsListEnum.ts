@@ -9,9 +9,9 @@ import { types, prop, tProp, Model, Ref } from 'mobx-keystone';
  */
 
 export enum SortOptionCommentsList {
-	ALPHABETICAL = 'ALPHABETICAL',
-	COMMAND_COUNT = 'COMMAND_COUNT',
-	COMMENT_COUNT = 'COMMENT_COUNT',
+	alphabetical = 'alphabetical',
+	commandCount = 'commandCount',
+	commentCount = 'commentCount',
 }
 
 /**
