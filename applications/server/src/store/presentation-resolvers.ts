@@ -244,20 +244,6 @@ export class PresentationResolvers {
 			}
 			return items;
 		};
-		// for overview comments/commandGroups under each list category
-		// const getOrderByFromSort = (forOverviewComments: boolean, sorBy: string, direction: string) => {
-		// 	let orderBy;
-		// 	if (!forOverviewComments) {
-		// 		return { commands: { input: { dateTime: 'asc' } } };
-		// 	} else if (sorBy === 'minTime') {
-		// 		return { annotations: { date: direction } };
-		// 	} else if (sorBy === 'fav') {
-		// 		return { annotations: { favorite: direction } };
-		// 	} else {
-		// 		return { annotations: { user: direction } };
-		// 	}
-		// 	return orderBy;
-		// };
 		const orderBy = !forOverviewComments
 			? { commands: { input: { dateTime: SortDirection.ASC } } }
 			: commentsTabSort.sortBy === SortOptionCommentsTab.minTime

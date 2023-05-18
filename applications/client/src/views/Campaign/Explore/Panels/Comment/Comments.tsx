@@ -166,14 +166,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			)
 	);
 	useEffect(() => {
-		if (
-			store.router.params.currentItem === 'comments_list' &&
-			store.router.params.currentItemId
-			//  &&
-			// presentationData &&
-			// store.campaign.CommentsList.commandGroupIds.length === 0 &&
-			// presentationData?.presentationItems.length > 0
-		) {
+		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
 			const filteredData = presentationData?.presentationItems.find(
 				(item) => item.id === store.router.params.currentItemId
 			);
@@ -181,15 +174,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
 			});
 		}
-	}, [
-		store.router.params.currentItem,
-		store.router.params.currentItemId,
-		// sort,
-		store.router.params,
-		store.campaign.sortMemory.comments,
-		store.campaign.sortMemory.comments_list,
-		store.campaign.commentsList.commandGroupIds,
-	]);
+	}, [store.router.params.currentItem, store.router.params.currentItemId, store.campaign.commentsList.commandGroupIds]);
 
 	return (
 		<VirtualizedList
