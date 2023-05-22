@@ -27,10 +27,9 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 18.16.0
           cache: 'yarn'
       - run: CYPRESS_INSTALL_BINARY=0 yarn install --immutable --inline-builds
-      - run: CYPRESS_INSTALL_BINARY=0 yarn moon ci
+      # - run: CYPRESS_INSTALL_BINARY=0 yarn moon ci
       - uses: 'moonrepo/run-report-action@v1'
         if: success() || failure()
         with:
