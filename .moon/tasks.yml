@@ -3,8 +3,6 @@ $schema: 'https://moonrepo.dev/schemas/global-project.json'
 
 # Extend and inherit an external configuration file. Must be a valid HTTPS URL or file system path.
 # extends: './shared/project.yml'
-implicitDeps:
-  - '^:build'
 # File groups are a mechanism for grouping similar types of files within a project
 # using file glob patterns. These groups are then used by tasks to calculate functionality like
 # cache computation, affected files since last change, command line arguments, deterministic
@@ -28,6 +26,7 @@ fileGroups:
   tests:
     - 'tests/**/*.test.*'
     - '**/__tests__/**/*'
+    - '*.cy.js'
 
   # All static assets within the project.
   # This may include styles, images, videos, etc.
@@ -38,6 +37,8 @@ fileGroups:
     - '**/*.{scss,css}'
     - '**/*.mdx'
 
+implicitDeps:
+  - '^:build'
 # A task is an action that is ran within the context of a project, and wraps
 # around an npm or system command. Tasks that are defined here and inherited by all projects
 # within the workspace, but can be overridden per project.
