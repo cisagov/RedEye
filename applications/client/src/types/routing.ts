@@ -10,15 +10,13 @@ export type CurrentItem =
 	| 'all'
 	| 'comments_list';
 
-export type CommentItem = 'comments' | 'allComments' | 'favComments' | 'user' | 'tag';
-
 export interface CurrentItemWithId {
 	currentItem?: CurrentItem;
 	currentItemId?: UUID | undefined | string;
 }
 
 export interface ActiveItemWithId {
-	activeItem?: CurrentItem | CommentItem;
+	activeItem?: CurrentItem;
 	activeItemId?: UUID | undefined;
 }
 

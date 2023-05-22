@@ -36,10 +36,6 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		toggleNewComment(id?: string) {
 			this.newComment = id;
 		},
-		commandGroupIds: [] as string[],
-		setCommandGroupIds(groupIds: string[]) {
-			this.commandGroupIds = groupIds;
-		},
 		visibleRange: {
 			startIndex: 0,
 			endIndex: 0,
@@ -174,7 +170,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
 			});
 		}
-	}, [store.router.params.currentItem, store.router.params.currentItemId, store.campaign.commentsList.commandGroupIds]);
+	}, [store.campaign.commentsList.commandGroupIds]);
 
 	return (
 		<VirtualizedList
