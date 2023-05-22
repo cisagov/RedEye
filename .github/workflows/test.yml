@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
