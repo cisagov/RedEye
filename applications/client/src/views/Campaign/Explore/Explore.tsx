@@ -205,7 +205,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 						key={panelName}
 						cy-test={panelName}
 						id={panelName}
-						title={TabNames[panelName]}
+						title={TabNames(store)[panelName]}
 						panel={
 							<>
 								<ControlBar

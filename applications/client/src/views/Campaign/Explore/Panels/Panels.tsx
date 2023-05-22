@@ -26,16 +26,16 @@ export const SortBy: Record<string, SortOption> = {
 	ID: { label: 'ID', key: 'id' },
 };
 
-export const TabNames: Record<Tabs, string> = {
+export const TabNames: (store: AppStore) => Record<Tabs, string> = (store: AppStore) => ({
 	[Tabs.BEACONS]: 'Beacons',
 	[Tabs.HOSTS]: 'Hosts',
 	[Tabs.COMMANDS]: 'Commands',
 	[Tabs.COMMANDS_OVERVIEW]: 'Command Types',
 	[Tabs.OPERATORS]: 'Operators',
-	[Tabs.COMMENTS]: 'Comments',
-	[Tabs.COMMENTS_LIST]: 'Comments List',
+	[Tabs.COMMENTS]: store.router.params.currentItem === 'comments_list' ? '' : 'Comments',
+	[Tabs.COMMENTS_LIST]: 'Comments',
 	[Tabs.METADATA]: 'Meta',
-};
+});
 
 export enum CommentFilterOptions {
 	FAVORITE = 'fav',
