@@ -208,7 +208,7 @@
 		]
 	},
 	"engines": {
-		"node": "16.20.0"
+		"node": "18.16.0"
 	},
 	"packageManager": "yarn@3.2.3"
 }
