@@ -210,5 +210,5 @@
 	"engines": {
 		"node": "16.20.0"
 	},
-	"packageManager": "yarn@3.2.3"
+	"packageManager": "yarn@3.5.1"
 }
