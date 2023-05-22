@@ -92,10 +92,10 @@ jobs:
         with:
           # tag: node-${{ matrix.node }}
           start: yarn start:dev
-          wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
+          wait-on: 'http://[::1]:4000/api/graphql, http://[::1]:3500'
           browser: chrome
           group: 'Red Team - Chrome'
-          config: baseUrl=http://localhost:3500
+          config: baseUrl=http://[::1]:3500
           record: true
           parallel: true
           config-file: applications/redeye-e2e/cypress.config.js
@@ -141,10 +141,10 @@ jobs:
         with:
           # tag: node-${{ matrix.node }}
           start: yarn start:blue
-          wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
+          wait-on: 'http://[::1]:4000/api/graphql, http://[::1]:3500'
           browser: chrome
           group: 'Blue Team - Chrome'
-          config: baseUrl=http://localhost:3500
+          config: baseUrl=http://[::1]:3500
           record: true
           parallel: true
           config-file: applications/redeye-e2e/cypress.config.js
@@ -178,11 +178,11 @@ jobs:
   #     uses: cypress-io/github-action@v5.0.0
   #     with:
   #      start: yarn start
-  #      wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
+  #      wait-on: 'http://[::1]:4000/api/graphql, http://[::1]:3500'
   #      browser: firefox
   #      group: 'Red Team - Firefox'
   #      working-directory: applications/redeye-e2e
-  #      config: baseUrl=http://localhost:3500
+  #      config: baseUrl=http://[::1]:3500
   #      record: true
   #      parallel: true
   #      config-file: cypress.config.js
@@ -222,11 +222,11 @@ jobs:
 #     uses: cypress-io/github-action@v5.0.0
 #     with:
 #      start: yarn start:blue
-#      wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
+#      wait-on: 'http://[::1]:4000/api/graphql, http://[::1]:3500'
 #      browser: firefox
 #      group: 'Blue Team - Firefox'
 #      working-directory: applications/redeye-e2e
-#      config: baseUrl=http://localhost:3500
+#      config: baseUrl=http://[::1]:3500
 #      record: true
 #      parallel: true
 #      config-file: cypress.config.js
