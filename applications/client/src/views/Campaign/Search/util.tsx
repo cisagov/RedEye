@@ -1,6 +1,4 @@
 import type { AnyModel, ProcessedSearchItem } from '@redeye/client/types/search';
-import { UtilityStyles, Txt } from '@redeye/ui-styles';
-import type { ReactNode } from 'react';
 import type { AppStore } from '../../../store';
 
 export const searchableKeys = [
@@ -54,46 +52,6 @@ export function getValue(parent, value) {
 		}
 	}
 }
-
-// Sanitize input for use in regex
-function sanitizeRegex(text: string): string {
-	return (text ?? '').replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&');
-}
-
-export function tokenize(str) {
-	return str.split(/\s/gi);
-}
-
-function createRegex(pattern: string) {
-	return `(?:${tokenize(sanitizeRegex(pattern)).join('|')})`;
-}
-
-export const highlightPattern = (text?: string, pattern?: string): ReactNode => {
-	if (!text) return null;
-	if (!pattern) return text;
-
-	const regEx = new RegExp(createRegex(pattern), 'ig');
-	const splitText = text?.split?.(regEx) || '';
-	if (splitText.length <= 1) return text;
-
-	const matches = text.match(regEx);
-	if (!matches) return text;
-
-	return splitText.reduce<ReactNode[]>(
-		(arr, element, index) =>
-			matches[index]
-				? [
-						...arr,
-						element,
-						// eslint-disable-next-line react/no-array-index-key
-						<Txt key={`${element}-${index}`} css={UtilityStyles.textHighlight}>
-							{matches[index]}
-						</Txt>,
-				  ]
-				: [...arr, element],
-		[]
-	);
-};
 
 /** https://stackoverflow.com/a/7228322/5648839 */
 export const randomIntFromInterval = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);

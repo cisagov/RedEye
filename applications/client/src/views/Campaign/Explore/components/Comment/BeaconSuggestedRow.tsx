@@ -1,63 +1,26 @@
-import { Connect16 } from '@carbon/icons-react';
-import { css } from '@emotion/react';
-import type { ComponentProps, FC } from 'react';
-import { Txt } from '@redeye/ui-styles';
-import { CarbonIcon } from '@redeye/client/components';
+import type { TxtProps } from '@redeye/ui-styles';
+import { Spacer, Txt } from '@redeye/ui-styles';
+import { observer } from 'mobx-react-lite';
+import type { BeaconModel } from '@redeye/client/store';
+import { highlightPattern } from '@redeye/client/components';
 
-export type BeaconSuggestedRowProps = ComponentProps<'div'> & {
-	reason: string | null;
-	targetHost?: string | null;
-	targetBeacon?: string | null;
-	icon: boolean;
+export type BeaconSuggestedRowProps = TxtProps & {
+	beaconModel: BeaconModel;
+	query?: string;
 };
 
-export const BeaconSuggestedRow: FC<BeaconSuggestedRowProps> = ({
-	targetHost,
-	targetBeacon,
-	reason = '',
-	icon = false,
-}) =>
-	!icon ? (
-		<div css={menuStyle}>
-			<Txt muted small text-align="right">
-				{' '}
-				{targetHost} &ensp;/ &ensp;{' '}
-			</Txt>
+export const BeaconSuggestedRow = observer<BeaconSuggestedRowProps>(({ beaconModel, query, ...props }) => {
+	const hostName = beaconModel.host?.current.displayName || '';
+	const beaconName = beaconModel.displayName || '';
+	const beaconContextName = beaconModel.meta?.[0]?.maybeCurrent?.username || '';
 
-			<Txt bold small align-items="center">
-				{' '}
-				{targetBeacon}{' '}
-			</Txt>
-
-			<Txt muted small align-items="right">
-				{' '}
-				&ensp; {reason}{' '}
-			</Txt>
-		</div>
-	) : (
-		<div css={displayStyle}>
-			<CarbonIcon icon={Connect16} />
-
-			<Txt small text-align="right">
-				{' '}
-				{targetHost} &ensp;/ &ensp;{' '}
-			</Txt>
-
-			<Txt small align-items="center">
-				{' '}
-				{targetBeacon}{' '}
-			</Txt>
-		</div>
+	return (
+		<Txt {...props}>
+			<Txt>{highlightPattern(hostName, query)}</Txt>
+			<Spacer>/</Spacer>
+			<Txt bold>{highlightPattern(beaconName, query)}</Txt>
+			<Spacer />
+			<Txt>{highlightPattern(beaconContextName, query)}</Txt>
+		</Txt>
 	);
-
-const menuStyle = css`
-	display: grid;
-	grid-template-columns: max-content auto auto;
-	padding: 5px;
-`;
-
-const displayStyle = css`
-	display: grid;
-	grid-template-columns: 10% 30% 15%;
-	align-content: left;
-`;
+});
