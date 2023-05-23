@@ -27,7 +27,7 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 	const store = useStore();
 	const { data } = useQuery(
 		[
-			'presentation-items',
+			'overview-comments-items',
 			store.campaign.id,
 			store.campaign.sortMemory.comments_list,
 			store.campaign.sortMemory.comments,

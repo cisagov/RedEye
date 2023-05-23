@@ -141,9 +141,9 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	}, [data]);
 
 	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: presentationData, isLoading: isPresentationLoading } = useQuery(
+	const { data: commentsData, isLoading: isCommentsDataLoading } = useQuery(
 		[
-			'presentation-items',
+			'overview-comments-items',
 			store.campaign.id,
 			store.campaign.sortMemory.comments_list,
 			store.campaign.sortMemory.comments,
@@ -163,14 +163,14 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	);
 	useEffect(() => {
 		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
-			const filteredData = presentationData?.presentationItems.find(
+			const filteredData = commentsData?.presentationItems.find(
 				(item) => item.id === store.router.params.currentItemId
 			);
 			store.campaign?.setCommentsList({
 				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
 			});
 		}
-	}, [store.campaign.commentsList.commandGroupIds]);
+	}, [store.campaign.commentsList.commandGroupIds, store.router.params.currentItem, store.router.params.currentItemId]);
 
 	return (
 		<VirtualizedList
@@ -185,7 +185,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			) : store.router.params.currentItem === 'comments_list' ? (
 				store.campaign.commentsList.commandGroupIds.length === 0 ? (
 					<MessageRow>No comments</MessageRow>
-				) : isPresentationLoading ? (
+				) : isCommentsDataLoading ? (
 					<ProgressBar intent={Intent.PRIMARY} />
 				) : (
 					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
