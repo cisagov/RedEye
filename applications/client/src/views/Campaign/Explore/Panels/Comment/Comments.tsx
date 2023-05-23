@@ -141,7 +141,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	}, [data]);
 
 	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: presentationData } = useQuery(
+	const { data: presentationData, isLoading: isPresentationLoading } = useQuery(
 		[
 			'presentation-items',
 			store.campaign.id,
@@ -183,17 +183,23 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
 			) : store.router.params.currentItem === 'comments_list' ? (
-				store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
-					<CommentGroup
-						cy-test="comment-group"
-						key={commandGroupId}
-						commandGroupId={commandGroupId}
-						toggleNewComment={state.toggleNewComment}
-						newComment={state.newComment}
-						expandedCommandIDs={state.expandedCommandIDs}
-						removeExpandedCommandID={state.removeExpandedCommandID}
-					/>
-				))
+				store.campaign.commentsList.commandGroupIds.length === 0 ? (
+					<MessageRow>No comments</MessageRow>
+				) : isPresentationLoading ? (
+					<ProgressBar intent={Intent.PRIMARY} />
+				) : (
+					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
+						<CommentGroup
+							cy-test="comment-group"
+							key={commandGroupId}
+							commandGroupId={commandGroupId}
+							toggleNewComment={state.toggleNewComment}
+							newComment={state.newComment}
+							expandedCommandIDs={state.expandedCommandIDs}
+							removeExpandedCommandID={state.removeExpandedCommandID}
+						/>
+					))
+				)
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
