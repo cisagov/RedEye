@@ -106,7 +106,7 @@
 		"@mikro-orm/entity-generator": "5.6.16",
 		"@mikro-orm/migrations": "5.6.16",
 		"@mikro-orm/seeder": "5.6.16",
-		"@moonrepo/cli": "^1.2.0",
+		"@moonrepo/cli": "^1.6.1",
 		"@swc/cli": "~0.1.55",
 		"@swc/core": "~1.2.143",
 		"@swc/helpers": "~0.3.3",
@@ -210,5 +210,5 @@
 	"engines": {
 		"node": "18.16.0"
 	},
-	"packageManager": "yarn@3.2.3"
+	"packageManager": "yarn@3.5.1"
 }
