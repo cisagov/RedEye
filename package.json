@@ -149,7 +149,7 @@
 		"builder-util": "^23.0.2",
 		"concurrently": "^7.6.0",
 		"cross-env": "^7.0.3",
-		"cypress": "^12.11.0",
+		"cypress": "^12.13.0",
 		"cypress-map": "^1.19.1",
 		"cypress-multi-reporters": "^1.6.1",
 		"cypress-real-events": "^1.7.6",
@@ -208,7 +208,7 @@
 		]
 	},
 	"engines": {
-		"node": "16.20.0"
+		"node": "18.16.0"
 	},
 	"packageManager": "yarn@3.2.3"
 }

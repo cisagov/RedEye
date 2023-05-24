@@ -14,7 +14,7 @@ jobs:
       CYPRESS_INSTALL_BINARY: 0
     strategy:
       matrix:
-        node-version: [16.19.0]
+        node-version: [18.16.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -31,4 +31,3 @@ jobs:
         with:
           name: RedEye
           path: artifacts
-
