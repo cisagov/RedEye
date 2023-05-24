@@ -1,3 +1,5 @@
+type: 'library'
+language: 'typescript'
 tasks:
   build:
     command: 'noop'

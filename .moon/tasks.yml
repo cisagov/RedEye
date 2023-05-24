@@ -39,6 +39,7 @@ fileGroups:
 
 # implicitDeps:
 #   - '^:build'
+
 # A task is an action that is ran within the context of a project, and wraps
 # around an npm or system command. Tasks that are defined here and inherited by all projects
 # within the workspace, but can be overridden per project.
@@ -137,7 +138,7 @@ tasks:
     env:
       NODE_ENV: production
     deps:
-      - ~:clean-dist
+      # - ~:clean-dist
       - ^:build
     platform: node
     options:
@@ -240,7 +241,7 @@ tasks:
       mergeOutputs: 'replace'
       runInCI: false
   release-mac:
-    command: 'yarn pkg $projectRoot/package.json -t node16-mac -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node18-mac -o @out(0)'
     deps:
       - ~:fetch-pkg-mac
       - ~:build
@@ -252,7 +253,7 @@ tasks:
       runInCI: false
       runFromWorkspaceRoot: true
   release-linux:
-    command: 'yarn pkg $projectRoot/package.json -t node16-linux -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node18-linux -o @out(0)'
     deps:
       - ~:fetch-pkg-linux
       - ~:build
@@ -264,7 +265,7 @@ tasks:
       runInCI: false
       runFromWorkspaceRoot: true
   release-windows:
-    command: 'yarn pkg $projectRoot/package.json -t node16-win -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node18-win -o @out(0)'
     deps:
       - ~:fetch-pkg-windows
       - ~:build
@@ -278,21 +279,21 @@ tasks:
 
   ## Fetch pkg commands
   fetch-pkg-mac:
-    command: 'yarn pkg-fetch --platform mac --node-range node16'
+    command: 'yarn pkg-fetch --platform mac --node-range node18'
     platform: system
     options:
       runInCI: false
       retryCount: 2
       runFromWorkspaceRoot: true
   fetch-pkg-linux:
-    command: 'yarn pkg-fetch --platform linux --node-range node16'
+    command: 'yarn pkg-fetch --platform linux --node-range node18'
     platform: system
     options:
       runInCI: false
       retryCount: 2
       runFromWorkspaceRoot: true
   fetch-pkg-windows:
-    command: 'yarn pkg-fetch --platform win --node-range node16'
+    command: 'yarn pkg-fetch --platform win --node-range node18'
     platform: system
     options:
       runInCI: false
@@ -305,6 +306,7 @@ tasks:
     platform: node
     options:
       runInCI: false
+      cache: false
 
   ## Typecheck
   typecheck:
@@ -324,3 +326,6 @@ tasks:
     platform: node
     options:
       runInCI: false
+
+implicitDeps:
+  - '^:build'

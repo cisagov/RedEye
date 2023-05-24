@@ -2420,6 +2420,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@moonrepo/types@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@moonrepo/types@npm:1.2.0"
+  checksum: 80674363ebed753d77d7c5ec23b2afeb90d78db4d710cc07bb194bce911b9622c6eac91f10fb46e5bcc6150ebc1d2ee5eaa67ab6a1af0fa5b1d905e2b2e80d54
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -3771,7 +3778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.4.6":
+"@types/eslint@npm:^8.40.0":
   version: 8.40.0
   resolution: "@types/eslint@npm:8.40.0"
   dependencies:
@@ -3993,17 +4000,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^20.2.3":
   version: 20.2.3
   resolution: "@types/node@npm:20.2.3"
   checksum: 576065e8fc1fa45798c8f59a6bf809169582d04abc2e25fab1a048ffc734975b9992ae31be0d960cf705a21fb37112f7fcde11aa322beddf7491e73d5a5a988c
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:16.11.7":
-  version: 16.11.7
-  resolution: "@types/node@npm:16.11.7"
-  checksum: 2706403e6efc4aa40fdce8f0b5d9884d5600c3c8610aedc7fa5e7e298d30366f7e8b7296028d52898dca3edef4c3e827b03bf20952c4780f13fa4e79864f7a86
   languageName: node
   linkType: hard
 
@@ -4274,7 +4274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/validator@npm:^13.7.1":
+"@types/validator@npm:^13.7.1, @types/validator@npm:^13.7.10":
   version: 13.7.17
   resolution: "@types/validator@npm:13.7.17"
   checksum: a827e480c09b957fe1e773e15a18e79930c546c21044ca99d9fb832268d85536cd3577391b6a3c6ebdb38eee244439056ebeed0886123e248d6b8be318c8374e
@@ -4333,7 +4333,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.59.0":
+"@typescript-eslint/eslint-plugin@npm:^5.59.7":
   version: 5.59.7
   resolution: "@typescript-eslint/eslint-plugin@npm:5.59.7"
   dependencies:
@@ -5757,13 +5757,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-validator@npm:^0.13.1":
-  version: 0.13.2
-  resolution: "class-validator@npm:0.13.2"
+"class-validator@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "class-validator@npm:0.14.0"
   dependencies:
-    libphonenumber-js: ^1.9.43
+    "@types/validator": ^13.7.10
+    libphonenumber-js: ^1.10.14
     validator: ^13.7.0
-  checksum: 0deb4c29faa18345f6989fd7eaaaa07b05caae5298603fcd6485531c6daad503e5d2b24cc1342e4fc88ae5ba0acffdc24d0fc333110ef3f21a667cd8a79e1258
+  checksum: f62e4a0ad24cee68f4b2bc70d32b96de90cb598f96bde362b4dbf4234151af8eb6ae225458312a38fc49fa3959844cf61c60e731a8205e9a570454cff8de2710
   languageName: node
   linkType: hard
 
@@ -7570,7 +7571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:^3.5.0":
+"eslint-import-resolver-typescript@npm:^3.5.5":
   version: 3.5.5
   resolution: "eslint-import-resolver-typescript@npm:3.5.5"
   dependencies:
@@ -11032,7 +11033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"libphonenumber-js@npm:^1.9.43":
+"libphonenumber-js@npm:^1.10.14":
   version: 1.10.30
   resolution: "libphonenumber-js@npm:1.10.30"
   checksum: 677bdd25b709cc55f10c599df09e67b501554578e4700ae31d9f2153b4e6847710d2454b4551f19df3e443eb836c0f287a12159ee6acd931150407c0eaf010a0
@@ -13685,6 +13686,7 @@ __metadata:
     "@mikro-orm/migrations": 5.6.16
     "@mikro-orm/seeder": 5.6.16
     "@moonrepo/cli": ^1.6.1
+    "@moonrepo/types": ^1.2.0
     "@openfonts/ibm-plex-mono_all": ^1.44.2
     "@openfonts/ibm-plex-sans_all": ^1.44.2
     "@swc/cli": ~0.1.55
@@ -13702,14 +13704,14 @@ __metadata:
     "@types/cors": ^2.8.6
     "@types/crypto-js": ^4.0.1
     "@types/d3": ^6.7.0
-    "@types/eslint": ^8.4.6
+    "@types/eslint": ^8.40.0
     "@types/express": ^4.17.7
     "@types/express-fileupload": ^1.1.3
     "@types/fs-extra": ^9.0.1
     "@types/istanbul-lib-coverage": ^2.0.3
     "@types/jest": 27.4.1
     "@types/js-yaml": ^4
-    "@types/node": 16.11.7
+    "@types/node": ^20.2.3
     "@types/nodemon": ^1.19.0
     "@types/prettier": ^2
     "@types/react": ^18.0.21
@@ -13723,14 +13725,14 @@ __metadata:
     "@types/throttle-debounce": ^5.0.0
     "@types/uuid": ^8.3.0
     "@types/validator": ^13.7.1
-    "@typescript-eslint/eslint-plugin": ^5.59.0
+    "@typescript-eslint/eslint-plugin": ^5.59.7
     "@typescript-eslint/parser": ^5.59.0
     "@vitejs/plugin-react-swc": ^3.3.0
     barrelsby: ^2.3.0
     blueprint-styler: 4.0.0-alpha.10
     builder-util: ^23.0.2
     chokidar: ^3.4.1
-    class-validator: ^0.13.1
+    class-validator: ^0.14.0
     commander: ^8.3.0
     concurrently: ^7.6.0
     cookie-parser: ^1.4.5
@@ -13749,7 +13751,7 @@ __metadata:
     eslint-config-airbnb-typescript: ^17.0.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard: ^17.0.0
-    eslint-import-resolver-typescript: ^3.5.0
+    eslint-import-resolver-typescript: ^3.5.5
     eslint-plugin-array-func: ^3.1.7
     eslint-plugin-cypress: ^2.12.1
     eslint-plugin-flowtype: ^8.0.3
@@ -13819,7 +13821,7 @@ __metadata:
     ts-node: ^10.9.1
     tslib: ^2.4.0
     tsup: ^6.5.0
-    type-graphql: ^2.0.0-beta.1
+    type-graphql: ^2.0.0-beta.2
     typescript: ^5.0.4
     uuid: ^8.3.2
     vite: ^4.3.1
@@ -15814,7 +15816,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-graphql@npm:^2.0.0-beta.1":
+"type-graphql@npm:^2.0.0-beta.2":
   version: 2.0.0-beta.2
   resolution: "type-graphql@npm:2.0.0-beta.2"
   dependencies:

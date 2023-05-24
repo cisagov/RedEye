@@ -1,3 +1,5 @@
+type: 'library'
+language: 'typescript'
 tasks:
   test:
     deps:

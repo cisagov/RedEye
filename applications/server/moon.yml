@@ -2,6 +2,8 @@ dependsOn:
   - 'models'
   - 'migrations'
   - 'cs-parser'
+type: 'application'
+language: 'typescript'
 tasks:
   build:
     deps:

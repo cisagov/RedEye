@@ -1,6 +1,12 @@
+type: 'application'
+language: 'typescript'
+description: 'RedEye Client'
+platform: 'node'
+
 dependsOn:
   - 'graph'
   - 'ui-styles'
+
 tasks:
   build:
     deps:
@@ -14,7 +20,7 @@ tasks:
       runInCI: false
       runDepsInParallel: false
   graphql:
-    command: mk-gql --outDir=./src/store/graphql ../server/schema.graphql
+    command: 'mk-gql --outDir=./src/store/graphql ../server/schema.graphql'
     options:
       runInCI: false
   generate-graphql:

@@ -1,5 +1,7 @@
 dependsOn:
   - 'models'
+type: 'library'
+language: 'typescript'
 tasks:
   build:
     deps:

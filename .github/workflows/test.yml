@@ -46,6 +46,7 @@ jobs:
           node-version: 18.16.0
           cache: 'yarn'
 
+      - uses: moonrepo/setup-moon-action@v1
       - run: yarn install --immutable --inline-builds
       - run: yarn moon run server:build client:build
 

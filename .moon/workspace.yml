@@ -27,3 +27,5 @@ vcs:
   # local branch against. For git, this is is typically "master" or "main",
   # and must include the remote prefix (before /). For svn, this should always be "trunk".
   defaultBranch: 'develop'
+
+telemetry: false
