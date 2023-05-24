@@ -27,6 +27,6 @@ export function decrypt<T extends Object>(
 	}
 }
 
-export function hash(message: string): string {
+export function hash(message: string = ''): string {
 	return SHA256(message).toString();
 }

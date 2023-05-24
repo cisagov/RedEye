@@ -1,7 +1,7 @@
-//@ts-nocheck
 // TODO: Need to relook at this and see why I needed to add nocheck
 
 import { createParamDecorator } from 'type-graphql';
+import { ParameterDecorator } from 'type-graphql/dist/interfaces/LegacyDecorators';
 import fieldsToRelations from 'graphql-fields-to-relations';
 
 export type Relation<T> = (keyof T)[];
