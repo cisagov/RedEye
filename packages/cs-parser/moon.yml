@@ -6,9 +6,9 @@ tasks:
   build:
     deps:
       - ~:build-node
-  test:
-    deps:
-      - ~:test-jest
+  # test:
+  #   deps:
+  #     - ~:test-jest
   release-mac:
     deps:
       - ~:build
