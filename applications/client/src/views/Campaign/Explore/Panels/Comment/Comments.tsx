@@ -141,7 +141,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	}, [data]);
 
 	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: commentsData, isLoading: isCommentsDataLoading } = useQuery(
+	const { data: commentsData } = useQuery(
 		[
 			'overview-comments-items',
 			store.campaign.id,
@@ -161,6 +161,49 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				true
 			)
 	);
+
+	const { isLoading: isCommentsDataLoading } = useQuery(
+		[
+			'commandGroupsById',
+			'commandGroups',
+			store.campaign.id,
+			store.campaign.commentsList.commandGroupIds,
+			Math.trunc(state.visibleRange.endIndex / pageSize),
+			store.router.params,
+		],
+		async () => {
+			if (store.campaign.commentsList.commandGroupIds.length) {
+				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
+				const start = index * pageSize;
+				const ids = store.campaign.commentsList.commandGroupIds.slice(start, start + pageSize);
+				// query commands as temp solution
+				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
+					{
+						campaignId: store.campaign?.id!,
+						commandGroupIds: ids,
+						hidden: store.settings.showHidden,
+					},
+					commandGroupCommentsQuery // command cache issue?
+				);
+
+				// query commands as temp solution
+				const commandIds = commandGroupsQuery?.commandGroups.flatMap((cg) => cg.commandIds).filter<string>(isDefined);
+				return store.graphqlStore.queryCommands(
+					{
+						campaignId: store.campaign?.id!,
+						commandIds,
+						hidden: store.settings.showHidden,
+					},
+					commandQuery
+				);
+				// query commands as temp solution
+			}
+		},
+		{
+			enabled: !!store.campaign.commentsList.commandGroupIds.length,
+		}
+	);
+
 	useEffect(() => {
 		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
 			const filteredData = commentsData?.presentationItems.find(
