@@ -173,7 +173,7 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const state = createState({
 			editMode: newComment || false,
-			text: annotation?.text || window.localStorage.getItem('savedComments') || '',
+			text: annotation?.text || window.localStorage.getItem('pendingComments') || '',
 			manualLinkName: '',
 			displayName: '',
 			destinationBeacon: undefined as BeaconModel | undefined,
@@ -250,11 +250,11 @@ export const CommentBox = observer<CommentBoxProps>(
 			handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
 				this.text = e.target.value;
 				if (!this.commandGroupId && !!this.editMode) {
-					const currStoredComments = JSON.parse(window.localStorage.getItem('savedComments') || '{}');
-					delete currStoredComments[this.commandIds[0]];
+					const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+					delete pendingComments[this.commandIds[0]];
 					window.localStorage.setItem(
-						'savedComments',
-						JSON.stringify({ ...currStoredComments, [this.commandIds[0]]: e.target.value })
+						'pendingComments',
+						JSON.stringify({ ...pendingComments, [this.commandIds[0]]: e.target.value })
 					);
 				}
 			},
@@ -276,9 +276,9 @@ export const CommentBox = observer<CommentBoxProps>(
 			},
 			cancelAnnotationEdit() {
 				if (!state.commandGroupId && !!state.editMode && state.text[0] === '{') {
-					const currStoredComments = JSON.parse(window.localStorage.getItem('savedComments') || '{}');
-					delete currStoredComments[this.commandIds[0]];
-					window.localStorage.setItem('savedComments', JSON.stringify(currStoredComments));
+					const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+					delete pendingComments[this.commandIds[0]];
+					window.localStorage.setItem('pendingComments', JSON.stringify(pendingComments));
 				}
 				this.text = annotation?.text || '';
 				this.tags.replace(this.defaultTags);
@@ -300,14 +300,13 @@ export const CommentBox = observer<CommentBoxProps>(
 							campaignId,
 							commandIds: this.commandIds,
 							favorite: this.favorite,
-							text: JSON.parse(window.localStorage.getItem('savedComments') || '{}')[this.commandIds[0]],
+							text: JSON.parse(window.localStorage.getItem('pendingComments') || '{}')[this.commandIds[0]],
 							tags: this.tags,
 							user: store.auth.userName!,
 						});
-						// window.localStorage.removeItem('savedComments');
-						const currStoredComments = JSON.parse(window.localStorage.getItem('savedComments') || '{}');
-						delete currStoredComments[this.commandIds[0]];
-						window.localStorage.setItem('savedComments', JSON.stringify(currStoredComments));
+						const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+						delete pendingComments[this.commandIds[0]];
+						window.localStorage.setItem('pendingComments', JSON.stringify(pendingComments));
 					} else if ((this.editMode || update) && annotation) {
 						yield store.graphqlStore.mutateUpdateAnnotation({
 							campaignId,
@@ -464,7 +463,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								fill
 								onChange={state.handleTextChange}
 								value={
-									!state.commandGroupId && !!state.editMode && state.text[0] === '{'
+									!!state.editMode && state.text[0] === '{'
 										? JSON.parse(state.text || '{}')[state.commandIds[0]]
 										: state.text
 								}
