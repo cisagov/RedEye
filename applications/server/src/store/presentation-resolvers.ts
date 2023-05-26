@@ -211,7 +211,6 @@ export class PresentationResolvers {
 		})
 		commentsTabSort: SortTypeCommentsTab = { sortBy: SortOptionCommentsTab.minTime }
 	): Promise<PresentationItem[]> {
-		console.log(forOverviewComments, commentsTabSort);
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const presentationItems: PresentationItem[] = [];
 		const links = await em.find(Link, {}, { populate: false });
