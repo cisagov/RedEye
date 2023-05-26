@@ -594,7 +594,12 @@ export const CommentBox = observer<CommentBoxProps>(
 								intent={Intent.PRIMARY}
 								alignText={Alignment.LEFT}
 								loading={state.loading}
-								disabled={state.loading || !state.text}
+								disabled={
+									state.loading ||
+									!(!!state.editMode && state.text[0] === '{'
+										? JSON.parse(state.text || '{}')[state.commandIds[0]]
+										: state.text)
+								}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
 								rightIcon={<CarbonIcon icon={semanticIcons.addComment} />}
