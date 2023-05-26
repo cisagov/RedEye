@@ -1,33 +1,56 @@
 dependsOn:
   - 'server'
   - 'client'
+
 tasks:
-  open-cy:
-    command: 'concurrently "yarn start:client" "yarn start:server" "yarn moon run redeye-e2e:start-cypress"'
+  start:
     local: true
-    options:
-      runFromWorkspaceRoot: true
-  open-cy-blue:
-    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:start-cypress"'
-    local: true
-    options:
-      runFromWorkspaceRoot: true
+    command:
+      - cypress
+      - open
+      - --config-file
+      - cypress.config.js
     env:
-      SERVER_BLUE_TEAM: 'true'
-  cy-ci-chrome-redteam:
-    local: true
-    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --headed --browser=chrome"'
+      CYPRESS_BASE_URL: http://localhost:3500
     options:
-      runFromWorkspaceRoot: true
-  cy-ci-firefox-redteam:
+      runInCI: false
+
+  run:
     local: true
-    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --browser=firefox --headed --spec **/**/e2e/redteam/**/**/**"'
+    command:
+      - cypress
+      - run
+      - --config-file
+      - cypress.config.js
+    env:
+      CYPRESS_BASE_URL: http://localhost:3500
+    platform: node
     options:
-      runFromWorkspaceRoot: true
-  cy-ci-chrome-blueteam:
+      runInCI: false
+
+  # open-cy:
+  #   command: 'concurrently "yarn start:client" "yarn start:server" "yarn moon run redeye-e2e:start-cypress"'
+  #   local: true
+  #   options:
+  #     runFromWorkspaceRoot: true
+
+  open-cy:
+    command: 'noop'
+    deps:
+      - 'client:start-dev'
+      - 'server:start-dev'
+      - 'redeye-e2e:start'
     local: true
-    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:run-cypress -- --headed --browser=chrome --spec **/**/e2e/blueteam/**/**/**"'
+
+  open-cy-blue:
+    command: 'noop'
+    deps:
+      - 'client:start-dev'
+      - 'server:start-blue'
+      - 'redeye-e2e:start'
     options:
-      runFromWorkspaceRoot: true
+      runDepsInParallel: false
+      cache: false
+    local: true
     env:
       SERVER_BLUE_TEAM: 'true'

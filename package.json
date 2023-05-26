@@ -147,7 +147,7 @@
 		"@vitejs/plugin-react-swc": "^3.3.0",
 		"barrelsby": "^2.3.0",
 		"builder-util": "^23.0.2",
-		"concurrently": "^7.6.0",
+		"concurrently": "^8.0.1",
 		"cross-env": "^7.0.3",
 		"cypress": "^12.13.0",
 		"cypress-map": "^1.19.1",
