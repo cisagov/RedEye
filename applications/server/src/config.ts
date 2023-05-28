@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { boolean, InferType, number, object, string } from 'yup';
+import { boolean, InferType, number, object, string, array } from 'yup';
 import type { cliArgs } from '.';
 /**
  * The only places dotenv should ever be imported is in this file or in the mikro-orm.config.ts.
@@ -20,6 +20,7 @@ export const configDefinition = object({
 	production: boolean().required().default(true),
 	blueTeam: boolean().required().default(true),
 	port: number().positive().integer().required().default(4000),
+	parsers: array(string().required()).default(['cobalt-strike-parser', 'brute-ratel-parser']),
 	// purely informational, this is not used in production for anything
 	clientPort: number().positive().integer().required().default(3500),
 	databaseMode: string<DatabaseMode>().oneOf(Object.values(DatabaseMode)).required().default(DatabaseMode.PRODUCTION),
@@ -55,6 +56,7 @@ const castConfig = (env: EnvironmentObject, cliArgs: cliArgs): ConfigDefinition 
 	if (cliArgs.port) overrides.SERVER_PORT = cliArgs.port;
 	if (cliArgs.redTeam) overrides.SERVER_BLUE_TEAM = false;
 	if (cliArgs.childProcesses) overrides.MAX_PARSER_SUB_PROCESSES = cliArgs.childProcesses;
+	if (cliArgs.password) overrides.AUTHENTICATION_PASSWORD = cliArgs.password;
 
 	return configDefinition.validateSync({
 		...env,

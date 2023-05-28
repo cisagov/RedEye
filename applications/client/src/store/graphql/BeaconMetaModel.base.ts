@@ -30,8 +30,12 @@ export class BeaconMetaModelBase extends Model({
 	ip: prop<string | null>().withSetter(),
 	/** Process Identifier the beacon is running on */
 	pid: prop<number | null>().withSetter(),
+	/** The IP of the host at the time of the metadata line */
+	port: prop<number | null>().withSetter(),
+	/** Process Identifier the beacon is running on */
+	process: prop<string | null>().withSetter(),
 	/** The log line from which the BeaconMeta was extracted */
-	source: prop<Ref<LogEntryModel>>().withSetter(),
+	source: prop<Ref<LogEntryModel> | null>().withSetter(),
 	/** The start time of the beacon */
 	startTime: prop<any | null>().withSetter(),
 	/** The communication type used by the beacon */
@@ -57,6 +61,12 @@ export class BeaconMetaModelSelector extends QueryBuilder {
 	get pid() {
 		return this.__attr(`pid`);
 	}
+	get port() {
+		return this.__attr(`port`);
+	}
+	get process() {
+		return this.__attr(`process`);
+	}
 	get startTime() {
 		return this.__attr(`startTime`);
 	}
@@ -74,4 +84,4 @@ export function selectFromBeaconMeta() {
 	return new BeaconMetaModelSelector();
 }
 
-export const beaconMetaModelPrimitives = selectFromBeaconMeta().endTime.ip.pid.startTime.type.username;
+export const beaconMetaModelPrimitives = selectFromBeaconMeta().endTime.ip.pid.port.process.startTime.type.username;

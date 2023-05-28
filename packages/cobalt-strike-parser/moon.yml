@@ -1,42 +1,31 @@
 dependsOn:
   - 'models'
-  - 'migrations'
-  - 'cobalt-strike-parser'
-  - 'brute-ratel-parser'
 tasks:
   build:
     deps:
       - ~:build-node
-  start-dev:
-    local: true
+  test:
     deps:
-      - ^:build
-      - ~:start-node
-    options:
-      runInCI: false
-      runDepsInParallel: false
+      - ~:test-jest
   release-mac:
     deps:
-      - client:build
       - ~:build
     outputs:
-      - /release/mac/RedEye
+      - /release/mac/parsers/cobalt-strike-parser
     options:
       runInCI: false
   release-linux:
     deps:
-      - client:build
       - ~:build
     outputs:
-      - /release/linux/RedEye
+      - /release/linux/parsers/cobalt-strike-parser
     options:
       runInCI: false
   release-windows:
     deps:
-      - client:build
       - ~:build
     outputs:
-      - /release/windows/RedEye
+      - /release/windows/parsers/cobalt-strike-parser
     options:
       runInCI: false
   release-all:
@@ -46,6 +35,3 @@ tasks:
       - ~:release-windows
     options:
       runInCI: false
-  test:
-    deps:
-      - ~:test-jest

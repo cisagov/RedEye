@@ -33,6 +33,7 @@ export class CampaignModelBase extends Model({
 	lastOpenedBy: prop<Ref<GlobalOperatorModel> | null>().withSetter(),
 	migrationError: prop<boolean>().withSetter(),
 	name: prop<string>().withSetter(),
+	parser: prop<string | null>().withSetter(),
 	parsingStatus: prop<ParsingStatus>().withSetter(),
 	serverCount: prop<number>().withSetter(),
 }) {
@@ -69,6 +70,9 @@ export class CampaignModelSelector extends QueryBuilder {
 	get name() {
 		return this.__attr(`name`);
 	}
+	get parser() {
+		return this.__attr(`parser`);
+	}
 	get parsingStatus() {
 		return this.__attr(`parsingStatus`);
 	}
@@ -98,4 +102,4 @@ export function selectFromCampaign() {
 
 export const campaignModelPrimitives =
 	selectFromCampaign().annotationCount.beaconCount.commandCount.computerCount.firstLogTime.lastLogTime.migrationError
-		.name.parsingStatus.serverCount;
+		.name.parser.parsingStatus.serverCount;

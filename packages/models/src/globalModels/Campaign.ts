@@ -80,6 +80,13 @@ export class Campaign {
 	@Property({ type: 'string' })
 	parsingStatus: ParsingStatus = ParsingStatus.NOT_READY_TO_PARSE;
 
+	@Field(() => String, { nullable: true })
+	@Property({ type: 'string', nullable: true })
+	parser?: string;
+
+	@Property({ type: 'json', nullable: true })
+	parsingPaths?: string | MultiParsingPath[];
+
 	// relationships
 	@Field(() => GlobalOperator, { nullable: true })
 	@ManyToOne(() => GlobalOperator, { nullable: true })
@@ -89,3 +96,5 @@ export class Campaign {
 	@ManyToOne(() => GlobalOperator, { nullable: true })
 	creator?: GlobalOperator;
 }
+
+export type MultiParsingPath = { serverId: string; path: string };

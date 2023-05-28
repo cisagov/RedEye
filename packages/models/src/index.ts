@@ -9,7 +9,7 @@ import { campaignEntities } from './projectModels';
 
 export * from './projectModels';
 export * from './globalModels';
-
+export * from './ParserModels';
 export function getProjectMikroOrmConfig(dbName: string): Options<BetterSqliteDriver> {
 	return {
 		type: 'better-sqlite',

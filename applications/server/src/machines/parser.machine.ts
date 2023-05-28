@@ -7,15 +7,16 @@ import { updateProjectMetadata } from './updateProjectMetadata.service';
 import { exec, execFile } from 'child_process';
 import path from 'path';
 import type { GraphQLContext } from '../types';
+import { parserService } from './parser.service';
 
 type ParserContext = {
-	queuedCampaigns: string[];
-	currentCampaign: string | null;
+	queuedCampaigns: { campaignId: string; parserName: string }[];
+	currentCampaign: { campaignId: string; parserName: string } | null;
 	config: ConfigDefinition;
 	context: GraphQLContext | null;
 };
 
-type Events = { type: 'ADD_CAMPAIGN'; campaignId: string; context: GraphQLContext };
+type Events = { type: 'ADD_CAMPAIGN'; campaignId: string; context: GraphQLContext; parserName: string };
 
 export type SpawnedParsingMachine = ActorRefFrom<typeof parsingMachine>;
 
@@ -92,7 +93,7 @@ export const parsingMachine = createMachine(
 					connectMainDb(ctx).then((orm) =>
 						orm.em.nativeUpdate(
 							Campaign,
-							{ id: nextCampaign },
+							{ id: nextCampaign.campaignId },
 							{
 								parsingStatus: ParsingStatus.PARSING_IN_PROGRESS,
 							}
@@ -111,7 +112,7 @@ export const parsingMachine = createMachine(
 						}
 					)
 				);
-				return { currentCampaign: event.campaignId };
+				return { currentCampaign: { campaignId: event.campaignId, parserName: event.parserName } };
 			}),
 			addCampaignWhileParsing: (ctx, event) => {
 				connectMainDb(ctx).then((orm) =>
@@ -123,22 +124,37 @@ export const parsingMachine = createMachine(
 						}
 					)
 				);
-				ctx.queuedCampaigns.push(event.campaignId);
+				ctx.queuedCampaigns.push({ campaignId: event.campaignId, parserName: event.parserName });
 			},
 			assignContext: actions.assign((_ctx, event) => ({ context: event.context })),
 		},
 		services: {
 			parse: (ctx) => {
-				return invokeParsingScript({
-					projectDatabasePath: getFullCampaignDbPath(ctx.currentCampaign as string, ctx.config.databaseMode),
-					maxProcesses: ctx.config.maxParserSubprocesses,
-					loggingFolderPath: getDatabaseFolderPath(ctx.currentCampaign as string, ctx.config.databaseMode),
-				});
+				if (ctx.currentCampaign?.parserName === 'cobalt-strike-parser') {
+					return invokeParsingScript({
+						projectDatabasePath: getFullCampaignDbPath(
+							ctx.currentCampaign?.campaignId as string,
+							ctx.config.databaseMode
+						),
+						maxProcesses: ctx.config.maxParserSubprocesses,
+						loggingFolderPath: getDatabaseFolderPath(
+							ctx.currentCampaign?.campaignId as string,
+							ctx.config.databaseMode
+						),
+					});
+				} else {
+					return parserService({
+						parserName: ctx.currentCampaign?.parserName as string,
+						projectDatabasePath: getFullCampaignDbPath(
+							ctx.currentCampaign?.campaignId as string,
+							ctx.config.databaseMode
+						),
+					});
+				}
 			},
-
 			findMetadata: (ctx, event) => {
 				const failure = event.type === 'error.platform.(machine).parsing:invocation[0]';
-				return updateProjectMetadata(ctx.currentCampaign as string, ctx.context as GraphQLContext, failure);
+				return updateProjectMetadata(ctx.currentCampaign?.campaignId as string, ctx.context as GraphQLContext, failure);
 			},
 		},
 	}
@@ -164,10 +180,10 @@ const invokeParsingScript = ({ projectDatabasePath, loggingFolderPath, maxProces
 		};
 		try {
 			if (process.pkg) {
-				const baseCommand = path.resolve(getRuntimeDir(), 'parsers', 'cs-parser');
+				const baseCommand = path.resolve(getRuntimeDir(), 'parsers', 'cobalt-strike-parser');
 				execFile(baseCommand, args, execCallBack);
 			} else {
-				exec(`redeye-cs-parser ${args.join(' ')}`, execCallBack);
+				exec(`cobalt-strike-parser ${args.join(' ')}`, execCallBack);
 			}
 		} catch (error) {
 			console.debug('PARSING ERROR: throw in exec', error);

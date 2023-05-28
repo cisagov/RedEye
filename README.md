@@ -37,7 +37,7 @@ _Note: Both Red and Blue Team modes can be started from the same RedEye applicat
 ### Red Team
 The downloaded binary comes in two parts:
 - The `RedEye` application binary
-- The `parsers` folder containing the `cs-parser` Cobalt Strike log parser binary
+- The `parsers` folder containing the `cobalt-strike-parser` Cobalt Strike log parser binary
 
 There are three options to run RedEye in Red Team mode:
 1. Run the downloaded binary, passing in the `--redTeam` and password options:

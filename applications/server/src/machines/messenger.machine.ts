@@ -11,7 +11,12 @@ type MessengerMachineContext = {
 	config: ConfigDefinition;
 };
 
-type MessengerMachineEvents = { type: 'PARSE_CAMPAIGN'; campaignId: string; context: GraphQLContext };
+type MessengerMachineEvents = {
+	type: 'PARSE_CAMPAIGN';
+	campaignId: string;
+	parserName: string;
+	context: GraphQLContext;
+};
 
 export type SpawnedMessengerMachine = ActorRefFrom<typeof messengerMachine>;
 
@@ -51,6 +56,7 @@ export const messengerMachine = createMachine(
 			forwardParseMessage: actions.send(
 				(_ctx, event) => ({
 					type: 'ADD_CAMPAIGN',
+					parserName: event.parserName,
 					campaignId: event.campaignId,
 					context: event.context,
 				}),
