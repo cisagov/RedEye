@@ -4,6 +4,7 @@ import type { Request, Response } from 'express';
 import type { SpawnedMessengerMachine } from './machines/messenger.machine';
 import type { ConfigDefinition } from './config';
 import type { EntityCacheManager } from './cache';
+import { ParserInfo } from '@redeye/models';
 
 export type Orm = MikroORM<BetterSqliteDriver>;
 export type EntityManager = Orm['em'];
@@ -12,6 +13,7 @@ export interface EndpointContext {
 	messengerMachine: SpawnedMessengerMachine;
 	config: ConfigDefinition;
 	cm: EntityCacheManager;
+	parserInfo: { [parserName: string]: ParserInfo };
 }
 
 export interface GraphQLContext extends EndpointContext {

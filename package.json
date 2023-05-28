@@ -8,7 +8,8 @@
 		"packages/**"
 	],
 	"bin": {
-		"redeye-cs-parser": "./packages/cs-parser/dist/index.js"
+		"brute-ratel-parser": "./packages/brute-ratel-parser/dist/index.js",
+		"cobalt-strike-parser": "./packages/cobalt-strike-parser/dist/index.js"
 	},
 	"scripts": {
 		"moon": "$(yarn bin moon)",
@@ -30,10 +31,10 @@
 		"cy:open": "yarn moon run @redeye/e2e:open-cy",
 		"cy:open-blue": "yarn moon run @redeye/e2e:open-cy-blue",
 		"start:blue": "SERVER_BLUE_TEAM=true yarn run start:dev",
-		"release:all": "yarn moon run server:release-all && yarn moon run cs-parser:release-all",
-		"release:mac": "yarn moon run server:release-mac cs-parser:release-mac",
-		"release:linux": "yarn moon run server:release-linux cs-parser:release-linux",
-		"release:windows": "yarn moon run server:release-windows cs-parser:release-windows"
+		"release:all": "yarn moon run server:release-all cobalt-strike-parser:release-all brute-ratel-parser:release-all",
+		"release:mac": "yarn moon run server:release-mac cobalt-strike-parser:release-mac brute-ratel-parser:release-mac",
+		"release:linux": "yarn moon run server:release-linux cobalt-strike-parser:release-linux brute-ratel-parser:release-linux",
+		"release:windows": "yarn moon run server:release-windows cobalt-strike-parser:release-windows brute-ratel-parser:release-windows"
 	},
 	"dependencies": {
 		"@apollo/server": "^4.7.0",
@@ -147,6 +148,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.59.0",
 		"@typescript-eslint/parser": "^5.59.0",
 		"@vitejs/plugin-react-swc": "^3.3.0",
+		"@xstate/cli": "^0.5.0",
 		"barrelsby": "^2.3.0",
 		"builder-util": "^23.0.2",
 		"concurrently": "^7.6.0",

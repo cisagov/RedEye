@@ -11,21 +11,21 @@ tasks:
     deps:
       - ~:build
     outputs:
-      - /release/mac/parsers/cs-parser
+      - /release/mac/parsers/brute-ratel-parser
     options:
       runInCI: false
   release-linux:
     deps:
       - ~:build
     outputs:
-      - /release/linux/parsers/cs-parser
+      - /release/linux/parsers/brute-ratel-parser
     options:
       runInCI: false
   release-windows:
     deps:
       - ~:build
     outputs:
-      - /release/windows/parsers/cs-parser
+      - /release/windows/parsers/brute-ratel-parser
     options:
       runInCI: false
   release-all:

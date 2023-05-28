@@ -9,9 +9,9 @@ const config: Config.InitialOptions = {
 			tsconfig: '<rootDir>/tsconfig.spec.json',
 		},
 	},
-	reporters: ['default', ['jest-junit', { outputName: 'junit.cs-parser.xml' }]],
+	reporters: ['default', ['jest-junit', { outputName: 'junit.cobalt-strike-parser.xml' }]],
 	coverageReporters: ['clover'],
-	coverageDirectory: '../../coverage/packages/cs-parser',
+	coverageDirectory: '../../coverage/packages/cobalt-strike-parser',
 };
 
 export default config;

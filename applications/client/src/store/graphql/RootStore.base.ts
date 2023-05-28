@@ -33,6 +33,8 @@ import {
 	CommandTypeCountModelSelector,
 } from './CommandTypeCountModel';
 import { FileModel, fileModelPrimitives, FileModelSelector } from './FileModel';
+import { FileDisplayModel, fileDisplayModelPrimitives, FileDisplayModelSelector } from './FileDisplayModel';
+import { FileUploadModel, fileUploadModelPrimitives, FileUploadModelSelector } from './FileUploadModel';
 import { GlobalOperatorModel, globalOperatorModelPrimitives, GlobalOperatorModelSelector } from './GlobalOperatorModel';
 import { HostModel, hostModelPrimitives, HostModelSelector } from './HostModel';
 import { HostMetaModel, hostMetaModelPrimitives, HostMetaModelSelector } from './HostMetaModel';
@@ -45,6 +47,7 @@ import {
 	NonHidableEntitiesModelSelector,
 } from './NonHidableEntitiesModel';
 import { OperatorModel, operatorModelPrimitives, OperatorModelSelector } from './OperatorModel';
+import { ParserInfoModel, parserInfoModelPrimitives, ParserInfoModelSelector } from './ParserInfoModel';
 import {
 	ParsingProgressModel,
 	parsingProgressModelPrimitives,
@@ -75,6 +78,7 @@ import {
 	timelineCommandCountTupleModelPrimitives,
 	TimelineCommandCountTupleModelSelector,
 } from './TimelineCommandCountTupleModel';
+import { UploadFormModel, uploadFormModelPrimitives, UploadFormModelSelector } from './UploadFormModel';
 
 import type { BeaconLineType } from './BeaconLineTypeEnum';
 import type { BeaconType } from './BeaconTypeEnum';
@@ -83,12 +87,15 @@ import type { GenerationType } from './GenerationTypeEnum';
 import type { LogType } from './LogTypeEnum';
 import type { MitreTechniques } from './MitreTechniquesEnum';
 import type { ParsingStatus } from './ParsingStatusEnum';
+import type { ServerDelineationTypes } from './ServerDelineationTypesEnum';
 import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
 import type { SortOptionCommentsList } from './SortOptionCommentsListEnum';
 import type { SortOptionCommentsTab } from './SortOptionCommentsTabEnum';
+import type { UploadType } from './UploadTypeEnum';
+import type { ValidationMode } from './ValidationModeEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -138,6 +145,7 @@ type Refs = {
 	links: ObservableMap<string, LinkModel>;
 	logEntries: ObservableMap<string, LogEntryModel>;
 	operators: ObservableMap<string, OperatorModel>;
+	parserInfos: ObservableMap<string, ParserInfoModel>;
 	presentationCommandGroups: ObservableMap<string, PresentationCommandGroupModel>;
 	presentationItems: ObservableMap<string, PresentationItemModel>;
 	servers: ObservableMap<string, ServerModel>;
@@ -169,6 +177,7 @@ export enum RootStoreBaseQueries {
 	queryLogsByBeaconId = 'queryLogsByBeaconId',
 	queryNonHidableEntities = 'queryNonHidableEntities',
 	queryOperators = 'queryOperators',
+	queryParserInfo = 'queryParserInfo',
 	queryParsingProgress = 'queryParsingProgress',
 	queryPresentationItems = 'queryPresentationItems',
 	querySearchAnnotations = 'querySearchAnnotations',
@@ -215,6 +224,8 @@ export class RootStoreBase extends ExtendedModel(
 			['CommandGroup', () => CommandGroupModel],
 			['CommandTypeCount', () => CommandTypeCountModel],
 			['File', () => FileModel],
+			['FileDisplay', () => FileDisplayModel],
+			['FileUpload', () => FileUploadModel],
 			['GlobalOperator', () => GlobalOperatorModel],
 			['Host', () => HostModel],
 			['HostMeta', () => HostMetaModel],
@@ -223,6 +234,7 @@ export class RootStoreBase extends ExtendedModel(
 			['LogEntry', () => LogEntryModel],
 			['NonHidableEntities', () => NonHidableEntitiesModel],
 			['Operator', () => OperatorModel],
+			['ParserInfo', () => ParserInfoModel],
 			['ParsingProgress', () => ParsingProgressModel],
 			['PresentationCommandGroup', () => PresentationCommandGroupModel],
 			['PresentationItem', () => PresentationItemModel],
@@ -233,6 +245,7 @@ export class RootStoreBase extends ExtendedModel(
 			['Timeline', () => TimelineModel],
 			['TimelineBucket', () => TimelineBucketModel],
 			['TimelineCommandCountTuple', () => TimelineCommandCountTupleModel],
+			['UploadForm', () => UploadFormModel],
 		],
 		[
 			'Annotation',
@@ -250,6 +263,7 @@ export class RootStoreBase extends ExtendedModel(
 			'Link',
 			'LogEntry',
 			'Operator',
+			'ParserInfo',
 			'PresentationCommandGroup',
 			'PresentationItem',
 			'Server',
@@ -274,6 +288,7 @@ export class RootStoreBase extends ExtendedModel(
 		links: prop(() => objectMap<LinkModel>()),
 		logEntries: prop(() => objectMap<LogEntryModel>()),
 		operators: prop(() => objectMap<OperatorModel>()),
+		parserInfos: prop(() => objectMap<ParserInfoModel>()),
 		presentationCommandGroups: prop(() => objectMap<PresentationCommandGroupModel>()),
 		presentationItems: prop(() => objectMap<PresentationItemModel>()),
 		servers: prop(() => objectMap<ServerModel>()),
@@ -651,7 +666,7 @@ export class RootStoreBase extends ExtendedModel(
 		);
 	}
 	@modelAction queryNonHidableEntities(
-		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
+		variables: { beaconIds: string[]; campaignId: string; hostIds: string[] },
 		resultSelector:
 			| string
 			| ((
@@ -685,6 +700,23 @@ export class RootStoreBase extends ExtendedModel(
 		return this.query<{ operators: OperatorModel[] }>(
 			`query operators($campaignId: String!, $hidden: Boolean) { operators(campaignId: $campaignId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(OperatorModelSelector).toString() : resultSelector}
+      } }`,
+			variables,
+			options,
+			!!clean
+		);
+	}
+	@modelAction queryParserInfo(
+		variables?: {},
+		resultSelector:
+			| string
+			| ((qb: typeof ParserInfoModelSelector) => typeof ParserInfoModelSelector) = parserInfoModelPrimitives.toString(),
+		options: QueryOptions = {},
+		clean?: boolean
+	) {
+		return this.query<{ parserInfo: ParserInfoModel[] }>(
+			`query parserInfo { parserInfo {
+        ${typeof resultSelector === 'function' ? resultSelector(ParserInfoModelSelector).toString() : resultSelector}
       } }`,
 			variables,
 			options,
@@ -933,14 +965,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Create a new Campaign
 	@modelAction mutateCreateCampaign(
-		variables: { creatorName: string; name: string },
+		variables: { creatorName: string; name: string; parser: string },
 		resultSelector:
 			| string
 			| ((qb: typeof CampaignModelSelector) => typeof CampaignModelSelector) = campaignModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ createCampaign: CampaignModel }>(
-			`mutation createCampaign($creatorName: String!, $name: String!) { createCampaign(creatorName: $creatorName, name: $name) {
+			`mutation createCampaign($creatorName: String!, $name: String!, $parser: String!) { createCampaign(creatorName: $creatorName, name: $name, parser: $parser) {
         ${typeof resultSelector === 'function' ? resultSelector(CampaignModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -1246,6 +1278,8 @@ export const logEntriesRef = appRef<LogEntryModel>(RootStoreBase, 'LogEntry', 'l
 
 export const operatorsRef = appRef<OperatorModel>(RootStoreBase, 'Operator', 'operators');
 
+export const parserInfosRef = appRef<ParserInfoModel>(RootStoreBase, 'ParserInfo', 'parserInfos');
+
 export const presentationCommandGroupsRef = appRef<PresentationCommandGroupModel>(
 	RootStoreBase,
 	'PresentationCommandGroup',
@@ -1280,6 +1314,7 @@ export const rootRefs = {
 	links: linksRef,
 	logEntries: logEntriesRef,
 	operators: operatorsRef,
+	parserInfos: parserInfosRef,
 	presentationCommandGroups: presentationCommandGroupsRef,
 	presentationItems: presentationItemsRef,
 	servers: serversRef,

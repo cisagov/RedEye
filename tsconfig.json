@@ -20,7 +20,10 @@
 			"path": "applications/server"
 		},
 		{
-			"path": "packages/cs-parser"
+			"path": "packages/brute-ratel-parser"
+		},
+		{
+			"path": "packages/cobalt-strike-parser"
 		},
 		{
 			"path": "packages/graph"

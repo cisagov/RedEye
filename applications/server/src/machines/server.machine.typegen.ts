@@ -41,9 +41,9 @@ export interface Typegen0 {
 	};
 	missingImplementations: {
 		actions: never;
-		services: never;
-		guards: never;
 		delays: never;
+		guards: never;
+		services: never;
 	};
 	eventsCausingActions: {
 		assignCacheManager: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
@@ -54,6 +54,10 @@ export interface Typegen0 {
 			| 'error.platform.SERVER_MACHINE.loadDatabase:invocation[0]';
 		spawnMessagingService: 'done.invoke.SERVER_MACHINE.loadDatabase:invocation[0]';
 	};
+	eventsCausingDelays: {};
+	eventsCausingGuards: {
+		isBlueTeam: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
+	};
 	eventsCausingServices: {
 		createCacheService: 'xstate.init';
 		importLocalCampaignsDatabasesService: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
@@ -61,10 +65,6 @@ export interface Typegen0 {
 		startBlueTeamHttpServerService: 'done.invoke.SERVER_MACHINE.moveBlueTeamDatabases:invocation[0]';
 		startHttpServerService: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
 	};
-	eventsCausingGuards: {
-		isBlueTeam: 'done.invoke.SERVER_MACHINE.migrateCampaigns:invocation[0]';
-	};
-	eventsCausingDelays: {};
 	matchesStates:
 		| 'critical_failure'
 		| 'frozen'

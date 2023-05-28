@@ -66,8 +66,14 @@ type BeaconMeta {
   """Process Identifier the beacon is running on"""
   pid: Int
 
+  """The IP of the host at the time of the metadata line"""
+  port: Float
+
+  """Process Identifier the beacon is running on"""
+  process: String
+
   """The log line from which the BeaconMeta was extracted"""
-  source: LogEntry!
+  source: LogEntry
 
   """The start time of the beacon"""
   startTime: DateTime
@@ -99,6 +105,7 @@ type Campaign {
   lastOpenedBy: GlobalOperator
   migrationError: Boolean!
   name: String!
+  parser: String
   parsingStatus: ParsingStatus!
   serverCount: Int!
 }
@@ -149,10 +156,22 @@ type File {
   md5: String
 }
 
+type FileDisplay {
+  description: String!
+  editable: Boolean!
+}
+
 "Designates if this is an upload or download\n    UPLOAD: File was put on or replace on a target host\n    DOWNLOAD: File was taken from a target host\n  "
 enum FileFlag {
   DOWNLOAD
   UPLOAD
+}
+
+type FileUpload {
+  acceptedExtensions: [String!]
+  description: String!
+  type: UploadType!
+  validate: ValidationMode!
 }
 
 input FindReplaceInput {
@@ -186,6 +205,7 @@ type HostMeta {
   id: String!
   ip: String
   os: String
+  osVersion: String
   type: String
 }
 
@@ -272,7 +292,7 @@ type Mutation {
   anonymizeCampaign(anonymizeOptions: AnonymizationInput!, campaignId: String!): String!
 
   """Create a new Campaign"""
-  createCampaign(creatorName: String!, name: String!): Campaign!
+  createCampaign(creatorName: String!, name: String!, parser: String!): Campaign!
 
   """Create a global user"""
   createGlobalOperator(password: String!, username: String!): GlobalOperator
@@ -356,6 +376,14 @@ type Operator {
   logIds: [String!]!
   name: String!
   startTime: DateTime
+}
+
+type ParserInfo {
+  id: String!
+  name: String!
+  serverDelineation: ServerDelineationTypes!
+  uploadForm: UploadForm!
+  version: Float!
 }
 
 type ParsingProgress {
@@ -480,6 +508,7 @@ type Query {
 
   """Get all the operators for a project"""
   operators(campaignId: String!, hidden: Boolean = false): [Operator]
+  parserInfo: [ParserInfo!]!
 
   """Get the current progress of the parser"""
   parsingProgress: ParsingProgress!
@@ -517,6 +546,11 @@ type Server {
   logsCount: Float!
   meta: ServerMeta!
   name: String!
+}
+
+enum ServerDelineationTypes {
+  Database
+  Folder
 }
 
 type ServerMeta {
@@ -659,4 +693,22 @@ type TimelineCommandCountTuple {
 
   """The number of commands run during this time interval"""
   commandCount: Float!
+}
+
+type UploadForm {
+  enabledInBlueTeam: Boolean!
+  fileDisplay: FileDisplay!
+  fileUpload: FileUpload!
+  tabTitle: String!
+}
+
+enum UploadType {
+  Directory
+  File
+}
+
+enum ValidationMode {
+  FileExtensions
+  None
+  Parser
 }

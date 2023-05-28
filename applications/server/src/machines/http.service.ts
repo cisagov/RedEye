@@ -23,6 +23,7 @@ import open from 'open';
 
 // @ts-ignore
 import packageJson from '../../../../package.json';
+import { parserInfo } from './parser.service';
 
 const graphqlPath = '/api/graphql';
 
@@ -87,6 +88,7 @@ const createServer = async ({
 
 	const endpointContext: EndpointContext = {
 		config: ctx.config,
+		parserInfo: await parserInfo(ctx.config.parsers),
 		cm: ctx.cm,
 		messengerMachine: ctx.messagingService,
 	};
