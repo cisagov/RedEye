@@ -6,7 +6,7 @@ import {
 	UploadType,
 	ValidationMode,
 	writeParserMessage,
-} from '@redeye/models';
+} from '@redeye/parser-core';
 
 export const registerInfoCommand = (program: Command) => {
 	const infoCommand = program.command('info');
@@ -27,7 +27,7 @@ const aboutInfo: ParserInfo = {
 		fileUpload: {
 			type: UploadType.Directory,
 			validate: ValidationMode.Parser,
-			description: 'Upload the Brute Ratel log folder containing the autosave.profile',
+			description: 'Upload the Brute Ratel log folder containing an autosave.profile and logs folder',
 		},
 		fileDisplay: {
 			editable: true,

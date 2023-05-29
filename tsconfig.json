@@ -4,6 +4,7 @@
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
+		"moduleResolution": "nodenext",
 		"module": "esnext",
 		"target": "esnext",
 		"baseUrl": "."
@@ -17,12 +18,6 @@
 			"path": "applications/server"
 		},
 		{
-			"path": "packages/brute-ratel-parser"
-		},
-		{
-			"path": "packages/cobalt-strike-parser"
-		},
-		{
 			"path": "packages/graph"
 		},
 		{
@@ -33,6 +28,15 @@
 		},
 		{
 			"path": "packages/ui-styles"
+		},
+		{
+			"path": "parsers/brute-ratel-parser"
+		},
+		{
+			"path": "parsers/cobalt-strike-parser"
+		},
+		{
+			"path": "parsers/parser-core"
 		}
 	]
 }

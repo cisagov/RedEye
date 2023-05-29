@@ -184,7 +184,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 			for (const file of this.files) {
 				campaignBody.append(
 					'file',
-					new File([file.blob], file.webkitRelativePath.replace(/\//g, ':'), {
+					new File([file.blob], file.webkitRelativePath.replace(/\//g, ':').split(':').slice(1).join(':'), {
 						type: file.type,
 					})
 				);

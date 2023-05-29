@@ -5,11 +5,12 @@
 	"private": true,
 	"workspaces": [
 		"applications/**",
-		"packages/**"
+		"packages/**",
+		"parsers/**"
 	],
 	"bin": {
-		"brute-ratel-parser": "./packages/brute-ratel-parser/dist/index.js",
-		"cobalt-strike-parser": "./packages/cobalt-strike-parser/dist/index.js"
+		"brute-ratel-parser": "parsers/brute-ratel-parser/dist/index.js",
+		"cobalt-strike-parser": "parsers/cobalt-strike-parser/dist/index.js"
 	},
 	"scripts": {
 		"moon": "$(yarn bin moon)",

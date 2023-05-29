@@ -8,7 +8,7 @@ export enum LogLevel {
 	debug = 'debug',
 }
 
-type LoggerOptions = {
+export type LoggerOptions = {
 	message: string;
 	tags?: string[];
 	level?: keyof typeof LogLevel;

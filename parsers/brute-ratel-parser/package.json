@@ -1,6 +1,6 @@
 {
-	"name": "@redeye/cobalt-strike-parser",
-	"version": "0.9.0",
+	"name": "@redeye/brute-ratel-parser",
+	"version": "0.1.0",
 	"bin": "./dist/index.js",
 	"pkg": {
 		"assets": [
@@ -13,6 +13,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"@redeye/models": "workspace:*"
+		"@redeye/models": "workspace:*",
+		"@redeye/parser-core": "workspace:*"
 	}
 }
