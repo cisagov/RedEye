@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
-import { ParserMessageTypes, writeParserMessage } from '@redeye/models';
+import { ParserMessageTypes, writeParserMessage } from '@redeye/parser-core';
 
 type ValidateFilesCallbackOptions = {
 	folder: string;

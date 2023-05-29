@@ -1,4 +1,4 @@
-import { BeaconType, File, Image, LogEntry, ServerType } from './projectModels';
+import { BeaconType, File, Image, LogEntry, ServerType } from '@redeye/models';
 
 export interface ParserBeacon {
 	name: string;
@@ -82,7 +82,6 @@ export interface UploadForm {
 		type: UploadType;
 		description: string;
 	} & UploadValidation;
-	// Must return JSON as {[serverName: string]: FileName[]}
 	fileDisplay: {
 		description: string;
 		editable: boolean;
@@ -90,7 +89,7 @@ export interface UploadForm {
 }
 
 /**
- * file-directory is server data seperated into distinct folders
+ * folder is server data seperated into distinct folders
  * database is server data not in any particular file/folder structure
  */
 export enum ServerDelineationTypes {
@@ -101,36 +100,10 @@ export enum ServerDelineationTypes {
 export interface ParserInfo {
 	/** The version of the RedEye parser config that the parser is compatible with */
 	version: number;
+	/** ID for parser, should match the standard name of the binary file or command */
 	id: string;
 	name: string;
 	description?: string;
 	serverDelineation: ServerDelineationTypes;
 	uploadForm: UploadForm;
 }
-
-export enum ParserMessageTypes {
-	Data = '[DATA]',
-	Progress = '[PROGRESS]',
-	Log = '[LOG]',
-	Error = '[ERROR]',
-	Debug = '[DEBUG]',
-	End = '[END]',
-}
-
-export const parserMessagePrefixes = [
-	ParserMessageTypes.Data,
-	ParserMessageTypes.Progress,
-	ParserMessageTypes.Progress,
-	ParserMessageTypes.Error,
-	ParserMessageTypes.Debug,
-];
-
-export const formatParserMessage = (prefix: ParserMessageTypes, message: any) =>
-	`${prefix} ${JSON.stringify(message)}\n`;
-export const writeParserMessage = (prefix: ParserMessageTypes, message: any) =>
-	process.stdout.write(formatParserMessage(prefix, message));
-const messageRegex = /(\[\w+\]) (.*)/;
-export const getParserPrefixAndMessage = (message: string) => {
-	const messageMatch = message.match(messageRegex);
-	return messageMatch ? [messageMatch[1], messageMatch[2]] : [];
-};

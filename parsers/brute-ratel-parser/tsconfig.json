@@ -22,13 +22,18 @@
 		"emitDeclarationOnly": true,
 		"skipLibCheck": true,
 		"paths": {
-			"@redeye/models": ["../models/src/index.ts"],
-			"@redeye/models/*": ["../models/src/*"]
+			"@redeye/models": ["../../packages/models/src/index.ts"],
+			"@redeye/models/*": ["../../packages/models/src/*"],
+			"@redeye/parser-core": ["../parser-core/src/index.ts"],
+			"@redeye/parser-core/*": ["../parser-core/src/*"]
 		}
 	},
 	"references": [
 		{
-			"path": "../models"
+			"path": "../../packages/models"
+		},
+		{
+			"path": "../parser-core"
 		}
 	]
 }

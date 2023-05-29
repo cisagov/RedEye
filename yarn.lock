@@ -2588,11 +2588,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redeye/brute-ratel-parser@workspace:*, @redeye/brute-ratel-parser@workspace:packages/brute-ratel-parser":
+"@redeye/brute-ratel-parser@workspace:*, @redeye/brute-ratel-parser@workspace:parsers/brute-ratel-parser":
   version: 0.0.0-use.local
-  resolution: "@redeye/brute-ratel-parser@workspace:packages/brute-ratel-parser"
+  resolution: "@redeye/brute-ratel-parser@workspace:parsers/brute-ratel-parser"
   dependencies:
     "@redeye/models": "workspace:*"
+    "@redeye/parser-core": "workspace:*"
   bin:
     brute-ratel-parser: ./dist/index.js
   languageName: unknown
@@ -2607,11 +2608,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@redeye/cobalt-strike-parser@workspace:*, @redeye/cobalt-strike-parser@workspace:packages/cobalt-strike-parser":
+"@redeye/cobalt-strike-parser@workspace:*, @redeye/cobalt-strike-parser@workspace:parsers/cobalt-strike-parser":
   version: 0.0.0-use.local
-  resolution: "@redeye/cobalt-strike-parser@workspace:packages/cobalt-strike-parser"
+  resolution: "@redeye/cobalt-strike-parser@workspace:parsers/cobalt-strike-parser"
   dependencies:
     "@redeye/models": "workspace:*"
+    "@redeye/parser-core": "workspace:*"
   bin:
     cobalt-strike-parser: ./dist/index.js
   languageName: unknown
@@ -2643,6 +2645,14 @@ __metadata:
 "@redeye/models@workspace:*, @redeye/models@workspace:packages/models":
   version: 0.0.0-use.local
   resolution: "@redeye/models@workspace:packages/models"
+  languageName: unknown
+  linkType: soft
+
+"@redeye/parser-core@workspace:*, @redeye/parser-core@workspace:parsers/parser-core":
+  version: 0.0.0-use.local
+  resolution: "@redeye/parser-core@workspace:parsers/parser-core"
+  dependencies:
+    "@redeye/models": "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -13402,8 +13412,8 @@ __metadata:
     xstate: 4.31.0
     yup: ^1.0.0-beta.7
   bin:
-    brute-ratel-parser: ./packages/brute-ratel-parser/dist/index.js
-    cobalt-strike-parser: ./packages/cobalt-strike-parser/dist/index.js
+    brute-ratel-parser: parsers/brute-ratel-parser/dist/index.js
+    cobalt-strike-parser: parsers/cobalt-strike-parser/dist/index.js
   languageName: unknown
   linkType: soft
 

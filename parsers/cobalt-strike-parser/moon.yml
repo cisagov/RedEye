@@ -1,5 +1,6 @@
 dependsOn:
   - 'models'
+  - 'parser-core'
 tasks:
   build:
     deps:
@@ -11,21 +12,21 @@ tasks:
     deps:
       - ~:build
     outputs:
-      - /release/mac/parsers/brute-ratel-parser
+      - /release/mac/parsers/cobalt-strike-parser
     options:
       runInCI: false
   release-linux:
     deps:
       - ~:build
     outputs:
-      - /release/linux/parsers/brute-ratel-parser
+      - /release/linux/parsers/cobalt-strike-parser
     options:
       runInCI: false
   release-windows:
     deps:
       - ~:build
     outputs:
-      - /release/windows/parsers/brute-ratel-parser
+      - /release/windows/parsers/cobalt-strike-parser
     options:
       runInCI: false
   release-all:

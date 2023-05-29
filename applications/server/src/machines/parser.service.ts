@@ -3,25 +3,29 @@ import {
 	BeaconMeta,
 	BeaconType,
 	Command,
-	getParserPrefixAndMessage,
+	getProjectMikroOrmConfig,
 	Host,
 	HostMeta,
 	Link,
 	LogEntry,
+	MultiParsingPath,
 	Operator,
-	ParserInfo,
-	ParserMessageTypes,
-	ParserOutput,
 	Server,
 	ServerMeta,
 } from '@redeye/models';
 import * as readline from 'node:readline';
-import { getCampaignOrm } from '@redeye/migrations/dist/db-configs';
 import path from 'path';
 import { getRuntimeDir } from '../util';
-import { createLoggerInstance } from '../logging';
+import {
+	createLoggerInstance,
+	ParserInfo,
+	ParserMessageTypes,
+	ParserOutput,
+	getParserPrefixAndMessage,
+} from '@redeye/parser-core';
 import { exec, execFile, ChildProcess } from 'child_process';
 import { EndpointContext, EntityManager } from '../types';
+import { MikroORM } from '@mikro-orm/core';
 
 async function parsePath(em: EntityManager, path: string, parserName: string) {
 	const created: {
@@ -38,7 +42,6 @@ async function parsePath(em: EntityManager, path: string, parserName: string) {
 	const data = await invokeParser<ParserOutput>(parserName, ['campaign', `-f`, path]);
 	if (data.servers) {
 		for (const parsedServer of Object.values(data.servers)) {
-			console.log(parsedServer);
 			created.servers[parsedServer.name] =
 				(await em.findOne(Server, { name: parsedServer.name })) ||
 				new Server({
@@ -51,7 +54,7 @@ async function parsePath(em: EntityManager, path: string, parserName: string) {
 				host: created.hosts[parsedServer.name],
 				server: created.servers[parsedServer.name],
 			});
-			const serverMeta = new ServerMeta(created.servers[parsedServer.name]);
+			const serverMeta = created.servers[parsedServer.name].meta ?? new ServerMeta(created.servers[parsedServer.name]);
 			serverMeta.type = parsedServer.type ?? serverMeta.type;
 			created.servers[parsedServer.name].meta = serverMeta;
 			em.persist([
@@ -159,16 +162,20 @@ async function parsePath(em: EntityManager, path: string, parserName: string) {
 export async function parserService({
 	projectDatabasePath,
 	parserName,
+	parsingPaths,
 }: {
 	projectDatabasePath: string;
 	parserName: string;
+	parsingPaths: string | MultiParsingPath[];
 }) {
-	const orm = await getCampaignOrm(projectDatabasePath);
+	const orm = await MikroORM.init(getProjectMikroOrmConfig(projectDatabasePath));
 	const em = orm.em.fork();
-	const servers = await em.find(Server, {});
-	const parsingPaths = new Set(servers.map((server) => server.parsingPath));
-	for (const parsingPath of parsingPaths) {
-		await parsePath(em, parsingPath, parserName);
+	if (Array.isArray(parsingPaths)) {
+		for (const parsingPath of parsingPaths) {
+			await parsePath(em, parsingPath.path, parserName);
+		}
+	} else {
+		await parsePath(em, parsingPaths, parserName);
 	}
 }
 

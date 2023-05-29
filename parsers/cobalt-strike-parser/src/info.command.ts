@@ -6,7 +6,7 @@ import {
 	UploadType,
 	ValidationMode,
 	writeParserMessage,
-} from '@redeye/models';
+} from '@redeye/parser-core';
 
 export const registerInfoCommand = (program: Command) => {
 	const infoCommand = program.command('info');

@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { ParserMessageTypes, writeParserMessage } from '@redeye/models';
+import { ParserMessageTypes, writeParserMessage } from '@redeye/parser-core';
 import { parseAutosaveProfile } from './profileParser';
 
 type CommandCallbackOptions = {
@@ -18,17 +18,8 @@ export const registerCampaignCommand = (program: Command) => {
 
 const campaignCommandAction = async (options: CommandCallbackOptions) => {
 	if (options.folder) {
-		const ret = await parseAutosaveProfile(options.folder);
-		writeParserMessage(ParserMessageTypes.Data, JSON.stringify(ret, mapReplacer));
+		writeParserMessage(ParserMessageTypes.Data, await parseAutosaveProfile(options.folder));
 	} else {
 		writeParserMessage(ParserMessageTypes.Error, 'No folder specified');
-	}
-};
-
-const mapReplacer = (_key: string, value: any) => {
-	if (value instanceof Map) {
-		return Object.fromEntries(value.entries());
-	} else {
-		return value;
 	}
 };

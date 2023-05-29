@@ -129,9 +129,9 @@ export const parsingMachine = createMachine(
 			assignContext: actions.assign((_ctx, event) => ({ context: event.context })),
 		},
 		services: {
-			parse: (ctx) => {
+			parse: async (ctx) => {
 				if (ctx.currentCampaign?.parserName === 'cobalt-strike-parser') {
-					return invokeParsingScript({
+					return await invokeParsingScript({
 						projectDatabasePath: getFullCampaignDbPath(
 							ctx.currentCampaign?.campaignId as string,
 							ctx.config.databaseMode
@@ -143,7 +143,10 @@ export const parsingMachine = createMachine(
 						),
 					});
 				} else {
-					return parserService({
+					const mainOrm = await connectMainDb(ctx);
+					const campaign = await mainOrm.em.findOneOrFail(Campaign, { id: ctx.currentCampaign?.campaignId as string });
+					return await parserService({
+						parsingPaths: campaign.parsingPaths!,
 						parserName: ctx.currentCampaign?.parserName as string,
 						projectDatabasePath: getFullCampaignDbPath(
 							ctx.currentCampaign?.campaignId as string,
