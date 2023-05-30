@@ -476,7 +476,7 @@ type Query {
   logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
 
   """"""
-  nonHidableEntities(beaconIds: [String!] = [], campaignId: String!, hostIds: [String!] = []): NonHidableEntities!
+  nonHidableEntities(beaconIds: [String!]! = [], campaignId: String!, hostIds: [String!]! = []): NonHidableEntities!
 
   """Get all the operators for a project"""
   operators(campaignId: String!, hidden: Boolean = false): [Operator]
