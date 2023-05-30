@@ -53,6 +53,9 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 					else if (loginResponse.status !== 200) this.errorMessage = 'Error logging in';
 					else {
 						this.errorMessage = '';
+						if (this.username !== store.auth.userName) {
+							window.localStorage.removeItem('pendingComments');
+						}
 						store.auth.setUser(this.username);
 						store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
 						if (onSubmit) onSubmit(event);
