@@ -92,7 +92,7 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 			});
 		}
 
-		const fileServerStructure = parserInfo[campaign.parser]?.serverDelineation;
+		const fileServerStructure = parserInfo[campaign.parser]?.uploadForm.serverDelineation;
 
 		const logFiles = Array.isArray(req.files.file) ? req.files.file : [req.files.file];
 		const em = await connectToProjectEmOrFail(campaignId, context);

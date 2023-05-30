@@ -5,7 +5,6 @@
 
 import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
-import type { ServerDelineationTypes } from './ServerDelineationTypesEnum';
 import type { UploadFormModel } from './UploadFormModel';
 
 import { UploadFormModelSelector, uploadFormModelPrimitives } from './UploadFormModel';
@@ -18,7 +17,6 @@ export class ParserInfoModelBase extends Model({
 	__typename: tProp('ParserInfo'),
 	id: prop<string>().withSetter(),
 	name: prop<string>().withSetter(),
-	serverDelineation: prop<ServerDelineationTypes>().withSetter(),
 	uploadForm: prop<UploadFormModel>().withSetter(),
 	version: prop<number>().withSetter(),
 }) {
@@ -34,9 +32,6 @@ export class ParserInfoModelSelector extends QueryBuilder {
 	get name() {
 		return this.__attr(`name`);
 	}
-	get serverDelineation() {
-		return this.__attr(`serverDelineation`);
-	}
 	get version() {
 		return this.__attr(`version`);
 	}
@@ -50,4 +45,4 @@ export function selectFromParserInfo() {
 	return new ParserInfoModelSelector();
 }
 
-export const parserInfoModelPrimitives = selectFromParserInfo().name.serverDelineation.version;
+export const parserInfoModelPrimitives = selectFromParserInfo().name.version;

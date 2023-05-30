@@ -78,12 +78,13 @@ type UploadValidation =
 export interface UploadForm {
 	tabTitle: string;
 	enabledInBlueTeam: boolean;
+	serverDelineation: ServerDelineationTypes;
 	fileUpload: {
 		type: UploadType;
 		description: string;
+		example?: string;
 	} & UploadValidation;
 	fileDisplay: {
-		description: string;
 		editable: boolean;
 	};
 }
@@ -104,6 +105,5 @@ export interface ParserInfo {
 	id: string;
 	name: string;
 	description?: string;
-	serverDelineation: ServerDelineationTypes;
 	uploadForm: UploadForm;
 }

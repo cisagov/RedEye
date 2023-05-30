@@ -31,11 +31,11 @@ import {
 	ScrollChild,
 } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { Servers } from '@redeye/client/store';
-import { ParserInfoModel, ServerDelineationTypes, UploadType, useStore, ValidationMode } from '@redeye/client/store';
+import type { Servers, ParserInfoModel } from '@redeye/client/store';
+import { ServerDelineationTypes, UploadType, useStore, ValidationMode } from '@redeye/client/store';
 import type { DirectoryFile, DirectoryInput } from '@redeye/client/types/directory';
 import { Txt } from '@redeye/ui-styles';
-import { action, observable } from 'mobx';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, FormEvent } from 'react';
 
@@ -245,6 +245,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 					<FormGroup
 						label={
 							<Txt tagName="div" large>
+								{/* eslint-disable-next-line react/no-danger */}
 								<span dangerouslySetInnerHTML={{ __html: parserInfo.uploadForm.fileUpload.description }} />
 							</Txt>
 						}
@@ -263,31 +264,35 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 							large
 							fill
 						/>
-						<Button
-							minimal
-							small
-							intent={Intent.PRIMARY}
-							text="Show an example"
-							icon={<CarbonIcon icon={state.showExample ? ChevronDown16 : ChevronRight16} />}
-							onClick={() => state.update('showExample', !state.showExample)}
-							css={css`
-								margin: 2px -0.5rem;
-							`}
-						/>
-						<Collapse isOpen={state.showExample}>
-							<Txt
-								monospace
-								muted
-								tagName="pre"
-								css={css`
-									margin: 0 0.5rem;
-								`}
-								children={state.multiServerUpload ? MultiServerFilesExample : SingleServerFilesExample}
-							/>
-						</Collapse>
+						{parserInfo.uploadForm.fileUpload.example ? (
+							<>
+								<Button
+									minimal
+									small
+									intent={Intent.PRIMARY}
+									text="Show an example"
+									icon={<CarbonIcon icon={state.showExample ? ChevronDown16 : ChevronRight16} />}
+									onClick={() => state.update('showExample', !state.showExample)}
+									css={css`
+										margin: 2px -0.5rem;
+									`}
+								/>
+								<Collapse isOpen={state.showExample}>
+									<Txt
+										monospace
+										muted
+										tagName="pre"
+										css={css`
+											margin: 0 0.5rem;
+										`}
+										children={parserInfo.uploadForm.fileUpload.example}
+									/>
+								</Collapse>
+							</>
+						) : null}
 					</FormGroup>
 
-					<FormGroup label={`Servers`} helperText={state.servers.length > 0 && 'Servers can be renamed before upload'}>
+					<FormGroup label="Servers" helperText={state.servers.length > 0 && 'Servers can be renamed before upload'}>
 						{state.servers.length === 0 && !state.uploadError && (
 							<Txt disabled italic>
 								No servers selected
@@ -314,7 +319,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 									}
 									leftIcon={<CarbonIcon icon={Folder16} />}
 									rightElement={
-										parserInfo.serverDelineation === ServerDelineationTypes.Folder ? (
+										parserInfo.uploadForm.serverDelineation === ServerDelineationTypes.Folder ? (
 											<Txt muted>{server.fileCount} log files</Txt>
 										) : undefined
 									}
@@ -418,26 +423,3 @@ const dialogBodyStyle = css`
 		margin: 0;
 	}
 `;
-
-enum UploadMode {
-	Multi = 'multi',
-	Single = 'single',
-}
-
-const MultiServerFilesExample = `Campaign_Folder
-- Server_Folder_1
-  - 200101
-  - 200102
-  - 200103
-  - ...
-- Server_Folder_2
-  - 200105
-  - 200121
-  - 200131
-  - ...`;
-
-const SingleServerFilesExample = `Server_Folder
-- 200101
-- 200102
-- 200103
-- ...`;

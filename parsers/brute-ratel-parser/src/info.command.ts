@@ -20,8 +20,8 @@ const aboutInfo: ParserInfo = {
 	version: 1,
 	id: 'brute-ratel-parser',
 	name: 'Brute Ratel Parser',
-	serverDelineation: ServerDelineationTypes.Database,
 	uploadForm: {
+		serverDelineation: ServerDelineationTypes.Database,
 		enabledInBlueTeam: false,
 		tabTitle: 'Upload Brute Ratel logs',
 		fileUpload: {
@@ -31,7 +31,6 @@ const aboutInfo: ParserInfo = {
 		},
 		fileDisplay: {
 			editable: true,
-			description: '',
 		},
 	},
 };

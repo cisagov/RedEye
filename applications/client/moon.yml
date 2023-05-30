@@ -17,9 +17,15 @@ tasks:
     command: mk-gql --outDir=./src/store/graphql ../server/schema.graphql
     options:
       runInCI: false
+  lint-graphql:
+    command: 'eslint src/store/graphql --fix'
+    options:
+      runInCI: false
   generate-graphql:
     command: 'prettier --write src/store/graphql/*.ts'
     deps:
       - ~:graphql
+      - ~:lint-graphql
     options:
       runInCI: false
+      runDepsInParallel: false

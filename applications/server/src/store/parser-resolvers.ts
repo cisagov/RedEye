@@ -37,6 +37,9 @@ class FileUpload {
 	@Field(() => ValidationMode)
 	validate!: ValidationMode;
 
+	@Field(() => String, { nullable: true })
+	example?: string;
+
 	@Field(() => [String], { nullable: true })
 	acceptedExtensions?: string[];
 }
@@ -47,9 +50,6 @@ class FileDisplay {
 		Object.assign(this, args);
 	}
 
-	@Field(() => String)
-	description!: string;
-
 	@Field(() => Boolean)
 	editable!: boolean;
 }
@@ -59,6 +59,7 @@ class UploadForm {
 	constructor(args: UploadForm) {
 		this.tabTitle = args.tabTitle;
 		this.enabledInBlueTeam = args.enabledInBlueTeam;
+		this.serverDelineation = args.serverDelineation;
 		this.fileUpload = new FileUpload(args.fileUpload);
 		this.fileDisplay = new FileDisplay(args.fileDisplay);
 	}
@@ -74,16 +75,18 @@ class UploadForm {
 
 	@Field(() => FileDisplay)
 	fileDisplay: FileDisplay;
+
+	@Field(() => ServerDelineationTypes)
+	serverDelineation: ServerDelineationTypes;
 }
 
 @ObjectType('ParserInfo')
 class ParserInfo {
-	constructor({ id, name, version, serverDelineation, uploadForm }: ParserInfo) {
-		this.id = id;
-		this.name = name;
-		this.version = version;
-		this.serverDelineation = serverDelineation;
-		this.uploadForm = new UploadForm(uploadForm);
+	constructor(args: ParserInfo) {
+		this.id = args.id;
+		this.name = args.name;
+		this.version = args.version;
+		this.uploadForm = new UploadForm(args.uploadForm);
 	}
 
 	@Field(() => String)
@@ -97,7 +100,4 @@ class ParserInfo {
 
 	@Field(() => Number)
 	version: number;
-
-	@Field(() => ServerDelineationTypes)
-	serverDelineation: ServerDelineationTypes;
 }

@@ -12,14 +12,10 @@ import { QueryBuilder } from 'mk-gql';
  */
 export class FileDisplayModelBase extends Model({
 	__typename: tProp('FileDisplay'),
-	description: prop<string>().withSetter(),
 	editable: prop<boolean>().withSetter(),
 }) {}
 
 export class FileDisplayModelSelector extends QueryBuilder {
-	get description() {
-		return this.__attr(`description`);
-	}
 	get editable() {
 		return this.__attr(`editable`);
 	}
@@ -28,4 +24,4 @@ export function selectFromFileDisplay() {
 	return new FileDisplayModelSelector();
 }
 
-export const fileDisplayModelPrimitives = selectFromFileDisplay().description.editable;
+export const fileDisplayModelPrimitives = selectFromFileDisplay().editable;

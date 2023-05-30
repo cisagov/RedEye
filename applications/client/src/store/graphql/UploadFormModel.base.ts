@@ -7,6 +7,7 @@ import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
 import type { FileDisplayModel } from './FileDisplayModel';
 import type { FileUploadModel } from './FileUploadModel';
+import type { ServerDelineationTypes } from './ServerDelineationTypesEnum';
 
 import { FileDisplayModelSelector, fileDisplayModelPrimitives } from './FileDisplayModel';
 import { FileUploadModelSelector, fileUploadModelPrimitives } from './FileUploadModel';
@@ -20,12 +21,16 @@ export class UploadFormModelBase extends Model({
 	enabledInBlueTeam: prop<boolean>().withSetter(),
 	fileDisplay: prop<FileDisplayModel>().withSetter(),
 	fileUpload: prop<FileUploadModel>().withSetter(),
+	serverDelineation: prop<ServerDelineationTypes>().withSetter(),
 	tabTitle: prop<string>().withSetter(),
 }) {}
 
 export class UploadFormModelSelector extends QueryBuilder {
 	get enabledInBlueTeam() {
 		return this.__attr(`enabledInBlueTeam`);
+	}
+	get serverDelineation() {
+		return this.__attr(`serverDelineation`);
 	}
 	get tabTitle() {
 		return this.__attr(`tabTitle`);
@@ -45,4 +50,4 @@ export function selectFromUploadForm() {
 	return new UploadFormModelSelector();
 }
 
-export const uploadFormModelPrimitives = selectFromUploadForm().enabledInBlueTeam.tabTitle;
+export const uploadFormModelPrimitives = selectFromUploadForm().enabledInBlueTeam.serverDelineation.tabTitle;
