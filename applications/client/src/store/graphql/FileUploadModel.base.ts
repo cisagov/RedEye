@@ -16,6 +16,7 @@ export class FileUploadModelBase extends Model({
 	__typename: tProp('FileUpload'),
 	acceptedExtensions: prop<string[] | null>().withSetter(),
 	description: prop<string>().withSetter(),
+	example: prop<string | null>().withSetter(),
 	type: prop<UploadType>().withSetter(),
 	validate: prop<ValidationMode>().withSetter(),
 }) {}
@@ -26,6 +27,9 @@ export class FileUploadModelSelector extends QueryBuilder {
 	}
 	get description() {
 		return this.__attr(`description`);
+	}
+	get example() {
+		return this.__attr(`example`);
 	}
 	get type() {
 		return this.__attr(`type`);
@@ -38,4 +42,4 @@ export function selectFromFileUpload() {
 	return new FileUploadModelSelector();
 }
 
-export const fileUploadModelPrimitives = selectFromFileUpload().acceptedExtensions.description.type.validate;
+export const fileUploadModelPrimitives = selectFromFileUpload().acceptedExtensions.description.example.type.validate;

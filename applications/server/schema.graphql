@@ -157,7 +157,6 @@ type File {
 }
 
 type FileDisplay {
-  description: String!
   editable: Boolean!
 }
 
@@ -170,6 +169,7 @@ enum FileFlag {
 type FileUpload {
   acceptedExtensions: [String!]
   description: String!
+  example: String
   type: UploadType!
   validate: ValidationMode!
 }
@@ -381,7 +381,6 @@ type Operator {
 type ParserInfo {
   id: String!
   name: String!
-  serverDelineation: ServerDelineationTypes!
   uploadForm: UploadForm!
   version: Float!
 }
@@ -699,6 +698,7 @@ type UploadForm {
   enabledInBlueTeam: Boolean!
   fileDisplay: FileDisplay!
   fileUpload: FileUpload!
+  serverDelineation: ServerDelineationTypes!
   tabTitle: String!
 }
 
