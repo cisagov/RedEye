@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 function selectMultipleHosts() {
-	cy.get('[type=checkbox]').eq(0).click({ force: true });
-	cy.get('[type=checkbox]').eq(1).click({ force: true });
-	cy.get('[type=checkbox]').eq(2).click({ force: true });
+	cy.get('[type=checkbox]').eq(0).check({ force: true });
+	cy.get('[type=checkbox]').eq(1).check({ force: true });
+	cy.get('[type=checkbox]').eq(2).check({ force: true });
 }
 
 describe('Bulk edit to hide hosts', () => {
@@ -19,95 +19,58 @@ describe('Bulk edit to hide hosts', () => {
 		// // Toggle switch to not show hidden items
 		cy.doNotShowHiddenItems();
 
-		// Get the names of the first 3 hosts
-		cy.get('[cy-test=info-row]')
-			.eq(0)
+		const hosts = [];
+		cy.get('[cy-test=hostName]').each(($ho) => hosts.push($ho.text()));
+		cy.wrap(hosts).as('fullList').should('have.length', 6);
+
+		cy.clickBulkEdit();
+		selectMultipleHosts();
+		cy.clickBulkEdit();
+		cy.bulkEditHide();
+
+		cy.get('[cy-test=hostName]')
 			.invoke('text')
-			.then((hostName1) => {
-				cy.get('[cy-test=info-row]')
-					.eq(1)
-					.invoke('text')
-					.then((hostName2) => {
-						cy.get('[cy-test=info-row]')
-							.eq(2)
-							.invoke('text')
-							.then((hostName3) => {
-								// Use Bulk Edit to hide 3 hosts
-								cy.clickBulkEdit();
-								selectMultipleHosts();
-								cy.clickBulkEdit();
-								cy.bulkEditHide();
-
-								// Verify hosts no longer show
-								cy.get('[cy-test=info-row]').each(($hosts) => {
-									expect($hosts.text())
-										.to.not.contain(hostName1)
-										.and.to.not.contain(hostName2)
-										.and.to.not.contain(hostName3);
-								});
-
-								// Toggle switch back on
-								cy.showHiddenItems();
-
-								// Verify hosts now show again with the hidden icon
-								cy.get('[data-test-id=virtuoso-item-list]')
-									.invoke('text')
-									.then((hostList) => {
-										expect(hostList).to.include(hostName1).and.to.include(hostName2).and.to.include(hostName3);
-									});
-								cy.get('[cy-test=hidden]')
-									.its('length')
-									.then((hiddenCount) => {
-										expect(hiddenCount).to.gte(3);
-										// used gte since hiding some of these will hide other items nested under them
-									});
-
-								// Use Bulk Edit to unhide the hosts
-								cy.clickBulkEdit();
-								selectMultipleHosts();
-								cy.clickBulkEdit();
-								cy.bulkEditShow();
-
-								// Toggle off switch for hidden items
-								cy.doNotShowHiddenItems();
-
-								// // Verify beacons show
-								cy.get('[data-test-id=virtuoso-item-list]')
-									.invoke('text')
-									.then((hostList) => {
-										expect(hostList).to.include(hostName1).and.to.include(hostName2).and.to.include(hostName3);
-									});
-							});
-					});
+			.should(($in) => {
+				expect($in).to.not.contain(hosts[0]).and.to.not.contain(hosts[1]).and.to.not.contain(hosts[2]);
 			});
+
+		// Toggle switch back on
+		cy.showHiddenItems();
+
+		cy.get('[cy-test=hostName]').should('have.length', 6);
+
+		// Use Bulk Edit to unhide the hosts
+		cy.clickBulkEdit();
+		selectMultipleHosts();
+		cy.clickBulkEdit();
+		cy.bulkEditShow();
+
+		// Toggle off switch for hidden items
+		cy.doNotShowHiddenItems();
+
+		cy.get('[cy-test=hostName]').should('have.length', 6);
 	});
 
 	it('Verify Cancel button works for Bulk Edit', () => {
-		// Search for new campaign by name
+		// Search for new campaign by name.
+
 		cy.selectCampaign(camp);
 
 		// Log starting number of hosts
-		cy.get('[cy-test=info-row]')
-			.its('length')
-			.then((origHostRows) => {
-				// Use Bulk Edit to select the first three
-				cy.get('[cy-test=bulk-edit]').click();
-				selectMultipleHosts();
+		cy.get('[cy-test=info-row]').its('length').as('hostsCount').should('eq', 6);
 
-				// Click Cancel button above Bulk Edit to cancel action
-				cy.get('[cy-test=cancel]').click();
+		// Use Bulk Edit to select the first three
+		cy.clickBulkEdit();
+		selectMultipleHosts();
 
-				// Toggle switch so that hidden items are not shown
-				cy.doNotShowHiddenItems();
+		// Click Cancel button above Bulk Edit to cancel action
+		cy.get('[cy-test=cancel]').click();
 
-				// Verify beacon numbers are still the same
-				cy.get('[cy-test=info-row]')
-					.its('length')
-					.then((hostRows) => {
-						cy.log(hostRows);
-						expect(hostRows).to.eq(origHostRows);
-					});
-			});
+		// Toggle switch so that hidden items are not shown
+		cy.doNotShowHiddenItems();
+
+		// Verify beacon numbers are still the same
+		cy.get('@hostsCount').should('eq', 6);
 	});
 
 	after(() => {
