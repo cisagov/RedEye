@@ -56,7 +56,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign?.interactionState.selectedOperator?.id,
 			store.campaign?.interactionState.selectedCommandType?.id,
 			sort,
-			store.router.params,
+			store.router.params.currentItem,
+			store.router.params.currentItemId,
 		],
 		async () =>
 			await store.graphqlStore.queryCommandGroupIds({
@@ -81,7 +82,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign.id,
 			data?.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
-			store.router.params,
+			store.router.params.currentItem,
+			store.router.params.currentItemId,
 		],
 		async () => {
 			if (data?.commandGroupIds?.length) {
@@ -116,30 +118,6 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	);
 
-	useEffect(() => {
-		if (store.campaign?.commentStore.scrollToComment) {
-			state.update(
-				'scrollToIndex',
-				Object.values(store.graphqlStore.commandGroups?.items).findIndex(
-					(commandGroup) => commandGroup.id === store.campaign?.commentStore.scrollToComment
-				)
-			);
-			if (state.scrollToIndex !== -1) {
-				setTimeout(() => {
-					listRef?.current?.scrollToIndex({
-						index: state.scrollToIndex!,
-						align: 'start',
-						behavior: 'smooth',
-					});
-					setTimeout(() => {
-						state.update('scrollToIndex', undefined);
-						store.campaign.commentStore.setScrollToComment(undefined);
-					}, 1000);
-				}, 250);
-			}
-		}
-	}, [data]);
-
 	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
 	const { data: commentsData } = useQuery(
 		[
@@ -169,7 +147,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign.id,
 			store.campaign.commentsList.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
-			store.router.params,
+			store.router.params.currentItem,
+			store.router.params.currentItemId,
 		],
 		async () => {
 			if (store.campaign.commentsList.commandGroupIds.length) {
@@ -215,21 +194,41 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	}, [store.campaign.commentsList.commandGroupIds, store.router.params.currentItem, store.router.params.currentItemId]);
 
+	useEffect(() => {
+		if (store.campaign?.commentStore.scrollToComment) {
+			state.update(
+				'scrollToIndex',
+				Object.values(store.graphqlStore.commandGroups?.items).findIndex(
+					(commandGroup) => commandGroup.id === store.campaign?.commentStore.scrollToComment
+				)
+			);
+			if (state.scrollToIndex !== -1) {
+				setTimeout(() => {
+					listRef?.current?.scrollToIndex({
+						index: state.scrollToIndex!,
+						align: 'start',
+						behavior: 'smooth',
+					});
+					setTimeout(() => {
+						state.update('scrollToIndex', undefined);
+						store.campaign.commentStore.setScrollToComment(undefined);
+					}, 1000);
+				}, 250);
+			}
+		}
+	}, [data, commentsData]);
+
 	return (
 		<VirtualizedList
 			rangeChanged={(visibleRange) => state.update('visibleRange', visibleRange)}
 			listRef={listRef}
 			cy-test="comments-view"
 		>
-			{data?.commandGroupIds.length === 0 ? (
-				<MessageRow>No comments</MessageRow>
-			) : isLoading ? (
-				<ProgressBar intent={Intent.PRIMARY} />
-			) : store.router.params.currentItem === 'comments_list' ? (
-				store.campaign.commentsList.commandGroupIds.length === 0 ? (
-					<MessageRow>No comments</MessageRow>
-				) : isCommentsDataLoading ? (
+			{store.router.params.currentItem === 'comments_list' ? (
+				isCommentsDataLoading ? (
 					<ProgressBar intent={Intent.PRIMARY} />
+				) : store.campaign.commentsList.commandGroupIds.length === 0 ? (
+					<MessageRow>No comments</MessageRow>
 				) : (
 					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
 						<CommentGroup
@@ -243,6 +242,10 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						/>
 					))
 				)
+			) : isLoading ? (
+				<ProgressBar intent={Intent.PRIMARY} />
+			) : data?.commandGroupIds.length === 0 ? (
+				<MessageRow>No comments</MessageRow>
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup

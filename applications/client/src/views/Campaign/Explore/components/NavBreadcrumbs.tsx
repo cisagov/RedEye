@@ -66,6 +66,8 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 									tab: Tabs.COMMENTS_LIST,
 									currentItem: 'all',
 									currentItemId: undefined,
+									activeItem: undefined,
+									activeItemId: undefined,
 								},
 							});
 						},
