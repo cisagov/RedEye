@@ -62,8 +62,7 @@ describe('Bulk edit to hide hosts', () => {
 	});
 
 	it('Verify Cancel button works for Bulk Edit', () => {
-		// Search for new campaign by name.
-
+		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
 		// Log starting number of hosts
