@@ -19,15 +19,18 @@ describe('Bulk edit to hide hosts', () => {
 		// // Toggle switch to not show hidden items
 		cy.doNotShowHiddenItems();
 
+		// Get host names and create array
 		const hosts = [];
 		cy.get('[cy-test=hostName]').each(($ho) => hosts.push($ho.text()));
 		cy.wrap(hosts).as('fullList').should('have.length', 6);
 
+		// Use Bulk Edit to hide 3 hosts
 		cy.clickBulkEdit();
 		selectMultipleHosts();
 		cy.clickBulkEdit();
 		cy.bulkEditHide();
 
+		// Verify hosts no longer show
 		cy.get('[cy-test=hostName]')
 			.invoke('text')
 			.should(($in) => {
@@ -37,7 +40,13 @@ describe('Bulk edit to hide hosts', () => {
 		// Toggle switch back on
 		cy.showHiddenItems();
 
+		// Verify hosts show again with the hidden icon
 		cy.get('[cy-test=hostName]').should('have.length', 6);
+		cy.get('[cy-test=hidden]')
+			.its('length')
+			.then((hiddenCount) => {
+				expect(hiddenCount).to.be.gte(3);
+			});
 
 		// Use Bulk Edit to unhide the hosts
 		cy.clickBulkEdit();
@@ -48,6 +57,7 @@ describe('Bulk edit to hide hosts', () => {
 		// Toggle off switch for hidden items
 		cy.doNotShowHiddenItems();
 
+		// Verify hosts show
 		cy.get('[cy-test=hostName]').should('have.length', 6);
 	});
 
@@ -69,7 +79,7 @@ describe('Bulk edit to hide hosts', () => {
 		// Toggle switch so that hidden items are not shown
 		cy.doNotShowHiddenItems();
 
-		// Verify beacon numbers are still the same
+		// Verify host numbers are still the same
 		cy.get('@hostsCount').should('eq', 6);
 	});
 
