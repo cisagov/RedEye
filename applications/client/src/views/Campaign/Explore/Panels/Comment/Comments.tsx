@@ -225,10 +225,10 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			cy-test="comments-view"
 		>
 			{store.router.params.currentItem === 'comments_list' ? (
-				isCommentsDataLoading ? (
-					<ProgressBar intent={Intent.PRIMARY} />
-				) : store.campaign.commentsList.commandGroupIds.length === 0 ? (
+				store.campaign.commentsList.commandGroupIds.length === 0 ? (
 					<MessageRow>No comments</MessageRow>
+				) : isCommentsDataLoading ? (
+					<ProgressBar intent={Intent.PRIMARY} />
 				) : (
 					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
 						<CommentGroup
@@ -242,10 +242,10 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						/>
 					))
 				)
-			) : isLoading ? (
-				<ProgressBar intent={Intent.PRIMARY} />
 			) : data?.commandGroupIds.length === 0 ? (
 				<MessageRow>No comments</MessageRow>
+			) : isLoading ? (
+				<ProgressBar intent={Intent.PRIMARY} />
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
