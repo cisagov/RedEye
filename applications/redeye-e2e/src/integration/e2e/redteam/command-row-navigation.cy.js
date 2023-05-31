@@ -59,6 +59,7 @@ describe('Command row navigation', () => {
 			.then((hostName1) => {
 				// Click Comments tab
 				cy.clickCommentsTab();
+				cy.viewAllComments();
 
 				// Expand comment details, log details, and click on Host name
 				cy.get('[cy-test=expand]').eq(0).click();

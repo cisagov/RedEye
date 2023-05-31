@@ -15,6 +15,8 @@ describe('Username shows on comments when appropriate', () => {
 
 		cy.clickCommentsTab();
 
+		cy.viewAllComments();
+
 		cy.favoriteComment(0);
 
 		// Verify username does not show anywhere in the comment box info
@@ -31,7 +33,7 @@ describe('Username shows on comments when appropriate', () => {
 
 		// Find an existing comment and edit it
 		cy.selectHostByName('COMPUTER03');
-		cy.clickCommentsTab();
+		cy.clickCommentsTabWithinTab();
 		cy.editExistingComment(0, 'Edited comment');
 
 		// Verify username shows in the comment box info
