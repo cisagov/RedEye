@@ -13,7 +13,7 @@ describe('Privilege Escalation Tag', () => {
 		// Open campaign and log current number of Privilege Escalation tags
 		cy.selectCampaign(camp);
 		cy.clickPresentationMode();
-		cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+		cy.get('[cy-test=tag-PrivilegeEscalation] [cy-test=count]')
 			.invoke('text')
 			.as('PETagCount')
 			.then((resultPECount1) => {
@@ -24,7 +24,7 @@ describe('Privilege Escalation Tag', () => {
 
 				cy.selectCommandType(cmd);
 
-				cy.get('[cy-test=PrivilegeEscalation]').should('not.exist');
+				cy.privilegeEscalationIcon().should('not.exist');
 
 				// Add a comment and use the existing Privilege Escalation tag
 				cy.addComment(0, comment);
@@ -32,7 +32,7 @@ describe('Privilege Escalation Tag', () => {
 				cy.addExistingTags(partialTag);
 
 				// Verify the Privilege Escalation icon is now there
-				cy.get('[cy-test=PrivilegeEscalation]').should('be.visible');
+				cy.privilegeEscalationIcon().should('be.visible');
 
 				// Log new number of Privilege Escalation comments and compare to original count
 				cy.clickPresentationMode();
@@ -40,7 +40,7 @@ describe('Privilege Escalation Tag', () => {
 				cy.get('@PETagCount').then((resultPECount2) => {
 					expect(+resultPECount2).to.equal(+resultPECount1 + +'1');
 
-					cy.get('[cy-test=PrivilegeEscalation]').should('have.length', 1);
+					cy.get('[cy-test=tag-PrivilegeEscalation]').should('have.length', 1);
 				});
 			});
 	});

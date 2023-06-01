@@ -125,6 +125,7 @@ export const ControlBar = observer<ControlBarProps>(
 						/>
 					) : (
 						<Button
+							cy-test="cancel"
 							alignText={Alignment.LEFT}
 							onClick={() => store.campaign?.commentStore.setGroupSelect(false)}
 							minimal
@@ -136,6 +137,7 @@ export const ControlBar = observer<ControlBarProps>(
 					!store.appMeta.blueTeam &&
 					(!store.campaign?.hostGroupSelect.groupSelect ? (
 						<Button
+							cy-test="bulk-edit"
 							icon={<CarbonIcon icon={Edit16} />}
 							alignText={Alignment.LEFT}
 							intent={Intent.PRIMARY}
@@ -154,6 +156,7 @@ export const ControlBar = observer<ControlBarProps>(
 						/>
 					) : (
 						<Button
+							cy-test="cancel"
 							alignText={Alignment.LEFT}
 							onClick={() => {
 								store.campaign?.setHostGroupSelect({
@@ -173,6 +176,7 @@ export const ControlBar = observer<ControlBarProps>(
 					!store.appMeta.blueTeam &&
 					(!store.campaign?.beaconGroupSelect.groupSelect ? (
 						<Button
+							cy-test="bulk-edit"
 							icon={<CarbonIcon icon={Edit16} />}
 							alignText={Alignment.LEFT}
 							intent={Intent.PRIMARY}
@@ -190,6 +194,7 @@ export const ControlBar = observer<ControlBarProps>(
 						/>
 					) : (
 						<Button
+							cy-test="cancel"
 							alignText={Alignment.LEFT}
 							onClick={() => {
 								store.campaign?.setBeaconGroupSelect({

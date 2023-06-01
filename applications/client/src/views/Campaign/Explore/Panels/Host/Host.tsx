@@ -168,7 +168,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				</Txt>
 			</RowTitle>
 			<FlexSplitter />
-			{host?.hidden && <IconLabel title="Hidden" icon={ViewOff16} />}
+			{host?.hidden && <IconLabel cy-test="hidden" title="Hidden" icon={ViewOff16} />}
 			{!host.cobaltStrikeServer && (
 				<>
 					<IconLabel

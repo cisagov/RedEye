@@ -94,6 +94,8 @@ import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
 import type { UploadType } from './UploadTypeEnum';
 import type { ValidationMode } from './ValidationModeEnum';
+import type { SortOptionCommentsList } from './SortOptionCommentsListEnum';
+import type { SortOptionCommentsTab } from './SortOptionCommentsTabEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -116,6 +118,14 @@ export type SortType = {
 export type SortTypeComments = {
 	direction?: SortDirection;
 	sortBy?: SortOptionComments;
+};
+export type SortTypeCommentsList = {
+	direction?: SortDirection;
+	sortBy?: SortOptionCommentsList;
+};
+export type SortTypeCommentsTab = {
+	direction?: SortDirection;
+	sortBy?: SortOptionCommentsTab;
 };
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 
@@ -739,7 +749,13 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get categories for presentation mode
 	@modelAction queryPresentationItems(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: {
+			campaignId: string;
+			commentsTabSort?: SortTypeCommentsTab;
+			forOverviewComments?: boolean;
+			hidden?: boolean;
+			listSort?: SortTypeCommentsList;
+		},
 		resultSelector:
 			| string
 			| ((
@@ -749,7 +765,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $hidden: Boolean) { presentationItems(campaignId: $campaignId, hidden: $hidden) {
+			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()

@@ -15,7 +15,7 @@ describe('Golden Ticket', () => {
 
 		cy.clickPresentationMode();
 
-		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=tag-GoldenTicket] [cy-test=count]')
 			.invoke('text')
 			.as('GTTagCount')
 			.then((resultGTCount1) => {
@@ -26,7 +26,7 @@ describe('Golden Ticket', () => {
 
 				cy.selectCommandType(cmd);
 
-				cy.get('[cy-test=golden-ticket-icon]').should('not.exist');
+				cy.goldenTicketIcon().should('not.exist');
 
 				// Add a comment and use the existing Golden Ticket tag
 				cy.addComment(0, comment);
@@ -34,7 +34,7 @@ describe('Golden Ticket', () => {
 				cy.addExistingTags(partialTag);
 
 				// Verify the Golden Ticket icon is now there
-				cy.get('[cy-test=golden-ticket-icon]').should('be.visible');
+				cy.goldenTicketIcon().should('be.visible');
 
 				// Log new number of Golden Ticket comments and compare to original count; verify GT only appears once in list
 				cy.clickPresentationMode();
@@ -42,7 +42,7 @@ describe('Golden Ticket', () => {
 				cy.get('@GTTagCount').then((resultGTCount2) => {
 					expect(+resultGTCount2).to.equal(+resultGTCount1 + +'1');
 
-					cy.get('[cy-test=GoldenTicket]').should('have.length', 1);
+					cy.get('[cy-test=tag-GoldenTicket]').should('have.length', 1);
 				});
 			});
 	});

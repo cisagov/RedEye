@@ -15,7 +15,7 @@ describe('Lateral Movement', () => {
 
 		cy.clickPresentationMode();
 
-		cy.get('[cy-test=LateralMovement] [cy-test=count]')
+		cy.get('[cy-test=tag-LateralMovement] [cy-test=count]')
 			.invoke('text')
 			.as('LMTagCount')
 			.then((resultLMCount1) => {
@@ -26,7 +26,7 @@ describe('Lateral Movement', () => {
 
 				cy.selectCommandType(cmd);
 
-				cy.get('[cy-test=LateralMovement]').should('not.exist');
+				cy.lateralMovementIcon().should('not.exist');
 
 				// Add a comment and use the existing Lateral Movement tag
 				cy.addComment(0, comment);
@@ -34,7 +34,7 @@ describe('Lateral Movement', () => {
 				cy.addExistingTags(partialTag);
 
 				// Verify the Lateral Movement icon is now there
-				cy.get('[cy-test=LateralMovement]').should('be.visible');
+				cy.lateralMovementIcon().should('be.visible');
 
 				// Log new number of Lateral Movement comments and compare to original count; verify LM only appears once in list
 				cy.clickPresentationMode();
@@ -42,7 +42,7 @@ describe('Lateral Movement', () => {
 				cy.get('@LMTagCount').then((resultLMCount2) => {
 					expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
 
-					cy.get('[cy-test=LateralMovement]').should('have.length', 1);
+					cy.get('[cy-test=tag-LateralMovement]').should('have.length', 1);
 				});
 			});
 	});

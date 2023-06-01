@@ -12,7 +12,7 @@ describe('Expand/collapse explorer panel', () => {
 		// Verify explorer panel is expanded by default when opening a campaign
 		cy.get('[cy-test=hosts]').should('be.visible');
 		cy.get('[cy-test=operators]').should('be.visible');
-		cy.get('[cy-test=comments]').should('be.visible');
+		cy.get('[cy-test=comments_list]').should('be.visible');
 		cy.get('[cy-test=beacons]').should('be.visible');
 		cy.get('[cy-test=command-overview]').should('be.visible');
 
@@ -20,7 +20,7 @@ describe('Expand/collapse explorer panel', () => {
 		cy.get('[cy-test=collapse-panel]').click();
 		cy.get('[cy-test=hosts]').should('not.be.visible');
 		cy.get('[cy-test=operators]').should('not.be.visible');
-		cy.get('[cy-test=comments]').should('not.be.visible');
+		cy.get('[cy-test=comments_list]').should('not.be.visible');
 		cy.get('[cy-test=beacons]').should('not.be.visible');
 		cy.get('[cy-test=command-overview]').should('not.be.visible');
 
@@ -28,7 +28,7 @@ describe('Expand/collapse explorer panel', () => {
 		cy.get('[cy-test=expand-panel]').eq(0).click();
 		cy.get('[cy-test=hosts]').should('be.visible');
 		cy.get('[cy-test=operators]').should('be.visible');
-		cy.get('[cy-test=comments]').should('be.visible');
+		cy.get('[cy-test=comments_list]').should('be.visible');
 		cy.get('[cy-test=beacons]').should('be.visible');
 		cy.get('[cy-test=command-overview]').should('be.visible');
 	});
