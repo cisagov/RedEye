@@ -4,7 +4,7 @@ import type { Request, Response } from 'express';
 import type { SpawnedMessengerMachine } from './machines/messenger.machine';
 import type { ConfigDefinition } from './config';
 import type { EntityCacheManager } from './cache';
-import { ParserInfo } from '@redeye/models';
+import { ParserInfo } from '@redeye/parser-core';
 
 export type Orm = MikroORM<BetterSqliteDriver>;
 export type EntityManager = Orm['em'];
