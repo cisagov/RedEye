@@ -666,7 +666,7 @@ export class RootStoreBase extends ExtendedModel(
 		);
 	}
 	@modelAction queryNonHidableEntities(
-		variables: { beaconIds: string[]; campaignId: string; hostIds: string[] },
+		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
 		resultSelector:
 			| string
 			| ((
