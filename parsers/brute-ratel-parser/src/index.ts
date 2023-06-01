@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import { Command } from 'commander';
-import { registerCampaignCommand } from './campaign.command';
+import { registerCampaignCommand } from './parse-campaign.command';
 import { registerInfoCommand } from './info.command';
 import { registerValidateFilesCommand } from './validate-files.command';
 const program = new Command();
