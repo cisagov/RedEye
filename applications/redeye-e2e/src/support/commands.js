@@ -209,6 +209,26 @@ Cypress.Commands.add('addExistingTagsToReply', (...term) => {
 	cy.get('[cy-test=save-comment]').should('be.visible').click();
 });
 
+// Get Golden Ticket tag icon
+Cypress.Commands.add('goldenTicketIcon', () => {
+	cy.get('[cy-test=GoldenTicket]');
+});
+
+// Get Lateral Movement tag icon
+Cypress.Commands.add('lateralMovementIcon', () => {
+	cy.get('[cy-test=LateralMovement]');
+});
+
+// Get Privilege Escalation tag icon
+Cypress.Commands.add('privilegeEscalationIcon', () => {
+	cy.get('[cy-test=PrivilegeEscalation]');
+});
+
+// Click to view all comments
+Cypress.Commands.add('viewAllComments', () => {
+	cy.get('[cy-test=info-row]').contains('All Comments').click();
+});
+
 // *******************************************
 // OTHER COMMANDS
 // *******************************************

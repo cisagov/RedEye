@@ -81,11 +81,19 @@ declare namespace Cypress {
 		 */
 		clickBeaconsTab();
 
-		/**Clicks the Commands tab in Explorer mode.
+		/**Clicks the Comments tab in Explorer mode.
+		 * NOTE: If you have selected another tab option in Explorer mode (ex: Beacons), you will need to use the clickCommentsTabWithinTab command to access Comments.
 		 * @example
 		 * cy.clickCommandsTab()
 		 */
 		clickCommandsTab();
+
+		/**Clicks the Comments tab after you've clicked in another tab from Explorer mode.
+		 * NOTE: This works if, for example, you've clicked the Beacons tab and want to see the comments related to that specific Beacon.
+		 * @example
+		 * cy.clickCommandsTab()
+		 */
+		clickCommandsTabWithinTab();
 
 		/**Clicks the tab to switch to the list of command types within the campaign.
 		 * @example

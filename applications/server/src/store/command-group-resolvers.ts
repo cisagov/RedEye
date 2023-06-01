@@ -236,13 +236,13 @@ export class CommandGroupResolvers {
 
 const sortMapping: Record<keyof typeof SortOptionComments, (sort: SortTypeComments) => QueryOrderMap<CommandGroup>> = {
 	time: (sort: SortTypeComments) => ({
-		annotations: { date: sort.direction === SortDirection.ASC ? 'asc' : 'desc' },
+		annotations: { date: sort.direction },
 	}),
 	user: (sort: SortTypeComments) => ({
-		annotations: { user: sort.direction === SortDirection.ASC ? 'asc' : 'desc' },
+		annotations: { user: sort.direction },
 	}),
 	fav: (sort: SortTypeComments) => ({
-		annotations: { favorite: sort.direction === SortDirection.ASC ? 'asc' : 'desc' },
+		annotations: { favorite: sort.direction },
 	}),
 };
 

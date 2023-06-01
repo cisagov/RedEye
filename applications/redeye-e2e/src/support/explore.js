@@ -80,7 +80,7 @@ Cypress.Commands.add('clickOperatorsTab', () => {
 
 // CLICK COMMENTS ON EXPLORER OVERVIEW PANEL
 Cypress.Commands.add('clickCommentsTab', () => {
-	cy.get('[cy-test=comments]').click();
+	cy.get('[cy-test=comments_list]').click();
 	cy.wait(500);
 	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
 });
@@ -110,6 +110,13 @@ Cypress.Commands.add('clickMetaTab', () => {
 // *******************************************
 // ACTIONS WITHIN ITEMS
 // *******************************************
+
+// CLICK COMMENTS TAB AFTER CLICKING IN ANOTHER TAB
+Cypress.Commands.add('clickCommentsTabWithinTab', () => {
+	cy.get('[cy-test=comments]').click();
+	cy.wait(500);
+	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
+});
 
 // EXPAND THE ROW
 Cypress.Commands.add('expandInfoRow', (index) => {
