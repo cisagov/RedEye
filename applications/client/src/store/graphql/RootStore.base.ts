@@ -92,10 +92,10 @@ import type { ServerType } from './ServerTypeEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
-import type { UploadType } from './UploadTypeEnum';
-import type { ValidationMode } from './ValidationModeEnum';
 import type { SortOptionCommentsList } from './SortOptionCommentsListEnum';
 import type { SortOptionCommentsTab } from './SortOptionCommentsTabEnum';
+import type { UploadType } from './UploadTypeEnum';
+import type { ValidationMode } from './ValidationModeEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -666,7 +666,7 @@ export class RootStoreBase extends ExtendedModel(
 		);
 	}
 	@modelAction queryNonHidableEntities(
-		variables: { beaconIds: string[]; campaignId: string; hostIds: string[] },
+		variables: { beaconIds?: string[]; campaignId: string; hostIds?: string[] },
 		resultSelector:
 			| string
 			| ((
@@ -676,7 +676,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ nonHidableEntities: NonHidableEntitiesModel }>(
-			`query nonHidableEntities($beaconIds: [String!]!, $campaignId: String!, $hostIds: [String!]!) { nonHidableEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
+			`query nonHidableEntities($beaconIds: [String!], $campaignId: String!, $hostIds: [String!]) { nonHidableEntities(beaconIds: $beaconIds, campaignId: $campaignId, hostIds: $hostIds) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(NonHidableEntitiesModelSelector).toString()
