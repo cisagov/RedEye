@@ -54,6 +54,8 @@ tasks:
     inputs:
       - 'src/**/*.machine.{ts,tsx}'
     platform: node
+    options:
+      runInCI: false
   run-cypress:
     local: true
     command:
