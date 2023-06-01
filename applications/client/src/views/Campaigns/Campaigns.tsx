@@ -26,8 +26,8 @@ const Campaigns = observer<CampaignsProps>(() => {
 				parserInfoModelPrimitives
 					.uploadForm((up) =>
 						up.enabledInBlueTeam.tabTitle
-							.fileUpload((fileUp) => fileUp.type.validate.acceptedExtensions.description)
-							.fileDisplay((fileDis) => fileDis.description.editable)
+							.fileUpload((fileUp) => fileUp.example.type.validate.acceptedExtensions.description)
+							.fileDisplay((fileDis) => fileDis.editable)
 					)
 					.toString()
 			)

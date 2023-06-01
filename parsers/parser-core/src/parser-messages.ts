@@ -6,7 +6,6 @@ export enum ParserMessageTypes {
 	Log = '[LOG]',
 	Error = '[ERROR]',
 	Debug = '[DEBUG]',
-	End = '[END]',
 }
 
 export const formatParserMessage = (prefix: ParserMessageTypes, message: any) =>

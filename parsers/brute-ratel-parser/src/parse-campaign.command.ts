@@ -7,7 +7,7 @@ type CommandCallbackOptions = {
 };
 
 export const registerCampaignCommand = (program: Command) => {
-	const campaignCommand = program.command('campaign');
+	const campaignCommand = program.command('parse-campaign');
 	campaignCommand.option(
 		'-f, --folder </absolute/path/to/folder>',
 		'The folder containing a Brute Ratel campaign, includes autosave.profile and logs folder'
