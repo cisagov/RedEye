@@ -18,7 +18,7 @@ type requestParams = { fileName: UUID };
 
 export function downloadCampaign(app: Router, context: EndpointContext) {
 	const { config } = context;
-	const isBlue = config.blueTeam;
+	const isBlue = !config.redTeam;
 
 	app.get<requestParams>('/campaign/download/:fileName', async (req, res): Promise<void | Response> => {
 		const { fileName } = req.params;

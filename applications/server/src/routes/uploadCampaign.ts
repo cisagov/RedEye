@@ -58,7 +58,7 @@ type LogsRequestBody = { servers: { name: string; displayName: string }[] };
 
 export function uploadCampaign(app: Router, context: EndpointContext) {
 	const { config, parserInfo } = context;
-	const isBlue = config.blueTeam;
+	const isBlue = !config.redTeam;
 	// log file upload
 	app.post<never, any, CampaginUploadRequestBody>('/campaign/upload', async (req, res) => {
 		if (!isBlue && !isAuthRest(req, config)) return res.sendStatus(401);

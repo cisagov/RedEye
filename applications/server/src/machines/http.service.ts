@@ -40,7 +40,7 @@ const serverStartLogs = async (ctx: ServerMachineContext, clientUrl?: string): P
 	const ver = `v${packageJson.version}`;
 
 	const helpLink = 'https://github.com/cisagov/redeye#readme';
-	const mode = ctx.config.blueTeam ? `${cf.blueBg} BLUE TEAM ${cf.reset}` : `${cf.redBg} RED TEAM ${cf.reset}`;
+	const mode = !ctx.config.redTeam ? `${cf.blueBg} BLUE TEAM ${cf.reset}` : `${cf.redBg} RED TEAM ${cf.reset}`;
 
 	logLine.push(
 		`  ${cf.bold}${cf.white}RedEye Server${cf.reset} ${ver}${cf.reset}`,

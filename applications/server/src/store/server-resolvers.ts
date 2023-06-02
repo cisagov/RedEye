@@ -68,7 +68,7 @@ export class ServerResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string
 	): Promise<boolean> {
-		if (ctx.config.blueTeam) throw new Error('Parsing cannot be invoked from blue team mode');
+		if (!ctx.config.redTeam) throw new Error('Parsing cannot be invoked from blue team mode');
 		await connectToProjectEmOrFail(campaignId, ctx);
 		const mainEm = getMainEmOrFail(ctx);
 		const campaign = await mainEm.findOneOrFail(Campaign, campaignId);
