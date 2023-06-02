@@ -17,15 +17,15 @@ describe('Testing of Adding Golden Ticket, Privilege Escalation & Lateral Moveme
 
 		cy.clickPresentationMode();
 
-		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=tag-GoldenTicket] [cy-test=count]')
 			.invoke('text')
 			.as('GTTagCount')
 			.then((resultGTCount1) => {
-				cy.get('[cy-test=LateralMovement] [cy-test=count]')
+				cy.get('[cy-test=tag-LateralMovement] [cy-test=count]')
 					.invoke('text')
 					.as('LMTagCount')
 					.then((resultLMCount1) => {
-						cy.get('[cy-test=PrivilegeEscalation] [cy-test=count]')
+						cy.get('[cy-test=tag-PrivilegeEscalation] [cy-test=count]')
 							.invoke('text')
 							.as('PETagCount')
 							.then((resultPECount1) => {
@@ -35,18 +35,18 @@ describe('Testing of Adding Golden Ticket, Privilege Escalation & Lateral Moveme
 								cy.clickCommandTypesTab();
 
 								cy.selectCommandType(cmd);
-								cy.get('[cy-test=GoldenTicket]').should('not.exist');
-								cy.get('[cy-test=LateralMovement]').should('not.exist');
-								cy.get('[cy-test=PrivilegeEscalation]').should('not.exist');
+								cy.goldenTicketIcon().should('not.exist');
+								cy.lateralMovementIcon().should('not.exist');
+								cy.privilegeEscalationIcon().should('not.exist');
 
 								// Add a comment and use the applicable tags
 								cy.addComment(0, comment);
 								cy.addExistingTags(partialTag1, partialTag2, partialTag3);
 
 								// Verify the apporpriate icons are now there
-								cy.get('[cy-test=GoldenTicket]').should('be.visible');
-								cy.get('[cy-test=LateralMovement]').should('be.visible');
-								cy.get('[cy-test=PrivilegeEscalation]').should('be.visible');
+								cy.goldenTicketIcon().should('be.visible');
+								cy.lateralMovementIcon().should('be.visible');
+								cy.privilegeEscalationIcon().should('be.visible');
 
 								// Log new number of applicable comments and compare to original count
 								cy.clickPresentationMode();
@@ -58,9 +58,9 @@ describe('Testing of Adding Golden Ticket, Privilege Escalation & Lateral Moveme
 										cy.get('@PETagCount').then((resultPECount2) => {
 											expect(+resultPECount2).to.equal(+resultPECount1 + +'1');
 
-											cy.get('[cy-test=GoldenTicket]').should('have.length', 1);
-											cy.get('[cy-test=LateralMovement]').should('have.length', 1);
-											cy.get('[cy-test=PrivilegeEscalation]').should('have.length', 1);
+											cy.get('[cy-test=tag-GoldenTicket]').should('have.length', 1);
+											cy.get('[cy-test=tag-LateralMovement]').should('have.length', 1);
+											cy.get('[cy-test=tag-PrivilegeEscalation]').should('have.length', 1);
 										});
 									});
 								});

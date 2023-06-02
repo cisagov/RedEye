@@ -388,6 +388,8 @@ type PresentationItem {
   Every beacon in the presentation. Including both presentation beacons and connection beacons.
   """
   beaconIds: [String!]!
+  commandCount: Float!
+  commandGroupIds: [String!]!
   commandGroups: [PresentationCommandGroup!]!
 
   """
@@ -483,7 +485,7 @@ type Query {
   parsingProgress: ParsingProgress!
 
   """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, hidden: Boolean = false): [PresentationItem]
+  presentationItems(campaignId: String!, commentsTabSort: SortTypeCommentsTab = {sortBy: minTime}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: alphabetical}): [PresentationItem]
 
   """Search Annotations from textQuery"""
   searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
@@ -557,6 +559,20 @@ enum SortOptionComments {
   user
 }
 
+"""The desired property to sort Comments List on"""
+enum SortOptionCommentsList {
+  alphabetical
+  commandCount
+  commentCount
+}
+
+"""The desired property to sort overview Comments Tab on"""
+enum SortOptionCommentsTab {
+  fav
+  minTime
+  user
+}
+
 input SortType {
   direction: SortDirection = ASC
   sortBy: SortOption = name
@@ -565,6 +581,16 @@ input SortType {
 input SortTypeComments {
   direction: SortDirection = ASC
   sortBy: SortOptionComments = time
+}
+
+input SortTypeCommentsList {
+  direction: SortDirection = ASC
+  sortBy: SortOptionCommentsList = alphabetical
+}
+
+input SortTypeCommentsTab {
+  direction: SortDirection = ASC
+  sortBy: SortOptionCommentsTab = minTime
 }
 
 type Tag {

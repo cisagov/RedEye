@@ -407,9 +407,9 @@ export const CommentBox = observer<CommentBoxProps>(
 					<span>
 						<CarbonIcon cy-test="comment-icon" icon={Chat16} />
 						<Spacer />
-						<Txt cy-test="user-that-commented">
+						<Txt cy-test="user-that-commented" muted={annotation?.user === ''} italic={annotation?.user === ''}>
 							{annotation?.user !== undefined ? (
-								annotation?.user
+								annotation?.user || 'parser-generated'
 							) : (
 								<span>
 									<Txt cy-test="new-comment-header" bold>

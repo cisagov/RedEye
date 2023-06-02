@@ -80,7 +80,7 @@ Cypress.Commands.add('clickOperatorsTab', () => {
 
 // CLICK COMMENTS ON EXPLORER OVERVIEW PANEL
 Cypress.Commands.add('clickCommentsTab', () => {
-	cy.get('[cy-test=comments]').click();
+	cy.get('[cy-test=comments_list]').click();
 	cy.wait(500);
 	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
 });
@@ -110,6 +110,13 @@ Cypress.Commands.add('clickMetaTab', () => {
 // *******************************************
 // ACTIONS WITHIN ITEMS
 // *******************************************
+
+// CLICK COMMENTS TAB AFTER CLICKING IN ANOTHER TAB
+Cypress.Commands.add('clickCommentsTabWithinTab', () => {
+	cy.get('[cy-test=comments]').click();
+	cy.wait(500);
+	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
+});
 
 // EXPAND THE ROW
 Cypress.Commands.add('expandInfoRow', (index) => {
@@ -305,4 +312,23 @@ Cypress.Commands.add('confirmShowHide', () => {
 // CANCEL SHOW OR HIDE FROM CONFIRMATION MODAL
 Cypress.Commands.add('cancelShowHide', () => {
 	cy.get('[cy-test=cancel-show-hide]').click();
+});
+
+// CLICK BULK EDIT BUTTON TO SHOW/HIDE MULTIPLE ITEMS
+Cypress.Commands.add('clickBulkEdit', () => {
+	cy.get('[cy-test=bulk-edit]').click();
+});
+
+// HIDE ITEMS USING BULK EDIT
+Cypress.Commands.add('bulkEditHide', () => {
+	cy.get('[cy-test=hide]').click();
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.wait(1000);
+});
+
+// SHOW ITEMS USING BULK EDIT
+Cypress.Commands.add('bulkEditShow', () => {
+	cy.get('[cy-test=show]').click();
+	cy.get('[cy-test=confirm-show-hide]').click();
+	cy.wait(1000);
 });

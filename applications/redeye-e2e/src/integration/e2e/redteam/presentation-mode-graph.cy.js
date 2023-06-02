@@ -11,7 +11,7 @@ describe('Testing Graph Behavior on Presentation Mode', () => {
 
 		cy.clickPresentationMode();
 
-		cy.get('[cy-test=PrivilegeEscalation]').click();
+		cy.get('[cy-test=tag-PrivilegeEscalation]').click();
 
 		cy.get('[cy-test=graph-legend]').click();
 

@@ -1,8 +1,15 @@
 import { Intent, ProgressBar } from '@blueprintjs/core';
 import { isDefined, VirtualizedList } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { CommandGroupModel, SortDirection } from '@redeye/client/store';
-import { commandQuery, SortOptionComments, useStore, commandGroupCommentsQuery } from '@redeye/client/store';
+import type { SortDirection, SortTypeCommentsTab } from '@redeye/client/store';
+import {
+	presentationCommandGroupModelPrimitives,
+	presentationItemModelPrimitives,
+	commandQuery,
+	SortOptionComments,
+	useStore,
+	commandGroupCommentsQuery,
+} from '@redeye/client/store';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observable } from 'mobx';
@@ -29,7 +36,6 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		toggleNewComment(id?: string) {
 			this.newComment = id;
 		},
-		commandGroups: [] as CommandGroupModel[],
 		visibleRange: {
 			startIndex: 0,
 			endIndex: 0,
@@ -50,6 +56,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign?.interactionState.selectedOperator?.id,
 			store.campaign?.interactionState.selectedCommandType?.id,
 			sort,
+			store.router.params.currentItem,
+			store.router.params.currentItemId,
 		],
 		async () =>
 			await store.graphqlStore.queryCommandGroupIds({
@@ -74,6 +82,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.campaign.id,
 			data?.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
+			store.router.params.currentItem,
+			store.router.params.currentItemId,
 		],
 		async () => {
 			if (data?.commandGroupIds?.length) {
@@ -108,6 +118,82 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	);
 
+	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
+	const { data: commentsData } = useQuery(
+		[
+			'overview-comments-items',
+			store.campaign.id,
+			store.campaign.sortMemory.comments_list,
+			store.campaign.sortMemory.comments,
+		],
+		async () =>
+			await store.graphqlStore.queryPresentationItems(
+				{
+					campaignId: store.campaign.id!,
+					hidden: store.settings.showHidden,
+					forOverviewComments: true,
+					commentsTabSort: sort as SortTypeCommentsTab,
+				},
+				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
+				undefined,
+				true
+			)
+	);
+
+	const { isLoading: isCommentsDataLoading } = useQuery(
+		[
+			'commandGroupsById',
+			'commandGroups',
+			store.campaign.id,
+			store.campaign.commentsList.commandGroupIds,
+			Math.trunc(state.visibleRange.endIndex / pageSize),
+			store.router.params.currentItem,
+			store.router.params.currentItemId,
+		],
+		async () => {
+			if (store.campaign.commentsList.commandGroupIds.length) {
+				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
+				const start = index * pageSize;
+				const ids = store.campaign.commentsList.commandGroupIds.slice(start, start + pageSize);
+				// query commands as temp solution
+				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
+					{
+						campaignId: store.campaign?.id!,
+						commandGroupIds: ids,
+						hidden: store.settings.showHidden,
+					},
+					commandGroupCommentsQuery // command cache issue?
+				);
+
+				// query commands as temp solution
+				const commandIds = commandGroupsQuery?.commandGroups.flatMap((cg) => cg.commandIds).filter<string>(isDefined);
+				return store.graphqlStore.queryCommands(
+					{
+						campaignId: store.campaign?.id!,
+						commandIds,
+						hidden: store.settings.showHidden,
+					},
+					commandQuery
+				);
+				// query commands as temp solution
+			}
+		},
+		{
+			enabled: !!store.campaign.commentsList.commandGroupIds.length,
+		}
+	);
+
+	useEffect(() => {
+		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
+			const filteredData = commentsData?.presentationItems.find(
+				(item) => item.id === store.router.params.currentItemId
+			);
+			store.campaign?.setCommentsList({
+				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
+			});
+		}
+	}, [store.campaign.commentsList.commandGroupIds, store.router.params.currentItem, store.router.params.currentItemId]);
+
 	useEffect(() => {
 		if (store.campaign?.commentStore.scrollToComment) {
 			state.update(
@@ -130,7 +216,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				}, 250);
 			}
 		}
-	}, [data]);
+	}, [data, commentsData]);
 
 	return (
 		<VirtualizedList
@@ -138,7 +224,25 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			listRef={listRef}
 			cy-test="comments-view"
 		>
-			{data?.commandGroupIds.length === 0 ? (
+			{store.router.params.currentItem === 'comments_list' ? (
+				store.campaign.commentsList.commandGroupIds.length === 0 ? (
+					<MessageRow>No comments</MessageRow>
+				) : isCommentsDataLoading ? (
+					<ProgressBar intent={Intent.PRIMARY} />
+				) : (
+					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
+						<CommentGroup
+							cy-test="comment-group"
+							key={commandGroupId}
+							commandGroupId={commandGroupId}
+							toggleNewComment={state.toggleNewComment}
+							newComment={state.newComment}
+							expandedCommandIDs={state.expandedCommandIDs}
+							removeExpandedCommandID={state.removeExpandedCommandID}
+						/>
+					))
+				)
+			) : data?.commandGroupIds.length === 0 ? (
 				<MessageRow>No comments</MessageRow>
 			) : isLoading ? (
 				<ProgressBar intent={Intent.PRIMARY} />
