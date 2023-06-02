@@ -38,7 +38,7 @@ Cypress.Commands.add('clickAboutOnCampaignCard', () => {
 Cypress.Commands.add('uploadCampaign', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').click();
 	cy.get('[cy-test=upload-from-file]').click();
-	cy.get('[cy-test=new-camp-name]').eq(1).click().type(camp);
+	cy.get('[cy-test=new-camp-name]').click().type(camp);
 	cy.fixture(fileName, { encoding: null }).as('myFixture');
 	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 	cy.get('[cy-test=import-database]').click();
@@ -48,7 +48,8 @@ Cypress.Commands.add('uploadCampaign', (camp, fileName) => {
 //UPLOAD FOLDER
 Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').click();
-	cy.get('[cy-test=new-camp-name]').eq(0).click().type(camp);
+	cy.get('[cy-test=create-new-camp-cobalt-strike-parser]').click();
+	cy.get('[cy-test=new-camp-name]').click().type(camp);
 	cy.get('[cy-test=single-server-upload]').click({ force: true });
 	cy.get('[cy-test=upload-folder]').selectFile(fileName, { encoding: 'utf8' }, { force: true });
 	cy.wait(1000);

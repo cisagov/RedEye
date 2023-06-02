@@ -41,10 +41,11 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 						selectedTabId={currentTab}
 						onChange={(newTab) => setCurrentTab(newTab as CampaignTabs)}
 						id="add-campaign-methods"
+						renderActiveTabPanelOnly
 					>
 						{Array.from(store.graphqlStore.parserInfos.values(), (parserInfo, index) => (
 							<Tab
-								cy-test="create-new-camp"
+								cy-test={`create-new-camp-${parserInfo.id}`}
 								id={index}
 								title={parserInfo?.uploadForm?.tabTitle}
 								panel={

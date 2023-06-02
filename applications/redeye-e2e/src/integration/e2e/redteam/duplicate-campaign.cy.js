@@ -16,7 +16,8 @@ describe('Duplicate Campaign', () => {
 
 		// Upload another campaign with the same name
 		cy.get('[cy-test=add-campaign-btn]').click();
-		cy.get('[cy-test=new-camp-name]').eq(1).click().type(camp);
+		cy.get('[cy-test=create-new-camp-cobalt-strike-parser]').click();
+		cy.get('[cy-test=new-camp-name]').click().type(camp);
 		cy.fixture(fileName, { encoding: null }).as('myFixture');
 		cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
 		cy.get('[cy-test=import-database]').should('be.disabled');
