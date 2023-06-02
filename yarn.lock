@@ -12741,13 +12741,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"property-expr@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "property-expr@npm:2.0.5"
-  checksum: 4ebe82ce45aaf1527e96e2ab84d75d25217167ec3ff6378cf83a84fb4abc746e7c65768a79d275881602ae82f168f9a6dfaa7f5e331d0fcc83d692770bcce5f1
-  languageName: node
-  linkType: hard
-
 "proto-props@npm:^2.0.0":
   version: 2.0.0
   resolution: "proto-props@npm:2.0.0"
@@ -13410,7 +13403,7 @@ __metadata:
     vite-tsconfig-paths: ^4.2.0
     winston: ^3.7.2
     xstate: 4.31.0
-    yup: ^1.0.0-beta.7
+    zod: ^3.21.4
   bin:
     brute-ratel-parser: parsers/brute-ratel-parser/dist/index.js
     cobalt-strike-parser: parsers/cobalt-strike-parser/dist/index.js
@@ -14826,13 +14819,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-case@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "tiny-case@npm:1.0.3"
-  checksum: 3f7a30c39d5b0e1bc097b0b271bec14eb5b836093db034f35a0de26c14422380b50dc12bfd37498cf35b192f5df06f28a710712c87ead68872a9e37ad6f6049d
-  languageName: node
-  linkType: hard
-
 "tiny-glob@npm:^0.2.9":
   version: 0.2.9
   resolution: "tiny-glob@npm:0.2.9"
@@ -14895,13 +14881,6 @@ __metadata:
   version: 1.0.1
   resolution: "toidentifier@npm:1.0.1"
   checksum: 952c29e2a85d7123239b5cfdd889a0dde47ab0497f0913d70588f19c53f7e0b5327c95f4651e413c74b785147f9637b17410ac8c846d5d4a20a5a33eb6dc3a45
-  languageName: node
-  linkType: hard
-
-"toposort@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "toposort@npm:2.0.2"
-  checksum: d64c74b570391c9432873f48e231b439ee56bc49f7cb9780b505cfdf5cb832f808d0bae072515d93834dd6bceca5bb34448b5b4b408335e4d4716eaf68195dcb
   languageName: node
   linkType: hard
 
@@ -16249,17 +16228,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yup@npm:^1.0.0-beta.7":
-  version: 1.0.0-beta.7
-  resolution: "yup@npm:1.0.0-beta.7"
-  dependencies:
-    property-expr: ^2.0.5
-    tiny-case: ^1.0.3
-    toposort: ^2.0.2
-  checksum: 27ea3f12ce84f55da2d4a490cac3a5ad9b34c0da3d3a5fca013b9417861e61ef0ed5f2b98170d84cc23bbf0783cf2f65d12a19c575d5d080c05a404367adcc06
-  languageName: node
-  linkType: hard
-
 "z-schema@npm:~5.0.2":
   version: 5.0.5
   resolution: "z-schema@npm:5.0.5"
@@ -16274,5 +16242,12 @@ __metadata:
   bin:
     z-schema: bin/z-schema
   checksum: 8a1d66817ae4384dc3f63311f0cccaadd95cc9640eaade5fd3fbf91aa80d6bb82fb95d9b9171fa82ac371a0155b32b7f5f77bbe84dabaca611b66f74c628f0b8
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.21.4":
+  version: 3.21.4
+  resolution: "zod@npm:3.21.4"
+  checksum: f185ba87342ff16f7a06686767c2b2a7af41110c7edf7c1974095d8db7a73792696bcb4a00853de0d2edeb34a5b2ea6a55871bc864227dace682a0a28de33e1f
   languageName: node
   linkType: hard

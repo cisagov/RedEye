@@ -104,7 +104,7 @@ const serverMachine = createMachine(
 	},
 	{
 		guards: {
-			isBlueTeam: (ctx) => ctx.config.blueTeam,
+			isBlueTeam: (ctx) => !ctx.config.redTeam,
 		},
 		actions: {
 			assignCacheManager: actions.assign((_ctx, event) => ({

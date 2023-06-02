@@ -103,7 +103,7 @@ export class CampaignResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('anonymizeOptions', () => AnonymizationInput) anonymizeOptions: AnonymizationInput
 	): Promise<string | void> {
-		if (ctx.config.blueTeam)
+		if (!ctx.config.redTeam)
 			throw new GraphQLError('Blue team cannot export', undefined, undefined, undefined, undefined, undefined, {
 				extensions: {
 					code: 'UNAUTHENTICATED',

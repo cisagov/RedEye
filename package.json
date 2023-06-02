@@ -31,10 +31,10 @@
 		"cy:open": "yarn moon run @redeye/e2e:open-cy",
 		"cy:open-blue": "yarn moon run @redeye/e2e:open-cy-blue",
 		"start:blue": "SERVER_BLUE_TEAM=true yarn run start:dev",
-		"release:all": "yarn moon run server:release-all cobalt-strike-parser:release-all brute-ratel-parser:release-all",
-		"release:mac": "yarn moon run server:release-mac cobalt-strike-parser:release-mac brute-ratel-parser:release-mac",
-		"release:linux": "yarn moon run server:release-linux cobalt-strike-parser:release-linux brute-ratel-parser:release-linux",
-		"release:windows": "yarn moon run server:release-windows cobalt-strike-parser:release-windows brute-ratel-parser:release-windows"
+		"release:all": "yarn moon run server:release-all && yarn moon run cobalt-strike-parser:release-all && yarn moon run brute-ratel-parser:release-all",
+		"release:mac": "yarn moon run server:release-mac && yarn moon run cobalt-strike-parser:release-mac && yarn moon run brute-ratel-parser:release-mac",
+		"release:linux": "yarn moon run server:release-linux && yarn moon run cobalt-strike-parser:release-linux && yarn moon run brute-ratel-parser:release-linux",
+		"release:windows": "yarn moon run server:release-windows && yarn moon run cobalt-strike-parser:release-windows && yarn moon run brute-ratel-parser:release-windows"
 	},
 	"dependencies": {
 		"@apollo/server": "^4.7.0",
@@ -98,7 +98,7 @@
 		"uuid": "^8.3.2",
 		"winston": "^3.7.2",
 		"xstate": "4.31.0",
-		"yup": "^1.0.0-beta.7"
+		"zod": "^3.21.4"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-class-properties": "^7.18.6",

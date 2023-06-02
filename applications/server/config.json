@@ -1,0 +1,9 @@
+{
+	"$schema": "./config.schema.json",
+
+	"password": "937038570",
+	"secret": "supertopsecretdonttellanyone",
+	"redTeam": true,
+	"databaseMode": "DEV_PERSIST",
+	"production": false
+}

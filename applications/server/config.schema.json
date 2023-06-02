@@ -1,0 +1,55 @@
+{
+	"$ref": "#/definitions/RedEye Config",
+	"definitions": {
+		"RedEye Config": {
+			"type": "object",
+			"properties": {
+				"production": {
+					"type": "boolean",
+					"default": true
+				},
+				"redTeam": {
+					"type": "boolean",
+					"default": false
+				},
+				"port": {
+					"type": "integer",
+					"exclusiveMinimum": 0,
+					"default": 4000
+				},
+				"parsers": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": ["cobalt-strike-parser", "brute-ratel-parser"]
+				},
+				"clientPort": {
+					"type": "integer",
+					"exclusiveMinimum": 0,
+					"default": 3500,
+					"description": "purely informational, this is not used in production for anything"
+				},
+				"databaseMode": {
+					"type": "string",
+					"enum": ["PRODUCTION", "DEV_PERSIST", "DEV_CLEAN"],
+					"default": "PRODUCTION"
+				},
+				"secret": {
+					"type": "string",
+					"default": "8f440ca0-881c-4175-b580-ded02bdc9450"
+				},
+				"password": {
+					"type": "string"
+				},
+				"maxParserSubprocesses": {
+					"type": "integer",
+					"exclusiveMinimum": 0,
+					"default": 8
+				}
+			},
+			"additionalProperties": false
+		}
+	},
+	"$schema": "http://json-schema.org/draft-07/schema#"
+}
