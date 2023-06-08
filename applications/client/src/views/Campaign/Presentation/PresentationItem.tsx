@@ -56,7 +56,7 @@ export const PresentationItem = observer<PresentationItemProps>(({ commandGroupI
 		<CommentGroup
 			cy-test="presentation-item-root"
 			showPath
-			commandGroup={data.commandGroup}
+			commandGroupId={data.commandGroup.id}
 			toggleNewComment={state.toggleNewComment}
 			newComment={state.newComment}
 			css={css`

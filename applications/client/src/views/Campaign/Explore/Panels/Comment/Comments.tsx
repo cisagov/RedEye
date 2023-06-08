@@ -38,7 +38,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		},
 		visibleRange: {
 			startIndex: 0,
-			endIndex: 0,
+			endIndex: pageSize,
 		},
 		expandedCommandIDs: store.router.params.activeItemId
 			? observable.array([store.router.params.activeItemId])
@@ -184,6 +184,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	);
 
 	useEffect(() => {
+		// What does this do? What is filteredData?
 		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
 			const filteredData = commentsData?.presentationItems.find(
 				(item) => item.id === store.router.params.currentItemId
@@ -192,7 +193,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
 			});
 		}
-	}, [store.campaign.commentsList.commandGroupIds, store.router.params.currentItem, store.router.params.currentItemId]);
+	}, [commentsData, store.router.params.currentItem, store.router.params.currentItemId]);
 
 	useEffect(() => {
 		if (store.campaign?.commentStore.scrollToComment) {
@@ -218,6 +219,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	}, [data, commentsData]);
 
+	// TODO: same layout is written twice? refactor names
 	return (
 		<VirtualizedList
 			rangeChanged={(visibleRange) => state.update('visibleRange', visibleRange)}
@@ -226,9 +228,11 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		>
 			{store.router.params.currentItem === 'comments_list' ? (
 				store.campaign.commentsList.commandGroupIds.length === 0 ? (
-					<MessageRow>No comments</MessageRow>
-				) : isCommentsDataLoading ? (
-					<ProgressBar intent={Intent.PRIMARY} />
+					isCommentsDataLoading ? (
+						<ProgressBar intent={Intent.PRIMARY} />
+					) : (
+						<MessageRow>No comments</MessageRow>
+					)
 				) : (
 					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
 						<CommentGroup
@@ -243,9 +247,11 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 					))
 				)
 			) : data?.commandGroupIds.length === 0 ? (
-				<MessageRow>No comments</MessageRow>
-			) : isLoading ? (
-				<ProgressBar intent={Intent.PRIMARY} />
+				isLoading ? (
+					<MessageRow>No comments</MessageRow>
+				) : (
+					<ProgressBar intent={Intent.PRIMARY} />
+				)
 			) : (
 				data?.commandGroupIds.map((commandGroupId) => (
 					<CommentGroup
