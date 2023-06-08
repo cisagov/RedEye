@@ -95,8 +95,18 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 						{rowTitle(presentationItem)}
 					</RowTitle>
 					<FlexSplitter />
-					<IconLabel title="Commands" value={presentationItem.commandCount} icon={semanticIcons.commands} />
-					<IconLabel title="comments" value={presentationItem.count} icon={semanticIcons.comment} />
+					<IconLabel
+						cy-test="command-count"
+						title="Commands"
+						value={presentationItem.commandCount}
+						icon={semanticIcons.commands}
+					/>
+					<IconLabel
+						cy-test="comment-count"
+						title="comments"
+						value={presentationItem.count}
+						icon={semanticIcons.comment}
+					/>
 				</InfoRow>
 			))}
 		</VirtualizedList>
