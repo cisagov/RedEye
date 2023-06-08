@@ -9,6 +9,7 @@ import { useStore } from '@redeye/client/store';
 import { ScreenShotCommand } from '@redeye/client/views';
 import { Txt, CoreTokens, UtilityStyles, Flex, Spacer } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
+import { Fragment } from 'react';
 
 type CommandOutputProps = {
 	command: CommandModel | undefined;
@@ -51,24 +52,26 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 							No MITRE ATT&amp;CKs
 						</Txt>
 					) : (
-						command?.uniqueAttackIds?.map((mitreAttack, i) => (
-							<>
-								{i === 0 ? (
-									<Txt small>
-										MITRE ATT&amp;CKs:
-										<Spacer />
-									</Txt>
-								) : (
-									<Spacer>·</Spacer>
-								)}
-								<MitreAttack
-									miterAttackId={mitreAttack as MitreAttackId}
-									cy-test="mitre-attack-link"
-									key={mitreAttack}
-									css={{ display: 'inline-block' }}
-								/>
-							</>
-						))
+						command?.uniqueAttackIds
+							?.filter((m) => m) // sometimes m is undefined
+							.map((mitreAttack, i) => (
+								<Fragment key={mitreAttack}>
+									{i === 0 ? (
+										<Txt small>
+											MITRE ATT&amp;CKs:
+											<Spacer />
+										</Txt>
+									) : (
+										<Spacer>·</Spacer>
+									)}
+									<MitreAttack
+										miterAttackId={mitreAttack as MitreAttackId}
+										cy-test="mitre-attack-link"
+										key={mitreAttack}
+										css={{ display: 'inline-block' }}
+									/>
+								</Fragment>
+							))
 					)}
 				</div>
 			</div>
