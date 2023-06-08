@@ -47,7 +47,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			this.expandedCommandIDs.remove(commandId);
 		},
 	});
-	const { data } = useQuery(
+
+	const { data: entityCommentsData } = useQuery(
 		[
 			'commandGroups',
 			store.campaign?.id,
@@ -69,27 +70,26 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				hidden: store.settings.showHidden,
 				sort: {
 					...sort,
-					// @ts-ignore
-					sortBy: sort.sortBy === 'minTime' ? SortOptionComments.time : sort.sortBy,
+					sortBy: sort.sortBy === 'minTime' ? SortOptionComments.time : (sort.sortBy as SortOptionComments),
 				},
 			})
 	);
 
-	const { isLoading } = useQuery(
+	const { isLoading: entityCommentsIsLoading } = useQuery(
 		[
 			'commandGroupsById',
 			'commandGroups',
 			store.campaign.id,
-			data?.commandGroupIds,
+			entityCommentsData?.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
 			store.router.params.currentItem,
 			store.router.params.currentItemId,
 		],
 		async () => {
-			if (data?.commandGroupIds?.length) {
+			if (entityCommentsData?.commandGroupIds?.length) {
 				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
 				const start = index * pageSize;
-				const ids = data.commandGroupIds.slice(start, start + pageSize);
+				const ids = entityCommentsData.commandGroupIds.slice(start, start + pageSize);
 				// query commands as temp solution
 				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
 					{
@@ -114,12 +114,12 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			}
 		},
 		{
-			enabled: !!data?.commandGroupIds?.length,
+			enabled: !!entityCommentsData?.commandGroupIds?.length,
 		}
 	);
 
 	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: commentsData } = useQuery(
+	const { data: presentationItemsData } = useQuery(
 		[
 			'overview-comments-items',
 			store.campaign.id,
@@ -140,7 +140,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			)
 	);
 
-	const { isLoading: isCommentsDataLoading } = useQuery(
+	const { isLoading: campaignCommentsIsLoading } = useQuery(
 		[
 			'commandGroupsById',
 			'commandGroups',
@@ -184,16 +184,16 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	);
 
 	useEffect(() => {
-		// What does this do? What is filteredData?
+		// What does this do?
 		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
-			const filteredData = commentsData?.presentationItems.find(
+			const currentPresentationItem = presentationItemsData?.presentationItems.find(
 				(item) => item.id === store.router.params.currentItemId
 			);
 			store.campaign?.setCommentsList({
-				commandGroupIds: Array.from(filteredData?.commandGroupIds || []),
+				commandGroupIds: Array.from(currentPresentationItem?.commandGroupIds || []),
 			});
 		}
-	}, [commentsData, store.router.params.currentItem, store.router.params.currentItemId]);
+	}, [presentationItemsData, store.router.params.currentItem, store.router.params.currentItemId]);
 
 	useEffect(() => {
 		if (store.campaign?.commentStore.scrollToComment) {
@@ -217,43 +217,28 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				}, 250);
 			}
 		}
-	}, [data, commentsData]);
+	}, [entityCommentsData, presentationItemsData]);
 
-	// TODO: same layout is written twice? refactor names
+	const isCampaignComments = store.router.params.currentItem === 'comments_list';
+	const commandGroupIds = isCampaignComments
+		? store.campaign.commentsList.commandGroupIds
+		: (entityCommentsData?.commandGroupIds as string[] | undefined);
+	const isLoading = isCampaignComments ? campaignCommentsIsLoading : entityCommentsIsLoading;
+
 	return (
 		<VirtualizedList
 			rangeChanged={(visibleRange) => state.update('visibleRange', visibleRange)}
 			listRef={listRef}
 			cy-test="comments-view"
 		>
-			{store.router.params.currentItem === 'comments_list' ? (
-				store.campaign.commentsList.commandGroupIds.length === 0 ? (
-					isCommentsDataLoading ? (
-						<ProgressBar intent={Intent.PRIMARY} />
-					) : (
-						<MessageRow>No comments</MessageRow>
-					)
-				) : (
-					store.campaign.commentsList.commandGroupIds.map((commandGroupId) => (
-						<CommentGroup
-							cy-test="comment-group"
-							key={commandGroupId}
-							commandGroupId={commandGroupId}
-							toggleNewComment={state.toggleNewComment}
-							newComment={state.newComment}
-							expandedCommandIDs={state.expandedCommandIDs}
-							removeExpandedCommandID={state.removeExpandedCommandID}
-						/>
-					))
-				)
-			) : data?.commandGroupIds.length === 0 ? (
+			{commandGroupIds?.length === 0 ? (
 				isLoading ? (
-					<MessageRow>No comments</MessageRow>
-				) : (
 					<ProgressBar intent={Intent.PRIMARY} />
+				) : (
+					<MessageRow>No comments</MessageRow>
 				)
 			) : (
-				data?.commandGroupIds.map((commandGroupId) => (
+				commandGroupIds?.map((commandGroupId) => (
 					<CommentGroup
 						cy-test="comment-group"
 						key={commandGroupId}
