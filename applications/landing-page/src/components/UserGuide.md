@@ -1,8 +1,8 @@
 <div>
   <p align="center" width="100%">
-    <source media="(prefers-color-scheme: dark)"  srcset="../applications/client/public/logos/Logo-Dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="../applications/client/public/logos/Logo-Light.png">
-    <img width=25% alt="Redeye Logo" src="../applications/client/public/logos/Logo-Dark.png">
+    <source media="(prefers-color-scheme: dark)"  srcset="logos/Logo-Dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="logos/Logo-Light.png">
+    <img width=25% alt="Redeye Logo" src="logos/Logo-Dark.png">
   </p>    
 </div>
 
