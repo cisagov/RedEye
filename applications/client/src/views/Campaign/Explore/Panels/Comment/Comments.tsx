@@ -118,21 +118,51 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	);
 
+	// Fetch presentationItemsData again when refreshing browser @comments_list-[currentItemId] and changing sort
+	const { data: campaignCommentsData } = useQuery(
+		[
+			'overview-comments-items',
+			store.campaign.id,
+			store.campaign.sortMemory.comments_list,
+			store.campaign.sortMemory.comments,
+		],
+		async () => {
+			if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
+				const presentationItemsData = await store.graphqlStore.queryPresentationItems(
+					{
+						campaignId: store.campaign.id!,
+						hidden: store.settings.showHidden,
+						forOverviewComments: true,
+						commentsTabSort: sort as SortTypeCommentsTab,
+					},
+					presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
+					undefined,
+					true
+				);
+				const currentPresentationItem = presentationItemsData?.presentationItems.find(
+					(item) => item.id === store.router.params.currentItemId
+				);
+				return { commandGroupIds: Array.from(currentPresentationItem?.commandGroupIds || []) };
+			}
+			return { commandGroupIds: [] as string[] };
+		}
+	);
+
 	const { isLoading: campaignCommentsIsLoading } = useQuery(
 		[
 			'commandGroupsById',
 			'commandGroups',
 			store.campaign.id,
-			store.campaign.commentsList.commandGroupIds,
+			campaignCommentsData?.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
 			store.router.params.currentItem,
 			store.router.params.currentItemId,
 		],
 		async () => {
-			if (store.campaign.commentsList.commandGroupIds.length) {
+			if (campaignCommentsData?.commandGroupIds?.length) {
 				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
 				const start = index * pageSize;
-				const ids = store.campaign.commentsList.commandGroupIds.slice(start, start + pageSize);
+				const ids = campaignCommentsData?.commandGroupIds?.slice(start, start + pageSize);
 				// query commands as temp solution
 				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
 					{
@@ -157,40 +187,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			}
 		},
 		{
-			enabled: !!store.campaign.commentsList.commandGroupIds.length,
-		}
-	);
-
-	// Fetch presentationItemsData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: _ } = useQuery(
-		[
-			'overview-comments-items',
-			store.campaign.id,
-			store.campaign.sortMemory.comments_list,
-			store.campaign.sortMemory.comments,
-		],
-		async () => {
-			if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
-				const presentationItemsData = await store.graphqlStore.queryPresentationItems(
-					{
-						campaignId: store.campaign.id!,
-						hidden: store.settings.showHidden,
-						forOverviewComments: true,
-						commentsTabSort: sort as SortTypeCommentsTab,
-					},
-					presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
-					undefined,
-					true
-				);
-				const currentPresentationItem = presentationItemsData?.presentationItems.find(
-					(item) => item.id === store.router.params.currentItemId
-				);
-				store.campaign?.setCommentsList({
-					commandGroupIds: Array.from(currentPresentationItem?.commandGroupIds || []),
-				});
-				return presentationItemsData;
-			}
-			return {};
+			enabled: !!campaignCommentsData?.commandGroupIds?.length,
 		}
 	);
 
@@ -219,9 +216,9 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 	}, [entityCommentsData]);
 
 	const isCampaignComments = store.router.params.currentItem === 'comments_list';
-	const commandGroupIds = isCampaignComments
-		? store.campaign.commentsList.commandGroupIds
-		: (entityCommentsData?.commandGroupIds as string[] | undefined);
+	const commandGroupIds: string[] | undefined = isCampaignComments
+		? campaignCommentsData?.commandGroupIds
+		: entityCommentsData?.commandGroupIds;
 	const isLoading = isCampaignComments ? campaignCommentsIsLoading : entityCommentsIsLoading;
 
 	return (
