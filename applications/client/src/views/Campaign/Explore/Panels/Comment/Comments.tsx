@@ -96,7 +96,8 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	);
 
-	const { isLoading } = useQuery(
+	// const { isLoading: isLoadingMoreComments } = useQuery(
+	useQuery(
 		[
 			'commandGroupsById',
 			'commandGroups',
@@ -112,6 +113,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				const start = index * pageSize;
 				const end = start + pageSize;
 				const ids = commandGroupIdData.commandGroupIds.slice(start, end);
+
 				// query commands as temp solution
 				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
 					{
@@ -170,12 +172,10 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			listRef={listRef}
 			cy-test="comments-view"
 		>
-			{commandGroupIdData?.commandGroupIds?.length === 0 ? (
-				isLoading ? (
-					<ProgressBar intent={Intent.PRIMARY} />
-				) : (
-					<MessageRow>No comments</MessageRow>
-				)
+			{!commandGroupIdData?.commandGroupIds ? (
+				<ProgressBar intent={Intent.PRIMARY} />
+			) : commandGroupIdData?.commandGroupIds?.length === 0 ? (
+				<MessageRow>No comments</MessageRow>
 			) : (
 				commandGroupIdData?.commandGroupIds?.map((commandGroupId) => (
 					<CommentGroup
