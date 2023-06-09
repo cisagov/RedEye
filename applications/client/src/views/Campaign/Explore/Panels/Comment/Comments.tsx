@@ -118,28 +118,6 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	);
 
-	// Fetch presentationData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: presentationItemsData } = useQuery(
-		[
-			'overview-comments-items',
-			store.campaign.id,
-			store.campaign.sortMemory.comments_list,
-			store.campaign.sortMemory.comments,
-		],
-		async () =>
-			await store.graphqlStore.queryPresentationItems(
-				{
-					campaignId: store.campaign.id!,
-					hidden: store.settings.showHidden,
-					forOverviewComments: true,
-					commentsTabSort: sort as SortTypeCommentsTab,
-				},
-				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
-				undefined,
-				true
-			)
-	);
-
 	const { isLoading: campaignCommentsIsLoading } = useQuery(
 		[
 			'commandGroupsById',
@@ -183,17 +161,38 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		}
 	);
 
-	useEffect(() => {
-		// What does this do?
-		if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
-			const currentPresentationItem = presentationItemsData?.presentationItems.find(
-				(item) => item.id === store.router.params.currentItemId
-			);
-			store.campaign?.setCommentsList({
-				commandGroupIds: Array.from(currentPresentationItem?.commandGroupIds || []),
-			});
+	// Fetch presentationItemsData again when refreshing browser @comments_list-[currentItemId] and changing sort
+	const { data: _ } = useQuery(
+		[
+			'overview-comments-items',
+			store.campaign.id,
+			store.campaign.sortMemory.comments_list,
+			store.campaign.sortMemory.comments,
+		],
+		async () => {
+			if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
+				const presentationItemsData = await store.graphqlStore.queryPresentationItems(
+					{
+						campaignId: store.campaign.id!,
+						hidden: store.settings.showHidden,
+						forOverviewComments: true,
+						commentsTabSort: sort as SortTypeCommentsTab,
+					},
+					presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
+					undefined,
+					true
+				);
+				const currentPresentationItem = presentationItemsData?.presentationItems.find(
+					(item) => item.id === store.router.params.currentItemId
+				);
+				store.campaign?.setCommentsList({
+					commandGroupIds: Array.from(currentPresentationItem?.commandGroupIds || []),
+				});
+				return presentationItemsData;
+			}
+			return {};
 		}
-	}, [presentationItemsData, store.router.params.currentItem, store.router.params.currentItemId]);
+	);
 
 	useEffect(() => {
 		if (store.campaign?.commentStore.scrollToComment) {
@@ -217,7 +216,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				}, 250);
 			}
 		}
-	}, [entityCommentsData, presentationItemsData]);
+	}, [entityCommentsData]);
 
 	const isCampaignComments = store.router.params.currentItem === 'comments_list';
 	const commandGroupIds = isCampaignComments

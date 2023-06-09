@@ -49,6 +49,7 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 	// For presentationItem.id by User or Tag, make sure use a prefix in case it's same to other general types.
 	const handleClickType = useCallback((presentationItem) => {
 		store.campaign?.setCommentsList({
+			// this is also done in Comments.tsx
 			commandGroupIds: Array.from(presentationItem.commandGroupIds),
 		});
 		store.router.updateRoute({
