@@ -37,6 +37,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 			<div
 				css={[
 					css`
+						display: flex;
 						flex-direction: column;
 						width: 100%; // For host meta tab;
 						padding: 1px 0; // to force impossibility of block layout margin
