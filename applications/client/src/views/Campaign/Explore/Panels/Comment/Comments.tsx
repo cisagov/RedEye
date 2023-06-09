@@ -10,7 +10,7 @@ import {
 	useStore,
 	commandGroupCommentsQuery,
 } from '@redeye/client/store';
-import { UUID } from '@redeye/client/types';
+import type { UUID } from '@redeye/client/types';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observable } from 'mobx';
@@ -49,7 +49,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		},
 	});
 
-	const { data: entityCommentsData } = useQuery(
+	const { data: commandGroupIdData } = useQuery(
 		[
 			'commandGroups',
 			store.campaign?.id,
@@ -61,32 +61,9 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			store.router.params.currentItem,
 			store.router.params.currentItemId,
 		],
-		async () =>
-			(await store.graphqlStore.queryCommandGroupIds({
-				campaignId: store.campaign?.id!,
-				beaconId: store.campaign?.interactionState.selectedBeacon?.id as string,
-				hostId: store.campaign?.interactionState.selectedHost?.id as string,
-				operatorId: store.campaign?.interactionState.selectedOperator?.id!,
-				commandType: store.campaign?.interactionState.selectedCommandType?.id!,
-				hidden: store.settings.showHidden,
-				sort: {
-					...sort,
-					sortBy: sort.sortBy === 'minTime' ? SortOptionComments.time : (sort.sortBy as SortOptionComments),
-				},
-			})) as CommandGroupIdData
-	);
-
-	// Fetch presentationItemsData again when refreshing browser @comments_list-[currentItemId] and changing sort
-	const { data: campaignCommentsData } = useQuery(
-		[
-			'overview-comments-items',
-			store.campaign.id,
-			sort,
-			store.router.params.currentItem,
-			store.router.params.currentItemId,
-		],
 		async () => {
 			if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
+				// Fetch presentationItemsData again when refreshing browser @comments_list-[currentItemId] and changing sort
 				const presentationItemsData = await store.graphqlStore.queryPresentationItems(
 					{
 						campaignId: store.campaign.id!,
@@ -102,28 +79,39 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 					(item) => item.id === store.router.params.currentItemId
 				);
 				return { commandGroupIds: Array.from(currentPresentationItem?.commandGroupIds || []) } as CommandGroupIdData;
+			} else {
+				return (await store.graphqlStore.queryCommandGroupIds({
+					campaignId: store.campaign?.id!,
+					beaconId: store.campaign?.interactionState.selectedBeacon?.id as string,
+					hostId: store.campaign?.interactionState.selectedHost?.id as string,
+					operatorId: store.campaign?.interactionState.selectedOperator?.id!,
+					commandType: store.campaign?.interactionState.selectedCommandType?.id!,
+					hidden: store.settings.showHidden,
+					sort: {
+						...sort,
+						sortBy: sort.sortBy === 'minTime' ? SortOptionComments.time : (sort.sortBy as SortOptionComments),
+					},
+				})) as CommandGroupIdData;
 			}
-			return { commandGroupIds: [] } as CommandGroupIdData;
 		}
 	);
 
-	// console.log({ campaignCommentsData, entityCommentsData });
-
-	const { isLoading: campaignCommentsIsLoading } = useQuery(
+	const { isLoading } = useQuery(
 		[
 			'commandGroupsById',
 			'commandGroups',
 			store.campaign.id,
-			campaignCommentsData?.commandGroupIds,
+			commandGroupIdData?.commandGroupIds,
 			Math.trunc(state.visibleRange.endIndex / pageSize),
 			store.router.params.currentItem,
 			store.router.params.currentItemId,
 		],
 		async () => {
-			if (campaignCommentsData?.commandGroupIds?.length) {
+			if (commandGroupIdData?.commandGroupIds?.length) {
 				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
 				const start = index * pageSize;
-				const ids = campaignCommentsData?.commandGroupIds?.slice(start, start + pageSize);
+				const end = start + pageSize;
+				const ids = commandGroupIdData.commandGroupIds.slice(start, end);
 				// query commands as temp solution
 				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
 					{
@@ -148,59 +136,16 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			}
 		},
 		{
-			enabled: !!campaignCommentsData?.commandGroupIds?.length,
-		}
-	);
-
-	const { isLoading: entityCommentsIsLoading } = useQuery(
-		[
-			'commandGroupsById',
-			'commandGroups',
-			store.campaign.id,
-			entityCommentsData?.commandGroupIds,
-			Math.trunc(state.visibleRange.endIndex / pageSize),
-			store.router.params.currentItem,
-			store.router.params.currentItemId,
-		],
-		async () => {
-			if (entityCommentsData?.commandGroupIds?.length) {
-				const index = Math.trunc(state.visibleRange.endIndex / pageSize);
-				const start = index * pageSize;
-				const ids = entityCommentsData.commandGroupIds.slice(start, start + pageSize);
-				// query commands as temp solution
-				const commandGroupsQuery = await store.graphqlStore.queryCommandGroups(
-					{
-						campaignId: store.campaign?.id!,
-						commandGroupIds: ids,
-						hidden: store.settings.showHidden,
-					},
-					commandGroupCommentsQuery // command cache issue?
-				);
-
-				// query commands as temp solution
-				const commandIds = commandGroupsQuery?.commandGroups.flatMap((cg) => cg.commandIds).filter<string>(isDefined);
-				return store.graphqlStore.queryCommands(
-					{
-						campaignId: store.campaign?.id!,
-						commandIds,
-						hidden: store.settings.showHidden,
-					},
-					commandQuery
-				);
-				// query commands as temp solution
-			}
-		},
-		{
-			enabled: !!entityCommentsData?.commandGroupIds?.length,
+			enabled: !!commandGroupIdData?.commandGroupIds?.length,
 		}
 	);
 
 	useEffect(() => {
-		if (store.campaign?.commentStore.scrollToComment) {
+		if (store.campaign?.commentStore.scrollToComment && commandGroupIdData) {
 			state.update(
 				'scrollToIndex',
-				Object.values(store.graphqlStore.commandGroups?.items).findIndex(
-					(commandGroup) => commandGroup.id === store.campaign?.commentStore.scrollToComment
+				Object.values(commandGroupIdData?.commandGroupIds).findIndex(
+					(commandGroupId) => commandGroupId === store.campaign?.commentStore.scrollToComment
 				)
 			);
 			if (state.scrollToIndex !== -1) {
@@ -217,13 +162,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 				}, 250);
 			}
 		}
-	}, [entityCommentsData]);
-
-	const isCampaignComments = store.router.params.currentItem === 'comments_list';
-	const commandGroupIds: string[] | undefined = isCampaignComments
-		? campaignCommentsData?.commandGroupIds
-		: entityCommentsData?.commandGroupIds;
-	const isLoading = isCampaignComments ? campaignCommentsIsLoading : entityCommentsIsLoading;
+	}, [commandGroupIdData]);
 
 	return (
 		<VirtualizedList
@@ -231,14 +170,14 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			listRef={listRef}
 			cy-test="comments-view"
 		>
-			{commandGroupIds?.length === 0 ? (
+			{commandGroupIdData?.commandGroupIds?.length === 0 ? (
 				isLoading ? (
 					<ProgressBar intent={Intent.PRIMARY} />
 				) : (
 					<MessageRow>No comments</MessageRow>
 				)
 			) : (
-				commandGroupIds?.map((commandGroupId) => (
+				commandGroupIdData?.commandGroupIds?.map((commandGroupId) => (
 					<CommentGroup
 						cy-test="comment-group"
 						key={commandGroupId}
