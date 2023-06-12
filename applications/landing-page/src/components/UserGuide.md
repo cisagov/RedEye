@@ -151,7 +151,7 @@ Select a beacon from the Beacons Tab to find out more information, such as the c
 Select a command from the list to view the raw logs executed by the beacon. Here, you'll be able to see the different types of associated MITRE attacks, as well as the option to copy the log file text.
 
 <p align="center">
-<img src="images/RawLogs.png" width="85%"/>
+<img src="images/RawLogs.png" width="100%"/>
 </p>
 
 ### Adding Comments and Tags

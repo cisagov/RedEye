@@ -85,11 +85,13 @@ h1 {
 	color: white;
 }
 
-.expanded {
-	display: flex;
-	align-items: start;
-	padding-left: 16px;
-	flex-direction: column;
+@media screen and (max-width: 600px) {
+	.expanded {
+		display: flex;
+		align-items: start;
+		padding-left: 16px;
+		flex-direction: column;
+	}
 }
 
 @media screen and (min-width: 600px) {
