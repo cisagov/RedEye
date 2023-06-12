@@ -6,7 +6,7 @@ tasks:
     deps:
       - ~:build-node
   start-dev:
-    deps:
-      - ~:start-node
+    # deps:
+    #   - ~:start-node
     options:
       runInCI: false

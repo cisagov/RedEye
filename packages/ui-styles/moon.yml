@@ -4,7 +4,7 @@ tasks:
     deps:
       - ~:build-library
   start-dev:
-    deps:
-      - ~:watch-library
+    # deps:
+    #   - ~:watch-library
     options:
       runInCI: false

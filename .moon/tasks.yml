@@ -322,3 +322,6 @@ tasks:
     platform: node
     options:
       runInCI: false
+
+implicitDeps:
+  - '^:build'
