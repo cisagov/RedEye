@@ -87,15 +87,17 @@ Type `./Redeye -h` to view the options
 -r, --redTeam [boolean]          run the server in red team mode
 --port [number]                  the port the server should be exposed at
 -p, --password [string]          the password for user authentication
+--parsers [string...]            A list of parsers to use or a flag to use all parsers in the parsers folder
 -t, --childProcesses [number]    max # of child processes the parser can use
 -h, --help                       display help for command
 ```
 
-you can also configure the sever parameters in an `config.json` file that sits next to the `RedEye` binary
+you can also configure the server parameters in a `config.json` file that sits next to the `RedEye` binary
 ```json
 {
 	"password": "937038570",
-	"redTeam": true
+	"redTeam": true,
+	"parsers": ["cobalt-strike-parser", "brute-ratel-parser"]
 }
 ```
 

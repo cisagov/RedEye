@@ -18,11 +18,15 @@
 					"default": 4000
 				},
 				"parsers": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					},
-					"default": ["cobalt-strike-parser", "brute-ratel-parser"]
+					"oneOf": [
+						{ "type": "boolean" },
+						{
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					]
 				},
 				"clientPort": {
 					"type": "integer",
