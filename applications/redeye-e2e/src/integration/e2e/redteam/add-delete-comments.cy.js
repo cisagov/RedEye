@@ -51,8 +51,12 @@ describe('Add Delete Campaign Comments', () => {
 		// Log new number of comments via Comments tab - should be 1 more
 		cy.clickExplorerMode();
 		cy.clickCommentsTab();
-		cy.viewAllComments();
-		cy.get('@commentsTabCount').should('have.length', 6);
+		cy.get('[cy-test=comment-count]')
+			.eq(0)
+			.invoke('text')
+			.then((updatedCommentCount) => {
+				expect(+updatedCommentCount).to.eq(6);
+			});
 
 		cy.returnToCampaignCard();
 		cy.searchForCampaign(camp);
