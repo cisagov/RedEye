@@ -197,7 +197,7 @@
 		"ts-node": "^10.9.1",
 		"tsup": "^6.5.0",
 		"typescript": "^5.0.4",
-		"vite": "^4.3.1",
+		"vite": "^4.3.9",
 		"vite-plugin-checker": "^0.5.6",
 		"vite-plugin-dts": "^2.3.0",
 		"vite-tsconfig-paths": "^4.2.0"
