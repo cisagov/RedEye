@@ -15,7 +15,7 @@ export const configDefinition = z.object({
 	production: z.boolean().optional().default(true),
 	redTeam: z.boolean().default(false),
 	port: z.number().int().positive().optional().default(4000),
-	parsers: z.array(z.string()).default(['cobalt-strike-parser', 'brute-ratel-parser']),
+	parsers: z.array(z.string()).optional(),
 	clientPort: z
 		.number()
 		.int()
@@ -31,7 +31,7 @@ export const configDefinition = z.object({
 
 const configWithRequired = configDefinition.required({ password: true });
 export type ConfigDefinition = z.infer<typeof configWithRequired>;
-
+type ConfigOverrides = Omit<ConfigDefinition, 'parsers'> & { parsers: boolean | string[] };
 const castConfig = (cliArgs: cliArgs): ConfigDefinition => {
 	let configFile: string | undefined;
 	try {
@@ -39,7 +39,7 @@ const castConfig = (cliArgs: cliArgs): ConfigDefinition => {
 	} catch (err) {
 		console.debug('No config file found, using defaults');
 	}
-	const overrides: ConfigDefinition = configFile ? JSON.parse(configFile) : {};
+	const overrides: ConfigOverrides = configFile ? JSON.parse(configFile) : {};
 
 	if (cliArgs.developmentMode) {
 		overrides.production = false;
@@ -49,15 +49,41 @@ const castConfig = (cliArgs: cliArgs): ConfigDefinition => {
 	if (cliArgs.redTeam) overrides.redTeam = true;
 	if (cliArgs.childProcesses) overrides.maxParserSubprocesses = cliArgs.childProcesses;
 	if (cliArgs.password) overrides.password = cliArgs.password;
+	if (cliArgs.parsers) {
+		if (cliArgs.parsers === true) {
+			overrides.parsers = true;
+		} else {
+			overrides.parsers = cliArgs.parsers;
+		}
+	}
+
+	// Check the parsers folder for available parsers
+	if (overrides.parsers === true) {
+		try {
+			const parserFile = fs.readdirSync(path.join(getRuntimeDir(), 'parsers'), { withFileTypes: true });
+			overrides.parsers = parserFile.filter((file) => file.isFile()).map((file) => file.name);
+		} catch (e) {
+			console.error('Could not read parser directory');
+		}
+	}
 
 	return configDefinition
 		.refine((config) => {
 			if (!config.redTeam && !config.password) {
 				config.password = '';
-			} else if (config.redTeam && !config.password) {
-				throw new Error(
-					'`password` config property and `--password` arg undefined. Cannot run red team mode without a password'
-				);
+			}
+
+			if (config.redTeam) {
+				if (!config.password) {
+					throw new Error(
+						'`password` config property and `--password` arg undefined. Cannot run red team mode without a password'
+					);
+				}
+				if (!config.parsers) {
+					console.log('No parsers specified in config, only .redeye files can be uploaded');
+				} else {
+					console.log(`Using parsers: ${config.parsers.join(' ')}`);
+				}
 			}
 			return config;
 		})
