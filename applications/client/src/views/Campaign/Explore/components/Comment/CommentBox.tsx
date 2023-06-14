@@ -173,7 +173,7 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const state = createState({
 			editMode: newComment || false,
-			text: annotation?.text || '',
+			text: annotation?.text || window.localStorage.getItem('pendingComments') || '',
 			manualLinkName: '',
 			displayName: '',
 			destinationBeacon: undefined as BeaconModel | undefined,
@@ -249,6 +249,14 @@ export const CommentBox = observer<CommentBoxProps>(
 			},
 			handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
 				this.text = e.target.value;
+				if (!this.commandGroupId && !!this.editMode) {
+					const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+					delete pendingComments[this.commandIds[0]];
+					window.localStorage.setItem(
+						'pendingComments',
+						JSON.stringify({ ...pendingComments, [this.commandIds[0]]: e.target.value })
+					);
+				}
 			},
 			handleManualLinkNameChange(e: ChangeEvent<HTMLInputElement>) {
 				this.manualLinkName = e.target.value;
@@ -267,6 +275,11 @@ export const CommentBox = observer<CommentBoxProps>(
 				}
 			},
 			cancelAnnotationEdit() {
+				if (!state.commandGroupId && !!state.editMode && state.text[0] === '{') {
+					const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+					delete pendingComments[this.commandIds[0]];
+					window.localStorage.setItem('pendingComments', JSON.stringify(pendingComments));
+				}
 				this.text = annotation?.text || '';
 				this.tags.replace(this.defaultTags);
 				this.editMode = false;
@@ -287,10 +300,13 @@ export const CommentBox = observer<CommentBoxProps>(
 							campaignId,
 							commandIds: this.commandIds,
 							favorite: this.favorite,
-							text: this.text,
+							text: JSON.parse(window.localStorage.getItem('pendingComments') || '{}')[this.commandIds[0]],
 							tags: this.tags,
 							user: store.auth.userName!,
 						});
+						const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+						delete pendingComments[this.commandIds[0]];
+						window.localStorage.setItem('pendingComments', JSON.stringify(pendingComments));
 					} else if ((this.editMode || update) && annotation) {
 						yield store.graphqlStore.mutateUpdateAnnotation({
 							campaignId,
@@ -391,9 +407,9 @@ export const CommentBox = observer<CommentBoxProps>(
 					<span>
 						<CarbonIcon cy-test="comment-icon" icon={Chat16} />
 						<Spacer />
-						<Txt cy-test="user-that-commented">
+						<Txt cy-test="user-that-commented" muted={annotation?.user === ''} italic={annotation?.user === ''}>
 							{annotation?.user !== undefined ? (
-								annotation?.user
+								annotation?.user || 'parser-generated'
 							) : (
 								<span>
 									<Txt cy-test="new-comment-header" bold>
@@ -446,7 +462,11 @@ export const CommentBox = observer<CommentBoxProps>(
 								growVertically
 								fill
 								onChange={state.handleTextChange}
-								value={state.text}
+								value={
+									!!state.editMode && state.text[0] === '{'
+										? JSON.parse(state.text || '{}')[state.commandIds[0]]
+										: state.text
+								}
 								placeholder="..."
 								autoFocus
 							/>
@@ -574,7 +594,12 @@ export const CommentBox = observer<CommentBoxProps>(
 								intent={Intent.PRIMARY}
 								alignText={Alignment.LEFT}
 								loading={state.loading}
-								disabled={state.loading || !state.text}
+								disabled={
+									state.loading ||
+									!(!!state.editMode && state.text[0] === '{'
+										? JSON.parse(state.text || '{}')[state.commandIds[0]]
+										: state.text)
+								}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
 								rightIcon={<CarbonIcon icon={semanticIcons.addComment} />}

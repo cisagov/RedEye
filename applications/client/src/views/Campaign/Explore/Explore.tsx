@@ -100,7 +100,9 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		() =>
 			autorun(() => {
 				try {
-					if (
+					if (store.router.params.currentItem === 'comments_list') {
+						state.update('infoPanelType', InfoType.COMMENTS_LIST);
+					} else if (
 						!store.campaign?.interactionState.selectedBeacon &&
 						!store.campaign?.interactionState.selectedServer &&
 						!store.campaign?.interactionState.selectedHost &&
@@ -123,7 +125,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 					window.console.log(e); // Try to catch if tab switching is stalling here - hard to reproduce
 				}
 			}),
-		[]
+		[store.router.params.currentItem]
 	);
 
 	const handleTabChange = useCallback(async (newTab: TabId) => {
@@ -203,7 +205,7 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 						key={panelName}
 						cy-test={panelName}
 						id={panelName}
-						title={TabNames[panelName]}
+						title={TabNames(store)[panelName]}
 						panel={
 							<>
 								<ControlBar

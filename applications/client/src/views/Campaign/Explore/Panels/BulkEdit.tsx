@@ -107,7 +107,7 @@ export const BulkEdit = observer<HostRowProps>(
 		return (
 			<>
 				<div css={modeBarStyle}>
-					<Txt>
+					<Txt cy-test="selected-count">
 						{count} {typeName === 'beacons' ? 'Beacon' : 'Host'}
 						{count <= 1 ? '' : 's'} Selected
 					</Txt>
@@ -122,6 +122,7 @@ export const BulkEdit = observer<HostRowProps>(
 						disabled={count === 0}
 						icon={
 							<Button
+								cy-test="bulk-edit"
 								disabled={count === 0}
 								rightIcon={<CarbonIcon icon={Edit16} />}
 								intent={Intent.PRIMARY}
@@ -135,6 +136,7 @@ export const BulkEdit = observer<HostRowProps>(
 							<Menu>
 								{store.settings.showHidden && (
 									<MenuItem2
+										cy-test="show"
 										text={`Show ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 										icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
 										onClick={handleBulkShowClick}
@@ -146,6 +148,7 @@ export const BulkEdit = observer<HostRowProps>(
 									/>
 								)}
 								<MenuItem2
+									cy-test="hide"
 									text={`Hide ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 									icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}
 									onClick={handleBulkHideClick}

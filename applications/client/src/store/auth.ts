@@ -40,6 +40,7 @@ export class Auth extends ExtendedModel(RedEyeModel, {
 				credentials: 'include',
 			});
 			this.appStore?.router.updateRoute({ path: RedEyeRoutes.LOGIN });
+			window.localStorage.removeItem('pendingComments');
 		} catch (e) {
 			this.appStore?.router.updateRoute({ path: RedEyeRoutes.LOGIN });
 			window.console.debug(e);

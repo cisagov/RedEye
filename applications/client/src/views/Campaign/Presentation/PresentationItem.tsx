@@ -3,6 +3,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CommentGroup } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import type { ComponentProps } from 'react';
@@ -18,6 +19,12 @@ export const PresentationItem = observer<PresentationItemProps>(({ commandGroupI
 		toggleNewComment() {
 			if (this.newComment) this.newComment = '';
 			else this.newComment = commandGroupId;
+		},
+		expandedCommandIDs: store.router.params.activeItemId
+			? observable.array([store.router.params.activeItemId])
+			: observable.array<string>([]),
+		removeExpandedCommandID(commandId: string) {
+			this.expandedCommandIDs.remove(commandId);
 		},
 	});
 	const { data } = useQuery(
@@ -56,9 +63,11 @@ export const PresentationItem = observer<PresentationItemProps>(({ commandGroupI
 		<CommentGroup
 			cy-test="presentation-item-root"
 			showPath
-			commandGroup={data.commandGroup}
+			commandGroupId={data.commandGroup.id}
 			toggleNewComment={state.toggleNewComment}
 			newComment={state.newComment}
+			expandedCommandIDs={state.expandedCommandIDs}
+			removeExpandedCommandID={state.removeExpandedCommandID}
 			css={css`
 				border: unset;
 			`}

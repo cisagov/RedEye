@@ -21,6 +21,7 @@ describe('Add Delete Campaign Comments', () => {
 		// Open campaign and log starting number of comments via Comments tab
 		cy.selectCampaign(camp);
 		cy.clickCommentsTab();
+		cy.viewAllComments();
 
 		cy.get('[cy-test=comment-group]')
 			.map('innerText')
@@ -50,7 +51,12 @@ describe('Add Delete Campaign Comments', () => {
 		// Log new number of comments via Comments tab - should be 1 more
 		cy.clickExplorerMode();
 		cy.clickCommentsTab();
-		cy.get('@commentsTabCount').should('have.length', 6);
+		cy.get('[cy-test=comment-count]')
+			.eq(0)
+			.invoke('text')
+			.then((updatedCommentCount) => {
+				expect(+updatedCommentCount).to.eq(6);
+			});
 
 		cy.returnToCampaignCard();
 		cy.searchForCampaign(camp);
@@ -70,6 +76,7 @@ describe('Add Delete Campaign Comments', () => {
 		// Log new number of comments via Comments tab - should be 1 less
 		cy.clickExplorerMode();
 		cy.clickCommentsTab();
+		cy.viewAllComments();
 		expect(Cypress.env('commentsTabCount')).to.have.length(5);
 
 		// Return to campaign menu and log new number of comments - should be one less than original, and all comment counts should match

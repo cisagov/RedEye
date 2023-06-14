@@ -10,6 +10,14 @@ import { useEffect } from 'react';
 import { CampaignViews, Tabs } from '../../../../types';
 import type { UUID } from '../../../../types';
 
+export enum CommentListType {
+	all = 'Comments',
+	favorited = 'Comments',
+	procedural = 'User Comments',
+	user = 'User Comments',
+	tag = 'Tag Comments',
+}
+
 type NavBreadcrumbsProps = Omit<BreadcrumbsProps, 'items'> &
 	BreadcrumbsStyledProps & {
 		/** if specified, show a nav to the beacon, otherwise display nav relative to the current route */
@@ -45,6 +53,36 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 					store.campaign?.interactionState.selectedHost ||
 					store.campaign?.interactionState.selectedBeacon
 				);
+
+				if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
+					crumbs.push({
+						text: 'All',
+						onClick: () => {
+							store.router.updateRoute({
+								path: routes[CampaignViews.EXPLORE],
+								params: {
+									id: store.campaign.id,
+									view: CampaignViews.EXPLORE,
+									tab: Tabs.COMMENTS_LIST,
+									currentItem: 'all',
+									currentItemId: undefined,
+									activeItem: undefined,
+									activeItemId: undefined,
+								},
+							});
+						},
+					});
+					crumbs.push({
+						text:
+							store.router.params.currentItemId.slice(0, 5) === 'user-'
+								? CommentListType.user
+								: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+								? CommentListType.tag
+								: CommentListType[store.router.params.currentItemId],
+						current: true,
+					});
+					return crumbs;
+				}
 
 				if (!hideRoot)
 					crumbs.push({
