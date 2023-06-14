@@ -1,5 +1,7 @@
-import { Button, ButtonProps } from '@blueprintjs/core';
-import { Popover2, Popover2Props, Popover2TargetProps } from '@blueprintjs/popover2';
+import type { ButtonProps } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
+import type { Popover2Props, Popover2TargetProps } from '@blueprintjs/popover2';
+import { Popover2 } from '@blueprintjs/popover2';
 
 export type PopoverButtonProps = ButtonProps & {
 	popoverProps?: Omit<Partial<Popover2Props>, 'children' | 'renderTarget' | 'content'>;

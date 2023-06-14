@@ -1,20 +1,23 @@
-import { ApolloServer, ApolloServerOptions } from '@apollo/server';
+import type { ApolloServerOptions } from '@apollo/server';
+import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express, { Express } from 'express';
+import type { Express } from 'express';
+import express from 'express';
 import fileUpload from 'express-fileupload';
 import fs from 'fs-extra';
 import path from 'path';
 import 'reflect-metadata';
-import { AuthChecker, buildSchema } from 'type-graphql';
+import type { AuthChecker } from 'type-graphql';
+import { buildSchema } from 'type-graphql';
 import { json } from 'body-parser';
 import { asciiArt, consoleFormatting as cf } from '../asciiArt';
 import { isAuth } from '../auth';
 import { addRestRoutes } from '../routes';
-import { ServerMachineContext } from './server.machine';
+import type { ServerMachineContext } from './server.machine';
 import { resolvers } from '../store';
 import { getRootPath } from '../util';
 import type { EndpointContext, GraphQLContext } from '../types';

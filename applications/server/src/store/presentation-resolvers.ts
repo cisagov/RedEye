@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/core';
+import type { EntityManager } from '@mikro-orm/core';
 import { Arg, Authorized, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
 import { CommandGroup, Link, Server, Tag } from '@redeye/models';
 import { beaconHidden } from './utils/hidden-entities-helper';

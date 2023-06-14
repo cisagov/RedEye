@@ -1,4 +1,5 @@
-import { Beacon, Image } from '@redeye/models';
+import type { Beacon } from '@redeye/models';
+import { Image } from '@redeye/models';
 import { readFileSync } from 'fs';
 import { getBeaconFromScreenShotName } from './regex';
 import type { MikroORM } from '@mikro-orm/core';

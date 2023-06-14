@@ -1,4 +1,4 @@
-import { GraphHandler } from './GraphHandler';
+import type { GraphHandler } from './GraphHandler';
 
 export function defNum(value: number | undefined | null): number {
 	return !value ? 0 : value;

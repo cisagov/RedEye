@@ -1,6 +1,6 @@
 import { format, transports, createLogger } from 'winston';
-import { ActionMeta, EventObject } from 'xstate';
-import { LogLevel } from './commandOptions';
+import type { ActionMeta, EventObject } from 'xstate';
+import type { LogLevel } from './commandOptions';
 
 const myFormat = format.combine(format.json());
 
