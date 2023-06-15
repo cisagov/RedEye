@@ -8,13 +8,13 @@ export enum LogLevel {
 	debug = 'debug',
 }
 
-export type LoggerOptions = {
+export interface LoggerOptions {
 	message: string;
 	tags?: string[];
 	level?: keyof typeof LogLevel;
 	error?: unknown;
 	payload?: unknown;
-};
+}
 
 export const createLoggerInstance = (filePath: string) => {
 	const logger = createLogger({
