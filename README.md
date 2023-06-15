@@ -3,7 +3,7 @@
 Red Team C2 Log Visualization
 
 <p align="center">
-<img alt="RedEye Screenshot" src="docs/images/RedEye-Hero-Screenshot.png" width="100%"/>
+<img alt="RedEye Screenshot" src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedEye-Hero-Screenshot.png?raw=true" width="100%"/>
 </p>
 
 RedEye is an open-source analytic tool developed by [CISA](https://www.cisa.gov/) and [DOE](https://www.energy.gov/)’s [Pacific Northwest National Laboratory](https://www.pnnl.gov/) to assist [Red Teams](https://en.wikipedia.org/wiki/Red_team) with visualizing and reporting command and control activities. This tool allows an operator to assess and display complex data, evaluate mitigation strategies, and enable effective decision making in response to a Red Team assessment. The tool parses logs, such as those from [Cobalt Strike](https://www.cobaltstrike.com/), and presents the data in an easily digestible format. The users can then tag and add comments to activities displayed within the tool. The operators can use the RedEye’s presentation mode to present findings and workflow to stakeholders.
@@ -202,8 +202,8 @@ yarn release:(mac|windows|linux)
 
 <div align="center">
 
-<img alt="CISA Logo" src="docs/images/CISA Logo.png" height="35%" width="35%"/>
+<img alt="CISA Logo" src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CISA Logo.png?raw=true" height="35%" width="35%"/>
 
-<img alt="RedEye Logo" src="applications/client/public/logos/Logo-Dark.svg" height="35%" width="35%"/>
+<img alt="RedEye Logo" src="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/logos/Logo-Dark.svg" height="35%" width="35%"/>
 
 </div>
