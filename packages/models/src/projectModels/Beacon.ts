@@ -30,7 +30,6 @@ export class Beacon {
 	constructor({ host, id, server, beaconName }: RequiredInsertArgs & OptionalInsertArgs) {
 		this.id = id ?? randomUUID();
 		this.beaconName = beaconName;
-		this.displayName = beaconName;
 		if (server) this.server = server;
 		if (host) this.host = host;
 	}
