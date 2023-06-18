@@ -65,6 +65,33 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 		return operators;
 	}
 
+	@computed get computedBeaconName(): string {
+		const meta = this.meta[0]?.current;
+		if (!meta) return this.beaconName;
+		const {
+			// id,
+			// pid,
+			username,
+			// ip
+		} = meta;
+		const process = 'test.exe';
+		// const listener = 'http';
+		return [process, username].join(' · ');
+	}
+
+	@computed get computedName(): string {
+		return this.displayName ?? this.computedBeaconName;
+	}
+
+	@computed get computedHostName() {
+		return this.host?.current.computedName;
+	}
+
+	// @modelAction searchName(query: string) {
+	// 	// NEEDED ?
+	// 	// search host, beaconName, pid, username, displayName
+	// }
+
 	@modelAction select(activeItem?: CurrentItem, activeItemId?: UUID) {
 		const appStore = getRoot<AppStore>(this);
 		const notPrimary =

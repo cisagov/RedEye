@@ -58,6 +58,10 @@ export class ServerModel extends ExtendedModel(ServerModelBase, {
 		return { server: this.id };
 	}
 
+	@computed get computedName(): string {
+		return this.displayName ?? this.name;
+	}
+
 	@modelAction buildServerStats() {
 		const graphqlStore = findParent<RootStore>(this, (prnt) => (prnt as AnyModel)?.$modelType === 'RootStore');
 		const beacons = Array.from(this.beacons?.values() || []);
