@@ -81,6 +81,7 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 	}
 
 	@computed get computedName(): string {
+		// TODO: Fix beacon.displayName and reinstate next line
 		// return this.displayName ?? this.computedBeaconName;
 		return this.computedBeaconName;
 	}
