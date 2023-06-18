@@ -54,8 +54,8 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 	});
 
 	const skeletonClass = useMemo(
-		() => (!(beacon.displayName || beacon.server?.displayName) ? Classes.SKELETON : ''),
-		[beacon.displayName, beacon.server?.displayName]
+		() => (!(beacon.computedName || beacon.server?.computedName) ? Classes.SKELETON : ''),
+		[beacon.computedName, beacon.server?.computedName]
 	);
 
 	const indeterminate = useMemo(
@@ -127,11 +127,11 @@ export const BeaconRow = observer<BeaconProps>(({ beacon, ...props }) => {
 			</RowTime>
 			<CarbonIcon icon={semanticIcons.beacon} />
 			<RowTitle cy-test="beacon-display-name" className={skeletonClass}>
-				{beacon?.displayName || `${beacon.server?.displayName}`}
+				{beacon?.computedNameWithHost}
 			</RowTitle>
-			<RowMuted cy-test="beacon-user" className={skeletonClass}>
+			{/* <RowMuted cy-test="beacon-user" className={skeletonClass}>
 				{beacon.meta?.[0]?.maybeCurrent?.username}
-			</RowMuted>
+			</RowMuted> */}
 			<FlexSplitter />
 			{beacon?.hidden && <IconLabel cy-test="hidden" title="Hidden" icon={ViewOff16} />}
 			<MitreTechniqueIcons mitreAttackIds={beacon.mitreTechniques} />

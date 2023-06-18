@@ -1,6 +1,6 @@
 import type { AppStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { DoublePanelHeader, PanelHeader } from '@redeye/client/views';
+import { PanelHeader } from '@redeye/client/views';
 import { Beacons, HostBeacons } from './Beacon';
 import { Commands } from './Command';
 import { Comments } from './Comment';
@@ -93,10 +93,7 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<DoublePanelHeader
-				primaryName={store.campaign?.interactionState.selectedBeacon?.current?.displayName}
-				secondaryName={store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.maybeCurrent?.username}
-			/>
+			<PanelHeader>{store.campaign?.interactionState.selectedBeacon?.current?.computedName}</PanelHeader>
 		),
 		panels: {
 			[Tabs.COMMANDS]: (props) => <Commands showPath={false} {...props} />,
@@ -121,7 +118,7 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.SERVER]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedServer?.current?.displayName}</PanelHeader>
+			<PanelHeader>{store.campaign?.interactionState.selectedServer?.current?.computedName}</PanelHeader>
 		),
 		panels: {
 			[Tabs.HOSTS]: Hosts,
@@ -132,7 +129,7 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.HOST]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedHost?.current?.displayName}</PanelHeader>
+			<PanelHeader>{store.campaign?.interactionState.selectedHost?.current?.computedName}</PanelHeader>
 		),
 		panels: {
 			[Tabs.COMMANDS]: Commands,
