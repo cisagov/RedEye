@@ -11,6 +11,8 @@ describe('Cannot add comments to Favorites', () => {
 
 		cy.clickCommentsTab();
 
+		cy.viewAllComments();
+
 		cy.get('[cy-test=fav-comment]').should('be.disabled');
 	});
 

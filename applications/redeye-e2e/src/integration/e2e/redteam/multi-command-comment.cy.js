@@ -32,7 +32,8 @@ describe('Multi-Command Comments', () => {
 		// Verify comments are saved
 		cy.clickExplorerMode();
 		cy.clickCommentsTab();
-		cy.get('[cy-test=comments-view]').should('contain', comment).and('contain', tag);
+		cy.viewAllComments();
+		cy.get('[cy-test=comments-view]').scrollTo('bottom').should('contain', comment).and('contain', tag);
 		cy.clickPresentationMode();
 		cy.get('[cy-test=favorited]').click();
 		cy.get('[cy-test=presentation-root]').should('contain', comment).and('contain', tag);

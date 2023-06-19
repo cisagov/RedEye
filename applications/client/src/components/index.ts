@@ -13,6 +13,7 @@ export * from './ScrollBox';
 export * from './VirtualizedList';
 export * from './create-sorter';
 export * from './is-defined-guard';
+export * from './highlightPattern';
 export * from './mobx-create-state';
 export * from './utils-time';
 export * from './utils';

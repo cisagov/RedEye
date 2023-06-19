@@ -88,6 +88,8 @@ import type { Shapes } from './ShapesEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
+import type { SortOptionCommentsList } from './SortOptionCommentsListEnum';
+import type { SortOptionCommentsTab } from './SortOptionCommentsTabEnum';
 
 export type AnonymizationInput = {
 	findReplace?: FindReplaceInput[];
@@ -110,6 +112,14 @@ export type SortType = {
 export type SortTypeComments = {
 	direction?: SortDirection;
 	sortBy?: SortOptionComments;
+};
+export type SortTypeCommentsList = {
+	direction?: SortDirection;
+	sortBy?: SortOptionCommentsList;
+};
+export type SortTypeCommentsTab = {
+	direction?: SortDirection;
+	sortBy?: SortOptionCommentsTab;
 };
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
 
@@ -708,7 +718,13 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Get categories for presentation mode
 	@modelAction queryPresentationItems(
-		variables: { campaignId: string; hidden?: boolean },
+		variables: {
+			campaignId: string;
+			commentsTabSort?: SortTypeCommentsTab;
+			forOverviewComments?: boolean;
+			hidden?: boolean;
+			listSort?: SortTypeCommentsList;
+		},
 		resultSelector:
 			| string
 			| ((
@@ -718,7 +734,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $hidden: Boolean) { presentationItems(campaignId: $campaignId, hidden: $hidden) {
+			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()
@@ -1062,7 +1078,7 @@ export class RootStoreBase extends ExtendedModel(
 			| ((qb: typeof BeaconModelSelector) => typeof BeaconModelSelector) = beaconModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
-		return this.mutate<{ toggleBeaconHidden: BeaconModel }>(
+		return this.mutate<{ toggleBeaconHidden: BeaconModel[] }>(
 			`mutation toggleBeaconHidden($beaconId: String, $beaconIds: [String!], $campaignId: String!, $setHidden: Boolean) { toggleBeaconHidden(beaconId: $beaconId, beaconIds: $beaconIds, campaignId: $campaignId, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
@@ -1078,7 +1094,7 @@ export class RootStoreBase extends ExtendedModel(
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
-		return this.mutate<{ toggleHostHidden: HostModel }>(
+		return this.mutate<{ toggleHostHidden: HostModel[] }>(
 			`mutation toggleHostHidden($campaignId: String!, $hostId: String, $hostIds: [String!], $setHidden: Boolean) { toggleHostHidden(campaignId: $campaignId, hostId: $hostId, hostIds: $hostIds, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
@@ -1094,7 +1110,7 @@ export class RootStoreBase extends ExtendedModel(
 			| ((qb: typeof ServerModelSelector) => typeof ServerModelSelector) = serverModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
-		return this.mutate<{ toggleServerHidden: ServerModel }>(
+		return this.mutate<{ toggleServerHidden: ServerModel[] }>(
 			`mutation toggleServerHidden($campaignId: String!, $serverId: String, $serverIds: [String!], $setHidden: Boolean) { toggleServerHidden(campaignId: $campaignId, serverId: $serverId, serverIds: $serverIds, setHidden: $setHidden) {
         ${typeof resultSelector === 'function' ? resultSelector(ServerModelSelector).toString() : resultSelector}
       } }`,

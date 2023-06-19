@@ -7,7 +7,6 @@ import {
 	BookmarkFilled16,
 	Chat16,
 	Checkmark16,
-	Connect16,
 	Edit16,
 	TrashCan16,
 } from '@carbon/icons-react';
@@ -17,15 +16,15 @@ import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from 
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
-import { FlexSplitter, Spacer, Txt, CoreTokens } from '@redeye/ui-styles';
+import { FlexSplitter, Spacer, Txt, CoreTokens, Flex, Header } from '@redeye/ui-styles';
 import { observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MenuItem2 } from '@blueprintjs/popover2';
-import { AddBeaconSelectOrSuggest } from './AddBeaconSelectOrSuggest';
-import { CheckForAddedLink } from './CheckForAddedLink';
+import { getManualCommandLinks } from './CheckForAddedLink';
+import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
 type CommentBoxProps = ComponentProps<'div'> & {
 	commandId?: string | null;
@@ -107,7 +106,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						state.flagIfManualLinkHasBeenCreated(false, null);
+						state.updateManualLink(undefined);
 					}
 				},
 			}
@@ -119,8 +118,8 @@ export const CommentBox = observer<CommentBoxProps>(
 					campaignId: store.campaign?.id!,
 					commandId: state.commandIds[0],
 					destinationId,
-					id: state.manuallyCreatedLink?.id!,
-					name: state.nameText,
+					id: state.manualLink?.id!,
+					name: state.manualLinkName,
 					originId: store.campaign.interactionState.selectedBeacon?.id as string,
 				}),
 			{
@@ -136,7 +135,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						state.flagIfManualLinkHasBeenCreated(true, store.graphqlStore.links.get(linkData.editLink.id));
+						state.updateManualLink(store.graphqlStore.links.get(linkData.editLink.id));
 					}
 				},
 			}
@@ -148,7 +147,7 @@ export const CommentBox = observer<CommentBoxProps>(
 					campaignId: store.campaign?.id!,
 					commandId: state.commandIds[0],
 					destinationId,
-					name: state.nameText,
+					name: state.manualLinkName,
 					originId: store.campaign.interactionState.selectedBeacon?.id as string,
 				}),
 			{
@@ -164,7 +163,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								linkQuery
 							)
 							.then(() => store.campaign.updateGraph());
-						state.flagIfManualLinkHasBeenCreated(true, store.graphqlStore.links.get(linkData.createLink.id));
+						state.updateManualLink(store.graphqlStore.links.get(linkData.createLink.id));
 					}
 				},
 			}
@@ -174,19 +173,19 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const state = createState({
 			editMode: newComment || false,
-			text: annotation?.text || '',
-			nameText: '',
+			text: annotation?.text || window.localStorage.getItem('pendingComments') || '',
+			manualLinkName: '',
 			displayName: '',
 			destinationBeacon: undefined as BeaconModel | undefined,
-			addOrChangeLinkButtonText: 'Add beacon link',
-			manuallyCreatedLink: null as LinkModel | null,
-			manualLinkFlag: false,
+			manualLink: getManualCommandLinks(commandId, Array.from(store?.graphqlStore.links.values()))[0] as
+				| LinkModel
+				| undefined,
 			tags: observable.array<string>(),
 			favorite: annotation?.favorite,
 			deleteAnnotationPrompt: false,
 			tagQuery: '',
 			loading: false,
-			showBeaconSearch: false,
+			showBeaconSuggest: false,
 			get commandIds(): string[] {
 				return (
 					store.campaign?.commentStore.selectedCommands.size
@@ -224,23 +223,21 @@ export const CommentBox = observer<CommentBoxProps>(
 					.map((tag) => tags.add(tag));
 				return Array.from(tags);
 			},
-			toggleBoolBeaconSearch() {
-				this.showBeaconSearch = !this.showBeaconSearch;
+			toggleShowBeaconSuggest(show?: boolean) {
+				this.showBeaconSuggest = show ?? !this.showBeaconSuggest;
 			},
-			storeNewDestinationBeaconForLinkCreation(newDestBeacon: BeaconModel) {
-				this.destinationBeacon = newDestBeacon;
+			setDestinationBeacon(beaconModel: BeaconModel | undefined) {
+				this.destinationBeacon = beaconModel;
 			},
-
 			// Doesn't change graph
-			flagIfManualLinkHasBeenCreated(linkExists: boolean, manuallyCreatedLink): void {
-				this.manualLinkFlag = linkExists;
-				if (manuallyCreatedLink) {
-					this.manuallyCreatedLink = manuallyCreatedLink;
-					this.nameText = manuallyCreatedLink.name;
-					this.addOrChangeLinkButtonText = `Edit link to ${this.manuallyCreatedLink?.destination?.current.displayName}`;
+			updateManualLink(manualLink?: LinkModel): void {
+				if (manualLink) {
+					this.manualLink = manualLink;
+					this.manualLinkName = manualLink.name || '';
+					this.destinationBeacon = manualLink?.destination?.current;
 				} else {
-					this.manuallyCreatedLink = null;
-					this.addOrChangeLinkButtonText = 'Add beacon link';
+					this.manualLink = undefined;
+					this.destinationBeacon = undefined;
 				}
 			},
 			handleTagsChange(value: unknown) {
@@ -252,9 +249,17 @@ export const CommentBox = observer<CommentBoxProps>(
 			},
 			handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
 				this.text = e.target.value;
+				if (!this.commandGroupId && !!this.editMode) {
+					const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+					delete pendingComments[this.commandIds[0]];
+					window.localStorage.setItem(
+						'pendingComments',
+						JSON.stringify({ ...pendingComments, [this.commandIds[0]]: e.target.value })
+					);
+				}
 			},
-			handleDisplayNameFieldChange(e: ChangeEvent<HTMLTextAreaElement>) {
-				this.nameText = e.target.value;
+			handleManualLinkNameChange(e: ChangeEvent<HTMLInputElement>) {
+				this.manualLinkName = e.target.value;
 			},
 			toggleFavorite() {
 				this.favorite = !this.favorite;
@@ -264,17 +269,23 @@ export const CommentBox = observer<CommentBoxProps>(
 			deleteAnnotation() {
 				if (this.deleteAnnotationPrompt && annotation?.id) {
 					deleteAnnotation.mutate(annotation.id);
-					if (this.manuallyCreatedLink) {
-						deleteLink.mutate(this.manuallyCreatedLink.id);
+					if (this.manualLink) {
+						deleteLink.mutate(this.manualLink.id);
 					}
 				}
 			},
 			cancelAnnotationEdit() {
+				if (!state.commandGroupId && !!state.editMode && state.text[0] === '{') {
+					const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+					delete pendingComments[this.commandIds[0]];
+					window.localStorage.setItem('pendingComments', JSON.stringify(pendingComments));
+				}
 				this.text = annotation?.text || '';
 				this.tags.replace(this.defaultTags);
 				this.editMode = false;
 				this.loading = false;
 				this.destinationBeacon = undefined;
+				this.manualLink = getManualCommandLinks(commandId, Array.from(store?.graphqlStore.links.values()))[0];
 				store.campaign?.commentStore.clearSelectedCommand();
 				store.campaign?.commentStore.setNewGroupComment(false);
 				store.campaign?.commentStore.setGroupSelect(false);
@@ -289,10 +300,13 @@ export const CommentBox = observer<CommentBoxProps>(
 							campaignId,
 							commandIds: this.commandIds,
 							favorite: this.favorite,
-							text: this.text,
+							text: JSON.parse(window.localStorage.getItem('pendingComments') || '{}')[this.commandIds[0]],
 							tags: this.tags,
 							user: store.auth.userName!,
 						});
+						const pendingComments = JSON.parse(window.localStorage.getItem('pendingComments') || '{}');
+						delete pendingComments[this.commandIds[0]];
+						window.localStorage.setItem('pendingComments', JSON.stringify(pendingComments));
 					} else if ((this.editMode || update) && annotation) {
 						yield store.graphqlStore.mutateUpdateAnnotation({
 							campaignId,
@@ -312,11 +326,11 @@ export const CommentBox = observer<CommentBoxProps>(
 							user: store.auth.userName!,
 						});
 					}
-					// editing an existing link
-					if (state.manualLinkFlag && state.manuallyCreatedLink && this.destinationBeacon) {
+					if (state.manualLink && this.destinationBeacon) {
+						// editing an existing link
 						editLink.mutate(this.destinationBeacon.id);
-						// beacon selected not a currently existing link
 					} else if (this.destinationBeacon) {
+						// beacon selected not a currently existing link
 						createLink.mutate(this.destinationBeacon.id);
 					}
 				} catch (e) {
@@ -393,9 +407,9 @@ export const CommentBox = observer<CommentBoxProps>(
 					<span>
 						<CarbonIcon cy-test="comment-icon" icon={Chat16} />
 						<Spacer />
-						<Txt cy-test="user-that-commented">
+						<Txt cy-test="user-that-commented" muted={annotation?.user === ''} italic={annotation?.user === ''}>
 							{annotation?.user !== undefined ? (
-								annotation?.user
+								annotation?.user || 'parser-generated'
 							) : (
 								<span>
 									<Txt cy-test="new-comment-header" bold>
@@ -426,22 +440,20 @@ export const CommentBox = observer<CommentBoxProps>(
 							e.preventDefault();
 						}}
 					>
-						{(state.destinationBeacon || state.manuallyCreatedLink) && store.router.params.currentItem === 'beacon' && (
-							<div css={formInputStyle}>
-								<TextArea
-									css={css`
-										resize: vertical;
-									`}
-									growVertically
-									fill
-									onChange={state.handleDisplayNameFieldChange}
-									value={state.nameText}
-									placeholder="Link Display Name (<50ch)"
-									autoFocus
-								/>
-							</div>
-						)}
 						<div css={formInputStyle}>
+							{/* { // store.router.params.currentItem === 'beacon' && // why is this check necessary? 
+							
+							// BLDSTRIKE-591 Finish implementing creating/commenting on links
+							// TODO: This should be the Comment title, not just the Link title
+							{(state.destinationBeacon || state.manualLink) && (
+								<InputGroup
+									fill
+									onChange={state.handleManualLinkNameChange}
+									value={state.manualLinkName}
+									maxLength={50}
+									placeholder="Link Display Name (<50ch)"
+								/>
+							)} */}
 							<TextArea
 								cy-test="comment-input"
 								css={css`
@@ -450,26 +462,24 @@ export const CommentBox = observer<CommentBoxProps>(
 								growVertically
 								fill
 								onChange={state.handleTextChange}
-								value={state.text}
+								value={
+									!!state.editMode && state.text[0] === '{'
+										? JSON.parse(state.text || '{}')[state.commandIds[0]]
+										: state.text
+								}
 								placeholder="..."
 								autoFocus
 							/>
 							<MultiSelect2
 								cy-test="tag-input1"
-								createNewItemPosition="first"
+								css={formTagInputStyle}
+								placeholder="#Tags..."
 								tagInputProps={{
 									tagProps: { minimal: true },
 									leftIcon: (
-										<Txt
-											cy-test="tag-input"
-											css={css`
-												align-self: center;
-											`}
-											bold
-											muted
-										>
-											Tags:
-										</Txt>
+										<Flex css={{ height: 30, width: 30 }} alignSelf="center" align="center" justify="center">
+											<CarbonIcon cy-test="tag-input" icon={semanticIcons.tags} />
+										</Flex>
 									),
 									disabled: !state.editMode,
 									addOnBlur: true,
@@ -500,9 +510,9 @@ export const CommentBox = observer<CommentBoxProps>(
 								}}
 								query={state.tagQuery}
 								onQueryChange={(query) => state.update('tagQuery', query)}
-								css={formTagInputStyle}
 								items={state.autoTags}
 								fill
+								createNewItemPosition="first"
 								itemPredicate={filterTags}
 								selectedItems={state.tags}
 								onRemove={state.handleTagsRemove}
@@ -533,24 +543,43 @@ export const CommentBox = observer<CommentBoxProps>(
 								tagRenderer={(item) => item}
 								// onKeyUp={state.addTagIfSpaceBar}
 							/>
+							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this check necessary? 
+
+							// BLDSTRIKE-591 Finish implementing creating/commenting on links
+							{!state.showBeaconSuggest && state.manualLink == null ? (
+								<Button
+									text="Link to another beacon"
+									onClick={() => state.toggleShowBeaconSuggest(true)}
+									icon={<CarbonIcon icon={semanticIcons.linkTo} />}
+									alignText={Alignment.LEFT}
+									intent={Intent.PRIMARY}
+									minimal
+									fill
+								/>
+							) : (
+								<BeaconSuggest
+									defaultSelectedItem={state.manualLink?.destination?.current}
+									onItemSelect={state.setDestinationBeacon}
+									inputProps={{
+										placeholder: 'Select a beacon to link to...',
+										leftElement: <CarbonIcon icon={semanticIcons.linkTo} />,
+										// this will focus the input if the button is pressed and there is no input
+										autoFocus: state.showBeaconSuggest,
+										rightElement: (
+											<Button
+												icon={<CarbonIcon icon={Close16} />}
+												onClick={() => {
+													state.toggleShowBeaconSuggest(false);
+													state.updateManualLink(undefined);
+												}}
+												minimal
+											/>
+										),
+									}}
+								/>
+							)}
+							</> )} */}
 						</div>
-						{!state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
-							<Button
-								text={state.addOrChangeLinkButtonText}
-								onClick={state.toggleBoolBeaconSearch}
-								icon={<CarbonIcon icon={Connect16} />}
-								alignText={Alignment.RIGHT}
-								intent={Intent.PRIMARY}
-								minimal
-							/>
-						)}
-						{state.showBeaconSearch && store.router.params.currentItem === 'beacon' && (
-							<AddBeaconSelectOrSuggest
-								onClick={state.toggleBoolBeaconSearch}
-								commandString={commandText as string}
-								onSelectBeacon={state.storeNewDestinationBeaconForLinkCreation}
-							/>
-						)}
 						<ButtonGroup fill css={formSubmitStyle}>
 							<Button
 								cy-test="cancel-comment"
@@ -565,7 +594,12 @@ export const CommentBox = observer<CommentBoxProps>(
 								intent={Intent.PRIMARY}
 								alignText={Alignment.LEFT}
 								loading={state.loading}
-								disabled={state.loading || !state.text}
+								disabled={
+									state.loading ||
+									!(!!state.editMode && state.text[0] === '{'
+										? JSON.parse(state.text || '{}')[state.commandIds[0]]
+										: state.text)
+								}
 								// where the added beacon link is created
 								onClick={() => state.submitAnnotation()}
 								rightIcon={<CarbonIcon icon={semanticIcons.addComment} />}
@@ -573,20 +607,17 @@ export const CommentBox = observer<CommentBoxProps>(
 						</ButtonGroup>
 					</form>
 				) : (
-					<div css={isPresentationMode ? displayWrapperPresentationStyle : displayWrapperStyle}>
-						{/* <HeaderSmall css={displayTitleStyle}>{state.title}</HeaderSmall> */}
-
-						{state.nameText.length > 0 && (
-							<div css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>
-								<Txt bold>{state.nameText}</Txt>
-							</div>
-						)}
+					<Flex column gap={4} css={displayWrapperStyle}>
+						{state.manualLinkName.length > 0 && <Header>{state.manualLinkName}</Header>}
 
 						{state.text.length > 0 && (
-							<div css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>{state.text}</div>
+							<Txt running css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>
+								{state.text}
+							</Txt>
 						)}
 
-						<div css={displayTagsStyle}>
+						<Flex gap={4} align="center">
+							<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
 							{state.tags.length > 0 ? (
 								state.tags.map((tag) => (
 									<Txt muted small css={hashTagBeforeStyle} key={tag}>
@@ -598,14 +629,13 @@ export const CommentBox = observer<CommentBoxProps>(
 									No Tags
 								</Txt>
 							)}
-						</div>
-						<div>
-							<CheckForAddedLink
-								commandID={state.commandIds[0]}
-								containerOrBox="box"
-								toggleLinkedFlag={state.flagIfManualLinkHasBeenCreated}
-							/>
-						</div>
+						</Flex>
+						{state.manualLink?.destination?.current && (
+							<Flex gap={4} align="center">
+								<CarbonIcon icon={semanticIcons.link} css={{ color: CoreTokens.TextMuted }} />
+								<BeaconSuggestedRow beaconModel={state.manualLink.destination?.current} small ellipsize muted />
+							</Flex>
+						)}
 						{/* )} */}
 						{/* // TODO: I'm thinking maybe this should be a hover only button group in the top right to conserve space and prevent repetition  */}
 						{(showEditButtons || showGroupLink) && (
@@ -688,7 +718,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								)}
 							</ButtonGroup>
 						)}
-					</div>
+					</Flex>
 				)}
 			</div>
 		);
@@ -722,29 +752,21 @@ const formTagInputStyle = css`
 	.${Classes.TAG} span {
 		${hashTagBeforeStyle}
 	}
+	.${Classes.INPUT} {
+		padding: 0;
+	}
 `;
 const formSubmitStyle = css``;
 
 const displayWrapperStyle = css`
 	margin: 0.5rem 1rem;
 `;
-const displayWrapperPresentationStyle = css`
-	margin: 1rem;
-	${displayWrapperStyle}
-`;
-// const displayTitleStyle = css``
 const displayTextStyle = css`
 	white-space: pre-wrap;
 	margin-bottom: 0.5rem;
 `;
 const displayTextPresentationStyle = css`
 	font-size: 20px;
-`;
-const displayTagsStyle = css`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.25rem;
-	margin-bottom: 0.75rem;
 `;
 const displayOptionStyle = css`
 	margin: 0 -0.25rem;

@@ -45,8 +45,8 @@ export class ServerResolvers {
 	async nonHidableEntities(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('beaconIds', () => [String], { defaultValue: [] }) beaconIds: string[] = [],
-		@Arg('hostIds', () => [String], { defaultValue: [] }) hostIds: string[] = []
+		@Arg('beaconIds', () => [String], { defaultValue: [], nullable: true }) beaconIds: string[] = [],
+		@Arg('hostIds', () => [String], { defaultValue: [], nullable: true }) hostIds: string[] = []
 	): Promise<NonHidableEntities | null> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 

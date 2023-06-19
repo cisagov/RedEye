@@ -12,7 +12,7 @@ import { RedEyeModel } from '../util/model';
 import { matchUrl } from './match-url';
 
 const itemParams = (key: string, idMatch: string) =>
-	`:${key}(beacon|host|server|operator|command-type|command|all)?{-:${key}Id(${idMatch})}?`;
+	`:${key}(beacon|host|server|operator|command-type|command|all|comments_list)?{-:${key}Id(${idMatch})}?`;
 
 const uuidOrAlphaNumIdRegex = `${uuidRegex}|[A-Za-z0-9\\-\\_\\(\\)\\:\\%\\.]+`;
 const currentItemParams = itemParams('currentItem', uuidOrAlphaNumIdRegex);

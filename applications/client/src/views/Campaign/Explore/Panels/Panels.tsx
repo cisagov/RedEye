@@ -4,11 +4,17 @@ import { PanelHeader } from '@redeye/client/views';
 import { Txt } from '@redeye/ui-styles';
 import { BeaconsList, HostBeaconsList } from './Beacon';
 import { CommandsList } from './Command';
-import { CommentsList } from './Comment';
 import { HostsAndServersList } from './Host';
 import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
 import { OperatorsList } from './OperatorsList';
 import { OverviewBeaconsList, OverviewCommandTypesList, OverviewHostsList, OverviewOperatorsList } from './Overview';
+import { CommentsList } from './Comment/CommentsList';
+
+export enum CommentListTitle {
+	all = 'All Comments',
+	favorited = 'Favorited Comments',
+	procedural = 'parser-generated',
+}
 
 export interface SortOption {
 	label: string;
@@ -20,21 +26,40 @@ export const SortBy: Record<string, SortOption> = {
 	ID: { label: 'ID', key: 'id' },
 };
 
-export const TabNames: Record<Tabs, string> = {
+export const TabNames: (store: AppStore) => Record<Tabs, string> = (store: AppStore) => ({
 	[Tabs.BEACONS]: 'Beacons',
 	[Tabs.HOSTS]: 'Hosts',
 	[Tabs.COMMANDS]: 'Commands',
 	[Tabs.COMMANDS_OVERVIEW]: 'Command Types',
 	[Tabs.OPERATORS]: 'Operators',
-	[Tabs.COMMENTS]: 'Comments',
+	[Tabs.COMMENTS]: store.router.params.currentItem === 'comments_list' ? '' : 'Comments',
+	[Tabs.COMMENTS_LIST]: 'Comments',
 	[Tabs.METADATA]: 'Meta',
-};
+});
 
 export enum CommentFilterOptions {
 	FAVORITE = 'fav',
 	OPERATOR = 'user',
 	TIME = 'minTime',
 }
+
+export enum OverviewCommentListFilterOptions {
+	ALPHABETICAL = 'alphabetical',
+	COMMENT_COUNT = 'commentCount',
+	COMMAND_COUNT = 'commandCount',
+}
+
+export const commentsTabSort = [
+	{ label: 'Time', key: CommentFilterOptions.TIME },
+	{ label: 'Operator', key: CommentFilterOptions.OPERATOR },
+	{ label: 'Favorited', key: CommentFilterOptions.FAVORITE },
+];
+
+export const overviewCommentListSort = [
+	{ label: 'Alphabetical', key: OverviewCommentListFilterOptions.ALPHABETICAL },
+	{ label: 'Comment Count', key: OverviewCommentListFilterOptions.COMMENT_COUNT },
+	{ label: 'Command Count', key: OverviewCommentListFilterOptions.COMMAND_COUNT },
+];
 
 // Defaults to the first one if unable to find a similar key
 export const sortOptions: Record<Tabs, SortOption[]> = {
@@ -45,11 +70,8 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 		{ label: 'Time', key: 'time' },
 		{ label: 'Name', key: 'name' },
 	],
-	[Tabs.COMMENTS]: [
-		{ label: 'Time', key: CommentFilterOptions.TIME },
-		{ label: 'Operator', key: CommentFilterOptions.OPERATOR },
-		{ label: 'Favorited', key: CommentFilterOptions.FAVORITE },
-	],
+	[Tabs.COMMENTS]: commentsTabSort,
+	[Tabs.COMMENTS_LIST]: overviewCommentListSort,
 	[Tabs.OPERATORS]: [
 		{
 			label: 'Time',
@@ -137,6 +159,38 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.COMMANDS]: CommandsList,
 			[Tabs.COMMENTS]: CommentsList,
+		},
+	},
+	[InfoType.COMMENTS_LIST]: {
+		title: (store: AppStore) => {
+			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
+			const title = store.router.params.currentItemId
+				? store.router.params.currentItemId.slice(0, 5) === 'user-'
+					? store.router.params.currentItemId.slice(5)
+					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+					? `#${store.router.params.currentItemId.slice(4)}`
+					: CommentListTitle[store.router.params.currentItemId]
+				: campaign?.name;
+			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
+		},
+		panels: {
+			[Tabs.COMMENTS]: CommandsList,
+		},
+	},
+	[InfoType.COMMENTS_LIST]: {
+		title: (store: AppStore) => {
+			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
+			const title = store.router.params.currentItemId
+				? store.router.params.currentItemId.slice(0, 5) === 'user-'
+					? store.router.params.currentItemId.slice(5)
+					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+					? `#${store.router.params.currentItemId.slice(4)}`
+					: CommentListTitle[store.router.params.currentItemId]
+				: campaign?.name;
+			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
+		},
+		panels: {
+			[Tabs.COMMENTS]: CommandsList,
 		},
 	},
 };

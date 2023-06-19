@@ -15,12 +15,12 @@ describe('Testing of Adding Golden Ticket & Lateral Movement Tags', () => {
 		cy.selectCampaign(camp);
 
 		cy.clickPresentationMode();
-		cy.get('[cy-test=GoldenTicket] [cy-test=count]')
+		cy.get('[cy-test=tag-GoldenTicket] [cy-test=count]')
 			.invoke('text')
 			.as('GTTagCount')
 			.then((resultGTCount1) => {
 				// cy.log(resultGTCount1);
-				cy.get('[cy-test=LateralMovement] [cy-test=count]')
+				cy.get('[cy-test=tag-LateralMovement] [cy-test=count]')
 					.invoke('text')
 					.as('LMTagCount')
 					.then((resultLMCount1) => {
@@ -31,8 +31,8 @@ describe('Testing of Adding Golden Ticket & Lateral Movement Tags', () => {
 
 						cy.selectCommandType(cmd);
 
-						cy.get('[cy-test=GoldenTicket]').should('not.exist');
-						cy.get('[cy-test=LateralMovement]').should('not.exist');
+						cy.goldenTicketIcon().should('not.exist');
+						cy.lateralMovementIcon().should('not.exist');
 
 						// Add a comment and use the applicable tags
 						cy.addComment(0, comment);
@@ -40,8 +40,8 @@ describe('Testing of Adding Golden Ticket & Lateral Movement Tags', () => {
 						cy.addExistingTags(partialTag1, partialTag2);
 
 						// Verify the apporpriate icons are now there
-						cy.get('[cy-test=GoldenTicket]').should('be.visible');
-						cy.get('[cy-test=LateralMovement]').should('be.visible');
+						cy.goldenTicketIcon().should('be.visible');
+						cy.lateralMovementIcon().should('be.visible');
 
 						// Log new number of applicable comments and compare to original count
 						cy.clickPresentationMode();
@@ -51,8 +51,8 @@ describe('Testing of Adding Golden Ticket & Lateral Movement Tags', () => {
 							cy.get('@LMTagCount').then((resultLMCount2) => {
 								expect(+resultLMCount2).to.equal(+resultLMCount1 + +'1');
 
-								cy.get('[cy-test=GoldenTicket]').should('have.length', 1);
-								cy.get('[cy-test=LateralMovement]').should('have.length', 1);
+								cy.get('[cy-test=tag-GoldenTicket]').should('have.length', 1);
+								cy.get('[cy-test=tag-LateralMovement]').should('have.length', 1);
 							});
 						});
 					});

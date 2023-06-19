@@ -32,6 +32,7 @@ describe('View Raw Logs', () => {
 		// Open campaign; go to Comments
 		cy.selectCampaign(camp);
 		cy.clickCommentsTab();
+		cy.viewAllComments();
 
 		// Click expandable row under first comment
 		cy.get('[cy-test=command-info]').eq(0).click();

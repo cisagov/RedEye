@@ -1,17 +1,14 @@
 import { css } from '@emotion/react';
-import type { AnnotationModel, CommandGroupModel } from '@redeye/client/store';
+import type { AnnotationModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
-import type { UUID } from '@redeye/client/types/uuid';
 import { CommandRow, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
 import { CoreTokens, ThemeClasses, Flex } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useEffect, useState } from 'react';
 
 export type CommentGroupProps = ComponentProps<'div'> & {
-	commandGroup?: CommandGroupModel;
-	commandGroupId?: string | null;
+	commandGroupId: string;
 	toggleNewComment: (id?: string) => void;
 	newComment: string | undefined;
 	measure?: any;
@@ -22,7 +19,6 @@ export type CommentGroupProps = ComponentProps<'div'> & {
 };
 export const CommentGroup = observer<CommentGroupProps>(
 	({
-		commandGroup,
 		commandGroupId,
 		toggleNewComment,
 		newComment,
@@ -33,50 +29,40 @@ export const CommentGroup = observer<CommentGroupProps>(
 		...props
 	}) => {
 		const store = useStore();
-		const [commandGroupId1, setCommandGroupId1] = useState<string | null | undefined>(commandGroupId);
-		const [commandGroup1, setCommandGroup1] = useState<CommandGroupModel | undefined>(commandGroup);
-		const firstCommandId = commandGroup1?.commandIds?.[0];
+		const commandGroup = store.graphqlStore.commandGroups.get(commandGroupId);
+		const firstCommandId = commandGroup?.commandIds?.[0];
 		const firstCommand = firstCommandId && store.graphqlStore.commands.get(firstCommandId);
-		useEffect(() => {
-			if (commandGroupId) {
-				// For Comments Tab
-				setCommandGroupId1(commandGroupId as UUID);
-				setCommandGroup1(store.graphqlStore.commandGroups.get(commandGroupId));
-			}
-			if (commandGroup) {
-				// For Presentation Tab
-				setCommandGroupId1(commandGroup?.id as UUID);
-				setCommandGroup1(commandGroup);
-			}
-		}, [commandGroupId, commandGroup]);
 
 		return (
 			<div
 				css={[
 					css`
+						display: flex;
 						flex-direction: column;
 						width: 100%; // For host meta tab;
+						padding: 1px 0; // to force impossibility of block layout margin
 					`,
 					!hideCommands &&
 						css`
-							border-bottom: 1px solid ${CoreTokens.BorderMuted}; //ask ryan how to remove this
+							border-bottom: 1px solid ${CoreTokens.BorderMuted};
 						`,
 				]}
 				{...props}
 			>
-				<Flex column css={{ margin: 16 }}>
-					{commandGroup1?.annotations?.map((annotation: Ref<AnnotationModel>) => (
+				<Flex column css={{ padding: 16 }}>
+					{!commandGroup && <div css={[commentBoxStyle, { height: 300 }]} />}
+					{commandGroup?.annotations?.map((annotation: Ref<AnnotationModel>) => (
 						<CommentBox
 							key={annotation.id}
 							css={commentBoxStyle}
-							reply={() => toggleNewComment(commandGroup1?.id)}
+							reply={() => toggleNewComment(commandGroup?.id)}
 							annotation={annotation?.maybeCurrent}
-							commandGroup={commandGroup1}
+							commandGroup={commandGroup}
 							isFullList
 						/>
 					))}
-					{newComment === commandGroup1?.id && (
-						<CommentBox newComment commandGroupId={commandGroupId1} cancel={toggleNewComment} css={commentBoxStyle} />
+					{newComment === commandGroup?.id && (
+						<CommentBox newComment commandGroupId={commandGroupId} cancel={toggleNewComment} css={commentBoxStyle} />
 					)}
 				</Flex>
 				<Flex column>
@@ -92,14 +78,14 @@ export const CommentGroup = observer<CommentGroupProps>(
 						/>
 					)}
 					{!hideCommands &&
-						commandGroup1?.commandIds?.map((commandId) => (
+						commandGroup?.commandIds?.map((commandId) => (
 							<CommandRow
-								commandGroupId={commandGroupId1}
+								commandGroupId={commandGroupId}
 								commandId={commandId}
 								css={css`
 									border-bottom: none !important;
 								`}
-								key={`${commandGroup1?.id}${commandId}`}
+								key={`${commandGroup?.id}${commandId}`}
 								hideCommentButton
 								showPath={!showPath} // configurable
 								expandedCommandIDs={expandedCommandIDs}

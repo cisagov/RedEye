@@ -116,7 +116,7 @@ describe('Presentation Mode Navigation', () => {
 		cy.get('[cy-test=back-to-presentations]').click();
 
 		// Open #PrivilegeEscalation presentation
-		cy.get('[cy-test=PrivilegeEscalation]').click();
+		cy.get('[cy-test=tag-PrivilegeEscalation]').click();
 
 		// Verify correct presentation opened, starts at slide 1, and can navigate through slides
 		cy.get('[cy-test=presentation-name]').should('contain', '#PrivilegeEscalation');
