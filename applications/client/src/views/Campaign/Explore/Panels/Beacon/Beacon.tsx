@@ -6,15 +6,7 @@ import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
 import { TimeStatus } from '@redeye/client/types/timeline';
-import {
-	IconLabel,
-	InfoRow,
-	RowMuted,
-	RowTime,
-	RowTitle,
-	ToggleHiddenDialog,
-	useToggleHidden,
-} from '@redeye/client/views';
+import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHidden } from '@redeye/client/views';
 import { FlexSplitter } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
