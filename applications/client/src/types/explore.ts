@@ -11,12 +11,10 @@ export enum InfoType {
 export enum Tabs {
 	BEACONS = 'beacons',
 	HOSTS = 'hosts',
-	// LANES = 'Lanes',
 	COMMANDS = 'commands',
-	COMMANDS_OVERVIEW = 'command-overview',
+	COMMANDS_OVERVIEW = 'commands-overview',
 	OPERATORS = 'operators',
 	COMMENTS = 'comments',
 	COMMENTS_LIST = 'comments_list',
-	// INFO = 'Info',
-	METADATA = 'Metadata',
+	METADATA = 'details',
 }
