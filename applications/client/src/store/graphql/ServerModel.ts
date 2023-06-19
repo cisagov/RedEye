@@ -71,6 +71,7 @@ export class ServerModel extends ExtendedModel(ServerModelBase, {
 			if (beacon?.host?.maybeCurrent) {
 				getMinMaxTime(this, beacon.meta[0]?.maybeCurrent?.startTime);
 				getMinMaxTime(this, beacon.meta[0]?.maybeCurrent?.endTime);
+				// BLDSTRIKE-598: add to Array/Set host.setServerIds, don't override last
 				beacon.host?.maybeCurrent?.setServerId(this.id);
 				this.hosts.set(beacon.host.id, hostCampaignRef(beacon.host?.maybeCurrent));
 				if (beacon.host?.maybeCurrent?.cobaltStrikeServer) cobaltStrikeHost = beacon.host.maybeCurrent;
