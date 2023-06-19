@@ -100,7 +100,7 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 					/>
 					<IconLabel
 						cy-test="comment-count"
-						title="comments"
+						title="Comments"
 						value={presentationItem.count}
 						icon={semanticIcons.comment}
 					/>
