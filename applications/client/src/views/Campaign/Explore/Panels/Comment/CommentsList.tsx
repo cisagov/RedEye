@@ -9,7 +9,7 @@ import {
 import { CoreTokens, FlexSplitter } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { Bookmark16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
+import { StarFilled16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
 import type { ComponentProps } from 'react';
 import { useCallback, useMemo } from 'react';
 import { CampaignViews, Tabs } from '@redeye/client/types';
@@ -111,7 +111,7 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 });
 
 const getIcon = (itemId: string): any => {
-	if (itemId === 'favorited') return Bookmark16;
+	if (itemId === 'favorited') return StarFilled16;
 	if (itemId === 'procedural') return Playlist16;
 	if (itemId.slice(0, 5) === 'user-') return User16;
 	else return Hashtag16;

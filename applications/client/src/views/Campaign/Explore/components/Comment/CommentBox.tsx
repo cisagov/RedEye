@@ -4,8 +4,8 @@ import { MultiSelect2 } from '@blueprintjs/select';
 import {
 	Add16,
 	ArrowRight16,
-	Bookmark16,
-	BookmarkFilled16,
+	Star16,
+	StarFilled16,
 	Chat16,
 	Checkmark16,
 	Edit16,
@@ -425,7 +425,7 @@ export const CommentBox = observer<CommentBoxProps>(
 						cy-test="fav-comment"
 						minimal
 						small
-						icon={<CarbonIcon icon={state.favorite ? BookmarkFilled16 : Bookmark16} />}
+						icon={<CarbonIcon icon={state.favorite ? StarFilled16 : Star16} />}
 						onClick={state.toggleFavorite}
 						disabled={!isRedTeam || isPresentationMode}
 					/>
