@@ -1,4 +1,4 @@
-import { BookmarkFilled20, Chat16, Chat20, Play16 } from '@carbon/icons-react';
+import { Star20, Chat16, Chat20, Play16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
 import type { PresentationItemModel } from '@redeye/client/store';
@@ -24,7 +24,6 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 				UtilityStyles.hoverRevealChildrenOpacity,
 				css`
 					padding: 0 2.5rem 0 3.5rem;
-					position: relative;
 					justify-content: space-between;
 					display: flex;
 				`,
@@ -44,7 +43,6 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 				<CarbonIcon
 					css={css`
 						position: absolute;
-						top: 2px;
 						left: -1.5rem !important;
 					`}
 					icon={getIcon(presentationItem)}
@@ -52,7 +50,6 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 				{presentationItem.key}
 			</RowTitle>
 			<IconLabel cy-test="count" value={presentationItem.count} icon={Chat16} title="Comments" />
-			{/* <PlayIcon icon={Play16} className={UtilityStyles.hoverRevealClassName} /> */}
 			<HeroButton
 				hover
 				className={UtilityStyles.hoverRevealClassName}
@@ -65,13 +62,13 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 
 const heroButtonStyle = css`
 	position: absolute;
-	right: 0.75rem;
+	right: 0.25rem;
 	height: 2.5rem;
 	width: 2.5rem;
 `;
 
 const getIcon = (presentationItem: PresentationItemModel): any => {
-	if (presentationItem.id === 'favorited') return BookmarkFilled20;
+	if (presentationItem.id === 'favorited') return Star20;
 	if (presentationItem.id === 'all') return Chat20;
 	else return '';
 };

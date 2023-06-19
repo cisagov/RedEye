@@ -9,8 +9,8 @@ type TextLabelProps = ComponentProps<'span'> & {
 	value?: ReactNode;
 	icon: CarbonIconProps['icon'];
 };
-export const IconLabel = observer<TextLabelProps>(({ value, icon, ...props }) => (
-	<Txt small css={{ marginRight: '0.5rem' }} {...props}>
+export const IconLabel = observer<TextLabelProps>(({ value, icon, title, ...props }) => (
+	<Txt small title={`${value?.toString()} ${title}`} css={{ marginRight: '0.5rem' }} {...props}>
 		<Txt>{value}</Txt>
 		<CarbonIcon
 			icon={icon}
