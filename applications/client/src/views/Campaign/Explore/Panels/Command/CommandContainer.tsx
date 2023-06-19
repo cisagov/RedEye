@@ -4,6 +4,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CommandModel, LinkModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types/uuid';
+import type { CommandProps } from '@redeye/client/views';
 import { Command, CommandOutput, CommentCount, InfoRow } from '@redeye/client/views';
 import { UtilityStyles, CoreTokens } from '@redeye/ui-styles';
 import { reaction } from 'mobx';
@@ -21,7 +22,7 @@ type CommandContainerProps = ComponentProps<'div'> & {
 	measure?: any;
 	setCommand?: (cmd: any) => any;
 	hideCommentButton?: boolean;
-	showPath?: boolean;
+	showPath?: CommandProps['showPath'];
 	expandedCommandIDs?: string[];
 	removeExpandedCommandID?: (commandId: string) => void;
 	scrollTarget?: boolean;
@@ -35,7 +36,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 		commandId,
 		setCommand,
 		hideCommentButton = false,
-		showPath = false,
+		showPath,
 		expandedCommandIDs = [],
 		removeExpandedCommandID,
 		scrollTarget = false,

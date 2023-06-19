@@ -98,7 +98,7 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.COMMANDS]: (props) => <Commands showPath={false} {...props} />,
 			[Tabs.OPERATORS]: Operators,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: (props) => <Comments showPath={false} {...props} />,
 			[Tabs.METADATA]: BeaconMeta,
 		},
 	},
@@ -110,7 +110,6 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.HOSTS]: OverviewHosts,
 			[Tabs.OPERATORS]: OverviewOperators,
-			// [Tabs.COMMENTS]: Comments,
 			[Tabs.COMMENTS_LIST]: CommentsList,
 			[Tabs.BEACONS]: OverviewBeacons,
 			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
@@ -132,9 +131,9 @@ export const InfoPanelTabs = {
 			<PanelHeader>{store.campaign?.interactionState.selectedHost?.current?.computedName}</PanelHeader>
 		),
 		panels: {
-			[Tabs.COMMANDS]: Commands,
+			[Tabs.COMMANDS]: (props) => <Commands showPath="beacon" {...props} />,
 			[Tabs.OPERATORS]: Operators,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: (props) => <Comments showPath="beacon" {...props} />,
 			[Tabs.BEACONS]: HostBeacons,
 			[Tabs.METADATA]: HostMeta,
 		},
@@ -142,31 +141,35 @@ export const InfoPanelTabs = {
 	[InfoType.OPERATOR]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedOperator?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: Commands,
+			[Tabs.COMMANDS]: (props) => <Commands showPath="host" {...props} />,
 			[Tabs.BEACONS]: Beacons,
 		},
 	},
 	[InfoType.COMMAND]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedCommandType?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: Commands,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMANDS]: (props) => <Commands showPath="host" {...props} />,
+			[Tabs.COMMENTS]: (props) => <Comments showPath="host" {...props} />,
 		},
 	},
 	[InfoType.COMMENTS_LIST]: {
 		title: (store: AppStore) => {
-			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
-			const title = store.router.params.currentItemId
-				? store.router.params.currentItemId.slice(0, 5) === 'user-'
-					? store.router.params.currentItemId.slice(5)
-					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
-					? `#${store.router.params.currentItemId.slice(4)}`
-					: CommentListTitle[store.router.params.currentItemId]
-				: campaign?.name;
+			const title = commentsListTitle(store);
 			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
 		},
 		panels: {
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: (props) => <Comments showPath="host" {...props} />,
 		},
 	},
+};
+
+const commentsListTitle = (store: AppStore) => {
+	const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
+	return store.router.params.currentItemId
+		? store.router.params.currentItemId.slice(0, 5) === 'user-'
+			? store.router.params.currentItemId.slice(5)
+			: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+			? `#${store.router.params.currentItemId.slice(4)}`
+			: CommentListTitle[store.router.params.currentItemId]
+		: campaign?.name;
 };

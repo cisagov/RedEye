@@ -1,6 +1,7 @@
 import { Intent, ProgressBar } from '@blueprintjs/core';
 import { createState, VirtualizedList } from '@redeye/client/components';
 import { commandQuery, SortOption, useStore } from '@redeye/client/store';
+import type { CommandProps } from '@redeye/client/views';
 import { CommandContainer, initialCommandRowHeight, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
@@ -11,7 +12,7 @@ import { observable } from 'mobx';
 import { UtilityStyles } from '@redeye/ui-styles';
 
 type CommandsProps = ComponentProps<'div'> & {
-	showPath?: boolean;
+	showPath?: CommandProps['showPath'];
 	sort: SortOption;
 };
 
