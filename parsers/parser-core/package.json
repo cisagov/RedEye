@@ -1,0 +1,9 @@
+{
+	"name": "@redeye/parser-core",
+	"version": "1.0.0",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"dependencies": {
+		"@redeye/models": "workspace:*"
+	}
+}

@@ -15,7 +15,7 @@ import { Beacon } from './Beacon';
 import { ServerMeta } from './ServerMeta';
 
 @ObjectType()
-@Unique({ properties: ['parsingPath'] })
+@Unique({ properties: ['name'] })
 @Entity()
 export class Server {
 	constructor({

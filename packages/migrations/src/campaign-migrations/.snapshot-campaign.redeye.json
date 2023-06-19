@@ -213,6 +213,15 @@
 					"nullable": true,
 					"mappedType": "text"
 				},
+				"os_version": {
+					"name": "os_version",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
 				"ip": {
 					"name": "ip",
 					"type": "text",
@@ -374,8 +383,8 @@
 			"name": "server",
 			"indexes": [
 				{
-					"keyName": "server_parsing_path_unique",
-					"columnNames": ["parsing_path"],
+					"keyName": "server_name_unique",
+					"columnNames": ["name"],
 					"composite": false,
 					"primary": false,
 					"unique": true
@@ -665,6 +674,173 @@
 					"referencedColumnNames": ["id"],
 					"referencedTableName": "beacon",
 					"deleteRule": "set null",
+					"updateRule": "cascade"
+				}
+			}
+		},
+		{
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				},
+				"pid": {
+					"name": "pid",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "integer"
+				},
+				"process": {
+					"name": "process",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
+				"username": {
+					"name": "username",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
+				"start_time": {
+					"name": "start_time",
+					"type": "datetime",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"length": 0,
+					"mappedType": "datetime"
+				},
+				"end_time": {
+					"name": "end_time",
+					"type": "datetime",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"length": 0,
+					"mappedType": "datetime"
+				},
+				"ip": {
+					"name": "ip",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
+				"port": {
+					"name": "port",
+					"type": "integer",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "integer"
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"enumItems": ["http", "https", "smb", "dns"],
+					"mappedType": "enum"
+				},
+				"origin": {
+					"name": "origin",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
+				"source_id": {
+					"name": "source_id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
+				"beacon_id": {
+					"name": "beacon_id",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				}
+			},
+			"name": "beacon_meta",
+			"indexes": [
+				{
+					"columnNames": ["source_id"],
+					"composite": false,
+					"keyName": "beacon_meta_source_id_unique",
+					"primary": false,
+					"unique": true
+				},
+				{
+					"columnNames": ["beacon_id"],
+					"composite": false,
+					"keyName": "beacon_meta_beacon_id_index",
+					"primary": false,
+					"unique": false
+				},
+				{
+					"keyName": "beacon_meta_pid_username_start_time_end_time_ip_beacon_id_unique",
+					"columnNames": ["pid", "username", "start_time", "end_time", "ip", "beacon_id"],
+					"composite": true,
+					"primary": false,
+					"unique": true
+				},
+				{
+					"keyName": "primary",
+					"columnNames": ["id"],
+					"composite": false,
+					"primary": true,
+					"unique": true
+				}
+			],
+			"checks": [],
+			"foreignKeys": {
+				"beacon_meta_source_id_foreign": {
+					"constraintName": "beacon_meta_source_id_foreign",
+					"columnNames": ["source_id"],
+					"localTableName": "beacon_meta",
+					"referencedColumnNames": ["id"],
+					"referencedTableName": "log_entry",
+					"deleteRule": "set null",
+					"updateRule": "cascade"
+				},
+				"beacon_meta_beacon_id_foreign": {
+					"constraintName": "beacon_meta_beacon_id_foreign",
+					"columnNames": ["beacon_id"],
+					"localTableName": "beacon_meta",
+					"referencedColumnNames": ["id"],
+					"referencedTableName": "beacon",
+					"deleteRule": "cascade",
 					"updateRule": "cascade"
 				}
 			}
@@ -1162,154 +1338,6 @@
 					"localTableName": "command_group_commands",
 					"referencedColumnNames": ["id"],
 					"referencedTableName": "command",
-					"deleteRule": "cascade",
-					"updateRule": "cascade"
-				}
-			}
-		},
-		{
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"pid": {
-					"name": "pid",
-					"type": "integer",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "integer"
-				},
-				"username": {
-					"name": "username",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"start_time": {
-					"name": "start_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"end_time": {
-					"name": "end_time",
-					"type": "datetime",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"length": 0,
-					"mappedType": "datetime"
-				},
-				"ip": {
-					"name": "ip",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"type": {
-					"name": "type",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"enumItems": ["http", "https", "smb", "dns"],
-					"mappedType": "enum"
-				},
-				"origin": {
-					"name": "origin",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"source_id": {
-					"name": "source_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				},
-				"beacon_id": {
-					"name": "beacon_id",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": false,
-					"mappedType": "text"
-				}
-			},
-			"name": "beacon_meta",
-			"indexes": [
-				{
-					"columnNames": ["source_id"],
-					"composite": false,
-					"keyName": "beacon_meta_source_id_unique",
-					"primary": false,
-					"unique": true
-				},
-				{
-					"columnNames": ["beacon_id"],
-					"composite": false,
-					"keyName": "beacon_meta_beacon_id_index",
-					"primary": false,
-					"unique": false
-				},
-				{
-					"keyName": "beacon_meta_pid_username_start_time_end_time_ip_beacon_id_unique",
-					"columnNames": ["pid", "username", "start_time", "end_time", "ip", "beacon_id"],
-					"composite": true,
-					"primary": false,
-					"unique": true
-				},
-				{
-					"keyName": "primary",
-					"columnNames": ["id"],
-					"composite": false,
-					"primary": true,
-					"unique": true
-				}
-			],
-			"checks": [],
-			"foreignKeys": {
-				"beacon_meta_source_id_foreign": {
-					"constraintName": "beacon_meta_source_id_foreign",
-					"columnNames": ["source_id"],
-					"localTableName": "beacon_meta",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "log_entry",
-					"updateRule": "cascade"
-				},
-				"beacon_meta_beacon_id_foreign": {
-					"constraintName": "beacon_meta_beacon_id_foreign",
-					"columnNames": ["beacon_id"],
-					"localTableName": "beacon_meta",
-					"referencedColumnNames": ["id"],
-					"referencedTableName": "beacon",
 					"deleteRule": "cascade",
 					"updateRule": "cascade"
 				}

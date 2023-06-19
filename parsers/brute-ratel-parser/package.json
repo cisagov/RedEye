@@ -1,7 +1,6 @@
 {
-	"name": "@redeye/cs-parser",
-	"version": "0.9.0",
-	"license": "MIT",
+	"name": "@redeye/brute-ratel-parser",
+	"version": "0.1.0-alpha.1",
 	"bin": "./dist/index.js",
 	"pkg": {
 		"assets": [
@@ -14,6 +13,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"@redeye/models": "workspace:*"
+		"@redeye/models": "workspace:*",
+		"@redeye/parser-core": "workspace:*"
 	}
 }

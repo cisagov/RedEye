@@ -8,11 +8,11 @@ import type { ComponentProps } from 'react';
 import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useStore } from '../../../store';
-import { CobaltStrikeUploadForm } from './CobaltStrikeUploadForm';
+import { ParserUploadForm } from './ParserUploadForm';
 
 enum CampaignTabs {
 	NEW,
-	UPLOAD,
+	UPLOAD = 9999,
 }
 
 type NewCampaignDialogProps = ComponentProps<'div'> & {
@@ -22,9 +22,7 @@ type NewCampaignDialogProps = ComponentProps<'div'> & {
 
 export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props }) => {
 	const store = useStore();
-	const [currentTab, setCurrentTab] = useState(
-		store.appMeta.blueTeam ? CampaignTabs.UPLOAD : (CampaignTabs.NEW as CampaignTabs)
-	);
+	const [currentTab, setCurrentTab] = useState(store.appMeta.blueTeam ? CampaignTabs.UPLOAD : (0 as CampaignTabs));
 
 	return (
 		<DialogEx
@@ -43,19 +41,22 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 						selectedTabId={currentTab}
 						onChange={(newTab) => setCurrentTab(newTab as CampaignTabs)}
 						id="add-campaign-methods"
+						renderActiveTabPanelOnly
 					>
-						<Tab
-							cy-test="create-new-camp"
-							id={CampaignTabs.NEW}
-							title="Upload Cobalt Strike Logs"
-							panel={
-								store.appMeta.blueTeam ? (
-									<BlueTeamSourceWarning css={shadowStyle} />
-								) : (
-									<CobaltStrikeUploadForm onClose={props.onClose} css={shadowStyle} />
-								)
-							}
-						/>
+						{Array.from(store.graphqlStore.parserInfos.values(), (parserInfo, index) => (
+							<Tab
+								cy-test={`create-new-camp-${parserInfo.id}`}
+								id={index}
+								title={parserInfo?.uploadForm?.tabTitle}
+								panel={
+									!parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (
+										<BlueTeamSourceWarning css={shadowStyle} />
+									) : (
+										<ParserUploadForm parserInfo={parserInfo} onClose={props.onClose} css={shadowStyle} />
+									)
+								}
+							/>
+						))}
 						<Tab
 							cy-test="upload-from-file"
 							id={CampaignTabs.UPLOAD}

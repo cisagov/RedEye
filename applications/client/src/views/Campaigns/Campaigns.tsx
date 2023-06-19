@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { AuthCheck, CarbonIcon, ErrorFallback, ExpandingSearchBox, AppHeader } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type { CampaignModel } from '@redeye/client/store';
-import { useStore } from '@redeye/client/store';
+import { parserInfoModelPrimitives, useStore } from '@redeye/client/store';
 import { CampaignCard, NewCampaignDialog } from '@redeye/client/views';
 import { FlexSplitter, Header, Txt } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
@@ -18,6 +18,20 @@ type CampaignsProps = ComponentProps<'div'> & {};
 const Campaigns = observer<CampaignsProps>(() => {
 	const store = useStore();
 	const campaignQuery = useQuery(['campaigns'], async () => await store.graphqlStore.queryCampaigns());
+	useQuery(
+		['parsers'],
+		async () =>
+			await store.graphqlStore.queryParserInfo(
+				{},
+				parserInfoModelPrimitives
+					.uploadForm((up) =>
+						up.enabledInBlueTeam.tabTitle
+							.fileUpload((fileUp) => fileUp.example.type.validate.acceptedExtensions.description)
+							.fileDisplay((fileDis) => fileDis.editable)
+					)
+					.toString()
+			)
+	);
 	const state = createState({
 		openAddCampaign: false,
 		search: '',

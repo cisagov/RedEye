@@ -1,0 +1,6 @@
+dependsOn:
+  - 'models'
+tasks:
+  build:
+    deps:
+      - ~:build-node

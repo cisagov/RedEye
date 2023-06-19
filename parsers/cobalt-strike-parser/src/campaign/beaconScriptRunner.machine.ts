@@ -103,7 +103,7 @@ export const beaconScriptRunnerMachine = createMachine(
 						});
 						execFile(command, [process.argv[1], ...args], execCallback);
 					} else {
-						const command = `redeye-cs-parser ${args.join(' ')}`;
+						const command = `cobalt-strike-parser ${args.join(' ')}`;
 						ctx.logger('exec start', {
 							payload: command,
 							tags: [ctx.beaconId, 'BEACON_PARSER_INVOKE'],

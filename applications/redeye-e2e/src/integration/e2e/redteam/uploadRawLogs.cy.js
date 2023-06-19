@@ -6,6 +6,7 @@ describe('Timeline tests', () => {
 
 	it('Verify timeline features', () => {
 		cy.get('[cy-test=add-campaign-btn]').click();
+		cy.get('[cy-test=create-new-camp-cobalt-strike-parser]').click();
 
 		cy.uploadLogs('seb', camp);
 

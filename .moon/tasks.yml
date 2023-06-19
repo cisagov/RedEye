@@ -44,6 +44,18 @@ fileGroups:
 # This setting requires a map, where the key is a unique name for the task,
 # and the value is an object of task parameters.
 tasks:
+  xstate-typegen:
+    command:
+      - xstate
+      - typegen
+      - src/**/*.machine.ts?(x)
+    outputs:
+      - 'src/**/*.machine.typegen.{ts,tsx}'
+    inputs:
+      - 'src/**/*.machine.{ts,tsx}'
+    platform: node
+    options:
+      runInCI: false
   run-cypress:
     local: true
     command:
@@ -215,7 +227,7 @@ tasks:
   start-node:
     env:
       NODE_ENV: development
-    command: 'nodemon --ext ts --watch src --exec "swc src -d dist && yarn node ./dist/index.js" --ignore "src/**/*.test.ts"'
+    command: 'nodemon --ext ts --watch src --exec "swc src -s -d dist && yarn node --enable-source-maps ./dist/index.js" --ignore "src/**/*.test.ts"'
     local: true
     inputs:
       - '@globs(sources)'

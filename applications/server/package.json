@@ -14,7 +14,8 @@
 		"compress": "GZip"
 	},
 	"dependencies": {
-		"@redeye/cs-parser": "workspace:*",
+		"@redeye/brute-ratel-parser": "workspace:*",
+		"@redeye/cobalt-strike-parser": "workspace:*",
 		"@redeye/migrations": "workspace:*",
 		"@redeye/models": "workspace:*"
 	}

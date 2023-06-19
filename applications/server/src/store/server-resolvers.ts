@@ -68,9 +68,12 @@ export class ServerResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string
 	): Promise<boolean> {
-		if (ctx.config.blueTeam) throw new Error('Parsing cannot be invoked from blue team mode');
+		if (!ctx.config.redTeam) throw new Error('Parsing cannot be invoked from blue team mode');
 		await connectToProjectEmOrFail(campaignId, ctx);
-		ctx.messengerMachine.send({ type: 'PARSE_CAMPAIGN', campaignId, context: ctx });
+		const mainEm = getMainEmOrFail(ctx);
+		const campaign = await mainEm.findOneOrFail(Campaign, campaignId);
+		if (!campaign.parser) throw new Error('No parser is configured for this campaign');
+		ctx.messengerMachine.send({ type: 'PARSE_CAMPAIGN', campaignId, context: ctx, parserName: campaign.parser });
 		return true;
 	}
 

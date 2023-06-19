@@ -36,6 +36,10 @@ export class BeaconMeta {
 	@Property({ nullable: true })
 	pid?: number;
 
+	@Field(() => String, { nullable: true, description: 'Process Identifier the beacon is running on' })
+	@Property({ nullable: true })
+	process?: string;
+
 	@Field(() => String, { nullable: true, description: 'The username the beacon is running under' })
 	@Property({ nullable: true })
 	username?: string;
@@ -52,6 +56,10 @@ export class BeaconMeta {
 	@Property({ nullable: true })
 	ip?: string;
 
+	@Field(() => Number, { nullable: true, description: 'The IP of the host at the time of the metadata line' })
+	@Property({ nullable: true })
+	port?: number;
+
 	@Field(() => BeaconType, { nullable: true, description: 'The communication type used by the beacon' })
 	@Enum(() => BeaconType)
 	type?: BeaconType = BeaconType.HTTP;
@@ -60,9 +68,9 @@ export class BeaconMeta {
 	origin?: string;
 
 	// This is likely to be nullable in future due to different ways we have to extract this data in other C2 tools
-	@Field(() => LogEntry, { description: 'The log line from which the BeaconMeta was extracted' })
-	@OneToOne({ owner: true, entity: () => LogEntry })
-	source: LogEntry;
+	@Field(() => LogEntry, { description: 'The log line from which the BeaconMeta was extracted', nullable: true })
+	@OneToOne({ owner: true, entity: () => LogEntry, nullable: true })
+	source?: LogEntry;
 
 	// Right now this is a ManyToOne because the meta line can have variations. The idea is that we'll eventually be able to deconflict them
 	@ManyToOne(() => Beacon, { onDelete: 'cascade' })
