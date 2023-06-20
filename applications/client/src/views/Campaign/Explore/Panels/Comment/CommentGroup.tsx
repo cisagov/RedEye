@@ -16,7 +16,7 @@ export type CommentGroupProps = ComponentProps<'div'> & {
 	hideCommands?: boolean;
 	expandedCommandIDs?: string[];
 	removeExpandedCommandID?: (commandId: string) => void;
-	setCommentUpdate?: () => void;
+	refetchComments?: () => void;
 };
 export const CommentGroup = observer<CommentGroupProps>(
 	({
@@ -27,7 +27,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 		hideCommands,
 		expandedCommandIDs = [],
 		removeExpandedCommandID,
-		setCommentUpdate,
+		refetchComments,
 		...props
 	}) => {
 		const store = useStore();
@@ -61,7 +61,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 							annotation={annotation?.maybeCurrent}
 							commandGroup={commandGroup}
 							isFullList
-							setCommentUpdate={setCommentUpdate}
+							refetchComments={refetchComments}
 						/>
 					))}
 					{newComment === commandGroup?.id && (

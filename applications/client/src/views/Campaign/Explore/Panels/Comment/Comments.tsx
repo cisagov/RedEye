@@ -47,13 +47,9 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 		removeExpandedCommandID(commandId: string) {
 			this.expandedCommandIDs.remove(commandId);
 		},
-		commentUpdate: 0,
-		setCommentUpdate() {
-			this.commentUpdate += 1;
-		},
 	});
 
-	const { data: commandGroupIdData } = useQuery(
+	const { data: commandGroupIdData, refetch: refetchComments } = useQuery(
 		[
 			'commandGroups',
 			store.campaign?.id,
@@ -64,7 +60,6 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 			sort,
 			store.router.params.currentItem,
 			store.router.params.currentItemId,
-			state.commentUpdate,
 		],
 		async () => {
 			if (store.router.params.currentItem === 'comments_list' && store.router.params.currentItemId) {
@@ -191,7 +186,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						newComment={state.newComment}
 						expandedCommandIDs={state.expandedCommandIDs}
 						removeExpandedCommandID={state.removeExpandedCommandID}
-						setCommentUpdate={state.setCommentUpdate}
+						refetchComments={refetchComments}
 					/>
 				))
 			)}
