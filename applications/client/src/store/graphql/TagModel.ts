@@ -1,8 +1,8 @@
 import { ExtendedModel, model, getRoot, modelAction } from 'mobx-keystone';
-import { TagModelBase } from './TagModel.base';
-import { AppStore } from '../app-store';
-import { routes } from '../routing';
 import { CampaignViews, Tabs } from '@redeye/client/types';
+import { TagModelBase } from './TagModel.base';
+import type { AppStore } from '../app-store';
+import { routes } from '../routing';
 
 /* A graphql query fragment builders for TagModel */
 export { selectFromTag, tagModelPrimitives, TagModelSelector } from './TagModel.base';
