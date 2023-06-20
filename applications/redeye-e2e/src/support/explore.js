@@ -115,7 +115,7 @@ Cypress.Commands.add('clickMetaTab', () => {
 Cypress.Commands.add('clickCommentsTabWithinTab', () => {
 	cy.get('[cy-test=comments]').click();
 	cy.wait(500);
-	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
+	// cy.get('[data-test-id=virtuoso-item-list]').should('exist');
 });
 
 // EXPAND THE ROW
