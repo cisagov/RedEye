@@ -18,9 +18,9 @@ Red Team: [![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress
 
 Blue Team: [![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs)
 
-## [User Guide](userGuide)
+## [User Guide](https://github.com/cisagov/RedEye/blob/develop/docs/User%20Guide.md)
 
-Follow along with the [User Guide](userGuide) to learn about RedEye's feature set.
+Follow along with the [User Guide](https://github.com/cisagov/RedEye/blob/develop/docs/User%20Guide.md) to learn about RedEye's feature set.
 
 ## Quick start
 

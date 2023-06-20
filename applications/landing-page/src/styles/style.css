@@ -85,7 +85,7 @@ h1 {
 	color: white;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 500px) {
 	.expanded {
 		display: flex;
 		align-items: start;
@@ -94,7 +94,7 @@ h1 {
 	}
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 500px) {
 	.nav-links {
 		display: flex;
 		position: static;
