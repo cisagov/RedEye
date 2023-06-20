@@ -33,7 +33,7 @@ Follow along with the [User Guide](docs/UserGuide.md) to learn about RedEye's fe
    - [**Blue Team mode**](#blue-team) (default) enables a simplified, read-only UI for reviewing campaigns exported by a Red Team. To start the server in Blue Team mode. Double-click on the 'RedEye' executable or run `./RedEye` from the command line.
 3. **Use the web app** in a browser at http://127.0.0.1:4000. The RedEye binary runs as a server in a terminal window and will automatically open the web app UI your default browser. You must close the terminal window to quit the RedEye server.
 
-_**MacOS Issue** - When running RedEye for the first time, you may get a "not verified" error. You must go to "System Preferences" > "Security & Privacy" > "General" and click "Open Anyway." More info on the [apple support page](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/)._
+_**MacOS Issue** - When running RedEye for the first time, you may get a "not verified" error. You must go to "System Preferences" > "Security & Privacy" > "General" and click "Open Anyway." More info on the [Apple support page](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/)._
 
 ## Red Team & Blue Team Modes
 
@@ -195,8 +195,9 @@ yarn release:(mac|windows|linux)
   - Others may be supported but are untested
 - macOS
   - El Capitan and newer
-- Windows - Windows 7 and newer
-  ARM support is experimental
+- Windows
+  - Windows 7 and newer
+  - ARM support is experimental
 
 ---
 
