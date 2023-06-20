@@ -1,0 +1,25 @@
+---
+import Header from '../components/Header.astro';
+import '../styles/style.css';
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<Header />
+		<div class="container">
+			<slot />
+		</div>
+		<script>
+			import '../scripts/menu.js';
+		</script>
+	</body>
+</html>
