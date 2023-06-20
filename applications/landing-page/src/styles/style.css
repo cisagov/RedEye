@@ -1,0 +1,114 @@
+html {
+	font-family: sans-serif;
+}
+
+body {
+	margin: 0 auto;
+	padding: 1rem 2rem;
+	line-height: 1.5;
+	background-color: hsl(0, 0%, 12%);
+	color: white;
+	max-width: 1200px;
+}
+
+.container {
+	max-width: 1000px !important;
+	margin: auto;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+a {
+	color: #2f81f7;
+	text-decoration: none;
+}
+
+h1 {
+	margin: 1rem 0;
+	font-size: 2.5rem;
+}
+
+/* button styles */
+
+.button a {
+	background-color: hsl(219, 99%, 53%);
+	text-decoration: none;
+	color: white !important;
+	padding: 0.25rem 0.75rem;
+	border-radius: 5px;
+}
+.button a:hover {
+	background-color: hsl(219, 90%, 39%);
+}
+
+/* nav styles */
+
+.menu {
+	padding-right: 20px;
+	cursor: pointer;
+	padding: 16px;
+}
+
+.menu:hover .line {
+	background-color: white;
+}
+
+.menu .line {
+	display: block;
+	width: 30px;
+	height: 3px;
+	margin-bottom: 10px;
+	background-color: hsl(0, 0%, 31%);
+}
+
+.nav-links {
+	width: 100%;
+	top: 5rem;
+	left: 48px;
+	display: none;
+	margin: 0;
+}
+
+.nav-links a {
+	display: block;
+	text-align: center;
+	padding: 10px 0;
+	color: hsl(0, 0%, 31%);
+	font-size: 1.2rem;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.nav-links a:hover {
+	color: white;
+}
+
+@media screen and (max-width: 500px) {
+	.expanded {
+		display: flex;
+		align-items: start;
+		padding-left: 16px;
+		flex-direction: column;
+	}
+}
+
+@media screen and (min-width: 500px) {
+	.nav-links {
+		display: flex;
+		position: static;
+		width: auto;
+		background: none;
+		justify-content: flex-start;
+	}
+
+	.nav-links a {
+		display: inline-block;
+		padding: 1rem;
+	}
+
+	.menu {
+		display: none;
+	}
+}
