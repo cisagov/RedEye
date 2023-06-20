@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Entity, Enum, OneToOne, PrimaryKey } from '@mikro-orm/core';
 import { randomUUID } from 'crypto';
 import { Field, ObjectType, registerEnumType } from 'type-graphql';
@@ -36,5 +37,5 @@ export class ServerMeta {
 	 */
 	// Right now this is a ManyToOne because the meta line can have variations. The idea is that we'll eventually be able to deconflict them
 	@OneToOne(() => Server)
-	server: Server;
+	server: Rel<Server>;
 }
