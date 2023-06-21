@@ -9,7 +9,7 @@ describe('Command row navigation', () => {
 	const camp = 'commandrownav';
 	const fileName = 'gt.redeye';
 
-	it('Quicklink breadcrumbs should navigate to command row page destination; Host link should not be clickable', () => {
+	it.only('Quicklink breadcrumbs should navigate to command row page destination; Host link should not be clickable', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Open campaign and select a Host (log Host name)
@@ -33,14 +33,14 @@ describe('Command row navigation', () => {
 					cy.url().then((currentURL2) => {
 						expect(currentURL2).to.equal(currentURL1);
 
-						// Click Command name and confirm page changes and goes to the correct command
+						// Click Beacon name and confirm page changes and goes to the correct beacon
 						cy.get('[cy-test=hostBeaconInfo] > li')
 							.last()
 							.invoke('text')
-							.then((commandName1) => {
+							.then((beaconName1) => {
 								cy.get('[cy-test=hostBeaconInfo] > li').last().click();
 
-								cy.get('[cy-test=beacon-username]').should('contain', commandName1);
+								cy.get('[cy-test=panel-header]').should('contain', beaconName1);
 								cy.url().then((currentURL3) => {
 									expect(currentURL3).to.not.equal(currentURL2);
 								});

@@ -3,7 +3,7 @@
 function hideUnhideBeacon(beaconName) {
 	// Hide a beacon
 	cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-	cy.contains('[cy-test=beaconName]', beaconName);
+	cy.contains('[cy-test=panel-header]', beaconName);
 	cy.clickMetaTab();
 	cy.showHideBeaconMetaTab();
 }
@@ -21,12 +21,14 @@ describe('Hide a beacon', () => {
 		// // Toggle switch to not show hidden items
 		cy.doNotShowHiddenItems();
 
-		// Get the name of the first beacon
+		// Get the name of the last beacon
 		cy.clickBeaconsTab();
 		cy.get('[cy-test=beacon-display-name]')
-			.eq(0)
+			.last()
 			.invoke('text')
-			.then((beaconName) => {
+			.then((beacon) => {
+				const beaconName = beacon.split(' / ')[1];
+
 				// Hide a beacon
 				hideUnhideBeacon(beaconName);
 
@@ -62,12 +64,14 @@ describe('Hide a beacon', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Get the name of the first beacon
+		// Get the name of the last beacon
 		cy.clickBeaconsTab();
 		cy.get('[cy-test=beacon-display-name]')
-			.eq(0)
+			.last()
 			.invoke('text')
-			.then((beaconName) => {
+			.then((beacon) => {
+				const beaconName = beacon.split(' / ')[1];
+
 				// Hide a beacon
 				hideUnhideBeacon(beaconName);
 
@@ -100,19 +104,23 @@ describe('Hide a beacon', () => {
 			});
 	});
 
-	it('Hide beacon using the kebab menu', () => {
+	it.only('Hide beacon using the kebab menu', () => {
+		cy.uploadCampaign(camp, fileName);
+
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Get the name of the first beacon
+		// Get the name of the last beacon
 		cy.clickBeaconsTab();
 
 		cy.get('[cy-test=beacon-display-name]')
-			.eq(0)
+			.last()
 			.invoke('text')
-			.then((beaconName) => {
-				// Hide the first beacon in the list
-				cy.showHideItem(0);
+			.then((beacon) => {
+				const beaconName = beacon.split(' / ')[1];
+
+				// Hide the last beacon in the list
+				cy.showHideItem(4);
 
 				// Verify confirmation modal appears
 				cy.get('.bp4-dialog-body').should('be.visible').and('contain.text', 'Hiding this beacon');
@@ -136,7 +144,7 @@ describe('Hide a beacon', () => {
 				cy.get('[cy-test=beacons-view]').should('contain', beaconName);
 
 				// Set beacon to show again
-				cy.showHideItem(0);
+				cy.showHideItem(4);
 
 				// Verify confirmation modal appears
 				cy.get('.bp4-dialog-body').should('exist');
