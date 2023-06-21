@@ -1167,14 +1167,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Update existing Host Display Name
 	@modelAction mutateUpdateHostMetadata(
-		variables: { campaignId: string; color?: string; hostDisplayName: string; hostId: string; shape?: Shapes },
+		variables: { campaignId: string; color?: string; hostDisplayName?: string; hostId: string; shape?: Shapes },
 		resultSelector:
 			| string
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateHostMetadata: HostModel }>(
-			`mutation updateHostMetadata($campaignId: String!, $color: String, $hostDisplayName: String!, $hostId: String!, $shape: Shapes) { updateHostMetadata(campaignId: $campaignId, color: $color, hostDisplayName: $hostDisplayName, hostId: $hostId, shape: $shape) {
+			`mutation updateHostMetadata($campaignId: String!, $color: String, $hostDisplayName: String, $hostId: String!, $shape: Shapes) { updateHostMetadata(campaignId: $campaignId, color: $color, hostDisplayName: $hostDisplayName, hostId: $hostId, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
 			variables,

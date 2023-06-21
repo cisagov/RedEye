@@ -11,8 +11,10 @@ import { observer } from 'mobx-react-lite';
 import { NodePreview } from './NodePreview';
 
 type NodeColorSelectProps = Partial<Select2Props<NodeColorOption>> & {
+	onItemSelect: Select2Props<NodeColorOption>['onItemSelect'];
 	buttonProps?: ButtonProps;
 	nodeIconProps?: NodeIconProps;
+	value?: NodeColor;
 };
 
 export const NodeColorSelect = observer<NodeColorSelectProps>(
@@ -32,8 +34,8 @@ export const NodeColorSelect = observer<NodeColorSelectProps>(
 			<Select2
 				items={nodeColorOptions}
 				itemRenderer={itemRenderer}
-				onItemSelect={() => {}}
 				filterable={false}
+				activeItem={nodeColorOptions.find(({ name }) => name === props.value)}
 				fill
 				popoverContentProps={{
 					className: largePopoverClassName,

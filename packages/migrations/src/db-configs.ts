@@ -30,6 +30,7 @@ export const getCampaignOrm = (campaignDbPath: string, migrationFolder?: string)
 			glob: '!(*.d).{js,ts}',
 			tableName: 'mikro_orm_migrations',
 			path: migrationFolder || path.join(__dirname, 'campaign-migrations'),
+			allOrNothing: false,
 			transactional: true,
 			disableForeignKeys: true,
 			emit: 'ts',
@@ -66,6 +67,7 @@ export const getMainOrm = (production: boolean, dbName: string, migrationFolder?
 			path: migrationFolder || path.join(__dirname, 'main-migrations'),
 			transactional: true,
 			disableForeignKeys: true,
+			allOrNothing: false,
 			emit: 'ts',
 		},
 	});

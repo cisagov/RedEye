@@ -346,7 +346,7 @@ type Mutation {
   updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!, color: String, shape: Shapes): Beacon!
 
   """Update existing Host Display Name"""
-  updateHostMetadata(campaignId: String!, color: String, hostDisplayName: String!, hostId: String!, shape: Shapes): Host!
+  updateHostMetadata(campaignId: String!, color: String, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
 
   """Update existing Server name"""
   updateServerMetadata(campaignId: String!, color: String, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
@@ -485,7 +485,7 @@ type Query {
   logsByBeaconId(beaconId: String!, campaignId: String!): [LogEntry!]!
 
   """"""
-  nonHidableEntities(beaconIds: [String!]! = [], campaignId: String!, hostIds: [String!]! = []): NonHidableEntities!
+  nonHidableEntities(beaconIds: [String!] = [], campaignId: String!, hostIds: [String!] = []): NonHidableEntities!
 
   """Get all the operators for a project"""
   operators(campaignId: String!, hidden: Boolean = false): [Operator]

@@ -1,5 +1,5 @@
 import { Tabs } from '@redeye/client/types/explore';
-import { sortOptions } from '@redeye/client/views';
+import { nodeColor, sortOptions } from '@redeye/client/views';
 import type { Graph as BSGraph } from '@redeye/graph';
 import { RedEyeGraph } from '@redeye/graph';
 import { computed, observable, reaction } from 'mobx';
@@ -101,6 +101,8 @@ export class CampaignStore extends ExtendedModel(() => ({
 		const parents = Array.from(this.appStore?.graphqlStore.hosts.values() || [], (host) => ({
 			id: host.id,
 			name: host.displayName ?? host.hostName ?? undefined,
+			className: nodeColor[host.meta[0]?.maybeCurrent?.color || 'default'].className,
+			shape: host.meta[0]?.maybeCurrent?.shape,
 		}));
 		if (nodes.length) {
 			const beacons = {};
@@ -131,6 +133,8 @@ export class CampaignStore extends ExtendedModel(() => ({
 					name: [node.displayName, node.meta[0]?.maybeCurrent?.username].filter((d) => d).join(' ') || undefined,
 					parent: node.host?.id,
 					isServer: !!node.host?.maybeCurrent?.cobaltStrikeServer,
+					className: nodeColor[node.meta?.[0]?.maybeCurrent?.color || 'red'].className,
+					shape: node?.meta?.[0]?.maybeCurrent?.shape,
 					...(beacons[node.id] || {}),
 				})),
 				links,

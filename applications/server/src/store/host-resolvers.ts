@@ -28,14 +28,16 @@ export class HostResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('hostId', () => String) hostId: string,
 		@Arg('campaignId', () => String) campaignId: string,
-		@Arg('hostDisplayName', () => String) hostDisplayName: string,
+		@Arg('hostDisplayName', () => String, { nullable: true }) hostDisplayName?: string,
 		@Arg('shape', { nullable: true }) shape?: Shapes,
 		@Arg('color', { nullable: true }) color?: string,
 		@RelationPath() relationPaths?: Relation<Host>
 	): Promise<Host> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const host = await em.findOneOrFail(Host, hostId, { populate: relationPaths });
-		host.displayName = hostDisplayName;
+		if (hostDisplayName) {
+			host.displayName = hostDisplayName;
+		}
 		if (shape) {
 			host.meta[0].shape = shape;
 		}

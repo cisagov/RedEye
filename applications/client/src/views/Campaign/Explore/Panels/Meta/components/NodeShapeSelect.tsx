@@ -12,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { NodePreview } from './NodePreview';
 
 type NodeShapeSelectProps = Partial<Select2Props<NodeShape>> & {
+	onItemSelect: Select2Props<NodeShape>['onItemSelect'];
 	buttonProps?: ButtonProps;
 	nodeIconProps?: NodeIconProps;
 };
@@ -33,7 +34,6 @@ export const NodeShapeSelect = observer<NodeShapeSelectProps>(
 			<Select2
 				items={graphShapeOptions}
 				itemRenderer={itemRenderer}
-				onItemSelect={() => {}}
 				filterable={false}
 				fill
 				popoverContentProps={{
