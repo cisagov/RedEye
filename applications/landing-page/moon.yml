@@ -22,7 +22,3 @@ tasks:
       runInCI: false
       runDepsInParallel: false
     command: 'astro dev'
-# Disable project references
-toolchain:
-  typescript:
-  syncProjectReferences: false
