@@ -5,4 +5,4 @@ tasks:
     deps:
       - ~:build-node
   generate:
-    command: 'tsx ./src/json-schema-generator/generator.ts'
+    command: 'tsx ./src/generator.ts'

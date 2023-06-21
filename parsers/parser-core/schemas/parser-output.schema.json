@@ -1,0 +1,278 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"definitions": {
+		"ParserImage": {
+			"type": "object",
+			"properties": {
+				"blob": {
+					"type": "object",
+					"additionalProperties": false,
+					"patternProperties": {
+						"^[0-9]+$": {
+							"type": "number"
+						}
+					}
+				},
+				"fileType": {
+					"type": "string"
+				},
+				"url": {
+					"type": "string"
+				}
+			},
+			"required": ["blob", "fileType"]
+		},
+		"ParserFile": {
+			"type": "object",
+			"properties": {
+				"ip": {
+					"type": "string"
+				},
+				"fileName": {
+					"type": "string"
+				},
+				"location": {
+					"type": "string"
+				},
+				"dateTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"fileFlag": {
+					"$ref": "#/definitions/FileFlag"
+				},
+				"md5": {
+					"type": "string"
+				}
+			},
+			"required": ["dateTime", "fileFlag", "fileName", "location"]
+		},
+		"ParserBeacon": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"server": {
+					"type": "string"
+				},
+				"host": {
+					"type": "string"
+				},
+				"ip": {
+					"type": "string"
+				},
+				"type": {
+					"enum": ["dns", "http", "https", "smb"],
+					"type": "string"
+				},
+				"port": {
+					"type": "number"
+				},
+				"process": {
+					"type": "string"
+				},
+				"processId": {
+					"type": "number"
+				},
+				"startTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"images": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ParserImage"
+					}
+				},
+				"files": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ParserFile"
+					}
+				}
+			},
+			"required": ["host", "name", "server"]
+		},
+		"ParserHost": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"server": {
+					"type": "string"
+				},
+				"os": {
+					"type": "string"
+				},
+				"osVersion": {
+					"type": "string"
+				},
+				"ip": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string"
+				}
+			},
+			"required": ["name", "server"]
+		},
+		"ParserServer": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"type": {
+					"enum": ["dns", "http", "https", "smb"],
+					"type": "string"
+				},
+				"parsingPath": {
+					"type": "string"
+				}
+			},
+			"required": ["name"]
+		},
+		"ParserOperator": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"startTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": ["name"]
+		},
+		"ParserLink": {
+			"type": "object",
+			"properties": {
+				"from": {
+					"type": "string"
+				},
+				"to": {
+					"type": "string"
+				}
+			},
+			"required": ["from", "to"]
+		},
+		"ParserLogEntry": {
+			"type": "object",
+			"properties": {
+				"blob": {
+					"type": "string"
+				},
+				"dateTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"filepath": {
+					"type": "string"
+				},
+				"lineNumber": {
+					"type": "number"
+				},
+				"lineType": {
+					"description": "Notes on each log line type taken from the (Cobalt Strike Blog)[https://blog.cobaltstrike.com/2016/06/29/who-let-the-logs-out-woof/]",
+					"enum": ["CHECKIN", "ERROR", "INDICATOR", "INPUT", "METADATA", "MODE", "OUTPUT", "TASK"],
+					"type": "string"
+				},
+				"logType": {
+					"$ref": "#/definitions/LogType"
+				}
+			},
+			"required": ["blob", "filepath", "lineNumber", "logType"]
+		},
+		"ParserCommand": {
+			"type": "object",
+			"properties": {
+				"operator": {
+					"type": "string"
+				},
+				"beacon": {
+					"type": "string"
+				},
+				"host": {
+					"type": "string"
+				},
+				"input": {
+					"$ref": "#/definitions/ParserLogEntry"
+				},
+				"commandFailed": {
+					"type": "boolean"
+				},
+				"output": {
+					"$ref": "#/definitions/ParserLogEntry"
+				},
+				"attackIds": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": ["beacon", "input"]
+		},
+		"ParserOutput": {
+			"type": "object",
+			"properties": {
+				"servers": {
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserServer"
+					}
+				},
+				"hosts": {
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserHost"
+					}
+				},
+				"beacons": {
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserBeacon"
+					}
+				},
+				"operators": {
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserOperator"
+					}
+				},
+				"commands": {
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserCommand"
+					}
+				},
+				"links": {
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserLink"
+					}
+				}
+			},
+			"required": ["beacons", "commands", "hosts", "links", "operators", "servers"]
+		},
+		"FileFlag": {
+			"enum": ["DOWNLOAD", "UPLOAD"],
+			"type": "string"
+		},
+		"LogType": {
+			"enum": ["BEACON", "DOWNLOAD", "EVENT", "KEYSTROKES", "UNKNOWN", "WEBLOG"],
+			"type": "string"
+		}
+	}
+}

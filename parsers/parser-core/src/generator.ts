@@ -27,12 +27,24 @@ const createSchema = (tsFilePath: string, typeName: string, outPath: string) =>
 	);
 
 Promise.allSettled([
-	createSchema(resolve(__dirname, '..', 'parser-info.ts'), 'ParserInfo', resolve(__dirname, 'parser-info.schema.json')),
-	createSchema(resolve(__dirname, '..', 'parser-output.ts'), '*', resolve(__dirname, 'parser-output.schema.json')),
 	createSchema(
-		resolve(__dirname, '..', 'parser-progress.ts'),
-		'ParserProgress',
-		resolve(__dirname, 'parser-progress.schema.json')
+		resolve(__dirname, 'parser-info.ts'),
+		'ParserInfo',
+		resolve(__dirname, '..', 'schemas', 'parser-info.schema.json')
 	),
-	createSchema(resolve(__dirname, '..', 'logging.ts'), 'LoggerOptions', resolve(__dirname, 'logging.schema.json')),
+	createSchema(
+		resolve(__dirname, 'parser-output.ts'),
+		'*',
+		resolve(__dirname, '..', 'schemas', 'parser-output.schema.json')
+	),
+	createSchema(
+		resolve(__dirname, 'parser-progress.ts'),
+		'ParserProgress',
+		resolve(__dirname, '..', 'schemas', 'parser-progress.schema.json')
+	),
+	createSchema(
+		resolve(__dirname, 'logging.ts'),
+		'LoggerOptions',
+		resolve(__dirname, '..', 'schemas', 'logging.schema.json')
+	),
 ]);
