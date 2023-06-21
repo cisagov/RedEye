@@ -5,6 +5,7 @@ function hideUnhideHost(hostName) {
 	cy.contains('[cy-test=panel-header]', hostName);
 	cy.clickMetaTab();
 	cy.showHideHostMetaTab();
+	cy.wait(1000);
 }
 
 describe('Hide a host', () => {
@@ -21,7 +22,7 @@ describe('Hide a host', () => {
 		// Think it's turned off default on cypress
 		// cy.doNotShowHiddenItems();
 
-		//Get the name of the first host
+		// Get the name of the first host
 		cy.get('[cy-test=hostName]')
 			.eq(1)
 			.invoke('text')
