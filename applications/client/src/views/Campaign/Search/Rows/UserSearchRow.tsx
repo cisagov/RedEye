@@ -18,7 +18,8 @@ export const UserSearchRow = observer<TagSearchRowSearchRowProps>(({ result, sea
 			item={user}
 			text={text}
 			path={['User']}
-			// tagCount={88}
+			commandsCount={user.commandCount}
+			commentsCount={user.count}
 			onClick={() => {
 				user.searchSelect();
 				store.campaign.search.closeSearch();

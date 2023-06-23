@@ -10,6 +10,8 @@ import {
 	hostQuery,
 	linkQuery,
 	operatorModelPrimitives,
+	presentationCommandGroupModelPrimitives,
+	presentationItemModelPrimitives,
 	serverQuery,
 	useStore,
 } from '@redeye/client/store';
@@ -104,6 +106,20 @@ const Campaign = observer<CampaignProps>(() => {
 							hidden: store.settings.showHidden,
 						},
 						operatorModelPrimitives.toString()
+					),
+				enabled: !!store.campaign.fetchEnabled,
+			},
+			{
+				queryKey: ['presentation-items', store.campaign.id],
+				queryFn: async () =>
+					await store.graphqlStore.queryPresentationItems(
+						{
+							campaignId: store.campaign?.id!,
+							hidden: store.settings.showHidden,
+						},
+						presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
+						undefined,
+						true
 					),
 				enabled: !!store.campaign.fetchEnabled,
 			},

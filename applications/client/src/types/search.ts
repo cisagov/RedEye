@@ -55,7 +55,7 @@ export enum SearchFilterOptions {
 	Server = 'Teamservers',
 	Operator = 'Operators',
 	// UserContexts = 'User Contexts',
-	Users = 'Users',
+	PresentationItem = 'Users',
 	Annotation = 'Comments',
 	Command = 'Commands',
 	CommandTypeCount = 'Command Type',
