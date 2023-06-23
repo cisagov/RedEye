@@ -14,6 +14,7 @@ import {
 	OperatorModel,
 	ServerModel,
 	TagModel,
+	PresentationItemModel,
 } from '../graphql';
 import { RedEyeModel } from '../util/model';
 import { CampaignLoadingMessage } from './campaign';
@@ -69,7 +70,7 @@ export class SearchStore extends ExtendedModel(() => ({
 	}
 
 	@computed get searchItems(): Array<
-		OperatorModel | BeaconModel | ServerModel | HostModel | CommandTypeCountModel | TagModel
+		OperatorModel | BeaconModel | ServerModel | HostModel | CommandTypeCountModel | TagModel | PresentationItemModel
 	> {
 		return this.appStore
 			? [
@@ -79,6 +80,7 @@ export class SearchStore extends ExtendedModel(() => ({
 					...this.appStore.graphqlStore.hosts.values(),
 					...this.appStore.graphqlStore.commandTypeCounts.values(),
 					...this.appStore.graphqlStore.tags.values(),
+					...this.appStore.graphqlStore.presentationItems.values(),
 			  ]
 			: [];
 	}
@@ -222,6 +224,8 @@ export class SearchStore extends ExtendedModel(() => ({
 			return [item.id];
 		} else if (item instanceof CommandModel) {
 			return [`${item.inputText} ${item.inputLine}`, item.outputLines.join(' ')];
+		} else if (item instanceof PresentationItemModel && item.id.slice(0, 5) === 'user-') {
+			return [item.id.slice(5)];
 		}
 		return [];
 	}

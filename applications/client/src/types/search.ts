@@ -6,6 +6,7 @@ import type {
 	CommandTypeCountModel,
 	HostModel,
 	OperatorModel,
+	PresentationItemModel,
 	ServerModel,
 	TagModel,
 } from '../store';
@@ -18,7 +19,8 @@ export type AnyModel =
 	| ServerModel
 	| AnnotationModel
 	| CommandTypeCountModel
-	| TagModel;
+	| TagModel
+	| PresentationItemModel;
 
 type FieldRecord<T> = {
 	field1?: T;
@@ -53,7 +55,7 @@ export enum SearchFilterOptions {
 	Server = 'Teamservers',
 	Operator = 'Operators',
 	// UserContexts = 'User Contexts',
-	// Users = 'Users',
+	Users = 'Users',
 	Annotation = 'Comments',
 	Command = 'Commands',
 	CommandTypeCount = 'Command Type',

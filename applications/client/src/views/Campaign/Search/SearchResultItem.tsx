@@ -6,6 +6,7 @@ import {
 	CommandTypeCountModel,
 	HostModel,
 	OperatorModel,
+	PresentationItemModel,
 	ServerModel,
 	TagModel,
 } from '@redeye/client/store';
@@ -22,6 +23,7 @@ import {
 } from './Rows';
 import { CommandTypeSearchRow } from './Rows/CommandTypeSearchRow';
 import { TagSearchRow } from './Rows/TagSearchRow';
+import { UserSearchRow } from './Rows/UserSearchRow';
 
 export interface SearchResultItemProps {
 	searchTerm: string;
@@ -52,6 +54,8 @@ export const SearchResultItem = observer<SearchResultItemProps>(({ result, searc
 		<CommandTypeSearchRow item={item} {...props} />
 	) : item instanceof TagModel ? (
 		<TagSearchRow item={item} {...props} />
+	) : item instanceof PresentationItemModel ? (
+		<UserSearchRow item={item} {...props} />
 	) : (
 		<SearchRow item={item} text={highlightPattern(String(result.name), searchTerm)} path={['Other']} />
 	);
