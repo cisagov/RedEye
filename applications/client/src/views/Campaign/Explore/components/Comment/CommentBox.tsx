@@ -39,6 +39,7 @@ type CommentBoxProps = ComponentProps<'div'> & {
 	reply?: () => void;
 	isAddingCommandToComment?: boolean;
 	isFullList?: boolean;
+	refetchComments?: () => void;
 };
 
 export const CommentBox = observer<CommentBoxProps>(
@@ -55,6 +56,7 @@ export const CommentBox = observer<CommentBoxProps>(
 		popoverRef,
 		isAddingCommandToComment = false,
 		isFullList = false,
+		refetchComments,
 		...props
 	}) => {
 		const store = useStore();
@@ -67,6 +69,7 @@ export const CommentBox = observer<CommentBoxProps>(
 				}),
 			{
 				onSuccess: (annotationData) => {
+					refetchComments?.();
 					state.refetch();
 					if (annotationData) {
 						store.graphqlStore.annotations.delete(annotationData.deleteAnnotation.id);
