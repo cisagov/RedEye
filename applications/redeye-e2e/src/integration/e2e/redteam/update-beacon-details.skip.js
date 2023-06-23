@@ -17,7 +17,7 @@ describe('Update Beacon metadata', () => {
 		// Get current info for the beacon
 		cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]').eq(0).click();
 
-		cy.clickMetaTab();
+		cy.clickDetailsTab();
 		cy.get('[cy-test=beacon-display-name]')
 			.invoke('attr', 'value')
 			.then((resultBeacon1) => {
@@ -41,7 +41,7 @@ describe('Update Beacon metadata', () => {
 
 				// Verify new TOD shows
 				cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]').contains(newBeaconName).click();
-				cy.clickMetaTab();
+				cy.clickDetailsTab();
 				cy.get('[cy-test=beacon-time-of-death]')
 					.find('.bp4-input')
 					.invoke('attr', 'value')
