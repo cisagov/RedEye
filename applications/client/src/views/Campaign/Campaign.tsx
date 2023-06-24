@@ -116,6 +116,7 @@ const Campaign = observer<CampaignProps>(() => {
 						{
 							campaignId: store.campaign?.id!,
 							hidden: store.settings.showHidden,
+							userOnly: true,
 						},
 						presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
 						undefined,

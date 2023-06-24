@@ -485,7 +485,7 @@ type Query {
   parsingProgress: ParsingProgress!
 
   """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, commentsTabSort: SortTypeCommentsTab = {sortBy: minTime}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: alphabetical}): [PresentationItem]
+  presentationItems(campaignId: String!, commentsTabSort: SortTypeCommentsTab = {sortBy: minTime}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: alphabetical}, userOnly: Boolean = false): [PresentationItem]
 
   """Search Annotations from textQuery"""
   searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]

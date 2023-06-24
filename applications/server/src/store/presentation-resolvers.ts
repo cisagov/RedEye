@@ -196,6 +196,7 @@ export class PresentationResolvers {
 	@Query(() => [PresentationItem], { nullable: 'itemsAndList', description: 'Get categories for presentation mode' })
 	async presentationItems(
 		@Ctx() ctx: GraphQLContext,
+		@Arg('userOnly', () => Boolean, { defaultValue: false, nullable: true }) userOnly: boolean = false,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false,
 		@Arg('forOverviewComments', () => Boolean, { defaultValue: false, nullable: true })
@@ -251,79 +252,83 @@ export class PresentationResolvers {
 			? { annotations: { favorite: commentsTabSort.direction } }
 			: { annotations: { user: commentsTabSort.direction } };
 
-		// All Comments
-		const allComments = await em.find(CommandGroup, !hidden ? { commands: { ...beaconHidden(hidden) } } : {}, {
-			populate: ['commands', 'annotations'],
-			orderBy,
-		});
-		const commandGroups = await this.getBeaconLinks(allComments, linkTree, em, hidden);
-		const allCommandCount = commandGroups.commandGroups.reduce(
-			(count, commandGroup) => count + commandGroup.commandIds.length,
-			0
-		);
-		const allCommandGroupIds = commandGroups.commandGroups.map((commandGroup) => commandGroup.id);
-		presentationItems.push(
-			new PresentationItem({
-				id: 'all',
-				key: 'All Comments',
-				count: commandGroups.commandGroups.length,
-				commandCount: allCommandCount,
-				commandGroupIds: allCommandGroupIds,
-				...commandGroups,
-			})
-		);
-
-		// Favorite comments
-		const favoritedComments = await em.find(
-			CommandGroup,
-			{ annotations: { favorite: true }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
-			{
+		if (!userOnly) {
+			// All Comments
+			const allComments = await em.find(CommandGroup, !hidden ? { commands: { ...beaconHidden(hidden) } } : {}, {
 				populate: ['commands', 'annotations'],
 				orderBy,
-			}
-		);
-		const commandGroupsLink = await this.getBeaconLinks(favoritedComments, linkTree, em, hidden);
-		const commandCount = commandGroupsLink.commandGroups.reduce(
-			(count, commandGroup) => count + commandGroup.commandIds.length,
-			0
-		);
-		const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
-		presentationItems.push(
-			new PresentationItem({
-				id: 'favorited',
-				key: 'Favorited Comments',
-				count: favoritedComments.length,
-				commandCount,
-				commandGroupIds,
-				...commandGroupsLink,
-			})
-		);
+			});
+			const commandGroups = await this.getBeaconLinks(allComments, linkTree, em, hidden);
+			const allCommandCount = commandGroups.commandGroups.reduce(
+				(count, commandGroup) => count + commandGroup.commandIds.length,
+				0
+			);
+			const allCommandGroupIds = commandGroups.commandGroups.map((commandGroup) => commandGroup.id);
+			presentationItems.push(
+				new PresentationItem({
+					id: 'all',
+					key: 'All Comments',
+					count: commandGroups.commandGroups.length,
+					commandCount: allCommandCount,
+					commandGroupIds: allCommandGroupIds,
+					...commandGroups,
+				})
+			);
 
-		// procedural comments
-		const proceduralComments = await em.find(
-			CommandGroup,
-			{ annotations: { generation: 'PROCEDURAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
-			{
-				populate: ['commands', 'annotations'],
-				orderBy,
-			}
-		);
-		const proceduralCommandGroupsLink = await this.getBeaconLinks(proceduralComments, linkTree, em, hidden);
-		const proceduralCommandCount = proceduralCommandGroupsLink.commandGroups.reduce(
-			(count, commandGroup) => count + commandGroup.commandIds.length,
-			0
-		);
-		const proceduralCommandGroupIds = proceduralCommandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
-		presentationItems.push(
-			new PresentationItem({
-				id: 'procedural',
-				key: 'parser-generated',
-				count: proceduralComments.length,
-				commandCount: proceduralCommandCount,
-				commandGroupIds: proceduralCommandGroupIds,
-				...proceduralCommandGroupsLink,
-			})
-		);
+			// Favorite comments
+			const favoritedComments = await em.find(
+				CommandGroup,
+				{ annotations: { favorite: true }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+				{
+					populate: ['commands', 'annotations'],
+					orderBy,
+				}
+			);
+			const commandGroupsLink = await this.getBeaconLinks(favoritedComments, linkTree, em, hidden);
+			const commandCount = commandGroupsLink.commandGroups.reduce(
+				(count, commandGroup) => count + commandGroup.commandIds.length,
+				0
+			);
+			const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
+			presentationItems.push(
+				new PresentationItem({
+					id: 'favorited',
+					key: 'Favorited Comments',
+					count: favoritedComments.length,
+					commandCount,
+					commandGroupIds,
+					...commandGroupsLink,
+				})
+			);
+
+			// procedural comments
+			const proceduralComments = await em.find(
+				CommandGroup,
+				{ annotations: { generation: 'PROCEDURAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+				{
+					populate: ['commands', 'annotations'],
+					orderBy,
+				}
+			);
+			const proceduralCommandGroupsLink = await this.getBeaconLinks(proceduralComments, linkTree, em, hidden);
+			const proceduralCommandCount = proceduralCommandGroupsLink.commandGroups.reduce(
+				(count, commandGroup) => count + commandGroup.commandIds.length,
+				0
+			);
+			const proceduralCommandGroupIds = proceduralCommandGroupsLink.commandGroups.map(
+				(commandGroup) => commandGroup.id
+			);
+			presentationItems.push(
+				new PresentationItem({
+					id: 'procedural',
+					key: 'parser-generated',
+					count: proceduralComments.length,
+					commandCount: proceduralCommandCount,
+					commandGroupIds: proceduralCommandGroupIds,
+					...proceduralCommandGroupsLink,
+				})
+			);
+		}
 
 		// Populate User comments
 		// For User comments, make sure use a 'user-' prefix in case the username is same to other general types.
@@ -366,42 +371,45 @@ export class PresentationResolvers {
 			presentationItems.push(commandGroup);
 		});
 
-		// Populate Tags
-		// For Tag comments, make sure use a 'tag-' id prefix in case the tag name is same to other general types.
-		const tags = await em.find(Tag, {}, { populate: false });
-		let commandsByTag: PresentationItem[] = [];
-		for (const tag of tags) {
-			const cmdGroup = await em.find(
-				CommandGroup,
-				{ annotations: { tags: tag }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
-				{
-					populate: ['commands', 'annotations'],
-					orderBy,
+		if (!userOnly) {
+			// Populate Tags
+			// For Tag comments, make sure use a 'tag-' id prefix in case the tag name is same to other general types.
+			const tags = await em.find(Tag, {}, { populate: false });
+			let commandsByTag: PresentationItem[] = [];
+			for (const tag of tags) {
+				const cmdGroup = await em.find(
+					CommandGroup,
+					{ annotations: { tags: tag }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+					{
+						populate: ['commands', 'annotations'],
+						orderBy,
+					}
+				);
+				const commandGroupsLink = await this.getBeaconLinks(cmdGroup, linkTree, em, hidden);
+				const commandCount = commandGroupsLink.commandGroups.reduce(
+					(count, commandGroup) => count + commandGroup.commandIds.length,
+					0
+				);
+				const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
+				if (cmdGroup.length) {
+					commandsByTag.push({
+						id: `tag-${tag.text}`,
+						key: `#${tag.text}`,
+						count: cmdGroup.length,
+						commandCount,
+						commandGroupIds,
+						...commandGroupsLink,
+					});
 				}
-			);
-			const commandGroupsLink = await this.getBeaconLinks(cmdGroup, linkTree, em, hidden);
-			const commandCount = commandGroupsLink.commandGroups.reduce(
-				(count, commandGroup) => count + commandGroup.commandIds.length,
-				0
-			);
-			const commandGroupIds = commandGroupsLink.commandGroups.map((commandGroup) => commandGroup.id);
-			if (cmdGroup.length) {
-				commandsByTag.push({
-					id: `tag-${tag.text}`,
-					key: `#${tag.text}`,
-					count: cmdGroup.length,
-					commandCount,
-					commandGroupIds,
-					...commandGroupsLink,
-				});
 			}
+
+			// Sort the documents tag.text
+			commandsByTag = sortCommentList(commandsByTag);
+			commandsByTag.forEach((commandGroup) => {
+				presentationItems.push(commandGroup);
+			});
 		}
 
-		// Sort the documents tag.text
-		commandsByTag = sortCommentList(commandsByTag);
-		commandsByTag.forEach((commandGroup) => {
-			presentationItems.push(commandGroup);
-		});
 		return presentationItems;
 	}
 }
