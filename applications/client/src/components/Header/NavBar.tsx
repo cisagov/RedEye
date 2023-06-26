@@ -3,11 +3,17 @@ import { Button } from '@blueprintjs/core';
 import { PresentationFile24, Search24, Terminal24 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { AppOptions, CarbonIcon, Logo } from '@redeye/client/components';
-import { routes, useStore } from '@redeye/client/store';
+import {
+	presentationCommandGroupModelPrimitives,
+	presentationItemModelPrimitives,
+	routes,
+	useStore,
+} from '@redeye/client/store';
 import { Tabs } from '@redeye/client/types/explore';
 import { CoreTokens, FlexSplitter } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FC } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { CampaignViews, Views } from '../../types';
 import { SearchPanelOverlay } from '../../views/Campaign/Search/SearchPanelOverlay';
 
@@ -15,6 +21,17 @@ type NavBarProps = ComponentProps<'header'> & {};
 
 export const NavBar = observer<NavBarProps>(({ ...props }) => {
 	const store = useStore(); // TODO: buttons navigate to new routes
+
+	useQuery(
+		['presentation-items', 'user-only', store.campaign.id],
+		async () =>
+			await store.graphqlStore.queryPresentationItems(
+				{ campaignId: store.campaign.id!, hidden: store.settings.showHidden, userOnly: true },
+				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
+				undefined,
+				true
+			)
+	);
 
 	return (
 		<header {...props} css={wrapperStyle}>
