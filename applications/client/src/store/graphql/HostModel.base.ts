@@ -23,6 +23,8 @@ export class HostModelBase extends Model({
 	__typename: tProp('Host'),
 	beaconIds: prop<string[]>().withSetter(),
 	cobaltStrikeServer: prop<boolean | null>().withSetter(),
+	commandsCount: prop<number>().withSetter(),
+	commentCount: prop<number>().withSetter(),
 	displayName: prop<string | null>().withSetter(),
 	hidden: prop<boolean | null>().withSetter(),
 	hostName: prop<string>().withSetter(),
@@ -40,6 +42,12 @@ export class HostModelSelector extends QueryBuilder {
 	}
 	get cobaltStrikeServer() {
 		return this.__attr(`cobaltStrikeServer`);
+	}
+	get commandsCount() {
+		return this.__attr(`commandsCount`);
+	}
+	get commentCount() {
+		return this.__attr(`commentCount`);
 	}
 	get displayName() {
 		return this.__attr(`displayName`);
@@ -61,4 +69,5 @@ export function selectFromHost() {
 	return new HostModelSelector();
 }
 
-export const hostModelPrimitives = selectFromHost().beaconIds.cobaltStrikeServer.displayName.hidden.hostName;
+export const hostModelPrimitives =
+	selectFromHost().beaconIds.cobaltStrikeServer.commandsCount.commentCount.displayName.hidden.hostName;

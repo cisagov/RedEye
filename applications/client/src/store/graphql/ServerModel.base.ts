@@ -24,7 +24,10 @@ type Refs = {
  */
 export class ServerModelBase extends Model({
 	__typename: tProp('Server'),
+	beaconCount: prop<number>().withSetter(),
 	beacons: prop<Ref<BeaconModel>[]>(() => []).withSetter(),
+	commandsCount: prop<number>().withSetter(),
+	commentCount: prop<number>().withSetter(),
 	displayName: prop<string>().withSetter(),
 	hidden: prop<boolean | null>().withSetter(),
 	id: prop<string>().withSetter(),
@@ -38,6 +41,15 @@ export class ServerModelBase extends Model({
 }
 
 export class ServerModelSelector extends QueryBuilder {
+	get beaconCount() {
+		return this.__attr(`beaconCount`);
+	}
+	get commandsCount() {
+		return this.__attr(`commandsCount`);
+	}
+	get commentCount() {
+		return this.__attr(`commentCount`);
+	}
 	get displayName() {
 		return this.__attr(`displayName`);
 	}
@@ -64,4 +76,5 @@ export function selectFromServer() {
 	return new ServerModelSelector();
 }
 
-export const serverModelPrimitives = selectFromServer().displayName.hidden.logsCount.name;
+export const serverModelPrimitives =
+	selectFromServer().beaconCount.commandsCount.commentCount.displayName.hidden.logsCount.name;

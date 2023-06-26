@@ -32,6 +32,7 @@ export const CommandSearchRow = observer<CommandSearchRowProps>(({ result, searc
 			subText={inputLineText}
 			path={getPaths(store, command.beacon.current.hierarchy).concat(['Command']) as string[]}
 			startTime={command.info.time.format()}
+			commentsCount={command.commentsCount ?? 0}
 			onClick={() => {
 				command.searchSelect();
 				store.campaign.search.closeSearch();

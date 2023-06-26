@@ -17,6 +17,7 @@ import { Link } from './Link';
 import { LogEntry } from './LogEntry';
 import { MitreTechniques } from './MitreTechniques';
 import { Operator } from './Operator';
+import { initThen } from '../util';
 
 type RequiredInsertArgs = Pick<Command, 'input' | 'inputText' | 'beacon'>;
 type ModifiedInsertArgs = { output: LogEntry[] };
@@ -61,6 +62,18 @@ export class Command {
 	@Field(() => [String], { nullable: true })
 	@Property({ nullable: true })
 	attackIds?: string[];
+
+	@Field(() => Number)
+	get commentsCount() {
+		return initThen(this.commandGroups, async () => {
+			let count = 0;
+			for (const commandGroup of this.commandGroups?.getItems()) {
+				if (!commandGroup.annotations.isInitialized()) await commandGroup.annotations.init({ populate: false });
+				count += commandGroup.annotations.count() ?? 0;
+			}
+			return count;
+		});
+	}
 
 	/**
 	 * Relationships

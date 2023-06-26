@@ -4,12 +4,14 @@
 # -----------------------------------------------
 
 type Annotation {
+  commandCount: Float!
   commandGroupId: String
   commandIds: [String]
   date: DateTime!
   favorite: Boolean!
   generation: GenerationType!
   id: String!
+  tagCount: Float!
   tags: [Tag!]
   text: String!
   user: String!
@@ -32,6 +34,7 @@ type Beacon {
   """
   beaconName: String!
   commandsCount: Float!
+  commentsCount: Float!
   displayName: String
   hidden: Boolean
   host: Host
@@ -108,6 +111,7 @@ type Command {
   beacon: Beacon!
   commandFailed: Boolean!
   commandGroups: [CommandGroup!]!
+  commentsCount: Float!
   id: String!
   input: LogEntry!
   inputText: String!
@@ -120,6 +124,7 @@ type CommandGroup {
   annotations: [Annotation!]!
   commandIds: [String!]!
   commands: [Command!]!
+  commentCount: [Float!]!
   generation: GenerationType!
   id: String!
 }
@@ -175,6 +180,8 @@ type GlobalOperator {
 type Host {
   beaconIds: [String!]!
   cobaltStrikeServer: Boolean
+  commandsCount: Float!
+  commentCount: Float!
   displayName: String
   hidden: Boolean
   hostName: String!
@@ -510,7 +517,10 @@ type Query {
 }
 
 type Server {
+  beaconCount: Float!
   beacons: [Beacon!]!
+  commandsCount: Float!
+  commentCount: Float!
   displayName: String!
   hidden: Boolean
   id: String!
@@ -594,6 +604,8 @@ input SortTypeCommentsTab {
 }
 
 type Tag {
+  commandsCount: Float!
+  commentCount: Float!
   id: String!
   text: String!
 }

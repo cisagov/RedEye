@@ -5,6 +5,7 @@ import type { EntityManager } from '../types';
 import { CommandGroup } from './CommandGroup';
 import { GenerationType } from './shared';
 import { Tag } from './Tag';
+import { initThen } from '../util';
 
 @ObjectType()
 @Entity()
@@ -65,11 +66,21 @@ export class Annotation {
 
 	@Field(() => [String], { nullable: 'itemsAndList' })
 	get commandIds() {
-		try {
-			return this.commandGroup?.commands?.getIdentifiers();
-		} catch (e) {
-			return [];
-		}
+		// try {
+		return initThen(this.commandGroup?.commands!, () => this.commandGroup?.commands?.getIdentifiers() || []);
+		// } catch (e) {
+		// 	return [];
+		// }
+	}
+
+	@Field(() => Number)
+	get commandCount() {
+		return (async () => (await this.commandIds)?.length ?? 0)();
+	}
+
+	@Field(() => Number)
+	get tagCount() {
+		return this.tags?.count() ?? 0;
 	}
 
 	@OnInit()
