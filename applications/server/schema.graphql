@@ -4,6 +4,7 @@
 # -----------------------------------------------
 
 type Annotation {
+  beaconIdFromFirstCommand: String
   commandCount: Float!
   commandGroupId: String
   commandIds: [String]

@@ -15,6 +15,8 @@ import {
 	ServerModel,
 	TagModel,
 	PresentationItemModel,
+	presentationItemModelPrimitives,
+	presentationCommandGroupModelPrimitives,
 } from '../graphql';
 import { RedEyeModel } from '../util/model';
 import { CampaignLoadingMessage } from './campaign';
@@ -112,6 +114,10 @@ export class SearchStore extends ExtendedModel(() => ({
 					searchQuery: searchString,
 					hidden: this.appStore.settings.showHidden,
 				});
+				yield this.appStore.graphqlStore.queryPresentationItems(
+					{ campaignId: this.appStore.campaign.id!, hidden: this.appStore.settings.showHidden, userOnly: true },
+					presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString()
+				);
 
 				// Run search with MiniSearch
 				const search = new MiniSearch({

@@ -22,6 +22,7 @@ type Refs = {
  */
 export class AnnotationModelBase extends Model({
 	__typename: tProp('Annotation'),
+	beaconIdFromFirstCommand: prop<string | null>().withSetter(),
 	commandCount: prop<number>().withSetter(),
 	commandGroupId: prop<string | null>().withSetter(),
 	commandIds: prop<(string | null)[] | null>().withSetter(),
@@ -40,6 +41,9 @@ export class AnnotationModelBase extends Model({
 }
 
 export class AnnotationModelSelector extends QueryBuilder {
+	get beaconIdFromFirstCommand() {
+		return this.__attr(`beaconIdFromFirstCommand`);
+	}
 	get commandCount() {
 		return this.__attr(`commandCount`);
 	}
@@ -79,4 +83,5 @@ export function selectFromAnnotation() {
 }
 
 export const annotationModelPrimitives =
-	selectFromAnnotation().commandCount.commandGroupId.commandIds.date.favorite.generation.tagCount.text.user;
+	selectFromAnnotation().beaconIdFromFirstCommand.commandCount.commandGroupId.commandIds.date.favorite.generation
+		.tagCount.text.user;

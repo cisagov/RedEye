@@ -51,7 +51,13 @@ export const SearchRow = observer<SearchRowProps>(
 								<Txt muted>{pathFrag}</Txt>
 							) : (
 								<>
-									<Txt>{pathFrag}</Txt>
+									{pathFrag === 'parser-generated' ? (
+										<Txt muted italic>
+											{pathFrag}
+										</Txt>
+									) : (
+										<Txt>{pathFrag}</Txt>
+									)}
 									<Spacer>/</Spacer>
 								</>
 							)}
