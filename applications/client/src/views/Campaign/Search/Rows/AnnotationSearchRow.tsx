@@ -16,7 +16,7 @@ export const AnnotationSearchRow = observer<AnnotationSearchRowProps>(
 			<SearchRow
 				cy-test="search-result-item"
 				item={annotation}
-				path={[annotation.user || 'Unknown User', 'Comment']}
+				path={[annotation.user || 'parser-generated', 'Comment']}
 				commandsCount={annotation.commandIds?.length}
 				tagsCount={annotation.tags?.length}
 				children={
