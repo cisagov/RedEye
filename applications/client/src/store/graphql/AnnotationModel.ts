@@ -14,15 +14,6 @@ export { annotationModelPrimitives, AnnotationModelSelector, selectFromAnnotatio
  */
 @model('Annotation')
 export class AnnotationModel extends ExtendedModel(AnnotationModelBase, {}) {
-	// @computed get hierarchy(): { command: string; beacon: string; host?: string; server?: string } {
-	// 	return {
-	// 		command: this.id,
-	// 		beacon: this.beacon.id,
-	// 		host: this.beacon.maybeCurrent?.hierarchy.host,
-	// 		server: this.beacon.maybeCurrent?.hierarchy.server,
-	// 	};
-	// }
-
 	@modelAction searchSelect() {
 		const appStore = getRoot<AppStore>(this);
 		appStore.router.updateRoute({

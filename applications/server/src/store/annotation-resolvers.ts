@@ -172,10 +172,9 @@ export class AnnotationResolvers {
 			],
 		};
 
-		const annotation = await em.find(Annotation, annotationQuery, {
+		return await em.find(Annotation, annotationQuery, {
 			populate: relationPaths,
 		});
-		return annotation;
 	}
 }
 
