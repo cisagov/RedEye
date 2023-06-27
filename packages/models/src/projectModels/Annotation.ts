@@ -72,6 +72,15 @@ export class Annotation {
 		}
 	}
 
+	@Field(() => String, { nullable: true })
+	get beaconIdFromFirstCommand() {
+		try {
+			return this.commandGroup?.commands[0].beacon.id;
+		} catch (e) {
+			return '';
+		}
+	}
+
 	@OnInit()
 	init() {
 		try {

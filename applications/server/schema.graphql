@@ -4,6 +4,7 @@
 # -----------------------------------------------
 
 type Annotation {
+  beaconIdFromFirstCommand: String
   commandGroupId: String
   commandIds: [String]
   date: DateTime!
