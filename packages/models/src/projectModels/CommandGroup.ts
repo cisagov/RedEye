@@ -40,7 +40,7 @@ export class CommandGroup {
 		return this.commands?.getIdentifiers();
 	}
 
-	@Field(() => [Number])
+	@Field(() => Number)
 	get commentCount() {
 		return initThen(this.annotations, () => this.annotations?.count());
 	}

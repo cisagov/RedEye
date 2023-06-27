@@ -28,7 +28,7 @@ export class CommandGroupModelBase extends Model({
 	annotations: prop<Ref<AnnotationModel>[]>(() => []).withSetter(),
 	commandIds: prop<string[]>().withSetter(),
 	commands: prop<Ref<CommandModel>[]>(() => []).withSetter(),
-	commentCount: prop<number[]>().withSetter(),
+	commentCount: prop<number>().withSetter(),
 	generation: prop<GenerationType>().withSetter(),
 	id: prop<string>().withSetter(),
 }) {

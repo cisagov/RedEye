@@ -125,7 +125,7 @@ type CommandGroup {
   annotations: [Annotation!]!
   commandIds: [String!]!
   commands: [Command!]!
-  commentCount: [Float!]!
+  commentCount: Float!
   generation: GenerationType!
   id: String!
 }
