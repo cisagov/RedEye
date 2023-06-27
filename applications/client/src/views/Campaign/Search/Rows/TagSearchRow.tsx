@@ -18,7 +18,8 @@ export const TagSearchRow = observer<TagSearchRowSearchRowProps>(({ result, sear
 			item={tag}
 			text={text}
 			path={['Tag']}
-			// tagCount={88}
+			commentsCount={tag.commentCount}
+			commandsCount={tag.commandsCount}
 			onClick={() => {
 				tag.searchSelect();
 				store.campaign.search.closeSearch();
