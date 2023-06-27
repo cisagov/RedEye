@@ -3,15 +3,15 @@
 function hideUnhideHost(hostName) {
 	cy.get('[cy-test=info-row]').contains(hostName).click();
 	cy.contains('[cy-test=panel-header]', hostName);
-	cy.clickMetaTab();
-	cy.showHideHostMetaTab();
+	cy.clickDetailsTab();
+	cy.showHideHostDetailsTab();
 }
 
 describe('Hide a host', () => {
 	const camp = 'hideshowhost';
 	const fileName = 'gt.redeye';
 
-	it('Hide host via Meta tab using toggle in left nav panel', () => {
+	it('Hide host via Details tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
@@ -26,7 +26,7 @@ describe('Hide a host', () => {
 			.eq(1)
 			.invoke('text')
 			.then((hostName) => {
-				// Hide a host via the Meta tab
+				// Hide a host via the Details tab
 				hideUnhideHost(hostName);
 
 				// Verify host no longer shows
@@ -52,7 +52,7 @@ describe('Hide a host', () => {
 			});
 	});
 
-	it('Hide host via Meta tab using toggle on main page', () => {
+	it('Hide host via Details tab using toggle on main page', () => {
 		// Toggle off switch for hidden items on the main page
 		// cy.doNotShowHiddenItems();
 
@@ -64,7 +64,7 @@ describe('Hide a host', () => {
 			.eq(1)
 			.invoke('text')
 			.then((hostName) => {
-				// Hide the host via the Meta tab
+				// Hide the host via the Details tab
 				hideUnhideHost(hostName);
 
 				// Verify host no longer shows
@@ -139,13 +139,13 @@ describe('Hide a host', () => {
 			});
 	});
 
-	it('Verify Cancel button works from Meta tab', () => {
+	it('Verify Cancel button works from Details tab', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Select the first host, go to Meta tab, click show/hide link
+		// Select the first host, go to Details tab, click show/hide link
 		cy.get('[cy-test=hostName]').eq(1).click();
-		cy.clickMetaTab();
+		cy.clickDetailsTab();
 		cy.get('[cy-test=show-hide-this-host]').click();
 
 		// Verify modal shows; click Cancel
@@ -155,7 +155,8 @@ describe('Hide a host', () => {
 
 		// Verify modal disappears
 		cy.verifyDialogBoxDisappears();
-		// Verify the Meta tab link says "Hide this host" vs. "Show"
+
+		// Verify the Details tab link says "Hide this host" vs. "Show"
 		cy.get('[cy-test=show-hide-this-host]').invoke('text').should('eq', 'Hide this host');
 	});
 

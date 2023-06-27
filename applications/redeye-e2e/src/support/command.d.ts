@@ -125,11 +125,11 @@ declare namespace Cypress {
 		 */
 		clickHostsTab();
 
-		/**Clicks the Meta tab in Explorer mode.
+		/**Clicks the Details tab in Explorer mode.
 		 * @example
-		 * cy.clickMetaTab()
+		 * cy.clickDetailsTab()
 		 */
-		clickMetaTab();
+		clickDetailsTab();
 
 		/**Clicks the tab to open the list of Operators.
 		 * @example
