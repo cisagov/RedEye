@@ -34,7 +34,7 @@ export const TabNames: (store: AppStore) => Record<Tabs, string> = (store: AppSt
 	[Tabs.OPERATORS]: 'Operators',
 	[Tabs.COMMENTS]: store.router.params.currentItem === 'comments_list' ? '' : 'Comments',
 	[Tabs.COMMENTS_LIST]: 'Comments',
-	[Tabs.METADATA]: 'Meta',
+	[Tabs.METADATA]: 'Details',
 });
 
 export enum CommentFilterOptions {
