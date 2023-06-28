@@ -61,8 +61,8 @@ export class Operator {
 	get commentsCount() {
 		return initThen(this.commands, async () => {
 			let count = 0;
-			for (const command of this.commands?.getItems()) {
-				for (const commandGroup of command.commandGroups?.getItems()) {
+			for (const command of this.commands.getItems()) {
+				for (const commandGroup of command.commandGroups.getItems()) {
 					if (!commandGroup.annotations.isInitialized()) await commandGroup.annotations.init({ populate: false });
 					count += commandGroup.annotations.count() ?? 0;
 				}

@@ -68,7 +68,7 @@ export class Beacon {
 	get commentsCount() {
 		return initThen(this.commands, async () => {
 			let count = 0;
-			for (const command of this.commands?.getItems()) {
+			for (const command of this.commands.getItems()) {
 				count += (await command.commentsCount) ?? 0;
 			}
 			return count;

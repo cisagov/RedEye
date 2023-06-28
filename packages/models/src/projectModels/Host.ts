@@ -61,7 +61,7 @@ export class Host {
 	get commentCount() {
 		return initThen(this.beacons, async () => {
 			let count = 0;
-			for (const beacon of this.beacons?.getItems()) {
+			for (const beacon of this.beacons.getItems()) {
 				count += (await beacon.commentsCount) ?? 0;
 			}
 			return count;
