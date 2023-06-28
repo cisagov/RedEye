@@ -13,6 +13,7 @@ import { QueryBuilder } from 'mk-gql';
 export class OperatorModelBase extends Model({
 	__typename: tProp('Operator'),
 	beaconIds: prop<string[]>().withSetter(),
+	commentsCount: prop<number>().withSetter(),
 	endTime: prop<any | null>().withSetter(),
 	id: prop<string>().withSetter(),
 	logIds: prop<string[]>().withSetter(),
@@ -27,6 +28,9 @@ export class OperatorModelBase extends Model({
 export class OperatorModelSelector extends QueryBuilder {
 	get beaconIds() {
 		return this.__attr(`beaconIds`);
+	}
+	get commentsCount() {
+		return this.__attr(`commentsCount`);
 	}
 	get endTime() {
 		return this.__attr(`endTime`);
@@ -48,4 +52,4 @@ export function selectFromOperator() {
 	return new OperatorModelSelector();
 }
 
-export const operatorModelPrimitives = selectFromOperator().beaconIds.endTime.logIds.name.startTime;
+export const operatorModelPrimitives = selectFromOperator().beaconIds.commentsCount.endTime.logIds.name.startTime;

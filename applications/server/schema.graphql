@@ -359,6 +359,7 @@ type NonHidableEntities {
 
 type Operator {
   beaconIds: [String!]!
+  commentsCount: Float!
   endTime: DateTime
   id: String!
   logIds: [String!]!
