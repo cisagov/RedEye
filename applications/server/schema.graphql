@@ -131,6 +131,8 @@ type CommandGroup {
 }
 
 type CommandTypeCount {
+  beaconsCount: Float!
+  commentsCount: Float!
   count: Float!
   id: String!
   text: String!

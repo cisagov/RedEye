@@ -67,7 +67,7 @@ export class Command {
 	get commentsCount() {
 		return initThen(this.commandGroups, async () => {
 			let count = 0;
-			for (const commandGroup of this.commandGroups?.getItems()) {
+			for (const commandGroup of this.commandGroups.getItems()) {
 				if (!commandGroup.annotations.isInitialized()) await commandGroup.annotations.init({ populate: false });
 				count += commandGroup.annotations.count() ?? 0;
 			}

@@ -17,6 +17,17 @@ export enum SortDirection {
 	DESC = 'DESC',
 }
 
+type CommentsCountItem = {
+	commandGroupIds: string[];
+	count: number;
+};
+
+type CountObjItem = {
+	count: number;
+	beaconIds: string[];
+	commentsCount: CommentsCountItem;
+};
+
 registerEnumType(SortOption, { name: 'SortOption', description: 'The desired property to sort on' });
 registerEnumType(SortDirection, { name: 'SortDirection', description: 'The desired sort direction' });
 
@@ -176,6 +187,12 @@ class CommandTypeCount {
 
 	@Field(() => Number)
 	count: number = 0;
+
+	@Field(() => Number)
+	beaconsCount: number = 0;
+
+	@Field(() => Number)
+	commentsCount: number = 0;
 }
 
 @Resolver(CommandTypeCount)
@@ -191,13 +208,57 @@ export class CommandTypeCountResolvers {
 	): Promise<CommandTypeCount[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const commands = await em.find(Command, beaconHidden(hidden), { populate: false });
-
-		const countObj = commands.reduce<Record<string, number>>((acc, current) => {
-			if (acc[current.inputText]) acc[current.inputText]++;
-			else acc[current.inputText] = 1;
+		const countObj = commands.reduce<Record<string, CountObjItem>>((acc, current) => {
+			if (acc[current.inputText]) {
+				acc[current.inputText] = {
+					count: acc[current.inputText].count + 1,
+					beaconIds: [...acc[current.inputText].beaconIds, current.beacon.id],
+					commentsCount: current.commandGroups?.getItems().reduce((commentsCountItem, group) => {
+						if (!commentsCountItem.commandGroupIds.includes(group.id)) {
+							return {
+								commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
+								count: commentsCountItem.count + (group?.annotations?.count() ?? 0),
+							};
+						} else {
+							return {
+								commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
+								count: commentsCountItem.count,
+							};
+						}
+					}, acc[current.inputText].commentsCount),
+				};
+			} else {
+				acc[current.inputText] = {
+					count: 1,
+					beaconIds: [current.beacon.id],
+					commentsCount: current.commandGroups?.getItems().reduce(
+						(commentsCountItem, group) => {
+							if (!commentsCountItem.commandGroupIds.includes(group.id)) {
+								return {
+									commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
+									count: commentsCountItem.count + (group?.annotations?.count() ?? 0),
+								};
+							} else {
+								return {
+									commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
+									count: commentsCountItem.count,
+								};
+							}
+						},
+						{ commandGroupIds: [], count: 0 } as CommentsCountItem
+					),
+				};
+			}
 			return acc;
 		}, {});
-		return Object.entries(countObj).map(([text, count]) => ({ id: text, text, count })) as CommandTypeCount[];
+
+		return Object.entries(countObj).map(([text, item]) => ({
+			id: text,
+			text,
+			count: item.count,
+			beaconsCount: new Set(item.beaconIds).size,
+			commentsCount: item.commentsCount.count,
+		})) as CommandTypeCount[];
 	}
 }
 
