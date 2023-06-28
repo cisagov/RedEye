@@ -23,9 +23,10 @@ export class AnnotationModel extends ExtendedModel(AnnotationModelBase, {}) {
 				currentItem: 'beacon',
 				currentItemId: this.beaconIdFromFirstCommand as UUID, // get beacon
 				tab: Tabs.COMMENTS,
-				activeItem: 'command',
-				activeItemId: this.commandIds?.[0] as UUID,
+				activeItem: undefined,
+				activeItemId: undefined,
 			},
 		});
+		appStore.campaign.commentStore.setSelectedCommentGroup(this.commandGroupId ?? '');
 	}
 }

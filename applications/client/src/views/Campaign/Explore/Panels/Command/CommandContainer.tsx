@@ -10,6 +10,7 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
+import { Tabs } from '@redeye/client/types';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
 import { getManualCommandLinks } from '../../components/Comment/CheckForAddedLink';
 
@@ -50,21 +51,34 @@ export const CommandContainer = observer<CommandContainerProps>(
 				return store.router.params.activeItem === 'command' && store.router.params.activeItemId === state.commandId;
 			},
 			get expanded() {
-				return store.router.params.activeItem === 'command' && expandedCommandIDs.includes(state.commandId);
+				return expandedCommandIDs.includes(state.commandId);
 			},
 			setCollapsed() {
 				if (!state.expanded) {
 					expandedCommandIDs.push(state.commandId);
-					store.router.updateRoute({
-						path: store.router.currentRoute,
-						params: {
-							activeItem: 'command',
-							activeItemId: state.commandId,
-						},
-						replace: true,
-					});
+					if (
+						!(
+							store.router.params.tab === Tabs.COMMENTS &&
+							(store.router.params.currentItem === 'host' || store.router.params.currentItem === 'beacon')
+						)
+					) {
+						store.router.updateRoute({
+							path: store.router.currentRoute,
+							params: {
+								activeItem: 'command',
+								activeItemId: state.commandId,
+							},
+							replace: true,
+						});
+					}
 				} else if (expandedCommandIDs?.length >= 1) {
-					if (expandedCommandIDs[expandedCommandIDs.length - 1] === state.commandId) {
+					if (
+						expandedCommandIDs[expandedCommandIDs.length - 1] === state.commandId &&
+						!(
+							store.router.params.tab === Tabs.COMMENTS &&
+							(store.router.params.currentItem === 'host' || store.router.params.currentItem === 'beacon')
+						)
+					) {
 						store.router.updateRoute({
 							path: store.router.currentRoute,
 							params: {

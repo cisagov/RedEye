@@ -47,9 +47,11 @@ export class CommentsStore extends ExtendedModel(() => ({
 
 	getCommandGroups = computedFn(() => {});
 
-	@modelAction setSelectedCommentGroup(item: string) {
-		this.appStore?.campaign.setSelectedTab(Tabs.COMMENTS);
-		this.commentsOpen = '';
+	@modelAction setSelectedCommentGroup(item: string, scrollOnly?: boolean) {
+		if (!scrollOnly) {
+			this.appStore?.campaign.setSelectedTab(Tabs.COMMENTS);
+			this.commentsOpen = '';
+		}
 		this.scrollToComment = item;
 	}
 
