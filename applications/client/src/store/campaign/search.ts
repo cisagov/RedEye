@@ -134,7 +134,7 @@ export class SearchStore extends ExtendedModel(() => ({
 					...this.searchItems,
 				] as AnyModel[]);
 				search.addAll(allItems);
-				const results = search.search(searchString);
+				const results = search.search({ queries: searchString.split(' ').map((str) => str), combineWith: 'AND' });
 
 				this.results = results.map((result) => ({
 					...idsToValue[result.id],
