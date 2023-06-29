@@ -159,16 +159,20 @@ export class CommandResolvers {
 		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
 	): Promise<Command[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const likeQuery = `%${searchQuery}%`;
+
+		const queries = searchQuery.split(' ').map((str) => ({
+			$or: [
+				{ input: { blob: { $like: `%${str}%` } } },
+				{ attackIds: { $like: `%${str}%` } },
+				{ input: { filepath: { $like: `%${str}%` } } },
+				{ output: { blob: { $like: `%${str}%` } } },
+				{ output: { filepath: { $like: `%${str}%` } } },
+			],
+		}));
+
 		const commandQuery: FilterQuery<Command> = {
 			...beaconHidden(hidden),
-			$or: [
-				{ input: { blob: { $like: likeQuery } } },
-				{ attackIds: { $like: likeQuery } },
-				{ input: { filepath: { $like: likeQuery } } },
-				{ output: { blob: { $like: likeQuery } } },
-				{ output: { filepath: { $like: likeQuery } } },
-			],
+			$and: queries,
 		};
 
 		return await em.find(Command, commandQuery, {

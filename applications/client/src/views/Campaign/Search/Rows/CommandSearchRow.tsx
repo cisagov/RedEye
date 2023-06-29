@@ -17,7 +17,7 @@ export const CommandSearchRow = observer<CommandSearchRowProps>(({ result, searc
 	const inputLineText = highlightPattern(command.inputLine, searchTerm);
 
 	const context = command.outputLines
-		?.filter((line: string) => line.toLowerCase().includes(searchTerm.toLowerCase()))
+		?.filter((line: string) => line.toLowerCase().includes(searchTerm.split(' ')[0].toLowerCase()))
 		.slice(0, 6)
 		.map((line: string, index) => (
 			// eslint-disable-next-line react/no-array-index-key
