@@ -151,7 +151,18 @@ export class AnnotationResolvers {
 		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true }) hidden: boolean = false
 	): Promise<Annotation[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const likeQuery = `%${searchQuery}%`;
+
+		const queries = searchQuery.split(' ').map((str) => ({
+			$or: [
+				{
+					tags: {
+						text: { $like: `%${str}%` },
+					},
+				},
+				{ text: { $like: `%${str}%` } },
+			],
+		}));
+
 		const annotationQuery: FilterQuery<Annotation> = {
 			...(!hidden
 				? {
@@ -162,14 +173,7 @@ export class AnnotationResolvers {
 						},
 				  }
 				: {}),
-			$or: [
-				{
-					tags: {
-						text: { $like: likeQuery },
-					},
-				},
-				{ text: { $like: likeQuery } },
-			],
+			$and: queries,
 		};
 
 		return await em.find(Annotation, annotationQuery, {
