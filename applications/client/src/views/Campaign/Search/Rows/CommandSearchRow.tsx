@@ -16,13 +16,23 @@ export const CommandSearchRow = observer<CommandSearchRowProps>(({ result, searc
 
 	const inputLineText = highlightPattern(command.inputLine, searchTerm);
 
-	const context = command.outputLines
-		?.filter((line: string) => line.toLowerCase().includes(searchTerm.split(' ')[0].toLowerCase()))
-		.slice(0, 6)
-		.map((line: string, index) => (
-			// eslint-disable-next-line react/no-array-index-key
-			<div key={index}>{highlightPattern(line, searchTerm)}</div>
-		));
+	const allContext = command.outputLines?.reduce((acc, curr) => {
+		if (
+			acc.length < 6 &&
+			searchTerm
+				.toLowerCase()
+				.split(' ')
+				.some((substring) => curr.toLowerCase().includes(substring))
+		) {
+			return [...acc, curr];
+		}
+		return acc;
+	}, [] as string[]);
+
+	const context = allContext.map((line: string, index) => (
+		// eslint-disable-next-line react/no-array-index-key
+		<div key={index}>{highlightPattern(line, searchTerm)}</div>
+	));
 
 	return (
 		<SearchRow
