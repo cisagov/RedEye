@@ -51,17 +51,21 @@ export const CommandContainer = observer<CommandContainerProps>(
 				return store.router.params.activeItem === 'command' && store.router.params.activeItemId === state.commandId;
 			},
 			get expanded() {
-				return expandedCommandIDs.includes(state.commandId);
+				return store.router.params.activeItem === 'command' && expandedCommandIDs.includes(state.commandId);
 			},
 			setCollapsed() {
 				if (!state.expanded) {
 					expandedCommandIDs.push(state.commandId);
-					if (
-						!(
-							store.router.params.tab === Tabs.COMMENTS &&
-							(store.router.params.currentItem === 'host' || store.router.params.currentItem === 'beacon')
-						)
-					) {
+					if (store.router.params.tab === Tabs.COMMENTS) {
+						store.router.updateRoute({
+							path: store.router.currentRoute,
+							params: {
+								activeItem: 'command',
+								activeItemId: state.commandId,
+							},
+							replace: true,
+						});
+					} else {
 						store.router.updateRoute({
 							path: store.router.currentRoute,
 							params: {
@@ -72,13 +76,7 @@ export const CommandContainer = observer<CommandContainerProps>(
 						});
 					}
 				} else if (expandedCommandIDs?.length >= 1) {
-					if (
-						expandedCommandIDs[expandedCommandIDs.length - 1] === state.commandId &&
-						!(
-							store.router.params.tab === Tabs.COMMENTS &&
-							(store.router.params.currentItem === 'host' || store.router.params.currentItem === 'beacon')
-						)
-					) {
+					if (expandedCommandIDs[expandedCommandIDs.length - 1] === state.commandId) {
 						store.router.updateRoute({
 							path: store.router.currentRoute,
 							params: {
