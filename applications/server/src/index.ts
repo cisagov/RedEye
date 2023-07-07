@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import * as process from 'process';
+import process from 'process';
 import { startServerService } from './machines/server.machine';
 import { Command } from 'commander';
 
@@ -22,7 +22,9 @@ const callback = (arg: cliArgs) => {
 			serverService.send('KILL_SERVICE');
 		});
 		// eslint-disable-next-line no-empty
-	} catch {}
+	} catch (e) {
+		console.log(e);
+	}
 };
 
 const program = new Command();

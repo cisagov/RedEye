@@ -9,6 +9,7 @@ export * from './BeaconLineTypeEnum';
 export * from './BeaconMetaModel';
 export * from './BeaconTypeEnum';
 export * from './CampaignModel';
+export * from './CampaignParserModel';
 export * from './CommandModel';
 export * from './CommandGroupModel';
 export * from './CommandTypeCountModel';

@@ -13,7 +13,6 @@ import {
 	LogEntry,
 	mitreTechniques,
 	MitreTechniques,
-	MultiParsingPath,
 	Operator,
 	Server,
 	ServerMeta,
@@ -89,20 +88,15 @@ export async function parserService({
 }: {
 	projectDatabasePath: string;
 	parserName: string;
-	parsingPaths: string | MultiParsingPath[];
+	parsingPaths: string;
 }) {
 	const orm = await MikroORM.init(getProjectMikroOrmConfig(projectDatabasePath));
 	const em = orm.em.fork();
-	if (Array.isArray(parsingPaths)) {
-		for (const parsingPath of parsingPaths) {
-			await parsePath(em, parsingPath.path, parserName);
-		}
-	} else {
-		await parsePath(em, parsingPaths, parserName);
-	}
+
+	await parsePaths(em, parsingPaths, parserName);
 }
 
-async function parsePath(em: EntityManager, path: string, parserName: string) {
+async function parsePaths(em: EntityManager, path: string, parserName: string) {
 	const created: {
 		servers: Record<string, Server>;
 		hosts: Record<string, Host>;
@@ -114,14 +108,14 @@ async function parsePath(em: EntityManager, path: string, parserName: string) {
 		beacons: {},
 		operators: {},
 	};
-	const data = await invokeParser<ParserOutput>(parserName, ['parse-campaign', `-f`, path]);
+	const data = await invokeParser<ParserOutput>(parserName, ['parse-campaign', `--folder`, path]);
 	if (data.servers) {
 		for (const parsedServer of Object.values(data.servers)) {
 			created.servers[parsedServer.name] =
 				(await em.findOne(Server, { name: parsedServer.name })) ||
 				new Server({
 					name: parsedServer.name,
-					parsingPath: path,
+					parsingPath: parsedServer.parsingPath,
 				});
 			created.hosts[parsedServer.name] = new Host({ hostName: parsedServer.name, cobaltStrikeServer: true });
 			created.beacons[parsedServer.name] = new Beacon({

@@ -29,7 +29,7 @@ export interface ParserHost {
 export interface ParserServer {
 	name: string;
 	type?: ServerType;
-	parsingPath?: string;
+	parsingPath: string;
 }
 
 export interface ParserOperator {

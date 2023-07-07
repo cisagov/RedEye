@@ -1,4 +1,4 @@
-import { Campaign, ParsingStatus, Server, MultiParsingPath } from '@redeye/models';
+import { Campaign, ParsingStatus, Server } from '@redeye/models';
 import { getMigratedCampaignORM } from '@redeye/migrations';
 import { UploadedFile } from 'express-fileupload';
 import * as path from 'path';
@@ -81,7 +81,7 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 		const globalEm = await getMainEmOrFail(context);
 
 		const campaign = await globalEm.findOneOrFail(Campaign, campaignId);
-		if (!campaign.parser) return res.status(400).send({ msg: 'campaign does not have a parser' });
+		if (!campaign.parsers) return res.status(400).send({ msg: 'campaign does not have a parser' });
 
 		if (campaign.parsingStatus === ParsingStatus.NOT_READY_TO_PARSE) {
 			campaign.parsingStatus = ParsingStatus.PARSING_NOT_STARTED;
@@ -92,7 +92,7 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 			});
 		}
 
-		const fileServerStructure = parserInfo[campaign.parser]?.uploadForm.serverDelineation;
+		const fileServerStructure = parserInfo[campaign.parsers![0].parserName]?.uploadForm.serverDelineation;
 
 		const logFiles = Array.isArray(req.files.file) ? req.files.file : [req.files.file];
 		const em = await connectToProjectEmOrFail(campaignId, context);
@@ -100,16 +100,11 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 		for (const logFile of logFiles) await logFile.mv(path.join(parentDir, logFile.name.replace(/:/gi, '/')));
 		const servers: Server[] = [];
 		const newServers = JSON.parse(req.body.servers as unknown as string);
-		if (!newServers.length) {
-			campaign.parsingPaths = parentDir;
-		} else {
-			const parsingPaths: MultiParsingPath[] = [];
+		campaign.parsers[0].path = parentDir;
+		if (newServers.length) {
 			for (const server of newServers) {
-				const serverDir = fileServerStructure === 'database' ? parentDir : path.join(parentDir, server.name);
-				parsingPaths.push({
-					serverId: server.name,
-					path: serverDir,
-				});
+				const serverDir =
+					fileServerStructure === 'Database' || newServers.length === 1 ? parentDir : path.join(parentDir, server.name);
 				servers.push(
 					new Server({
 						name: server.name,
@@ -119,7 +114,6 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 					})
 				);
 			}
-			campaign.parsingPaths = parsingPaths;
 		}
 		await globalEm.persistAndFlush(campaign);
 		await em.persistAndFlush(servers);

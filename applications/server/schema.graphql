@@ -105,9 +105,14 @@ type Campaign {
   lastOpenedBy: GlobalOperator
   migrationError: Boolean!
   name: String!
-  parser: String
+  parsers: [CampaignParser!]
   parsingStatus: ParsingStatus!
   serverCount: Int!
+}
+
+type CampaignParser {
+  parserName: String
+  path: String
 }
 
 type Command {

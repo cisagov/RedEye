@@ -32,10 +32,10 @@ class FileUpload {
 	description!: string;
 
 	@Field(() => UploadType)
-	type!: UploadType;
+	type!: keyof typeof UploadType;
 
 	@Field(() => ValidationMode)
-	validate!: ValidationMode;
+	validate!: keyof typeof ValidationMode;
 
 	@Field(() => String, { nullable: true })
 	example?: string;
@@ -77,7 +77,7 @@ class UploadForm {
 	fileDisplay: FileDisplay;
 
 	@Field(() => ServerDelineationTypes)
-	serverDelineation: ServerDelineationTypes;
+	serverDelineation: keyof typeof ServerDelineationTypes;
 }
 
 @ObjectType('ParserInfo')

@@ -36,11 +36,13 @@ const validate = async (options: ValidateFilesCallbackOptions) => {
 	// Create servers or return error
 	const rootDirectory = Object.keys(tree)[0];
 	const multiServerUpload = !!longestPath[2].match(dateFolder)?.length && !!longestPath[3].match(ipRegex)?.length;
+	writeParserMessage(ParserMessageTypes.Debug, { multiServerUpload, rootDirectory, longestPath });
 	// If not a multi server, use root directory name as server name
 	if (!multiServerUpload) {
 		const files = flattenTree(tree[rootDirectory] as DirectoryTree);
+		const serverName = longestPath[longestPath.findIndex((p) => p.match(dateFolder)) - 1];
 		return {
-			servers: [{ name: rootDirectory, fileCount: files.length }],
+			servers: [{ name: serverName, fileCount: files.length }],
 			valid: files.map((file) => file.name),
 			invalid: invalidFiles.map((file) => file.name),
 		};

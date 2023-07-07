@@ -57,7 +57,7 @@ export class CampaignResolvers {
 			name,
 			lastOpenedBy: operator,
 			creator: operator,
-			parser,
+			parsers: [{ parserName: parser, path: '' }],
 		});
 
 		await em.persistAndFlush(campaign);

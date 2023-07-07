@@ -72,8 +72,13 @@ export class ServerResolvers {
 		await connectToProjectEmOrFail(campaignId, ctx);
 		const mainEm = getMainEmOrFail(ctx);
 		const campaign = await mainEm.findOneOrFail(Campaign, campaignId);
-		if (!campaign.parser) throw new Error('No parser is configured for this campaign');
-		ctx.messengerMachine.send({ type: 'PARSE_CAMPAIGN', campaignId, context: ctx, parserName: campaign.parser });
+		if (!campaign.parsers) throw new Error('No parser is configured for this campaign');
+		ctx.messengerMachine.send({
+			type: 'PARSE_CAMPAIGN',
+			campaignId,
+			context: ctx,
+			parserName: campaign.parsers[0].parserName,
+		});
 		return true;
 	}
 

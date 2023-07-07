@@ -25,6 +25,7 @@ import { AnnotationModel, annotationModelPrimitives, AnnotationModelSelector } f
 import { BeaconModel, beaconModelPrimitives, BeaconModelSelector } from './BeaconModel';
 import { BeaconMetaModel, beaconMetaModelPrimitives, BeaconMetaModelSelector } from './BeaconMetaModel';
 import { CampaignModel, campaignModelPrimitives, CampaignModelSelector } from './CampaignModel';
+import { CampaignParserModel, campaignParserModelPrimitives, CampaignParserModelSelector } from './CampaignParserModel';
 import { CommandModel, commandModelPrimitives, CommandModelSelector } from './CommandModel';
 import { CommandGroupModel, commandGroupModelPrimitives, CommandGroupModelSelector } from './CommandGroupModel';
 import {
@@ -220,6 +221,7 @@ export class RootStoreBase extends ExtendedModel(
 			['Beacon', () => BeaconModel],
 			['BeaconMeta', () => BeaconMetaModel],
 			['Campaign', () => CampaignModel],
+			['CampaignParser', () => CampaignParserModel],
 			['Command', () => CommandModel],
 			['CommandGroup', () => CommandGroupModel],
 			['CommandTypeCount', () => CommandTypeCountModel],

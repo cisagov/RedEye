@@ -146,7 +146,7 @@ export const parsingMachine = createMachine(
 					const mainOrm = await connectMainDb(ctx);
 					const campaign = await mainOrm.em.findOneOrFail(Campaign, { id: ctx.currentCampaign?.campaignId as string });
 					return await parserService({
-						parsingPaths: campaign.parsingPaths!,
+						parsingPaths: campaign.parsers![0].path,
 						parserName: ctx.currentCampaign?.parserName as string,
 						projectDatabasePath: getFullCampaignDbPath(
 							ctx.currentCampaign?.campaignId as string,

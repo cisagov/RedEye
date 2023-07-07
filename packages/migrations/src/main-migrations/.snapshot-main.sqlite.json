@@ -130,17 +130,8 @@
 					"nullable": false,
 					"mappedType": "text"
 				},
-				"parser": {
-					"name": "parser",
-					"type": "text",
-					"unsigned": false,
-					"autoincrement": false,
-					"primary": false,
-					"nullable": true,
-					"mappedType": "text"
-				},
-				"parsing_paths": {
-					"name": "parsing_paths",
+				"parsers": {
+					"name": "parsers",
 					"type": "json",
 					"unsigned": false,
 					"autoincrement": false,

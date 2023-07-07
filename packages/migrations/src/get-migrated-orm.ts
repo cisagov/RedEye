@@ -13,10 +13,12 @@ export const getMigratedMainORM = async (production: boolean, dbPath: string) =>
 const migrate = async (orm: ORM) => {
 	const migrator = orm.getMigrator();
 	if (await migrator.checkMigrationNeeded()) {
-		try {
-			await migrator.up();
-		} catch (e) {
-			console.error(`Error migrating database ${orm.config.get('dbName')}`);
+		for (const migration of await migrator.getPendingMigrations()) {
+			try {
+				await migrator.up(migration.name);
+			} catch (e) {
+				console.error(`Error migrating ${migration.name} on database ${orm.config.get('dbName')}`);
+			}
 		}
 	}
 	return orm;

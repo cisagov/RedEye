@@ -1,5 +1,5 @@
 // Global DB Models
-import { Campaign, ParsingStatus, MultiParsingPath } from './Campaign';
+import { Campaign, ParsingStatus, CampaignParser } from './Campaign';
 import { GlobalOperator } from './Operator';
 
 export {
@@ -9,7 +9,7 @@ export {
 	//enum
 	ParsingStatus,
 	//type
-	MultiParsingPath,
+	CampaignParser,
 };
 
 export const applicationEntities = [Campaign, GlobalOperator];

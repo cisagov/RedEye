@@ -8,7 +8,7 @@ import { Migration20230106014154 } from './campaign-migrations/Migration20230106
 import { Migration20230530231628 } from './campaign-migrations/Migration20230530231628';
 
 import { Migration20221203042918 } from './main-migrations/Migration20221203042918';
-import { Migration20230530231628 as MainMigration20230530231628 } from './main-migrations/Migration20230530231628';
+import { Migration20230706221415 } from './main-migrations/Migration20230706221415';
 
 export type ORM = MikroORM<BetterSqliteDriver>;
 export const getCampaignOrm = (campaignDbPath: string, migrationFolder?: string): Promise<ORM> =>
@@ -64,8 +64,8 @@ export const getMainOrm = (production: boolean, dbName: string, migrationFolder?
 					class: Migration20221203042918,
 				},
 				{
-					name: 'Migration20230530231628.ts',
-					class: MainMigration20230530231628,
+					name: 'Migration20230706221415.ts',
+					class: Migration20230706221415,
 				},
 			],
 			glob: '!(*.d).{js,ts}',

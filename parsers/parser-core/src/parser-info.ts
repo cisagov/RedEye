@@ -1,17 +1,17 @@
 export enum ValidationMode {
 	/** no validation */
-	None = 'none',
+	None = 'None',
 	/** validate uploaded files in client by file extensions */
-	FileExtensions = 'file-extensions',
+	FileExtensions = 'FileExtensions',
 	/** validate uploaded files in server with parser, parser must implement "validate" command */
-	Parser = 'parser',
+	Parser = 'Parser',
 }
 
 export enum UploadType {
 	/** upload a single file or a selection of multiple files */
-	File = 'file',
+	File = 'File',
 	/** upload a directory */
-	Directory = 'directory',
+	Directory = 'Directory',
 }
 
 type UploadValidation =
@@ -20,7 +20,7 @@ type UploadValidation =
 
 interface FileUpload {
 	/** The type of upload, a selection of files or a directory */
-	type: UploadType;
+	type: keyof typeof UploadType;
 	/** Describes what should be uploaded for the selected parser */
 	description: string;
 	/** A string that will be displayed in the upload form as an example of the type of file or shape of directory to upload */
@@ -45,7 +45,7 @@ export interface UploadForm {
 	 * */
 	enabledInBlueTeam: boolean;
 	/** The type of server delineation used by the parser */
-	serverDelineation: ServerDelineationTypes;
+	serverDelineation: keyof typeof ServerDelineationTypes;
 	/** An object that configures the file upload portion of the upload form */
 	fileUpload: FileUpload & UploadValidation;
 	/** An object that configures the display of servers/files after upload */
@@ -54,9 +54,9 @@ export interface UploadForm {
 
 export enum ServerDelineationTypes {
 	/** server data seperated into distinct folders */
-	Folder = 'folder',
+	Folder = 'Folder',
 	/** server data not in any particular file/folder structure */
-	Database = 'database',
+	Database = 'Database',
 }
 
 export interface ParserInfo {
@@ -64,7 +64,7 @@ export interface ParserInfo {
 	version: number;
 	/** ID for parser, should match the standard name of the binary file or command */
 	id: string;
-	/** The name of the parser */
+	/** The display name of the parser */
 	name: string;
 	/** An optional description of the parser */
 	description?: string;
