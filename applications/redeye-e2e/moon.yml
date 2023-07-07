@@ -28,12 +28,6 @@ tasks:
     options:
       runInCI: false
 
-  # open-cy:
-  #   command: 'concurrently "yarn start:client" "yarn start:server" "yarn moon run redeye-e2e:start-cypress"'
-  #   local: true
-  #   options:
-  #     runFromWorkspaceRoot: true
-
   open-cy:
     command: 'noop'
     deps:
@@ -43,14 +37,9 @@ tasks:
     local: true
 
   open-cy-blue:
-    command: 'noop'
-    deps:
-      - 'client:start-dev'
-      - 'server:start-blue'
-      - 'redeye-e2e:start'
-    options:
-      runDepsInParallel: false
-      cache: false
+    command: 'concurrently "yarn start:server" "yarn start:client" "yarn moon run redeye-e2e:start"'
     local: true
+    options:
+      runFromWorkspaceRoot: true
     env:
       SERVER_BLUE_TEAM: 'true'
