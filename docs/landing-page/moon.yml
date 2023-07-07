@@ -4,16 +4,13 @@ fileGroups:
     - 'src/**/*'
     - 'astro.config.*'
 tasks:
-  astro:
-    command: 'astro'
-    local: true
-    # Production build
+  # Production build
   build:
     command: 'astro build'
     inputs:
       - '@group(astro)'
     outputs:
-      - 'dist'
+      - 'dist-landing'
   start-astro:
     local: true
     deps:

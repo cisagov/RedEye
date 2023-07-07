@@ -6,7 +6,8 @@
 	"workspaces": [
 		"applications/**",
 		"packages/**",
-		"parsers/**"
+		"parsers/**",
+		"docs/*"
 	],
 	"bin": {
 		"brute-ratel-parser": "parsers/brute-ratel-parser/dist/index.js",

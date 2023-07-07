@@ -21,6 +21,9 @@
 			"path": "applications/server"
 		},
 		{
+			"path": "docs/landing-page"
+		},
+		{
 			"path": "packages/graph"
 		},
 		{
