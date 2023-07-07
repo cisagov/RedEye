@@ -1026,9 +1026,9 @@ __metadata:
   linkType: hard
 
 "@carbon/icon-helpers@npm:^10.28.1":
-  version: 10.42.0
-  resolution: "@carbon/icon-helpers@npm:10.42.0"
-  checksum: b730da7fced5c5ca212c67b36c77e8cc00bdbb1d9efa60b599312dd1909b06811310ba1c00cc293c72ddc3b12b76e93579ddc1f46e49f614f7766f327aa0f4a1
+  version: 10.42.1
+  resolution: "@carbon/icon-helpers@npm:10.42.1"
+  checksum: 98981041d7fb44258c227825eb704b0f25fc6f1cc84d500d5cf0feba71307f5c1e1734f37608c9bb9836b5c864bafc8c6aa9f422f99250f662f67ad2c87708f7
   languageName: node
   linkType: hard
 
