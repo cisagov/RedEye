@@ -143,6 +143,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 						);
 						if (res.status !== 200) {
 							window.console.error('Error Uploading Logs');
+							this.uploadError = yield res.text();
 							// this should provide some UI feedback in the form as to the reason
 						} else {
 							const {
