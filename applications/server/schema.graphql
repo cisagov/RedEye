@@ -66,14 +66,8 @@ type BeaconMeta {
   """Process Identifier the beacon is running on"""
   pid: Int
 
-  """The IP of the host at the time of the metadata line"""
-  port: Float
-
-  """Process Identifier the beacon is running on"""
-  process: String
-
   """The log line from which the BeaconMeta was extracted"""
-  source: LogEntry
+  source: LogEntry!
 
   """The start time of the beacon"""
   startTime: DateTime
@@ -105,14 +99,8 @@ type Campaign {
   lastOpenedBy: GlobalOperator
   migrationError: Boolean!
   name: String!
-  parsers: [CampaignParser!]
   parsingStatus: ParsingStatus!
   serverCount: Int!
-}
-
-type CampaignParser {
-  parserName: String
-  path: String
 }
 
 type Command {
@@ -210,7 +198,6 @@ type HostMeta {
   id: String!
   ip: String
   os: String
-  osVersion: String
   type: String
 }
 
