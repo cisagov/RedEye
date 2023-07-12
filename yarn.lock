@@ -4306,11 +4306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@types/validator@npm:^13.7.1":
-=======
 "@types/validator@npm:^13.7.1, @types/validator@npm:^13.7.10":
->>>>>>> develop
   version: 13.7.17
   resolution: "@types/validator@npm:13.7.17"
   checksum: a827e480c09b957fe1e773e15a18e79930c546c21044ca99d9fb832268d85536cd3577391b6a3c6ebdb38eee244439056ebeed0886123e248d6b8be318c8374e
@@ -11525,11 +11521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"libphonenumber-js@npm:^1.9.43":
-=======
 "libphonenumber-js@npm:^1.10.14":
->>>>>>> develop
   version: 1.10.37
   resolution: "libphonenumber-js@npm:1.10.37"
   checksum: c28f7623226d6ab33c48044f12e772d35dfdbebae53e89434840f64da92e92736fa547a47b48d99050f225d921df71d9827848f78d6c62a063dec4c44dad1b1b
