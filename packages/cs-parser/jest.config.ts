@@ -4,10 +4,13 @@ const config: Config.InitialOptions = {
 	displayName: 'parser',
 	preset: '../../jest.preset.ts',
 	testEnvironment: 'node',
-	globals: {
-		'ts-jest': {
-			tsconfig: '<rootDir>/tsconfig.spec.json',
-		},
+	transform: {
+		'^.+\\.(ts|html)$': [
+			'ts-jest',
+			{
+				tsconfig: 'tsconfig.spec.json',
+			},
+		],
 	},
 	reporters: ['default', ['jest-junit', { outputName: 'junit.cs-parser.xml' }]],
 	coverageReporters: ['clover'],

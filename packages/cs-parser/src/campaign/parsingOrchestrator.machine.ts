@@ -1,23 +1,19 @@
 import { actions, createMachine, spawn } from 'xstate';
-import { MikroORM } from '@mikro-orm/core';
-import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import {
-	processServerLogsMachine,
-	ProcessServerLogsMachineContext,
-	SpawnedProcessServerLogsMachine,
-} from './processServerLogs.machine';
+import type { MikroORM } from '@mikro-orm/core';
+import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import type { ProcessServerLogsMachineContext, SpawnedProcessServerLogsMachine } from './processServerLogs.machine';
+import { processServerLogsMachine } from './processServerLogs.machine';
 import { hrtime } from 'process';
-import { Beacon } from '@redeye/models';
+import type { Beacon } from '@redeye/models';
 import { linksParser } from './linksParser.service';
-import { entitiesIdentify, ParsedObjects } from './entitiesIdentify.service';
+import type { ParsedObjects } from './entitiesIdentify.service';
+import { entitiesIdentify } from './entitiesIdentify.service';
 import { entitiesPersist } from './entitiesPersist.service';
-import { LoggerInstance, logTransition, logEntryState, logFinalState } from '../shared/logging';
+import type { LoggerInstance } from '../shared/logging';
+import { logTransition, logEntryState, logFinalState } from '../shared/logging';
 import type { LogLevel } from '../shared/commandOptions';
-import {
-	BeaconChildActorDone,
-	beaconScriptRunnerMachine,
-	SpawnedBeaconScriptRunnerMachine,
-} from './beaconScriptRunner.machine';
+import type { BeaconChildActorDone, SpawnedBeaconScriptRunnerMachine } from './beaconScriptRunner.machine';
+import { beaconScriptRunnerMachine } from './beaconScriptRunner.machine';
 
 /**
  * Generic overview of parsing flow

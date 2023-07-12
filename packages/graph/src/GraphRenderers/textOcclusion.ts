@@ -1,5 +1,6 @@
-import { select, Selection } from 'd3';
-import { HierarchicalGraphNode, InteractionState } from '../GraphData/types';
+import type { Selection } from 'd3';
+import { select } from 'd3';
+import type { HierarchicalGraphNode, InteractionState } from '../GraphData/types';
 
 /**
  * source: https://observablehq.com/@fil/occlusion

@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Property, PrimaryKey, Entity, ManyToOne, BlobType } from '@mikro-orm/core';
 import { Field, ObjectType } from 'type-graphql';
 import { Beacon } from './Beacon';
@@ -31,5 +32,5 @@ export class Image {
 	blob: Buffer;
 
 	@ManyToOne(() => Beacon, { nullable: true, onDelete: 'cascade' })
-	beacon?: Beacon;
+	beacon?: Rel<Beacon>;
 }

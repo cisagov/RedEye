@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { PrimaryKey, Entity, ManyToOne, Property } from '@mikro-orm/core';
 import { Field, ObjectType } from 'type-graphql';
 import { Beacon } from './Beacon';
@@ -40,15 +41,15 @@ export class Link {
 
 	@Field(() => Beacon, { nullable: true })
 	@ManyToOne(() => Beacon, { nullable: true })
-	origin?: Beacon;
+	origin?: Rel<Beacon>;
 
 	@Field(() => Beacon, { nullable: true })
 	@ManyToOne(() => Beacon, { nullable: true })
-	destination?: Beacon;
+	destination?: Rel<Beacon>;
 
 	// Nullable because we can't assure we'll find all the matching commands
 	// Should probably be @OneToOne but there seems to still be a parsing bug that is very rarely finding the wrong command
 	@Field(() => Command, { nullable: true })
 	@ManyToOne({ nullable: true, entity: () => Command })
-	command?: Command;
+	command?: Rel<Command>;
 }

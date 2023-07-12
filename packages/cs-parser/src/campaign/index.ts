@@ -1,9 +1,12 @@
-import { Command, Option } from 'commander';
+import type { Command } from 'commander';
+import { Option } from 'commander';
 import { createLoggerInstance } from '../shared/logging';
-import { addSharedCommandOptions, LogLevel, SharedCommandOptions } from '../shared/commandOptions';
+import type { SharedCommandOptions } from '../shared/commandOptions';
+import { addSharedCommandOptions, LogLevel } from '../shared/commandOptions';
 import { interpret } from 'xstate';
 import { hrtime } from 'process';
-import { mainCampaignMachine, MainContext } from './main.machine';
+import type { MainContext } from './main.machine';
+import { mainCampaignMachine } from './main.machine';
 
 type CommandCallbackOptions = {
 	folders?: string | string[];

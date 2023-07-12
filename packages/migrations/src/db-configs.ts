@@ -1,7 +1,7 @@
-import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { MikroORM, ReflectMetadataProvider } from '@mikro-orm/core';
 import { applicationEntities, getProjectMikroOrmConfig } from '@redeye/models';
-import { Database, Options as BOptions } from 'better-sqlite3';
+import type { Database, Options as BOptions } from 'better-sqlite3';
 import path from 'path';
 import { Migration20221209003757 } from './campaign-migrations/Migration20221209003757';
 import { Migration20230106014154 } from './campaign-migrations/Migration20230106014154';

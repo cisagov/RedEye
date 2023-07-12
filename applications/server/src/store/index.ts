@@ -1,6 +1,6 @@
 import { CommandGroupResolvers } from './command-group-resolvers';
 import { OperatorResolvers } from './operator-resolvers';
-import { NonEmptyArray } from 'type-graphql';
+import type { NonEmptyArray } from 'type-graphql';
 import { AnnotationResolvers } from './annotation-resolvers';
 import { CampaignResolvers } from './campaign-resolvers';
 import { BeaconResolvers } from './beacon-resolvers';
