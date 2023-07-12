@@ -24,7 +24,7 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 			this.showAll = !this.showAll;
 		},
 		get commandOutputLines() {
-			const commandOutputLines = command?.outputLines.slice();
+			const commandOutputLines = command?.outputLines.slice(); // shallow copy to edit
 			if (commandOutputLines) {
 				while (commandOutputLines[0] === '') {
 					commandOutputLines.shift();
@@ -77,6 +77,9 @@ export const CommandOutput = observer<CommandOutputProps>(({ command }) => {
 			</div>
 			<div css={outputScrollWrapperStyle} cy-test="log-details">
 				<div css={outputOverflowWrapperStyle}>
+					<pre css={preStyles} cy-test="logInfo">
+						{command?.inputLog?.blob}
+					</pre>
 					{state.renderedLines?.length ? (
 						<>
 							<pre css={preStyles} cy-test="logInfo">

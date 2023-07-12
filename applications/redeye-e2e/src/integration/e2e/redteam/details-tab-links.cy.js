@@ -1,19 +1,19 @@
 /// <reference types="cypress" />
 
-describe('Links on Meta tab', () => {
-	const camp = 'metatablinks';
+describe('Links on Details tab', () => {
+	const camp = 'detailstablinks';
 	const fileName = 'gt.redeye';
 
-	it('Beacon metadata links redirect to correct location', () => {
+	it('Beacon details links redirect to correct location', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name; go to Beacons tab
 		cy.selectCampaign(camp);
 		cy.clickBeaconsTab();
 
-		// Select first beacon; go to Meta tab
+		// Select first beacon; go to Details tab
 		cy.get('[cy-test=beacons-row]').eq(0).click();
-		cy.clickMetaTab();
+		cy.clickDetailsTab();
 
 		// Log location name under Links
 		cy.get('[cy-test=meta-link]')

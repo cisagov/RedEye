@@ -2,9 +2,10 @@ import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } f
 import type { ItemPredicate } from '@blueprintjs/select';
 import { MultiSelect2 } from '@blueprintjs/select';
 import {
+	Add16,
 	ArrowRight16,
-	Bookmark16,
-	BookmarkFilled16,
+	Star16,
+	StarFilled16,
 	Chat16,
 	Checkmark16,
 	Edit16,
@@ -38,6 +39,7 @@ type CommentBoxProps = ComponentProps<'div'> & {
 	reply?: () => void;
 	isAddingCommandToComment?: boolean;
 	isFullList?: boolean;
+	refetchComments?: () => void;
 };
 
 export const CommentBox = observer<CommentBoxProps>(
@@ -54,6 +56,7 @@ export const CommentBox = observer<CommentBoxProps>(
 		popoverRef,
 		isAddingCommandToComment = false,
 		isFullList = false,
+		refetchComments,
 		...props
 	}) => {
 		const store = useStore();
@@ -66,6 +69,7 @@ export const CommentBox = observer<CommentBoxProps>(
 				}),
 			{
 				onSuccess: (annotationData) => {
+					refetchComments?.();
 					state.refetch();
 					if (annotationData) {
 						store.graphqlStore.annotations.delete(annotationData.deleteAnnotation.id);
@@ -424,7 +428,7 @@ export const CommentBox = observer<CommentBoxProps>(
 						cy-test="fav-comment"
 						minimal
 						small
-						icon={<CarbonIcon icon={state.favorite ? BookmarkFilled16 : Bookmark16} />}
+						icon={<CarbonIcon icon={state.favorite ? StarFilled16 : Star16} />}
 						onClick={state.toggleFavorite}
 						disabled={!isRedTeam || isPresentationMode}
 					/>
@@ -508,22 +512,22 @@ export const CommentBox = observer<CommentBoxProps>(
 										if (e) e.stopPropagation();
 									},
 								}}
-								query={state.tagQuery}
-								onQueryChange={(query) => state.update('tagQuery', query)}
+								query={state.tagQuery && formatTag(state.tagQuery)}
+								onQueryChange={(query) => state.update('tagQuery', validateTag(query))}
 								items={state.autoTags}
 								fill
-								createNewItemPosition="first"
+								createNewItemPosition="last"
 								itemPredicate={filterTags}
 								selectedItems={state.tags}
 								onRemove={state.handleTagsRemove}
 								onItemSelect={state.handleTagsChange}
-								createNewItemFromQuery={(query) => query}
+								createNewItemFromQuery={(query) => validateTag(query)}
 								createNewItemRenderer={(item, active, handleClick: MouseEventHandler<HTMLElement>) => (
 									<MenuItem2
 										cy-test="add-tag"
-										icon="add"
+										icon={<CarbonIcon icon={Add16} />}
 										disabled={state.tags.includes(item)}
-										text={`#${item}`}
+										text={formatTag(validateTag(item))}
 										active={active}
 										onClick={handleClick}
 										shouldDismissPopover={false}
@@ -536,7 +540,7 @@ export const CommentBox = observer<CommentBoxProps>(
 										key={item}
 										onClick={handleClick}
 										disabled={modifiers.disabled}
-										text={`#${item}`}
+										text={formatTag(item)}
 										shouldDismissPopover={false}
 									/>
 								)}
@@ -775,8 +779,8 @@ const displayOptionStyle = css`
 `;
 
 const filterTags: ItemPredicate<string> = (query, tag, _index, exactMatch) => {
-	const normalizedTag = tag?.toLowerCase();
-	const normalizedQuery = query.toLowerCase();
+	const normalizedTag = validateTag(tag?.toLowerCase());
+	const normalizedQuery = validateTag(query.toLowerCase());
 
 	if (exactMatch) {
 		return normalizedTag === normalizedQuery;
@@ -784,3 +788,6 @@ const filterTags: ItemPredicate<string> = (query, tag, _index, exactMatch) => {
 		return normalizedTag?.includes(normalizedQuery);
 	}
 };
+
+const validateTag = (tag: string) => tag.replaceAll('#', ''); // maybe remove special chars?
+const formatTag = (tag: string) => `#${tag}`;

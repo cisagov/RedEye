@@ -33,14 +33,14 @@ describe('Hide a beacon', () => {
 		cy.showHiddenItems();
 	});
 
-	it('Verify Hide button is disabled in Meta tab', () => {
+	it('Verify Hide button is disabled in Details tab', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Go to Beacons tab; open first beacon; go to Meta tab
+		// Go to Beacons tab; open first beacon; go to Detals tab
 		cy.clickBeaconsTab();
 		cy.get('[cy-test=beacons-row]').eq(0).click();
-		cy.clickMetaTab();
+		cy.clickDetailsTab();
 
 		// Verify unable to hide/show new beacons/host
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
@@ -57,7 +57,7 @@ describe('Hide a beacon', () => {
 		// Navigate to the Beacons tab and open kebab menu for first beacon
 		cy.clickBeaconsTab();
 		cy.get('[cy-test=beacons-row]').eq(0).click();
-		cy.clickMetaTab();
+		cy.clickDetailsTab();
 		cy.get('[cy-test=show-hide-this-beacon]').should('be.disabled');
 	});
 
