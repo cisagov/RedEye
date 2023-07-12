@@ -397,7 +397,7 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const isRedTeam = !store.appMeta.blueTeam;
 		const isPresentationMode = store.router.params.view === CampaignViews.PRESENTATION;
-		const showEditButtons = !isPresentationMode && isRedTeam;
+		const showEditButtons = isRedTeam;
 		const allowReply = isFullList && isRedTeam;
 		const allowEdit =
 			(store.auth.userName === annotation?.user || !annotation?.user) && !isAddingCommandToComment && isRedTeam;
