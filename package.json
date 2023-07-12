@@ -108,7 +108,7 @@
 		"@mikro-orm/entity-generator": "5.6.16",
 		"@mikro-orm/migrations": "5.6.16",
 		"@mikro-orm/seeder": "5.6.16",
-		"@moonrepo/cli": "1.8.0",
+		"@moonrepo/cli": "1.9.2",
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.5.0",
 		"@testing-library/user-event": "^7.2.1",
@@ -202,6 +202,15 @@
 		"vite-plugin-checker": "^0.5.6",
 		"vite-plugin-dts": "^2.3.0",
 		"vite-tsconfig-paths": "^4.2.0"
+	},
+	"resolutions": {
+		"@moonrepo/core-linux-arm64-gnu": "1.9.2",
+		"@moonrepo/core-linux-arm64-musl": "1.9.2",
+		"@moonrepo/core-linux-x64-gnu": "1.9.2",
+		"@moonrepo/core-linux-x64-musl": "1.9.2",
+		"@moonrepo/core-macos-arm64": "1.9.2",
+		"@moonrepo/core-macos-x64": "1.9.2",
+		"@moonrepo/core-windows-x64-msvc": "1.9.2"
 	},
 	"lint-staged": {
 		"**/*.{json,yml,yaml,js,jsx,ts,tsx}": [
