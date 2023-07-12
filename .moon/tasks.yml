@@ -44,30 +44,6 @@ fileGroups:
 # This setting requires a map, where the key is a unique name for the task,
 # and the value is an object of task parameters.
 tasks:
-  run-cypress:
-    local: true
-    command:
-      - cypress
-      - run
-      - --config-file
-      - cypress.config.js
-    env:
-      CYPRESS_BASE_URL: http://localhost:3500
-    platform: node
-    options:
-      runInCI: false
-  start-cypress:
-    local: true
-    command:
-      - cypress
-      - open
-      - --config-file
-      - cypress.config.js
-    env:
-      CYPRESS_BASE_URL: http://localhost:3500
-    platform: node
-    options:
-      runInCI: false
   test-jest:
     command: 'jest . --coverage --reporters="jest-junit" --passWithNoTests'
     inputs:
@@ -89,6 +65,16 @@ tasks:
       - '@globs(tests)'
       - '.eslintignore'
       - '.eslintrc.yaml'
+    platform: node
+    options:
+      runInCI: false
+  lint-global:
+    command: 'eslint --config $workspaceRoot/.eslintrc.json --ignore-path $workspaceRoot/.gitignore src --fix --max-warnings 0'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - '.eslintignore'
+      - '.eslintrc.json'
     platform: node
     options:
       runInCI: false
@@ -144,18 +130,35 @@ tasks:
 
   # Library mode commands
   build-library:
-    command: 'cross-env npx -c "tsup-node ./src/index.ts --minify --format esm && tsc --emitDeclarationOnly --outDir dist"'
+    command: 'noop'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(tests)'
+      - 'tsconfig.json'
+    outputs:
+      - dist
+      - 'tsconfig.tsbuildinfo'
+    deps:
+      - ^:build
+      - ~:build-client-library
+      - ~:typecheck
+    env:
+      NODE_ENV: production
+    platform: node
+    options:
+      runDepsInParallel: false
+      runInCI: false
+  build-client-library:
+    command: 'tsup-node ./src/index.ts --minify --format esm'
     inputs:
       - '@globs(sources)'
       - '@globs(assets)'
       - 'tsconfig.json'
     outputs:
       - dist
-      - 'tsconfig.tsbuildinfo'
     env:
       NODE_ENV: production
     deps:
-      - ^:build
       - ~:clean-dist
     platform: node
     options:
@@ -171,26 +174,36 @@ tasks:
     env:
       NODE_ENV: production
     platform: node
-    local: true
     options:
       runInCI: false
+      cache: false
 
   # Node commands
-
-  ## Build with SWC and type checking
+  build-node-library:
+    command: 'tsc --project tsconfig.json --module commonjs --sourceMap --outDir @out(0)'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(assets)'
+      - 'tsconfig.json'
+    outputs:
+      - dist
+    env:
+      NODE_ENV: production
+    deps:
+      - ~:clean-dist
+    platform: node
+    options:
+      runDepsInParallel: false
+      runInCI: false
   build-node:
     command: 'noop'
     inputs:
       - '@globs(sources)'
       - '@globs(tests)'
       - 'tsconfig.json'
-    outputs:
-      - dist
-      - 'tsconfig.tsbuildinfo'
     deps:
       - ^:build
-      - ~:build-swc
-      - ~:typecheck
+      - ~:build-node-library
     env:
       NODE_ENV: production
     platform: node
@@ -198,35 +211,20 @@ tasks:
       runDepsInParallel: false
       runInCI: false
 
-  ## Build with SWC and clean dist
-  build-swc:
-    command: 'swc src -d @out(0) --copy-files'
-    inputs:
-      - '@globs(sources)'
-      - '.swcrc'
-    outputs:
-      - dist
-    deps:
-      - ~:clean-dist
-    platform: node
-    options:
-      runInCI: false
-
   start-node:
     env:
       NODE_ENV: development
-    command: 'nodemon --ext ts --watch src --exec "swc src -d dist && yarn node ./dist/index.js" --ignore "src/**/*.test.ts"'
-    local: true
+    command: 'tsup-node src/index.ts --sourcemap --watch --onSuccess "yarn node --enable-source-maps dist/index.js" --ignore-watch "src/**/*.test.ts"'
     inputs:
       - '@globs(sources)'
       - '@globs(tests)'
       - 'tsconfig.json'
     platform: node
+    local: true
     options:
       runInCI: false
 
   # Release Commands
-
   release-all:
     command: 'noop'
     deps:
@@ -303,6 +301,7 @@ tasks:
     platform: node
     options:
       runInCI: false
+      cache: false
 
   ## Typecheck
   typecheck:

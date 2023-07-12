@@ -1,6 +1,7 @@
 import { beaconHidden, defaultHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail, getMainEmOrFail } from './utils/project-db';
-import { Resolver, Query, Arg, Mutation, Ctx, Authorized, createMethodDecorator, ResolverData } from 'type-graphql';
+import type { ResolverData } from 'type-graphql';
+import { Resolver, Query, Arg, Mutation, Ctx, Authorized, createMethodDecorator } from 'type-graphql';
 import { Operator, GlobalOperator } from '@redeye/models';
 import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';

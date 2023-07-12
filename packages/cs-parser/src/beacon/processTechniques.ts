@@ -1,6 +1,8 @@
-import { Annotation, Command, CommandGroup, Tag } from '@redeye/models';
-import { GenerationType, mitreTechniques, MitreTechniques } from '@redeye/models';
-import { SqlEntityManager, BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import type { Command } from '@redeye/models';
+import { Annotation, CommandGroup, Tag } from '@redeye/models';
+import type { MitreTechniques } from '@redeye/models';
+import { GenerationType, mitreTechniques } from '@redeye/models';
+import type { SqlEntityManager, BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 
 export const processTechniques =
 	(em: SqlEntityManager<BetterSqliteDriver>, attackIds: string[], command: Command) => async () => {

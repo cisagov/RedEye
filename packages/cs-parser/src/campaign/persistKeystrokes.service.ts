@@ -1,11 +1,12 @@
-import { Beacon, LogEntry, LogType } from '@redeye/models';
+import type { Beacon } from '@redeye/models';
+import { LogEntry, LogType } from '@redeye/models';
 import { createReadStream } from 'fs';
 import { createInterface } from 'readline';
 import { combinePathAndLogDates, findTimeFromLogLine, getDateFromPath } from '../shared/dateTimeRegex';
 import type { MikroORM } from '@mikro-orm/core';
 import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { beaconFromKeyLoggerName } from './regex';
-import { LoggerInstance } from '../shared/logging';
+import type { LoggerInstance } from '../shared/logging';
 
 type PersistKeystrokesArgument = {
 	orm: MikroORM<BetterSqliteDriver>;

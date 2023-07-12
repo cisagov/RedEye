@@ -4,7 +4,7 @@
 	"compilerOptions": {
 		"rootDir": "src",
 		"outDir": "dist",
-		"module": "esnext",
+		"module": "CommonJS",
 		"target": "es2018",
 		"lib": ["esnext"],
 		"importHelpers": true,
@@ -19,7 +19,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"moduleResolution": "node",
 		"esModuleInterop": true,
-		"emitDeclarationOnly": true,
 		"skipLibCheck": true,
 		"paths": {
 			"@redeye/models": ["../models/src/index.ts"],

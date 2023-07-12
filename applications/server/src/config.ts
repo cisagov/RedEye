@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
-import { boolean, InferType, number, object, string } from 'yup';
+import type { InferType } from 'yup';
+import { boolean, number, object, string } from 'yup';
 import type { cliArgs } from '.';
 /**
  * The only places dotenv should ever be imported is in this file or in the mikro-orm.config.ts.

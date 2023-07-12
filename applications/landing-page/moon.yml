@@ -13,7 +13,7 @@ tasks:
     inputs:
       - '@group(astro)'
     outputs:
-      - 'dist'
+      - 'dist-landing'
   start-astro:
     local: true
     deps:
@@ -22,7 +22,3 @@ tasks:
       runInCI: false
       runDepsInParallel: false
     command: 'astro dev'
-# Disable project references
-toolchain:
-  typescript:
-  syncProjectReferences: false
