@@ -115,7 +115,7 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 				(await em.findOne(Server, { name: parsedServer.name })) ||
 				new Server({
 					name: parsedServer.name,
-					parsingPath: parsedServer.parsingPath,
+					parsingPath: path,
 				});
 			created.hosts[parsedServer.name] = new Host({ hostName: parsedServer.name, cobaltStrikeServer: true });
 			created.beacons[parsedServer.name] = new Beacon({
@@ -210,12 +210,18 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 				beacon,
 				attackIds: command.attackIds,
 				inputText: command.input.blob,
-				input: new LogEntry({ ...command.input, beacon, blob: command.input.blob || '' }),
+				input: new LogEntry({
+					...command.input,
+					lineNumber: command.input.lineNumber || 0,
+					beacon,
+					blob: command.input.blob || '',
+				}),
 				output: [],
 			});
 			if (command.output) {
 				const newOutput = new LogEntry({
 					...command.output,
+					lineNumber: command.output.lineNumber || 0,
 					beacon,
 					blob: command.output.blob || '',
 					command: newCommand,

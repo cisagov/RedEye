@@ -80,9 +80,9 @@ export class LogEntry {
 		this.blob += sanitizeBadCharacters(line) + '\n';
 	}
 
-	@Field(() => String)
+	@Field(() => String, { nullable: true })
 	@Property({ nullable: true })
-	filepath: string;
+	filepath?: string;
 
 	@Field(() => Number)
 	@Property()

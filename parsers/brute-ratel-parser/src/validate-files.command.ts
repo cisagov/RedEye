@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { ParserMessageTypes, writeParserMessage } from '@redeye/parser-core';
+import { ParserMessageTypes, ParserValidateFiles, writeParserMessage } from '@redeye/parser-core';
 import { BruteRatelProfile } from './profile.types';
 import fs from 'fs-extra';
 import path from 'path';
@@ -19,7 +19,7 @@ export const registerValidateFilesCommand = (program: Command) => {
 	});
 };
 
-const validate = async (options: ValidateFilesCallbackOptions) => {
+const validate = async (options: ValidateFilesCallbackOptions): Promise<ParserValidateFiles> => {
 	const autosaveProfile: BruteRatelProfile = JSON.parse(
 		fs.readFileSync(path.join(options.folder, 'autosave.profile'), 'utf8')
 	);

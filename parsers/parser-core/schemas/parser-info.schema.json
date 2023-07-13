@@ -9,11 +9,11 @@
 					"type": "number"
 				},
 				"id": {
-					"description": "ID for parser, should match the standard name of the binary file or command",
+					"description": "ID for parser, should match the standard name of the binary file or command\n// The parser binary is named 'my-parser'\nid = 'my-parser'",
 					"type": "string"
 				},
 				"name": {
-					"description": "The name of the parser",
+					"description": "The display name of the parser",
 					"type": "string"
 				},
 				"description": {
@@ -22,7 +22,7 @@
 				},
 				"uploadForm": {
 					"$ref": "#/definitions/UploadForm",
-					"description": "An object that configures the upload form"
+					"description": "An object that configures the upload form in RedEye's UI"
 				}
 			},
 			"required": ["id", "name", "uploadForm", "version"]
@@ -39,8 +39,9 @@
 					"type": "boolean"
 				},
 				"serverDelineation": {
-					"$ref": "#/definitions/ServerDelineationTypes",
-					"description": "The type of server delineation used by the parser"
+					"description": "The type of server delineation used by the parser",
+					"enum": ["Database", "Folder"],
+					"type": "string"
 				},
 				"fileUpload": {
 					"description": "An object that configures the file upload portion of the upload form",
@@ -54,7 +55,7 @@
 									"type": "object",
 									"properties": {
 										"validate": {
-											"enum": ["none", "parser"],
+											"enum": ["None", "Parser"],
 											"type": "string"
 										}
 									},
@@ -73,7 +74,7 @@
 										"validate": {
 											"description": "validate uploaded files in client by file extensions",
 											"type": "string",
-											"const": "file-extensions"
+											"const": "FileExtensions"
 										},
 										"acceptedExtensions": {
 											"type": "array",
@@ -90,21 +91,18 @@
 				},
 				"fileDisplay": {
 					"$ref": "#/definitions/FileDisplay",
-					"description": "An object that configures the display of servers/files after upload"
+					"description": "An object that configures the list of servers/files after upload"
 				}
 			},
 			"required": ["enabledInBlueTeam", "fileDisplay", "fileUpload", "serverDelineation", "tabTitle"]
-		},
-		"ServerDelineationTypes": {
-			"enum": ["database", "folder"],
-			"type": "string"
 		},
 		"FileUpload": {
 			"type": "object",
 			"properties": {
 				"type": {
-					"$ref": "#/definitions/UploadType",
-					"description": "The type of upload, a selection of files or a directory"
+					"description": "The type of upload, a selection of files or a directory",
+					"enum": ["Directory", "File"],
+					"type": "string"
 				},
 				"description": {
 					"description": "Describes what should be uploaded for the selected parser",
@@ -112,14 +110,11 @@
 				},
 				"example": {
 					"description": "A string that will be displayed in the upload form as an example of the type of file or shape of directory to upload",
+					"default": "undefined",
 					"type": "string"
 				}
 			},
 			"required": ["description", "type"]
-		},
-		"UploadType": {
-			"enum": ["directory", "file"],
-			"type": "string"
 		},
 		"FileDisplay": {
 			"type": "object",

@@ -1,6 +1,8 @@
 import { LoggerOptions } from './logging';
 import { ParserOutput } from './parser-output';
 import { ParserProgress } from './parser-progress';
+import { ParserInfo } from './parser-info';
+import { ParserValidateFiles } from './parser-validate-files';
 
 export enum ParserMessageTypes {
 	/** The complete parsed data in {ParserOutput}  */
@@ -15,18 +17,30 @@ export enum ParserMessageTypes {
 	Debug = '[DEBUG]',
 }
 
-export const formatParserMessage = (prefix: ParserMessageTypes, message: any) =>
+/**
+ * The format of messages that are sent from the parser to RedEye
+ * @example
+ * [DATA] '{"data": {"beacon": "233", "host": "DESKTOP-123", "data": {"key": "value"}}}'\n
+ * [PROGRESS] '{"percent": 50, "message": "Processing logs for beacon "233" on host "DESKTOP-123"'}'\n
+ * [LOG] '{"message": "Parsing file 1 of 1"}'\n
+ * [ERROR] '{"message": "An unrecoverable error occurred while parsing file 'beacon-123.log'"}'\n
+ */
+export type ParserMessageFormat = `${ParserMessageTypes} ${string}\n`;
+
+export const formatParserMessage = (prefix: ParserMessageTypes, message: any): ParserMessageFormat =>
 	`${prefix} ${JSON.stringify(message)}\n`;
-export const writeParserMessage = (prefix: ParserMessageTypes, message: any) =>
-	process.stdout.write(formatParserMessage(prefix, message));
 
-export const sendParserDataOutput = (prefix: ParserMessageTypes.Data, message: ParserOutput) =>
+export function writeParserMessage(
+	prefix: ParserMessageTypes.Data,
+	message: ParserOutput | ParserInfo | ParserValidateFiles
+): void;
+export function writeParserMessage(prefix: ParserMessageTypes.Progress, message: ParserProgress): void;
+export function writeParserMessage(prefix: ParserMessageTypes.Log, message: LoggerOptions): void;
+export function writeParserMessage(prefix: ParserMessageTypes.Debug, message: any): void;
+export function writeParserMessage(prefix: ParserMessageTypes.Error, message: any): void;
+export function writeParserMessage(prefix: ParserMessageTypes, message: any) {
 	process.stdout.write(formatParserMessage(prefix, message));
-
-export const sendParserProgress = (prefix: ParserMessageTypes.Progress, message: ParserProgress) =>
-	process.stdout.write(formatParserMessage(prefix, message));
-export const sendParserLog = (prefix: ParserMessageTypes.Log, message: LoggerOptions) =>
-	process.stdout.write(formatParserMessage(prefix, message));
+}
 
 const messageRegex = /(\[\w+\]) (.*)/;
 export const getParserPrefixAndMessage = (message: string) => {

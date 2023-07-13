@@ -28,7 +28,7 @@ export const parseAutosaveProfile = async (filePath: string) => {
 	const links: Record<string, ParserLink> = {};
 
 	for (const [server] of Object.entries(listeners)) {
-		servers[server] = { name: server, parsingPath: filePath };
+		servers[server] = { name: server };
 	}
 
 	for (const [beaconName, beaconInfo] of Object.entries(badgers)) {
@@ -71,7 +71,6 @@ export const parseAutosaveProfile = async (filePath: string) => {
 								.filter(Boolean) as string[]) || [],
 						operator: user,
 						beacon: command.badger,
-						host: command.host,
 						input: {
 							filepath: currentCommand.filePath,
 							dateTime: commandDateTime,

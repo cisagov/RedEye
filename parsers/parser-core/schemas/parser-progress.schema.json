@@ -5,7 +5,7 @@
 			"type": "object",
 			"properties": {
 				"percent": {
-					"description": "The current progress of the parsing process, a number between 0 and 100",
+					"description": "The percent progress of the parsing process, a number between 0 and 100",
 					"type": "number"
 				},
 				"message": {

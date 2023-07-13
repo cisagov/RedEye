@@ -135,7 +135,7 @@ export const parsingOrchestratorMachine = createMachine(
 						);
 
 						const promises = metadataLogs.flatMap((metadataLog) => {
-							const ip = findHostIpFromPath(metadataLog.filepath);
+							const ip = findHostIpFromPath(metadataLog.filepath!);
 							// each host is likely to have a bunch of meta objects, deduplicate later
 							const hostMeta = new HostMeta({
 								ip,
