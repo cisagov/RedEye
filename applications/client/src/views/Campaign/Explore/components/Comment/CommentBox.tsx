@@ -398,7 +398,7 @@ export const CommentBox = observer<CommentBoxProps>(
 		const isRedTeam = !store.appMeta.blueTeam;
 		const isPresentationMode = store.router.params.view === CampaignViews.PRESENTATION;
 		const showEditButtons = isRedTeam;
-		const allowReply = isFullList && isRedTeam;
+		const allowReply = !isPresentationMode && isFullList && isRedTeam;
 		const allowEdit =
 			(store.auth.userName === annotation?.user || !annotation?.user) && !isAddingCommandToComment && isRedTeam;
 		const isGrouped = (state.currentCommandIds?.length || 0) > 1;
@@ -658,7 +658,7 @@ export const CommentBox = observer<CommentBoxProps>(
 											/>
 										)}
 										{allowReply && <Button cy-test="reply" minimal small onClick={() => reply?.()} text="Reply" />}
-										{allowEdit && (
+										{allowEdit && !isPresentationMode && (
 											<>
 												<Button
 													cy-test="delete-comment"
