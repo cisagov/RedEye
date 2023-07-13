@@ -1,6 +1,7 @@
 import { QueryOrder } from '@mikro-orm/core';
 import { Resolver, Query, Authorized, Arg, GraphQLISODateTime, Ctx } from 'type-graphql';
-import { Command, Beacon, LogEntry, Timeline, Link, TimelineBucket } from '@redeye/models';
+import type { TimelineBucket } from '@redeye/models';
+import { Command, Beacon, LogEntry, Timeline, Link } from '@redeye/models';
 import { beaconHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import type { GraphQLContext } from '../types';

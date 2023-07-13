@@ -1,4 +1,5 @@
-import { actions, createMachine, DoneInvokeEvent } from 'xstate';
+import type { DoneInvokeEvent } from 'xstate';
+import { actions, createMachine } from 'xstate';
 import { getProjectMikroOrmConfig, Server } from '@redeye/models';
 import { MikroORM } from '@mikro-orm/core';
 import { resolve as pathResolve } from 'path';

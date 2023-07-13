@@ -1,14 +1,17 @@
-import { actions, createMachine, DoneInvokeEvent } from 'xstate';
-import { MikroORM } from '@mikro-orm/core';
-import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import { DatabaseConnectionResolution, databaseMachine, DatabaseMachineContext } from '../shared/database.machine';
-import {
+import type { DoneInvokeEvent } from 'xstate';
+import { actions, createMachine } from 'xstate';
+import type { MikroORM } from '@mikro-orm/core';
+import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import type { DatabaseConnectionResolution, DatabaseMachineContext } from '../shared/database.machine';
+import { databaseMachine } from '../shared/database.machine';
+import type {
 	ParsingOrchestrationCompleteData,
-	parsingOrchestratorMachine,
 	ParsingOrchestratorMachineContext,
 } from './parsingOrchestrator.machine';
+import { parsingOrchestratorMachine } from './parsingOrchestrator.machine';
 import { hrtime } from 'process';
-import { logEntryState, logFinalState, LoggerInstance, logTransition } from '../shared/logging';
+import type { LoggerInstance } from '../shared/logging';
+import { logEntryState, logFinalState, logTransition } from '../shared/logging';
 import type { LogLevel } from '../shared/commandOptions';
 import { closeOrm } from '../shared/closeOrm.service';
 

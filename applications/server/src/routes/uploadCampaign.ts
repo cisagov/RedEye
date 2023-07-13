@@ -1,6 +1,6 @@
 import { Campaign, ParsingStatus, Server } from '@redeye/models';
 import { getMigratedCampaignORM } from '@redeye/migrations';
-import { UploadedFile } from 'express-fileupload';
+import type { UploadedFile } from 'express-fileupload';
 import * as path from 'path';
 import { getDbPath, getRootPath } from '../util';
 import { isAuthRest } from '../auth';

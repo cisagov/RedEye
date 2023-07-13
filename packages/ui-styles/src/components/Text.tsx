@@ -1,4 +1,5 @@
-import { FC, HTMLAttributes, useMemo } from 'react';
+import type { FC, HTMLAttributes } from 'react';
+import { useMemo } from 'react';
 import { Classes } from '@blueprintjs/core';
 import { UtilityStyles } from '../styles/utility-styles';
 import { CoreTokens as Tkn } from '../styles/tokens';

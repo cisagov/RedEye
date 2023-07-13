@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Property, PrimaryKey, Entity, ManyToOne, Unique } from '@mikro-orm/core';
 import { Field, ObjectType } from 'type-graphql';
 import { randomUUID } from 'crypto';
@@ -42,7 +43,7 @@ export class HostMeta {
 	// TODO: Add more mutable properties like Host type
 
 	@ManyToOne(() => Host, { onDelete: 'cascade' })
-	host: Host;
+	host: Rel<Host>;
 }
 
 type NativeInsertArgs = Omit<HostMeta, 'id'>;

@@ -2,7 +2,8 @@ import 'reflect-metadata';
 import { existsSync } from 'fs';
 import { rmSync } from 'fs-extra';
 import path from 'path';
-import { createMachine, interpret, actions, spawn, StateMachine } from 'xstate';
+import type { StateMachine } from 'xstate';
+import { createMachine, interpret, actions, spawn } from 'xstate';
 import { Campaign, ParsingProgress } from '@redeye/models';
 import { getMigratedCampaignORM } from '@redeye/migrations';
 import { getDbPath, getFullCampaignDbPath } from '../util';
@@ -12,12 +13,14 @@ import { importLocalCampaignsDatabasesService } from './importLocalCampaigns.ser
 import { startHttpServerService, startBlueTeamHttpServerService } from './http.service';
 import { connectOrCreateDatabase } from './maindb.service';
 // External Machines
-import { messengerMachine, SpawnedMessengerMachine } from './messenger.machine';
+import type { SpawnedMessengerMachine } from './messenger.machine';
+import { messengerMachine } from './messenger.machine';
 // Types
 import type { Server } from 'http';
 import { EntityCacheManager } from '../cache';
 import type { cliArgs } from '..';
-import { createConfig, ConfigDefinition } from '../config';
+import type { ConfigDefinition } from '../config';
+import { createConfig } from '../config';
 
 export type ServerMachineContext = {
 	cm: EntityCacheManager;

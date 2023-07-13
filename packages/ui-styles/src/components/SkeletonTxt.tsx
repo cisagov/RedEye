@@ -1,5 +1,6 @@
 import { Classes } from '@blueprintjs/core';
-import { HTMLProps, useMemo } from 'react';
+import type { HTMLProps } from 'react';
+import { useMemo } from 'react';
 
 interface Props extends HTMLProps<HTMLSpanElement> {
 	minChar?: number;

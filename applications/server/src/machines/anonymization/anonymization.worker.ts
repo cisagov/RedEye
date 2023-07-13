@@ -10,10 +10,11 @@ import {
 	BeaconMeta,
 	HostMeta,
 } from '@redeye/models';
-import { EntityName, MikroORM } from '@mikro-orm/core';
+import type { EntityName } from '@mikro-orm/core';
+import { MikroORM } from '@mikro-orm/core';
 import { parentPort, workerData } from 'worker_threads';
-import { EntityManager } from '../../types';
-import { AnonymizationMachineContext } from './anonymization.machine';
+import type { EntityManager } from '../../types';
+import type { AnonymizationMachineContext } from './anonymization.machine';
 import { replaceHashes, replaceDomainsAndIps, replacePasswords, replaceBlobValues } from './replace-regex';
 import { getRandomReplacement, setIfNewProperty } from './anonymization-utils';
 

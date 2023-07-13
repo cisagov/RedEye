@@ -1,7 +1,8 @@
 import { createMachine, actions } from 'xstate';
 import type { MikroORM } from '@mikro-orm/core';
 import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import { Beacon, BeaconLineType, BeaconMeta, Host, HostMeta, LogEntry, Command, Operator } from '@redeye/models';
+import type { Host } from '@redeye/models';
+import { Beacon, BeaconLineType, BeaconMeta, HostMeta, LogEntry, Command, Operator } from '@redeye/models';
 import { getMinMaxDate } from '../shared/dateTimeRegex';
 import { findOperatorName } from '../shared/regex';
 import { processTechniques } from './processTechniques';
@@ -16,7 +17,8 @@ import {
 } from './regex';
 import { identifyCommandGroupings } from './identifyCommandGroupings';
 import { processUploadCommand } from './processUploadCommand';
-import { logTransition, logEntryState, logFinalState, LoggerInstance } from '../shared/logging';
+import type { LoggerInstance } from '../shared/logging';
+import { logTransition, logEntryState, logFinalState } from '../shared/logging';
 
 export type ParsingOrchestratorMachineContext = {
 	beaconId: UUID;

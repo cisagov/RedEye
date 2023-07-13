@@ -4,7 +4,7 @@
 	"compilerOptions": {
 		"outDir": "./dist",
 		"rootDir": "./src",
-		"module": "esnext",
+		"module": "CommonJS",
 		"target": "esnext",
 		"lib": ["esnext"],
 		"importHelpers": true,

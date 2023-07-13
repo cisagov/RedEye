@@ -1,6 +1,7 @@
 import { exec, execFile } from 'child_process';
 import { hrtime } from 'process';
-import { actions, ActorRefFrom, createMachine } from 'xstate';
+import type { ActorRefFrom } from 'xstate';
+import { actions, createMachine } from 'xstate';
 import path from 'path';
 import type { LogLevel } from '../shared/commandOptions';
 

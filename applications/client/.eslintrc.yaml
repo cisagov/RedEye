@@ -22,6 +22,7 @@ globals:
   globalThis: false
 rules:
   react-hooks/exhaustive-deps: 0 # Disabled for mobx
+  react/no-unknown-property: 0 # Disabled for css and cy-test
   import/prefer-default-export: 0 # Prefer named exports
   import/no-default-export: 2 # Prefer named exports
   no-console: 1 # Warn about console logs, use window.console.log if the log should be available in production

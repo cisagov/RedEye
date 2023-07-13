@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Field, ObjectType, registerEnumType } from 'type-graphql';
 import { Beacon } from './Beacon';
@@ -68,5 +69,5 @@ export class File {
 	 * Really shouldn't be nullable but required to make TS happy
 	 */
 	@ManyToOne(() => Beacon, { nullable: true })
-	beacon?: Beacon;
+	beacon?: Rel<Beacon>;
 }

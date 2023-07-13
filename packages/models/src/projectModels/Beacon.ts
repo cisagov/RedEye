@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import {
 	Property,
 	PrimaryKey,
@@ -78,10 +79,10 @@ export class Beacon {
 	 */
 	@Field(() => Host, { nullable: true })
 	@ManyToOne(() => Host, { nullable: true, onDelete: 'cascade' })
-	host?: Host;
+	host?: Rel<Host>;
 
 	@ManyToOne(() => Server, { nullable: true, onDelete: 'cascade' })
-	server?: Server;
+	server?: Rel<Server>;
 
 	@OneToMany(() => LogEntry, (logEntry) => logEntry.beacon, { cascade: [Cascade.REMOVE], orphanRemoval: true })
 	logs = new Collection<LogEntry>(this);

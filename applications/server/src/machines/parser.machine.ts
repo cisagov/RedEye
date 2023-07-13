@@ -1,6 +1,8 @@
 import { Campaign, ParsingStatus } from '@redeye/models';
-import { actions, ActorRefFrom, createMachine } from 'xstate';
-import { ConfigDefinition, DatabaseMode } from '../config';
+import type { ActorRefFrom } from 'xstate';
+import { actions, createMachine } from 'xstate';
+import type { ConfigDefinition } from '../config';
+import { DatabaseMode } from '../config';
 import { getDatabaseFolderPath, getFullCampaignDbPath, getRuntimeDir } from '../util';
 import { connectOrCreateDatabase } from './maindb.service';
 import { updateProjectMetadata } from './updateProjectMetadata.service';

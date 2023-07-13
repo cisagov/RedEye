@@ -1,6 +1,7 @@
 // exported as part of UtilityStyles
 
-import { css, SerializedStyles } from '@emotion/react';
+import type { SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 
 type Position = 'top' | 'right' | 'bottom' | 'left';
 type Position2 = Position | 'vertical' | 'horizontal';

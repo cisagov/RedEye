@@ -1,7 +1,8 @@
-import { HierarchyNode, stratify as d3Stratify } from 'd3';
+import type { HierarchyNode } from 'd3';
+import { stratify as d3Stratify } from 'd3';
 import { dedupeSortArray, setMapKeyIfUnset } from '../utils';
 import { BaseLink, HierarchicalGraphLinkDatum, HierarchicalGraphNodeDatum } from './GraphNodesAndLinks';
-import { GraphData, GraphNodeParent, SerializableHierarchicalGraphData } from './types';
+import type { GraphData, GraphNodeParent, SerializableHierarchicalGraphData } from './types';
 
 export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validateData = true) {
 	// duplicate graphData to avoid editing original

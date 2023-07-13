@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import {
 	Cascade,
 	Collection,
@@ -71,7 +72,7 @@ export class Server {
 
 	@Field(() => ServerMeta)
 	@OneToOne(() => ServerMeta, (meta) => meta.server, { cascade: [Cascade.REMOVE], orphanRemoval: true })
-	meta: ServerMeta = new ServerMeta(this);
+	meta: Rel<ServerMeta> = new ServerMeta(this);
 
 	@OnInit()
 	init() {
