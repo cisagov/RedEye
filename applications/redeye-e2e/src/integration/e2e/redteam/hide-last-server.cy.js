@@ -59,51 +59,36 @@ describe('Hide last server', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp2);
 
-		// Get name of first server
+		// Get server names and create an array
+		const servers = [];
+		cy.get('[cy-test=hostName]').each(($server) => servers.push($server.text()));
+		cy.wrap(servers).as('fullList').should('have.length', 6);
+
+		// Use Bulk Edit to hide all by one
+		cy.clickBulkEdit();
+		cy.get('[type=checkbox]').eq(0).check({ force: true });
+		cy.get('[type=checkbox]').eq(1).check({ force: true });
+		cy.get('[type=checkbox]').eq(2).check({ force: true });
+		cy.clickBulkEdit();
+		cy.bulkEditHide();
+
+		// Verify that those hidden no longer show
 		cy.get('[cy-test=hostName]')
-			.eq(0)
 			.invoke('text')
-			.as('server')
-			.then((serverName1) => {
-				// Hide the first server in the list
-				showHideConfirm();
-
-				// Confirm first server does not show in list
-				cy.get('[cy-test=hostName]').each(($servers) => {
-					expect($servers.text()).to.not.contain(serverName1);
-				});
+			.should(($in) => {
+				expect($in).to.not.contain(servers[0]).and.to.not.contain(servers[1]).and.to.not.contain(servers[2]);
 			});
-
-		// Get name of seccond server
-		cy.get('@server').then((serverName2) => {
-			// Hide the first server in the list
-			showHideConfirm();
-
-			// Confirm first host does not show in list
-			cy.get('[cy-test=hostName]').each(($servers) => {
-				expect($servers.text()).to.not.contain(serverName2);
-			});
-		});
-
-		// Get name of third server
-		cy.get('@server').then((serverName3) => {
-			// Hide the first server in the list
-			showHideConfirm();
-
-			// Confirm first host does not show in list
-			cy.get('[cy-test=hostName]').each(($servers) => {
-				expect($servers.text()).to.not.contain(serverName3);
-			});
-		});
 
 		// Get name of fourth/last server
-		cy.get('@server').then((serverName4) => {
-			// Try to hide the fourth/last server
-			tryToHideFinal();
+		cy.get('[cy-test=hostName]')
+			.invoke('text')
+			.then((serverName4) => {
+				// Try to hide the fourth/last server
+				tryToHideFinal();
 
-			// Verify last server still shows in UI
-			cy.get('[cy-test=hosts-view]').should('contain', serverName4);
-		});
+				// Verify last server still shows in UI
+				cy.get('[cy-test=hosts-view]').should('contain', serverName4);
+			});
 	});
 
 	after(() => {
