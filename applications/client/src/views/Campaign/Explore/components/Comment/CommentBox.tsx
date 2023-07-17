@@ -17,12 +17,12 @@ import type { AnnotationModel, CommandGroupModel, LinkModel, BeaconModel } from 
 import { beaconQuery, commandQuery, useStore, linkQuery } from '@redeye/client/store';
 import { MitreTechniques } from '@redeye/client/store/graphql/MitreTechniquesEnum';
 import { CampaignViews } from '@redeye/client/types';
-import { FlexSplitter, Spacer, Txt, CoreTokens, Flex, Header } from '@redeye/ui-styles';
+import { FlexSplitter, Spacer, Txt, CoreTokens, Flex, Header, AdvancedTokens } from '@redeye/ui-styles';
 import { observable, reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
-import { useEffect } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MenuItem2 } from '@blueprintjs/popover2';
 import { getManualCommandLinks } from './CheckForAddedLink';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
@@ -395,8 +395,29 @@ export const CommentBox = observer<CommentBoxProps>(
 			[]
 		);
 
-		const isRedTeam = !store.appMeta.blueTeam;
+		useQuery(
+			[
+				'comments',
+				store.campaign.id,
+				store.router.params.currentItem,
+				store.router.params.currentItemId,
+				annotation?.text,
+			],
+			async () =>
+				store.graphqlStore.querySearchAnnotations({
+					campaignId: store.campaign.id!,
+					searchQuery: annotation?.text ?? '',
+					hidden: store.settings.showHidden,
+				})
+		);
+
 		const isPresentationMode = store.router.params.view === CampaignViews.PRESENTATION;
+
+		const handleCommentClick = useCallback(() => {
+			if (!isPresentationMode) annotation?.searchSelect();
+		}, [annotation]);
+
+		const isRedTeam = !store.appMeta.blueTeam;
 		const showEditButtons = !isPresentationMode && isRedTeam;
 		const allowReply = isFullList && isRedTeam;
 		const allowEdit =
@@ -615,7 +636,15 @@ export const CommentBox = observer<CommentBoxProps>(
 						{state.manualLinkName.length > 0 && <Header>{state.manualLinkName}</Header>}
 
 						{state.text.length > 0 && (
-							<Txt running css={[displayTextStyle, isPresentationMode && displayTextPresentationStyle]}>
+							<Txt
+								running
+								css={[
+									displayTextStyle,
+									!isPresentationMode && commentInteractionStyles,
+									isPresentationMode && displayTextPresentationStyle,
+								]}
+								onClick={handleCommentClick}
+							>
 								{state.text}
 							</Txt>
 						)}
@@ -776,6 +805,12 @@ const displayOptionStyle = css`
 	margin: 0 -0.25rem;
 	margin-top: 0.75rem;
 	display: flex;
+`;
+const commentInteractionStyles = css`
+	cursor: pointer;
+	&:hover {
+		background: ${AdvancedTokens.MinimalButtonBackgroundColorHover};
+	}
 `;
 
 const filterTags: ItemPredicate<string> = (query, tag, _index, exactMatch) => {
