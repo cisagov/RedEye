@@ -177,7 +177,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 								</Txt>
 								<Spacer>•</Spacer>
 								<Txt cy-test="beacon-count" skeleton={campaign.isParsing}>
-									<Txt bold>{campaign.beaconCount}</Txt> Beacons
+									<Txt bold>{campaign.beaconCount - campaign.serverCount}</Txt> Beacons
 								</Txt>
 								<Spacer>•</Spacer>
 								<Txt cy-test="command-count" skeleton={campaign.isParsing}>
