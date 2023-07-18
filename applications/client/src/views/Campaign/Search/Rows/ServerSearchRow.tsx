@@ -24,8 +24,8 @@ export const ServerSearchRow = observer<ServerSearchRowProps>(({ result, searchT
 			path={['Server']}
 			startTime={server.minTime}
 			endTime={server.maxTime}
-			hostsCount={server.hosts.size}
-			beaconsCount={server.beacons.length}
+			hostsCount={server.hosts.size - 1}
+			beaconsCount={server.beacons.length - 1}
 			commentsCount={server.commentCount}
 			onClick={() => {
 				server.searchSelect();
