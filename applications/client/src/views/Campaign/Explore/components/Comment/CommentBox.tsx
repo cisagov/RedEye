@@ -405,6 +405,23 @@ export const CommentBox = observer<CommentBoxProps>(
 		const showGroupLink = isGrouped && !isFullList && !isPresentationMode && !isAddingCommandToComment && isRedTeam;
 		const isCurrentCommandInAnnotation = commandId && commandGroup?.commandIds?.includes(commandId);
 
+		const Tags = () => (
+			<Flex gap={4} align="center">
+				<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
+				{state.tags.length > 0 ? (
+					state.tags.map((tag) => (
+						<Txt muted small css={hashTagBeforeStyle} key={tag}>
+							{tag}
+						</Txt>
+					))
+				) : (
+					<Txt disabled small italic>
+						No Tags
+					</Txt>
+				)}
+			</Flex>
+		);
+
 		return (
 			<div {...props}>
 				<div css={headerWrapperStyle}>
@@ -474,7 +491,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								placeholder="..."
 								autoFocus
 							/>
-							{!isPresentationMode && (
+							{!isPresentationMode ? (
 								<MultiSelect2
 									cy-test="tag-input1"
 									css={formTagInputStyle}
@@ -548,6 +565,8 @@ export const CommentBox = observer<CommentBoxProps>(
 									tagRenderer={(item) => item}
 									// onKeyUp={state.addTagIfSpaceBar}
 								/>
+							) : (
+								<Tags />
 							)}
 							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this check necessary? 
 
@@ -622,20 +641,7 @@ export const CommentBox = observer<CommentBoxProps>(
 							</Txt>
 						)}
 
-						<Flex gap={4} align="center">
-							<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
-							{state.tags.length > 0 ? (
-								state.tags.map((tag) => (
-									<Txt muted small css={hashTagBeforeStyle} key={tag}>
-										{tag}
-									</Txt>
-								))
-							) : (
-								<Txt disabled small italic>
-									No Tags
-								</Txt>
-							)}
-						</Flex>
+						<Tags />
 						{state.manualLink?.destination?.current && (
 							<Flex gap={4} align="center">
 								<CarbonIcon icon={semanticIcons.link} css={{ color: CoreTokens.TextMuted }} />
