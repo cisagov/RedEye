@@ -164,7 +164,7 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 					<CarbonIcon icon={semanticIcons.host} css={{ verticalAlign: 'sub' }} />
 				)}{' '}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
-					{host.displayName}
+					{host.computedName}
 				</Txt>
 			</RowTitle>
 			<FlexSplitter />

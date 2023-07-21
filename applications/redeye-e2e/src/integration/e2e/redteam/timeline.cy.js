@@ -100,13 +100,12 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
 		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
-		// Click on the timeline bar and verify that the second tooltip appears showing beacon details
+		// Click "Show More" and verify that the additional information appears showing beacon details
 		cy.get('[cy-test=timeline-show-more-less]').click();
 		cy.get('[cy-test=timeline-tooltip-info]').should('be.visible');
 		cy.get('[cy-test=timeline-tooltip-date-time]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-count]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-name]').should('be.visible');
-		cy.get('[cy-test=timeline-beacon-operator]').should('be.visible');
 		cy.get('[cy-test=timeline-beacon-command-count]').should('be.visible');
 		cy.get('[cy-test=timeline-show-more-less]').should('be.visible');
 
@@ -137,29 +136,15 @@ describe('Timeline tests', () => {
 		cy.get('[cy-test=timeline-beacon-name]')
 			.eq(1)
 			.invoke('text')
-			.then((timelineBeaconName) => {
-				// cy.log(timelineBeaconName);
+			.then((timelineName) => {
+				const timelineBeaconName = timelineName.split(' / ')[1];
+				cy.log(timelineBeaconName);
 
-				cy.get('[cy-test=beaconName]')
+				cy.get('[cy-test=panel-header]')
 					.invoke('text')
 					.then((beaconName) => {
 						// cy.log(beaconName);
 						expect(beaconName).to.eq(timelineBeaconName);
-					});
-			});
-
-		// Verify timeline beacon operator matches beacon info
-		cy.get('[cy-test=timeline-beacon-operator]')
-			.eq(1)
-			.invoke('text')
-			.then((timelineBeaconOperator) => {
-				// cy.log(timelineBeaconOperator);
-
-				cy.get('[cy-test=userName]')
-					.invoke('text')
-					.then((userName) => {
-						// cy.log(userName);
-						expect(userName).to.eq(timelineBeaconOperator);
 					});
 			});
 

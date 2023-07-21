@@ -94,7 +94,7 @@ export const ServerMeta = observer((props) => {
 					<MetaLabel>Display Name</MetaLabel>
 					<InputGroup
 						disabled={!!store.appMeta.blueTeam}
-						placeholder={server?.displayName || ''}
+						placeholder={server?.name || ''}
 						value={state.displayName}
 						onChange={(e) => {
 							state.update('displayName', e.target.value);

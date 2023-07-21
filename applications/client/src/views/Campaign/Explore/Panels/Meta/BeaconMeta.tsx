@@ -79,7 +79,7 @@ export const BeaconMeta = observer((props) => {
 		toggleShowDayTimePicker(value: boolean) {
 			this.showDayTimePicker = value;
 		},
-		displayName: beacon?.displayName || '',
+		displayName: beacon?.displayName || '', // TODO: reset to default
 		displayNameNeedsSaving: false,
 		displayDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
 		displayDeathNeedsSaving: false,
@@ -165,7 +165,7 @@ export const BeaconMeta = observer((props) => {
 						cy-test="beacon-display-name"
 						fill
 						disabled={!!store.appMeta.blueTeam}
-						placeholder={beacon?.beaconName || ''}
+						placeholder={beacon?.computedName}
 						value={state.displayName}
 						onChange={(e) => {
 							state.update('displayName', e.target.value);
