@@ -93,7 +93,9 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedBeacon?.current?.computedName}</PanelHeader>
+			<PanelHeader nodeIconProps={{ type: 'beacon' }}>
+				{store.campaign?.interactionState.selectedBeacon?.current?.computedName}
+			</PanelHeader>
 		),
 		panels: {
 			[Tabs.COMMANDS]: (props) => <CommandsList showPath={false} {...props} />,
