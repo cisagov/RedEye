@@ -116,7 +116,7 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.HOSTS]: OverviewHostsList,
 			[Tabs.OPERATORS]: OverviewOperatorsList,
-			[Tabs.COMMENTS]: CommentsList,
+			[Tabs.COMMENTS_LIST]: CommentsList,
 			[Tabs.BEACONS]: OverviewBeaconsList,
 			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypesList,
 		},
@@ -175,7 +175,7 @@ export const InfoPanelTabs = {
 			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
 		},
 		panels: {
-			[Tabs.COMMENTS]: CommandsList,
+			[Tabs.COMMENTS]: Comments,
 		},
 	},
 };

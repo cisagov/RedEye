@@ -1,5 +1,5 @@
 import { CarbonIcon, VirtualizedList, semanticIcons } from '@redeye/client/components';
-import type { PresentationItemModel, SortDirection, SortTypeCommentsList } from '@redeye/client/store';
+import type { PresentationItemModel, SortTypeCommentsList } from '@redeye/client/store';
 import {
 	routes,
 	presentationCommandGroupModelPrimitives,
@@ -16,10 +16,7 @@ import { CampaignViews, Tabs } from '@redeye/client/types';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
 type CommentsListProps = ComponentProps<'div'> & {
-	sort: {
-		sortBy: string;
-		direction: SortDirection;
-	};
+	sort: SortTypeCommentsList;
 };
 
 // Fetch presentationData again when changing sort
@@ -38,7 +35,7 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 					campaignId: store.campaign.id!,
 					hidden: store.settings.showHidden,
 					forOverviewComments: true,
-					listSort: sort as SortTypeCommentsList,
+					listSort: sort,
 				},
 				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
 				undefined,
