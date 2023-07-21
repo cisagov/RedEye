@@ -1,4 +1,5 @@
-import { FC, HTMLAttributes, useMemo } from 'react';
+import type { FC, HTMLAttributes } from 'react';
+import { useMemo } from 'react';
 
 import { H1, H2, H3, H4, H5, H6 } from '@blueprintjs/core';
 

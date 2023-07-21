@@ -1,5 +1,5 @@
-import { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
-import {
+import type { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import type {
 	BaseLink,
 	HierarchicalGraphBaseLink,
 	HierarchicalGraphLinkDatum,

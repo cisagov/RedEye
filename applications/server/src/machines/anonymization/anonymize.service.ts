@@ -1,6 +1,6 @@
 import path from 'path';
 import { Worker } from 'worker_threads';
-import { AnonymizationMachineContext } from './anonymization.machine';
+import type { AnonymizationMachineContext } from './anonymization.machine';
 
 export const anonymizeService = (context: AnonymizationMachineContext) =>
 	new Promise<never>((resolve, reject) => {

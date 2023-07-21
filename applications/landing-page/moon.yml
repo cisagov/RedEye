@@ -1,0 +1,24 @@
+fileGroups:
+  astro:
+    - 'public/**/*'
+    - 'src/**/*'
+    - 'astro.config.*'
+tasks:
+  astro:
+    command: 'astro'
+    local: true
+    # Production build
+  build:
+    command: 'astro build'
+    inputs:
+      - '@group(astro)'
+    outputs:
+      - 'dist-landing'
+  start-astro:
+    local: true
+    deps:
+      - 'astro'
+    options:
+      runInCI: false
+      runDepsInParallel: false
+    command: 'astro dev'

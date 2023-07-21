@@ -39,8 +39,7 @@
 					"validProperties": ["r", "dominant-baseline"]
 				}
 			}
-		],
-		"types": ["react/next"]
+		]
 	},
 	"include": ["src"],
 	"references": [

@@ -3,11 +3,13 @@
 - –––––––––––––––––––––––––––––––––––
 
 - CLIENT
+
   - editing host/beacon/server name calls graphHandler.updateNodeName()
   - patterned bg for lifecycle rather than only grayscale?
   - 'timeless' / 'all time' mode to not show any time states
 
 - LAYOUT
+
   - layout bugs
     - GroupNodes on top of each other, provide more room
     - space out subNodes in a group node more, they are very tight at high zoom scale
@@ -18,10 +20,12 @@
   - method to always expand hosts
 
 - TIME STATE
+
   - preview nodes when they change in the time state
   - Maybe: preview all active? or just expand superNodes when there are active nodes?
 
 - LAYOUT: SERVER RENDERING
+
   - with no group or sub nodes
     - host acts as node when interacted with...
     - possibly as its own ServerGraphRenderer
@@ -29,12 +33,14 @@
   - rename isServer to isSingle or something agnostic
 
 - CUSTOMIZE VISUAL
+
   - need UX mockups for this
     - should visuals be attached to comments or to graph entities?
   - icons for text labels
   - colors for nodes? outlines possibly? additional bonus circle within to style
 
 - ALTERNATE LAYOUTS
+
   - time based simulation layout - for presentation mode
     - option to prioritize nodes based on presentation mode focus...
     - swarm plot
@@ -43,11 +49,13 @@
     - give it special rendering and layout - possibly outside all other layout?
 
 - UPDATE DATA
+
   - update with new dataset that has overlap with the old
     - test method to remove remove a host, beacon, whatever by ids
   - method to remove a host, beacon, whatever by id?
 
 - LINK INTERACTION
+
   - preview and selection
   - labels
   - subdue all others while preview or selecting

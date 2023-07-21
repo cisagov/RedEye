@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Property, PrimaryKey, Entity, ManyToOne } from '@mikro-orm/core';
 import { Field, ObjectType, Int, registerEnumType } from 'type-graphql';
 import { GlobalOperator } from './Operator';
@@ -32,7 +33,7 @@ type RequiredInsertArgs = Pick<Campaign, 'name'>;
 @Entity()
 export class Campaign {
 	constructor({ name, ...optionals }: RequiredInsertArgs & Partial<Campaign>) {
-		Object.assign(this, optionals);
+		Object.assign(this, optionals || {});
 		this.name = name;
 	}
 
@@ -83,9 +84,9 @@ export class Campaign {
 	// relationships
 	@Field(() => GlobalOperator, { nullable: true })
 	@ManyToOne(() => GlobalOperator, { nullable: true })
-	lastOpenedBy?: GlobalOperator;
+	lastOpenedBy?: Rel<GlobalOperator>;
 
 	@Field(() => GlobalOperator, { nullable: true })
 	@ManyToOne(() => GlobalOperator, { nullable: true })
-	creator?: GlobalOperator;
+	creator?: Rel<GlobalOperator>;
 }

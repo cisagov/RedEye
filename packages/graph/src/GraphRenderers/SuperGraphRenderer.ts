@@ -6,7 +6,8 @@ import {
 	forceY as d3ForceY,
 } from 'd3';
 import { GroupGraphRenderer } from './GroupGraphRenderer';
-import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import type { GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import { HierarchicalGraphRenderer } from './HierarchicalGraphRenderer';
 import {
 	circleArea,
 	circleRadius,
@@ -17,7 +18,7 @@ import {
 	polygonPointsSVG,
 	translateCenter,
 } from './layout-utils';
-import { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
+import type { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
 import { defNum } from '../utils';
 
 /** The super graph that contains all the group and sub graphs */

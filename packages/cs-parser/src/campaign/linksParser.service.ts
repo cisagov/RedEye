@@ -1,5 +1,6 @@
-import { HostMeta, LogEntry, BeaconLineType, Host, Beacon, BeaconMeta, Link } from '@redeye/models';
-import { ParsingOrchestratorMachineContext } from './parsingOrchestrator.machine';
+import type { Host } from '@redeye/models';
+import { HostMeta, LogEntry, BeaconLineType, Beacon, BeaconMeta, Link } from '@redeye/models';
+import type { ParsingOrchestratorMachineContext } from './parsingOrchestrator.machine';
 import { getBeaconFromPath } from '../shared/beaconRegex';
 import { isIpAddress } from '../shared/regex';
 

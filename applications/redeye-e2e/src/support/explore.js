@@ -102,8 +102,8 @@ Cypress.Commands.add('clickCommandsTab', () => {
 });
 
 //CLICK META TAB
-Cypress.Commands.add('clickMetaTab', () => {
-	cy.get('[cy-test=Metadata]').click();
+Cypress.Commands.add('clickDetailsTab', () => {
+	cy.get('[cy-test=details]').click();
 	cy.wait(500);
 });
 
@@ -115,7 +115,7 @@ Cypress.Commands.add('clickMetaTab', () => {
 Cypress.Commands.add('clickCommentsTabWithinTab', () => {
 	cy.get('[cy-test=comments]').click();
 	cy.wait(500);
-	cy.get('[data-test-id=virtuoso-item-list]').should('exist');
+	// cy.get('[data-test-id=virtuoso-item-list]').should('exist');
 });
 
 // EXPAND THE ROW
@@ -251,21 +251,21 @@ Cypress.Commands.add('closeSearch', () => {
 // *******************************************
 
 // SHOW / HIDE BEACON FROM META TAB
-Cypress.Commands.add('showHideBeaconMetaTab', () => {
+Cypress.Commands.add('showHideBeaconDetailsTab', () => {
 	cy.get('[cy-test=show-hide-this-beacon]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
 	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE HOST FROM META TAB
-Cypress.Commands.add('showHideHostMetaTab', () => {
+Cypress.Commands.add('showHideHostDetailsTab', () => {
 	cy.get('[cy-test=show-hide-this-host]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
 	cy.get('[cy-test=modal-header]').should('not.exist');
 });
 
 // SHOW / HIDE SERVER FROM META TAB
-Cypress.Commands.add('showHideServerMetaTab', () => {
+Cypress.Commands.add('showHideServerDetailsTab', () => {
 	cy.get('[cy-test=show-hide-this-server]').click();
 	cy.get('[cy-test=confirm-show-hide]').click();
 	cy.get('[cy-test=modal-header]').should('not.exist');

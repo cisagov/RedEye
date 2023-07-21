@@ -4,15 +4,15 @@ function hideUnhideBeacon(beaconName) {
 	// Hide a beacon
 	cy.get('[cy-test=beacons-row]').contains(beaconName).click();
 	cy.contains('[cy-test=panel-header]', beaconName);
-	cy.clickMetaTab();
-	cy.showHideBeaconMetaTab();
+	cy.clickDetailsTab();
+	cy.showHideBeaconDetailsTab();
 }
 
 describe('Hide a beacon', () => {
 	const camp = 'hideshowbeacon';
 	const fileName = 'gt.redeye';
 
-	it('Hide beacon via Meta tab using toggle in left nav panel', () => {
+	it('Hide beacon via Details tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
@@ -57,7 +57,7 @@ describe('Hide a beacon', () => {
 			});
 	});
 
-	it('Hide beacon via Meta tab using toggle on main page', () => {
+	it('Hide beacon via Details tab using toggle on main page', () => {
 		// Toggle off switch for hidden beacons
 		cy.doNotShowHiddenItems();
 
@@ -162,7 +162,7 @@ describe('Hide a beacon', () => {
 			});
 	});
 
-	it('Verify Cancel button works from Meta tab', () => {
+	it('Verify Cancel button works from Details tab', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
@@ -170,8 +170,8 @@ describe('Hide a beacon', () => {
 		cy.clickBeaconsTab();
 		cy.get('[cy-test=beacons-row]').eq(0).click();
 
-		// Go to Meta tab and click show/hide link
-		cy.clickMetaTab();
+		// Go to Details tab and click show/hide link
+		cy.clickDetailsTab();
 		cy.get('[cy-test=show-hide-this-beacon]').click();
 
 		// Verify modal shows; click Cancel
@@ -182,7 +182,7 @@ describe('Hide a beacon', () => {
 		// Verify modal disappears
 		cy.verifyDialogBoxDisappears();
 
-		// Verify the Meta tab link says "Hide this beacon" vs. "Show"
+		// Verify the Details tab link says "Hide this beacon" vs. "Show"
 		cy.get('[cy-test=show-hide-this-beacon]').invoke('text').should('eq', 'Hide this beacon');
 	});
 

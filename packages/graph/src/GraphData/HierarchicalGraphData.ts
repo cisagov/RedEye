@@ -1,11 +1,8 @@
 import { stratify as d3Stratify } from 'd3';
-import {
-	HierarchicalGraphLinkDatum,
-	HierarchicalGraphNodeDatum,
-	HierarchicalGraphBaseLink,
-} from './GraphNodesAndLinks';
+import type { HierarchicalGraphLinkDatum, HierarchicalGraphNodeDatum } from './GraphNodesAndLinks';
+import { HierarchicalGraphBaseLink } from './GraphNodesAndLinks';
 import { noOp } from '../utils';
-import {
+import type {
 	GraphData,
 	GraphDataEvent,
 	NodeOrLink,

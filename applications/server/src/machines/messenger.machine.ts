@@ -1,7 +1,9 @@
 import 'reflect-metadata';
 
-import { actions, ActorRefFrom, createMachine, spawn } from 'xstate';
-import { parsingMachine, SpawnedParsingMachine } from './parser.machine';
+import type { ActorRefFrom } from 'xstate';
+import { actions, createMachine, spawn } from 'xstate';
+import type { SpawnedParsingMachine } from './parser.machine';
+import { parsingMachine } from './parser.machine';
 
 import type { GraphQLContext } from '../types';
 import type { ConfigDefinition } from '../config';

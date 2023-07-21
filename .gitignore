@@ -41,3 +41,6 @@ tmp
 .moon/cache
 .moon/docker
 *.tsbuildinfo
+
+# generated types
+.astro/

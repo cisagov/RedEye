@@ -51,7 +51,7 @@ export const Comments = observer<CommentsProps>(({ sort, showPath }) => {
 		},
 	});
 
-	const { data: commandGroupIdData } = useQuery(
+	const { data: commandGroupIdData, refetch: refetchComments } = useQuery(
 		[
 			'commandGroups',
 			store.campaign?.id,
@@ -189,6 +189,7 @@ export const Comments = observer<CommentsProps>(({ sort, showPath }) => {
 						expandedCommandIDs={state.expandedCommandIDs}
 						removeExpandedCommandID={state.removeExpandedCommandID}
 						showPath={showPath}
+						refetchComments={refetchComments}
 					/>
 				))
 			)}

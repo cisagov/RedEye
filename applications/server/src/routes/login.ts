@@ -1,5 +1,5 @@
 import { COOKIE_KEY, createAuthToken, isAuthRest } from '../auth';
-import { Router } from 'express';
+import type { Router } from 'express';
 import type { EndpointContext } from '../types';
 
 /**

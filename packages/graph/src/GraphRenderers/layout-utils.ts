@@ -1,6 +1,6 @@
-import { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import type { Force, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
 import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
-import { HierarchicalGraphLink, HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
+import type { HierarchicalGraphLink, HierarchicalGraphNode, InteractionState, WithShortLine } from '../GraphData/types';
 import { defNum } from '../utils';
 
 export const clampXyToRadius = ([x1, y1]: [number, number], radius?: number) => {

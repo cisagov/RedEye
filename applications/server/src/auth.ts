@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import type { Request } from 'express';
 import type { ConfigDefinition } from './config';
 import { decrypt, encrypt, hash } from './crypto';
 

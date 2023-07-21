@@ -1,18 +1,18 @@
 /// <reference types="cypress" />
 
 function hideUnhideServer(serverName) {
-	// Hide/unhide server via the Meta tab
+	// Hide/unhide server via the Details tab
 	cy.get('[cy-test=info-row]').contains(serverName).click();
 	cy.contains('[cy-test=panel-header]', serverName);
-	cy.clickMetaTab();
-	cy.showHideServerMetaTab();
+	cy.clickDetailsTab();
+	cy.showHideServerDetailsTab();
 }
 
 describe('Hide a server', () => {
 	const camp = 'hideshowserver';
 	const fileName = 'smalldata.redeye';
 
-	it('Hide server via Meta tab using toggle in left nav panel', () => {
+	it('Hide server via Details tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
@@ -26,7 +26,7 @@ describe('Hide a server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName) => {
-				// Hide server via the Meta tab
+				// Hide server via the Details tab
 				hideUnhideServer(serverName);
 
 				// Verify server no longer shows
@@ -53,7 +53,7 @@ describe('Hide a server', () => {
 			});
 	});
 
-	it('Hide server via Meta tab using toggle on main page', () => {
+	it('Hide server via Details tab using toggle on main page', () => {
 		// Toggle off switch for hidden items on the main page
 		cy.doNotShowHiddenItems();
 
@@ -65,7 +65,7 @@ describe('Hide a server', () => {
 			.eq(0)
 			.invoke('text')
 			.then((serverName) => {
-				// Hide the server via the Meta tab
+				// Hide the server via the Details tab
 				hideUnhideServer(serverName);
 
 				// Verify server no longer shows
@@ -141,13 +141,13 @@ describe('Hide a server', () => {
 			});
 	});
 
-	it('Verify Cancel button works from Meta tab', () => {
+	it('Verify Cancel button works from Details tab', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Select the server, go to Meta tab, click show/hide link
+		// Select the server, go to Details tab, click show/hide link
 		cy.get('[cy-test=hostName]').eq(0).click();
-		cy.clickMetaTab();
+		cy.clickDetailsTab();
 		cy.get('[cy-test=show-hide-this-server]').click();
 
 		// Verify modal shows; click Cancel
@@ -158,7 +158,7 @@ describe('Hide a server', () => {
 		// Verify modal disappears
 		cy.verifyDialogBoxDisappears();
 
-		// Verify the Meta tab link says "Hide this server" vs. "Show"
+		// Verify the Details tab link says "Hide this server" vs. "Show"
 		cy.get('[cy-test=show-hide-this-server]').invoke('text').should('eq', 'Hide this server');
 	});
 

@@ -107,29 +107,37 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 							: undefined,
 					});
 
-				if (store.campaign?.interactionState.selectedCommandType)
+				if (store.campaign?.interactionState.selectedCommandType) {
 					crumbs.push({
 						text: 'Command',
 						current: true,
 					});
-				else if (store.campaign?.interactionState.selectedOperator)
+				} else if (store.campaign?.interactionState.selectedOperator) {
 					crumbs.push({
 						text: 'Operator',
 						current: true,
 					});
-				else if (store.campaign?.interactionState.selectedServer)
-					crumbs.push({
-						text: !store.campaign?.interactionState.selectedHost
-							? 'Server'
-							: store.campaign?.interactionState.selectedServer?.current?.computedName,
-						current: !store.campaign?.interactionState.selectedHost,
-						onClick: store.campaign?.interactionState.selectedHost
-							? (e) => {
-									onNavigate(e);
-									store.campaign?.interactionState.selectedServer?.current.searchSelect();
-							  }
-							: undefined,
-					});
+				} else if (store.campaign?.interactionState.selectedServer) {
+					if (!store.campaign?.interactionState.selectedHost) {
+						crumbs.push({
+							text: 'Server',
+							current: true,
+						});
+					} else if (store.campaign?.interactionState.selectedBeacon) {
+						crumbs.push({
+							text: store.campaign?.interactionState.selectedServer?.current?.computedName,
+							onClick: (e) => {
+								onNavigate(e);
+								store.campaign?.interactionState.selectedServer?.current.searchSelect();
+							},
+						});
+					} /* else { BLDSTRIKE-598
+						// const serverCount = store.campaign?.interactionState.selectedHost.current.servers.length
+						crumbs.push({
+							text: '...', // serverCount,
+						});
+					} */
+				}
 
 				if (store.campaign?.interactionState.selectedHost)
 					crumbs.push({
