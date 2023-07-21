@@ -133,7 +133,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 					name: [node.displayName, node.meta[0]?.maybeCurrent?.username].filter((d) => d).join(' ') || undefined,
 					parent: node.host?.id,
 					isServer: !!node.host?.maybeCurrent?.cobaltStrikeServer,
-					className: nodeColor[node.meta?.[0]?.maybeCurrent?.color || 'red'].className,
+					className: nodeColor[node.meta?.[0]?.maybeCurrent?.color || 'default'].className,
 					shape: node?.meta?.[0]?.maybeCurrent?.shape,
 					...(beacons[node.id] || {}),
 				})),
