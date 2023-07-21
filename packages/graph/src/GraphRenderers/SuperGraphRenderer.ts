@@ -6,7 +6,8 @@ import {
 	forceY as d3ForceY,
 } from 'd3';
 import { GroupGraphRenderer } from './GroupGraphRenderer';
-import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import type { GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import { HierarchicalGraphRenderer } from './HierarchicalGraphRenderer';
 import {
 	updateClassName,
 	assignId,
@@ -19,7 +20,7 @@ import {
 	isInteractionRelated,
 	translateCenter,
 } from './layout-utils';
-import { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
+import type { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
 import { defNum } from '../utils';
 import { polygonPointsSvg } from './polygon-utils';
 

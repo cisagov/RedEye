@@ -1,6 +1,6 @@
-import { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import type { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
 import { NodeShape } from '../GraphRenderers/polygon-utils';
-import {
+import type {
 	BaseLink,
 	HierarchicalGraphBaseLink,
 	HierarchicalGraphLinkDatum,

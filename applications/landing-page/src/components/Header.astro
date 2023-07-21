@@ -1,0 +1,29 @@
+---
+import Navigation from './Navigation.astro';
+import Menu from './Menu.astro';
+---
+
+<header>
+	<div class="nav-wrapper">
+		<nav>
+			<Menu />
+			<Navigation />
+		</nav>
+		<div class="download button">
+			<a href="https://github.com/cisagov/RedEye/releases">Download</a>
+		</div>
+	</div>
+</header>
+
+<style>
+	.nav-wrapper {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+	}
+
+	.download {
+		display: flex;
+		padding: 16px;
+	}
+</style>

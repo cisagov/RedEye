@@ -1,4 +1,5 @@
-import { Express, Router } from 'express';
+import type { Express } from 'express';
+import { Router } from 'express';
 import { appMetadata } from './appMetadata';
 import { uploadServer } from './uploadServer';
 import { uploadCampaign } from './uploadCampaign';

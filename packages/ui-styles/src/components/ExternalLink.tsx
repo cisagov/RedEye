@@ -1,5 +1,6 @@
-import { ComponentProps } from 'react';
-import { Txt, TxtProps } from './Text';
+import type { ComponentProps } from 'react';
+import type { TxtProps } from './Text';
+import { Txt } from './Text';
 
 export const externalLinkAttributes = {
 	target: '_blank',

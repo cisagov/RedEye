@@ -1,5 +1,7 @@
-import { BeaconLineType, LogEntry } from '@redeye/models';
-import { findParsingRules, isGreedyRule, isNeedyRule, LogFilterMethod, ParsingRuleTuple } from './commandOutputMapping';
+import type { LogEntry } from '@redeye/models';
+import { BeaconLineType } from '@redeye/models';
+import type { LogFilterMethod, ParsingRuleTuple } from './commandOutputMapping';
+import { findParsingRules, isGreedyRule, isNeedyRule } from './commandOutputMapping';
 
 export type InternalCommand = {
 	input: LogEntry;

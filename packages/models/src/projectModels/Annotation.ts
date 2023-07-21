@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Cascade, Collection, Entity, ManyToMany, ManyToOne, OnInit, PrimaryKey, Property } from '@mikro-orm/core';
 import { randomUUID } from 'crypto';
 import { Field, ObjectType } from 'type-graphql';
@@ -56,7 +57,7 @@ export class Annotation {
 	tags = new Collection<Tag>(this);
 
 	@ManyToOne(() => CommandGroup, { nullable: true, cascade: [Cascade.MERGE, Cascade.PERSIST], onDelete: 'cascade' })
-	commandGroup?: CommandGroup;
+	commandGroup?: Rel<CommandGroup>;
 
 	@Field(() => String, { nullable: true })
 	get commandGroupId() {

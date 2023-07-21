@@ -1,11 +1,12 @@
-import { MikroORM } from '@mikro-orm/core';
-import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import type { MikroORM } from '@mikro-orm/core';
+import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import { createInterface } from 'readline';
 import { createReadStream } from 'fs';
-import { Beacon, LogEntry, LogType } from '@redeye/models';
+import type { Beacon } from '@redeye/models';
+import { LogEntry, LogType } from '@redeye/models';
 import { getDateFromPath, findBeaconLineType, findTimeFromLogLine, combinePathAndLogDates } from '../shared/regex';
 import { hrtime } from 'process';
-import { LoggerInstance } from '../shared/logging';
+import type { LoggerInstance } from '../shared/logging';
 import { bulkInsertLogEntries } from './insertUtils';
 
 type PersistBeaconLogLinesArguments = {

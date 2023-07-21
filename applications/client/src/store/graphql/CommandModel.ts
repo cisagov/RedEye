@@ -78,7 +78,7 @@ export class CommandModel extends ExtendedModel(CommandModelBase, {}) {
 		const appStore = getRoot<AppStore>(this);
 		const time = appStore.settings.momentTz(this?.input?.current?.dateTime);
 		const operator = formatOperatorName(this?.operator?.current.name || 'unknown');
-		const server = this?.beacon?.current?.host?.current?.server?.displayName;
+		const server = this?.beacon?.current?.host?.current?.server?.displayName; // BLDSTRIKE-598: servers?
 		const host = this?.beacon?.current?.host?.current?.displayName;
 		const beaconName = this?.beacon?.current?.displayName;
 		const beaconUser = this?.beacon?.current?.meta?.[0]?.maybeCurrent?.username;

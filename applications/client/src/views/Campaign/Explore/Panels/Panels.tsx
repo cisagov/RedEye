@@ -9,6 +9,7 @@ import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
 import { OperatorsList } from './OperatorsList';
 import { OverviewBeaconsList, OverviewCommandTypesList, OverviewHostsList, OverviewOperatorsList } from './Overview';
 import { CommentsList } from './Comment/CommentsList';
+import { Comments } from './Comment/Comments';
 
 export enum CommentListTitle {
 	all = 'All Comments',
@@ -34,7 +35,7 @@ export const TabNames: (store: AppStore) => Record<Tabs, string> = (store: AppSt
 	[Tabs.OPERATORS]: 'Operators',
 	[Tabs.COMMENTS]: store.router.params.currentItem === 'comments_list' ? '' : 'Comments',
 	[Tabs.COMMENTS_LIST]: 'Comments',
-	[Tabs.METADATA]: 'Meta',
+	[Tabs.METADATA]: 'Details',
 });
 
 export enum CommentFilterOptions {
@@ -103,7 +104,7 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.COMMANDS]: (props) => <CommandsList showPath={false} {...props} />,
 			[Tabs.OPERATORS]: OperatorsList,
-			[Tabs.COMMENTS]: CommentsList,
+			[Tabs.COMMENTS]: Comments,
 			[Tabs.METADATA]: BeaconMeta,
 		},
 	},
@@ -142,7 +143,7 @@ export const InfoPanelTabs = {
 		panels: {
 			[Tabs.COMMANDS]: CommandsList,
 			[Tabs.OPERATORS]: OperatorsList,
-			[Tabs.COMMENTS]: CommentsList,
+			[Tabs.COMMENTS]: Comments,
 			[Tabs.BEACONS]: HostBeaconsList,
 			[Tabs.METADATA]: HostMeta,
 		},
@@ -158,23 +159,7 @@ export const InfoPanelTabs = {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedCommandType?.id}</PanelHeader>,
 		panels: {
 			[Tabs.COMMANDS]: CommandsList,
-			[Tabs.COMMENTS]: CommentsList,
-		},
-	},
-	[InfoType.COMMENTS_LIST]: {
-		title: (store: AppStore) => {
-			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
-			const title = store.router.params.currentItemId
-				? store.router.params.currentItemId.slice(0, 5) === 'user-'
-					? store.router.params.currentItemId.slice(5)
-					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
-					? `#${store.router.params.currentItemId.slice(4)}`
-					: CommentListTitle[store.router.params.currentItemId]
-				: campaign?.name;
-			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
-		},
-		panels: {
-			[Tabs.COMMENTS]: CommandsList,
+			[Tabs.COMMENTS]: Comments,
 		},
 	},
 	[InfoType.COMMENTS_LIST]: {

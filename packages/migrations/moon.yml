@@ -30,7 +30,7 @@ tasks:
       runInCI: false
       runFromWorkspaceRoot: true
   test:
-    commands: 'noop'
+    command: 'noop'
     platform: node
     deps:
       - ~:test-jest

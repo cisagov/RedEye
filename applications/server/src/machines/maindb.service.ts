@@ -3,7 +3,8 @@ import fs from 'fs-extra';
 import { getMigratedMainORM } from '@redeye/migrations';
 import { getDbPath } from '../util';
 import * as path from 'path';
-import { type ConfigDefinition, DatabaseMode } from '../config';
+import type { ConfigDefinition } from '../config';
+import { DatabaseMode } from '../config';
 
 export const connectOrCreateDatabase = async (config: ConfigDefinition) => {
 	const databaseMode = config.databaseMode;

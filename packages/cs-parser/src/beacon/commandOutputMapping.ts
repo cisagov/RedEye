@@ -1,5 +1,6 @@
 import { findCommandText } from './regex';
-import { BeaconLineType, LogEntry, LogType } from '@redeye/models';
+import type { LogEntry } from '@redeye/models';
+import { BeaconLineType, LogType } from '@redeye/models';
 
 import type { InternalCommand } from './identifyCommandGroupings';
 

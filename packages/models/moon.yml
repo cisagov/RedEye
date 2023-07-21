@@ -8,5 +8,6 @@ tasks:
   start-dev:
     deps:
       - ~:start-node
+    local: true
     options:
       runInCI: false

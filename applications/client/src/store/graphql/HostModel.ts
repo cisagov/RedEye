@@ -19,6 +19,7 @@ export { selectFromHost, hostModelPrimitives, HostModelSelector } from './HostMo
  */
 @model('Host')
 export class HostModel extends ExtendedModel(HostModelBase, {
+	// BLDSTRIKE-598: should be this.serverIds plural
 	serverId: prop<string | undefined>().withSetter(),
 }) {
 	protected onAttachedToRootStore(rootStore: any): (() => void) | void {
@@ -39,6 +40,7 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 	@observable.ref maxTime: Moment | undefined;
 
 	@computed get server(): ServerModel | undefined {
+		// BLDSTRIKE-598: should be this.servers plural
 		const appStore = getRoot<AppStore>(this);
 		return this.serverId ? appStore?.graphqlStore?.servers.get(this.serverId) : undefined;
 	}

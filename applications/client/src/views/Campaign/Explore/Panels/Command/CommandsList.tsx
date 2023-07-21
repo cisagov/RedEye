@@ -36,6 +36,7 @@ export const CommandsList = observer<CommandsProps>(({ sort, showPath = true }) 
 			const commandIndex = commandIds.findIndex((id) => commandId === id);
 			this.scrollTargetIndex = commandIndex;
 			if (commandIndex > -1) {
+				// @ts-ignore
 				listRef?.current?.scrollToIndex({ index: commandIndex, align: 'start', behavior });
 				setTimeout(() => (this.scrollTargetIndex = -1), UtilityStyles.SCROLL_TARGET_DURATION + 500);
 			}

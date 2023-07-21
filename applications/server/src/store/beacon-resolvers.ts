@@ -2,7 +2,8 @@ import { Arg, Authorized, Ctx, Query, Resolver, Mutation } from 'type-graphql';
 import { Beacon, BeaconType, Shapes } from '@redeye/models';
 import { ensureTreeHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
-import { RelationPath, type Relation } from './utils/relation-path';
+import type { Relation } from './utils/relation-path';
+import { RelationPath } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
 
 @Resolver(Beacon)

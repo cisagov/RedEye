@@ -1,7 +1,7 @@
 import * as saveSvgAsPng from 'save-svg-as-png';
 import { HierarchicalGraphData } from './GraphData/HierarchicalGraphData';
 import { clampXyToRadius, classNames } from './GraphRenderers/layout-utils';
-import {
+import type {
 	GraphData,
 	RootSVG,
 	GraphZoomTransform,
@@ -9,18 +9,16 @@ import {
 	HierarchicalGraphNode,
 	SerializableHierarchicalGraphData,
 } from './GraphData/types';
+import type { D3DragEvent, DragBehavior, ZoomBehavior } from 'd3';
 import {
 	zoom as d3Zoom,
 	drag as d3Drag,
 	zoomTransform as d3ZoomTransform,
 	zoomIdentity as d3ZoomIdentity,
 	select as d3Select,
-	D3DragEvent,
-	DragBehavior,
-	ZoomBehavior,
 } from 'd3';
 import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
-import { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
+import type { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
 import { NodeShape } from './GraphRenderers/polygon-utils';

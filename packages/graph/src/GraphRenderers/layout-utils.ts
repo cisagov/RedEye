@@ -1,6 +1,6 @@
-import { BaseType, Force, SimulationLinkDatum, SimulationNodeDatum, ValueFn, ZoomTransform } from 'd3';
+import type { BaseType, Force, SimulationLinkDatum, SimulationNodeDatum, ValueFn, ZoomTransform } from 'd3';
 import { HierarchicalGraphNodeDatum } from '../GraphData/GraphNodesAndLinks';
-import {
+import type {
 	HierarchicalGraphLink,
 	HierarchicalGraphNode,
 	InteractionState,

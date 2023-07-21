@@ -1,7 +1,8 @@
 import { forceLink as d3ForceLink, forceManyBody as d3ForceManyBody, forceX as d3ForceX, forceY as d3ForceY } from 'd3';
-import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
+import type { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
-import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import type { GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import { HierarchicalGraphRenderer } from './HierarchicalGraphRenderer';
 import {
 	classNames,
 	positionParentLinkNodes,

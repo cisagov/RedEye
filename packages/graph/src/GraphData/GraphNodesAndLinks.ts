@@ -1,6 +1,12 @@
-import { SimulationNodeDatum } from 'd3';
+import type { SimulationNodeDatum } from 'd3';
 import { NodeShape } from '../GraphRenderers/polygon-utils';
-import { HierarchicalGraphLink, HierarchicalGraphNode, GraphLink, CurrentTimeState, CurrentTimeType } from './types';
+import type {
+	HierarchicalGraphLink,
+	HierarchicalGraphNode,
+	GraphLink,
+	CurrentTimeState,
+	CurrentTimeType,
+} from './types';
 
 export interface HierarchicalGraphNodeDatumProps {
 	id: string;
