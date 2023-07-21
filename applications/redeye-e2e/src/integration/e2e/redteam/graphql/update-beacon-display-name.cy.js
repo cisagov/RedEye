@@ -43,7 +43,7 @@ describe('Update beacon display name using GraphQL', () => {
 				const beaconIdName = response.beaconName;
 				expect(beaconIdName).to.include('1166658656');
 
-				const beaconData = response.displayName;
+				const beaconData = response.displayName; // use response.computedName?
 				expect(beaconData).to.include(newDisplayName);
 			});
 		});

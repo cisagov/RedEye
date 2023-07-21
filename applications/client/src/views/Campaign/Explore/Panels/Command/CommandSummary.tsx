@@ -8,12 +8,12 @@ import { Spacer, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
-type CommandSummaryProps = ComponentProps<'div'> & {
+export type CommandSummaryProps = ComponentProps<'div'> & {
 	store: AppStore;
 	commandId?: string | undefined;
 	skeletonClass?: string;
 	collapsed?: boolean;
-	showPath?: boolean;
+	showPath?: 'server' | 'host' | 'beacon' | boolean;
 	command?: CommandModel;
 };
 
@@ -52,7 +52,15 @@ export const CommandSummary = observer<CommandSummaryProps>(
 					{isCollapsed && showPath && (
 						<>
 							<Spacer>{' • '}</Spacer>
-							<Txt>{command?.info.beacon}</Txt>
+							<Txt>
+								{[
+									showPath === 'server' && command?.info.server,
+									(showPath === 'server' || showPath === 'host') && command?.info.host,
+									command?.info.beacon,
+								]
+									.filter((_) => _)
+									.join(' / ')}
+							</Txt>
 						</>
 					)}
 				</Txt>
@@ -72,7 +80,6 @@ const rowTextStyle = css`
 	flex: 1 1 auto;
 	overflow: hidden;
 	margin-right: 2rem !important;
-	/* line-height: 1.1; */
 	display: flex;
 	flex-direction: column;
 `;

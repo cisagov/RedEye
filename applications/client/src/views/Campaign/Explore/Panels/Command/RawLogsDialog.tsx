@@ -100,12 +100,9 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 						`}
 					>
 						<PanelHeader cy-test="log-title" nodeIconProps={{ type: 'beacon' }}>
-							<Txt normal muted>
-								{state.beacon?.displayName}
-							</Txt>
-							<Txt>{state.beacon?.meta?.[0]?.maybeCurrent?.username}</Txt>
+							<Txt>{state.beacon?.computedNameWithHost}</Txt>{' '}
 							<Txt disabled normal>
-								· Raw Logs
+								Raw Logs
 							</Txt>
 						</PanelHeader>
 						<ButtonGroup>

@@ -321,7 +321,7 @@ Cypress.Commands.add('showHiddenItems', () => {
 	// cy.wait('@servers');
 	cy.get('[cy-test=close-log]').click();
 	cy.get('[cy-test=modal-header]').should('not.exist');
-	cy.wait(1000);
+	cy.wait(1200);
 });
 
 // Do not show hidden Beacons, Hosts, and Servers

@@ -1,10 +1,9 @@
 import type { AppStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { PanelHeader } from '@redeye/client/views';
-import { Txt } from '@redeye/ui-styles';
 import { BeaconsList, HostBeaconsList } from './Beacon';
-import { CommandsList } from './Command';
 import { HostsAndServersList } from './Host';
+import { CommandsList } from './Command';
 import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
 import { OperatorsList } from './OperatorsList';
 import { OverviewBeaconsList, OverviewCommandTypesList, OverviewHostsList, OverviewOperatorsList } from './Overview';
@@ -94,17 +93,12 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'beacon' }}>
-				<Txt normal muted>
-					{store.campaign?.interactionState.selectedBeacon?.current?.displayName}
-				</Txt>
-				<Txt>{store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.maybeCurrent?.username}</Txt>
-			</PanelHeader>
+			<PanelHeader>{store.campaign?.interactionState.selectedBeacon?.current?.computedName}</PanelHeader>
 		),
 		panels: {
 			[Tabs.COMMANDS]: (props) => <CommandsList showPath={false} {...props} />,
 			[Tabs.OPERATORS]: OperatorsList,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: (props) => <Comments showPath={false} {...props} />,
 			[Tabs.METADATA]: BeaconMeta,
 		},
 	},
@@ -124,7 +118,7 @@ export const InfoPanelTabs = {
 	[InfoType.SERVER]: {
 		title: (store: AppStore) => (
 			<PanelHeader nodeIconProps={{ type: 'server' }}>
-				{store.campaign?.interactionState.selectedServer?.current?.displayName}
+				{store.campaign?.interactionState.selectedServer?.current?.computedName}
 			</PanelHeader>
 		),
 		panels: {
@@ -137,13 +131,13 @@ export const InfoPanelTabs = {
 	[InfoType.HOST]: {
 		title: (store: AppStore) => (
 			<PanelHeader nodeIconProps={{ type: 'host' }}>
-				{store.campaign?.interactionState.selectedHost?.current?.displayName}
+				{store.campaign?.interactionState.selectedHost?.current?.computedName}
 			</PanelHeader>
 		),
 		panels: {
-			[Tabs.COMMANDS]: CommandsList,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath="beacon" {...props} />,
 			[Tabs.OPERATORS]: OperatorsList,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: (props) => <Comments showPath="beacon" {...props} />,
 			[Tabs.BEACONS]: HostBeaconsList,
 			[Tabs.METADATA]: HostMeta,
 		},
@@ -151,31 +145,35 @@ export const InfoPanelTabs = {
 	[InfoType.OPERATOR]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedOperator?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: CommandsList,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath="host" {...props} />,
 			[Tabs.BEACONS]: BeaconsList,
 		},
 	},
 	[InfoType.COMMAND]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedCommandType?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: CommandsList,
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath="host" {...props} />,
+			[Tabs.COMMENTS]: (props) => <Comments showPath="host" {...props} />,
 		},
 	},
 	[InfoType.COMMENTS_LIST]: {
 		title: (store: AppStore) => {
-			const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
-			const title = store.router.params.currentItemId
-				? store.router.params.currentItemId.slice(0, 5) === 'user-'
-					? store.router.params.currentItemId.slice(5)
-					: store.router.params.currentItemId.slice(0, 4) === 'tag-'
-					? `#${store.router.params.currentItemId.slice(4)}`
-					: CommentListTitle[store.router.params.currentItemId]
-				: campaign?.name;
+			const title = commentsListTitle(store);
 			return <PanelHeader css={title === CommentListTitle.procedural && { fontStyle: 'italic' }}>{title}</PanelHeader>;
 		},
 		panels: {
-			[Tabs.COMMENTS]: Comments,
+			[Tabs.COMMENTS]: (props) => <Comments showPath="host" {...props} />,
 		},
 	},
+};
+
+const commentsListTitle = (store: AppStore) => {
+	const campaign = store.graphqlStore.campaigns.get((store.router.params?.id || '0') as string);
+	return store.router.params.currentItemId
+		? store.router.params.currentItemId.slice(0, 5) === 'user-'
+			? store.router.params.currentItemId.slice(5)
+			: store.router.params.currentItemId.slice(0, 4) === 'tag-'
+			? `#${store.router.params.currentItemId.slice(4)}`
+			: CommentListTitle[store.router.params.currentItemId]
+		: campaign?.name;
 };

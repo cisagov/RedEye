@@ -12,7 +12,9 @@ export const HostSearchRow = observer<HostSearchRowProps>(({ result, searchTerm,
 	const store = useStore();
 
 	const text = highlightPattern(
-		host.displayName !== host.hostName ? `${host.displayName} (${host.hostName})` : host.displayName,
+		!host.displayName || host.displayName === host.computedName
+			? host.computedName
+			: `${host.displayName} (${host.computedName})`,
 		searchTerm
 	);
 

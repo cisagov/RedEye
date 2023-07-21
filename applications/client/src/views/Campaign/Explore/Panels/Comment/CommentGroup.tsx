@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import type { AnnotationModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
+import type { CommandSummaryProps } from '@redeye/client/views';
 import { CommandRow, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
 import { CoreTokens, ThemeClasses, Flex } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
@@ -12,7 +13,7 @@ export type CommentGroupProps = ComponentProps<'div'> & {
 	toggleNewComment: (id?: string) => void;
 	newComment: string | undefined;
 	measure?: any;
-	showPath?: boolean;
+	showPath?: CommandSummaryProps['showPath'];
 	hideCommands?: boolean;
 	expandedCommandIDs?: string[];
 	removeExpandedCommandID?: (commandId: string) => void;
@@ -34,6 +35,10 @@ export const CommentGroup = observer<CommentGroupProps>(
 		const commandGroup = store.graphqlStore.commandGroups.get(commandGroupId);
 		const firstCommandId = commandGroup?.commandIds?.[0];
 		const firstCommand = firstCommandId && store.graphqlStore.commands.get(firstCommandId);
+
+		// `showPath === 'server'` in this case means show the header path for presentation mode
+		// TODO: what in case of Multi-Beacon Comment?
+		const showNavPath = !!(showPath === 'server' && firstCommand);
 
 		return (
 			<div
@@ -69,8 +74,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 					)}
 				</Flex>
 				<Flex column>
-					{showPath && firstCommand && (
-						// TODO: what in case of Multi-Beacon Comment?
+					{showNavPath && (
 						<NavBreadcrumbs
 							command={firstCommand}
 							hideRoot
@@ -85,12 +89,10 @@ export const CommentGroup = observer<CommentGroupProps>(
 							<CommandRow
 								commandGroupId={commandGroupId}
 								commandId={commandId}
-								css={css`
-									border-bottom: none !important;
-								`}
+								css={{ borderBottom: 'none !important' }}
 								key={`${commandGroup?.id}${commandId}`}
 								hideCommentButton
-								showPath={!showPath} // configurable
+								showPath={!showNavPath && showPath}
 								expandedCommandIDs={expandedCommandIDs}
 								removeExpandedCommandID={removeExpandedCommandID}
 							/>

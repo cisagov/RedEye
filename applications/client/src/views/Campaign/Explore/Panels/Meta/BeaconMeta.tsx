@@ -189,7 +189,7 @@ export const BeaconMeta = observer((props) => {
 						cy-test="beacon-display-name"
 						fill
 						disabled={!!store.appMeta.blueTeam}
-						placeholder={beacon?.beaconName || ''}
+						placeholder={beacon?.computedName}
 						value={state.metaDraft.data.displayName}
 						onChange={(e) => {
 							state.metaDraft.data.setDisplayName(e.target.value);

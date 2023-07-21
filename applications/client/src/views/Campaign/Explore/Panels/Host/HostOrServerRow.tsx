@@ -161,7 +161,7 @@ export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props 
 				<NodeIcon type={host.cobaltStrikeServer ? 'server' : 'host'} color="default" />
 				{host.cobaltStrikeServer && <Txt muted>Server:</Txt>}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
-					{host.displayName}
+					{host.computedName}
 				</Txt>
 			</RowTitle>
 			<FlexSplitter />

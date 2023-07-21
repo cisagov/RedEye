@@ -43,7 +43,9 @@ describe('Search campaign and open one of the results', () => {
 			});
 	});
 
-	it('Click search result to view details', () => {
+	it.only('Click search result to view details', () => {
+		cy.uploadCampaign(camp, fileName);
+
 		// Open campaign and go to Search page
 		cy.selectCampaign(camp);
 
@@ -91,7 +93,7 @@ describe('Search campaign and open one of the results', () => {
 											.invoke('text')
 											.should('contain', lineOneText1)
 											.and('contain', lineOneText2);
-										cy.get('[cy-test=beacon-username]').invoke('text').should('contain', lineOneText3);
+										cy.get('[cy-test=panel-header]').invoke('text').should('contain', lineOneText3);
 										cy.get('[cy-test=info-row]').last().invoke('text').should('contain', searchTerm1);
 										cy.get('[cy-test=log-details]').last().invoke('text').should('contain', commandDetails);
 									});

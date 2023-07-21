@@ -11,6 +11,7 @@ import {
 	commandGroupCommentsQuery,
 } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types';
+import type { CommandSummaryProps } from '@redeye/client/views';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observable } from 'mobx';
@@ -24,11 +25,12 @@ type CommentsProps = ComponentProps<'div'> & {
 		sortBy: string;
 		direction: SortDirection;
 	};
+	showPath: CommandSummaryProps['showPath'];
 };
 
 const pageSize = 10;
 
-export const Comments = observer<CommentsProps>(({ sort }) => {
+export const Comments = observer<CommentsProps>(({ sort, showPath }) => {
 	const store = useStore();
 	const listRef = useRef<VirtuosoHandle | null>(null);
 	const state = createState({
@@ -186,6 +188,7 @@ export const Comments = observer<CommentsProps>(({ sort }) => {
 						newComment={state.newComment}
 						expandedCommandIDs={state.expandedCommandIDs}
 						removeExpandedCommandID={state.removeExpandedCommandID}
+						showPath={showPath}
 						refetchComments={refetchComments}
 					/>
 				))
