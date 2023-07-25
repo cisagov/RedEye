@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import type { Request } from 'express';
 import type { ConfigDefinition } from './config';
 import { decrypt, encrypt, hash } from './crypto';
 
@@ -22,7 +22,7 @@ export const isAuth = (config: ConfigDefinition, cookies: ApplicationCookie | un
 		const decryptedObject = decrypt<AuthObject>(config, cookies.REDEYE);
 		const { password } = config;
 
-		const authStatus = decryptedObject?.hashKey === hash(password);
+		const authStatus = decryptedObject?.hashKey === hash(password!);
 		return authStatus;
 	}
 	return false;

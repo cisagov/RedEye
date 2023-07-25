@@ -12,10 +12,10 @@ import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entiti
 
 export const HostMeta = observer((props) => {
 	const store = useStore();
-	const host = store.campaign.interactionState.selectedHost;
+	const host = store.campaign.interactionState.selectedHost?.current;
 
 	const state = createState({
-		displayName: store.campaign.interactionState.selectedHost?.current.displayName || '',
+		displayName: host?.displayName || '',
 		displayNameNeedsSaving: false,
 	});
 
@@ -23,7 +23,7 @@ export const HostMeta = observer((props) => {
 		async () => await store.graphqlStore.mutateToggleHostHidden({ campaignId: store.campaign?.id!, hostId: host?.id! })
 	);
 
-	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('hosts', !!host?.current?.hidden || false, [
+	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('hosts', !!host?.hidden || false, [
 		host?.id || '',
 	]);
 
@@ -56,7 +56,7 @@ export const HostMeta = observer((props) => {
 					<MetaLabel>Display Name</MetaLabel>
 					<InputGroup
 						disabled={!!store.appMeta.blueTeam}
-						placeholder={store.campaign.interactionState.selectedHost?.current.hostName || ''}
+						placeholder={host?.hostName}
 						value={state.displayName}
 						onChange={(e) => {
 							state.update('displayName', e.target.value);
@@ -70,12 +70,12 @@ export const HostMeta = observer((props) => {
 						}
 					/>
 					<MetaLabel>Type</MetaLabel>
-					<Txt>{host?.maybeCurrent?.$modelType}</Txt>
+					<Txt>{host?.$modelType}</Txt>
 					<MetaLabel>OS</MetaLabel>
-					<Txt>{host?.current?.meta.map((meta) => meta.maybeCurrent?.os).join(', ')}</Txt>
+					<Txt>{host?.meta.map((meta) => meta.maybeCurrent?.os).join(', ')}</Txt>
 					<MetaLabel>IPs</MetaLabel>
 					<div>
-						{host?.maybeCurrent?.meta.map((metaItem) => (
+						{host?.meta.map((metaItem) => (
 							<Txt block key={metaItem.id}>
 								{metaItem.maybeCurrent?.ip}
 							</Txt>
@@ -87,14 +87,14 @@ export const HostMeta = observer((props) => {
 				cy-test="show-hide-this-host"
 				disabled={!!store.appMeta.blueTeam}
 				onClick={() => (isDialogDisabled ? mutateToggleHidden.mutate() : toggleHidden.update('showHide', true))}
-				isHiddenToggled={!!host?.current?.hidden}
+				isHiddenToggled={!!host?.hidden}
 				typeName="host"
 			/>
 			<ToggleHiddenDialog
 				typeName="host"
 				isOpen={toggleHidden.showHide}
 				infoType={InfoType.HOST}
-				isHiddenToggled={!!host?.current?.hidden}
+				isHiddenToggled={!!host?.hidden}
 				onClose={() => toggleHidden.update('showHide', false)}
 				onHide={() => mutateToggleHidden.mutate()}
 				cantHideEntities={cantHideEntities}

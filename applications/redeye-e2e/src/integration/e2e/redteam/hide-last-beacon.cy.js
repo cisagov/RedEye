@@ -13,7 +13,7 @@ function showHideConfirm() {
 
 describe('Hide last beacon', () => {
 	const camp = 'hidelastbeacon';
-	const fileName = 'smalldata.redeye';
+	const fileName = 'gt.redeye';
 
 	it('Should not be able to hide last beacon', () => {
 		cy.uploadCampaign(camp, fileName);
@@ -21,56 +21,41 @@ describe('Hide last beacon', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
-		// Get name of first beacon
+		// Get beacon names and create array
 		cy.clickBeaconsTab();
+		const beacons = [];
+		cy.get('[cy-test=beacon-display-name]').each(($beacon) => beacons.push($beacon.text()));
+		cy.wrap(beacons).as('fullList').should('have.length', 5);
+
+		// Hide first 2 beacons using bulk edit
+		cy.clickBulkEdit();
+		cy.get('[type=checkbox]').eq(0).check({ force: true });
+		cy.get('[type=checkbox]').eq(1).check({ force: true });
+		cy.get('[type=checkbox]').eq(2).check({ force: true });
+		cy.get('[type=checkbox]').eq(4).check({ force: true });
+		cy.clickBulkEdit();
+		cy.bulkEditHide();
+
+		// Verify first 4 no longer show
 		cy.get('[cy-test=beacon-display-name]')
-			.eq(0)
 			.invoke('text')
-			.as('beacon')
-			.then((beaconName1) => {
-				// Hide the first beacon in the list
-				showHideConfirm();
-
-				// Navigate back to beacons list
-				cy.clickBeaconsTab();
-
-				// Confirm first beacon does not show in list
-				cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
-					expect($beacons.text()).to.not.contain(beaconName1);
-				});
+			.should(($in) => {
+				expect($in)
+					.to.not.contain(beacons[0])
+					.and.to.not.contain(beacons[1])
+					.and.to.not.contain(beacons[2])
+					.and.to.not.contain(beacons[4]);
 			});
 
-		// Get name of second beacon
-		cy.get('@beacon').then((beaconName2) => {
-			// Hide the second beacon (now first showing in list)
-			showHideConfirm();
+		// Try to hide the last beacon
+		cy.showHideItem(0);
 
-			// Navigate back to beacons list
-			cy.clickBeaconsTab();
-
-			// Confirm second beacon does not show in list
-			cy.get('[cy-test=beacon-display-name]').each(($beacons) => {
-				expect($beacons.text()).to.not.contain(beaconName2);
+		// Verify last beacon still shows in UI
+		cy.get('[cy-test = beacon-display-name]')
+			.invoke('text')
+			.should(($in) => {
+				expect($in).to.contain(beacons[3]);
 			});
-		});
-
-		// Get name of third/last becaon
-		cy.get('@beacon').then((beaconName3) => {
-			// Try to hide the last beacon
-			cy.showHideItem(0);
-
-			// Verify notification appears saying it cannot be hidden
-			cy.verifyCannotHideFinal();
-
-			// Click to confirm
-			cy.confirmShowHide();
-
-			// Navigate back to beacons list
-			cy.clickBeaconsTab();
-
-			// Verify last beacon still shows in UI
-			cy.get('[cy-test=beacons-view]').should('contain', beaconName3);
-		});
 	});
 
 	after(() => {

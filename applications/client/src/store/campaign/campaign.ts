@@ -100,7 +100,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 		const edges: Array<LinkModel> = Array.from(this.appStore?.graphqlStore.links?.values() || []);
 		const parents = Array.from(this.appStore?.graphqlStore.hosts.values() || [], (host) => ({
 			id: host.id,
-			name: host.displayName ?? host.hostName ?? undefined,
+			name: host.computedName,
 		}));
 		if (nodes.length) {
 			const beacons = {};
@@ -128,7 +128,7 @@ export class CampaignStore extends ExtendedModel(() => ({
 			return {
 				nodes: nodes.map((node) => ({
 					id: node.id,
-					name: [node.displayName, node.meta[0]?.maybeCurrent?.username].filter((d) => d).join(' ') || undefined,
+					name: node.computedName,
 					parent: node.host?.id,
 					isServer: !!node.host?.maybeCurrent?.cobaltStrikeServer,
 					...(beacons[node.id] || {}),

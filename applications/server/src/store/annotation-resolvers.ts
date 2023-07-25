@@ -1,9 +1,10 @@
-import { FilterQuery } from '@mikro-orm/core';
+import type { FilterQuery } from '@mikro-orm/core';
 import { Arg, Authorized, Mutation, Query, Resolver, Ctx } from 'type-graphql';
 import { Annotation, Campaign, Command, CommandGroup, Tag } from '@redeye/models';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import type { EntityManager, GraphQLContext } from '../types';
-import { Relation, RelationPath } from './utils/relation-path';
+import type { Relation } from './utils/relation-path';
+import { RelationPath } from './utils/relation-path';
 import { beaconHidden } from './utils/hidden-entities-helper';
 
 @Resolver(Annotation)

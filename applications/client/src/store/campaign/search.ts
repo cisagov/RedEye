@@ -217,11 +217,11 @@ export class SearchStore extends ExtendedModel(() => ({
 		if (item instanceof OperatorModel) {
 			return [item.name];
 		} else if (item instanceof ServerModel) {
-			return [`${item.displayName} ${item.name}`];
+			return [item.computedName, item.name];
 		} else if (item instanceof HostModel) {
-			return [`${item.displayName} ${item.hostName}`];
+			return [item.computedName, item.hostName];
 		} else if (item instanceof BeaconModel) {
-			return [`${item.displayName} ${item.beaconName}`, item.meta?.[0]?.maybeCurrent?.username];
+			return [item.computedName, item.computedBeaconName];
 		} else if (item instanceof TagModel) {
 			return [item.text];
 		} else if (item instanceof AnnotationModel) {

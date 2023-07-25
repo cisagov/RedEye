@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import {
 	Cascade,
 	Collection,
@@ -81,7 +82,7 @@ export class Command {
 
 	@Field(() => LogEntry)
 	@OneToOne({ entity: () => LogEntry, cascade: [Cascade.REMOVE], onDelete: 'cascade' })
-	input: LogEntry;
+	input: Rel<LogEntry>;
 
 	@Field(() => String)
 	@Property()
@@ -89,7 +90,7 @@ export class Command {
 
 	@Field(() => Beacon)
 	@ManyToOne(() => Beacon, { onDelete: 'cascade', cascade: [Cascade.REMOVE] })
-	beacon: Beacon;
+	beacon: Rel<Beacon>;
 
 	@Field(() => [LogEntry])
 	@OneToMany(() => LogEntry, (log) => log.command, { cascade: [Cascade.REMOVE] })
@@ -103,7 +104,7 @@ export class Command {
 
 	@Field(() => Operator, { nullable: true })
 	@ManyToOne(() => Operator, { nullable: true, onDelete: 'cascade' })
-	operator?: Operator;
+	operator?: Rel<Operator>;
 
 	@OneToMany(() => Link, (link) => link.command)
 	links = new Collection<Link>(this);

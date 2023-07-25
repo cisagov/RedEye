@@ -1,10 +1,10 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"module": "esnext",
 		"target": "esnext",
 		"lib": ["esnext"],
 		"moduleResolution": "node",
+		"module": "CommonJS",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,

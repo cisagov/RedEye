@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { select as d3Select, forceSimulation as d3ForceSimulation } from 'd3';
-import { GraphHandler } from '../GraphHandler';
+import type { GraphHandler } from '../GraphHandler';
 import { classNames } from './layout-utils';
-import {
+import type {
 	HierarchyLinkSelection,
 	HierarchyNodeSelection,
 	HierarchicalGraphLink,

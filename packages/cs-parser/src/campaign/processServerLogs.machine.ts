@@ -1,11 +1,14 @@
-import { actions, createMachine, ActorRefFrom } from 'xstate';
+import type { ActorRefFrom } from 'xstate';
+import { actions, createMachine } from 'xstate';
 
-import { FolderLogNamesReturn, parseFolderLogNames } from './identifyLogs.service';
+import type { FolderLogNamesReturn } from './identifyLogs.service';
+import { parseFolderLogNames } from './identifyLogs.service';
 
 import { hrtime } from 'process';
 
 //services
-import { persistBeaconLogLines, PersistBeaconLogLinesReturn } from './persistBeaconLogLines.service';
+import type { PersistBeaconLogLinesReturn } from './persistBeaconLogLines.service';
+import { persistBeaconLogLines } from './persistBeaconLogLines.service';
 import { persistGenericLogs } from './persistGenericLogs.service';
 import { persistKeystrokes } from './persistKeystrokes.service';
 import { persistImages } from './persistImages.service';
@@ -15,7 +18,8 @@ import type { Beacon } from '@redeye/models';
 import type { ProcessLogsDoneEvent } from './parsingOrchestrator.machine';
 import type { MikroORM } from '@mikro-orm/core';
 import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import { logEntryState, logFinalState, LoggerInstance, logTransition } from '../shared/logging';
+import type { LoggerInstance } from '../shared/logging';
+import { logEntryState, logFinalState, logTransition } from '../shared/logging';
 
 export type ProcessServerLogsMachineContext = {
 	orm: MikroORM<BetterSqliteDriver>;

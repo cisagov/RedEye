@@ -12,7 +12,9 @@ export const BeaconSearchRow = observer<BeaconSearchRowProps>(({ result, searchT
 	const store = useStore();
 
 	const text = highlightPattern(
-		beacon.displayName !== beacon.beaconName ? `${beacon.displayName} (${beacon.beaconName})` : beacon.displayName,
+		!beacon.displayName || beacon.displayName === beacon.computedName
+			? beacon.computedName
+			: `${beacon.displayName} (${beacon.computedName})`,
 		searchTerm
 	);
 

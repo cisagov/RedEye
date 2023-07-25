@@ -78,11 +78,11 @@ export class CommandModel extends ExtendedModel(CommandModelBase, {}) {
 		const appStore = getRoot<AppStore>(this);
 		const time = appStore.settings.momentTz(this?.input?.current?.dateTime);
 		const operator = formatOperatorName(this?.operator?.current.name || 'unknown');
-		const server = this?.beacon?.current?.host?.current?.server?.displayName; // BLDSTRIKE-598: servers?
-		const host = this?.beacon?.current?.host?.current?.displayName;
-		const beaconName = this?.beacon?.current?.displayName;
-		const beaconUser = this?.beacon?.current?.meta?.[0]?.maybeCurrent?.username;
-		const beacon = [beaconName, beaconUser].join(' ');
+		const server = this?.beacon?.current?.host?.current?.server?.computedName; // BLDSTRIKE-598: servers?
+		const host = this?.beacon?.current?.host?.current?.computedName;
+		const beacon = this?.beacon?.current?.computedName;
+		// const beaconUser = this?.beacon?.current?.meta?.[0]?.maybeCurrent?.username;
+		// const beacon = [beaconName, beaconUser].join(' ');
 		const contextArray = [time, operator, server, '/', host, '/', beacon];
 		const contextTooltipText = contextArray.join(' ');
 
@@ -100,7 +100,7 @@ export class CommandModel extends ExtendedModel(CommandModelBase, {}) {
 			commandTooltip,
 			server,
 			host,
-			beaconName,
+			// beaconName,
 		};
 	}
 }
