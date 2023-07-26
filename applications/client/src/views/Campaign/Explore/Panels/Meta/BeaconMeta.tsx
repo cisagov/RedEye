@@ -2,7 +2,14 @@ import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
 import { DateInput2 } from '@blueprintjs/datetime2';
 import { CarbonIcon, dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
-import type { AppStore, CommandGroupModel, CommandModel } from '@redeye/client/store';
+import type {
+	AppStore,
+	CommandGroupModel,
+	CommandModel,
+	Shapes,
+	RootStoreBase,
+	BeaconModel,
+} from '@redeye/client/store';
 import { BeaconType } from '@redeye/client/store/graphql/BeaconTypeEnum';
 import { SortDirection, SortOption, useStore } from '@redeye/client/store';
 import { InfoType } from '@redeye/client/types';
@@ -15,10 +22,22 @@ import { useEffect } from 'react';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { Select2 } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
+import { draft, model, Model, prop } from 'mobx-keystone';
+import type { NodeColor } from '@redeye/client/views';
+import { nodeColor } from '@redeye/client/views';
 import { BeaconLinkRow } from './BeaconLinkRow';
 import { ToggleHiddenDialog } from './HideDialog';
-import { MetaGridLayout, MetaLabel, MetaSection, SaveInputButton, ToggleHiddenButton } from './MetaComponents';
+import {
+	MetaGridLayout,
+	MetaLabel,
+	MetaSection,
+	SaveInputButton,
+	ToggleHiddenButton,
+} from './components/general-components';
 import { useToggleHidden } from '../hooks/use-toggle-hidden';
+import { NodeColorSelect } from './components/NodeColorSelect';
+import { NodePreviewBox } from './components/NodePreview';
+import { NodeShapeSelect } from './components/NodeShapeSelect';
 import { useCheckNonHidableEntities } from '../hooks/use-check-nonHidable-entities';
 
 const useGetLastBeaconCommand = (
@@ -57,6 +76,20 @@ const getMinMaxDate = (minDate: Date | null | undefined, maxDate: Date | null | 
 	return { minDate: min?.startOf('day').toDate(), maxDate: max?.add(1, 'day').startOf('day').toDate() };
 };
 
+@model('DraftBeaconMeta')
+class DraftBeaconMeta extends Model({
+	displayName: prop<string>().withSetter(),
+	timeOfDeath: prop<string | null>().withSetter(),
+	color: prop<NodeColor>().withSetter(),
+	shape: prop<Shapes>().withSetter(),
+	beaconType: prop<BeaconType>().withSetter(),
+}) {}
+
+type MutateParams = {
+	key: keyof Parameters<RootStoreBase['mutateUpdateBeaconMetadata']>[0];
+	path: keyof ConstructorParameters<typeof DraftBeaconMeta>[0];
+};
+
 export const BeaconMeta = observer((props) => {
 	const store = useStore();
 	const beacon = store.campaign.interactionState.selectedBeacon?.current;
@@ -79,15 +112,15 @@ export const BeaconMeta = observer((props) => {
 		toggleShowDayTimePicker(value: boolean) {
 			this.showDayTimePicker = value;
 		},
-		displayName: beacon?.displayName || '', // TODO: reset to default
-		displayNameNeedsSaving: false,
-		displayDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
-		displayDeathNeedsSaving: false,
-		selectedItem: (beacon?.meta?.[0]?.maybeCurrent?.type || beaconTypeSelectItems[1].key) as BeaconType,
-		handleItemSelect(item) {
-			this.selectedItem = item.key;
-			beaconTypeMutate();
-		},
+		metaDraft: draft(
+			new DraftBeaconMeta({
+				displayName: beacon?.displayName || '',
+				timeOfDeath: beacon?.meta?.[0]?.maybeCurrent?.endTime ?? '',
+				color: (beacon?.meta?.[0]?.maybeCurrent?.color ?? 'default') as NodeColor,
+				shape: beacon?.meta?.[0]?.maybeCurrent?.shape ?? ('circle' as Shapes),
+				beaconType: (beacon?.meta?.[0]?.maybeCurrent?.type || beaconTypeSelectItems[1].label) as BeaconType,
+			})
+		),
 	});
 
 	const { cantHideEntities, isDialogDisabled } = useCheckNonHidableEntities('beacons', beacon?.hidden || false, [
@@ -95,56 +128,47 @@ export const BeaconMeta = observer((props) => {
 	]);
 
 	useEffect(() => {
-		state.update('displayDeath', beacon?.meta?.[0]?.maybeCurrent?.endTime);
+		state.metaDraft.data.setTimeOfDeath(beacon?.meta?.[0]?.maybeCurrent?.endTime);
 	}, [beacon?.meta?.[0]?.maybeCurrent?.endTime, store.campaign.timeline.maxRange]);
 
-	// Use this indirection so network call not being made each time
-	// a letter is typed into the InputGroup
-	const { mutate: displayNameMutate } = useMutation(
-		async () => {
-			state.update('displayNameNeedsSaving', false);
+	const { mutate: mutateByKey } = useMutation<{ updateBeaconMetadata: BeaconModel }, unknown, MutateParams>(
+		async (variables) => {
+			const { key, path } = variables;
 			return await store.graphqlStore.mutateUpdateBeaconMetadata({
-				beaconDisplayName: state.displayName,
+				[key]: state.metaDraft.data[path],
 				campaignId: store.campaign.id as string,
 				beaconId: beacon?.id as string,
 			});
 		},
 		{
-			onSuccess: (data) => {
-				store.campaign.graph?.updateNodeName(
-					data.updateBeaconMetadata.id,
-					data.updateBeaconMetadata.displayName || state.displayName
-				);
+			onSuccess: (data, args) => {
+				state.metaDraft.commitByPath([args.path]);
+				if (args.key === 'beaconDisplayName') {
+					store.campaign.graph?.updateNodeName(
+						data.updateBeaconMetadata.id,
+						data.updateBeaconMetadata.displayName || state.metaDraft.originalData.displayName
+					);
+				} else if (args.key === 'color' || args.key === 'shape') {
+					store.campaign.graph?.updateNodeVisual({
+						nodeId: beacon!.id,
+						className: nodeColor[state.metaDraft.originalData.color].className,
+						shape: state.metaDraft.originalData.shape,
+					});
+				}
+			},
+			onError: (_, args) => {
+				state.metaDraft.resetByPath([args.path]);
 			},
 		}
 	);
-
-	const { mutate: timeOfDeathMutate } = useMutation(async () => {
-		state.update('displayDeathNeedsSaving', false);
-		return await store.graphqlStore.mutateUpdateBeaconMetadata({
-			beaconTimeOfDeath: state.displayDeath,
-			campaignId: store.campaign.id as string,
-			beaconId: beacon?.id as string,
-		});
-	});
 
 	const dateInputOnChange = (datetime) => {
 		const min = store.campaign.timeline.maxRange?.[0];
 		const max = store.campaign.timeline.maxRange?.[1];
 		const clampedDatetime =
 			min && max && datetime ? momentClamp({ value: datetime, min, max }).toISOString() : datetime;
-		state.update('displayDeath', clampedDatetime);
-		state.update('displayDeathNeedsSaving', true);
+		state.metaDraft.data.setTimeOfDeath(clampedDatetime);
 	};
-
-	const { mutate: beaconTypeMutate } = useMutation(
-		async () =>
-			await store.graphqlStore.mutateUpdateBeaconMetadata({
-				beaconType: state.selectedItem,
-				campaignId: store.campaign.id as string,
-				beaconId: beacon?.id as string,
-			})
-	);
 
 	const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handleClick, modifiers }) => {
 		if (!modifiers.matchesPredicate) {
@@ -166,18 +190,17 @@ export const BeaconMeta = observer((props) => {
 						fill
 						disabled={!!store.appMeta.blueTeam}
 						placeholder={beacon?.computedName}
-						value={state.displayName}
+						value={state.metaDraft.data.displayName}
 						onChange={(e) => {
-							state.update('displayName', e.target.value);
-							state.update('displayNameNeedsSaving', true);
+							state.metaDraft.data.setDisplayName(e.target.value);
 						}}
 						// Add a button to save. can also have fxn that checks every n seconds and
 						// saves if no change or rely on tabbing away, clicking away, or hitting enter
 						rightElement={
 							<SaveInputButton
 								cy-test="save-beacon-name"
-								disabled={!state.displayNameNeedsSaving}
-								onClick={() => displayNameMutate()}
+								disabled={!state.metaDraft.isDirtyByPath(['displayName'])}
+								onClick={() => mutateByKey({ key: 'beaconDisplayName', path: 'displayName' })}
 							/>
 						}
 					/>
@@ -190,7 +213,7 @@ export const BeaconMeta = observer((props) => {
 						<DateInput2
 							key={store.settings.timezone}
 							disabled={!!store.appMeta.blueTeam}
-							value={store.settings.momentTz(state.displayDeath).toISOString()}
+							value={store.settings.momentTz(state.metaDraft.data.timeOfDeath).toISOString()}
 							disableTimezoneSelect
 							defaultTimezone={store.settings.timezone}
 							timePrecision="minute"
@@ -204,8 +227,8 @@ export const BeaconMeta = observer((props) => {
 							rightElement={
 								<SaveInputButton
 									cy-test="save-beacon-time-of-death"
-									disabled={!state.displayDeathNeedsSaving}
-									onClick={() => timeOfDeathMutate()}
+									disabled={!state.metaDraft.isDirtyByPath(['timeOfDeath'])}
+									onClick={() => mutateByKey({ key: 'beaconTimeOfDeath', path: 'timeOfDeath' })}
 								/>
 							}
 							popoverProps={{
@@ -227,20 +250,43 @@ export const BeaconMeta = observer((props) => {
 						disabled={!!store.appMeta.blueTeam}
 						items={beaconTypeSelectItems}
 						itemRenderer={renderSort}
-						activeItem={beaconTypeSelectItems.find((item) => item.key === state.selectedItem)}
-						onItemSelect={state.handleItemSelect}
+						activeItem={beaconTypeSelectItems.find((item) => item.label === state.metaDraft.data.beaconType)}
+						onItemSelect={(itemType) => {
+							state.metaDraft.data.setBeaconType(itemType.label);
+							mutateByKey({ key: 'beaconType', path: 'beaconType' });
+						}}
 						filterable={false}
 						fill
 					>
 						<Button
 							cy-test="type-dropdown"
 							disabled={!!store.appMeta.blueTeam}
-							text={state.selectedItem}
+							text={state.metaDraft.data.beaconType}
 							alignText="left"
 							rightIcon={<CarbonIcon icon={CaretDown16} />}
 							fill
 						/>
 					</Select2>
+					<MetaLabel>Graph Appearance</MetaLabel>
+					<Flex gap={1}>
+						<NodePreviewBox color={state.metaDraft.data.color} shape={state.metaDraft.data.shape} />
+						<NodeColorSelect
+							value={state.metaDraft.data.color}
+							onItemSelect={(color) => {
+								state.metaDraft.data.setColor(color.name);
+								mutateByKey({ key: 'color', path: 'color' });
+							}}
+							css={{ flex: '1 1 auto' }}
+						/>
+						<NodeShapeSelect
+							activeItem={state.metaDraft.data.shape}
+							onItemSelect={(shape) => {
+								state.metaDraft.data.setShape(shape as Shapes);
+								mutateByKey({ key: 'shape', path: 'shape' });
+							}}
+							css={{ flex: '1 1 auto' }}
+						/>
+					</Flex>
 				</MetaGridLayout>
 			</MetaSection>
 

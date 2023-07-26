@@ -55,15 +55,17 @@ export const timelineQuery = timelineModelPrimitives
 
 export const serverQuery = serverModelPrimitives
 	.beacons((beacon) => beacon.serverId)
-	.meta((meta) => meta.type)
+	.meta((meta) => meta.type.shape.color)
 	.toString();
 
 export const beaconQuery = beaconModelPrimitives
 	.host((host) => host.displayName.cobaltStrikeServer.hostName)
-	.meta((meta) => meta.username.type.ip.pid.startTime.endTime)
+	.meta((meta) => meta.username.type.ip.pid.shape.color.startTime.endTime.source((log) => log.blob.logType))
 	.toString();
 
-export const hostQuery = hostModelPrimitives.cobaltStrikeServer.beaconIds.meta((meta) => meta.os.ip).toString();
+export const hostQuery = hostModelPrimitives.cobaltStrikeServer.beaconIds
+	.meta((meta) => meta.os.ip.shape.color)
+	.toString();
 
 export const campaignsQuery = campaignModelPrimitives
 	.lastOpenedBy((user) => user)

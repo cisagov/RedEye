@@ -10,7 +10,7 @@ describe('Testing of graph', () => {
 		cy.selectCampaign(camp);
 
 		if (Cypress.isBrowser({ family: 'chromium' })) {
-			cy.get('[data-id=COMPUTER02]').click({ force: true });
+			cy.get('[id=COMPUTER02]').click({ force: true });
 
 			cy.wait(1000);
 
@@ -22,7 +22,7 @@ describe('Testing of graph', () => {
 		}
 
 		if (Cypress.isBrowser('firefox')) {
-			cy.get('[data-id=COMPUTER02]').click({ force: true });
+			cy.get('[id=COMPUTER02]').click({ force: true });
 
 			cy.wait(1000);
 

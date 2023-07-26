@@ -7,6 +7,7 @@ import type {
 	GraphZoomTransform,
 	HierarchyNodeSelection,
 	HierarchicalGraphNode,
+	SerializableHierarchicalGraphData,
 } from './GraphData/types';
 import type { D3DragEvent, DragBehavior, ZoomBehavior } from 'd3';
 import {
@@ -20,6 +21,7 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import type { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
+import { NodeShape } from './GraphRenderers/polygon-utils';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -40,6 +42,7 @@ export class GraphHandler {
 		onDataChange = noOp,
 		graphData,
 		element,
+		previouslyParsedGraphData,
 	}: {
 		onSelectionChange?: HierarchicalGraphData['onSelectionChange'];
 		onPreviewChange?: HierarchicalGraphData['onPreviewChange'];
@@ -47,6 +50,7 @@ export class GraphHandler {
 		onDataChange?: HierarchicalGraphData['onDataChange'];
 		graphData: GraphData;
 		element: SVGSVGElement;
+		previouslyParsedGraphData?: SerializableHierarchicalGraphData;
 	}) {
 		this.onSelectionChange = onSelectionChange;
 		this.onPreviewChange = onPreviewChange;
@@ -58,6 +62,7 @@ export class GraphHandler {
 			onPreviewChange: this._onPreviewChange,
 			onTimeChange: this._onTimeChange,
 			onDataChange: this._onDataChange,
+			previouslyParsedGraphData,
 		});
 
 		this.svg = d3Select(element)
@@ -313,11 +318,40 @@ export class GraphHandler {
 	// mouseOverLink(event: PointerEvent, node: HierarchyReturnNode) {}
 	// mouseOutLink(event: PointerEvent, node: HierarchyReturnNode) {}
 
-	updateNodeName(node: HierarchicalGraphNode | string, newName: string) {
-		const _node = typeof node === 'string' ? this.graphData.allNodes.get(node) : node;
-		if (!_node) return;
-		_node.data.name = newName;
+	updateNodeName(nodeId: string, newName: string) {
+		const node = this.graphData.allNodes.get(nodeId);
+		if (!node) return;
+		node.data.name = newName;
 		this.graphRoot.callChildrenRecursively('drawUpdateLabel');
+	}
+
+	updateNodeVisual({
+		nodeId,
+		className,
+		shape,
+	}: {
+		nodeId: string;
+		/** pass empty string to remove className */
+		className?: string;
+		shape?: NodeShape;
+	}) {
+		const node = this.graphData.allNodes.get(nodeId);
+		if (!node) return;
+		if (className != null) {
+			node.data.removeClassName = node.data.className;
+			node.data.className = className;
+		}
+		if (shape) node.data.shape = shape;
+
+		this.graphRoot.callChildrenRecursively('drawUpdateNodeVisual');
+
+		/* 
+		// This function *could* be made more performant by selecting only the exact node for update
+		const nodeSelection = this.graphRoot.rootSelection.select('#' + nodeId)
+		// and sending it through a static method of a specific GraphRenderer class 
+		SomeGraphRenderer.updateNodeVisual(nodeSelection)
+		// this technique would also work in this.updateNodeName
+		*/
 	}
 
 	useGraphForces() {

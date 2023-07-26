@@ -1,10 +1,10 @@
 import { VirtualizedList } from '@redeye/client/components';
 import { BeaconRow, defaultInfoRowHeight, MessageRow } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
-import type { BeaconsProps } from '../hooks/use-beacons';
+import type { BeaconsListRow } from '../hooks/use-beacons';
 import { useBeacons } from '../hooks/use-beacons';
 
-export const HostBeacons = observer<BeaconsProps>(({ ...props }) => {
+export const HostBeaconsList = observer<BeaconsListRow>(({ ...props }) => {
 	const { beacons } = useBeacons(props);
 
 	return (

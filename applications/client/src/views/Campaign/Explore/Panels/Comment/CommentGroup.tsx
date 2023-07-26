@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import type { AnnotationModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
-import type { CommandProps } from '@redeye/client/views';
-import { CommandContainer, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
+import type { CommandSummaryProps } from '@redeye/client/views';
+import { CommandRow, CommentBox, NavBreadcrumbs } from '@redeye/client/views';
 import { CoreTokens, ThemeClasses, Flex } from '@redeye/ui-styles';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
@@ -13,7 +13,7 @@ export type CommentGroupProps = ComponentProps<'div'> & {
 	toggleNewComment: (id?: string) => void;
 	newComment: string | undefined;
 	measure?: any;
-	showPath?: CommandProps['showPath'];
+	showPath?: CommandSummaryProps['showPath'];
 	hideCommands?: boolean;
 	expandedCommandIDs?: string[];
 	removeExpandedCommandID?: (commandId: string) => void;
@@ -86,7 +86,7 @@ export const CommentGroup = observer<CommentGroupProps>(
 					)}
 					{!hideCommands &&
 						commandGroup?.commandIds?.map((commandId) => (
-							<CommandContainer
+							<CommandRow
 								commandGroupId={commandGroupId}
 								commandId={commandId}
 								css={{ borderBottom: 'none !important' }}

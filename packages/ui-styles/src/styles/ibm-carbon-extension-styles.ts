@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { TokensAll } from 'blueprint-styler/base/tokens';
 import { AdvancedTokens } from './tokens';
 
+export const largePopoverClassName = 'largePopoverClassName';
 export const extensionStyles = css`
 	/* add these back to blueprint styler */
 
@@ -37,5 +38,16 @@ export const extensionStyles = css`
 			&--selected-range {
 			}
 		}
+	}
+
+	.bp4-select-popover {
+		.bp4-popover-content,
+		.bp4-popover2-content {
+			padding: 0;
+		}
+	}
+
+	.${largePopoverClassName} .${Classes.MENU} {
+		max-height: 600px;
 	}
 `;

@@ -7,12 +7,12 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { defaultInfoRowHeight, IconLabel, InfoRow, MessageRow, RowTime, RowTitle } from '../components';
 
-type OperatorsProps = ComponentProps<'div'> & {
+type OperatorsListProps = ComponentProps<'div'> & {
 	type: InfoType;
 	sort: SortType;
 };
 
-export const Operators = observer<OperatorsProps>(({ ...props }) => {
+export const OperatorsList = observer<OperatorsListProps>(({ ...props }) => {
 	const store = useStore();
 	const operators =
 		store.campaign?.interactionState[`selected${props.type}`]?.current?.operators

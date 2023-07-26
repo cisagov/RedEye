@@ -1,7 +1,7 @@
 import { createSorter, isDefined, VirtualizedList } from '@redeye/client/components';
 import type { HostModel, SortType } from '@redeye/client/store';
 import { SortDirection, useStore } from '@redeye/client/store';
-import { defaultInfoRowHeight, HostRow, MessageRow } from '@redeye/client/views';
+import { defaultInfoRowHeight, HostOrServerRow, MessageRow } from '@redeye/client/views';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -9,7 +9,7 @@ type OverviewProps = ComponentProps<'div'> & {
 	sort: SortType;
 };
 
-export const OverviewHosts = observer<OverviewProps>(({ sort }) => {
+export const OverviewHostsList = observer<OverviewProps>(({ sort }) => {
 	const store = useStore();
 	const hosts = Array.from(store.graphqlStore?.hosts.values() || [])
 		?.filter<HostModel>(isDefined)
@@ -26,7 +26,7 @@ export const OverviewHosts = observer<OverviewProps>(({ sort }) => {
 			{hosts.length === 0 ? (
 				<MessageRow>No Hosts</MessageRow>
 			) : (
-				hosts.map((host) => <HostRow key={host.id} host={host} />)
+				hosts.map((host) => <HostOrServerRow key={host.id} host={host} />)
 			)}
 		</VirtualizedList>
 	);

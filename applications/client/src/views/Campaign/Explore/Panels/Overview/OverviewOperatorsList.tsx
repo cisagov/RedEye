@@ -10,7 +10,7 @@ type OverviewProps = ComponentProps<'div'> & {
 	sort: SortType;
 };
 
-export const OverviewOperators = observer<OverviewProps>(({ sort }) => {
+export const OverviewOperatorsList = observer<OverviewProps>(({ sort }) => {
 	const store = useStore();
 	const operators = Array.from(store.graphqlStore.operators.values() || [])
 		.filter<OperatorModel>(isDefined)

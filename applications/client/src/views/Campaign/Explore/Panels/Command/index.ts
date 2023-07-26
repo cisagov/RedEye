@@ -3,9 +3,9 @@
  */
 
 export * from '../../components/Comment/BeaconSuggestedRow';
-export * from './Command';
-export * from './CommandContainer';
+export * from './CommandSummary';
+export * from './CommandRow';
 export * from './CommandOutput';
-export * from './Commands';
+export * from './CommandsList';
 export * from './RawLogsDialog';
 export * from './ScreenshotCommand';

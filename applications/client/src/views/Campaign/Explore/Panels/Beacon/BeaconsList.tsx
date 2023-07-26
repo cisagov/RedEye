@@ -3,10 +3,10 @@ import type { BeaconModel } from '@redeye/client/store';
 import { BeaconRow, defaultInfoRowHeight, MessageRow } from '@redeye/client/views';
 import type { Ref } from 'mobx-keystone';
 import { observer } from 'mobx-react-lite';
-import type { BeaconsProps } from '../hooks/use-beacons';
+import type { BeaconsListRow } from '../hooks/use-beacons';
 import { useBeacons } from '../hooks/use-beacons';
 
-export const Beacons = observer<BeaconsProps>(({ ...props }) => {
+export const BeaconsList = observer<BeaconsListRow>(({ ...props }) => {
 	const { beacons } = useBeacons(props);
 
 	return (
