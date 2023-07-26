@@ -20,7 +20,6 @@
 		"moduleResolution": "nodenext",
 		"esModuleInterop": true,
 		"composite": true,
-		"emitDeclarationOnly": true,
 		"skipLibCheck": true,
 		"paths": {
 			"@redeye/models": ["../../packages/models/src/index.ts"],

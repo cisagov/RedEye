@@ -4,12 +4,15 @@
 # -----------------------------------------------
 
 type Annotation {
+  beaconIdFromFirstCommand: String
+  commandCount: Float!
   commandGroupId: String
   commandIds: [String]
   date: DateTime!
   favorite: Boolean!
   generation: GenerationType!
   id: String!
+  tagCount: Float!
   tags: [Tag!]
   text: String!
   user: String!
@@ -32,6 +35,7 @@ type Beacon {
   """
   beaconName: String!
   commandsCount: Float!
+  commentsCount: Float!
   displayName: String
   hidden: Boolean
   host: Host
@@ -56,6 +60,9 @@ enum BeaconLineType {
 
 """Data derived from the Beacon metadata line"""
 type BeaconMeta {
+  """The color of the node"""
+  color: String
+
   """The time that the last command was run"""
   endTime: DateTime
   id: String!
@@ -71,6 +78,9 @@ type BeaconMeta {
 
   """Process Identifier the beacon is running on"""
   process: String
+
+  """The shape of the beacon"""
+  shape: Shapes
 
   """The log line from which the BeaconMeta was extracted"""
   source: LogEntry
@@ -120,6 +130,7 @@ type Command {
   beacon: Beacon!
   commandFailed: Boolean!
   commandGroups: [CommandGroup!]!
+  commentsCount: Float!
   id: String!
   input: LogEntry!
   inputText: String!
@@ -132,11 +143,14 @@ type CommandGroup {
   annotations: [Annotation!]!
   commandIds: [String!]!
   commands: [Command!]!
+  commentCount: Float!
   generation: GenerationType!
   id: String!
 }
 
 type CommandTypeCount {
+  beaconsCount: Float!
+  commentsCount: Float!
   count: Float!
   id: String!
   text: String!
@@ -198,6 +212,8 @@ type GlobalOperator {
 type Host {
   beaconIds: [String!]!
   cobaltStrikeServer: Boolean
+  commandsCount: Float!
+  commentCount: Float!
   displayName: String
   hidden: Boolean
   hostName: String!
@@ -206,10 +222,13 @@ type Host {
 }
 
 type HostMeta {
+  """The color of the node"""
+  color: String
   id: String!
   ip: String
   os: String
   osVersion: String
+  shape: Shapes
   type: String
 }
 
@@ -358,13 +377,13 @@ type Mutation {
   updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
 
   """Update existing Beacon Metadata"""
-  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!): Beacon!
+  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!, color: String, shape: Shapes): Beacon!
 
   """Update existing Host Display Name"""
-  updateHostMetadata(campaignId: String!, hostDisplayName: String!, hostId: String!): Host!
+  updateHostMetadata(campaignId: String!, color: String, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
 
   """Update existing Server name"""
-  updateServerMetadata(campaignId: String!, serverDisplayName: String, serverId: String!, serverType: ServerType): Server!
+  updateServerMetadata(campaignId: String!, color: String, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
 }
 
 type NonHidableEntities {
@@ -375,6 +394,7 @@ type NonHidableEntities {
 
 type Operator {
   beaconIds: [String!]!
+  commentsCount: Float!
   endTime: DateTime
   id: String!
   logIds: [String!]!
@@ -517,7 +537,7 @@ type Query {
   parsingProgress: ParsingProgress!
 
   """Get categories for presentation mode"""
-  presentationItems(campaignId: String!, commentsTabSort: SortTypeCommentsTab = {sortBy: minTime}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: alphabetical}): [PresentationItem]
+  presentationItems(campaignId: String!, commentsTabSort: SortTypeCommentsTab = {sortBy: minTime}, forOverviewComments: Boolean = false, hidden: Boolean = false, listSort: SortTypeCommentsList = {sortBy: alphabetical}, userOnly: Boolean = false): [PresentationItem]
 
   """Search Annotations from textQuery"""
   searchAnnotations(campaignId: String!, hidden: Boolean = false, searchQuery: String!): [Annotation!]
@@ -542,8 +562,11 @@ type Query {
 }
 
 type Server {
+  beaconCount: Float!
   beacons: [Beacon!]!
-  displayName: String!
+  commandsCount: Float!
+  commentCount: Float!
+  displayName: String
   hidden: Boolean
   id: String!
   logsCount: Float!
@@ -557,7 +580,10 @@ enum ServerDelineationTypes {
 }
 
 type ServerMeta {
+  """The color of the node"""
+  color: String
   id: String!
+  shape: Shapes
   type: ServerType!
 }
 
@@ -574,6 +600,19 @@ enum ServerType {
   HTTP
   HTTPS
   SMB
+}
+
+"""The shape of the node"""
+enum Shapes {
+  circle
+  diamond
+  hexagonDown
+  hexagonUp
+  pentagonDown
+  pentagonUp
+  square
+  triangleDown
+  triangleUp
 }
 
 """The desired sort direction"""
@@ -631,6 +670,8 @@ input SortTypeCommentsTab {
 }
 
 type Tag {
+  commandsCount: Float!
+  commentCount: Float!
   id: String!
   text: String!
 }

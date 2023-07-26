@@ -1,6 +1,6 @@
 import { Field, Query, ObjectType, Ctx, Resolver, registerEnumType } from 'type-graphql';
 import { ServerDelineationTypes, UploadType, ValidationMode } from '@redeye/parser-core';
-import { GraphQLContext } from '../types';
+import type { GraphQLContext } from '../types';
 
 @Resolver()
 export class ParserResolvers {

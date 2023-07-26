@@ -2989,6 +2989,7 @@ __metadata:
     "@redeye/cobalt-strike-parser": "workspace:*"
     "@redeye/migrations": "workspace:*"
     "@redeye/models": "workspace:*"
+    "@redeye/parser-core": "workspace:*"
   bin:
     server: ./dist/index.js
   languageName: unknown

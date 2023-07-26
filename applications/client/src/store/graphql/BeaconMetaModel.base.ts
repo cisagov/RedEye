@@ -33,12 +33,12 @@ export class BeaconMetaModelBase extends Model({
 	ip: prop<string | null>().withSetter(),
 	/** Process Identifier the beacon is running on */
 	pid: prop<number | null>().withSetter(),
-	/** The shape of the beacon */
-	shape: prop<Shapes | null>().withSetter(),
 	/** The IP of the host at the time of the metadata line */
 	port: prop<number | null>().withSetter(),
 	/** Process Identifier the beacon is running on */
 	process: prop<string | null>().withSetter(),
+	/** The shape of the beacon */
+	shape: prop<Shapes | null>().withSetter(),
 	/** The log line from which the BeaconMeta was extracted */
 	source: prop<Ref<LogEntryModel> | null>().withSetter(),
 	/** The start time of the beacon */
@@ -69,14 +69,14 @@ export class BeaconMetaModelSelector extends QueryBuilder {
 	get pid() {
 		return this.__attr(`pid`);
 	}
-	get shape() {
-		return this.__attr(`shape`);
-	}
 	get port() {
 		return this.__attr(`port`);
 	}
 	get process() {
 		return this.__attr(`process`);
+	}
+	get shape() {
+		return this.__attr(`shape`);
 	}
 	get startTime() {
 		return this.__attr(`startTime`);

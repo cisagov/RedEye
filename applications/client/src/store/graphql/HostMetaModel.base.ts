@@ -40,11 +40,11 @@ export class HostMetaModelSelector extends QueryBuilder {
 	get os() {
 		return this.__attr(`os`);
 	}
-	get shape() {
-		return this.__attr(`shape`);
-	}
 	get osVersion() {
 		return this.__attr(`osVersion`);
+	}
+	get shape() {
+		return this.__attr(`shape`);
 	}
 	get type() {
 		return this.__attr(`type`);
@@ -54,4 +54,4 @@ export function selectFromHostMeta() {
 	return new HostMetaModelSelector();
 }
 
-export const hostMetaModelPrimitives = selectFromHostMeta().color.ip.os.shape.osVersion.type;
+export const hostMetaModelPrimitives = selectFromHostMeta().color.ip.os.osVersion.shape.type;

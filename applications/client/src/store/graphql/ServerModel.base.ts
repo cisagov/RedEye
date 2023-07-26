@@ -28,7 +28,7 @@ export class ServerModelBase extends Model({
 	beacons: prop<Ref<BeaconModel>[]>(() => []).withSetter(),
 	commandsCount: prop<number>().withSetter(),
 	commentCount: prop<number>().withSetter(),
-	displayName: prop<string>().withSetter(),
+	displayName: prop<string | null>().withSetter(),
 	hidden: prop<boolean | null>().withSetter(),
 	id: prop<string>().withSetter(),
 	logsCount: prop<number>().withSetter(),

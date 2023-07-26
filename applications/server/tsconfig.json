@@ -29,10 +29,18 @@
 			"@redeye/migrations": ["../../packages/migrations/src/index.ts"],
 			"@redeye/migrations/*": ["../../packages/migrations/src/*"],
 			"@redeye/models": ["../../packages/models/src/index.ts"],
-			"@redeye/models/*": ["../../packages/models/src/*"]
+			"@redeye/models/*": ["../../packages/models/src/*"],
+			"@redeye/parser-core": ["../../parsers/parser-core/src/index.ts"],
+			"@redeye/parser-core/*": ["../../parsers/parser-core/src/*"]
 		}
 	},
 	"references": [
+		{
+			"path": "../../packages/migrations"
+		},
+		{
+			"path": "../../packages/models"
+		},
 		{
 			"path": "../../parsers/brute-ratel-parser"
 		},
@@ -40,10 +48,7 @@
 			"path": "../../parsers/cobalt-strike-parser"
 		},
 		{
-			"path": "../../packages/migrations"
-		},
-		{
-			"path": "../../packages/models"
+			"path": "../../parsers/parser-core"
 		}
 	]
 }
