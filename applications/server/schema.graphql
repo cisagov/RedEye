@@ -534,7 +534,7 @@ type Server {
   beacons: [Beacon!]!
   commandsCount: Float!
   commentCount: Float!
-  displayName: String!
+  displayName: String
   hidden: Boolean
   id: String!
   logsCount: Float!
