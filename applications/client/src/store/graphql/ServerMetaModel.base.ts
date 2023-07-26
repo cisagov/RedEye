@@ -6,6 +6,7 @@
 import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
 import type { ServerType } from './ServerTypeEnum';
+import type { Shapes } from './ShapesEnum';
 
 /**
  * ServerMetaBase
@@ -13,7 +14,10 @@ import type { ServerType } from './ServerTypeEnum';
  */
 export class ServerMetaModelBase extends Model({
 	__typename: tProp('ServerMeta'),
+	/** The color of the node */
+	color: prop<string | null>().withSetter(),
 	id: prop<string>().withSetter(),
+	shape: prop<Shapes | null>().withSetter(),
 	type: prop<ServerType>().withSetter(),
 }) {
 	getRefId() {
@@ -22,8 +26,14 @@ export class ServerMetaModelBase extends Model({
 }
 
 export class ServerMetaModelSelector extends QueryBuilder {
+	get color() {
+		return this.__attr(`color`);
+	}
 	get id() {
 		return this.__attr(`id`);
+	}
+	get shape() {
+		return this.__attr(`shape`);
 	}
 	get type() {
 		return this.__attr(`type`);
@@ -33,4 +43,4 @@ export function selectFromServerMeta() {
 	return new ServerMetaModelSelector();
 }
 
-export const serverMetaModelPrimitives = selectFromServerMeta().type;
+export const serverMetaModelPrimitives = selectFromServerMeta().color.shape.type;

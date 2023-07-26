@@ -10,3 +10,20 @@ registerEnumType(GenerationType, {
 	name: 'GenerationType',
 	description: 'How the entity was generated',
 });
+
+export enum Shapes {
+	circle = 'circle',
+	pentagonUp = 'pentagonUp',
+	'hexagonDown' = 'hexagonDown',
+	'square' = 'square',
+	'diamond' = 'diamond',
+	'pentagonDown' = 'pentagonDown',
+	'triangleUp' = 'triangleUp',
+	'triangleDown' = 'triangleDown',
+	'hexagonUp' = 'hexagonUp',
+}
+
+registerEnumType(Shapes, {
+	name: 'Shapes',
+	description: `The shape of the node`,
+});

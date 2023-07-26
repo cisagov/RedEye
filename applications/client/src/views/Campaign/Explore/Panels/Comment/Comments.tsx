@@ -11,7 +11,7 @@ import {
 	commandGroupCommentsQuery,
 } from '@redeye/client/store';
 import type { UUID } from '@redeye/client/types';
-import type { CommandProps } from '@redeye/client/views';
+import type { CommandSummaryProps } from '@redeye/client/views';
 import { CommentGroup, MessageRow } from '@redeye/client/views';
 import { useQuery } from '@tanstack/react-query';
 import { observable } from 'mobx';
@@ -25,7 +25,7 @@ type CommentsProps = ComponentProps<'div'> & {
 		sortBy: string;
 		direction: SortDirection;
 	};
-	showPath: CommandProps['showPath'];
+	showPath: CommandSummaryProps['showPath'];
 };
 
 const pageSize = 10;

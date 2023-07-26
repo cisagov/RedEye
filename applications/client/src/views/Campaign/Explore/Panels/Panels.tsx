@@ -1,14 +1,14 @@
 import type { AppStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
 import { PanelHeader } from '@redeye/client/views';
-import { Beacons, HostBeacons } from './Beacon';
-import { Commands } from './Command';
-import { Comments } from './Comment';
-import { Hosts } from './Host';
+import { BeaconsList, HostBeaconsList } from './Beacon';
+import { HostsAndServersList } from './Host';
+import { CommandsList } from './Command';
 import { BeaconMeta, HostMeta, ServerMeta } from './Meta';
-import { Operators } from './Operator';
-import { OverviewBeacons, OverviewCommandTypes, OverviewHosts, OverviewOperators } from './Overview';
+import { OperatorsList } from './OperatorsList';
+import { OverviewBeaconsList, OverviewCommandTypesList, OverviewHostsList, OverviewOperatorsList } from './Overview';
 import { CommentsList } from './Comment/CommentsList';
+import { Comments } from './Comment/Comments';
 
 export enum CommentListTitle {
 	all = 'All Comments',
@@ -93,11 +93,13 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedBeacon?.current?.computedName}</PanelHeader>
+			<PanelHeader nodeIconProps={{ type: 'beacon' }}>
+				{store.campaign?.interactionState.selectedBeacon?.current?.computedName}
+			</PanelHeader>
 		),
 		panels: {
-			[Tabs.COMMANDS]: (props) => <Commands showPath={false} {...props} />,
-			[Tabs.OPERATORS]: Operators,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath={false} {...props} />,
+			[Tabs.OPERATORS]: OperatorsList,
 			[Tabs.COMMENTS]: (props) => <Comments showPath={false} {...props} />,
 			[Tabs.METADATA]: BeaconMeta,
 		},
@@ -108,47 +110,51 @@ export const InfoPanelTabs = {
 			return <PanelHeader>{campaign?.name}</PanelHeader>;
 		},
 		panels: {
-			[Tabs.HOSTS]: OverviewHosts,
-			[Tabs.OPERATORS]: OverviewOperators,
+			[Tabs.HOSTS]: OverviewHostsList,
+			[Tabs.OPERATORS]: OverviewOperatorsList,
 			[Tabs.COMMENTS_LIST]: CommentsList,
-			[Tabs.BEACONS]: OverviewBeacons,
-			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypes,
+			[Tabs.BEACONS]: OverviewBeaconsList,
+			[Tabs.COMMANDS_OVERVIEW]: OverviewCommandTypesList,
 		},
 	},
 	[InfoType.SERVER]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedServer?.current?.computedName}</PanelHeader>
+			<PanelHeader nodeIconProps={{ type: 'server' }}>
+				{store.campaign?.interactionState.selectedServer?.current?.computedName}
+			</PanelHeader>
 		),
 		panels: {
-			[Tabs.HOSTS]: Hosts,
-			[Tabs.OPERATORS]: Operators,
-			[Tabs.BEACONS]: Beacons,
+			[Tabs.HOSTS]: HostsAndServersList,
+			[Tabs.OPERATORS]: OperatorsList,
+			[Tabs.BEACONS]: BeaconsList,
 			[Tabs.METADATA]: ServerMeta,
 		},
 	},
 	[InfoType.HOST]: {
 		title: (store: AppStore) => (
-			<PanelHeader>{store.campaign?.interactionState.selectedHost?.current?.computedName}</PanelHeader>
+			<PanelHeader nodeIconProps={{ type: 'host' }}>
+				{store.campaign?.interactionState.selectedHost?.current?.computedName}
+			</PanelHeader>
 		),
 		panels: {
-			[Tabs.COMMANDS]: (props) => <Commands showPath="beacon" {...props} />,
-			[Tabs.OPERATORS]: Operators,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath="beacon" {...props} />,
+			[Tabs.OPERATORS]: OperatorsList,
 			[Tabs.COMMENTS]: (props) => <Comments showPath="beacon" {...props} />,
-			[Tabs.BEACONS]: HostBeacons,
+			[Tabs.BEACONS]: HostBeaconsList,
 			[Tabs.METADATA]: HostMeta,
 		},
 	},
 	[InfoType.OPERATOR]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedOperator?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: (props) => <Commands showPath="host" {...props} />,
-			[Tabs.BEACONS]: Beacons,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath="host" {...props} />,
+			[Tabs.BEACONS]: BeaconsList,
 		},
 	},
 	[InfoType.COMMAND]: {
 		title: (store: AppStore) => <PanelHeader>{store.campaign?.interactionState.selectedCommandType?.id}</PanelHeader>,
 		panels: {
-			[Tabs.COMMANDS]: (props) => <Commands showPath="host" {...props} />,
+			[Tabs.COMMANDS]: (props) => <CommandsList showPath="host" {...props} />,
 			[Tabs.COMMENTS]: (props) => <Comments showPath="host" {...props} />,
 		},
 	},

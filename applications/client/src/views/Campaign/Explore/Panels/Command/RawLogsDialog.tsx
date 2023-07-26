@@ -99,7 +99,7 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 							align-items: flex-end;
 						`}
 					>
-						<PanelHeader cy-test="log-title">
+						<PanelHeader cy-test="log-title" nodeIconProps={{ type: 'beacon' }}>
 							<Txt>{state.beacon?.computedNameWithHost}</Txt>{' '}
 							<Txt disabled normal>
 								Raw Logs
