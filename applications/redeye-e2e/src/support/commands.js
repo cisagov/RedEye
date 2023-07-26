@@ -95,7 +95,7 @@ Cypress.Commands.add('addExistingTags', (...term) => {
 		cy.get('[cy-test=tag-input]').type(tags);
 		cy.get('[cy-test=tag-list-item]').contains(tags).click();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
+	cy.get('[cy-test=save-comment]').should('be.visible').focus().realClick();
 	// cy.wait('@addCommandGroupAnnotation');
 });
 
@@ -105,7 +105,7 @@ Cypress.Commands.add('addNewTags', { prevSubject: false }, (...term) => {
 		cy.get('[cy-test=tag-input]').type(tags);
 		cy.get('[cy-test=add-tag]').contains(tags).realClick();
 	});
-	cy.get('[cy-test=save-comment]').should('be.visible').realClick();
+	cy.get('[cy-test=save-comment]').should('be.visible').focus().realClick();
 	// cy.wait('@addCommandGroupAnnotation');
 	cy.wait(300);
 });
