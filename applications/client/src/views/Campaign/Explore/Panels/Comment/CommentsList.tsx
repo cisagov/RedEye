@@ -1,12 +1,12 @@
 import { CarbonIcon, VirtualizedList, semanticIcons } from '@redeye/client/components';
-import type { PresentationItemModel, SortDirection, SortTypeCommentsList } from '@redeye/client/store';
+import type { PresentationItemModel, SortTypeCommentsList } from '@redeye/client/store';
 import {
 	routes,
 	presentationCommandGroupModelPrimitives,
 	presentationItemModelPrimitives,
 	useStore,
 } from '@redeye/client/store';
-import { CoreTokens, FlexSplitter } from '@redeye/ui-styles';
+import { CoreTokens, FlexSplitter, Txt } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import { StarFilled16, Hashtag16, Playlist16, User16 } from '@carbon/icons-react';
@@ -16,10 +16,7 @@ import { CampaignViews, Tabs } from '@redeye/client/types';
 import { InfoRow, RowTitle, IconLabel } from '../../components';
 
 type CommentsListProps = ComponentProps<'div'> & {
-	sort: {
-		sortBy: string;
-		direction: SortDirection;
-	};
+	sort: SortTypeCommentsList;
 };
 
 // Fetch presentationData again when changing sort
@@ -38,7 +35,7 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 					campaignId: store.campaign.id!,
 					hidden: store.settings.showHidden,
 					forOverviewComments: true,
-					listSort: sort as SortTypeCommentsList,
+					listSort: sort,
 				},
 				presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString(),
 				undefined,
@@ -84,12 +81,14 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 							css={presentationItem.id === 'procedural' && { color: `${CoreTokens.TextDisabled} !important` }}
 						/>
 					)}
-					<RowTitle
-						bold={['all', 'favorited'].includes(presentationItem.id)}
-						muted={presentationItem.id === 'procedural'}
-						italic={presentationItem.id === 'procedural'}
-					>
-						{rowTitle(presentationItem)}
+					<RowTitle>
+						<Txt
+							bold={['all', 'favorited'].includes(presentationItem.id)}
+							muted={presentationItem.id === 'procedural'}
+							italic={presentationItem.id === 'procedural'}
+						>
+							{rowTitle(presentationItem)}
+						</Txt>
 					</RowTitle>
 					<FlexSplitter />
 					<IconLabel

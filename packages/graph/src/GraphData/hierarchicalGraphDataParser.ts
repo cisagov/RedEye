@@ -1,7 +1,8 @@
-import { HierarchyNode, stratify as d3Stratify } from 'd3';
+import type { HierarchyNode } from 'd3';
+import { stratify as d3Stratify } from 'd3';
 import { dedupeSortArray, setMapKeyIfUnset } from '../utils';
 import { BaseLink, HierarchicalGraphLinkDatum, HierarchicalGraphNodeDatum } from './GraphNodesAndLinks';
-import { GraphData, GraphNodeParent, SerializableHierarchicalGraphData } from './types';
+import type { GraphData, GraphNodeParent, SerializableHierarchicalGraphData } from './types';
 
 export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validateData = true) {
 	// duplicate graphData to avoid editing original
@@ -34,12 +35,14 @@ export function hierarchicalGraphDataParser(graphDataInitial: GraphData, validat
 	// create map of SuperNodes
 	const superNodes = new Map<string, HierarchicalGraphNodeDatum>();
 	graphData.nodes.forEach((node) => {
+		const { className, name } = parentNames.get(node.parent) || {};
 		setMapKeyIfUnset(
 			superNodes,
 			node.parent,
 			new HierarchicalGraphNodeDatum({
 				...node,
-				name: parentNames.get(node.parent)?.name,
+				className,
+				name,
 				id: node.parent,
 				parent: ids.rootNodeName,
 				level: 'super',

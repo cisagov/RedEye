@@ -1,7 +1,8 @@
 import { forceLink as d3ForceLink, forceManyBody as d3ForceManyBody, forceX as d3ForceX, forceY as d3ForceY } from 'd3';
-import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
+import type { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
-import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import type { GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import { HierarchicalGraphRenderer } from './HierarchicalGraphRenderer';
 import {
 	classNames,
 	positionParentLinkNodes,
@@ -10,7 +11,12 @@ import {
 	isInteractionFocus,
 	isInteractionRelated,
 	interactionSort,
+	createSvgElement,
+	updateClassName,
+	assignId,
+	assignIdLabel,
 } from './layout-utils';
+import { polygonShapePointsOpticallyEqualized } from './polygon-utils';
 
 /** a graph that handles sub nodes (that have all been grouped because the same 'signature') */
 export class SubGraphRenderer extends HierarchicalGraphRenderer {
@@ -49,7 +55,8 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.append('g')
 			.attr(classNames.subGraph, true)
 			.attr('transform-origin', 'center')
-			.attr('cy-test', 'subGSelection');
+			.attr('cy-test', 'subGSelection')
+			.attr('id', assignId);
 
 		this.linkSelection = this.rootGroupSelection
 			.selectAll('line')
@@ -57,14 +64,17 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.join('line')
 			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink')
 			.classed(classNames.parentLink, (d) => d.type === 'parentLink')
-			.attr('cy-test', 'subLinkSelection');
+			.attr('cy-test', 'subLinkSelection')
+			.attr('id', assignId);
 
 		this.nodeSelection = this.rootGroupSelection
-			.selectAll('circle')
-			.data(this.nodes)
-			.join('circle')
-			.attr('r', (d) => d.r || 0)
+			.selectAll('.testing')
+			.data(this.nodes) // , (d) => (d as HierarchicalGraphNode).data.id)
+			.join('g')
+			.classed('testing', true)
 			.attr('cy-test', 'beaconsGraph')
+			.attr('id', assignId)
+			.each(updateClassName)
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
 			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.subNode, true)
@@ -72,16 +82,33 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.on('click', this.graphHandler.clickNode.bind(this.graphHandler))
 			.on('mouseover', this.graphHandler.mouseOverNode.bind(this.graphHandler));
 
+		this.drawUpdateNodeVisual();
+
 		this.labelSelection = this.rootGroupSelection
 			.append('g')
 			.attr('cy-test', 'selectedLabel')
 			.selectAll('text')
-			.data(this.nodes)
+			.data(this.nodes.filter((d) => d.type === 'keyNode'))
 			.join('text')
+			.attr('id', assignIdLabel)
+			.each(updateClassName)
 			.classed(classNames.subNodeNameLabel, true)
 			.text(createLabel);
 
 		super.initializeSelection();
+	}
+
+	drawUpdateNodeVisual() {
+		this.nodeSelection.each(updateClassName);
+		this.nodeSelection.selectChildren().remove();
+		this.nodeSelection
+			.append((d) => createSvgElement(d.data.shape === 'circle' || d.data.shape == null ? 'circle' : 'polygon'))
+			.attr('r', (d) => d.r || 0)
+			.attr('points', (d) =>
+				d.data.shape && d.data.shape !== 'circle'
+					? polygonShapePointsOpticallyEqualized(d.data.shape, defNum(d.r) + 1)
+					: null
+			);
 	}
 
 	drawLayout() {
@@ -95,7 +122,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('x2', (d) => defNum(d.target.x) * rk)
 			.attr('y2', (d) => defNum(d.target.y) * rk);
 
-		this.nodeSelection.attr('transform', (d) => translateCenter({ d, rk })).attr('r', (d) => defNum(d.r));
+		this.nodeSelection.attr('transform', (d) => translateCenter({ d, rk }));
 		this.labelSelection?.attr('transform', (d) => translateCenter({ d, rk, tx: 10, ty: 4 }));
 	}
 

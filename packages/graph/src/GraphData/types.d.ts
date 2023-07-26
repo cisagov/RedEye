@@ -1,5 +1,6 @@
-import { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
-import {
+import type { HierarchyNode, Selection, Simulation, SimulationLinkDatum, SimulationNodeDatum, ZoomTransform } from 'd3';
+import { NodeShape } from '../GraphRenderers/polygon-utils';
+import type {
 	BaseLink,
 	HierarchicalGraphBaseLink,
 	HierarchicalGraphLinkDatum,
@@ -25,11 +26,14 @@ export interface GraphNode {
 	isServer: boolean;
 	start?: string;
 	end?: string;
+	className?: string;
+	shape?: NodeShape;
 }
 
 export interface GraphNodeParent {
 	id: string;
 	name: string;
+	className?: string;
 }
 
 export interface PreviewState {

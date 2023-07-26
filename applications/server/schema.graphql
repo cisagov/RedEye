@@ -60,6 +60,9 @@ enum BeaconLineType {
 
 """Data derived from the Beacon metadata line"""
 type BeaconMeta {
+  """The color of the node"""
+  color: String
+
   """The time that the last command was run"""
   endTime: DateTime
   id: String!
@@ -69,6 +72,9 @@ type BeaconMeta {
 
   """Process Identifier the beacon is running on"""
   pid: Int
+
+  """The shape of the beacon"""
+  shape: Shapes
 
   """The log line from which the BeaconMeta was extracted"""
   source: LogEntry!
@@ -193,9 +199,12 @@ type Host {
 }
 
 type HostMeta {
+  """The color of the node"""
+  color: String
   id: String!
   ip: String
   os: String
+  shape: Shapes
   type: String
 }
 
@@ -344,13 +353,13 @@ type Mutation {
   updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
 
   """Update existing Beacon Metadata"""
-  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!): Beacon!
+  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!, color: String, shape: Shapes): Beacon!
 
   """Update existing Host Display Name"""
-  updateHostMetadata(campaignId: String!, hostDisplayName: String!, hostId: String!): Host!
+  updateHostMetadata(campaignId: String!, color: String, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
 
   """Update existing Server name"""
-  updateServerMetadata(campaignId: String!, serverDisplayName: String, serverId: String!, serverType: ServerType): Server!
+  updateServerMetadata(campaignId: String!, color: String, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
 }
 
 type NonHidableEntities {
@@ -534,7 +543,10 @@ type Server {
 }
 
 type ServerMeta {
+  """The color of the node"""
+  color: String
   id: String!
+  shape: Shapes
   type: ServerType!
 }
 
@@ -551,6 +563,19 @@ enum ServerType {
   HTTP
   HTTPS
   SMB
+}
+
+"""The shape of the node"""
+enum Shapes {
+  circle
+  diamond
+  hexagonDown
+  hexagonUp
+  pentagonDown
+  pentagonUp
+  square
+  triangleDown
+  triangleUp
 }
 
 """The desired sort direction"""

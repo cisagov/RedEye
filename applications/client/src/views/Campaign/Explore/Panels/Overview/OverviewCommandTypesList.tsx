@@ -10,7 +10,7 @@ type OverviewProps = ComponentProps<'div'> & {
 	sort: SortType;
 };
 
-export const OverviewCommandTypes = observer<OverviewProps>(({ sort }) => {
+export const OverviewCommandTypesList = observer<OverviewProps>(({ sort }) => {
 	const store = useStore();
 	const commandTypes = Array.from(store.graphqlStore.commandTypeCounts.values() || [])
 		.filter<CommandTypeCountModel>(isDefined)

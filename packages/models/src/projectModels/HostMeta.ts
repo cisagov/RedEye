@@ -1,7 +1,9 @@
+import type { Rel } from '@mikro-orm/core';
 import { Property, PrimaryKey, Entity, ManyToOne, Unique } from '@mikro-orm/core';
 import { Field, ObjectType } from 'type-graphql';
 import { randomUUID } from 'crypto';
 import { Host } from './Host';
+import { Shapes } from './shared';
 
 @ObjectType()
 @Entity()
@@ -35,6 +37,14 @@ export class HostMeta {
 	@Property({ nullable: true })
 	type?: string;
 
+	@Field(() => Shapes, { nullable: true })
+	@Property({ type: 'string' })
+	shape: Shapes = Shapes.circle;
+
+	@Field(() => String, { nullable: true, description: 'The color of the node' })
+	@Property({ type: 'string', nullable: true })
+	color?: string;
+
 	/**
 	 * Relationships
 	 */
@@ -42,7 +52,7 @@ export class HostMeta {
 	// TODO: Add more mutable properties like Host type
 
 	@ManyToOne(() => Host, { onDelete: 'cascade' })
-	host: Host;
+	host: Rel<Host>;
 }
 
 type NativeInsertArgs = Omit<HostMeta, 'id'>;

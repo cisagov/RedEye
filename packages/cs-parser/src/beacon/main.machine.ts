@@ -1,9 +1,12 @@
 import { actions, createMachine } from 'xstate';
 import type { MikroORM } from '@mikro-orm/core';
 import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
-import { databaseMachine, DatabaseMachineContext } from '../shared/database.machine';
-import { parsingOrchestratorMachine, ParsingOrchestratorMachineContext } from './parsingOrchestrator.machine';
-import { logEntryState, logFinalState, LoggerInstance, logTransition } from '../shared/logging';
+import type { DatabaseMachineContext } from '../shared/database.machine';
+import { databaseMachine } from '../shared/database.machine';
+import type { ParsingOrchestratorMachineContext } from './parsingOrchestrator.machine';
+import { parsingOrchestratorMachine } from './parsingOrchestrator.machine';
+import type { LoggerInstance } from '../shared/logging';
+import { logEntryState, logFinalState, logTransition } from '../shared/logging';
 import { closeOrm } from '../shared/closeOrm.service';
 
 type BeaconParsingOrchestratorContext = {

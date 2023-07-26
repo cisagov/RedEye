@@ -1,9 +1,10 @@
 import { Command } from '@redeye/models';
-import { FilterQuery, QueryOrderMap } from '@mikro-orm/core';
+import type { FilterQuery, QueryOrderMap } from '@mikro-orm/core';
 import { Arg, Authorized, Ctx, Field, InputType, ObjectType, Query, registerEnumType, Resolver } from 'type-graphql';
 import { defaultHidden, beaconHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
-import { RelationPath, type Relation } from './utils/relation-path';
+import type { Relation } from './utils/relation-path';
+import { RelationPath } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
 
 enum SortOption {

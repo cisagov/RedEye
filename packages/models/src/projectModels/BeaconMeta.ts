@@ -1,9 +1,11 @@
+import type { Rel } from '@mikro-orm/core';
 import { Property, PrimaryKey, Entity, ManyToOne, Unique, OneToOne, Enum } from '@mikro-orm/core';
 import { Field, Int, ObjectType, registerEnumType } from 'type-graphql';
 
 import { randomUUID } from 'crypto';
 import { Beacon } from './Beacon';
 import { LogEntry } from './LogEntry';
+import { Shapes } from './shared';
 
 export enum BeaconType {
 	HTTP = 'http',
@@ -59,14 +61,22 @@ export class BeaconMeta {
 	@Property({ nullable: true })
 	origin?: string;
 
+	@Field(() => Shapes, { nullable: true, description: 'The shape of the beacon' })
+	@Property({ type: 'string' })
+	shape: Shapes = Shapes.circle;
+
+	@Field(() => String, { nullable: true, description: 'The color of the node' })
+	@Property({ type: 'string', nullable: true })
+	color?: string;
+
 	// This is likely to be nullable in future due to different ways we have to extract this data in other C2 tools
 	@Field(() => LogEntry, { description: 'The log line from which the BeaconMeta was extracted' })
 	@OneToOne({ owner: true, entity: () => LogEntry })
-	source: LogEntry;
+	source: Rel<LogEntry>;
 
 	// Right now this is a ManyToOne because the meta line can have variations. The idea is that we'll eventually be able to deconflict them
 	@ManyToOne(() => Beacon, { onDelete: 'cascade' })
-	beacon: Beacon;
+	beacon: Rel<Beacon>;
 }
 
 type InsertArgs = Omit<BeaconMeta, 'id'>;

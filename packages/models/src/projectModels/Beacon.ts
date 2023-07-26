@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import {
 	Property,
 	PrimaryKey,
@@ -31,7 +32,6 @@ export class Beacon {
 	constructor({ host, id, server, beaconName }: RequiredInsertArgs & OptionalInsertArgs) {
 		this.id = id ?? randomUUID();
 		this.beaconName = beaconName;
-		this.displayName = beaconName;
 		if (server) this.server = server;
 		if (host) this.host = host;
 	}
@@ -90,10 +90,10 @@ export class Beacon {
 	 */
 	@Field(() => Host, { nullable: true })
 	@ManyToOne(() => Host, { nullable: true, onDelete: 'cascade' })
-	host?: Host;
+	host?: Rel<Host>;
 
 	@ManyToOne(() => Server, { nullable: true, onDelete: 'cascade' })
-	server?: Server;
+	server?: Rel<Server>;
 
 	@OneToMany(() => LogEntry, (logEntry) => logEntry.beacon, { cascade: [Cascade.REMOVE], orphanRemoval: true })
 	logs = new Collection<LogEntry>(this);

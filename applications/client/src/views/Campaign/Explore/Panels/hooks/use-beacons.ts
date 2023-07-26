@@ -6,12 +6,12 @@ import { InfoType } from '@redeye/client/types';
 import type { ComponentProps } from 'react';
 import { useMemo } from 'react';
 
-export type BeaconsProps = ComponentProps<'div'> & {
+export type BeaconsListRow = ComponentProps<'div'> & {
 	type: InfoType;
 	sort: SortType;
 };
 
-export const useBeacons = (props?: BeaconsProps) => {
+export const useBeacons = (props?: BeaconsListRow) => {
 	const store = useStore();
 
 	const getBeacons = () => {

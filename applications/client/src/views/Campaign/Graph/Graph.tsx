@@ -7,6 +7,7 @@ import type { ComponentProps } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useResizeDetector } from 'react-resize-detector';
+import { nodeColorStyles } from './node-colors';
 import { graphStyles } from './graph-styles';
 import { GraphControls } from './GraphControls';
 import { LoadingOverlay } from './LoadingOverlay';
@@ -69,7 +70,7 @@ export const Graph = observer<GraphProps>((props) => {
 					<LoadingOverlay />
 				) : null}
 				<svg
-					css={[graphLayoutStyles, graphStyles]}
+					css={[graphLayoutStyles, graphStyles, nodeColorStyles]}
 					ref={graphRef}
 					className={store.settings.theme === 'dark' ? ThemeClasses.DARK : ThemeClasses.LIGHT}
 				/>

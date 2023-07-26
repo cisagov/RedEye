@@ -1,5 +1,12 @@
-import { SimulationNodeDatum } from 'd3';
-import { HierarchicalGraphLink, HierarchicalGraphNode, GraphLink, CurrentTimeState, CurrentTimeType } from './types';
+import type { SimulationNodeDatum } from 'd3';
+import { NodeShape } from '../GraphRenderers/polygon-utils';
+import type {
+	HierarchicalGraphLink,
+	HierarchicalGraphNode,
+	GraphLink,
+	CurrentTimeState,
+	CurrentTimeType,
+} from './types';
 
 export interface HierarchicalGraphNodeDatumProps {
 	id: string;
@@ -12,6 +19,9 @@ export interface HierarchicalGraphNodeDatumProps {
 	isServer?: boolean;
 	start?: string;
 	end?: string;
+
+	className?: string;
+	shape?: NodeShape;
 }
 
 export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
@@ -27,6 +37,10 @@ export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
 	isServer: boolean = false;
 	start?: Date;
 	end?: Date;
+
+	removeClassName?: string;
+	className?: string;
+	shape?: NodeShape;
 
 	// SimulationNodeDatum
 	x?: number;
@@ -46,6 +60,8 @@ export class HierarchicalGraphNodeDatum implements SimulationNodeDatum {
 		this.level = props.level;
 		this.type = props.type;
 		this.parentLink = props.parentLink;
+		this.className = props.className;
+		this.shape = props.shape;
 		if (props.isServer) this.isServer = props.isServer;
 		if (props.start) this.start = new Date(props.start);
 		if (props.end) this.end = new Date(props.end);
@@ -96,10 +112,12 @@ export class HierarchicalGraphBaseLink implements CurrentTimeState {
 	id: string;
 	graphLinks: HierarchicalGraphLink[] = [];
 	currentTimeState?: CurrentTimeType;
+	data: BaseLink;
 	constructor(props: HierarchicalGraphBaseLink) {
 		this.source = props.source;
 		this.target = props.target;
 		this.id = props.id;
 		this.graphLinks = props.graphLinks;
+		this.data = props.data;
 	}
 }

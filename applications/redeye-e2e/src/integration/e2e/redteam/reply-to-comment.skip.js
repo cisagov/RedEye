@@ -35,9 +35,7 @@ describe('Reply to  Campaign Comments', () => {
 					cy.get('[cy-test=comment-group]')
 						.its('length')
 						.then((commentsTab1) => {
-							expect(+commentsTab1)
-								.to.eq(+commentCountAll1)
-								.and.to.eq(+campaignCardCount1);
+							expect(+commentsTab1).to.eq(+commentCountAll1).and.to.eq(+campaignCardCount1);
 
 							// Reply to one of the comments
 							cy.replyToComment(0, 'Replying to above comment.');
@@ -51,9 +49,7 @@ describe('Reply to  Campaign Comments', () => {
 								.invoke('text')
 								.then((commentCountAll2) => {
 									cy.log(commentCountAll2);
-									expect(+commentCountAll2)
-										.to.eq(+commentCountAll1)
-										.and.to.eq(+campaignCardCount1);
+									expect(+commentCountAll2).to.eq(+commentCountAll1).and.to.eq(+campaignCardCount1);
 
 									// Go back to campaign card and verify that the comment count did not change
 									cy.returnToCampaignCard();
@@ -63,9 +59,7 @@ describe('Reply to  Campaign Comments', () => {
 										const campaignCardCount2 = cardCount2.text().split(' ').shift();
 										cy.get('[cy-test=comment-count]').should('contain', campaignCardCount2);
 
-										expect(+campaignCardCount2)
-											.to.eq(+campaignCardCount1)
-											.and.to.eq(+commentCountAll2);
+										expect(+campaignCardCount2).to.eq(+campaignCardCount1).and.to.eq(+commentCountAll2);
 									});
 								});
 						});

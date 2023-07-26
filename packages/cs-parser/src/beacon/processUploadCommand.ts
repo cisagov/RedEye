@@ -1,4 +1,5 @@
-import { Beacon, BeaconLineType, File, FileFlag } from '@redeye/models';
+import type { Beacon } from '@redeye/models';
+import { BeaconLineType, File, FileFlag } from '@redeye/models';
 import type { InternalCommand } from './identifyCommandGroupings';
 import { findFirstCaptureGroup } from '../shared/baseRegex';
 

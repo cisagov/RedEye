@@ -1,6 +1,8 @@
-import { Command, Option } from 'commander';
+import type { Command } from 'commander';
+import { Option } from 'commander';
 import { createLoggerInstance } from '../shared/logging';
-import { addSharedCommandOptions, SharedCommandOptions } from '../shared/commandOptions';
+import type { SharedCommandOptions } from '../shared/commandOptions';
+import { addSharedCommandOptions } from '../shared/commandOptions';
 import { interpret } from 'xstate';
 import { hrtime } from 'process';
 import { mainBeaconMachine } from './main.machine';

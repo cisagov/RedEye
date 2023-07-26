@@ -1,3 +1,4 @@
+import type { Rel } from '@mikro-orm/core';
 import { Property, PrimaryKey, Entity, ManyToOne, OneToOne } from '@mikro-orm/core';
 import { Field, ObjectType, registerEnumType } from 'type-graphql';
 import { Beacon } from './Beacon';
@@ -105,15 +106,15 @@ export class LogEntry {
 	 */
 
 	@OneToOne({ entity: () => BeaconMeta, nullable: true, onDelete: 'cascade' })
-	beaconMeta?: BeaconMeta;
+	beaconMeta?: Rel<BeaconMeta>;
 
 	@Field(() => Beacon, { nullable: true })
 	@ManyToOne(() => Beacon, { nullable: true, onDelete: 'cascade' })
-	beacon?: Beacon;
+	beacon?: Rel<Beacon>;
 
 	@Field(() => Command, { nullable: true })
 	@ManyToOne(() => Command, { nullable: true, onDelete: 'cascade' })
-	command?: Command;
+	command?: Rel<Command>;
 }
 
 export function sanitizeBadCharacters(string: string): string {

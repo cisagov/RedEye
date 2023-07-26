@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import * as process from 'process';
-import { Options, ReflectMetadataProvider } from '@mikro-orm/core';
-import { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
+import type { Options } from '@mikro-orm/core';
+import { ReflectMetadataProvider } from '@mikro-orm/core';
+import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 
 import type { Database } from 'better-sqlite3';
 

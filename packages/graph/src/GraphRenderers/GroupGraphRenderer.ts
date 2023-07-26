@@ -6,7 +6,8 @@ import {
 	forceY as d3ForceY,
 } from 'd3';
 import { SubGraphRenderer } from './SubGraphRenderer';
-import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import type { GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import { HierarchicalGraphRenderer } from './HierarchicalGraphRenderer';
 import {
 	classNames,
 	positionParentLinkNodes,
@@ -18,7 +19,7 @@ import {
 	circleRadius,
 	interactionSort,
 } from './layout-utils';
-import { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
+import type { HierarchicalGraphLink, HierarchicalGraphNode } from '../GraphData/types';
 import { defNum } from '../utils';
 
 /** an intermediary graph that renders 'groups' of sub nodes */

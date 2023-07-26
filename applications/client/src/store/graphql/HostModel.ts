@@ -80,6 +80,10 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 		}
 	}
 
+	@computed get computedName(): string {
+		return this.displayName ?? this.hostName;
+	}
+
 	@modelAction select() {
 		const appStore = getRoot<AppStore>(this);
 		if (!this.cobaltStrikeServer && appStore) {

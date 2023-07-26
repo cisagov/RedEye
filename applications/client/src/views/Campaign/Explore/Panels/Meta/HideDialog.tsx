@@ -51,7 +51,7 @@ export const ToggleHiddenDialog = observer<Props>(
 		const dialogTitle = isHidingFinal
 			? `Cannot hide final ${infoType.toLowerCase()}${bulk ? 's' : ''}`
 			: // : `${verb} this ${infoType.toLowerCase()}?`;
-				  `${verb} ${bulk ? 'these' : 'this'} ${infoType.toLowerCase()}${bulk ? 's' : ''}?`;
+			  `${verb} ${bulk ? 'these' : 'this'} ${infoType.toLowerCase()}${bulk ? 's' : ''}?`;
 
 		return (
 			<DialogEx onClose={onClose} title={dialogTitle} {...props}>

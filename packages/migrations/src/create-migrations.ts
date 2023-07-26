@@ -1,5 +1,6 @@
 import path from 'path';
-import { getCampaignOrm, getMainOrm, ORM } from './db-configs';
+import type { ORM } from './db-configs';
+import { getCampaignOrm, getMainOrm } from './db-configs';
 
 export const createCampaignDbMigration = async () => {
 	const orm = await getCampaignOrm(

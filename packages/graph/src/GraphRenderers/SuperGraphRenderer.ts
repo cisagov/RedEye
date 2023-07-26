@@ -6,19 +6,23 @@ import {
 	forceY as d3ForceY,
 } from 'd3';
 import { GroupGraphRenderer } from './GroupGraphRenderer';
-import { HierarchicalGraphRenderer, GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import type { GraphHierarchicalConstructorProps } from './HierarchicalGraphRenderer';
+import { HierarchicalGraphRenderer } from './HierarchicalGraphRenderer';
 import {
+	updateClassName,
+	assignId,
+	assignIdLabel,
 	circleArea,
 	circleRadius,
 	classNames,
 	interactionSort,
 	isInteractionFocus,
 	isInteractionRelated,
-	polygonPointsSVG,
 	translateCenter,
 } from './layout-utils';
-import { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
+import type { HierarchyNodeSelection, HierarchicalGraphNode, HierarchicalGraphLink } from '../GraphData/types';
 import { defNum } from '../utils';
+import { polygonPointsSvg } from './polygon-utils';
 
 /** The super graph that contains all the group and sub graphs */
 export class SuperGraphRenderer extends HierarchicalGraphRenderer {
@@ -61,6 +65,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 		this.rootGroupSelection = this.rootSelection
 			.data([this.rootNode])
 			.append('g')
+			.attr('id', assignId)
 			.classed(classNames.superGraph, true)
 			.attr('transform-origin', 'center');
 
@@ -70,9 +75,9 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.selectAll('line')
 			.data(this.links)
 			.join('line')
+			.attr('id', assignId)
 			.classed(classNames.parentLink, true)
 			.classed(classNames.siblingLink, (d) => d.type === 'siblingLink');
-		// .attr('stroke-width', d => d.linkIndexes.length);
 
 		this.positionSelection = this.graphSelection
 			.selectAll('g')
@@ -91,15 +96,16 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.filter((d) => d.data.isServer)
 			.append('g')
 			.append('polygon')
-			.attr('points', (d) => polygonPointsSVG(6, d.r || 0))
+			.attr('points', (d) => polygonPointsSvg(6, d.r || 0))
 			.classed(classNames.serverNode, true);
 
 		// select this.hostSelection & this.serverSelection
 		this.nodeSelection = this.positionSelection.selectChild().selectChild();
 
 		this.nodeSelection
-			.attr('data-id', (d) => d.data.id!)
 			.attr('cy-test', 'graphNode')
+			.attr('id', assignId)
+			.each(updateClassName)
 			.classed(classNames.parentLinkNode, (d) => d.type === 'parentLinkNode')
 			.classed(classNames.keyNode, (d) => d.type === 'keyNode')
 			.classed(classNames.superNode, true)
@@ -117,6 +123,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.join('text')
 			.attr('text-anchor', 'end')
 			.attr('cy-test', 'selectedLabel')
+			.attr('id', assignIdLabel)
+			.each(updateClassName)
 			.classed(classNames.superNodeNameLabel, true)
 			.style('display', 'none') // start hidden
 			.text(createLabel);
@@ -127,10 +135,15 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.data(this.nodes.filter((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length > 1))
 			.join('text')
 			.attr('text-anchor', 'middle')
+			.each(updateClassName)
 			.classed(classNames.superNodeCountLabel, true)
 			.text((d) => d.leaves().filter((dd) => dd.type === 'keyNode').length);
 
 		super.initializeSelection();
+	}
+
+	drawUpdateNodeVisual() {
+		this.nodeSelection.each(updateClassName);
 	}
 
 	drawTime() {

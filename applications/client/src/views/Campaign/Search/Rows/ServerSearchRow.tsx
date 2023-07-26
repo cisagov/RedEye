@@ -12,7 +12,9 @@ export const ServerSearchRow = observer<ServerSearchRowProps>(({ result, searchT
 	const store = useStore();
 
 	const text = highlightPattern(
-		server.displayName !== server.name ? `${server.displayName} (${server.name})` : server.displayName,
+		!server.displayName || server.displayName === server.computedName
+			? server.computedName
+			: `${server.displayName} (${server.computedName})`,
 		searchTerm
 	);
 

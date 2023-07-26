@@ -1,4 +1,5 @@
-import { BeaconLineType, LogEntry } from '@redeye/models';
+import type { LogEntry } from '@redeye/models';
+import { BeaconLineType } from '@redeye/models';
 import { findFirstCaptureGroup } from '../shared/baseRegex';
 
 export const findOsFromMetaLine = (line: string) => {
