@@ -36,7 +36,7 @@ export function createTicksWithFormatter(xScale: TimeScale): { tickDates: Date[]
 	const intervalSeconds = Math.abs(store.settings.momentTz(intervalStart).diff(intervalEnd, 'seconds', true));
 
 	// use TickFormats.Second for interval intervalSeconds <= 30 seconds
-	const tickFormatI = bisector<typeof tickFormatIntervals[0], number>((x) => x[1]).left(
+	const tickFormatI = bisector<(typeof tickFormatIntervals)[0], number>((x) => x[1]).left(
 		tickFormatIntervals,
 		intervalSeconds
 	);

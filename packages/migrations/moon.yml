@@ -2,29 +2,33 @@ dependsOn:
   - 'models'
 tasks:
   create-migrations:
-    command: 'yarn node ./dist/create-migrations.js'
+    command: 'yarn node ./packages/migrations/dist/create-migrations.js'
     deps:
       - ~:build
     options:
       runInCI: false
+      runFromWorkspaceRoot: true
   migrate-schema:
-    command: 'yarn node ./dist/migrate-schema-dbs.js'
+    command: 'yarn node ./packages/migrations/dist/migrate-schema-dbs.js'
     deps:
       - ~:build
     options:
       runInCI: false
+      runFromWorkspaceRoot: true
   migrate-test-dbs:
-    command: 'yarn node ./dist/migrate-test-db.js'
+    command: 'yarn node ./packages/migrations/dist/migrate-test-db.js'
     deps:
       - ~:build
     options:
       runInCI: false
+      runFromWorkspaceRoot: true
   migrate-dbs:
     deps:
       - ~:migrate-schema
       - ~:migrate-test-dbs
     options:
       runInCI: false
+      runFromWorkspaceRoot: true
   test:
     command: 'noop'
     platform: node

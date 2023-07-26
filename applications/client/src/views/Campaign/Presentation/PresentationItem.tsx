@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
 import { CommentGroup } from '@redeye/client/views';
@@ -62,15 +61,13 @@ export const PresentationItem = observer<PresentationItemProps>(({ commandGroupI
 	return (
 		<CommentGroup
 			cy-test="presentation-item-root"
-			showPath
+			showPath="server"
 			commandGroupId={data.commandGroup.id}
 			toggleNewComment={state.toggleNewComment}
 			newComment={state.newComment}
 			expandedCommandIDs={state.expandedCommandIDs}
 			removeExpandedCommandID={state.removeExpandedCommandID}
-			css={css`
-				border: unset;
-			`}
+			css={{ border: 'unset' }}
 			{...props}
 		/>
 	);

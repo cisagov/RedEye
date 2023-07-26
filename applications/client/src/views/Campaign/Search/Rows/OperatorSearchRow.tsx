@@ -28,6 +28,7 @@ export const OperatorSearchRow: FC<OperatorSearchRowProps> = ({ result, searchTe
 				store.campaign.search.closeSearch();
 			}}
 			commandsCount={operator?.logIds?.length}
+			commentsCount={operator?.commentsCount}
 			beaconsCount={operator.beaconIds?.length || 0}
 			{...props}
 		/>

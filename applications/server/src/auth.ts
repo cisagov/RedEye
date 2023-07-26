@@ -22,7 +22,7 @@ export const isAuth = (config: ConfigDefinition, cookies: ApplicationCookie | un
 		const decryptedObject = decrypt<AuthObject>(config, cookies.REDEYE);
 		const { password } = config;
 
-		const authStatus = decryptedObject?.hashKey === hash(password);
+		const authStatus = decryptedObject?.hashKey === hash(password!);
 		return authStatus;
 	}
 	return false;

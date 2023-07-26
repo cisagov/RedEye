@@ -5,6 +5,7 @@
 
 import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import type { Shapes } from './ShapesEnum';
 
 /**
  * HostMetaBase
@@ -12,10 +13,13 @@ import { QueryBuilder } from 'mk-gql';
  */
 export class HostMetaModelBase extends Model({
 	__typename: tProp('HostMeta'),
+	/** The color of the node */
+	color: prop<string | null>().withSetter(),
 	id: prop<string>().withSetter(),
 	ip: prop<string | null>().withSetter(),
 	os: prop<string | null>().withSetter(),
 	osVersion: prop<string | null>().withSetter(),
+	shape: prop<Shapes | null>().withSetter(),
 	type: prop<string | null>().withSetter(),
 }) {
 	getRefId() {
@@ -24,6 +28,9 @@ export class HostMetaModelBase extends Model({
 }
 
 export class HostMetaModelSelector extends QueryBuilder {
+	get color() {
+		return this.__attr(`color`);
+	}
 	get id() {
 		return this.__attr(`id`);
 	}
@@ -32,6 +39,9 @@ export class HostMetaModelSelector extends QueryBuilder {
 	}
 	get os() {
 		return this.__attr(`os`);
+	}
+	get shape() {
+		return this.__attr(`shape`);
 	}
 	get osVersion() {
 		return this.__attr(`osVersion`);
@@ -44,4 +54,4 @@ export function selectFromHostMeta() {
 	return new HostMetaModelSelector();
 }
 
-export const hostMetaModelPrimitives = selectFromHostMeta().ip.os.osVersion.type;
+export const hostMetaModelPrimitives = selectFromHostMeta().color.ip.os.shape.osVersion.type;

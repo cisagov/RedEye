@@ -20,6 +20,8 @@ export const CommandTypeSearchRow = observer<CommandTypeSearchRowProps>(
 				text={text}
 				path={['Command Type']}
 				commandsCount={commandType.count}
+				beaconsCount={commandType.beaconsCount}
+				commentsCount={commandType.commentsCount}
 				onClick={() => {
 					commandType.searchSelect();
 					store.campaign.search.closeSearch();

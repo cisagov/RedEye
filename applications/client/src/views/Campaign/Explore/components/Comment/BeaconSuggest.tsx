@@ -41,8 +41,7 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 			);
 		};
 
-		const inputValueRenderer: BeaconSuggestProps['inputValueRenderer'] = (item) =>
-			`${item.host?.current.displayName} / ${item.displayName}`;
+		const inputValueRenderer: BeaconSuggestProps['inputValueRenderer'] = (item) => item.computedNameWithHost;
 
 		return (
 			<Suggest2

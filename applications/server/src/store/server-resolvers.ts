@@ -1,5 +1,5 @@
 import { Arg, Resolver, Query, Authorized, Ctx, Mutation } from 'type-graphql';
-import { Beacon, Campaign, Host, GlobalOperator, Server, ServerType } from '@redeye/models';
+import { Beacon, Campaign, Host, GlobalOperator, Server, ServerType, Shapes } from '@redeye/models';
 import { connectToProjectEmOrFail, getMainEmOrFail } from './utils/project-db';
 import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';
@@ -130,7 +130,9 @@ export class ServerResolvers {
 		@Arg('serverId', () => String) serverId: string,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('serverDisplayName', () => String, { nullable: true }) serverDisplayName?: string,
-		@Arg('serverType', () => ServerType, { nullable: true }) serverType?: ServerType
+		@Arg('serverType', () => ServerType, { nullable: true }) serverType?: ServerType,
+		@Arg('shape', { nullable: true }) shape?: Shapes,
+		@Arg('color', { nullable: true }) color?: string
 	): Promise<Server> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const server = await em.findOneOrFail(Server, serverId, { populate: relationPaths });
@@ -149,6 +151,12 @@ export class ServerResolvers {
 		}
 		if (serverType) {
 			server.meta.type = serverType;
+		}
+		if (shape) {
+			server.meta.shape = shape;
+		}
+		if (color) {
+			server.meta.color = color;
 		}
 		await em.persistAndFlush(server);
 

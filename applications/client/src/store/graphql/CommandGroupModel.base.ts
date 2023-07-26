@@ -28,6 +28,7 @@ export class CommandGroupModelBase extends Model({
 	annotations: prop<Ref<AnnotationModel>[]>(() => []).withSetter(),
 	commandIds: prop<string[]>().withSetter(),
 	commands: prop<Ref<CommandModel>[]>(() => []).withSetter(),
+	commentCount: prop<number>().withSetter(),
 	generation: prop<GenerationType>().withSetter(),
 	id: prop<string>().withSetter(),
 }) {
@@ -39,6 +40,9 @@ export class CommandGroupModelBase extends Model({
 export class CommandGroupModelSelector extends QueryBuilder {
 	get commandIds() {
 		return this.__attr(`commandIds`);
+	}
+	get commentCount() {
+		return this.__attr(`commentCount`);
 	}
 	get generation() {
 		return this.__attr(`generation`);
@@ -59,4 +63,4 @@ export function selectFromCommandGroup() {
 	return new CommandGroupModelSelector();
 }
 
-export const commandGroupModelPrimitives = selectFromCommandGroup().commandIds.generation;
+export const commandGroupModelPrimitives = selectFromCommandGroup().commandIds.commentCount.generation;

@@ -12,7 +12,9 @@ export const BeaconSearchRow = observer<BeaconSearchRowProps>(({ result, searchT
 	const store = useStore();
 
 	const text = highlightPattern(
-		beacon.displayName !== beacon.beaconName ? `${beacon.displayName} (${beacon.beaconName})` : beacon.displayName,
+		!beacon.displayName || beacon.displayName === beacon.computedName
+			? beacon.computedName
+			: `${beacon.displayName} (${beacon.computedName})`,
 		searchTerm
 	);
 
@@ -27,7 +29,8 @@ export const BeaconSearchRow = observer<BeaconSearchRowProps>(({ result, searchT
 			path={getPaths(store, beacon.hierarchy).slice(0, -1).concat(['Beacon']) as string[]}
 			startTime={beacon.minTime}
 			endTime={beacon.maxTime}
-			commandsCount={beacon.commandsCount || 0}
+			commandsCount={beacon.commandsCount ?? 0}
+			commentsCount={beacon.commentsCount ?? 0}
 			onClick={() => {
 				beacon.searchSelect();
 				store.campaign.search.closeSearch();

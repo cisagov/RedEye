@@ -2,7 +2,7 @@ import { createMachine, actions } from 'xstate';
 import type { MikroORM } from '@mikro-orm/core';
 import type { BetterSqliteDriver } from '@mikro-orm/better-sqlite';
 import type { Host } from '@redeye/models';
-import { Beacon, BeaconLineType, BeaconMeta, HostMeta, LogEntry, Command, Operator } from '@redeye/models';
+import { Beacon, BeaconLineType, BeaconMeta, HostMeta, LogEntry, Command, Operator, Shapes } from '@redeye/models';
 import { getMinMaxDate } from '../shared/dateTimeRegex';
 import { findOperatorName } from '../shared/regex';
 import { processTechniques } from './processTechniques';
@@ -143,6 +143,7 @@ export const parsingOrchestratorMachine = createMachine(
 								ip,
 								os: findOsFromMetaLine(metadataLog.blob),
 								host: metadataLog.beacon?.host as Host,
+								shape: Shapes.circle,
 							});
 
 							const beaconMeta = new BeaconMeta({
@@ -154,6 +155,7 @@ export const parsingOrchestratorMachine = createMachine(
 								endTime: ctx.logEntries[ctx.logEntries.length - 1].dateTime,
 								origin: findMetadataOrigin(metadataLog.blob),
 								source: metadataLog,
+								shape: Shapes.circle,
 							});
 
 							const em = ctx.orm.em.fork();

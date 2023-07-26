@@ -1,28 +1,30 @@
-import { Checkbox } from '@blueprintjs/core';
 import { ViewOff16 } from '@carbon/icons-react';
-import { css } from '@emotion/react';
-import {
-	CarbonIcon,
-	createState,
-	dateShortFormat,
-	dateShortPlaceholder,
-	semanticIcons,
-} from '@redeye/client/components';
+import { createState, dateShortFormat, dateShortPlaceholder, semanticIcons } from '@redeye/client/components';
 import type { HostModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoType, TimeStatus } from '@redeye/client/types';
-import { IconLabel, InfoRow, RowTime, RowTitle, ToggleHiddenDialog, useToggleHidden } from '@redeye/client/views';
+import {
+	IconLabel,
+	InfoRow,
+	NodeIcon,
+	RowTime,
+	RowTitle,
+	ToggleHiddenDialog,
+	useToggleHidden,
+} from '@redeye/client/views';
 import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { useCallback, useMemo } from 'react';
+import { Checkbox } from '@blueprintjs/core';
+import { css } from '@emotion/react';
 import { QuickMetaPopoverButtonMenu, ShowHideMenuItem } from '../QuickMeta';
 
-type HostRowProps = ComponentProps<'div'> & {
+type HostOrServerRowProps = ComponentProps<'div'> & {
 	host: HostModel;
 };
 
-export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
+export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props }) => {
 	const store = useStore();
 	const state = createState({
 		cantHideEntities: false,
@@ -156,15 +158,10 @@ export const HostRow = observer<HostRowProps>(({ host, ...props }) => {
 				{host.maxTime ? store.settings.momentTz(host.maxTime)?.format(dateShortFormat) : dateShortPlaceholder}
 			</RowTime>
 			<RowTitle>
-				{host.cobaltStrikeServer ? (
-					<>
-						<CarbonIcon icon={semanticIcons.teamServer} css={{ verticalAlign: 'sub' }} /> <Txt muted>Server:</Txt>
-					</>
-				) : (
-					<CarbonIcon icon={semanticIcons.host} css={{ verticalAlign: 'sub' }} />
-				)}{' '}
+				<NodeIcon type={host.cobaltStrikeServer ? 'server' : 'host'} color="default" />
+				{host.cobaltStrikeServer && <Txt muted>Server:</Txt>}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
-					{host.displayName}
+					{host.computedName}
 				</Txt>
 			</RowTitle>
 			<FlexSplitter />

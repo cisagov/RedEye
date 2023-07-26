@@ -36,6 +36,7 @@ export class CommandModelBase extends Model({
 	beacon: prop<Ref<BeaconModel>>().withSetter(),
 	commandFailed: prop<boolean>().withSetter(),
 	commandGroups: prop<Ref<CommandGroupModel>[]>(() => []).withSetter(),
+	commentsCount: prop<number>().withSetter(),
 	id: prop<string>().withSetter(),
 	input: prop<Ref<LogEntryModel>>().withSetter(),
 	inputText: prop<string>().withSetter(),
@@ -54,6 +55,9 @@ export class CommandModelSelector extends QueryBuilder {
 	}
 	get commandFailed() {
 		return this.__attr(`commandFailed`);
+	}
+	get commentsCount() {
+		return this.__attr(`commentsCount`);
 	}
 	get id() {
 		return this.__attr(`id`);
@@ -86,4 +90,5 @@ export function selectFromCommand() {
 	return new CommandModelSelector();
 }
 
-export const commandModelPrimitives = selectFromCommand().attackIds.commandFailed.inputText.mitreTechniques;
+export const commandModelPrimitives =
+	selectFromCommand().attackIds.commandFailed.commentsCount.inputText.mitreTechniques;

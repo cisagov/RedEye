@@ -226,7 +226,7 @@ tasks:
   start-node:
     env:
       NODE_ENV: development
-    command: 'tsup-node src/index.ts --sourcemap --watch --onSuccess "yarn node --enable-source-maps dist/index.js" --ignore-watch "src/**/*.test.ts"'
+    command: 'tsup-node src --clean --splitting --sourcemap --watch --onSuccess "yarn node --enable-source-maps dist" --ignore-watch "src/**/*.test.ts"'
     inputs:
       - '@globs(sources)'
       - '@globs(tests)'

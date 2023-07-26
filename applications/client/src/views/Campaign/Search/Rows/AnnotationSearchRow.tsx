@@ -1,5 +1,5 @@
 import { highlightPattern } from '@redeye/client/components';
-import type { AnnotationModel } from '@redeye/client/store';
+import { store, type AnnotationModel } from '@redeye/client/store';
 import type { SearchRowProps } from '@redeye/client/views';
 import { SearchRow } from '@redeye/client/views';
 import { Txt } from '@redeye/ui-styles';
@@ -16,9 +16,13 @@ export const AnnotationSearchRow = observer<AnnotationSearchRowProps>(
 			<SearchRow
 				cy-test="search-result-item"
 				item={annotation}
-				path={[annotation.user || 'Unknown User', 'Comment']}
+				path={[annotation.user || 'parser-generated', 'Comment']}
 				commandsCount={annotation.commandIds?.length}
 				tagsCount={annotation.tags?.length}
+				onClick={() => {
+					annotation.searchSelect();
+					store.campaign.search.closeSearch();
+				}}
 				children={
 					<>
 						<Txt block large>

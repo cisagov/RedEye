@@ -60,15 +60,6 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 		return this.beaconIds?.length || 0;
 	}
 
-	@computed get commandsCount(): number {
-		const appStore = getRoot<AppStore>(this);
-		let commandsCount: number = 0;
-		this.beaconIds?.forEach((beaconId) => {
-			commandsCount += appStore?.graphqlStore?.beacons?.get(beaconId)?.commandsCount || 0;
-		});
-		return commandsCount;
-	}
-
 	@computed get operators(): Array<OperatorModel> {
 		const appStore = getRoot<AppStore>(this);
 		const operators: Array<OperatorModel> = [];
@@ -87,6 +78,10 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 		} else {
 			return TimeStatus.FUTURE;
 		}
+	}
+
+	@computed get computedName(): string {
+		return this.displayName ?? this.hostName;
 	}
 
 	@modelAction select() {

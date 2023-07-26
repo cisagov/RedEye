@@ -3,6 +3,7 @@ import { Beacon } from './Beacon';
 import { Command } from './Command';
 import { Field, ObjectType } from 'type-graphql';
 import { randomUUID } from 'crypto';
+import { initThen } from '../util';
 
 @ObjectType()
 @Entity()
@@ -55,6 +56,20 @@ export class Operator {
 	@Field(() => Date, { nullable: true })
 	@Property({ nullable: true })
 	endTime?: Date;
+
+	@Field(() => Number)
+	get commentsCount() {
+		return initThen(this.commands, async () => {
+			let count = 0;
+			for (const command of this.commands.getItems()) {
+				for (const commandGroup of command.commandGroups.getItems()) {
+					if (!commandGroup.annotations.isInitialized()) await commandGroup.annotations.init({ populate: false });
+					count += commandGroup.annotations.count() ?? 0;
+				}
+			}
+			return count;
+		});
+	}
 
 	@OnInit()
 	init() {

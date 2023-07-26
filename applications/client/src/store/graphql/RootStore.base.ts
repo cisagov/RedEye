@@ -90,6 +90,7 @@ import type { MitreTechniques } from './MitreTechniquesEnum';
 import type { ParsingStatus } from './ParsingStatusEnum';
 import type { ServerDelineationTypes } from './ServerDelineationTypesEnum';
 import type { ServerType } from './ServerTypeEnum';
+import type { Shapes } from './ShapesEnum';
 import type { SortDirection } from './SortDirectionEnum';
 import type { SortOption } from './SortOptionEnum';
 import type { SortOptionComments } from './SortOptionCommentsEnum';
@@ -757,6 +758,7 @@ export class RootStoreBase extends ExtendedModel(
 			forOverviewComments?: boolean;
 			hidden?: boolean;
 			listSort?: SortTypeCommentsList;
+			userOnly?: boolean;
 		},
 		resultSelector:
 			| string
@@ -767,7 +769,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
+			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList, $userOnly: Boolean) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort, userOnly: $userOnly) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()
@@ -1182,6 +1184,8 @@ export class RootStoreBase extends ExtendedModel(
 			beaconTimeOfDeath?: any;
 			beaconType?: BeaconType;
 			campaignId: string;
+			color?: string;
+			shape?: Shapes;
 		},
 		resultSelector:
 			| string
@@ -1189,7 +1193,7 @@ export class RootStoreBase extends ExtendedModel(
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateBeaconMetadata: BeaconModel }>(
-			`mutation updateBeaconMetadata($beaconDisplayName: String, $beaconId: String!, $beaconTimeOfDeath: DateTime, $beaconType: BeaconType, $campaignId: String!) { updateBeaconMetadata(beaconDisplayName: $beaconDisplayName, beaconId: $beaconId, beaconTimeOfDeath: $beaconTimeOfDeath, beaconType: $beaconType, campaignId: $campaignId) {
+			`mutation updateBeaconMetadata($beaconDisplayName: String, $beaconId: String!, $beaconTimeOfDeath: DateTime, $beaconType: BeaconType, $campaignId: String!, $color: String, $shape: Shapes) { updateBeaconMetadata(beaconDisplayName: $beaconDisplayName, beaconId: $beaconId, beaconTimeOfDeath: $beaconTimeOfDeath, beaconType: $beaconType, campaignId: $campaignId, color: $color, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -1198,14 +1202,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Update existing Host Display Name
 	@modelAction mutateUpdateHostMetadata(
-		variables: { campaignId: string; hostDisplayName: string; hostId: string },
+		variables: { campaignId: string; color?: string; hostDisplayName?: string; hostId: string; shape?: Shapes },
 		resultSelector:
 			| string
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateHostMetadata: HostModel }>(
-			`mutation updateHostMetadata($campaignId: String!, $hostDisplayName: String!, $hostId: String!) { updateHostMetadata(campaignId: $campaignId, hostDisplayName: $hostDisplayName, hostId: $hostId) {
+			`mutation updateHostMetadata($campaignId: String!, $color: String, $hostDisplayName: String, $hostId: String!, $shape: Shapes) { updateHostMetadata(campaignId: $campaignId, color: $color, hostDisplayName: $hostDisplayName, hostId: $hostId, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -1214,14 +1218,21 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Update existing Server name
 	@modelAction mutateUpdateServerMetadata(
-		variables: { campaignId: string; serverDisplayName?: string; serverId: string; serverType?: ServerType },
+		variables: {
+			campaignId: string;
+			color?: string;
+			serverDisplayName?: string;
+			serverId: string;
+			serverType?: ServerType;
+			shape?: Shapes;
+		},
 		resultSelector:
 			| string
 			| ((qb: typeof ServerModelSelector) => typeof ServerModelSelector) = serverModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateServerMetadata: ServerModel }>(
-			`mutation updateServerMetadata($campaignId: String!, $serverDisplayName: String, $serverId: String!, $serverType: ServerType) { updateServerMetadata(campaignId: $campaignId, serverDisplayName: $serverDisplayName, serverId: $serverId, serverType: $serverType) {
+			`mutation updateServerMetadata($campaignId: String!, $color: String, $serverDisplayName: String, $serverId: String!, $serverType: ServerType, $shape: Shapes) { updateServerMetadata(campaignId: $campaignId, color: $color, serverDisplayName: $serverDisplayName, serverId: $serverId, serverType: $serverType, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(ServerModelSelector).toString() : resultSelector}
       } }`,
 			variables,

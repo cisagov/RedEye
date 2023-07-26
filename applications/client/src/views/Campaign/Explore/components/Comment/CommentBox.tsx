@@ -397,13 +397,30 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const isRedTeam = !store.appMeta.blueTeam;
 		const isPresentationMode = store.router.params.view === CampaignViews.PRESENTATION;
-		const showEditButtons = !isPresentationMode && isRedTeam;
-		const allowReply = isFullList && isRedTeam;
+		const showEditButtons = isRedTeam;
+		const allowReply = !isPresentationMode && isFullList && isRedTeam;
 		const allowEdit =
 			(store.auth.userName === annotation?.user || !annotation?.user) && !isAddingCommandToComment && isRedTeam;
 		const isGrouped = (state.currentCommandIds?.length || 0) > 1;
 		const showGroupLink = isGrouped && !isFullList && !isPresentationMode && !isAddingCommandToComment && isRedTeam;
 		const isCurrentCommandInAnnotation = commandId && commandGroup?.commandIds?.includes(commandId);
+
+		const Tags = () => (
+			<Flex gap={4} align="center">
+				<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
+				{state.tags.length > 0 ? (
+					state.tags.map((tag) => (
+						<Txt muted small css={hashTagBeforeStyle} key={tag}>
+							{tag}
+						</Txt>
+					))
+				) : (
+					<Txt disabled small italic>
+						No Tags
+					</Txt>
+				)}
+			</Flex>
+		);
 
 		return (
 			<div {...props}>
@@ -474,79 +491,83 @@ export const CommentBox = observer<CommentBoxProps>(
 								placeholder="..."
 								autoFocus
 							/>
-							<MultiSelect2
-								cy-test="tag-input1"
-								css={formTagInputStyle}
-								placeholder="#Tags..."
-								tagInputProps={{
-									tagProps: { minimal: true },
-									leftIcon: (
-										<Flex css={{ height: 30, width: 30 }} alignSelf="center" align="center" justify="center">
-											<CarbonIcon cy-test="tag-input" icon={semanticIcons.tags} />
-										</Flex>
-									),
-									disabled: !state.editMode,
-									addOnBlur: true,
-									values: state.tags,
-								}}
-								popoverProps={{
-									minimal: true,
-									usePortal: true,
-									captureDismiss: true,
-									isOpen: state.tagQuery === '' && !state.tags.length ? undefined : !!state.tagQuery.length,
-									portalContainer: popoverRef?.current?.parentElement || document.body,
-									position: Position.RIGHT_TOP,
-									modifiers: {
-										preventOverflow: {
-											enabled: true,
+							{!isPresentationMode ? (
+								<MultiSelect2
+									cy-test="tag-input1"
+									css={formTagInputStyle}
+									placeholder="#Tags..."
+									tagInputProps={{
+										tagProps: { minimal: true },
+										leftIcon: (
+											<Flex css={{ height: 30, width: 30 }} alignSelf="center" align="center" justify="center">
+												<CarbonIcon cy-test="tag-input" icon={semanticIcons.tags} />
+											</Flex>
+										),
+										disabled: !state.editMode,
+										addOnBlur: true,
+										values: state.tags,
+									}}
+									popoverProps={{
+										minimal: true,
+										usePortal: true,
+										captureDismiss: true,
+										isOpen: state.tagQuery === '' && !state.tags.length ? undefined : !!state.tagQuery.length,
+										portalContainer: popoverRef?.current?.parentElement || document.body,
+										position: Position.RIGHT_TOP,
+										modifiers: {
+											preventOverflow: {
+												enabled: true,
+											},
+											offset: {
+												enabled: true,
+											},
+											hide: { enabled: false },
 										},
-										offset: {
-											enabled: true,
+										onInteraction: (nextOpenState: boolean) => {
+											if (!nextOpenState) state.update('tagQuery', '');
 										},
-										hide: { enabled: false },
-									},
-									onInteraction: (nextOpenState: boolean) => {
-										if (!nextOpenState) state.update('tagQuery', '');
-									},
-									onClose: (e) => {
-										if (e) e.stopPropagation();
-									},
-								}}
-								query={state.tagQuery && formatTag(state.tagQuery)}
-								onQueryChange={(query) => state.update('tagQuery', validateTag(query))}
-								items={state.autoTags}
-								fill
-								createNewItemPosition="last"
-								itemPredicate={filterTags}
-								selectedItems={state.tags}
-								onRemove={state.handleTagsRemove}
-								onItemSelect={state.handleTagsChange}
-								createNewItemFromQuery={(query) => validateTag(query)}
-								createNewItemRenderer={(item, active, handleClick: MouseEventHandler<HTMLElement>) => (
-									<MenuItem2
-										cy-test="add-tag"
-										icon={<CarbonIcon icon={Add16} />}
-										disabled={state.tags.includes(item)}
-										text={formatTag(validateTag(item))}
-										active={active}
-										onClick={handleClick}
-										shouldDismissPopover={false}
-									/>
-								)}
-								itemRenderer={(item, { modifiers, handleClick }) => (
-									<MenuItem2
-										cy-test="tag-list-item"
-										active={modifiers.active}
-										key={item}
-										onClick={handleClick}
-										disabled={modifiers.disabled}
-										text={formatTag(item)}
-										shouldDismissPopover={false}
-									/>
-								)}
-								tagRenderer={(item) => item}
-								// onKeyUp={state.addTagIfSpaceBar}
-							/>
+										onClose: (e) => {
+											if (e) e.stopPropagation();
+										},
+									}}
+									query={state.tagQuery && formatTag(state.tagQuery)}
+									onQueryChange={(query) => state.update('tagQuery', validateTag(query))}
+									items={state.autoTags}
+									fill
+									createNewItemPosition="last"
+									itemPredicate={filterTags}
+									selectedItems={state.tags}
+									onRemove={state.handleTagsRemove}
+									onItemSelect={state.handleTagsChange}
+									createNewItemFromQuery={(query) => validateTag(query)}
+									createNewItemRenderer={(item, active, handleClick: MouseEventHandler<HTMLElement>) => (
+										<MenuItem2
+											cy-test="add-tag"
+											icon={<CarbonIcon icon={Add16} />}
+											disabled={state.tags.includes(item)}
+											text={formatTag(validateTag(item))}
+											active={active}
+											onClick={handleClick}
+											shouldDismissPopover={false}
+										/>
+									)}
+									itemRenderer={(item, { modifiers, handleClick }) => (
+										<MenuItem2
+											cy-test="tag-list-item"
+											active={modifiers.active}
+											key={item}
+											onClick={handleClick}
+											disabled={modifiers.disabled}
+											text={formatTag(item)}
+											shouldDismissPopover={false}
+										/>
+									)}
+									tagRenderer={(item) => item}
+									// onKeyUp={state.addTagIfSpaceBar}
+								/>
+							) : (
+								<Tags />
+							)}
 							{/* {store.router.params.currentItem === 'beacon' && ( <> // why is this check necessary? 
 
 							// BLDSTRIKE-591 Finish implementing creating/commenting on links
@@ -620,20 +641,7 @@ export const CommentBox = observer<CommentBoxProps>(
 							</Txt>
 						)}
 
-						<Flex gap={4} align="center">
-							<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
-							{state.tags.length > 0 ? (
-								state.tags.map((tag) => (
-									<Txt muted small css={hashTagBeforeStyle} key={tag}>
-										{tag}
-									</Txt>
-								))
-							) : (
-								<Txt disabled small italic>
-									No Tags
-								</Txt>
-							)}
-						</Flex>
+						<Tags />
 						{state.manualLink?.destination?.current && (
 							<Flex gap={4} align="center">
 								<CarbonIcon icon={semanticIcons.link} css={{ color: CoreTokens.TextMuted }} />
@@ -658,7 +666,7 @@ export const CommentBox = observer<CommentBoxProps>(
 											/>
 										)}
 										{allowReply && <Button cy-test="reply" minimal small onClick={() => reply?.()} text="Reply" />}
-										{allowEdit && (
+										{allowEdit && !isPresentationMode && (
 											<>
 												<Button
 													cy-test="delete-comment"
