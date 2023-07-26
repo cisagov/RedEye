@@ -11,6 +11,7 @@ import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { Suspense, useEffect } from 'react';
+import { Tabs } from '@redeye/client/types';
 import { MitreTechniqueIcons } from '../../components/MitreTechniqueIcons';
 import { getManualCommandLinks } from '../../components/Comment/CheckForAddedLink';
 
@@ -56,14 +57,25 @@ export const CommandRow = observer<CommandContainerProps>(
 			setCollapsed() {
 				if (!state.expanded) {
 					expandedCommandIDs.push(state.commandId);
-					store.router.updateRoute({
-						path: store.router.currentRoute,
-						params: {
-							activeItem: 'command',
-							activeItemId: state.commandId,
-						},
-						replace: true,
-					});
+					if (store.router.params.tab === Tabs.COMMENTS) {
+						store.router.updateRoute({
+							path: store.router.currentRoute,
+							params: {
+								activeItem: 'command',
+								activeItemId: state.commandId,
+							},
+							replace: true,
+						});
+					} else {
+						store.router.updateRoute({
+							path: store.router.currentRoute,
+							params: {
+								activeItem: 'command',
+								activeItemId: state.commandId,
+							},
+							replace: true,
+						});
+					}
 				} else if (expandedCommandIDs?.length >= 1) {
 					if (expandedCommandIDs[expandedCommandIDs.length - 1] === state.commandId) {
 						store.router.updateRoute({

@@ -21,6 +21,7 @@ import { Operator } from './Operator';
 import { Image } from './Image';
 import { File } from './File';
 import { BeaconMeta } from './BeaconMeta';
+import { initThen } from '../util';
 
 type RequiredInsertArgs = Pick<Beacon, 'beaconName'>;
 type OptionalInsertArgs = Partial<Pick<Beacon, 'id' | 'server' | 'host'>>;
@@ -61,6 +62,17 @@ export class Beacon {
 	@Field(() => Number)
 	get commandsCount() {
 		return this.commands?.count();
+	}
+
+	@Field(() => Number)
+	get commentsCount() {
+		return initThen(this.commands, async () => {
+			let count = 0;
+			for (const command of this.commands.getItems()) {
+				count += (await command.commentsCount) ?? 0;
+			}
+			return count;
+		});
 	}
 
 	@Field(() => Number)

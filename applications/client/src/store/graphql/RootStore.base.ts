@@ -724,6 +724,7 @@ export class RootStoreBase extends ExtendedModel(
 			forOverviewComments?: boolean;
 			hidden?: boolean;
 			listSort?: SortTypeCommentsList;
+			userOnly?: boolean;
 		},
 		resultSelector:
 			| string
@@ -734,7 +735,7 @@ export class RootStoreBase extends ExtendedModel(
 		clean?: boolean
 	) {
 		return this.query<{ presentationItems: PresentationItemModel[] }>(
-			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort) {
+			`query presentationItems($campaignId: String!, $commentsTabSort: SortTypeCommentsTab, $forOverviewComments: Boolean, $hidden: Boolean, $listSort: SortTypeCommentsList, $userOnly: Boolean) { presentationItems(campaignId: $campaignId, commentsTabSort: $commentsTabSort, forOverviewComments: $forOverviewComments, hidden: $hidden, listSort: $listSort, userOnly: $userOnly) {
         ${
 					typeof resultSelector === 'function'
 						? resultSelector(PresentationItemModelSelector).toString()

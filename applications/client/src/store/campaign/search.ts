@@ -14,6 +14,9 @@ import {
 	OperatorModel,
 	ServerModel,
 	TagModel,
+	PresentationItemModel,
+	presentationItemModelPrimitives,
+	presentationCommandGroupModelPrimitives,
 } from '../graphql';
 import { RedEyeModel } from '../util/model';
 import { CampaignLoadingMessage } from './campaign';
@@ -69,7 +72,7 @@ export class SearchStore extends ExtendedModel(() => ({
 	}
 
 	@computed get searchItems(): Array<
-		OperatorModel | BeaconModel | ServerModel | HostModel | CommandTypeCountModel | TagModel
+		OperatorModel | BeaconModel | ServerModel | HostModel | CommandTypeCountModel | TagModel | PresentationItemModel
 	> {
 		return this.appStore
 			? [
@@ -79,6 +82,7 @@ export class SearchStore extends ExtendedModel(() => ({
 					...this.appStore.graphqlStore.hosts.values(),
 					...this.appStore.graphqlStore.commandTypeCounts.values(),
 					...this.appStore.graphqlStore.tags.values(),
+					...this.appStore.graphqlStore.presentationItems.values(),
 			  ]
 			: [];
 	}
@@ -110,6 +114,10 @@ export class SearchStore extends ExtendedModel(() => ({
 					searchQuery: searchString,
 					hidden: this.appStore.settings.showHidden,
 				});
+				yield this.appStore.graphqlStore.queryPresentationItems(
+					{ campaignId: this.appStore.campaign.id!, hidden: this.appStore.settings.showHidden, userOnly: true },
+					presentationItemModelPrimitives.commandGroups(presentationCommandGroupModelPrimitives).toString()
+				);
 
 				// Run search with MiniSearch
 				const search = new MiniSearch({
@@ -126,7 +134,7 @@ export class SearchStore extends ExtendedModel(() => ({
 					...this.searchItems,
 				] as AnyModel[]);
 				search.addAll(allItems);
-				const results = search.search(searchString);
+				const results = search.search({ queries: searchString.split(' ').map((str) => str), combineWith: 'AND' });
 
 				this.results = results.map((result) => ({
 					...idsToValue[result.id],
@@ -222,6 +230,8 @@ export class SearchStore extends ExtendedModel(() => ({
 			return [item.id];
 		} else if (item instanceof CommandModel) {
 			return [`${item.inputText} ${item.inputLine}`, item.outputLines.join(' ')];
+		} else if (item instanceof PresentationItemModel && item.id.slice(0, 5) === 'user-') {
+			return [item.id.slice(5)];
 		}
 		return [];
 	}

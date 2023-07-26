@@ -3,6 +3,7 @@ import { Field, ObjectType } from 'type-graphql';
 import { Beacon } from './Beacon';
 import { HostMeta } from './HostMeta';
 import { randomUUID } from 'crypto';
+import { initThen } from '../util';
 
 type RequiredInsertArgs = Pick<Host, 'hostName'>;
 type OptionalArgs = Partial<Omit<Host, 'hostName' | 'beacons' | 'meta' | 'init' | 'beaconIds'>>;
@@ -48,6 +49,22 @@ export class Host {
 		} catch (e) {
 			return [];
 		}
+	}
+
+	@Field(() => Number)
+	get commandsCount() {
+		return this.beacons.getItems().reduce((acc, beacon) => acc + beacon.commandsCount ?? 0, 0);
+	}
+
+	@Field(() => Number)
+	get commentCount() {
+		return initThen(this.beacons, async () => {
+			let count = 0;
+			for (const beacon of this.beacons.getItems()) {
+				count += (await beacon.commentsCount) ?? 0;
+			}
+			return count;
+		});
 	}
 
 	/**

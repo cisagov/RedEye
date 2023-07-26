@@ -11,7 +11,7 @@ import {
 	timelineModelPrimitives,
 } from '../graphql';
 
-export const annotationQuery = annotationModelPrimitives.tags((tag) => tag.text).toString();
+export const annotationQuery = annotationModelPrimitives.tags((tag) => tag.text.commandsCount.commentCount).toString();
 
 export const commandQuery = commandModelPrimitives
 	.beacon((beacon) => beacon.meta((meta) => meta.ip.pid.startTime.endTime).host((host) => host.beaconIds))

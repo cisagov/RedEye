@@ -166,7 +166,7 @@ export const Comments = observer<CommentsProps>(({ sort, showPath }) => {
 				}, 250);
 			}
 		}
-	}, [commandGroupIdData]);
+	}, [commandGroupIdData, store.campaign?.commentStore.scrollToComment]);
 
 	return (
 		<VirtualizedList

@@ -12,6 +12,8 @@ import { QueryBuilder } from 'mk-gql';
  */
 export class TagModelBase extends Model({
 	__typename: tProp('Tag'),
+	commandsCount: prop<number>().withSetter(),
+	commentCount: prop<number>().withSetter(),
 	id: prop<string>().withSetter(),
 	text: prop<string>().withSetter(),
 }) {
@@ -21,6 +23,12 @@ export class TagModelBase extends Model({
 }
 
 export class TagModelSelector extends QueryBuilder {
+	get commandsCount() {
+		return this.__attr(`commandsCount`);
+	}
+	get commentCount() {
+		return this.__attr(`commentCount`);
+	}
 	get id() {
 		return this.__attr(`id`);
 	}
@@ -32,4 +40,4 @@ export function selectFromTag() {
 	return new TagModelSelector();
 }
 
-export const tagModelPrimitives = selectFromTag().text;
+export const tagModelPrimitives = selectFromTag().commandsCount.commentCount.text;

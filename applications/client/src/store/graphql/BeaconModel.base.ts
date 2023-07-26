@@ -28,6 +28,7 @@ export class BeaconModelBase extends Model({
 	/** The name Cobalt Strike gives the beacon or the Cobalt Strike server name. Not _necessarily_ unique across a campaign but is unique to a server */
 	beaconName: prop<string>().withSetter(),
 	commandsCount: prop<number>().withSetter(),
+	commentsCount: prop<number>().withSetter(),
 	displayName: prop<string | null>().withSetter(),
 	hidden: prop<boolean | null>().withSetter(),
 	host: prop<Ref<HostModel> | null>().withSetter(),
@@ -48,6 +49,9 @@ export class BeaconModelSelector extends QueryBuilder {
 	}
 	get commandsCount() {
 		return this.__attr(`commandsCount`);
+	}
+	get commentsCount() {
+		return this.__attr(`commentsCount`);
 	}
 	get displayName() {
 		return this.__attr(`displayName`);
@@ -79,4 +83,4 @@ export function selectFromBeacon() {
 }
 
 export const beaconModelPrimitives =
-	selectFromBeacon().beaconName.commandsCount.displayName.hidden.logsCount.mitreTechniques.serverId;
+	selectFromBeacon().beaconName.commandsCount.commentsCount.displayName.hidden.logsCount.mitreTechniques.serverId;

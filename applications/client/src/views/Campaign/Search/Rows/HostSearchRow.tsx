@@ -27,6 +27,7 @@ export const HostSearchRow = observer<HostSearchRowProps>(({ result, searchTerm,
 			startTime={host.minTime}
 			endTime={host.maxTime}
 			beaconsCount={host.beaconCount}
+			commentsCount={host.commentCount ?? 0}
 			onClick={() => {
 				host.searchSelect();
 				store.campaign.search.closeSearch();

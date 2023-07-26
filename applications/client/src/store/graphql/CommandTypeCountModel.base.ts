@@ -12,6 +12,8 @@ import { QueryBuilder } from 'mk-gql';
  */
 export class CommandTypeCountModelBase extends Model({
 	__typename: tProp('CommandTypeCount'),
+	beaconsCount: prop<number>().withSetter(),
+	commentsCount: prop<number>().withSetter(),
 	count: prop<number>().withSetter(),
 	id: prop<string>().withSetter(),
 	text: prop<string>().withSetter(),
@@ -22,6 +24,12 @@ export class CommandTypeCountModelBase extends Model({
 }
 
 export class CommandTypeCountModelSelector extends QueryBuilder {
+	get beaconsCount() {
+		return this.__attr(`beaconsCount`);
+	}
+	get commentsCount() {
+		return this.__attr(`commentsCount`);
+	}
 	get count() {
 		return this.__attr(`count`);
 	}
@@ -36,4 +44,4 @@ export function selectFromCommandTypeCount() {
 	return new CommandTypeCountModelSelector();
 }
 
-export const commandTypeCountModelPrimitives = selectFromCommandTypeCount().count.text;
+export const commandTypeCountModelPrimitives = selectFromCommandTypeCount().beaconsCount.commentsCount.count.text;

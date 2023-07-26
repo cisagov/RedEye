@@ -2,6 +2,7 @@ import { Collection, Entity, ManyToMany, PrimaryKey, Property } from '@mikro-orm
 import { Field, ObjectType } from 'type-graphql';
 import { Annotation } from './Annotation';
 import type { EntityManager } from '../types';
+import { initThen } from '../util';
 
 @ObjectType()
 @Entity()
@@ -18,6 +19,20 @@ export class Tag {
 	@Field(() => String)
 	@Property()
 	text: string;
+
+	@Field(() => Number)
+	get commandsCount() {
+		return initThen(this.annotations, async () => {
+			let count = 0;
+			for (const annotation of this.annotations.getItems()) count += (await annotation.commandCount) ?? 0;
+			return count;
+		});
+	}
+
+	@Field(() => Number)
+	get commentCount() {
+		return initThen(this.annotations, () => this.annotations.count());
+	}
 
 	/**
 	 * Relationships

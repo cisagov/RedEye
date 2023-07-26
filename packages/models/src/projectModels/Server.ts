@@ -14,6 +14,7 @@ import { randomUUID } from 'crypto';
 import { Field, ObjectType } from 'type-graphql';
 import { Beacon } from './Beacon';
 import { ServerMeta } from './ServerMeta';
+import { initThen } from '../util';
 
 @ObjectType()
 @Unique({ properties: ['parsingPath'] })
@@ -53,13 +54,28 @@ export class Server {
 	 */
 	@Field(() => Number)
 	get logsCount() {
-		let count = 0;
-		const beacons = this.beacons.getItems();
-		beacons.forEach((beacon) => {
-			count += beacon.logsCount ?? 0;
-		});
+		return this.beacons.getItems().reduce((acc, beacon) => acc + beacon.logsCount ?? 0, 0);
+	}
 
-		return count;
+	@Field(() => Number)
+	get commandsCount() {
+		return this.beacons.getItems().reduce((acc, beacon) => acc + beacon.commandsCount ?? 0, 0);
+	}
+
+	@Field(() => Number)
+	get beaconCount() {
+		return this.beacons.count() ?? 0;
+	}
+
+	@Field(() => Number)
+	get commentCount() {
+		return initThen(this.beacons, async () => {
+			let count = 0;
+			for (const beacon of this.beacons.getItems()) {
+				count += (await beacon.commentsCount) ?? 0;
+			}
+			return count;
+		});
 	}
 
 	/**

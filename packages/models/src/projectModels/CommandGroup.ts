@@ -4,6 +4,7 @@ import { Field, ObjectType } from 'type-graphql';
 import { Annotation } from './Annotation';
 import { Command } from './Command';
 import { GenerationType } from './shared';
+import { initThen } from '../util';
 
 @ObjectType()
 @Entity()
@@ -37,6 +38,11 @@ export class CommandGroup {
 	@Field(() => [String])
 	get commandIds() {
 		return this.commands?.getIdentifiers();
+	}
+
+	@Field(() => Number)
+	get commentCount() {
+		return initThen(this.annotations, () => this.annotations?.count());
 	}
 
 	@OnInit()
