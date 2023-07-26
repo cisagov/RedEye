@@ -8,10 +8,10 @@ import { LogEntry } from './LogEntry';
 import { Shapes } from './shared';
 
 export enum BeaconType {
-	HTTP = 'http',
-	HTTPS = 'https',
-	SMB = 'smb',
-	DNS = 'dns',
+	http = 'http',
+	https = 'https',
+	smb = 'smb',
+	dns = 'dns',
 }
 
 registerEnumType(BeaconType, {
@@ -64,7 +64,7 @@ export class BeaconMeta {
 
 	@Field(() => BeaconType, { nullable: true, description: 'The communication type used by the beacon' })
 	@Enum(() => BeaconType)
-	type?: BeaconType = BeaconType.HTTP;
+	type?: BeaconType = BeaconType.http;
 
 	@Property({ nullable: true })
 	origin?: string;

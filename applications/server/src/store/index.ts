@@ -16,7 +16,7 @@ import { ServerResolvers } from './server-resolvers';
 import { TimelineResolvers } from './timeline-resolvers';
 import { ParserResolvers } from './parser-resolvers';
 
-export const resolvers: NonEmptyArray<Function> = [
+export const resolvers: NonEmptyArray<unknown> = [
 	AnnotationResolvers,
 	BeaconResolvers,
 	CampaignResolvers,

@@ -97,10 +97,10 @@ type BeaconMeta {
 
 """The communication type used by the beacon"""
 enum BeaconType {
-  DNS
-  HTTP
-  HTTPS
-  SMB
+  dns
+  http
+  https
+  smb
 }
 
 type Campaign {
@@ -596,10 +596,10 @@ type ServerParsingProgress {
 
 """The communication type used by the server"""
 enum ServerType {
-  DNS
-  HTTP
-  HTTPS
-  SMB
+  dns
+  http
+  https
+  smb
 }
 
 """The shape of the node"""

@@ -3,7 +3,8 @@ import { ParserLink } from './parser-link';
 import { ParserOperator } from './parser-operator';
 import { ParserServer } from './parser-server';
 import { ParserHost } from './parser-host';
-import { ParserBeacon } from './parser-beacon';
+import { ParserBeacon, ParserFile, ParserImage } from './parser-beacon';
+import { ParserLogEntry } from './parser-log-entry';
 
 export interface ParserOutput {
 	/**
@@ -121,4 +122,14 @@ export interface ParserOutput {
 	};
 }
 
-export { ParserCommand, ParserLink, ParserOperator, ParserServer, ParserHost, ParserBeacon };
+export {
+	ParserCommand,
+	ParserLink,
+	ParserOperator,
+	ParserServer,
+	ParserHost,
+	ParserBeacon,
+	ParserLogEntry,
+	ParserFile,
+	ParserImage,
+};

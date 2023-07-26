@@ -15,7 +15,6 @@ export class ServerResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('username', () => String) username: string,
-
 		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Server>
@@ -131,8 +130,8 @@ export class ServerResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('serverDisplayName', () => String, { nullable: true }) serverDisplayName?: string,
 		@Arg('serverType', () => ServerType, { nullable: true }) serverType?: ServerType,
-		@Arg('shape', { nullable: true }) shape?: Shapes,
-		@Arg('color', { nullable: true }) color?: string
+		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
+		@Arg('color', () => String, { nullable: true }) color?: string
 	): Promise<Server> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const server = await em.findOneOrFail(Server, serverId, { populate: relationPaths });

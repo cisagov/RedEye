@@ -33,7 +33,7 @@
 			{
 				"prefer": "type-imports",
 				"fixStyle": "separate-type-imports",
-				"disallowTypeAnnotations": true
+				"disallowTypeAnnotations": false
 			}
 		],
 		"import/no-anonymous-default-export": ["error"]

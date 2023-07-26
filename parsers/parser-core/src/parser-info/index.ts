@@ -1,4 +1,4 @@
-import { UploadForm } from './upload-form';
+import type { UploadForm } from './upload-form';
 export { UploadForm, UploadValidation, ServerDelineationTypes, ValidationMode, FileDisplay } from './upload-form';
 export { FileUpload, UploadType } from './file-upload';
 export interface ParserInfo {

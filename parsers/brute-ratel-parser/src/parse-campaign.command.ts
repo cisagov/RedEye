@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 import { ParserMessageTypes, writeParserMessage } from '@redeye/parser-core';
 import { parseAutosaveProfile } from './profileParser';
 

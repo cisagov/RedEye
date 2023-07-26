@@ -1,4 +1,4 @@
-import { BeaconLineType, LogType } from '@redeye/models';
+import type { BeaconLineType, LogType } from '@redeye/models';
 
 export interface ParserLogEntry {
 	/**
@@ -39,7 +39,7 @@ export interface ParserLogEntry {
 	 * // If the log entry is miscellaneous metadata tied to a beacon
 	 * logType = 'METADATA'
 	 */
-	lineType?: BeaconLineType;
+	lineType?: keyof typeof BeaconLineType;
 	/**
 	 * The type of log entry
 	 * @enum {'BEACON' | 'EVENT' | 'DOWNLOAD' | 'WEBLOG' | 'KEYSTROKES' | 'UNKNOWN'}
@@ -57,7 +57,7 @@ export interface ParserLogEntry {
 	 * // Any other log entry
 	 * logType = 'UNKNOWN'
 	 */
-	logType: LogType;
+	logType: keyof typeof LogType;
 	/**
 	 * The date and time the log entry was created
 	 * @example

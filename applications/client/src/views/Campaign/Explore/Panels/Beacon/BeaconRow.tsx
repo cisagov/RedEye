@@ -54,7 +54,7 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 	});
 
 	const skeletonClass = useMemo(
-		() => (!(beacon.displayName || beacon.server?.displayName) ? Classes.SKELETON : ''),
+		() => (!(beacon.computedName || beacon.server?.computedName) ? Classes.SKELETON : ''),
 		[beacon.displayName, beacon.server?.displayName]
 	);
 
@@ -136,7 +136,7 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 				<NodeIcon type="beacon" shape="pentagonUp" color="gold" />
 				<NodeIcon type="beacon" shape="hexagonUp" color="orange" /> */}
 				<Txt cy-test="beacon-display-name" normal muted>
-					{beacon?.displayName || `${beacon.server?.displayName}`}
+					{beacon?.computedName || `${beacon.server?.computedName}`}
 				</Txt>
 				<Txt cy-test="beacon-user">{beacon.meta?.[0]?.maybeCurrent?.username}</Txt>
 			</RowTitle>

@@ -1,3 +1,4 @@
+import type { BeaconLineType, LogType, MitreTechniques, ServerType } from '@redeye/models';
 import {
 	Annotation,
 	Beacon,
@@ -12,23 +13,19 @@ import {
 	Link,
 	LogEntry,
 	mitreTechniques,
-	MitreTechniques,
 	Operator,
 	Server,
 	ServerMeta,
+	Shapes,
 } from '@redeye/models';
 import * as readline from 'node:readline';
 import path from 'path';
 import { getRuntimeDir } from '../util';
-import {
-	createLoggerInstance,
-	ParserInfo,
-	ParserMessageTypes,
-	ParserOutput,
-	getParserPrefixAndMessage,
-} from '@redeye/parser-core';
-import { exec, execFile, ChildProcess } from 'child_process';
-import { EndpointContext, EntityManager } from '../types';
+import type { ParserInfo, ParserOutput } from '@redeye/parser-core';
+import { createLoggerInstance, ParserMessageTypes, getParserPrefixAndMessage } from '@redeye/parser-core';
+import type { ChildProcess } from 'child_process';
+import { exec, execFile } from 'child_process';
+import type { EndpointContext, EntityManager } from '../types';
 import { MikroORM } from '@mikro-orm/core';
 
 export const invokeParser = <T>(parserName: string, args: string[], loggingFolderPath?: string) =>
@@ -124,7 +121,7 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 				server: created.servers[parsedServer.name],
 			});
 			const serverMeta = created.servers[parsedServer.name].meta ?? new ServerMeta(created.servers[parsedServer.name]);
-			serverMeta.type = parsedServer.type ?? serverMeta.type;
+			serverMeta.type = (parsedServer.type ?? serverMeta.type) as ServerType;
 			created.servers[parsedServer.name].meta = serverMeta;
 			em.persist([
 				created.servers[parsedServer.name],
@@ -142,6 +139,7 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 				ip: host.ip,
 				os: host.os,
 				osVersion: host.osVersion,
+				shape: Shapes.circle,
 				type: host.type,
 			});
 			created.hosts[host.name].meta.add(hostMeta);
@@ -163,7 +161,8 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 				pid: beacon.processId,
 				startTime: beacon.startTime,
 				endTime: beacon.endTime,
-				type: beacon.type || BeaconType.HTTP,
+				shape: Shapes.circle,
+				type: (beacon.type || BeaconType.http) as BeaconType,
 			});
 			created.beacons[beacon.name].meta.add(beaconMeta);
 			await em.persist([created.beacons[beacon.name], beaconMeta]);
@@ -212,6 +211,8 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 				inputText: command.input.blob,
 				input: new LogEntry({
 					...command.input,
+					logType: command.input.logType as LogType,
+					lineType: command.input.lineType as BeaconLineType,
 					lineNumber: command.input.lineNumber || 0,
 					beacon,
 					blob: command.input.blob || '',
@@ -221,6 +222,8 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 			if (command.output) {
 				const newOutput = new LogEntry({
 					...command.output,
+					logType: command.output.logType as LogType,
+					lineType: command.output.lineType as BeaconLineType,
 					lineNumber: command.output.lineNumber || 0,
 					beacon,
 					blob: command.output.blob || '',

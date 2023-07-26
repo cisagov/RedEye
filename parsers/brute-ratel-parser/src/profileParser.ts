@@ -1,8 +1,15 @@
-import { BruteRatelProfile, GraphBadger } from './profile.types';
+import type { BruteRatelProfile, GraphBadger } from './profile.types';
 import fs from 'fs-extra';
 import path from 'path';
 import { parseFiles } from './logParser';
-import { ParserBeacon, ParserCommand, ParserHost, ParserLink, ParserOperator, ParserServer } from '@redeye/parser-core';
+import type {
+	ParserBeacon,
+	ParserCommand,
+	ParserHost,
+	ParserLink,
+	ParserOperator,
+	ParserServer,
+} from '@redeye/parser-core';
 import { LogType } from '@redeye/models';
 
 const mitreId = /\(([^)]+)\)/;

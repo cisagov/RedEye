@@ -1,4 +1,4 @@
-import { FileUpload } from './file-upload';
+import type { FileUpload } from './file-upload';
 
 export interface UploadForm {
 	/**

@@ -30,8 +30,8 @@ export class HostResolvers {
 		@Arg('hostId', () => String) hostId: string,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('hostDisplayName', () => String, { nullable: true }) hostDisplayName?: string,
-		@Arg('shape', { nullable: true }) shape?: Shapes,
-		@Arg('color', { nullable: true }) color?: string,
+		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
+		@Arg('color', () => String, { nullable: true }) color?: string,
 		@RelationPath() relationPaths?: Relation<Host>
 	): Promise<Host> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);

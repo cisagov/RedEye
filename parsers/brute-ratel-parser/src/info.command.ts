@@ -1,6 +1,6 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
+import type { ParserInfo } from '@redeye/parser-core';
 import {
-	ParserInfo,
 	ParserMessageTypes,
 	ServerDelineationTypes,
 	UploadType,

@@ -1,4 +1,4 @@
-import { ParserLogEntry } from './parser-log-entry';
+import type { ParserLogEntry } from './parser-log-entry';
 
 export interface ParserCommand {
 	/**

@@ -1,6 +1,7 @@
-import { Command } from 'commander';
-import { ParserMessageTypes, ParserValidateFiles, writeParserMessage } from '@redeye/parser-core';
-import { BruteRatelProfile } from './profile.types';
+import type { Command } from 'commander';
+import type { ParserValidateFiles } from '@redeye/parser-core';
+import { ParserMessageTypes, writeParserMessage } from '@redeye/parser-core';
+import type { BruteRatelProfile } from './profile.types';
 import fs from 'fs-extra';
 import path from 'path';
 

@@ -1,4 +1,4 @@
-import { ServerType } from '@redeye/models';
+import type { ServerType } from '@redeye/models';
 
 export interface ParserServer {
 	/**
@@ -12,5 +12,5 @@ export interface ParserServer {
 	 * @example
 	 * type = 'https'
 	 */
-	type?: ServerType;
+	type?: keyof typeof ServerType;
 }

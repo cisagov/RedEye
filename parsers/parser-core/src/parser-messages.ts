@@ -1,8 +1,8 @@
-import { LoggerOptions } from './logging';
-import { ParserOutput } from './parser-output';
-import { ParserProgress } from './parser-progress';
-import { ParserInfo } from './parser-info';
-import { ParserValidateFiles } from './parser-validate-files';
+import type { LoggerOptions } from './logging';
+import type { ParserOutput } from './parser-output';
+import type { ParserProgress } from './parser-progress';
+import type { ParserInfo } from './parser-info';
+import type { ParserValidateFiles } from './parser-validate-files';
 
 export enum ParserMessageTypes {
 	/** The complete parsed data in {ParserOutput}  */

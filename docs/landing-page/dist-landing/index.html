@@ -1,197 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
-		<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/favicon.svg">
-		<meta name="viewport" content="width=device-width">
-		<meta name="generator" content="Astro v2.6.6">
+		<meta charset="utf-8" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/favicon.svg"
+		/>
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content="Astro v2.6.6" />
 		<title>RedEye</title>
-	<link rel="stylesheet" href="/assets/style.css" /><script type="module">document.querySelector(".menu").addEventListener("click",()=>{document.querySelector(".nav-links").classList.toggle("expanded")});
-</script></head>
+		<link rel="stylesheet" href="/assets/style.css" />
+		<script type="module">
+			document.querySelector('.menu').addEventListener('click', () => {
+				document.querySelector('.nav-links').classList.toggle('expanded');
+			});
+		</script>
+	</head>
 	<body>
 		<header class="astro-3EF6KSR2">
-	<div class="nav-wrapper astro-3EF6KSR2">
-		<nav class="astro-3EF6KSR2">
-			<div class="menu">
-	<span class="line"></span>
-	<span class="line"></span>
-	<span class="line"></span>
-</div>
-			<div class="nav-links astro-PUX6A34N">
-	<a class="currentTab astro-PUX6A34N" href="/">Home</a>
-	<a href="https://github.com/cisagov/RedEye" class="astro-PUX6A34N">Help</a>
-	<a href="https://www.youtube.com/watch?v=b_ARIVl4BkQ" class="astro-PUX6A34N">Intro</a>
-</div>
-		</nav>
-		<div class="download button astro-3EF6KSR2">
-			<a href="https://github.com/cisagov/RedEye/releases" class="astro-3EF6KSR2">Download</a>
-		</div>
-	</div>
-</header>
+			<div class="nav-wrapper astro-3EF6KSR2">
+				<nav class="astro-3EF6KSR2">
+					<div class="menu">
+						<span class="line"></span>
+						<span class="line"></span>
+						<span class="line"></span>
+					</div>
+					<div class="nav-links astro-PUX6A34N">
+						<a class="currentTab astro-PUX6A34N" href="/">Home</a>
+						<a href="https://github.com/cisagov/RedEye" class="astro-PUX6A34N">Help</a>
+						<a href="https://www.youtube.com/watch?v=b_ARIVl4BkQ" class="astro-PUX6A34N">Intro</a>
+					</div>
+				</nav>
+				<div class="download button astro-3EF6KSR2">
+					<a href="https://github.com/cisagov/RedEye/releases" class="astro-3EF6KSR2">Download</a>
+				</div>
+			</div>
+		</header>
 		<div class="container">
-			
-	<h1 id="redeye">RedEye</h1>
-<p>Red Team C2 Log Visualization</p>
-<p align="center">
-<img alt="RedEye Screenshot" src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedEye-Hero-Screenshot.png?raw=true" width="100%">
-</p>
-<p>RedEye is an open-source analytic tool developed by <a href="https://www.cisa.gov/">CISA</a> and <a href="https://www.energy.gov/">DOE</a>’s <a href="https://www.pnnl.gov/">Pacific Northwest National Laboratory</a> to assist <a href="https://en.wikipedia.org/wiki/Red_team">Red Teams</a> with visualizing and reporting command and control activities. This tool allows an operator to assess and display complex data, evaluate mitigation strategies, and enable effective decision making in response to a Red Team assessment. The tool parses logs, such as those from <a href="https://www.cobaltstrike.com/">Cobalt Strike</a>, and presents the data in an easily digestible format. The users can then tag and add comments to activities displayed within the tool. The operators can use the RedEye’s presentation mode to present findings and workflow to stakeholders.</p>
-<p>RedEye can assist an operator to efficiently:</p>
-<ul>
-<li>Replay and demonstrate Red Team’s assessment activities as they occurred rather than manually pouring through thousands of lines of log text.</li>
-<li>Display and evaluate complex assessment data to enable effective decision making.</li>
-<li>Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.</li>
-</ul>
-<p>Red Team: <a href="https://cloud.cypress.io/projects/rsybgk/runs"><img src="https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&#x26;style=flat&#x26;logo=cypress" alt="Red Team"></a></p>
-<p>Blue Team: <a href="https://cloud.cypress.io/projects/46ahz3/runs"><img src="https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&#x26;style=flat&#x26;logo=cypress" alt="Blue Team"></a></p>
-<h2 id="user-guide"><a href="https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md">User Guide</a></h2>
-<p>Follow along with the <a href="https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md">User Guide</a> to learn about RedEye’s feature set.</p>
-<h2 id="quick-start">Quick start</h2>
-<ol>
-<li><strong>Download</strong> the latest RedEye binaries for your OS<a href="#platform-support">*</a> from the <a href="https://github.com/cisagov/RedEye/releases">Releases</a> page.
-2. <strong>Pick a mode</strong> and <strong>Run the server</strong>
-<ul>
-<li><a href="#red-team"> <strong>Red Team mode</strong></a> enables the full feature set: upload C2 logs, explore data, and create presentations. To start the server in Red Team mode, run the following in a terminal. <em>You must provide a password to run in RedTeam mode.</em></li>
-</ul>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">  ./RedEye --redTeam --password &#x3C;your_password></span></span></code></pre>
-<ul>
-<li><a href="#blue-team"><strong>Blue Team mode</strong></a> (default) enables a simplified, read-only UI for reviewing campaigns exported by a Red Team. To start the server in Blue Team mode. Double-click on the ‘RedEye’ executable or run <code>./RedEye</code> from the command line.</li>
-</ul>
-</li>
-<li><strong>Use the web app</strong> in a browser at <a href="http://127.0.0.1:4000">http://127.0.0.1:4000</a>. The RedEye binary runs as a server in a terminal window and will automatically open the web app UI your default browser. You must close the terminal window to quit the RedEye server.</li>
-</ol>
-<p><em><strong>MacOS Issue</strong> - When running RedEye for the first time, you may get a “not verified” error. You must go to “System Preferences” > “Security &#x26; Privacy” > “General” and click “Open Anyway.” More info on the <a href="https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/">Apple support page</a>.</em></p>
-<h2 id="red-team--blue-team-modes">Red Team &#x26; Blue Team Modes</h2>
-<p>RedEye has two modes that cover two stages of the Red Teaming process. <a href="#red-team">Red Team mode</a> allows importing C2 data, editing imported data, and making comments and presentations. After curating and annotating campaign data, Red Teams can export their campaign as a standalone <code>.redeye</code> file and <a href="#blue-team-presentation-handoff">hand it off to a Blue Team</a> for reporting and remediation. <a href="#blue-team">Blue Team mode</a> runs RedEye in a simplified read-only mode for viewing curated data exported by a Red Team.</p>
-<p><em>Note: Both Red and Blue Team modes can be started from the same RedEye application binary.</em></p>
-<h3 id="red-team">Red Team</h3>
-<p>The downloaded binary comes in two parts:</p>
-<ul>
-<li>The <code>RedEye</code> application binary</li>
-<li>The <code>parsers</code> folder containing parser binaries (e.g. <code>cobalt-strike-parser</code> Cobalt Strike log parser binary)</li>
-</ul>
-<p>There are three options to run RedEye in Red Team mode:</p>
-<ol>
-<li>Run the downloaded binary, passing in the <code>--redTeam</code> and password options:
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">./RedEye --redTeam --password &#x3C;your_password></span></span></code></pre>
-</li>
-<li>Clone, install, and run the project directly (covered in the <a href="#local-build">Local Build</a> section).</li>
-<li>Docker Compose
-<ol>
-<li>Clone the repo</li>
-<li>Update the environment variables in <code>docker-compose.yml</code>.</li>
-<li>Run:
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">docker-compose -f docker-compose.yml up -d redeye-core</span></span></code></pre>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="blue-team">Blue Team</h3>
-<p>The Blue Team mode is a simplified, read-only UI for displaying data that has been curated, annotated, and exported by a Red Team. This mode runs by default to make startup more simple for the Blue Team.</p>
-<p>The Blue Team version can be run by double-clicking the ‘RedEye’ application binary. RedEye runs at <a href="http://127.0.0.1:4000">http://127.0.0.1:4000</a> (by default) and will automatically open your default browser.</p>
-<h3 id="blue-team-presentation-handoff">Blue Team Presentation Handoff</h3>
-<p>If a <code>campaigns</code> folder is located in the same directory as the <code>RedEye</code> application, RedEye will attempt to import any <code>.redeye</code> campaign files within. Campaign files can be exported in the Red Team mode.</p>
-<p>To prepare a version for the Blue Team, follow these two steps:</p>
-<ol>
-<li>Copy the <code>RedEye</code> application binary to an empty folder.</li>
-<li>Create a <code>campaigns</code> folder in the same directory and place the <code>.redeye</code> campaign files you want to send inside.</li>
-</ol>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">Folder/</span></span>
+			<h1 id="redeye">RedEye</h1>
+			<p>Red Team C2 Log Visualization</p>
+			<p align="center">
+				<img
+					alt="RedEye Screenshot"
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedEye-Hero-Screenshot.png?raw=true"
+					width="100%"
+				/>
+			</p>
+			<p>
+				RedEye is an open-source analytic tool developed by <a href="https://www.cisa.gov/">CISA</a> and
+				<a href="https://www.energy.gov/">DOE</a>’s
+				<a href="https://www.pnnl.gov/">Pacific Northwest National Laboratory</a> to assist
+				<a href="https://en.wikipedia.org/wiki/Red_team">Red Teams</a> with visualizing and reporting command and
+				control activities. This tool allows an operator to assess and display complex data, evaluate mitigation
+				strategies, and enable effective decision making in response to a Red Team assessment. The tool parses logs,
+				such as those from <a href="https://www.cobaltstrike.com/">Cobalt Strike</a>, and presents the data in an easily
+				digestible format. The users can then tag and add comments to activities displayed within the tool. The
+				operators can use the RedEye’s presentation mode to present findings and workflow to stakeholders.
+			</p>
+			<p>RedEye can assist an operator to efficiently:</p>
+			<ul>
+				<li>
+					Replay and demonstrate Red Team’s assessment activities as they occurred rather than manually pouring through
+					thousands of lines of log text.
+				</li>
+				<li>Display and evaluate complex assessment data to enable effective decision making.</li>
+				<li>
+					Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment
+					or penetration test.
+				</li>
+			</ul>
+			<p>
+				Red Team:
+				<a href="https://cloud.cypress.io/projects/rsybgk/runs"
+					><img
+						src="https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&#x26;style=flat&#x26;logo=cypress"
+						alt="Red Team"
+				/></a>
+			</p>
+			<p>
+				Blue Team:
+				<a href="https://cloud.cypress.io/projects/46ahz3/runs"
+					><img
+						src="https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&#x26;style=flat&#x26;logo=cypress"
+						alt="Blue Team"
+				/></a>
+			</p>
+			<h2 id="user-guide"><a href="https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md">User Guide</a></h2>
+			<p>
+				Follow along with the
+				<a href="https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md">User Guide</a> to learn about
+				RedEye’s feature set.
+			</p>
+			<h2 id="quick-start">Quick start</h2>
+			<ol>
+				<li>
+					<strong>Download</strong> the latest RedEye binaries for your OS<a href="#platform-support">*</a> from the
+					<a href="https://github.com/cisagov/RedEye/releases">Releases</a> page. 2. <strong>Pick a mode</strong> and
+					<strong>Run the server</strong>
+					<ul>
+						<li>
+							<a href="#red-team"> <strong>Red Team mode</strong></a> enables the full feature set: upload C2 logs,
+							explore data, and create presentations. To start the server in Red Team mode, run the following in a
+							terminal. <em>You must provide a password to run in RedTeam mode.</em>
+						</li>
+					</ul>
+					<pre
+						is:raw=""
+						class="astro-code github-dark"
+						style="background-color: #24292e; overflow-x: auto"
+						tabindex="0"
+					><code><span class="line"><span style="color: #e1e4e8">  ./RedEye --redTeam --password &#x3C;your_password></span></span></code></pre>
+					<ul>
+						<li>
+							<a href="#blue-team"><strong>Blue Team mode</strong></a> (default) enables a simplified, read-only UI for
+							reviewing campaigns exported by a Red Team. To start the server in Blue Team mode. Double-click on the
+							‘RedEye’ executable or run <code>./RedEye</code> from the command line.
+						</li>
+					</ul>
+				</li>
+				<li>
+					<strong>Use the web app</strong> in a browser at <a href="http://127.0.0.1:4000">http://127.0.0.1:4000</a>.
+					The RedEye binary runs as a server in a terminal window and will automatically open the web app UI your
+					default browser. You must close the terminal window to quit the RedEye server.
+				</li>
+			</ol>
+			<p>
+				<em
+					><strong>MacOS Issue</strong> - When running RedEye for the first time, you may get a “not verified” error.
+					You must go to “System Preferences” > “Security &#x26; Privacy” > “General” and click “Open Anyway.” More info
+					on the
+					<a href="https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/"
+						>Apple support page</a
+					>.</em
+				>
+			</p>
+			<h2 id="red-team--blue-team-modes">Red Team &#x26; Blue Team Modes</h2>
+			<p>
+				RedEye has two modes that cover two stages of the Red Teaming process.
+				<a href="#red-team">Red Team mode</a> allows importing C2 data, editing imported data, and making comments and
+				presentations. After curating and annotating campaign data, Red Teams can export their campaign as a standalone
+				<code>.redeye</code> file and <a href="#blue-team-presentation-handoff">hand it off to a Blue Team</a> for
+				reporting and remediation. <a href="#blue-team">Blue Team mode</a> runs RedEye in a simplified read-only mode
+				for viewing curated data exported by a Red Team.
+			</p>
+			<p><em>Note: Both Red and Blue Team modes can be started from the same RedEye application binary.</em></p>
+			<h3 id="red-team">Red Team</h3>
+			<p>The downloaded binary comes in two parts:</p>
+			<ul>
+				<li>The <code>RedEye</code> application binary</li>
+				<li>
+					The <code>parsers</code> folder containing parser binaries (e.g. <code>cobalt-strike-parser</code> Cobalt
+					Strike log parser binary)
+				</li>
+			</ul>
+			<p>There are three options to run RedEye in Red Team mode:</p>
+			<ol>
+				<li>
+					Run the downloaded binary, passing in the <code>--redTeam</code> and password options:
+					<pre
+						is:raw=""
+						class="astro-code github-dark"
+						style="background-color: #24292e; overflow-x: auto"
+						tabindex="0"
+					><code><span class="line"><span style="color: #e1e4e8">./RedEye --redTeam --password &#x3C;your_password></span></span></code></pre>
+				</li>
+				<li>
+					Clone, install, and run the project directly (covered in the <a href="#local-build">Local Build</a> section).
+				</li>
+				<li>
+					Docker Compose
+					<ol>
+						<li>Clone the repo</li>
+						<li>Update the environment variables in <code>docker-compose.yml</code>.</li>
+						<li>
+							Run:
+							<pre
+								is:raw=""
+								class="astro-code github-dark"
+								style="background-color: #24292e; overflow-x: auto"
+								tabindex="0"
+							><code><span class="line"><span style="color: #e1e4e8">docker-compose -f docker-compose.yml up -d redeye-core</span></span></code></pre>
+						</li>
+					</ol>
+				</li>
+			</ol>
+			<h3 id="blue-team">Blue Team</h3>
+			<p>
+				The Blue Team mode is a simplified, read-only UI for displaying data that has been curated, annotated, and
+				exported by a Red Team. This mode runs by default to make startup more simple for the Blue Team.
+			</p>
+			<p>
+				The Blue Team version can be run by double-clicking the ‘RedEye’ application binary. RedEye runs at
+				<a href="http://127.0.0.1:4000">http://127.0.0.1:4000</a> (by default) and will automatically open your default
+				browser.
+			</p>
+			<h3 id="blue-team-presentation-handoff">Blue Team Presentation Handoff</h3>
+			<p>
+				If a <code>campaigns</code> folder is located in the same directory as the <code>RedEye</code> application,
+				RedEye will attempt to import any <code>.redeye</code> campaign files within. Campaign files can be exported in
+				the Red Team mode.
+			</p>
+			<p>To prepare a version for the Blue Team, follow these two steps:</p>
+			<ol>
+				<li>Copy the <code>RedEye</code> application binary to an empty folder.</li>
+				<li>
+					Create a <code>campaigns</code> folder in the same directory and place the <code>.redeye</code> campaign files
+					you want to send inside.
+				</li>
+			</ol>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #e1e4e8">Folder/</span></span>
 <span class="line"><span style="color: #e1e4e8">	RedEye</span></span>
 <span class="line"><span style="color: #e1e4e8">	campaigns/</span></span>
 <span class="line"><span style="color: #e1e4e8">		Campaign-01.redeye</span></span>
 <span class="line"><span style="color: #e1e4e8">		Campaign-02.redeye</span></span></code></pre>
-<p><code>.redeye</code> files can also be uploaded in Blue Team mode via the ”+ Add Campaign” dialog.</p>
-<!--
+			<p><code>.redeye</code> files can also be uploaded in Blue Team mode via the ”+ Add Campaign” dialog.</p>
+			<!--
 ## RedEye Server Settings
 RedEye runs as a server and can be setup to serve the UI on a network..
 
 ***{instructions}***
 -->
-<h3 id="redeye-server-parameters">RedEye Server parameters</h3>
-<p>Type <code>./Redeye -h</code> to view the options</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">-d, --developmentMode [boolean]  put the database and server in development mode</span></span>
+			<h3 id="redeye-server-parameters">RedEye Server parameters</h3>
+			<p>Type <code>./Redeye -h</code> to view the options</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #e1e4e8">-d, --developmentMode [boolean]  put the database and server in development mode</span></span>
 <span class="line"><span style="color: #e1e4e8">-r, --redTeam [boolean]          run the server in red team mode</span></span>
 <span class="line"><span style="color: #e1e4e8">--port [number]                  the port the server should be exposed at</span></span>
 <span class="line"><span style="color: #e1e4e8">-p, --password [string]          the password for user authentication</span></span>
 <span class="line"><span style="color: #e1e4e8">--parsers [string...]            A list of parsers to use or a flag to use all parsers in the parsers folder</span></span>
 <span class="line"><span style="color: #e1e4e8">-t, --childProcesses [number]    max # of child processes the parser can use</span></span>
 <span class="line"><span style="color: #e1e4e8">-h, --help                       display help for command</span></span></code></pre>
-<p>you can also configure the server parameters in a <code>config.json</code> file that sits next to the <code>RedEye</code> binary</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"></span>
+			<p>
+				you can also configure the server parameters in a <code>config.json</code> file that sits next to the
+				<code>RedEye</code> binary
+			</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"></span>
 <span class="line"><span style="color: #E1E4E8">{</span></span>
 <span class="line"><span style="color: #E1E4E8">	</span><span style="color: #79B8FF">"password"</span><span style="color: #E1E4E8">: </span><span style="color: #9ECBFF">"937038570"</span><span style="color: #E1E4E8">,</span></span>
 <span class="line"><span style="color: #E1E4E8">	</span><span style="color: #79B8FF">"redTeam"</span><span style="color: #E1E4E8">: </span><span style="color: #79B8FF">true</span><span style="color: #E1E4E8">,</span></span>
 <span class="line"><span style="color: #E1E4E8">	</span><span style="color: #79B8FF">"parsers"</span><span style="color: #E1E4E8">: [</span><span style="color: #9ECBFF">"cobalt-strike-parser"</span><span style="color: #E1E4E8">, </span><span style="color: #9ECBFF">"brute-ratel-parser"</span><span style="color: #E1E4E8">]</span></span>
 <span class="line"><span style="color: #E1E4E8">}</span></span></code></pre>
-<h2 id="local-build">Local Build</h2>
-<h3 id="required-packages">Required Packages</h3>
-<ul>
-<li><a href="https://nodejs.org/en/">Node.js</a> >= v16</li>
-<li>Install yarn: <code>npm install -g yarn</code></li>
-<li>Run: <code>yarn install</code> // Installs all packages</li>
-<li>Run either:
-<ol>
-<li><code>yarn release:all</code> to build a binary for Linux, macOS, and Windows</li>
-<li><code>yarn release:(mac|windows|linux)</code> .</li>
-</ol>
-</li>
-<li>platform options:
-<ul>
-<li>mac</li>
-<li>windows</li>
-<li>linux</li>
-</ul>
-</li>
-</ul>
-<h2 id="development">Development</h2>
-<h3 id="setup">Setup</h3>
-<p>Install <a href="https://nodejs.org/en/">Node.js</a> >= v16
-Install <a href="https://yarnpkg.com/">yarn</a> globally via <a href="https://www.npmjs.com/package/yarn">npm</a></p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">npm install -g yarn</span></span></code></pre>
-<p>Install package dependencies</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #e1e4e8">yarn install</span></span></code></pre>
-<h4 id="quick-start-development">Quick Start Development</h4>
-<p>Runs the project in development mode</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">start</span></span></code></pre>
-<h4 id="advanced-development">Advanced Development</h4>
-<p>It is recommended to run the server and client in two separate terminals</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">start:client</span></span></code></pre>
-<p>…in another terminal</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">start:server</span></span></code></pre>
-<h4 id="build">Build</h4>
-<p>to build a binary for Linux, macOS, and Windows</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">release:all</span></span></code></pre>
-<p>to build for a specific platform, replace <code>all</code> with the platform name</p>
-<pre is:raw="" class="astro-code github-dark" style="background-color: #24292e; overflow-x: auto;" tabindex="0"><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">release:</span><span style="color: #E1E4E8">(</span><span style="color: #B392F0">mac</span><span style="color: #F97583">|</span><span style="color: #B392F0">windows</span><span style="color: #F97583">|</span><span style="color: #B392F0">linux</span><span style="color: #E1E4E8">)</span></span></code></pre>
-<h2 id="platform-support">Platform support</h2>
-<ul>
-<li>Linux
-<ul>
-<li>Ubuntu 18 and newer</li>
-<li>Kali Linux 2020.1 and newer</li>
-<li>Others may be supported but are untested</li>
-</ul>
-</li>
-<li>macOS
-<ul>
-<li>El Capitan and newer</li>
-</ul>
-</li>
-<li>Windows
-<ul>
-<li>Windows 7 and newer</li>
-<li>ARM support is experimental</li>
-</ul>
-</li>
-</ul>
-<hr>
-<div align="center">
-<img alt="CISA Logo" src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CISA Logo.png?raw=true" height="35%" width="35%">
-<img alt="RedEye Logo" src="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/logos/Logo-Dark.svg" height="35%" width="35%">
-</div>
-
+			<h2 id="local-build">Local Build</h2>
+			<h3 id="required-packages">Required Packages</h3>
+			<ul>
+				<li><a href="https://nodejs.org/en/">Node.js</a> >= v16</li>
+				<li>Install yarn: <code>npm install -g yarn</code></li>
+				<li>Run: <code>yarn install</code> // Installs all packages</li>
+				<li>
+					Run either:
+					<ol>
+						<li><code>yarn release:all</code> to build a binary for Linux, macOS, and Windows</li>
+						<li><code>yarn release:(mac|windows|linux)</code> .</li>
+					</ol>
+				</li>
+				<li>
+					platform options:
+					<ul>
+						<li>mac</li>
+						<li>windows</li>
+						<li>linux</li>
+					</ul>
+				</li>
+			</ul>
+			<h2 id="development">Development</h2>
+			<h3 id="setup">Setup</h3>
+			<p>
+				Install <a href="https://nodejs.org/en/">Node.js</a> >= v16 Install
+				<a href="https://yarnpkg.com/">yarn</a> globally via <a href="https://www.npmjs.com/package/yarn">npm</a>
+			</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #e1e4e8">npm install -g yarn</span></span></code></pre>
+			<p>Install package dependencies</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #e1e4e8">yarn install</span></span></code></pre>
+			<h4 id="quick-start-development">Quick Start Development</h4>
+			<p>Runs the project in development mode</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">start</span></span></code></pre>
+			<h4 id="advanced-development">Advanced Development</h4>
+			<p>It is recommended to run the server and client in two separate terminals</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">start:client</span></span></code></pre>
+			<p>…in another terminal</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">start:server</span></span></code></pre>
+			<h4 id="build">Build</h4>
+			<p>to build a binary for Linux, macOS, and Windows</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">release:all</span></span></code></pre>
+			<p>to build for a specific platform, replace <code>all</code> with the platform name</p>
+			<pre
+				is:raw=""
+				class="astro-code github-dark"
+				style="background-color: #24292e; overflow-x: auto"
+				tabindex="0"
+			><code><span class="line"><span style="color: #B392F0">yarn</span><span style="color: #E1E4E8"> </span><span style="color: #9ECBFF">release:</span><span style="color: #E1E4E8">(</span><span style="color: #B392F0">mac</span><span style="color: #F97583">|</span><span style="color: #B392F0">windows</span><span style="color: #F97583">|</span><span style="color: #B392F0">linux</span><span style="color: #E1E4E8">)</span></span></code></pre>
+			<h2 id="platform-support">Platform support</h2>
+			<ul>
+				<li>
+					Linux
+					<ul>
+						<li>Ubuntu 18 and newer</li>
+						<li>Kali Linux 2020.1 and newer</li>
+						<li>Others may be supported but are untested</li>
+					</ul>
+				</li>
+				<li>
+					macOS
+					<ul>
+						<li>El Capitan and newer</li>
+					</ul>
+				</li>
+				<li>
+					Windows
+					<ul>
+						<li>Windows 7 and newer</li>
+						<li>ARM support is experimental</li>
+					</ul>
+				</li>
+			</ul>
+			<hr />
+			<div align="center">
+				<img
+					alt="CISA Logo"
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CISA Logo.png?raw=true"
+					height="35%"
+					width="35%"
+				/>
+				<img
+					alt="RedEye Logo"
+					src="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/logos/Logo-Dark.svg"
+					height="35%"
+					width="35%"
+				/>
+			</div>
 		</div>
-		
 	</body>
 </html>

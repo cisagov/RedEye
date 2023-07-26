@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { EndpointContext } from '../types';
+import type { Router } from 'express';
+import type { EndpointContext } from '../types';
 import { withTempDir } from '../util';
 import path from 'path';
 import { invokeParser } from '../machines/parser.service';

@@ -1,4 +1,4 @@
-import { BeaconType, FileFlag } from '@redeye/models';
+import type { BeaconType, FileFlag } from '@redeye/models';
 
 export interface ParserBeacon {
 	/**
@@ -27,9 +27,10 @@ export interface ParserBeacon {
 	 * The type of beacon
 	 * @enum {'http' | 'https' | 'smb' | 'dns'}
 	 * @example
+	 * possible values: 'http' | 'https' | 'smb' | 'dns'
 	 * type = 'http'
 	 */
-	type?: BeaconType;
+	type?: keyof typeof BeaconType;
 	/**
 	 * The port that the beacon is communicating over
 	 * @example
@@ -93,7 +94,7 @@ export interface ParserBeacon {
 	files?: ParserFile[];
 }
 
-interface ParserImage {
+export interface ParserImage {
 	/**
 	 * The type of image
 	 * @enum {'png' | 'jpg' | 'jpeg' | 'gif' | 'svg' | 'bmp' | 'tiff' | 'webp' | 'ico' | string}
@@ -115,7 +116,7 @@ interface ParserImage {
 	fileName?: string;
 }
 
-interface ParserFile {
+export interface ParserFile {
 	/**
 	 * The name of the file if the local file name is different from the name of the file
 	 * @example
@@ -142,5 +143,5 @@ interface ParserFile {
 	 * Was this file uploaded to the host or downloaded from the host
 	 * @enum {"UPLOAD" | "DOWNLOAD"}
 	 */
-	fileFlag: FileFlag;
+	fileFlag: keyof typeof FileFlag;
 }

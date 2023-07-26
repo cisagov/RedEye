@@ -9,10 +9,10 @@ import { types, prop, tProp, Model, Ref } from 'mobx-keystone';
  */
 
 export enum BeaconType {
-	DNS = 'DNS',
-	HTTP = 'HTTP',
-	HTTPS = 'HTTPS',
-	SMB = 'SMB',
+	dns = 'dns',
+	http = 'http',
+	https = 'https',
+	smb = 'smb',
 }
 
 /**
