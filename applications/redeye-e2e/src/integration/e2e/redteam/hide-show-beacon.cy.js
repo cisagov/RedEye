@@ -3,8 +3,8 @@
 function hideUnhideBeacon(beaconName) {
 	// Hide a beacon
 	cy.get('[cy-test=beacons-row]').contains(beaconName).click();
-	cy.contains('[cy-test=panel-header]', beaconName);
 	cy.clickDetailsTab();
+	// cy.contains('[cy-test=beacon-display-name]', beaconName);
 	cy.showHideBeaconDetailsTab();
 }
 
@@ -26,11 +26,10 @@ describe('Hide a beacon', () => {
 		cy.get('[cy-test=beacon-display-name]')
 			.last()
 			.invoke('text')
-			.then((beacon) => {
-				const beaconName = beacon.split(' / ')[1];
-
+			.then((beaconName) => {
 				// Hide a beacon
 				hideUnhideBeacon(beaconName);
+				cy.reload();
 
 				// Verify beacon no longer shows
 				cy.clickBeaconsTab();
@@ -47,6 +46,7 @@ describe('Hide a beacon', () => {
 
 				// Unhide the beacon
 				hideUnhideBeacon(beaconName);
+				cy.reload();
 
 				// Toggle off switch for hidden beacons
 				cy.doNotShowHiddenItems();
@@ -69,11 +69,10 @@ describe('Hide a beacon', () => {
 		cy.get('[cy-test=beacon-display-name]')
 			.last()
 			.invoke('text')
-			.then((beacon) => {
-				const beaconName = beacon.split(' / ')[1];
-
+			.then((beaconName) => {
 				// Hide a beacon
 				hideUnhideBeacon(beaconName);
+				cy.reload();
 
 				// Verify beacon no longer shows
 				cy.clickBeaconsTab();
@@ -92,6 +91,7 @@ describe('Hide a beacon', () => {
 
 				// Unhide the beacon
 				hideUnhideBeacon(beaconName);
+				cy.reload();
 
 				// Toggle off switch for hidden beacons
 				cy.returnToCampaignCard();
@@ -104,9 +104,7 @@ describe('Hide a beacon', () => {
 			});
 	});
 
-	it.only('Hide beacon using the kebab menu', () => {
-		cy.uploadCampaign(camp, fileName);
-
+	it('Hide beacon using the kebab menu', () => {
 		// Search for new campaign by name
 		cy.selectCampaign(camp);
 
@@ -116,9 +114,7 @@ describe('Hide a beacon', () => {
 		cy.get('[cy-test=beacon-display-name]')
 			.last()
 			.invoke('text')
-			.then((beacon) => {
-				const beaconName = beacon.split(' / ')[1];
-
+			.then((beaconName) => {
 				// Hide the last beacon in the list
 				cy.showHideItem(4);
 

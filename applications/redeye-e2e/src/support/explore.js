@@ -26,6 +26,7 @@ Cypress.Commands.add('clickTab', (name) => {
 // RETURN TO CAMPAIGN CARD
 Cypress.Commands.add('returnToCampaignCard', () => {
 	cy.get('[cy-test=return-campaign-menu]').first().click({ force: true });
+	cy.wait(500);
 	// cy.wait('@campaigns');
 });
 

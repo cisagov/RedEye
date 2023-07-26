@@ -50,10 +50,10 @@ describe('Hide a Beacon using GraphQL', () => {
 			.then(() => {
 				// cy.log(beacs.join(', '));
 				cy.wrap(beacs).should('deep.equal', [
-					'08/17—08/17COMPUTER02 / jdoe9',
-					'08/17—08/17COMPUTER02 / jdoe *9',
-					'08/17—08/17COMPUTER03 / SYSTEM *8',
-					'08/17—08/17COMPUTER03 / user0114',
+					'08/17—08/17330588776jdoe9',
+					'08/17—08/172146137244jdoe *9',
+					'08/17—08/17500978634SYSTEM *8',
+					'08/17—08/171042756528user0114',
 				]);
 			});
 	});
