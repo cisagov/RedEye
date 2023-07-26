@@ -215,9 +215,11 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 					{
 						text: currentBeacon?.computedName,
 						onClick: async (e) => {
-							e.stopPropagation();
-							await onNavigate(e);
-							currentBeacon?.select('command', this.command?.id as UUID);
+							if (!(store.router.params.currentItem === 'beacon' && store.router.queryParams['raw-command'])) {
+								e.stopPropagation();
+								await onNavigate(e);
+								currentBeacon?.select('command', this.command?.id as UUID);
+							}
 						},
 					},
 					{
