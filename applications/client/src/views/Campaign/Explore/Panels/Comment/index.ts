@@ -3,4 +3,4 @@
  */
 
 export * from './CommentGroup';
-export * from './Comments';
+export * from './CommentsList';

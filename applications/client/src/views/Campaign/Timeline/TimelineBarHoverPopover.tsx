@@ -93,11 +93,8 @@ export const TimelineBarHoverPopover = observer<BarLabelsProps>(({ bar, dateForm
 								css={barPopoverRowStyles}
 								onClick={() => routeToBeacon(beaconCommand.beaconId as string)}
 							>
-								<Txt cy-test="timeline-beacon-name" small>
-									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.displayName}
-								</Txt>
-								<Txt cy-test="timeline-beacon-operator" muted small ellipsize>
-									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.meta[0].maybeCurrent?.username}
+								<Txt cy-test="timeline-beacon-name" small ellipsize>
+									{store.graphqlStore.beacons.get(beaconCommand.beaconId as string)?.computedNameWithHost}
 								</Txt>
 								<FlexSplitter />
 								<IconLabel

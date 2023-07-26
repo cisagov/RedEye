@@ -1,5 +1,7 @@
 // <reference types="cypress" />
 
+const exp = require('constants');
+
 describe('Navigate to beacon through command details', () => {
 	const camp = 'commandtobeacon';
 	const fileName = 'gt.redeye';
@@ -26,17 +28,10 @@ describe('Navigate to beacon through command details', () => {
 				cy.get('[cy-test=hostBeaconInfo]').contains(text).click();
 
 				// Verify that the page directed to the appropriate beacon
-				cy.get('[cy-test=beaconName]')
+				cy.get('[cy-test=panel-header]')
 					.invoke('text')
 					.then((beaconName) => {
-						// cy.log(beaconName);
-
-						cy.get('[cy-test=userName]')
-							.invoke('text')
-							.then((userName) => {
-								// cy.log(userName);
-								expect(beaconName + ' ' + userName).to.eq(text);
-							});
+						expect(beaconName).to.eq(text);
 					});
 			});
 	});

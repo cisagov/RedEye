@@ -231,6 +231,24 @@
 					"nullable": true,
 					"mappedType": "text"
 				},
+				"shape": {
+					"name": "shape",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				},
+				"color": {
+					"name": "color",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
 				"host_id": {
 					"name": "host_id",
 					"type": "text",
@@ -1244,6 +1262,24 @@
 					"nullable": true,
 					"mappedType": "text"
 				},
+				"shape": {
+					"name": "shape",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "text"
+				},
+				"color": {
+					"name": "color",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
+				},
 				"source_id": {
 					"name": "source_id",
 					"type": "text",
@@ -1403,6 +1439,25 @@
 					"default": "'http'",
 					"enumItems": ["http", "https", "smb", "dns"],
 					"mappedType": "enum"
+				},
+				"shape": {
+					"name": "shape",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"default": "'hexagonUp'",
+					"mappedType": "text"
+				},
+				"color": {
+					"name": "color",
+					"type": "text",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "text"
 				},
 				"server_id": {
 					"name": "server_id",
