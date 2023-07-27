@@ -16,7 +16,8 @@ import { ServerResolvers } from './server-resolvers';
 import { TimelineResolvers } from './timeline-resolvers';
 import { ParserResolvers } from './parser-resolvers';
 
-export const resolvers: NonEmptyArray<unknown> = [
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const resolvers: NonEmptyArray<Function> = [
 	AnnotationResolvers,
 	BeaconResolvers,
 	CampaignResolvers,
