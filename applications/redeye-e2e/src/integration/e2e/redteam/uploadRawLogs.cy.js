@@ -1,10 +1,10 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 /// <reference types="cypress" />
 
-describe('Timeline tests', () => {
+describe('Upload raw log', () => {
 	const camp = '200817';
 
-	it('Verify timeline features', () => {
+	it('Upload raw log and verify counts', () => {
 		cy.get('[cy-test=add-campaign-btn]').click();
 
 		cy.uploadLogs('seb', camp);

@@ -303,6 +303,12 @@ Cypress.Commands.add('verifyCannotHideFinal', () => {
 	cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
 });
 
+// VERIFY CANNOT HIDE FINAL ITEM BOX DISAPPEARS
+Cypress.Commands.add('verifyCannotHideFinalDisappears', () => {
+	cy.get('[cy-test=cannot-hide-final-text1]').should('not.exist');
+	cy.get('[cy-test=cannot-hide-final-text2]').should('not.exist');
+});
+
 // CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
 Cypress.Commands.add('confirmShowHide', () => {
 	cy.get('[cy-test=confirm-show-hide]').click();

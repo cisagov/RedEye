@@ -29,6 +29,7 @@ describe('Bulk edit to hide hosts', () => {
 		selectMultipleHosts();
 		cy.clickBulkEdit();
 		cy.bulkEditHide();
+		cy.wait(500);
 
 		// Verify hosts no longer show
 		cy.get('[cy-test=hostName]')
@@ -39,6 +40,7 @@ describe('Bulk edit to hide hosts', () => {
 
 		// Toggle switch back on
 		cy.showHiddenItems();
+		cy.reload();
 
 		// Verify hosts show again with the hidden icon
 		cy.get('[cy-test=hostName]').should('have.length', 6);
@@ -56,6 +58,7 @@ describe('Bulk edit to hide hosts', () => {
 
 		// Toggle off switch for hidden items
 		cy.doNotShowHiddenItems();
+		cy.reload();
 
 		// Verify hosts show
 		cy.get('[cy-test=hostName]').should('have.length', 6);
@@ -77,6 +80,7 @@ describe('Bulk edit to hide hosts', () => {
 
 		// Toggle switch so that hidden items are not shown
 		cy.doNotShowHiddenItems();
+		cy.reload();
 
 		// Verify host numbers are still the same
 		cy.get('@hostsCount').should('eq', 6);

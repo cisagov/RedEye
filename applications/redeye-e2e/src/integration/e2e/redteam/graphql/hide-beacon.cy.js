@@ -43,6 +43,7 @@ describe('Hide a Beacon using GraphQL', () => {
 			});
 		});
 		cy.doNotShowHiddenItems();
+		cy.reload();
 		cy.clickBeaconsTab();
 		const beacs = [];
 		cy.get('[cy-test=beacons-row]')
