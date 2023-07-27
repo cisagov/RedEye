@@ -102,7 +102,7 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 		} else this.server?.select();
 	}
 
-	@modelAction navCommandSelect() {
+	@modelAction navCommandSelect(keepActiveItem?: boolean) {
 		const appStore = getRoot<AppStore>(this);
 		if (!this.cobaltStrikeServer && appStore) {
 			appStore.router.updateRoute({
@@ -112,9 +112,14 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 					tab: Tabs.COMMANDS,
 					currentItem: 'host',
 					currentItemId: this.id as UUID,
-					activeItem: appStore.router.params.currentItem === 'beacon' ? undefined : appStore.router.params.activeItem,
+					activeItem:
+						appStore.router.params.currentItem === 'beacon' && !keepActiveItem
+							? undefined
+							: appStore.router.params.activeItem,
 					activeItemId:
-						appStore.router.params.currentItem === 'beacon' ? undefined : appStore.router.params.activeItemId,
+						appStore.router.params.currentItem === 'beacon' && !keepActiveItem
+							? undefined
+							: appStore.router.params.activeItemId,
 				},
 			});
 		} else {

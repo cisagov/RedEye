@@ -205,10 +205,13 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 							if (
 								store.router.params.tab !== Tabs.COMMANDS ||
 								store.router.params.currentItem === 'operator' ||
-								store.router.params.currentItem === 'command-type'
+								store.router.params.currentItem === 'command-type' ||
+								store.router.params.currentItem === 'beacon'
 							) {
+								const isInBeaconRawCommand =
+									store.router.params.currentItem === 'beacon' && !!store.router.queryParams['raw-command'];
 								await onNavigate(e);
-								currentBeacon?.host?.current?.navCommandSelect();
+								currentBeacon?.host?.current?.navCommandSelect(isInBeaconRawCommand);
 							}
 						},
 					},
