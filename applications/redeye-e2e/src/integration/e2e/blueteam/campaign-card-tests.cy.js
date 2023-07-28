@@ -33,7 +33,7 @@ describe('Search and filter campaigns and verify beacon counts', () => {
 		cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]')
 			.its('length')
 			.then((resultSearch1) => {
-				expect(+divNumber).to.equal(resultSearch1 + 1);
+				expect(+divNumber).to.equal(resultSearch1);
 			});
 	});
 

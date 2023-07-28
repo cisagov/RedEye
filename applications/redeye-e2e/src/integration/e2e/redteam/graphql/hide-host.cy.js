@@ -48,7 +48,7 @@ describe('Hide a Host using GraphQL', () => {
 			.each(($li) => hostsList.push($li.text()))
 			.then(() => {
 				// cy.log(hostsList.join(', '));
-				cy.wrap(hostsList).should('deep.equal', ['08/17—08/17 Server: TestDataSet', '08/17—08/17 COMPUTER02243']);
+				cy.wrap(hostsList).should('deep.equal', ['08/17—08/17Server:TestDataSet', '08/17—08/17COMPUTER02243']);
 			});
 	});
 

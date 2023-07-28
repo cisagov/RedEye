@@ -26,6 +26,7 @@ Cypress.Commands.add('clickTab', (name) => {
 // RETURN TO CAMPAIGN CARD
 Cypress.Commands.add('returnToCampaignCard', () => {
 	cy.get('[cy-test=return-campaign-menu]').first().click({ force: true });
+	cy.wait(500);
 	// cy.wait('@campaigns');
 });
 
@@ -300,6 +301,12 @@ Cypress.Commands.add('verifyDialogBoxDisappears', () => {
 Cypress.Commands.add('verifyCannotHideFinal', () => {
 	cy.get('[cy-test=cannot-hide-final-text1]').should('exist');
 	cy.get('[cy-test=cannot-hide-final-text2]').should('exist');
+});
+
+// VERIFY CANNOT HIDE FINAL ITEM BOX DISAPPEARS
+Cypress.Commands.add('verifyCannotHideFinalDisappears', () => {
+	cy.get('[cy-test=cannot-hide-final-text1]').should('not.exist');
+	cy.get('[cy-test=cannot-hide-final-text2]').should('not.exist');
 });
 
 // CONFIRM SHOW OR HIDE FROM CONFIRMATION MODAL
