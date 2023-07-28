@@ -39,8 +39,9 @@ describe('Bulk edit to hide hosts', () => {
 			});
 
 		// Toggle switch back on
+		cy.returnToCampaignCard();
 		cy.showHiddenItems();
-		cy.reload();
+		cy.selectCampaign(camp);
 
 		// Verify hosts show again with the hidden icon
 		cy.get('[cy-test=hostName]').should('have.length', 6);
@@ -57,8 +58,9 @@ describe('Bulk edit to hide hosts', () => {
 		cy.bulkEditShow();
 
 		// Toggle off switch for hidden items
+		cy.returnToCampaignCard();
 		cy.doNotShowHiddenItems();
-		cy.reload();
+		cy.selectCampaign(camp);
 
 		// Verify hosts show
 		cy.get('[cy-test=hostName]').should('have.length', 6);

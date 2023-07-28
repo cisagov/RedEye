@@ -133,7 +133,9 @@ describe('Hide a beacon', () => {
 				});
 
 				// Go to settings and toggle swtich to show hidden
+				cy.returnToCampaignCard();
 				cy.showHiddenItems();
+				cy.selectCampaign(camp);
 
 				// Verify hidden beacon now shows in the list again
 				cy.clickBeaconsTab();
@@ -149,7 +151,9 @@ describe('Hide a beacon', () => {
 				cy.confirmShowHide();
 
 				// Go to settings and toggle switch to not show hidden
+				cy.returnToCampaignCard();
 				cy.doNotShowHiddenItems();
+				cy.selectCampaign(camp);
 
 				// Verify host still appears in the list
 				cy.clickBeaconsTab();

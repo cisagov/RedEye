@@ -40,7 +40,9 @@ describe('Bulk edit to hide beacons', () => {
 			});
 
 		// Toggle switch back on
+		cy.returnToCampaignCard();
 		cy.showHiddenItems();
+		cy.selectCampaign(camp);
 
 		// Verify beacons now show again with the hidden icon
 		cy.clickBeaconsTab();
@@ -58,7 +60,9 @@ describe('Bulk edit to hide beacons', () => {
 		cy.bulkEditShow();
 
 		// Toggle off switch for hidden beacons
+		cy.returnToCampaignCard();
 		cy.doNotShowHiddenItems();
+		cy.selectCampaign(camp);
 
 		// // Verify beacons show
 		cy.clickBeaconsTab();
