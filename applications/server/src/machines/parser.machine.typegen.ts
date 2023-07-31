@@ -29,9 +29,9 @@ export interface Typegen0 {
 	};
 	missingImplementations: {
 		actions: never;
-		services: never;
-		guards: never;
 		delays: never;
+		guards: never;
+		services: never;
 	};
 	eventsCausingActions: {
 		addCampaign: 'ADD_CAMPAIGN';
@@ -44,6 +44,12 @@ export interface Typegen0 {
 			| 'done.invoke.(machine).findCampaignData:invocation[0]'
 			| 'error.platform.(machine).findCampaignData:invocation[0]';
 	};
+	eventsCausingDelays: {};
+	eventsCausingGuards: {
+		queuedCampaignsEmpty:
+			| 'done.invoke.(machine).findCampaignData:invocation[0]'
+			| 'error.platform.(machine).findCampaignData:invocation[0]';
+	};
 	eventsCausingServices: {
 		findMetadata: 'done.invoke.(machine).parsing:invocation[0]' | 'error.platform.(machine).parsing:invocation[0]';
 		parse:
@@ -51,12 +57,6 @@ export interface Typegen0 {
 			| 'done.invoke.(machine).findCampaignData:invocation[0]'
 			| 'error.platform.(machine).findCampaignData:invocation[0]';
 	};
-	eventsCausingGuards: {
-		queuedCampaignsEmpty:
-			| 'done.invoke.(machine).findCampaignData:invocation[0]'
-			| 'error.platform.(machine).findCampaignData:invocation[0]';
-	};
-	eventsCausingDelays: {};
 	matchesStates: 'findCampaignData' | 'idle' | 'parsing';
 	tags: never;
 }

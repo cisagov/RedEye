@@ -57,7 +57,9 @@ export const updateProjectMetadata = async (
 			const newOperator = new GlobalOperator({ id });
 			mainEm.persist(newOperator);
 		});
-	} catch {}
+	} catch {
+		//
+	}
 
 	try {
 		const campaign = await mainEm.findOneOrFail(Campaign, campaignId);
@@ -69,6 +71,8 @@ export const updateProjectMetadata = async (
 		campaign.beaconCount = beaconCount;
 		campaign.firstLogTime = firstDate;
 		campaign.lastLogTime = lastDate;
-	} catch {}
+	} catch {
+		//
+	}
 	await mainEm.flush();
 };

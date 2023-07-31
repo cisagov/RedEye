@@ -18,6 +18,7 @@ export class HostMetaModelBase extends Model({
 	id: prop<string>().withSetter(),
 	ip: prop<string | null>().withSetter(),
 	os: prop<string | null>().withSetter(),
+	osVersion: prop<string | null>().withSetter(),
 	shape: prop<Shapes | null>().withSetter(),
 	type: prop<string | null>().withSetter(),
 }) {
@@ -39,6 +40,9 @@ export class HostMetaModelSelector extends QueryBuilder {
 	get os() {
 		return this.__attr(`os`);
 	}
+	get osVersion() {
+		return this.__attr(`osVersion`);
+	}
 	get shape() {
 		return this.__attr(`shape`);
 	}
@@ -50,4 +54,4 @@ export function selectFromHostMeta() {
 	return new HostMetaModelSelector();
 }
 
-export const hostMetaModelPrimitives = selectFromHostMeta().color.ip.os.shape.type;
+export const hostMetaModelPrimitives = selectFromHostMeta().color.ip.os.osVersion.shape.type;

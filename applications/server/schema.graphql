@@ -73,11 +73,17 @@ type BeaconMeta {
   """Process Identifier the beacon is running on"""
   pid: Int
 
+  """The IP of the host at the time of the metadata line"""
+  port: Float
+
+  """Process Identifier the beacon is running on"""
+  process: String
+
   """The shape of the beacon"""
   shape: Shapes
 
   """The log line from which the BeaconMeta was extracted"""
-  source: LogEntry!
+  source: LogEntry
 
   """The start time of the beacon"""
   startTime: DateTime
@@ -91,10 +97,10 @@ type BeaconMeta {
 
 """The communication type used by the beacon"""
 enum BeaconType {
-  DNS
-  HTTP
-  HTTPS
-  SMB
+  dns
+  http
+  https
+  smb
 }
 
 type Campaign {
@@ -109,8 +115,14 @@ type Campaign {
   lastOpenedBy: GlobalOperator
   migrationError: Boolean!
   name: String!
+  parsers: [CampaignParser!]
   parsingStatus: ParsingStatus!
   serverCount: Int!
+}
+
+type CampaignParser {
+  parserName: String
+  path: String
 }
 
 type Command {
@@ -154,7 +166,6 @@ type File {
   fileFlag: FileFlag!
   fileName: String!
   id: String!
-  ip: String
   location: String!
 
   """
@@ -163,10 +174,22 @@ type File {
   md5: String
 }
 
+type FileDisplay {
+  editable: Boolean!
+}
+
 "Designates if this is an upload or download\n    UPLOAD: File was put on or replace on a target host\n    DOWNLOAD: File was taken from a target host\n  "
 enum FileFlag {
   DOWNLOAD
   UPLOAD
+}
+
+type FileUpload {
+  acceptedExtensions: [String!]
+  description: String!
+  example: String
+  type: UploadType!
+  validate: ValidationMode!
 }
 
 input FindReplaceInput {
@@ -204,6 +227,7 @@ type HostMeta {
   id: String!
   ip: String
   os: String
+  osVersion: String
   shape: Shapes
   type: String
 }
@@ -238,7 +262,7 @@ type LogEntry {
   blob: String!
   command: Command
   dateTime: DateTime
-  filepath: String!
+  filepath: String
   id: String!
   lineNumber: Float!
   lineType: BeaconLineType
@@ -291,7 +315,7 @@ type Mutation {
   anonymizeCampaign(anonymizeOptions: AnonymizationInput!, campaignId: String!): String!
 
   """Create a new Campaign"""
-  createCampaign(creatorName: String!, name: String!): Campaign!
+  createCampaign(creatorName: String!, name: String!, parser: String!): Campaign!
 
   """Create a global user"""
   createGlobalOperator(password: String!, username: String!): GlobalOperator
@@ -376,6 +400,13 @@ type Operator {
   logIds: [String!]!
   name: String!
   startTime: DateTime
+}
+
+type ParserInfo {
+  id: String!
+  name: String!
+  uploadForm: UploadForm!
+  version: Float!
 }
 
 type ParsingProgress {
@@ -500,6 +531,7 @@ type Query {
 
   """Get all the operators for a project"""
   operators(campaignId: String!, hidden: Boolean = false): [Operator]
+  parserInfo: [ParserInfo!]!
 
   """Get the current progress of the parser"""
   parsingProgress: ParsingProgress!
@@ -534,12 +566,17 @@ type Server {
   beacons: [Beacon!]!
   commandsCount: Float!
   commentCount: Float!
-  displayName: String!
+  displayName: String
   hidden: Boolean
   id: String!
   logsCount: Float!
   meta: ServerMeta!
   name: String!
+}
+
+enum ServerDelineationTypes {
+  Database
+  Folder
 }
 
 type ServerMeta {
@@ -559,10 +596,10 @@ type ServerParsingProgress {
 
 """The communication type used by the server"""
 enum ServerType {
-  DNS
-  HTTP
-  HTTPS
-  SMB
+  dns
+  http
+  https
+  smb
 }
 
 """The shape of the node"""
@@ -700,4 +737,23 @@ type TimelineCommandCountTuple {
 
   """The number of commands run during this time interval"""
   commandCount: Float!
+}
+
+type UploadForm {
+  enabledInBlueTeam: Boolean!
+  fileDisplay: FileDisplay!
+  fileUpload: FileUpload!
+  serverDelineation: ServerDelineationTypes!
+  tabTitle: String!
+}
+
+enum UploadType {
+  Directory
+  File
+}
+
+enum ValidationMode {
+  FileExtensions
+  None
+  Parser
 }

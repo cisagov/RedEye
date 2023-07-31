@@ -1,0 +1,41 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"definitions": {
+		"ParserValidateFiles": {
+			"type": "object",
+			"properties": {
+				"servers": {
+					"description": "A list of servers and the number of files associated with each server",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"name": {
+								"type": "string"
+							},
+							"fileCount": {
+								"type": "number"
+							}
+						},
+						"required": ["name"]
+					}
+				},
+				"valid": {
+					"description": "An array of valid file names",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"invalid": {
+					"description": "An array of invalid file names",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": ["invalid", "servers", "valid"]
+		}
+	}
+}

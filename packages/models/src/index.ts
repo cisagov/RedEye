@@ -10,7 +10,6 @@ import { campaignEntities } from './projectModels';
 
 export * from './projectModels';
 export * from './globalModels';
-
 export function getProjectMikroOrmConfig(dbName: string): Options<BetterSqliteDriver> {
 	return {
 		type: 'better-sqlite',

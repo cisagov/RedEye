@@ -30,7 +30,7 @@ export class LogEntryModelBase extends Model({
 	blob: prop<string>().withSetter(),
 	command: prop<Ref<CommandModel> | null>().withSetter(),
 	dateTime: prop<any | null>().withSetter(),
-	filepath: prop<string>().withSetter(),
+	filepath: prop<string | null>().withSetter(),
 	id: prop<string>().withSetter(),
 	lineNumber: prop<number>().withSetter(),
 	lineType: prop<BeaconLineType | null>().withSetter(),

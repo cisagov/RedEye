@@ -14,8 +14,12 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 # path to the project folder as the map value. File paths are relative from the workspace root,
 # and cannot reference projects located outside the workspace boundary.
 projects:
-  - 'applications/*'
-  - 'packages/*'
+  globs:
+    - 'applications/*'
+    - 'packages/*'
+    - 'parsers/*'
+  sources:
+    landing-page: 'docs/landing-page'
 
 # Configures the version control system to utilize within the workspace. A VCS
 # is required for determining touched (added, modified, etc) files, calculating file hashes,

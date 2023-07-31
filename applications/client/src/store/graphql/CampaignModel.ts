@@ -9,6 +9,7 @@ export { campaignModelPrimitives, CampaignModelSelector, selectFromCampaign } fr
 
 export interface Servers {
 	name: string;
+	displayName: string;
 	fileData: FormData | undefined;
 	fileCount: number;
 	isParsingFiles: boolean;

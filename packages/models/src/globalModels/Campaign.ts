@@ -81,6 +81,10 @@ export class Campaign {
 	@Property({ type: 'string' })
 	parsingStatus: ParsingStatus = ParsingStatus.NOT_READY_TO_PARSE;
 
+	@Field(() => [CampaignParser], { nullable: true })
+	@Property({ type: 'json', nullable: true })
+	parsers?: CampaignParser[];
+
 	// relationships
 	@Field(() => GlobalOperator, { nullable: true })
 	@ManyToOne(() => GlobalOperator, { nullable: true })
@@ -89,4 +93,13 @@ export class Campaign {
 	@Field(() => GlobalOperator, { nullable: true })
 	@ManyToOne(() => GlobalOperator, { nullable: true })
 	creator?: Rel<GlobalOperator>;
+}
+
+@ObjectType()
+export class CampaignParser {
+	@Field(() => String, { nullable: true })
+	parserName!: string;
+
+	@Field(() => String, { nullable: true })
+	path!: string;
 }

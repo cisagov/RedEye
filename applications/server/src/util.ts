@@ -1,11 +1,21 @@
 import path from 'path';
 import { DatabaseMode } from './config';
+import fs from 'fs-extra';
 
 export const getRuntimeDir = () => {
 	if (process.pkg) {
 		return path.resolve(process.execPath, '..');
 	} else {
 		return path.join(__dirname, '..');
+	}
+};
+
+export const withTempDir = async <T>(fn: (dir: string) => T) => {
+	const dir = await fs.mkdtemp(getRuntimeDir() + path.sep);
+	try {
+		return await fn(dir);
+	} finally {
+		await fs.rm(dir, { recursive: true, force: true });
 	}
 };
 

@@ -1,0 +1,34 @@
+{
+	"extends": "../../tsconfig.json",
+	"include": ["src"],
+	"compilerOptions": {
+		"target": "esnext",
+		"lib": ["esnext"],
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"importHelpers": true,
+		"declaration": true,
+		"sourceMap": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"strictPropertyInitialization": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"moduleResolution": "nodenext",
+		"esModuleInterop": true,
+		"composite": true,
+		"skipLibCheck": true,
+		"paths": {
+			"@redeye/models": ["../../packages/models/src/index.ts"],
+			"@redeye/models/*": ["../../packages/models/src/*"]
+		}
+	},
+	"references": [
+		{
+			"path": "../../packages/models"
+		}
+	]
+}

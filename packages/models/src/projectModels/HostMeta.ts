@@ -25,9 +25,9 @@ export class HostMeta {
 	os?: string;
 
 	// removed because it wasn't adding value due to inaccuracy in parsing
-	// @Field({ nullable: true })
-	// @Property({ nullable: true })
-	// osVersion?: string;
+	@Field({ nullable: true })
+	@Property({ nullable: true })
+	osVersion?: string;
 
 	@Field(() => String, { nullable: true })
 	@Property({ nullable: true })

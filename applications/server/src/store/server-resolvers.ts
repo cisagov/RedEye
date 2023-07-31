@@ -15,7 +15,6 @@ export class ServerResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('username', () => String) username: string,
-
 		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false,
 		@RelationPath() relationPaths: Relation<Server>
@@ -68,9 +67,17 @@ export class ServerResolvers {
 		@Ctx() ctx: GraphQLContext,
 		@Arg('campaignId', () => String) campaignId: string
 	): Promise<boolean> {
-		if (ctx.config.blueTeam) throw new Error('Parsing cannot be invoked from blue team mode');
+		if (!ctx.config.redTeam) throw new Error('Parsing cannot be invoked from blue team mode');
 		await connectToProjectEmOrFail(campaignId, ctx);
-		ctx.messengerMachine.send({ type: 'PARSE_CAMPAIGN', campaignId, context: ctx });
+		const mainEm = getMainEmOrFail(ctx);
+		const campaign = await mainEm.findOneOrFail(Campaign, campaignId);
+		if (!campaign.parsers) throw new Error('No parser is configured for this campaign');
+		ctx.messengerMachine.send({
+			type: 'PARSE_CAMPAIGN',
+			campaignId,
+			context: ctx,
+			parserName: campaign.parsers[0].parserName,
+		});
 		return true;
 	}
 
@@ -123,8 +130,8 @@ export class ServerResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('serverDisplayName', () => String, { nullable: true }) serverDisplayName?: string,
 		@Arg('serverType', () => ServerType, { nullable: true }) serverType?: ServerType,
-		@Arg('shape', { nullable: true }) shape?: Shapes,
-		@Arg('color', { nullable: true }) color?: string
+		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
+		@Arg('color', () => String, { nullable: true }) color?: string
 	): Promise<Server> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const server = await em.findOneOrFail(Server, serverId, { populate: relationPaths });

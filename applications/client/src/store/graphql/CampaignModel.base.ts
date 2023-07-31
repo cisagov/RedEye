@@ -5,9 +5,11 @@
 
 import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import type { CampaignParserModel } from './CampaignParserModel';
 import type { GlobalOperatorModel } from './GlobalOperatorModel';
 import type { ParsingStatus } from './ParsingStatusEnum';
 
+import { CampaignParserModelSelector, campaignParserModelPrimitives } from './CampaignParserModel';
 import { GlobalOperatorModelSelector, globalOperatorModelPrimitives } from './GlobalOperatorModel';
 
 /* The TypeScript type that explicits the refs to other models in order to prevent a circular refs issue */
@@ -33,6 +35,7 @@ export class CampaignModelBase extends Model({
 	lastOpenedBy: prop<Ref<GlobalOperatorModel> | null>().withSetter(),
 	migrationError: prop<boolean>().withSetter(),
 	name: prop<string>().withSetter(),
+	parsers: prop<CampaignParserModel[] | null>(() => []).withSetter(),
 	parsingStatus: prop<ParsingStatus>().withSetter(),
 	serverCount: prop<number>().withSetter(),
 }) {
@@ -90,6 +93,14 @@ export class CampaignModelSelector extends QueryBuilder {
 			| ((selector: GlobalOperatorModelSelector) => GlobalOperatorModelSelector)
 	) {
 		return this.__child(`lastOpenedBy`, GlobalOperatorModelSelector, builder);
+	}
+	parsers(
+		builder?:
+			| string
+			| CampaignParserModelSelector
+			| ((selector: CampaignParserModelSelector) => CampaignParserModelSelector)
+	) {
+		return this.__child(`parsers`, CampaignParserModelSelector, builder);
 	}
 }
 export function selectFromCampaign() {

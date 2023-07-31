@@ -44,6 +44,18 @@ fileGroups:
 # This setting requires a map, where the key is a unique name for the task,
 # and the value is an object of task parameters.
 tasks:
+  xstate-typegen:
+    command:
+      - xstate
+      - typegen
+      - src/**/*.machine.ts?(x)
+    outputs:
+      - 'src/**/*.machine.typegen.{ts,tsx}'
+    inputs:
+      - 'src/**/*.machine.{ts,tsx}'
+    platform: node
+    options:
+      runInCI: false
   test-jest:
     command: 'jest . --coverage --reporters="jest-junit" --passWithNoTests'
     inputs:
@@ -69,7 +81,7 @@ tasks:
     options:
       runInCI: false
   lint-global:
-    command: 'eslint --config $workspaceRoot/.eslintrc.json --ignore-path $workspaceRoot/.gitignore src --fix --max-warnings 0'
+    command: 'eslint --config $workspaceRoot/.eslintrc.json --ignore-path $workspaceRoot/.gitignore src --fix'
     inputs:
       - '@globs(sources)'
       - '@globs(tests)'
