@@ -4,6 +4,7 @@ import type { cliArgs } from '.';
 import fs from 'fs-extra';
 import { getRuntimeDir } from './util';
 import path from 'path';
+import process from 'process';
 
 export enum DatabaseMode {
 	PRODUCTION = 'PRODUCTION',
@@ -55,6 +56,10 @@ const castConfig = (cliArgs: cliArgs): ConfigDefinition => {
 		} else {
 			overrides.parsers = cliArgs.parsers;
 		}
+	}
+	// For testing purposes
+	if (process.env.SERVER_BLUE_TEAM) {
+		overrides.redTeam = false;
 	}
 
 	// Check the parsers folder for available parsers
