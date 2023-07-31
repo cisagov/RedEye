@@ -3,16 +3,16 @@
 import { graphqlRequest, mutRequest } from '../support/utils.js';
 import path from 'path';
 
-Cypress.Commands.add('uploadLogs', (creatorName, folderName) => {
+Cypress.Commands.add('uploadLogs', (creatorName, folderName, parser) => {
 	const mutation = `
-  mutation createCampaign($creatorName: String!, $name: String!) {
-    createCampaign(creatorName: $creatorName, name: $name) {
+  mutation createCampaign($creatorName: String!, $name: String!, $parser: String!) {
+    createCampaign(creatorName: $creatorName, name: $name, parser: $parser,) {
       id
       name
     }
   }`;
 
-	const variables = { creatorName: creatorName, name: folderName };
+	const variables = { creatorName: creatorName, name: folderName, parser: parser };
 	mutRequest(mutation, variables).then((res) => {
 		let camp = res.body.data.createCampaign.id;
 

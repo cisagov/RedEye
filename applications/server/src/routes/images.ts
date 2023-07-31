@@ -16,7 +16,7 @@ type requestParams = { campaignId: string; imageName: string };
 
 export function requestImage(app: Router, context: EndpointContext) {
 	const { config } = context;
-	const isBlue = config.blueTeam;
+	const isBlue = !config.redTeam;
 	// log file upload
 	app.get<requestParams>('/image/:campaignId/:imageName', async (req, res) => {
 		const { campaignId, imageName } = req.params;

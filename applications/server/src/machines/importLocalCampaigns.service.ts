@@ -5,10 +5,10 @@ import type { ServerMachineContext } from './server.machine';
 import { getRootPath } from '../util';
 import { importCampaign } from '../routes/uploadCampaign';
 import type { EndpointContext } from '../types';
+import { parserInfo } from './parser.service';
 
-// When running in electron, move the local databases to where we need them
 export const importLocalCampaignsDatabasesService = (ctx: ServerMachineContext): Promise<void> => {
-	return new Promise<void>((resolve, reject) => {
+	return new Promise<void>(async (resolve, reject) => {
 		try {
 			const campaignPath = path.join(getRootPath(), 'campaigns');
 
@@ -22,6 +22,7 @@ export const importLocalCampaignsDatabasesService = (ctx: ServerMachineContext):
 					const endpointContext: EndpointContext = {
 						config: ctx.config,
 						cm: ctx.cm,
+						parserInfo: await parserInfo(ctx.config.parsers),
 						messengerMachine: ctx.messagingService,
 					};
 					importCampaign(

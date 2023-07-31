@@ -6,10 +6,10 @@ import { Server } from './Server';
 import { Shapes } from './shared';
 
 export enum ServerType {
-	HTTP = 'http',
-	HTTPS = 'https',
-	SMB = 'smb',
-	DNS = 'dns',
+	http = 'http',
+	https = 'https',
+	smb = 'smb',
+	dns = 'dns',
 }
 
 registerEnumType(ServerType, {
@@ -31,7 +31,7 @@ export class ServerMeta {
 
 	@Field(() => ServerType)
 	@Enum(() => ServerType)
-	type: ServerType = ServerType.HTTP;
+	type: ServerType = ServerType.http;
 
 	@Field(() => Shapes, { nullable: true })
 	@Property({ type: 'string' })

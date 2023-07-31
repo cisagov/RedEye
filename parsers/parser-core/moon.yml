@@ -1,0 +1,8 @@
+dependsOn:
+  - 'models'
+tasks:
+  build:
+    deps:
+      - ~:build-node
+  generate:
+    command: 'tsx ./src/generator.ts'

@@ -22,23 +22,33 @@
 		"esModuleInterop": true,
 		"composite": true,
 		"paths": {
-			"@redeye/cs-parser": ["../../packages/cs-parser/src/index.ts"],
-			"@redeye/cs-parser/*": ["../../packages/cs-parser/src/*"],
+			"@redeye/brute-ratel-parser": ["../../parsers/brute-ratel-parser/src/index.ts"],
+			"@redeye/brute-ratel-parser/*": ["../../parsers/brute-ratel-parser/src/*"],
+			"@redeye/cobalt-strike-parser": ["../../parsers/cobalt-strike-parser/src/index.ts"],
+			"@redeye/cobalt-strike-parser/*": ["../../parsers/cobalt-strike-parser/src/*"],
 			"@redeye/migrations": ["../../packages/migrations/src/index.ts"],
 			"@redeye/migrations/*": ["../../packages/migrations/src/*"],
 			"@redeye/models": ["../../packages/models/src/index.ts"],
-			"@redeye/models/*": ["../../packages/models/src/*"]
+			"@redeye/models/*": ["../../packages/models/src/*"],
+			"@redeye/parser-core": ["../../parsers/parser-core/src/index.ts"],
+			"@redeye/parser-core/*": ["../../parsers/parser-core/src/*"]
 		}
 	},
 	"references": [
-		{
-			"path": "../../packages/cs-parser"
-		},
 		{
 			"path": "../../packages/migrations"
 		},
 		{
 			"path": "../../packages/models"
+		},
+		{
+			"path": "../../parsers/brute-ratel-parser"
+		},
+		{
+			"path": "../../parsers/cobalt-strike-parser"
+		},
+		{
+			"path": "../../parsers/parser-core"
 		}
 	]
 }

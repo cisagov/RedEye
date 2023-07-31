@@ -130,6 +130,15 @@
 					"nullable": false,
 					"mappedType": "text"
 				},
+				"parsers": {
+					"name": "parsers",
+					"type": "json",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "json"
+				},
 				"last_opened_by_id": {
 					"name": "last_opened_by_id",
 					"type": "text",

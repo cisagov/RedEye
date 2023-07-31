@@ -1,0 +1,19 @@
+{
+	"name": "@redeye/brute-ratel-parser",
+	"version": "0.1.0-alpha.1",
+	"bin": "./dist/index.js",
+	"pkg": {
+		"assets": [
+			"../../node_modules/better-sqlite3/**/*.*",
+			"../../../node_modules/better-sqlite3/**/*.*"
+		],
+		"compress": "GZip"
+	},
+	"files": [
+		"dist"
+	],
+	"dependencies": {
+		"@redeye/models": "workspace:*",
+		"@redeye/parser-core": "workspace:*"
+	}
+}

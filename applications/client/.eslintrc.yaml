@@ -18,6 +18,8 @@ extends:
   - airbnb
   - airbnb-typescript
   - prettier
+globals:
+  globalThis: false
 rules:
   react-hooks/exhaustive-deps: 0 # Disabled for mobx
   react/no-unknown-property: 0 # Disabled for css and cy-test

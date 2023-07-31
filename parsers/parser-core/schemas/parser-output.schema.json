@@ -1,0 +1,324 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"definitions": {
+		"ParserLogEntry": {
+			"type": "object",
+			"properties": {
+				"blob": {
+					"description": "The text of the log entry, can be a command input or output",
+					"type": "string"
+				},
+				"filepath": {
+					"description": "Local path to the file that the log entry was found in",
+					"default": "undefined",
+					"type": "string"
+				},
+				"lineNumber": {
+					"description": "The starting line number of the log entry in the file",
+					"default": "undefined",
+					"type": "number"
+				},
+				"lineType": {
+					"description": "The type of log line if the logType is 'BEACON'",
+					"enum": ["CHECKIN", "ERROR", "INDICATOR", "INPUT", "METADATA", "MODE", "OUTPUT", "TASK"],
+					"default": "undefined",
+					"type": "string"
+				},
+				"logType": {
+					"$ref": "#/definitions/LogType",
+					"description": "The type of log entry"
+				},
+				"dateTime": {
+					"description": "The date and time the log entry was created",
+					"default": "undefined",
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": ["blob", "logType"]
+		},
+		"ParserCommand": {
+			"type": "object",
+			"properties": {
+				"operator": {
+					"description": "Name of the operator that sent the command\nShould match the name of an operator in the operators object",
+					"type": "string"
+				},
+				"beacon": {
+					"description": "Name of the beacon that the command was run from\nShould match the name of a beacon in the beacons object",
+					"type": "string"
+				},
+				"input": {
+					"$ref": "#/definitions/ParserLogEntry",
+					"description": "The input that initialized the command"
+				},
+				"commandFailed": {
+					"description": "Whether the command was successful",
+					"default": false,
+					"type": "boolean"
+				},
+				"output": {
+					"description": "The output of the command",
+					"default": "undefined",
+					"$ref": "#/definitions/ParserLogEntry"
+				},
+				"attackIds": {
+					"description": "A list of the MITRE ATT&CK techniques used by the command",
+					"default": [],
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"required": ["beacon", "input"]
+		},
+		"ParserLink": {
+			"type": "object",
+			"properties": {
+				"from": {
+					"description": "The origin of the link, can be a beacon or server",
+					"type": "string"
+				},
+				"to": {
+					"description": "The destination of the link, can be a beacon",
+					"type": "string"
+				}
+			},
+			"required": ["from", "to"]
+		},
+		"ParserOperator": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"description": "The name of the operator",
+					"type": "string"
+				},
+				"startTime": {
+					"description": "The date and time the operator first sent a command",
+					"default": "undefined",
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"description": "The date and time the operator last sent a command",
+					"default": "undefined",
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": ["name"]
+		},
+		"ParserServer": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"description": "The name of the server",
+					"type": "string"
+				},
+				"type": {
+					"description": "The type of server",
+					"enum": ["dns", "http", "https", "smb"],
+					"default": "'http'",
+					"type": "string"
+				}
+			},
+			"required": ["name"]
+		},
+		"ParserHost": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"description": "The name of the host",
+					"type": "string"
+				},
+				"server": {
+					"description": "The name of the server that first ran a command or spawned a beacon on the host\nThis should match the name of a server in the servers object",
+					"type": "string"
+				},
+				"os": {
+					"description": "The operating system of the host",
+					"default": "undefined",
+					"type": "string"
+				},
+				"osVersion": {
+					"description": "The version of the operating system of the host",
+					"default": "undefined",
+					"type": "string"
+				},
+				"ip": {
+					"description": "The IP address of the host",
+					"default": "undefined",
+					"type": "string"
+				},
+				"type": {
+					"description": "The type of host",
+					"default": "undefined",
+					"type": "string"
+				}
+			},
+			"required": ["name", "server"]
+		},
+		"ParserBeacon": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"description": "The name of the beacon",
+					"type": "string"
+				},
+				"server": {
+					"description": "The name of the server that spawned this beacon\nThis should match the name of a server in the servers object",
+					"type": "string"
+				},
+				"host": {
+					"description": "The name of the host that this beacon is running on\nThis should match the name of a host in the hosts object",
+					"type": "string"
+				},
+				"ip": {
+					"description": "The IP address of the host as reported by the beacon",
+					"default": "undefined",
+					"type": "string"
+				},
+				"type": {
+					"description": "The type of beacon",
+					"enum": ["dns", "http", "https", "smb"],
+					"default": "undefined",
+					"type": "string"
+				},
+				"port": {
+					"description": "The port that the beacon is communicating over",
+					"default": "undefined",
+					"type": "number"
+				},
+				"process": {
+					"description": "The process name of the beacon",
+					"default": "undefined",
+					"type": "string"
+				},
+				"processId": {
+					"description": "The process identifier of the beacon",
+					"default": "undefined",
+					"type": "number"
+				},
+				"startTime": {
+					"description": "The date time the beacon was initialized or ran it's first command",
+					"default": "undefined",
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"description": "The date time the beacon ran it's last command or was terminated",
+					"default": "undefined",
+					"type": "string",
+					"format": "date-time"
+				},
+				"images": {
+					"description": "A list of images that the beacon has downloaded",
+					"default": "undefined",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ParserImage"
+					}
+				},
+				"files": {
+					"description": "A list of files that the beacon has uploaded or downloaded",
+					"default": "undefined",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ParserFile"
+					}
+				}
+			},
+			"required": ["host", "name", "server"]
+		},
+		"ParserImage": {
+			"type": "object",
+			"properties": {
+				"fileType": {
+					"description": "The type of image",
+					"enum": "*",
+					"type": "string"
+				},
+				"filePath": {
+					"description": "Path to the image that RedEye can access",
+					"type": "string"
+				},
+				"fileName": {
+					"description": "The name of the image if the local file name is different from the name of the image",
+					"default": "undefined",
+					"type": "string"
+				}
+			},
+			"required": ["filePath", "fileType"]
+		},
+		"ParserFile": {
+			"type": "object",
+			"properties": {
+				"fileName": {
+					"description": "The name of the file if the local file name is different from the name of the file",
+					"default": "undefined",
+					"type": "string"
+				},
+				"filePath": {
+					"description": "Path to the file that RedEye can access",
+					"type": "string"
+				},
+				"dateTime": {
+					"description": "The date time the file was created or modified",
+					"type": "string",
+					"format": "date-time"
+				},
+				"md5": {
+					"description": "The MD5 hash of the file",
+					"type": "string"
+				},
+				"fileFlag": {
+					"$ref": "#/definitions/FileFlag",
+					"description": "Was this file uploaded to the host or downloaded from the host"
+				}
+			},
+			"required": ["dateTime", "fileFlag", "filePath"]
+		},
+		"ParserOutput": {
+			"type": "object",
+			"properties": {
+				"servers": {
+					"description": "A key-value pair of server names and their metadata",
+					"type": "{ [serverName: string] : ParserServer }"
+				},
+				"hosts": {
+					"description": "A key-value pair of host names and their metadata",
+					"type": "{ [hostName: string] : ParserHost }"
+				},
+				"beacons": {
+					"description": "A key-value pair of beacon names and their metadata",
+					"type": "{ [beaconName: string] : ParserBeacon }"
+				},
+				"operators": {
+					"description": "A key-value pair of operator names and the time range of their first and last command",
+					"type": "{ [operatorName: string] : ParserOperator }"
+				},
+				"commands": {
+					"description": "A key-value pair of unique command identifiers and commands with inputs and outputs, sent by operators to beacons",
+					"type": "{ [commandName: string] : ParserCommand }"
+				},
+				"links": {
+					"description": "A key-value pair of '<from>-<to>' and links from servers to beacons and beacons to beacons",
+					"type": "object",
+					"additionalProperties": {
+						"$ref": "#/definitions/ParserLink"
+					}
+				}
+			},
+			"required": ["beacons", "commands", "hosts", "links", "operators", "servers"]
+		},
+		"LogType": {
+			"enum": ["BEACON", "DOWNLOAD", "EVENT", "KEYSTROKES", "UNKNOWN", "WEBLOG"],
+			"type": "string"
+		},
+		"FileFlag": {
+			"enum": ["DOWNLOAD", "UPLOAD"],
+			"type": "string"
+		}
+	}
+}

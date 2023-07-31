@@ -17,7 +17,7 @@ import { ServerMeta } from './ServerMeta';
 import { initThen } from '../util';
 
 @ObjectType()
-@Unique({ properties: ['parsingPath'] })
+@Unique({ properties: ['name'] })
 @Entity()
 export class Server {
 	constructor({

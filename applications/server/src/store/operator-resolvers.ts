@@ -61,7 +61,7 @@ export class OperatorResolvers {
 
 function PasswordAuth() {
 	return createMethodDecorator(async ({ args, context }: ResolverData<GraphQLContext>, next) => {
-		if (!context.config.blueTeam && (!args.password || args.password !== context.config.password))
+		if (context.config.redTeam && (!args.password || args.password !== context.config.password))
 			throw Error('Not Authorized');
 		return next();
 	});

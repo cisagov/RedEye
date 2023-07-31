@@ -1,0 +1,131 @@
+{
+	"$ref": "#/definitions/ParserInfo",
+	"definitions": {
+		"ParserInfo": {
+			"type": "object",
+			"properties": {
+				"version": {
+					"description": "The version of the RedEye parser config that the parser is compatible with",
+					"type": "number"
+				},
+				"id": {
+					"description": "ID for parser, should match the standard name of the binary file or command\n// The parser binary is named 'my-parser'\nid = 'my-parser'",
+					"type": "string"
+				},
+				"name": {
+					"description": "The display name of the parser",
+					"type": "string"
+				},
+				"description": {
+					"description": "An optional description of the parser",
+					"type": "string"
+				},
+				"uploadForm": {
+					"$ref": "#/definitions/UploadForm",
+					"description": "An object that configures the upload form in RedEye's UI"
+				}
+			},
+			"required": ["id", "name", "uploadForm", "version"]
+		},
+		"UploadForm": {
+			"type": "object",
+			"properties": {
+				"tabTitle": {
+					"description": "The title of the tab in the upload form",
+					"type": "string"
+				},
+				"enabledInBlueTeam": {
+					"description": "Whether the parser is enabled in blue team mode\nThis should be false unless the parser is intended to be used by a blue team\nThe Blue team mode is intended to be a read only mode",
+					"type": "boolean"
+				},
+				"serverDelineation": {
+					"description": "The type of server delineation used by the parser",
+					"enum": ["Database", "Folder"],
+					"type": "string"
+				},
+				"fileUpload": {
+					"description": "An object that configures the file upload portion of the upload form",
+					"anyOf": [
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/FileUpload"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"validate": {
+											"enum": ["None", "Parser"],
+											"type": "string"
+										}
+									},
+									"required": ["validate"]
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/FileUpload"
+								},
+								{
+									"type": "object",
+									"properties": {
+										"validate": {
+											"description": "validate uploaded files in client by file extensions",
+											"type": "string",
+											"const": "FileExtensions"
+										},
+										"acceptedExtensions": {
+											"type": "array",
+											"items": {
+												"type": "string"
+											}
+										}
+									},
+									"required": ["acceptedExtensions", "validate"]
+								}
+							]
+						}
+					]
+				},
+				"fileDisplay": {
+					"$ref": "#/definitions/FileDisplay",
+					"description": "An object that configures the list of servers/files after upload"
+				}
+			},
+			"required": ["enabledInBlueTeam", "fileDisplay", "fileUpload", "serverDelineation", "tabTitle"]
+		},
+		"FileUpload": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"description": "The type of upload, a selection of files or a directory",
+					"enum": ["Directory", "File"],
+					"type": "string"
+				},
+				"description": {
+					"description": "Describes what should be uploaded for the selected parser",
+					"type": "string"
+				},
+				"example": {
+					"description": "A string that will be displayed in the upload form as an example of the type of file or shape of directory to upload",
+					"default": "undefined",
+					"type": "string"
+				}
+			},
+			"required": ["description", "type"]
+		},
+		"FileDisplay": {
+			"type": "object",
+			"properties": {
+				"editable": {
+					"description": "Whether the names of the servers inferred from the uploaded files are editable\nA user may want to change the name of a server to something more descriptive",
+					"type": "boolean"
+				}
+			},
+			"required": ["editable"]
+		}
+	},
+	"$schema": "http://json-schema.org/draft-07/schema#"
+}

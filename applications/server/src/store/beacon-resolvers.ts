@@ -30,8 +30,8 @@ export class BeaconResolvers {
 		@Arg('beaconDisplayName', () => String, { nullable: true }) beaconDisplayName?: string,
 		@Arg('beaconTimeOfDeath', () => Date, { nullable: true }) beaconTimeOfDeath?: Date,
 		@Arg('beaconType', () => BeaconType, { nullable: true }) beaconType?: BeaconType,
-		@Arg('shape', { nullable: true }) shape?: Shapes,
-		@Arg('color', { nullable: true }) color?: string
+		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
+		@Arg('color', () => String, { nullable: true }) color?: string
 	): Promise<Beacon> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });

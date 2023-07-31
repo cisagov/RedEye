@@ -69,11 +69,11 @@ Object.keys(mitreAttackDictionary)
 			: mitreAttackDictionary[id];
 	});
 
-console.log(`Parsed ${Object.entries(alphabeticalMitreAttackDictionary).length} MITRE ATT&CK ids`);
+globalThis.console.log(`Parsed ${Object.entries(alphabeticalMitreAttackDictionary).length} MITRE ATT&CK ids`);
 
 // it helps to manually run prettier on this after its generated
 const mitreAttackDictionaryPathTs = path.join(__dirname, 'mitreAttackDictionary.ts');
 const tsFileContents = `export const mitreAttackDictionary = ${JSON.stringify(alphabeticalMitreAttackDictionary)}`;
 fs.writeFile(mitreAttackDictionaryPathTs, tsFileContents, (err) => {
-	if (err) console.error(err);
+	if (err) globalThis.console.error(err);
 });

@@ -55,10 +55,6 @@ export class File {
 	@Property({ nullable: true })
 	md5?: string;
 
-	@Field(() => String, { nullable: true })
-	@Property({ nullable: true })
-	ip?: string;
-
 	@Field((_type) => FileFlag)
 	@Property({ type: 'string' })
 	fileFlag: FileFlag;

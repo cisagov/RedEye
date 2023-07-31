@@ -39,6 +39,7 @@ export class CampaignResolvers {
 	async createCampaign(
 		@Ctx() ctx: GraphQLContext,
 		@Arg('name', () => String) name: string,
+		@Arg('parser', () => String) parser: string,
 		@Arg('creatorName', () => String) creatorName: string
 	): Promise<Campaign> {
 		const em = getMainEmOrFail(ctx);
@@ -57,6 +58,7 @@ export class CampaignResolvers {
 			name,
 			lastOpenedBy: operator,
 			creator: operator,
+			parsers: [{ parserName: parser, path: '' }],
 		});
 
 		await em.persistAndFlush(campaign);
@@ -102,7 +104,7 @@ export class CampaignResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('anonymizeOptions', () => AnonymizationInput) anonymizeOptions: AnonymizationInput
 	): Promise<string | void> {
-		if (ctx.config.blueTeam)
+		if (!ctx.config.redTeam)
 			throw new GraphQLError('Blue team cannot export', undefined, undefined, undefined, undefined, undefined, {
 				extensions: {
 					code: 'UNAUTHENTICATED',

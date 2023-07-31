@@ -1,7 +1,9 @@
 dependsOn:
   - 'models'
   - 'migrations'
-  - 'cs-parser'
+  - 'cobalt-strike-parser'
+  - 'brute-ratel-parser'
+  - 'parser-core'
 tasks:
   build:
     deps:
