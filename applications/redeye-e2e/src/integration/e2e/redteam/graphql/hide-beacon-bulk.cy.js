@@ -56,14 +56,16 @@ describe('Hide a Beacon using GraphQL', () => {
 				cy.get(beaconStatus).its('length').should('equal', 3);
 			});
 		});
+		cy.returnToCampaignCard();
 		cy.doNotShowHiddenItems();
+		cy.selectCampaign(camp);
 		cy.clickBeaconsTab();
 		const beacs = [];
 		cy.get('[cy-test=beacons-row]')
 			.each(($li) => beacs.push($li.text()))
 			.then(() => {
 				cy.log(beacs.join(', '));
-				cy.wrap(beacs).should('deep.equal', ['08/17—08/17COMPUTER03 / SYSTEM *8', '08/17—08/17COMPUTER03 / user0114']);
+				cy.wrap(beacs).should('deep.equal', ['08/17—08/17500978634SYSTEM *8', '08/17—08/171042756528user0114']);
 			});
 	});
 
