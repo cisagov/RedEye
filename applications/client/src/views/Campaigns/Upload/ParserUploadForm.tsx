@@ -222,6 +222,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 			this.servers.clear();
 			this.fileSelect();
 			this.showExample = false;
+			e.target.value = '';
 		},
 	});
 
