@@ -15,7 +15,9 @@ export const withTempDir = async <T>(fn: (dir: string) => T) => {
 	try {
 		return await fn(dir);
 	} finally {
-		await fs.rm(dir, { recursive: true, force: true });
+		setTimeout(() => {
+			fs.rm(dir, { recursive: true, force: true });
+		}, 5000);
 	}
 };
 
