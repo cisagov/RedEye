@@ -208,10 +208,11 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 								store.router.params.currentItem === 'command-type' ||
 								store.router.params.currentItem === 'beacon'
 							) {
-								const isInBeaconRawCommand =
-									store.router.params.currentItem === 'beacon' && !!store.router.queryParams['raw-command'];
+								const keepActiveItem =
+									(store.router.params.currentItem === 'beacon' && !!store.router.queryParams['raw-command']) ||
+									store.router.params.view === CampaignViews.PRESENTATION;
 								await onNavigate(e);
-								currentBeacon?.host?.current?.navCommandSelect(isInBeaconRawCommand);
+								currentBeacon?.host?.current?.navCommandSelect(keepActiveItem, 'command', this.command?.id as UUID);
 							}
 						},
 					},
@@ -230,7 +231,6 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						current: true,
 					}
 				);
-
 				return crumbs;
 			},
 		});

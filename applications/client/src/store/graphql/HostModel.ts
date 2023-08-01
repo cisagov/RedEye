@@ -4,8 +4,7 @@ import { TimeStatus } from '@redeye/client/types/timeline';
 import { computed, observable, reaction } from 'mobx';
 import { ExtendedModel, getRoot, model, modelAction, prop } from 'mobx-keystone';
 import type { Moment } from 'moment-timezone';
-import { CampaignViews, Tabs } from '../../types';
-import type { UUID } from '../../types/uuid';
+import { CampaignViews, UUID, CurrentItem, Tabs } from '../../types';
 import type { AppStore } from '../app-store';
 import { getMinMaxTime } from '../util/min-max-time';
 import { HostModelBase } from './HostModel.base';
@@ -102,7 +101,7 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 		} else this.server?.select();
 	}
 
-	@modelAction navCommandSelect(keepActiveItem?: boolean) {
+	@modelAction navCommandSelect(keepActiveItem?: boolean, activeItem?: CurrentItem, activeItemId?: UUID) {
 		const appStore = getRoot<AppStore>(this);
 		if (!this.cobaltStrikeServer && appStore) {
 			appStore.router.updateRoute({
@@ -115,10 +114,14 @@ export class HostModel extends ExtendedModel(HostModelBase, {
 					activeItem:
 						appStore.router.params.currentItem === 'beacon' && !keepActiveItem
 							? undefined
+							: appStore.router.params.view === CampaignViews.PRESENTATION
+							? activeItem
 							: appStore.router.params.activeItem,
 					activeItemId:
 						appStore.router.params.currentItem === 'beacon' && !keepActiveItem
 							? undefined
+							: appStore.router.params.view === CampaignViews.PRESENTATION
+							? activeItemId
 							: appStore.router.params.activeItemId,
 				},
 			});
