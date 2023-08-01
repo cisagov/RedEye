@@ -10,9 +10,12 @@ RUN moon run server:build client:build cobalt-strike-parser:build
 RUN pkg applications/server/package.json -t node16-mac-x64 -o release/mac/RedEye
 RUN pkg applications/server/package.json -t node16-linux-x64 -o release/linux/RedEye
 RUN pkg applications/server/package.json -t node16-windows-x64 -o release/windows/RedEye
-RUN pkg packages/cobalt-strike-parser/package.json -t node16-mac-x64 -o release/mac/parsers/cobalt-strike-parser
-RUN pkg packages/cobalt-strike-parser/package.json -t node16-linux-x64 -o release/linux/parsers/cobalt-strike-parser
-RUN pkg packages/cobalt-strike-parser/package.json -t node16-windows-x64 -o release/windows/parsers/cobalt-strike-parser
+RUN pkg parsers/cobalt-strike-parser/package.json -t node16-mac-x64 -o release/mac/parsers/cobalt-strike-parser
+RUN pkg parsers/cobalt-strike-parser/package.json -t node16-linux-x64 -o release/linux/parsers/cobalt-strike-parser
+RUN pkg parsers/cobalt-strike-parser/package.json -t node16-windows-x64 -o release/windows/parsers/cobalt-strike-parser
+RUN pkg parsers/brute-ratel-parser/package.json -t node16-mac-x64 -o release/mac/parsers/brute-ratel-parser
+RUN pkg parsers/brute-ratel-parser/package.json -t node16-linux-x64 -o release/linux/parsers/brute-ratel-parser
+RUN pkg parsers/brute-ratel-parser/package.json -t node16-windows-x64 -o release/windows/parsers/brute-ratel-parser
 RUN tar -zcvf release.tar.gz ./release/
 RUN mkdir outputs
 RUN cp release.tar.gz outputs/release.tar.gz
