@@ -95,6 +95,8 @@ export class ServerModel extends ExtendedModel(ServerModelBase, {
 				tab: Tabs.HOSTS,
 				currentItem: notPrimary ? 'server' : 'all',
 				currentItemId: notPrimary ? (this.id as UUID) : undefined,
+				activeItem: undefined,
+				activeItemId: undefined,
 			},
 		});
 	}

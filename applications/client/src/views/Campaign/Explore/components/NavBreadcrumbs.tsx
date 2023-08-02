@@ -171,7 +171,18 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						onClick: async (e) => {
 							e.stopPropagation();
 							await onNavigate(e);
-							await currentBeacon?.select();
+							store.router.updateRoute({
+								path: routes[CampaignViews.EXPLORE],
+								params: {
+									id: store.campaign.id,
+									view: CampaignViews.EXPLORE,
+									currentItem: 'all',
+									currentItemId: undefined,
+									activeItem: undefined,
+									activeItemId: undefined,
+									tab: Tabs.HOSTS,
+								},
+							});
 						},
 					});
 
@@ -194,19 +205,25 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 							if (
 								store.router.params.tab !== Tabs.COMMANDS ||
 								store.router.params.currentItem === 'operator' ||
-								store.router.params.currentItem === 'command-type'
+								store.router.params.currentItem === 'command-type' ||
+								store.router.params.currentItem === 'beacon'
 							) {
+								const keepActiveItem =
+									(store.router.params.currentItem === 'beacon' && !!store.router.queryParams['raw-command']) ||
+									store.router.params.view === CampaignViews.PRESENTATION;
 								await onNavigate(e);
-								currentBeacon?.host?.current?.navCommandSelect();
+								currentBeacon?.host?.current?.navCommandSelect(keepActiveItem, 'command', this.command?.id as UUID);
 							}
 						},
 					},
 					{
 						text: currentBeacon?.computedName,
 						onClick: async (e) => {
-							e.stopPropagation();
-							await onNavigate(e);
-							currentBeacon?.select('command', this.command?.id as UUID);
+							if (!(store.router.params.currentItem === 'beacon' && store.router.queryParams['raw-command'])) {
+								e.stopPropagation();
+								await onNavigate(e);
+								currentBeacon?.select('command', this.command?.id as UUID);
+							}
 						},
 					},
 					{
@@ -214,7 +231,6 @@ export const NavBreadcrumbs = observer<NavBreadcrumbsProps>(
 						current: true,
 					}
 				);
-
 				return crumbs;
 			},
 		});
