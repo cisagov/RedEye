@@ -2,7 +2,7 @@ import { graphqlRequest, mutRequest } from '../../../../support/utils';
 
 describe('Update beacon type using GraphQL', () => {
 	const camp = 'beaconTypeGraphQL';
-	const newBeaconType = 'SMB';
+	const newBeaconType = 'smb';
 
 	it('Change beacon type', () => {
 		cy.uploadCampaign(camp, 'gt.redeye');
