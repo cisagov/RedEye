@@ -418,8 +418,8 @@ export const CommentBox = observer<CommentBoxProps>(
 		}, [annotation]);
 
 		const isRedTeam = !store.appMeta.blueTeam;
-		const showEditButtons = !isPresentationMode && isRedTeam;
-		const allowReply = isFullList && isRedTeam;
+		const showEditButtons = isRedTeam;
+		const allowReply = !isPresentationMode && isFullList && isRedTeam;
 		const allowEdit =
 			(store.auth.userName === annotation?.user || !annotation?.user) && !isAddingCommandToComment && isRedTeam;
 		const isGrouped = (state.currentCommandIds?.length || 0) > 1;
