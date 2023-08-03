@@ -16,6 +16,8 @@ const compilerOptions: TJS.CompilerOptions = {
 	strictNullChecks: true,
 };
 
+const outputDir = resolve(__dirname, '..', '..', '..', 'docs', 'parser-guide', 'command-schemas');
+
 const createSchema = (tsFilePath: string, typeName: string, outPath: string) =>
 	writeJSON(
 		outPath,
@@ -30,26 +32,18 @@ Promise.allSettled([
 	createSchema(
 		resolve(__dirname, 'parser-info', 'index.ts'),
 		'ParserInfo',
-		resolve(__dirname, '..', 'schemas', 'parser-info.schema.json')
+		resolve(outputDir, 'parser-info.schema.json')
 	),
-	createSchema(
-		resolve(__dirname, 'parser-output', 'index.ts'),
-		'*',
-		resolve(__dirname, '..', 'schemas', 'parser-output.schema.json')
-	),
+	createSchema(resolve(__dirname, 'parser-output', 'index.ts'), '*', resolve(outputDir, 'parser-output.schema.json')),
 	createSchema(
 		resolve(__dirname, 'parser-progress.ts'),
 		'ParserProgress',
-		resolve(__dirname, '..', 'schemas', 'parser-progress.schema.json')
+		resolve(outputDir, 'parser-progress.schema.json')
 	),
-	createSchema(
-		resolve(__dirname, 'logging.ts'),
-		'LoggerOptions',
-		resolve(__dirname, '..', 'schemas', 'logging.schema.json')
-	),
+	createSchema(resolve(__dirname, 'logging.ts'), 'LoggerOptions', resolve(outputDir, 'logging.schema.json')),
 	createSchema(
 		resolve(__dirname, 'parser-validate-files.ts'),
 		'*',
-		resolve(__dirname, '..', 'schemas', 'parser-validate-files.schema.json')
+		resolve(outputDir, 'parser-validate-files.schema.json')
 	),
 ]);
