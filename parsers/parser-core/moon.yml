@@ -4,5 +4,42 @@ tasks:
   build:
     deps:
       - ~:build-node
-  generate:
-    command: 'tsx ./src/generator.ts'
+  generate-json-schema:
+    command: 'tsx ./src/generate-json-schema.ts'
+    inputs:
+      - '@globs(sources)'
+    options:
+      runInCI: false
+  create-docs:
+    command: 'noop'
+    deps:
+      - 'generate-json-schema'
+      - 'output-docs'
+      - 'info-docs'
+      - 'validate-docs'
+    options:
+      runInCI: false
+  output-docs:
+    command: 'typedoc --plugin typedoc-plugin-markdown --githubPages false --entryDocument index.md --readme none --out $workspaceRoot/docs/parser-guide/commands-api/parse-campaign ./src/parser-output/index.ts'
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - '/docs/parser-guide/commands-api/parse-campaign/**/*.md'
+    options:
+      runInCI: false
+  info-docs:
+    command: 'typedoc --plugin typedoc-plugin-markdown --githubPages false --entryDocument index.md --readme none --out $workspaceRoot/docs/parser-guide/commands-api/info ./src/parser-info/index.ts'
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - '/docs/parser-guide/commands-api/info/**/*.md'
+    options:
+      runInCI: false
+  validate-docs:
+    command: 'typedoc --plugin typedoc-plugin-markdown --githubPages false --entryDocument index.md --readme none --out $workspaceRoot/docs/parser-guide/commands-api/validate-files ./src/parser-validate-files.ts'
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - '/docs/parser-guide/commands-api/validate-files/**/*.md'
+    options:
+      runInCI: false
