@@ -10,27 +10,24 @@
 				},
 				"filepath": {
 					"description": "Local path to the file that the log entry was found in",
-					"default": "undefined",
 					"type": "string"
 				},
 				"lineNumber": {
 					"description": "The starting line number of the log entry in the file",
-					"default": "undefined",
 					"type": "number"
 				},
 				"lineType": {
 					"description": "The type of log line if the logType is 'BEACON'",
 					"enum": ["CHECKIN", "ERROR", "INDICATOR", "INPUT", "METADATA", "MODE", "OUTPUT", "TASK"],
-					"default": "undefined",
 					"type": "string"
 				},
 				"logType": {
-					"$ref": "#/definitions/LogType",
-					"description": "The type of log entry"
+					"description": "The type of log entry",
+					"enum": ["BEACON", "DOWNLOAD", "EVENT", "KEYSTROKES", "UNKNOWN", "WEBLOG"],
+					"type": "string"
 				},
 				"dateTime": {
 					"description": "The date and time the log entry was created",
-					"default": "undefined",
 					"type": "string",
 					"format": "date-time"
 				}
@@ -59,7 +56,6 @@
 				},
 				"output": {
 					"description": "The output of the command",
-					"default": "undefined",
 					"$ref": "#/definitions/ParserLogEntry"
 				},
 				"attackIds": {
@@ -96,13 +92,11 @@
 				},
 				"startTime": {
 					"description": "The date and time the operator first sent a command",
-					"default": "undefined",
 					"type": "string",
 					"format": "date-time"
 				},
 				"endTime": {
 					"description": "The date and time the operator last sent a command",
-					"default": "undefined",
 					"type": "string",
 					"format": "date-time"
 				}
@@ -138,22 +132,18 @@
 				},
 				"os": {
 					"description": "The operating system of the host",
-					"default": "undefined",
 					"type": "string"
 				},
 				"osVersion": {
 					"description": "The version of the operating system of the host",
-					"default": "undefined",
 					"type": "string"
 				},
 				"ip": {
 					"description": "The IP address of the host",
-					"default": "undefined",
 					"type": "string"
 				},
 				"type": {
 					"description": "The type of host",
-					"default": "undefined",
 					"type": "string"
 				}
 			},
@@ -176,45 +166,37 @@
 				},
 				"ip": {
 					"description": "The IP address of the host as reported by the beacon",
-					"default": "undefined",
 					"type": "string"
 				},
 				"type": {
 					"description": "The type of beacon",
 					"enum": ["dns", "http", "https", "smb"],
-					"default": "undefined",
 					"type": "string"
 				},
 				"port": {
 					"description": "The port that the beacon is communicating over",
-					"default": "undefined",
 					"type": "number"
 				},
 				"process": {
 					"description": "The process name of the beacon",
-					"default": "undefined",
 					"type": "string"
 				},
 				"processId": {
 					"description": "The process identifier of the beacon",
-					"default": "undefined",
 					"type": "number"
 				},
 				"startTime": {
 					"description": "The date time the beacon was initialized or ran it's first command",
-					"default": "undefined",
 					"type": "string",
 					"format": "date-time"
 				},
 				"endTime": {
 					"description": "The date time the beacon ran it's last command or was terminated",
-					"default": "undefined",
 					"type": "string",
 					"format": "date-time"
 				},
 				"images": {
 					"description": "A list of images that the beacon has downloaded",
-					"default": "undefined",
 					"type": "array",
 					"items": {
 						"$ref": "#/definitions/ParserImage"
@@ -222,7 +204,6 @@
 				},
 				"files": {
 					"description": "A list of files that the beacon has uploaded or downloaded",
-					"default": "undefined",
 					"type": "array",
 					"items": {
 						"$ref": "#/definitions/ParserFile"
@@ -245,7 +226,6 @@
 				},
 				"fileName": {
 					"description": "The name of the image if the local file name is different from the name of the image",
-					"default": "undefined",
 					"type": "string"
 				}
 			},
@@ -256,7 +236,6 @@
 			"properties": {
 				"fileName": {
 					"description": "The name of the file if the local file name is different from the name of the file",
-					"default": "undefined",
 					"type": "string"
 				},
 				"filePath": {
@@ -273,8 +252,9 @@
 					"type": "string"
 				},
 				"fileFlag": {
-					"$ref": "#/definitions/FileFlag",
-					"description": "Was this file uploaded to the host or downloaded from the host"
+					"description": "Was this file uploaded to the host or downloaded from the host",
+					"enum": ["DOWNLOAD", "UPLOAD"],
+					"type": "string"
 				}
 			},
 			"required": ["dateTime", "fileFlag", "filePath"]
@@ -311,14 +291,6 @@
 				}
 			},
 			"required": ["beacons", "commands", "hosts", "links", "operators", "servers"]
-		},
-		"LogType": {
-			"enum": ["BEACON", "DOWNLOAD", "EVENT", "KEYSTROKES", "UNKNOWN", "WEBLOG"],
-			"type": "string"
-		},
-		"FileFlag": {
-			"enum": ["DOWNLOAD", "UPLOAD"],
-			"type": "string"
 		}
 	}
 }
