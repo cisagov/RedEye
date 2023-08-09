@@ -87,6 +87,7 @@ import type { FileFlag } from './FileFlagEnum';
 import type { GenerationType } from './GenerationTypeEnum';
 import type { LogType } from './LogTypeEnum';
 import type { MitreTechniques } from './MitreTechniquesEnum';
+import type { NodeColors } from './NodeColorsEnum';
 import type { ParsingStatus } from './ParsingStatusEnum';
 import type { ServerDelineationTypes } from './ServerDelineationTypesEnum';
 import type { ServerType } from './ServerTypeEnum';
@@ -1184,7 +1185,7 @@ export class RootStoreBase extends ExtendedModel(
 			beaconTimeOfDeath?: any;
 			beaconType?: BeaconType;
 			campaignId: string;
-			color?: string;
+			color?: NodeColors;
 			shape?: Shapes;
 		},
 		resultSelector:
@@ -1193,7 +1194,7 @@ export class RootStoreBase extends ExtendedModel(
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateBeaconMetadata: BeaconModel }>(
-			`mutation updateBeaconMetadata($beaconDisplayName: String, $beaconId: String!, $beaconTimeOfDeath: DateTime, $beaconType: BeaconType, $campaignId: String!, $color: String, $shape: Shapes) { updateBeaconMetadata(beaconDisplayName: $beaconDisplayName, beaconId: $beaconId, beaconTimeOfDeath: $beaconTimeOfDeath, beaconType: $beaconType, campaignId: $campaignId, color: $color, shape: $shape) {
+			`mutation updateBeaconMetadata($beaconDisplayName: String, $beaconId: String!, $beaconTimeOfDeath: DateTime, $beaconType: BeaconType, $campaignId: String!, $color: NodeColors, $shape: Shapes) { updateBeaconMetadata(beaconDisplayName: $beaconDisplayName, beaconId: $beaconId, beaconTimeOfDeath: $beaconTimeOfDeath, beaconType: $beaconType, campaignId: $campaignId, color: $color, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(BeaconModelSelector).toString() : resultSelector}
       } }`,
 			variables,

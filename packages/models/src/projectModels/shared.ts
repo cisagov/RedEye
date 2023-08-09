@@ -27,3 +27,23 @@ registerEnumType(Shapes, {
 	name: 'Shapes',
 	description: `The shape of the node`,
 });
+
+export enum NodeColors {
+	default = 'default',
+	vermilion = 'vermilion',
+	red = 'red',
+	rose = 'rose',
+	violet = 'violet',
+	indigo = 'indigo',
+	turquoise = 'turquoise',
+	green = 'green',
+	forest = 'forest',
+	lime = 'lime',
+	gold = 'gold',
+	orange = 'orange',
+}
+
+registerEnumType(NodeColors, {
+	name: 'NodeColors',
+	description: `The color of the node`,
+});
