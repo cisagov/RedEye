@@ -1,6 +1,6 @@
 import type { AppStore } from '@redeye/client/store';
 import { InfoType, Tabs } from '@redeye/client/types/explore';
-import { PanelHeader } from '@redeye/client/views';
+import { NodeColor, PanelHeader } from '@redeye/client/views';
 import { BeaconsList, HostBeaconsList } from './Beacon';
 import { HostsAndServersList } from './Host';
 import { CommandsList } from './Command';
@@ -93,7 +93,14 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'beacon' }}>
+			<PanelHeader
+				nodeIconProps={{
+					type: 'beacon',
+					shape: store.campaign?.interactionState.selectedBeacon?.current?.meta[0].current.shape || undefined,
+					color:
+						(store.campaign?.interactionState.selectedBeacon?.current?.meta[0].current.color as NodeColor) || undefined,
+				}}
+			>
 				{store.campaign?.interactionState.selectedBeacon?.current?.computedName}
 			</PanelHeader>
 		),
