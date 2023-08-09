@@ -126,15 +126,11 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 				{store.settings.momentTz(beacon.maxTime)?.format(dateShortFormat)}
 			</RowTime>
 			<RowTitle className={skeletonClass}>
-				<NodeIcon type="beacon" shape="circle" color="default" />
-				{/* <NodeIcon type="beacon" shape="triangleUp" color="red" />
-				<NodeIcon type="beacon" shape="triangleDown" color="rose" />
-				<NodeIcon type="beacon" shape="diamond" color="indigo" />
-				<NodeIcon type="beacon" shape="hexagonDown" color="turquoise" />
-				<NodeIcon type="beacon" shape="square" color="forest" />
-				<NodeIcon type="beacon" shape="pentagonDown" color="lime" />
-				<NodeIcon type="beacon" shape="pentagonUp" color="gold" />
-				<NodeIcon type="beacon" shape="hexagonUp" color="orange" /> */}
+				<NodeIcon
+					type="beacon"
+					shape={beacon.meta[0].current.shape || undefined}
+					color={beacon.meta[0].current.color || undefined}
+				/>
 				<Txt cy-test="beacon-display-name" normal muted>
 					{beacon?.computedName || `${beacon.server?.computedName}`}
 				</Txt>
