@@ -138,7 +138,13 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.HOST]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'host' }}>
+			<PanelHeader
+				nodeIconProps={{
+					type: 'host',
+					shape: store.campaign?.interactionState.selectedHost?.current?.meta[0].current.shape || undefined,
+					color: store.campaign?.interactionState.selectedHost?.current?.meta[0].current.color || undefined,
+				}}
+			>
 				{store.campaign?.interactionState.selectedHost?.current?.computedName}
 			</PanelHeader>
 		),
