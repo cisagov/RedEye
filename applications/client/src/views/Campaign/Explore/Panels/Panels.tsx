@@ -96,8 +96,8 @@ export const InfoPanelTabs = {
 			<PanelHeader
 				nodeIconProps={{
 					type: 'beacon',
-					shape: store.campaign?.interactionState.selectedBeacon?.current?.meta[0].current.shape || undefined,
-					color: store.campaign?.interactionState.selectedBeacon?.current?.meta[0].current.color || undefined,
+					shape: store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.current?.shape || undefined,
+					color: store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.current?.color || undefined,
 				}}
 			>
 				{store.campaign?.interactionState.selectedBeacon?.current?.computedName}
@@ -128,7 +128,7 @@ export const InfoPanelTabs = {
 			<PanelHeader
 				nodeIconProps={{
 					type: 'server',
-					color: store.campaign?.interactionState.selectedServer?.current?.meta.current.color || undefined,
+					color: store.campaign?.interactionState.selectedServer?.current?.meta?.current?.color || undefined,
 				}}
 			>
 				{store.campaign?.interactionState.selectedServer?.current?.computedName}
@@ -146,7 +146,7 @@ export const InfoPanelTabs = {
 			<PanelHeader
 				nodeIconProps={{
 					type: 'host',
-					color: store.campaign?.interactionState.selectedHost?.current?.meta[0].current.color || undefined,
+					color: store.campaign?.interactionState.selectedHost?.current?.meta?.[0]?.current?.color || undefined,
 				}}
 			>
 				{store.campaign?.interactionState.selectedHost?.current?.computedName}

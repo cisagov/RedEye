@@ -162,8 +162,8 @@ export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props 
 					type={host.cobaltStrikeServer ? 'server' : 'host'}
 					color={
 						host.cobaltStrikeServer
-							? host.server?.meta.current.color || undefined
-							: host.meta[0].current.color || undefined
+							? host.server?.meta?.current?.color || undefined
+							: host.meta?.[0]?.current?.color || undefined
 					}
 				/>
 				{host.cobaltStrikeServer && <Txt muted>Server:</Txt>}

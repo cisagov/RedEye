@@ -128,8 +128,8 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 			<RowTitle className={skeletonClass}>
 				<NodeIcon
 					type="beacon"
-					shape={beacon.meta[0].current.shape || undefined}
-					color={beacon.meta[0].current.color || undefined}
+					shape={beacon.meta?.[0]?.current?.shape || undefined}
+					color={beacon.meta?.[0]?.current?.color || undefined}
 				/>
 				<Txt cy-test="beacon-display-name" normal muted>
 					{beacon?.computedName || `${beacon.server?.computedName}`}
