@@ -223,7 +223,7 @@ type Host {
 
 type HostMeta {
   """The color of the node"""
-  color: String
+  color: NodeColors
   id: String!
   ip: String
   os: String
@@ -597,7 +597,7 @@ enum ServerDelineationTypes {
 
 type ServerMeta {
   """The color of the node"""
-  color: String
+  color: NodeColors
   id: String!
   shape: Shapes
   type: ServerType!

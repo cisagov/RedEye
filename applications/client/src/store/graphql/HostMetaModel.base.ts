@@ -5,6 +5,7 @@
 
 import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
+import type { NodeColors } from './NodeColorsEnum';
 import type { Shapes } from './ShapesEnum';
 
 /**
@@ -14,7 +15,7 @@ import type { Shapes } from './ShapesEnum';
 export class HostMetaModelBase extends Model({
 	__typename: tProp('HostMeta'),
 	/** The color of the node */
-	color: prop<string | null>().withSetter(),
+	color: prop<NodeColors | null>().withSetter(),
 	id: prop<string>().withSetter(),
 	ip: prop<string | null>().withSetter(),
 	os: prop<string | null>().withSetter(),
