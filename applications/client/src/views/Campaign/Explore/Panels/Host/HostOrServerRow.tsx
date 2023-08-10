@@ -160,7 +160,11 @@ export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props 
 			<RowTitle>
 				<NodeIcon
 					type={host.cobaltStrikeServer ? 'server' : 'host'}
-					color={host.cobaltStrikeServer ? 'default' : host.meta[0].current.color || undefined}
+					color={
+						host.cobaltStrikeServer
+							? host.server?.meta.current.color || undefined
+							: host.meta[0].current.color || undefined
+					}
 				/>
 				{host.cobaltStrikeServer && <Txt muted>Server:</Txt>}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>

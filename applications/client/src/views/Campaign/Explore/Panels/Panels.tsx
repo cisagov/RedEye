@@ -125,7 +125,12 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.SERVER]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'server' }}>
+			<PanelHeader
+				nodeIconProps={{
+					type: 'server',
+					color: store.campaign?.interactionState.selectedServer?.current?.meta.current.color || undefined,
+				}}
+			>
 				{store.campaign?.interactionState.selectedServer?.current?.computedName}
 			</PanelHeader>
 		),
@@ -141,7 +146,6 @@ export const InfoPanelTabs = {
 			<PanelHeader
 				nodeIconProps={{
 					type: 'host',
-					shape: store.campaign?.interactionState.selectedHost?.current?.meta[0].current.shape || undefined,
 					color: store.campaign?.interactionState.selectedHost?.current?.meta[0].current.color || undefined,
 				}}
 			>
