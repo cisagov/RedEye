@@ -1203,14 +1203,14 @@ export class RootStoreBase extends ExtendedModel(
 	}
 	// Update existing Host Display Name
 	@modelAction mutateUpdateHostMetadata(
-		variables: { campaignId: string; color?: string; hostDisplayName?: string; hostId: string; shape?: Shapes },
+		variables: { campaignId: string; color?: NodeColors; hostDisplayName?: string; hostId: string; shape?: Shapes },
 		resultSelector:
 			| string
 			| ((qb: typeof HostModelSelector) => typeof HostModelSelector) = hostModelPrimitives.toString(),
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateHostMetadata: HostModel }>(
-			`mutation updateHostMetadata($campaignId: String!, $color: String, $hostDisplayName: String, $hostId: String!, $shape: Shapes) { updateHostMetadata(campaignId: $campaignId, color: $color, hostDisplayName: $hostDisplayName, hostId: $hostId, shape: $shape) {
+			`mutation updateHostMetadata($campaignId: String!, $color: NodeColors, $hostDisplayName: String, $hostId: String!, $shape: Shapes) { updateHostMetadata(campaignId: $campaignId, color: $color, hostDisplayName: $hostDisplayName, hostId: $hostId, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(HostModelSelector).toString() : resultSelector}
       } }`,
 			variables,
@@ -1221,7 +1221,7 @@ export class RootStoreBase extends ExtendedModel(
 	@modelAction mutateUpdateServerMetadata(
 		variables: {
 			campaignId: string;
-			color?: string;
+			color?: NodeColors;
 			serverDisplayName?: string;
 			serverId: string;
 			serverType?: ServerType;
@@ -1233,7 +1233,7 @@ export class RootStoreBase extends ExtendedModel(
 		optimisticUpdate?: () => void
 	) {
 		return this.mutate<{ updateServerMetadata: ServerModel }>(
-			`mutation updateServerMetadata($campaignId: String!, $color: String, $serverDisplayName: String, $serverId: String!, $serverType: ServerType, $shape: Shapes) { updateServerMetadata(campaignId: $campaignId, color: $color, serverDisplayName: $serverDisplayName, serverId: $serverId, serverType: $serverType, shape: $shape) {
+			`mutation updateServerMetadata($campaignId: String!, $color: NodeColors, $serverDisplayName: String, $serverId: String!, $serverType: ServerType, $shape: Shapes) { updateServerMetadata(campaignId: $campaignId, color: $color, serverDisplayName: $serverDisplayName, serverId: $serverId, serverType: $serverType, shape: $shape) {
         ${typeof resultSelector === 'function' ? resultSelector(ServerModelSelector).toString() : resultSelector}
       } }`,
 			variables,

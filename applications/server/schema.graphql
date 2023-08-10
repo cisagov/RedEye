@@ -380,10 +380,10 @@ type Mutation {
   updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!, color: NodeColors, shape: Shapes): Beacon!
 
   """Update existing Host Display Name"""
-  updateHostMetadata(campaignId: String!, color: String, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
+  updateHostMetadata(campaignId: String!, color: NodeColors, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
 
   """Update existing Server name"""
-  updateServerMetadata(campaignId: String!, color: String, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
+  updateServerMetadata(campaignId: String!, color: NodeColors, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
 }
 
 """The color of the node"""

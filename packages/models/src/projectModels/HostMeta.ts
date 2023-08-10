@@ -3,7 +3,7 @@ import { Property, PrimaryKey, Entity, ManyToOne, Unique } from '@mikro-orm/core
 import { Field, ObjectType } from 'type-graphql';
 import { randomUUID } from 'crypto';
 import { Host } from './Host';
-import { Shapes } from './shared';
+import { NodeColors, Shapes } from './shared';
 
 @ObjectType()
 @Entity()
@@ -41,9 +41,9 @@ export class HostMeta {
 	@Property({ type: 'string' })
 	shape: Shapes = Shapes.circle;
 
-	@Field(() => String, { nullable: true, description: 'The color of the node' })
+	@Field(() => NodeColors, { nullable: true, description: 'The color of the node' })
 	@Property({ type: 'string', nullable: true })
-	color?: string;
+	color?: NodeColors;
 
 	/**
 	 * Relationships

@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { Beacon, Host, Shapes } from '@redeye/models';
+import { Beacon, Host, NodeColors, Shapes } from '@redeye/models';
 import { defaultHidden, ensureTreeHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import type { Relation } from './utils/relation-path';
@@ -31,7 +31,7 @@ export class HostResolvers {
 		@Arg('campaignId', () => String) campaignId: string,
 		@Arg('hostDisplayName', () => String, { nullable: true }) hostDisplayName?: string,
 		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
-		@Arg('color', () => String, { nullable: true }) color?: string,
+		@Arg('color', () => NodeColors, { nullable: true }) color?: NodeColors,
 		@RelationPath() relationPaths?: Relation<Host>
 	): Promise<Host> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
