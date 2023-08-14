@@ -87,7 +87,8 @@ export const ServerMeta = observer((props) => {
 					}
 				} else if (args.key === 'color') {
 					store.campaign.graph?.updateNodeVisual({
-						nodeId: data.updateServerMetadata.id,
+						// Safer to use server.serverHost.id instead of data.updateServerMetadata.name, to cover Brute Ratel data nodeId difference at least for now.
+						nodeId: server?.serverHost?.id || data.updateServerMetadata.name,
 						className: nodeColor[state.metaDraft.originalData.color].className,
 						shape: 'hexagonUp',
 					});
