@@ -3,6 +3,7 @@ import type { EndpointContext } from '../types';
 import { withTempDir } from '../util';
 import path from 'path';
 import { invokeParser } from '../machines/parser.service';
+import { escapeFilePath } from '@redeye/parser-core';
 
 export function parserFileValidation(app: Router, context: EndpointContext) {
 	app.post<{ parserName: string }, any, Express.Request>('/parser/:parserName/validate-files', async (req, res) => {
@@ -18,7 +19,7 @@ export function parserFileValidation(app: Router, context: EndpointContext) {
 				return await invokeParser(parserName, [
 					'validate-files',
 					'--folder',
-					path.join(dir, rootDir[0]).replace(/(\s+)/g, '\\$1'),
+					escapeFilePath(path.join(dir, rootDir[0])),
 				]);
 			});
 			return res.send(validated);

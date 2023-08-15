@@ -10,7 +10,8 @@ export const registerCampaignCommand = (program: Command) => {
 	const campaignCommand = program.command('parse-campaign');
 	campaignCommand.option(
 		'-f, --folder </absolute/path/to/folder>',
-		'The folder containing a Brute Ratel campaign, includes autosave.profile and logs folder'
+		'The folder containing a Brute Ratel campaign, includes autosave.profile and logs folder',
+		(value) => value.replaceAll('"', '')
 	);
 
 	campaignCommand.action(campaignCommandAction);

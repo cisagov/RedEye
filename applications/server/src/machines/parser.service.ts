@@ -22,7 +22,12 @@ import * as readline from 'node:readline';
 import path from 'path';
 import { getRuntimeDir } from '../util';
 import type { ParserInfo, ParserOutput } from '@redeye/parser-core';
-import { createLoggerInstance, ParserMessageTypes, getParserPrefixAndMessage } from '@redeye/parser-core';
+import {
+	createLoggerInstance,
+	ParserMessageTypes,
+	getParserPrefixAndMessage,
+	escapeFilePath,
+} from '@redeye/parser-core';
 import type { ChildProcess } from 'child_process';
 import { exec, execFile } from 'child_process';
 import type { EndpointContext, EntityManager } from '../types';
@@ -105,7 +110,7 @@ async function parsePaths(em: EntityManager, path: string, parserName: string) {
 		beacons: {},
 		operators: {},
 	};
-	const data = await invokeParser<ParserOutput>(parserName, ['parse-campaign', `--folder`, path]);
+	const data = await invokeParser<ParserOutput>(parserName, ['parse-campaign', `--folder`, escapeFilePath(path)]);
 	if (data.servers) {
 		for (const parsedServer of Object.values(data.servers)) {
 			created.servers[parsedServer.name] =

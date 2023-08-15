@@ -96,7 +96,7 @@ export function uploadCampaign(app: Router, context: EndpointContext) {
 
 		const logFiles = Array.isArray(req.files.file) ? req.files.file : [req.files.file];
 		const em = await connectToProjectEmOrFail(campaignId, context);
-		const parentDir = path.resolve(getRootPath(), 'campaign', campaignId);
+		const parentDir = path.resolve(getRootPath(), 'campaign', campaignId, 'logs');
 		for (const logFile of logFiles) await logFile.mv(path.join(parentDir, logFile.name.replace(/:/gi, '/')));
 		const servers: Server[] = [];
 		const newServers = JSON.parse(req.body.servers as unknown as string);

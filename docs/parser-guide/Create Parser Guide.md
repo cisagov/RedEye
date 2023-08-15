@@ -408,7 +408,8 @@ Now that we've gone over how to identify what data to extract and how to format 
 import fileSystem from 'fs';
 
 function parseLogFile() {
-	const logFile = fileSystem.readFileSync(`${process.argv[4]}/c2-log-files.txt`, 'utf8'); // Read the log file from the path passed in the command
+  const logPath = process.argv[4].replaceAll('"', ""); // Get the path and remove the quotes around it
+	const logFile = fileSystem.readFileSync(`${logPath}/c2-log-files.txt`, 'utf8'); // Read the log file from the path passed in the command
 	const lines = logFile.split('\n'); // Split the log file into lines
 	const output = {
 		// Create an empty object to store our output

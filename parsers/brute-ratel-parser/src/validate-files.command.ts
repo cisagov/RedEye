@@ -13,7 +13,8 @@ export const registerValidateFilesCommand = (program: Command) => {
 	const validateFilesCommand = program.command('validate-files');
 	validateFilesCommand.option(
 		'-f, --folder </absolute/path/to/folder>',
-		'A folder containing the Brute Ratel log files'
+		'A folder containing the Brute Ratel log files',
+		(value) => value.replaceAll('"', '')
 	);
 	validateFilesCommand.action(async (options) => {
 		writeParserMessage(ParserMessageTypes.Data, await validate(options));
