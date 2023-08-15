@@ -9,7 +9,7 @@ describe('Command row navigation', () => {
 	const camp = 'commandrownav';
 	const fileName = 'gt.redeye';
 
-	it.only('Quicklink breadcrumbs should navigate to command row page destination; Host link should not be clickable', () => {
+	it('Quicklink breadcrumbs should navigate to command row page destination; Host link should not be clickable', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Open campaign and select a Host (log Host name)

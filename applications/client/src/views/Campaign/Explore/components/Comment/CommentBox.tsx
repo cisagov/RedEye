@@ -428,10 +428,10 @@ export const CommentBox = observer<CommentBoxProps>(
 
 		const Tags = () => (
 			<Flex gap={4} align="center">
-				<CarbonIcon icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
+				<CarbonIcon cy-test="tag-icon" icon={semanticIcons.tags} css={{ color: CoreTokens.TextMuted }} />
 				{state.tags.length > 0 ? (
 					state.tags.map((tag) => (
-						<Txt muted small css={hashTagBeforeStyle} key={tag}>
+						<Txt cy-test="tags" muted small css={hashTagBeforeStyle} key={tag}>
 							{tag}
 						</Txt>
 					))
@@ -658,6 +658,7 @@ export const CommentBox = observer<CommentBoxProps>(
 
 						{state.text.length > 0 && (
 							<Txt
+								cy-test="comment-text"
 								running
 								css={[
 									displayTextStyle,

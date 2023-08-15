@@ -43,9 +43,7 @@ describe('Search campaign and open one of the results', () => {
 			});
 	});
 
-	it.only('Click search result to view details', () => {
-		cy.uploadCampaign(camp, fileName);
-
+	it('Click search result to view details', () => {
 		// Open campaign and go to Search page
 		cy.selectCampaign(camp);
 
