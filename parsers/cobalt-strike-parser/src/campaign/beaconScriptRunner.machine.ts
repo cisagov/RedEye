@@ -96,7 +96,7 @@ export const beaconScriptRunnerMachine = createMachine(
 					};
 
 					if (process.pkg) {
-						const command = `${path.resolve(getRuntimeDir(), 'cs-parser')}`;
+						const command = path.resolve(getRuntimeDir(), 'cobalt-strike-parser');
 						ctx.logger('execFile start', {
 							payload: [command, process.argv[1], ...args],
 							tags: [ctx.beaconId, 'BEACON_PARSER_INVOKE'],

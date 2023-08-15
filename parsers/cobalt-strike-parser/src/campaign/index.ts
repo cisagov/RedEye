@@ -18,11 +18,13 @@ export const registerCampaignCommand = (program: Command) => {
 	const campaignCommand = program.command('campaign');
 	campaignCommand.option(
 		'-f, --folders </absolute/path/to/folder...>',
-		'A list of folders to parse without an existing database'
+		'A list of folders to parse without an existing database',
+		(value) => value?.replaceAll('"', '')
 	);
 	campaignCommand.option(
 		'-d, --databasePath </absolute/path/to/database>',
-		'parser with an existing database and unparsed server(s)'
+		'parser with an existing database and unparsed server(s)',
+		(value) => value?.replaceAll('"', '')
 	);
 
 	addSharedCommandOptions(campaignCommand);

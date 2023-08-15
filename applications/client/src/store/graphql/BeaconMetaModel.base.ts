@@ -7,6 +7,7 @@ import { types, prop, tProp, Model, Ref, idProp } from 'mobx-keystone';
 import { QueryBuilder } from 'mk-gql';
 import type { BeaconType } from './BeaconTypeEnum';
 import type { LogEntryModel } from './LogEntryModel';
+import type { NodeColors } from './NodeColorsEnum';
 import type { Shapes } from './ShapesEnum';
 
 import { LogEntryModelSelector, logEntryModelPrimitives } from './LogEntryModel';
@@ -25,7 +26,7 @@ type Refs = {
 export class BeaconMetaModelBase extends Model({
 	__typename: tProp('BeaconMeta'),
 	/** The color of the node */
-	color: prop<string | null>().withSetter(),
+	color: prop<NodeColors | null>().withSetter(),
 	/** The time that the last command was run */
 	endTime: prop<any | null>().withSetter(),
 	id: prop<string>().withSetter(),

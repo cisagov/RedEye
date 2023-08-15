@@ -31,7 +31,7 @@ export const getDbPath = (databaseMode: DatabaseMode): string => {
 };
 
 export const getDatabaseFolderPath = (campaignId: string, databaseMode: DatabaseMode): string =>
-	`${getDbPath(databaseMode)}/campaign/${campaignId}`;
+	path.resolve(getDbPath(databaseMode), 'campaign', campaignId);
 
 export const getFullCampaignDbPath = (campaignId: string, databaseMode: DatabaseMode): string =>
-	`${getDatabaseFolderPath(campaignId, databaseMode)}/db.redeye`;
+	path.resolve(getDatabaseFolderPath(campaignId, databaseMode), 'db.redeye');

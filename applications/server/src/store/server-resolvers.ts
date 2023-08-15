@@ -1,5 +1,5 @@
 import { Arg, Resolver, Query, Authorized, Ctx, Mutation } from 'type-graphql';
-import { Beacon, Campaign, Host, GlobalOperator, Server, ServerType, Shapes } from '@redeye/models';
+import { Beacon, Campaign, Host, GlobalOperator, Server, ServerType, Shapes, NodeColors } from '@redeye/models';
 import { connectToProjectEmOrFail, getMainEmOrFail } from './utils/project-db';
 import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';
@@ -131,7 +131,7 @@ export class ServerResolvers {
 		@Arg('serverDisplayName', () => String, { nullable: true }) serverDisplayName?: string,
 		@Arg('serverType', () => ServerType, { nullable: true }) serverType?: ServerType,
 		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
-		@Arg('color', () => String, { nullable: true }) color?: string
+		@Arg('color', () => NodeColors, { nullable: true }) color?: NodeColors
 	): Promise<Server> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const server = await em.findOneOrFail(Server, serverId, { populate: relationPaths });

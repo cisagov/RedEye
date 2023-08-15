@@ -67,7 +67,7 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 
 	@computed get computedBeaconName(): string {
 		const meta = this.meta[0]?.current;
-		if (!meta) return this.beaconName;
+		if (!meta) return this.displayName ?? this.beaconName;
 		const {
 			// id,
 			// pid,
@@ -77,7 +77,7 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 			// listener, // 'http';
 		} = meta;
 		// return [process, username].join(' · '); // <- TODO!
-		return [username].join(' · ');
+		return [this.displayName ?? this.beaconName, username].filter(Boolean).join(' · ');
 	}
 
 	@computed get computedName(): string {

@@ -61,7 +61,7 @@ enum BeaconLineType {
 """Data derived from the Beacon metadata line"""
 type BeaconMeta {
   """The color of the node"""
-  color: String
+  color: NodeColors
 
   """The time that the last command was run"""
   endTime: DateTime
@@ -223,7 +223,7 @@ type Host {
 
 type HostMeta {
   """The color of the node"""
-  color: String
+  color: NodeColors
   id: String!
   ip: String
   os: String
@@ -377,13 +377,29 @@ type Mutation {
   updateAnnotation(annotationId: String!, campaignId: String!, favorite: Boolean, tags: [String!]!, text: String!, user: String!): Annotation!
 
   """Update existing Beacon Metadata"""
-  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!, color: String, shape: Shapes): Beacon!
+  updateBeaconMetadata(beaconDisplayName: String, beaconId: String!, beaconTimeOfDeath: DateTime, beaconType: BeaconType, campaignId: String!, color: NodeColors, shape: Shapes): Beacon!
 
   """Update existing Host Display Name"""
-  updateHostMetadata(campaignId: String!, color: String, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
+  updateHostMetadata(campaignId: String!, color: NodeColors, hostDisplayName: String, hostId: String!, shape: Shapes): Host!
 
   """Update existing Server name"""
-  updateServerMetadata(campaignId: String!, color: String, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
+  updateServerMetadata(campaignId: String!, color: NodeColors, serverDisplayName: String, serverId: String!, serverType: ServerType, shape: Shapes): Server!
+}
+
+"""The color of the node"""
+enum NodeColors {
+  default
+  forest
+  gold
+  green
+  indigo
+  lime
+  orange
+  red
+  rose
+  turquoise
+  vermilion
+  violet
 }
 
 type NonHidableEntities {
@@ -581,7 +597,7 @@ enum ServerDelineationTypes {
 
 type ServerMeta {
   """The color of the node"""
-  color: String
+  color: NodeColors
   id: String!
   shape: Shapes
   type: ServerType!
