@@ -19,16 +19,41 @@ type BarsProps = ComponentProps<'div'> & {
 	scrubberTime: Date | null;
 };
 
+const { minBarScale, minBarScaleDiff } = { minBarScale: 3, minBarScaleDiff: 1 };
 export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions, scrubberTime }) => {
 	const store = useStore();
 	const yMax = max(bars.map((bar) => bar.beaconCount)) ?? 0;
 	const yScale = scaleLinear([0, yMax], [0, dimensions.height]).interpolate(interpolateRound);
+
 	return (
 		<g>
 			{/* MAYBEDO: wrap all the bars in a single popover and use the modifiers.offset to position on the hovered bar */}
 			{bars.map((bar) => {
 				const x = xScale(bar.start);
 				const width = xScale(bar.end) - x - 1;
+
+				// In order to avoid some invisible bars (beacons or active/selected beacons) caused by smallCount&pixelLimit, here we set a min bar height for all different beacon types in a ladder.
+				const beaconCountScale = Math.max(minBarScale, yScale(bar.beaconCount));
+
+				const activeBeaconCountScale =
+					bar.activeBeaconCount > 0
+						? Math.max(
+								bar.activeBeaconCount === bar.beaconCount ? minBarScale : minBarScale - minBarScaleDiff,
+								yScale(bar.activeBeaconCount)
+						  )
+						: yScale(bar.activeBeaconCount);
+
+				const selectedBeaconCountScale =
+					bar.selectedBeaconCount > 0
+						? Math.max(
+								bar.selectedBeaconCount === bar.beaconCount
+									? minBarScale
+									: bar.selectedBeaconCount === bar.activeBeaconCount
+									? minBarScale - minBarScaleDiff
+									: minBarScale - 2 * minBarScaleDiff,
+								yScale(bar.selectedBeaconCount)
+						  )
+						: yScale(bar.selectedBeaconCount);
 
 				return (
 					<Popover2
@@ -74,24 +99,24 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 										<rect
 											x={x}
 											width={width}
-											y={dimensions.height - yScale(bar.beaconCount)}
-											height={yScale(bar.beaconCount)}
+											y={dimensions.height - beaconCountScale}
+											height={beaconCountScale}
 											css={[baseBarStyles, scrubberTime && bar.end <= scrubberTime ? deadBarStyles : futureBarStyles]}
 										/>
 										{/* Active Beacon Bar */}
 										<rect
 											x={x}
 											width={width}
-											y={dimensions.height - yScale(bar.activeBeaconCount)}
-											height={yScale(bar.activeBeaconCount)}
+											y={dimensions.height - activeBeaconCountScale}
+											height={activeBeaconCountScale}
 											css={[baseBarStyles, aliveBarStyles]}
 										/>
 										{/* Selected Beacon Bar */}
 										<rect
 											x={x}
 											width={width}
-											y={dimensions.height - yScale(bar.selectedBeaconCount)}
-											height={yScale(bar.selectedBeaconCount)}
+											y={dimensions.height - selectedBeaconCountScale}
+											height={selectedBeaconCountScale}
 											css={[baseBarStyles, selectedBarStyles]}
 										/>
 										{/* Interaction Beacon Bar for Functionality */}
