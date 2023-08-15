@@ -158,7 +158,14 @@ export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props 
 				{host.maxTime ? store.settings.momentTz(host.maxTime)?.format(dateShortFormat) : dateShortPlaceholder}
 			</RowTime>
 			<RowTitle>
-				<NodeIcon type={host.cobaltStrikeServer ? 'server' : 'host'} color="default" />
+				<NodeIcon
+					type={host.cobaltStrikeServer ? 'server' : 'host'}
+					color={
+						host.cobaltStrikeServer
+							? host.server?.meta?.current?.color || undefined
+							: host.meta?.[0]?.current?.color || undefined
+					}
+				/>
 				{host.cobaltStrikeServer && <Txt muted>Server:</Txt>}
 				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
 					{host.computedName}

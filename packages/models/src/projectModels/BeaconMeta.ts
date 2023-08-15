@@ -5,7 +5,7 @@ import { Field, Int, ObjectType, registerEnumType } from 'type-graphql';
 import { randomUUID } from 'crypto';
 import { Beacon } from './Beacon';
 import { LogEntry } from './LogEntry';
-import { Shapes } from './shared';
+import { NodeColors, Shapes } from './shared';
 
 export enum BeaconType {
 	http = 'http',
@@ -73,9 +73,9 @@ export class BeaconMeta {
 	@Property({ type: 'string' })
 	shape: Shapes = Shapes.circle;
 
-	@Field(() => String, { nullable: true, description: 'The color of the node' })
+	@Field(() => NodeColors, { nullable: true, description: 'The color of the node' })
 	@Property({ type: 'string', nullable: true })
-	color?: string;
+	color?: NodeColors;
 
 	// This is likely to be nullable in future due to different ways we have to extract this data in other C2 tools
 	@Field(() => LogEntry, { description: 'The log line from which the BeaconMeta was extracted', nullable: true })

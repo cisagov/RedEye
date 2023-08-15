@@ -17,7 +17,7 @@ import { Server } from './Server';
 import { ServerMeta, ServerType } from './ServerMeta';
 import { Tag } from './Tag';
 import { Timeline, TimelineBucket, TimelineCommandCountTuple } from './Timeline';
-import { GenerationType, Shapes } from './shared';
+import { GenerationType, Shapes, NodeColors } from './shared';
 
 export const campaignEntities = [
 	Annotation,
@@ -72,6 +72,7 @@ export {
 	LogType,
 	ServerType,
 	Shapes,
+	NodeColors,
 	MitreTechniques,
 	mitreTechniques,
 };

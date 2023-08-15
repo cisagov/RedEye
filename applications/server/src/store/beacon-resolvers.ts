@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Query, Resolver, Mutation } from 'type-graphql';
-import { Beacon, BeaconType, Shapes } from '@redeye/models';
+import { Beacon, BeaconType, Shapes, NodeColors } from '@redeye/models';
 import { ensureTreeHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import type { Relation } from './utils/relation-path';
@@ -31,7 +31,7 @@ export class BeaconResolvers {
 		@Arg('beaconTimeOfDeath', () => Date, { nullable: true }) beaconTimeOfDeath?: Date,
 		@Arg('beaconType', () => BeaconType, { nullable: true }) beaconType?: BeaconType,
 		@Arg('shape', () => Shapes, { nullable: true }) shape?: Shapes,
-		@Arg('color', () => String, { nullable: true }) color?: string
+		@Arg('color', () => NodeColors, { nullable: true }) color?: NodeColors
 	): Promise<Beacon> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
 		const beacon = await em.findOneOrFail(Beacon, beaconId, { populate: relationPaths });

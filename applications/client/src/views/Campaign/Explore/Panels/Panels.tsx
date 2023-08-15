@@ -93,7 +93,13 @@ export const sortOptions: Record<Tabs, SortOption[]> = {
 export const InfoPanelTabs = {
 	[InfoType.BEACON]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'beacon' }}>
+			<PanelHeader
+				nodeIconProps={{
+					type: 'beacon',
+					shape: store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.current?.shape || undefined,
+					color: store.campaign?.interactionState.selectedBeacon?.current?.meta?.[0]?.current?.color || undefined,
+				}}
+			>
 				{store.campaign?.interactionState.selectedBeacon?.current?.computedName}
 			</PanelHeader>
 		),
@@ -119,7 +125,12 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.SERVER]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'server' }}>
+			<PanelHeader
+				nodeIconProps={{
+					type: 'server',
+					color: store.campaign?.interactionState.selectedServer?.current?.meta?.current?.color || undefined,
+				}}
+			>
 				{store.campaign?.interactionState.selectedServer?.current?.computedName}
 			</PanelHeader>
 		),
@@ -132,7 +143,12 @@ export const InfoPanelTabs = {
 	},
 	[InfoType.HOST]: {
 		title: (store: AppStore) => (
-			<PanelHeader nodeIconProps={{ type: 'host' }}>
+			<PanelHeader
+				nodeIconProps={{
+					type: 'host',
+					color: store.campaign?.interactionState.selectedHost?.current?.meta?.[0]?.current?.color || undefined,
+				}}
+			>
 				{store.campaign?.interactionState.selectedHost?.current?.computedName}
 			</PanelHeader>
 		),

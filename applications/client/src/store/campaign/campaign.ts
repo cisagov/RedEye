@@ -101,7 +101,10 @@ export class CampaignStore extends ExtendedModel(() => ({
 		const parents = Array.from(this.appStore?.graphqlStore.hosts.values() || [], (host) => ({
 			id: host.id,
 			name: host.computedName,
-			className: nodeColor[host.meta[0]?.maybeCurrent?.color || 'default'].className,
+			className:
+				nodeColor[
+					(host.cobaltStrikeServer ? host.server?.meta?.current?.color : host.meta[0]?.maybeCurrent?.color) || 'default'
+				].className,
 			shape: host.meta[0]?.maybeCurrent?.shape,
 		}));
 		if (nodes.length) {
