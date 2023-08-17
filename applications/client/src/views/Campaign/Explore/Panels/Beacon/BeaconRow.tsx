@@ -149,7 +149,7 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 			{beacon != null && !store.appMeta.blueTeam && (
 				<QuickMetaPopoverButtonMenu
 					content={
-						// <MenuItem2 text="Add Comment" />
+						// <MenuItem text="Add Comment" />
 						<ShowHideMenuItem model={beacon} onClick={handleQuickMetaClick} />
 					}
 				/>

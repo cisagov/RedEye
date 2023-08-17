@@ -234,7 +234,7 @@ Cypress.Commands.add('viewAllComments', () => {
 // *******************************************
 
 Cypress.Commands.add('hostNameEquals', (name) => {
-	cy.get('.bp4-heading').first().contains(name);
+	cy.get('.bp5-heading').first().contains(name);
 });
 
 Cypress.Commands.add('openRawLogs', () => {

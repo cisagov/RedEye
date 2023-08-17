@@ -43,7 +43,7 @@ describe('Update Beacon metadata', () => {
 				cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]').contains(newBeaconName).click();
 				cy.clickDetailsTab();
 				cy.get('[cy-test=beacon-time-of-death]')
-					.find('.bp4-input')
+					.find('.bp5-input')
 					.invoke('attr', 'value')
 					.then((resultTOD1) => {
 						expect(resultTOD1).to.equal(newTOD);

@@ -1,5 +1,5 @@
 import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
-import { DateInput2 } from '@blueprintjs/datetime2';
+import { DateInput } from '@blueprintjs/datetime';
 import { CarbonIcon, dateTimeFormat, isDefined } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import type {
@@ -20,7 +20,7 @@ import { observer } from 'mobx-react-lite';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { Select2 } from '@blueprintjs/select';
+import { Select } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
 import { draft, model, Model, prop } from 'mobx-keystone';
 import type { NodeColor } from '@redeye/client/views';
@@ -210,7 +210,7 @@ export const BeaconMeta = observer((props) => {
 					<Txt>{beacon?.meta[0]?.maybeCurrent?.pid}</Txt>
 					<MetaLabel>Time of Death </MetaLabel>
 					<div cy-test="beacon-time-of-death">
-						<DateInput2
+						<DateInput
 							key={store.settings.timezone}
 							disabled={!!store.appMeta.blueTeam}
 							value={store.settings.momentTz(state.metaDraft.data.timeOfDeath).toISOString()}
@@ -246,7 +246,7 @@ export const BeaconMeta = observer((props) => {
 						</div>
 					</div>
 					<MetaLabel>Type</MetaLabel>
-					<Select2
+					<Select
 						disabled={!!store.appMeta.blueTeam}
 						items={beaconTypeSelectItems}
 						itemRenderer={renderSort}
@@ -266,7 +266,7 @@ export const BeaconMeta = observer((props) => {
 							rightIcon={<CarbonIcon icon={CaretDown16} />}
 							fill
 						/>
-					</Select2>
+					</Select>
 					<MetaLabel>Graph Appearance</MetaLabel>
 					<Flex gap={1}>
 						<NodePreviewBox color={state.metaDraft.data.color} shape={state.metaDraft.data.shape} />

@@ -1,5 +1,5 @@
 import { Classes, FormGroup, Switch } from '@blueprintjs/core';
-import { TimezoneSelect } from '@blueprintjs/datetime2';
+import { TimezoneSelect } from '@blueprintjs/datetime';
 import { css } from '@emotion/react';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { sortOptions } from '@redeye/client/views';

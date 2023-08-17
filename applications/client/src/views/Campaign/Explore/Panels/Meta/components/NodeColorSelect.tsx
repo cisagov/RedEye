@@ -1,7 +1,7 @@
 import type { ButtonProps } from '@blueprintjs/core';
 import { Button, MenuItem } from '@blueprintjs/core';
-import type { ItemRenderer, Select2Props } from '@blueprintjs/select';
-import { Select2 } from '@blueprintjs/select';
+import type { ItemRenderer, SelectProps } from '@blueprintjs/select';
+import { Select } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
 import { CarbonIcon } from '@redeye/client/components';
 import type { NodeColor, NodeIconProps } from '@redeye/client/views/Campaign/Graph';
@@ -10,8 +10,8 @@ import { largePopoverClassName } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import { NodePreview } from './NodePreview';
 
-type NodeColorSelectProps = Partial<Select2Props<NodeColorOption>> & {
-	onItemSelect: Select2Props<NodeColorOption>['onItemSelect'];
+type NodeColorSelectProps = Partial<SelectProps<NodeColorOption>> & {
+	onItemSelect: SelectProps<NodeColorOption>['onItemSelect'];
 	buttonProps?: ButtonProps;
 	nodeIconProps?: NodeIconProps;
 	value?: NodeColor;
@@ -31,7 +31,7 @@ export const NodeColorSelect = observer<NodeColorSelectProps>(
 		);
 
 		return (
-			<Select2
+			<Select
 				items={nodeColorOptions}
 				itemRenderer={itemRenderer}
 				filterable={false}
@@ -44,7 +44,7 @@ export const NodeColorSelect = observer<NodeColorSelectProps>(
 				{...props}
 			>
 				<Button text="Color" alignText="left" rightIcon={<CarbonIcon icon={CaretDown16} />} fill {...buttonProps} />
-			</Select2>
+			</Select>
 		);
 	}
 );

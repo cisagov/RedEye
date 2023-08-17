@@ -11,7 +11,7 @@
  */
 //CLICK ON ALL TABS
 Cypress.Commands.add('clickAllTabs', () => {
-	cy.get('div.bp4-tab-list').should('be.visible').children().click({ multiple: true, force: true });
+	cy.get('div.bp5-tab-list').should('be.visible').children().click({ multiple: true, force: true });
 });
 
 //CLICK ON THE TABS AVAILABLE ON OVERVIEW PANEL
@@ -40,7 +40,7 @@ Cypress.Commands.add('clickPresentationMode', () => {
 	cy.get('[cy-test=presentation-mode').click();
 	// cy.wait('@presentationItems');
 	cy.get('[cy-test=presentation-root]').should('be.visible');
-	cy.get('div.bp4-spinner-annimation').should('not.exist');
+	cy.get('div.bp5-spinner-annimation').should('not.exist');
 	cy.get('.superGraph').should('be.visible', { timeout: 90000 });
 	cy.wait(1000);
 });
@@ -175,12 +175,12 @@ Cypress.Commands.add('editTimelineDates', () => {
 
 // CHANGE TIMELINE START DATE
 Cypress.Commands.add('changeTimelineStartDate', (newStartDate) => {
-	cy.get('.bp4-input').eq(0).click().clear().type(newStartDate);
+	cy.get('.bp5-input').eq(0).click().clear().type(newStartDate);
 });
 
 // CHANGE TIMELINE END DATE
 Cypress.Commands.add('changeTimelineEndDate', (newEndDate) => {
-	cy.get('.bp4-input').eq(1).click().clear().type(newEndDate);
+	cy.get('.bp5-input').eq(1).click().clear().type(newEndDate);
 });
 
 // *******************************************
