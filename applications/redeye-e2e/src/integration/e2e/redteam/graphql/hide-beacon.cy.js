@@ -44,7 +44,6 @@ describe('Hide a Beacon using GraphQL', () => {
 		});
 		cy.returnToCampaignCard();
 		cy.doNotShowHiddenItems();
-		// cy.reload();
 		cy.selectCampaign(camp);
 		cy.clickBeaconsTab();
 		const beacs = [];
