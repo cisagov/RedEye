@@ -94,7 +94,6 @@ jobs:
           start: yarn start:dev
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
-          headed: true
           group: 'Red Team - Chrome'
           config: baseUrl=http://localhost:3500
           record: true
@@ -144,7 +143,6 @@ jobs:
           start: yarn start:blue
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
-          headed: true
           group: 'Blue Team - Chrome'
           config: baseUrl=http://localhost:3500
           record: true
