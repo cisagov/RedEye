@@ -4,6 +4,7 @@ import { connectToProjectEmOrFail } from './utils/project-db';
 import { RelationPath } from './utils/relation-path';
 import type { Relation } from './utils/relation-path';
 import type { GraphQLContext } from '../types';
+import { readFileSync } from 'fs-extra';
 
 @Resolver(LogEntry)
 export class LogResolvers {
@@ -55,5 +56,27 @@ export class LogResolvers {
 		);
 
 		return logs;
+	}
+
+	@Authorized()
+	@Query(() => [String], {
+		description: 'Get log files from beacon',
+	})
+	async logFilesByBeaconId(
+		@Ctx() ctx: GraphQLContext,
+		@Arg('campaignId', () => String) campaignId: string,
+		@Arg('beaconId', () => String) beaconId: string
+	): Promise<string[]> {
+		const em = await connectToProjectEmOrFail(campaignId, ctx);
+		const logs: LogEntry[] = await em.createQueryBuilder(LogEntry).where({ beacon: beaconId });
+		const files: string[] = [];
+		const seenFiles = new Set<string>();
+		for (const log of logs) {
+			if (log.filepath && !seenFiles.has(log.filepath)) {
+				files.push(readFileSync(log.filepath, 'utf8'));
+				seenFiles.add(log.filepath);
+			}
+		}
+		return files;
 	}
 }

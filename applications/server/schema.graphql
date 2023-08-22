@@ -534,6 +534,9 @@ type Query {
   """Get all links"""
   links(campaignId: String!, hidden: Boolean = false): [Link]
 
+  """Get log files from beacon"""
+  logFilesByBeaconId(beaconId: String!, campaignId: String!): [String!]!
+
   """Get log entries by ids"""
   logs(beaconId: String, campaignId: String!, hostId: String): [LogEntry]
 

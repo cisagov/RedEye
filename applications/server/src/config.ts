@@ -46,9 +46,9 @@ const castConfig = (cliArgs: cliArgs): ConfigDefinition => {
 		overrides.production = false;
 		overrides.databaseMode = DatabaseMode.DEV_PERSIST;
 	}
-	if (cliArgs.port) overrides.port = cliArgs.port;
+	if (cliArgs.port) overrides.port = parseInt(`${cliArgs.port}`, 10);
 	if (cliArgs.redTeam) overrides.redTeam = true;
-	if (cliArgs.childProcesses) overrides.maxParserSubprocesses = cliArgs.childProcesses;
+	if (cliArgs.childProcesses) overrides.maxParserSubprocesses = parseInt(`${cliArgs.childProcesses}`, 10);
 	if (cliArgs.password) overrides.password = cliArgs.password;
 	if (cliArgs.parsers) {
 		if (cliArgs.parsers === true) {
