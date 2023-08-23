@@ -212,7 +212,7 @@ export class CommandTypeCountResolvers {
 		hidden: boolean = false
 	): Promise<CommandTypeCount[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const commands = await em.find(Command, beaconHidden(hidden), { populate: false });
+		const commands = await em.find(Command, beaconHidden(hidden), { populate: ['commandGroups'] });
 		const countObj = commands.reduce<Record<string, CountObjItem>>((acc, current) => {
 			if (acc[current.inputText]) {
 				acc[current.inputText] = {

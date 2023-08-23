@@ -18,7 +18,9 @@ export class OperatorResolvers {
 		@RelationPath() relationPaths: Relation<Operator>
 	): Promise<Operator[]> {
 		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const operators = await em.find(Operator, !hidden ? { beacons: { hidden } } : {}, { populate: relationPaths });
+		const operators = await em.find(Operator, !hidden ? { beacons: { hidden } } : {}, {
+			populate: [...relationPaths, 'beacons'],
+		});
 		for (const operator of operators) {
 			await operator.beacons.init({ populate: false, where: defaultHidden(hidden) });
 			await operator.commands.init({ populate: false, where: beaconHidden(hidden) });

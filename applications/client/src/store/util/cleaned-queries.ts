@@ -70,6 +70,7 @@ export const hostQuery = hostModelPrimitives.cobaltStrikeServer.beaconIds
 export const campaignsQuery = campaignModelPrimitives
 	.lastOpenedBy((user) => user)
 	.creator((user) => user)
+	.parsers((parser) => parser.parserName)
 	.toString();
 
 export const rawLogOutputQuery = logEntryModelPrimitives;

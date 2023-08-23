@@ -244,4 +244,15 @@ export class CampaignStore extends ExtendedModel(() => ({
 			direction: direction as SortDirection,
 		};
 	}
+
+	@computed get parsers(): string[] {
+		if (this.id)
+			return (
+				(this.appStore?.graphqlStore.campaigns
+					.get(this.id)
+					?.parsers?.map((parser) => parser.parserName)
+					.filter(Boolean) as string[]) || []
+			);
+		return [];
+	}
 }

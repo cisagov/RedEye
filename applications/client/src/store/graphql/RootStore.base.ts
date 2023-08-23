@@ -176,6 +176,7 @@ export enum RootStoreBaseQueries {
 	queryHosts = 'queryHosts',
 	queryImages = 'queryImages',
 	queryLinks = 'queryLinks',
+	queryLogFilesByBeaconId = 'queryLogFilesByBeaconId',
 	queryLogs = 'queryLogs',
 	queryLogsByBeaconId = 'queryLogsByBeaconId',
 	queryNonHidableEntities = 'queryNonHidableEntities',
@@ -628,6 +629,20 @@ export class RootStoreBase extends ExtendedModel(
 			`query links($campaignId: String!, $hidden: Boolean) { links(campaignId: $campaignId, hidden: $hidden) {
         ${typeof resultSelector === 'function' ? resultSelector(LinkModelSelector).toString() : resultSelector}
       } }`,
+			variables,
+			options,
+			!!clean
+		);
+	}
+	// Get logs from beacon sorted by time. The goal is to be able to re-create the full log for that beacon.
+	@modelAction queryLogFilesByBeaconId(
+		variables: { beaconId: string; campaignId: string },
+		_?: any,
+		options: QueryOptions = {},
+		clean?: boolean
+	) {
+		return this.query<{ logFilesByBeaconId: StringModel[] }>(
+			`query logFilesByBeaconId($beaconId: String!, $campaignId: String!) { logFilesByBeaconId(beaconId: $beaconId, campaignId: $campaignId)  }`,
 			variables,
 			options,
 			!!clean

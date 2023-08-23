@@ -1,6 +1,5 @@
-import type {} from '@blueprintjs/core';
 import { Button, ButtonGroup, Divider, NonIdealState, Spinner } from '@blueprintjs/core';
-import { Copy16, UpToTop16 } from '@carbon/icons-react';
+import { Copy16, UpToTop16, Document16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { DialogExProps } from '@redeye/client/components';
 import { CarbonIcon, DialogEx } from '@redeye/client/components';
@@ -26,6 +25,7 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 	const scrollTopTargetRef = useRef<HTMLDivElement>(null);
 
 	const state = createState({
+		showLogFile: false,
 		get isOpen(): boolean {
 			return (
 				!!(this.beacon && store.router.queryParams['raw-logs']) ||
@@ -46,6 +46,7 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 			return this.command?.input?.current?.id;
 		},
 		onClose() {
+			this.showLogFile = false;
 			store.router.updateQueryParams({ queryParams: { 'raw-logs': undefined, 'raw-command': undefined } });
 		},
 		handleCopyText(logsByBeaconId) {
@@ -79,6 +80,23 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 		{ enabled: state.isOpen }
 	);
 
+	const {
+		data: { logFilesByBeaconId } = {},
+		isLoading: isLoadingFiles,
+		isError: isErrorFiles,
+	} = useQuery(
+		['rawLogFile', store.campaign.id, state.commandInputId],
+		async () =>
+			await store.graphqlStore.queryLogFilesByBeaconId(
+				{
+					campaignId: store.campaign.id!,
+					beaconId: state.beacon?.id!,
+				},
+				selectFromLogEntry().toString()
+			),
+		{ enabled: state.isOpen && state.showLogFile && store.campaign.parsers.includes('cobalt-strike-parser') }
+	);
+
 	if (!state.command && !state.beacon) return null;
 
 	return (
@@ -106,6 +124,16 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 							</Txt>
 						</PanelHeader>
 						<ButtonGroup>
+							{store.campaign.parsers.includes('cobalt-strike-parser') ? (
+								<Button
+									cy-test="view-log-file"
+									text="View Log File"
+									rightIcon={<CarbonIcon icon={Document16} />}
+									active={state.showLogFile}
+									onClick={() => state.update('showLogFile', !state.showLogFile)}
+									minimal
+								/>
+							) : null}
 							<Button
 								cy-test="scroll-to-top"
 								text="Scroll To Top"
@@ -127,21 +155,29 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 			}
 		>
 			<div ref={scrollTopTargetRef} />
-			{isLoading && <Spinner css={messagePaddingStyles} />}
-			{isError && <NonIdealState title="Unable to fetch Logs" icon="error" css={messagePaddingStyles} />}
+			{(isLoading || (state.showLogFile && isLoadingFiles)) && <Spinner css={messagePaddingStyles} />}
+			{(isError || (state.showLogFile && isErrorFiles)) && (
+				<NonIdealState title="Unable to fetch Logs" icon="error" css={messagePaddingStyles} />
+			)}
 			<div cy-test="log" css={outputScrollWrapperStyle}>
 				<div css={outputOverflowWrapperStyle}>
-					{logsByBeaconId
-						?.filter((logEntry) => !!getTextFromLog(logEntry))
-						.map((logEntry) => {
-							const isScrollTarget = state.commandLogEntryIds?.includes?.(logEntry.id);
-							const Component = isScrollTarget ? ScrollTargetPre : 'pre';
-							return (
-								<Component key={logEntry.id} cy-test="log-entry" css={[preStyles]}>
-									{getTextFromLog(logEntry)}
-								</Component>
-							);
-						})}
+					{state.showLogFile
+						? logFilesByBeaconId?.map((file) => (
+								<pre cy-test="log-entry" css={[preStyles]}>
+									{file}
+								</pre>
+						  ))
+						: logsByBeaconId
+								?.filter((logEntry) => !!getTextFromLog(logEntry))
+								.map((logEntry) => {
+									const isScrollTarget = state.commandLogEntryIds?.includes?.(logEntry.id);
+									const Component = isScrollTarget ? ScrollTargetPre : 'pre';
+									return (
+										<Component key={logEntry.id} cy-test="log-entry" css={[preStyles]}>
+											{getTextFromLog(logEntry)}
+										</Component>
+									);
+								})}
 				</div>
 			</div>
 		</DialogEx>
