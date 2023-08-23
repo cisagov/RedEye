@@ -1,4 +1,4 @@
-import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
+import { Popover, PopoverInteractionKind } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import { durationFormatter } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
@@ -56,9 +56,9 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 						: yScale(bar.selectedBeaconCount);
 
 				return (
-					<Popover2
+					<Popover
 						key={`${start.valueOf()}-${bar.start.valueOf()}`}
-						interactionKind={Popover2InteractionKind.HOVER}
+						interactionKind={PopoverInteractionKind.HOVER}
 						placement="bottom"
 						minimal
 						modifiers={{

@@ -1,4 +1,4 @@
-import { Events, PanHorizontal, Ticket } from '@carbon/icons-react/next';
+import { Events16, PanHorizontal16, Ticket16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
 import { CoreTokens } from '@redeye/ui-styles';
@@ -10,10 +10,10 @@ type MitreTechniqueIconsProps = {
 };
 
 const mitreIcons = {
-	[MitreTechniques.LateralMovement]: PanHorizontal,
-	[MitreTechniques.PrivilegeEscalation]: Events,
+	[MitreTechniques.LateralMovement]: PanHorizontal16,
+	[MitreTechniques.PrivilegeEscalation]: Events16,
 	[MitreTechniques.GoldenTicket]: () => (
-		<Ticket
+		<Ticket16
 			cy-test="golden-ticket-icon"
 			css={css`
 				color: ${CoreTokens.Colors.Gold5};

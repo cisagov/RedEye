@@ -1,5 +1,4 @@
-import { Button, ButtonGroup, Card, Classes, Intent, Menu, ProgressBar } from '@blueprintjs/core';
-import { MenuItem2, Popover2 } from '@blueprintjs/popover2';
+import { Button, ButtonGroup, Card, Classes, Intent, Menu, MenuItem, Popover, ProgressBar } from '@blueprintjs/core';
 import { ArrowRight16, Edit16, Export16, OverflowMenuHorizontal16, TrashCan16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { AlertEx, CarbonIcon, dateFormat, HoverButton } from '@redeye/client/components';
@@ -190,19 +189,19 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 							css={actionButtonsStyle}
 							onClick={(e) => e.stopPropagation()} // prevent extra options from opening campaign
 						>
-							<Popover2
+							<Popover
 								css={css`
 									flex: unset !important;
 								`}
 								content={
 									<Menu>
-										<MenuItem2
+										<MenuItem
 											cy-test="delete-campaign"
 											text="Delete"
 											icon={<CarbonIcon icon={TrashCan16} />}
 											onClick={() => state.update('isDeletePromptOpen', true)}
 										/>
-										<MenuItem2
+										<MenuItem
 											cy-test="rename-campaign"
 											text="Rename"
 											disabled={campaign.isParsing}
@@ -210,7 +209,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 											onClick={() => state.update('isRenameOpen', true)}
 											// disabled
 										/>
-										<MenuItem2
+										<MenuItem
 											cy-test="export-campaign"
 											text="Export"
 											disabled={campaign.isParsing}
@@ -226,7 +225,7 @@ export const CampaignCard = observer<CampaignCardProps>(({ isCurrent, campaign }
 									minimal
 									large
 								/>
-							</Popover2>
+							</Popover>
 							{!campaign.isParsing && (
 								<HoverButton
 									text={isCurrent ? 'Return' : 'Open'}
@@ -304,7 +303,7 @@ const rootCardStyle = css`
 	}
 
 	// &.${Classes.INTERACTIVE}:hover { // ts-styled-plugin(9999) error !?
-	&.bp4-interactive:hover {
+	&.bp5-interactive:hover {
 		background-color: ${CoreTokens.Background1};
 	}
 `;

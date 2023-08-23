@@ -5,7 +5,7 @@ import { UtilityStyles } from '@redeye/ui-styles';
 import type { ComponentProps, FC } from 'react';
 
 export type InfoRowProps = ComponentProps<'div'> & {
-	/** the bp4 button active class */
+	/** the bp5 button active class */
 	active?: ButtonProps['active'];
 	/** navigational target, like the `:target` pseudo class */
 	scrollTarget?: boolean;

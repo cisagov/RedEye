@@ -1,5 +1,4 @@
-import { Alignment, Button, Intent } from '@blueprintjs/core';
-import { MenuItem2 } from '@blueprintjs/popover2';
+import { Alignment, Button, Intent, MenuItem } from '@blueprintjs/core';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { CaretDown16, CaretUp16, CollapseCategories16, Edit16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
@@ -29,7 +28,7 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 		return null;
 	}
 	return (
-		<MenuItem2
+		<MenuItem
 			css={css`
 				text-transform: capitalize;
 			`}
@@ -57,7 +56,7 @@ export const ControlBar = observer<ControlBarProps>(
 				{...props}
 			>
 				{/*
-					<Select2 // TODO: Filter things?
+					<Select // TODO: Filter things?
 						popoverProps={{ minimal: true }}
 						filterable={false}
 						activeItem={null}
@@ -74,7 +73,7 @@ export const ControlBar = observer<ControlBarProps>(
 						</Txt>}
 						minimal
 						/>
-					</Select2>
+					</Select>
 				*/}
 				{isCollapsible && (
 					<Button

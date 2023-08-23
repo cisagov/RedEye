@@ -27,7 +27,7 @@ export const extensionStyles = css`
 		}
 	}
 
-	.bp4-daterangepicker {
+	.bp5-daterangepicker {
 		.DayPicker-Day {
 			&--hovered-range {
 				color: ${TokensAll.PtTextColor};
@@ -40,9 +40,8 @@ export const extensionStyles = css`
 		}
 	}
 
-	.bp4-select-popover {
-		.bp4-popover-content,
-		.bp4-popover2-content {
+	.bp5-select-popover {
+		.bp5-popover-content {
 			padding: 0;
 		}
 	}

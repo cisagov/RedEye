@@ -47,6 +47,7 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 							<Tab
 								cy-test={`create-new-camp-${parserInfo.id}`}
 								id={index}
+								key={parserInfo.id}
 								title={parserInfo?.uploadForm?.tabTitle}
 								panel={
 									!parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (

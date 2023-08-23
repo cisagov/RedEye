@@ -1,5 +1,5 @@
-import { Button, InputGroup } from '@blueprintjs/core';
-import { Select2 } from '@blueprintjs/select';
+import { Button, InputGroup, MenuItem } from '@blueprintjs/core';
+import { Select } from '@blueprintjs/select';
 import type { ItemRenderer } from '@blueprintjs/select';
 import { CaretDown16 } from '@carbon/icons-react';
 import { CarbonIcon } from '@redeye/client/components';
@@ -12,7 +12,6 @@ import type { NodeColor } from '@redeye/client/views';
 import { nodeColor, ToggleHiddenDialog } from '@redeye/client/views';
 import { useMutation } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
-import { MenuItem2 } from '@blueprintjs/popover2';
 import { Flex } from '@redeye/ui-styles';
 import { draft, Model, model, prop } from 'mobx-keystone';
 import {
@@ -110,13 +109,7 @@ export const ServerMeta = observer((props) => {
 			return null;
 		}
 		return (
-			<MenuItem2
-				active={modifiers.active}
-				key={item.key}
-				onClick={handleClick}
-				text={item.label}
-				cy-test={item.label}
-			/>
+			<MenuItem active={modifiers.active} key={item.key} onClick={handleClick} text={item.label} cy-test={item.label} />
 		);
 	};
 
@@ -142,7 +135,7 @@ export const ServerMeta = observer((props) => {
 						}
 					/>
 					<MetaLabel>Type</MetaLabel>
-					<Select2
+					<Select
 						disabled={!!store.appMeta.blueTeam}
 						items={serverTypeSelectItems}
 						itemRenderer={renderSort}
@@ -161,7 +154,7 @@ export const ServerMeta = observer((props) => {
 							rightIcon={<CarbonIcon icon={CaretDown16} />}
 							fill
 						/>
-					</Select2>
+					</Select>
 					<MetaLabel>Graph Appearance</MetaLabel>
 					<Flex gap={1}>
 						<NodePreviewBox color={state.metaDraft.data.color} type="server" />

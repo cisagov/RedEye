@@ -9,9 +9,9 @@ import {
 	FormGroup,
 	InputGroup,
 	Intent,
+	Popover,
 	Position,
 } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
 import {
 	ChevronDown16,
 	ChevronRight16,
@@ -346,7 +346,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 							</ControlGroup>
 						))}
 						{!!state.invalidFiles.length && (
-							<Popover2
+							<Popover
 								position={Position.TOP_LEFT}
 								openOnTargetFocus={false}
 								interactionKind="hover"
@@ -385,7 +385,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 									icon={<CarbonIcon icon={FolderOff16} />}
 									children={`${state.invalidFiles.length} File${state.invalidFiles.length > 1 ? 's' : ''} Removed`}
 								/>
-							</Popover2>
+							</Popover>
 						)}
 					</FormGroup>
 				</>

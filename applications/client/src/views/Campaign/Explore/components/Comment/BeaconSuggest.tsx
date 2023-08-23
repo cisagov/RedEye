@@ -1,13 +1,13 @@
-import type { ItemPredicate, ItemRenderer, Suggest2Props } from '@blueprintjs/select';
-import { Suggest2 } from '@blueprintjs/select';
+import type { ItemPredicate, ItemRenderer, SuggestProps } from '@blueprintjs/select';
+import { Suggest } from '@blueprintjs/select';
 import type { BeaconModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
-import { MenuItem2 } from '@blueprintjs/popover2';
+import { MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { Txt } from '@redeye/ui-styles';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
-export type BeaconSuggestProps = Partial<Suggest2Props<BeaconModel>>;
+export type BeaconSuggestProps = Partial<SuggestProps<BeaconModel>>;
 
 export const BeaconSuggest = observer<BeaconSuggestProps>(
 	({ onItemSelect: _onItemSelect, popoverProps, ...suggestProps }: BeaconSuggestProps) => {
@@ -31,7 +31,7 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 				return null;
 			}
 			return (
-				<MenuItem2
+				<MenuItem
 					key={beaconModel.id}
 					onClick={handleClick}
 					shouldDismissPopover={false}
@@ -44,7 +44,7 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 		const inputValueRenderer: BeaconSuggestProps['inputValueRenderer'] = (item) => item.computedNameWithHost;
 
 		return (
-			<Suggest2
+			<Suggest
 				items={beacons}
 				itemPredicate={findBeacon}
 				itemRenderer={renderMenuItem}
@@ -65,7 +65,7 @@ export const BeaconSuggest = observer<BeaconSuggestProps>(
 );
 
 const noResults = (
-	<MenuItem2
+	<MenuItem
 		disabled
 		text={
 			<Txt disabled italic>

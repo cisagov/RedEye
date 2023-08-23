@@ -1,7 +1,6 @@
-import { Classes } from '@blueprintjs/core';
-import { MenuItem2 } from '@blueprintjs/popover2';
+import { Classes, MenuItem } from '@blueprintjs/core';
 import type { ItemPredicate, SuggestProps } from '@blueprintjs/select';
-import { Suggest2, getCreateNewItem } from '@blueprintjs/select';
+import { Suggest, getCreateNewItem } from '@blueprintjs/select';
 import { Add16, User16 } from '@carbon/icons-react';
 import { ClassNames, css } from '@emotion/react';
 import { CarbonIcon, createState, escapeRegExpChars } from '@redeye/client/components';
@@ -52,7 +51,7 @@ export const UsernameInput = observer<UsernameInputProps>(
 			<ClassNames>
 				{({ css: classCss }) => (
 					// for the popoverProps.className
-					<Suggest2
+					<Suggest
 						cy-test="username"
 						openOnKeyDown
 						query={state.query}
@@ -80,7 +79,7 @@ export const UsernameInput = observer<UsernameInputProps>(
 							} as any
 						}
 						inputProps={{
-							value: state.query,
+							// value: state.query, // not needed in bp5
 							onBlur: () => updateUser(state.query),
 							type: 'text',
 							name: 'username',
@@ -88,12 +87,11 @@ export const UsernameInput = observer<UsernameInputProps>(
 							placeholder: 'user',
 							leftIcon: <CarbonIcon icon={User16} />,
 							large: true,
-							fill: true,
 						}}
 						itemRenderer={(user, { handleClick, modifiers }) => {
 							if (!modifiers.matchesPredicate) return null;
 							return (
-								<MenuItem2
+								<MenuItem
 									text={highlightText(user.name as string, state.query)}
 									active={modifiers.active}
 									disabled={modifiers.disabled}
@@ -104,7 +102,7 @@ export const UsernameInput = observer<UsernameInputProps>(
 							);
 						}}
 						createNewItemRenderer={(_, isActive: boolean) => (
-							<MenuItem2
+							<MenuItem
 								icon={<CarbonIcon icon={Add16} />}
 								text="New User"
 								disabled={disableCreateUser || store.graphqlStore.globalOperators.has(state.query)}

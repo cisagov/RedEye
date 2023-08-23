@@ -1,5 +1,5 @@
 import { Divider } from '@blueprintjs/core';
-import type { IDividerProps as DividerProps } from '@blueprintjs/core';
+import type { DividerProps } from '@blueprintjs/core';
 import { css } from '@emotion/react';
 import type { FC } from 'react';
 import { CoreTokens } from '../styles/tokens';

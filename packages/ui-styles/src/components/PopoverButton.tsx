@@ -1,12 +1,10 @@
-import type { ButtonProps } from '@blueprintjs/core';
-import { Button } from '@blueprintjs/core';
-import type { Popover2Props, Popover2TargetProps } from '@blueprintjs/popover2';
-import { Popover2 } from '@blueprintjs/popover2';
+import type { ButtonProps, PopoverProps } from '@blueprintjs/core';
+import { Button, Popover } from '@blueprintjs/core';
 
-export type PopoverButtonProps = ButtonProps & {
-	popoverProps?: Omit<Partial<Popover2Props>, 'children' | 'renderTarget' | 'content'>;
+export type PopoverButtonProps = Omit<ButtonProps, 'content'> & {
+	popoverProps?: Omit<Partial<PopoverProps>, 'children' | 'renderTarget' | 'content'>;
 	/** the Popover.content */
-	content: Popover2Props['content'];
+	content: PopoverProps['content'];
 	/** eat the click event so this button can be inside another clickable element */
 	stopPropagation?: boolean;
 };
@@ -20,16 +18,10 @@ export const PopoverButton = ({
 	...buttonProps
 }: PopoverButtonProps) => {
 	return (
-		<Popover2
-			renderTarget={({
-				isOpen,
-				ref,
-				className: targetClassName,
-				onClick,
-				...targetProps
-			}: Popover2TargetProps & ButtonProps) => (
+		<Popover
+			renderTarget={({ isOpen, ref, className: targetClassName, onClick, ...targetProps }) => (
 				<Button
-					elementRef={ref}
+					ref={ref}
 					active={isOpen}
 					small
 					minimal
@@ -58,7 +50,7 @@ export const popoverOffset = (
 	skidding: number,
 	/** displaces the Popover away from, or toward, the reference element in the direction of its placement */
 	distance: number
-): Popover2Props['modifiers'] => ({
+): PopoverProps['modifiers'] => ({
 	offset: {
 		enabled: true,
 		options: {
