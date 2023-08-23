@@ -104,7 +104,7 @@ describe('Hide a host', () => {
 				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
-				cy.get('.bp4-dialog-body').should('exist');
+				cy.get('.bp5-dialog-body').should('exist');
 
 				// Confirm that you want to hide the host
 				cy.confirmShowHide();
@@ -126,7 +126,7 @@ describe('Hide a host', () => {
 				cy.showHideItem(1);
 
 				// Verify confirmation modal appears
-				cy.get('.bp4-dialog-body').should('exist');
+				cy.get('.bp5-dialog-body').should('exist');
 
 				// Confirm that you want to show the host
 				cy.confirmShowHide();

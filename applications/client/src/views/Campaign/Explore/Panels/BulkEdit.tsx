@@ -1,4 +1,4 @@
-import { Button, Intent, Menu, Position } from '@blueprintjs/core';
+import { Button, Intent, Menu, Position, MenuItem } from '@blueprintjs/core';
 import { Edit16, View16, ViewOff16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { UseCreateState } from '@redeye/client/components';
@@ -10,7 +10,6 @@ import { useCallback } from 'react';
 import type { ComponentProps } from 'react';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { InfoType } from '@redeye/client/types';
-import { MenuItem2 } from '@blueprintjs/popover2';
 import { ToggleHiddenDialog } from './Meta';
 
 type HostRowProps = ComponentProps<'div'> & {
@@ -135,7 +134,7 @@ export const BulkEdit = observer<HostRowProps>(
 						content={
 							<Menu>
 								{store.settings.showHidden && (
-									<MenuItem2
+									<MenuItem
 										cy-test="show"
 										text={`Show ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 										icon={<CarbonIcon icon={View16} css={iconStyle(true)} />}
@@ -147,7 +146,7 @@ export const BulkEdit = observer<HostRowProps>(
 										}
 									/>
 								)}
-								<MenuItem2
+								<MenuItem
 									cy-test="hide"
 									text={`Hide ${typeName === 'beacons' ? 'Beacon' : 'Host'}${count === 1 ? '' : 's'}`}
 									icon={<CarbonIcon icon={ViewOff16} css={iconStyle()} />}

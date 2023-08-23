@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Intent, Switch } from '@blueprintjs/core';
-import type { DateRange } from '@blueprintjs/datetime2';
-import { DateRangeInput2 } from '@blueprintjs/datetime2';
+import type { DateRange } from '@blueprintjs/datetime';
+import { DateRangeInput } from '@blueprintjs/datetime';
 import { Pause16, Play16, Reset16, SkipBack16, SkipForward16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, dateFormat, datePlaceholder } from '@redeye/client/components';
@@ -112,7 +112,7 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 					</Header>
 					<ButtonGroup cy-test="timeline-edit-dates">
 						{state.showDateRangeInput && state.dateRange.length === 2 ? (
-							<DateRangeInput2
+							<DateRangeInput
 								disabled={disableControls}
 								formatDate={(date) => (date ? store.settings.momentTz(date).format(dateFormat) : datePlaceholder)}
 								parseDate={(str) => store.settings.momentTz(str).toDate()}

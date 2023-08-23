@@ -74,10 +74,9 @@ describe('Timeline tests', () => {
 		// Update start and end dates
 		cy.editTimelineDates();
 		cy.changeTimelineStartDate('10/15/20');
-		cy.changeTimelineEndDate('10/19/20');
+		cy.changeTimelineEndDate('10/19/20' + '{enter}');
 
 		// Close date picker; verify new dates stuck
-		cy.get('[cy-test=timeline-header]').click();
 		cy.get('[cy-test=timeline-start-date]').invoke('text').should('contain', '10/15/20');
 		cy.get('[cy-test=timeline-end-date]').invoke('text').should('contain', '10/19/20');
 

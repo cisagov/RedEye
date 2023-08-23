@@ -1,6 +1,6 @@
-import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea } from '@blueprintjs/core';
+import { Alignment, Button, ButtonGroup, Classes, Intent, Position, TextArea, MenuItem } from '@blueprintjs/core';
 import type { ItemPredicate } from '@blueprintjs/select';
-import { MultiSelect2 } from '@blueprintjs/select';
+import { MultiSelect } from '@blueprintjs/select';
 import {
 	Add16,
 	ArrowRight16,
@@ -23,7 +23,6 @@ import { observer } from 'mobx-react-lite';
 import type { ChangeEvent, ComponentProps, MouseEventHandler, RefObject } from 'react';
 import { useCallback, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { MenuItem2 } from '@blueprintjs/popover2';
 import { getManualCommandLinks } from './CheckForAddedLink';
 import { BeaconSuggestedRow } from './BeaconSuggestedRow';
 
@@ -513,7 +512,7 @@ export const CommentBox = observer<CommentBoxProps>(
 								autoFocus
 							/>
 							{!isPresentationMode ? (
-								<MultiSelect2
+								<MultiSelect
 									cy-test="tag-input1"
 									css={formTagInputStyle}
 									placeholder="#Tags..."
@@ -562,7 +561,7 @@ export const CommentBox = observer<CommentBoxProps>(
 									onItemSelect={state.handleTagsChange}
 									createNewItemFromQuery={(query) => validateTag(query)}
 									createNewItemRenderer={(item, active, handleClick: MouseEventHandler<HTMLElement>) => (
-										<MenuItem2
+										<MenuItem
 											cy-test="add-tag"
 											icon={<CarbonIcon icon={Add16} />}
 											disabled={state.tags.includes(item)}
@@ -573,7 +572,7 @@ export const CommentBox = observer<CommentBoxProps>(
 										/>
 									)}
 									itemRenderer={(item, { modifiers, handleClick }) => (
-										<MenuItem2
+										<MenuItem
 											cy-test="tag-list-item"
 											active={modifiers.active}
 											key={item}

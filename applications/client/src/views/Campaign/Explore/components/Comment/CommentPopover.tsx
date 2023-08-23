@@ -1,11 +1,11 @@
-import type { Popover2Props } from '@blueprintjs/popover2';
-import { Popover2, Popover2InteractionKind } from '@blueprintjs/popover2';
+import type { PopoverProps } from '@blueprintjs/core';
+import { Popover, PopoverInteractionKind } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 
-export type CommentPopoverProps = Popover2Props & {};
+export type CommentPopoverProps = PopoverProps & {};
 
 export const CommentPopover = observer<CommentPopoverProps>(({ ...props }) => (
-	<Popover2
+	<Popover
 		enforceFocus
 		autoFocus
 		usePortal
@@ -13,7 +13,7 @@ export const CommentPopover = observer<CommentPopoverProps>(({ ...props }) => (
 		// hasBackdrop // maybe we still want this?
 		minimal
 		placement="right-start"
-		interactionKind={Popover2InteractionKind.CLICK}
+		interactionKind={PopoverInteractionKind.CLICK}
 		modifiers={{
 			arrow: { enabled: false },
 			offset: {

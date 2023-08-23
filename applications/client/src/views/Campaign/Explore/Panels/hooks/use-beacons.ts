@@ -43,7 +43,9 @@ export const useBeacons = (props?: BeaconsListRow) => {
 				});
 			}
 		} else if (props) {
-			return (store.campaign?.interactionState.selectedHost?.current?.beaconIds
+			return (store.campaign?.interactionState[
+				`selected${store.router.params.currentItem === 'operator' ? 'Operator' : 'Host'}`
+			]?.current?.beaconIds
 				?.map((beaconId: string | number | symbol) => store.graphqlStore.beacons.get(beaconId as string))
 				.filter(
 					(beacon: BeaconModel | undefined) =>

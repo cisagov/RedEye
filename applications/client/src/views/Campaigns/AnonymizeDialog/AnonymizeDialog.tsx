@@ -1,8 +1,8 @@
 import { Divider, Button, Callout, Checkbox, ControlGroup, InputGroup, Intent } from '@blueprintjs/core';
-import { Export, TrashCan } from '@carbon/icons-react/next';
+import { Export16, TrashCan16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import type { DialogExProps } from '@redeye/client/components';
-import { DialogEx, HoverButton } from '@redeye/client/components';
+import { CarbonIcon, DialogEx, HoverButton } from '@redeye/client/components';
 import { DialogBodyEx } from '@redeye/client/components/Dialogs/DialogBodyEx';
 import { DialogFooterEx } from '@redeye/client/components/Dialogs/DialogFooterEx';
 import { createState } from '@redeye/client/components/mobx-create-state';
@@ -190,7 +190,7 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 							<HoverButton
 								cy-test="remove-find-replace"
 								onClick={() => state.findReplace.remove(findReplace)}
-								icon={<TrashCan />}
+								rightIcon={<CarbonIcon icon={TrashCan16} />}
 								disabled={state.findReplace.length <= 1}
 								large
 								hoverProps={state.findReplace.length <= 1 ? undefined : { intent: 'danger' }}
@@ -219,7 +219,7 @@ export const AnonymizeDialog = observer<AnonymizeDialogProps>(({ campaign, onClo
 							onClick={state.downloadCampaign}
 							loading={state.isLoading}
 							disabled={state.isLoading}
-							rightIcon={<Export />}
+							rightIcon={<CarbonIcon icon={Export16} />}
 							text="Export Database"
 						/>
 						<Button cy-test="save-duplicate-to-server" text="Save duplicate to server" large disabled />

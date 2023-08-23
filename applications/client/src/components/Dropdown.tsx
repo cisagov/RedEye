@@ -1,8 +1,7 @@
 import type { Intent, MaybeElement } from '@blueprintjs/core';
-import { Button } from '@blueprintjs/core';
-import { MenuItem2 } from '@blueprintjs/popover2';
+import { Button, MenuItem } from '@blueprintjs/core';
 import type { ItemRenderer } from '@blueprintjs/select';
-import { Select2 } from '@blueprintjs/select';
+import { Select } from '@blueprintjs/select';
 import { css } from '@emotion/react';
 import { Txt } from '@redeye/ui-styles';
 import type { FC } from 'react';
@@ -12,7 +11,7 @@ const renderSort: ItemRenderer<{ key: string; label: string }> = (item, { handle
 		return null;
 	}
 	return (
-		<MenuItem2
+		<MenuItem
 			css={css`
 				text-transform: capitalize;
 			`}
@@ -58,7 +57,7 @@ export const Dropdown: FC<DropdownProps> = ({
 	icon,
 	disabled,
 }) => (
-	<Select2
+	<Select
 		popoverProps={{ minimal: true }}
 		filterable={false}
 		activeItem={activeItem}
@@ -81,7 +80,7 @@ export const Dropdown: FC<DropdownProps> = ({
 			disabled={disabled}
 			small
 		/>
-	</Select2>
+	</Select>
 );
 
 const valueStyle = css`

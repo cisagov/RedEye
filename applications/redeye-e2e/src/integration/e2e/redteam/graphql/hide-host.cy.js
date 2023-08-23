@@ -42,7 +42,9 @@ describe('Hide a Host using GraphQL', () => {
 				expect(co).to.not.include(hiddenHost);
 			});
 		});
+		cy.returnToCampaignCard();
 		cy.doNotShowHiddenItems();
+		cy.selectCampaign(camp);
 		const hostsList = [];
 		cy.get('[cy-test=info-row]')
 			.each(($li) => hostsList.push($li.text()))

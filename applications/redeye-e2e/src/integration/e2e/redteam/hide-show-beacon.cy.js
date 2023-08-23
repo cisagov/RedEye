@@ -119,7 +119,7 @@ describe('Hide a beacon', () => {
 				cy.showHideItem(4);
 
 				// Verify confirmation modal appears
-				cy.get('.bp4-dialog-body').should('be.visible').and('contain.text', 'Hiding this beacon');
+				cy.get('.bp5-dialog-body').should('be.visible').and('contain.text', 'Hiding this beacon');
 
 				// Confirm that you want to hide the beacon
 				cy.confirmShowHide();
@@ -145,7 +145,7 @@ describe('Hide a beacon', () => {
 				cy.showHideItem(4);
 
 				// Verify confirmation modal appears
-				cy.get('.bp4-dialog-body').should('exist');
+				cy.get('.bp5-dialog-body').should('exist');
 
 				// Confirm that you want to show the beacon
 				cy.confirmShowHide();
