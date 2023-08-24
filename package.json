@@ -127,7 +127,7 @@
 		"@types/istanbul-lib-coverage": "^2.0.3",
 		"@types/jest": "27.4.1",
 		"@types/js-yaml": "^4",
-		"@types/node": "16.11.7",
+		"@types/node": "18.16.1",
 		"@types/nodemon": "^1.19.0",
 		"@types/prettier": "^2",
 		"@types/react": "^18.2.14",
@@ -149,7 +149,7 @@
 		"builder-util": "^23.0.2",
 		"concurrently": "^8.0.1",
 		"cross-env": "^7.0.3",
-		"cypress": "^12.17.0",
+		"cypress": "12.17.3",
 		"cypress-map": "^1.19.1",
 		"cypress-multi-reporters": "^1.6.1",
 		"cypress-real-events": "^1.7.6",
@@ -224,7 +224,7 @@
 		]
 	},
 	"engines": {
-		"node": "16.20.0"
+		"node": "18.16.1"
 	},
 	"packageManager": "yarn@3.5.1"
 }
