@@ -43,21 +43,23 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 						id="add-campaign-methods"
 						renderActiveTabPanelOnly
 					>
-						{Array.from(store.graphqlStore.parserInfos.values(), (parserInfo, index) => (
-							<Tab
-								cy-test={`create-new-camp-${parserInfo.id}`}
-								id={index}
-								key={parserInfo.id}
-								title={parserInfo?.uploadForm?.tabTitle}
-								panel={
-									!parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (
-										<BlueTeamSourceWarning css={shadowStyle} />
-									) : (
-										<ParserUploadForm parserInfo={parserInfo} onClose={props.onClose} css={shadowStyle} />
-									)
-								}
-							/>
-						))}
+						{Array.from(store.graphqlStore.parserInfos.values())
+							.sort((a) => (a.name.includes('Cobalt') ? -1 : 1))
+							.map((parserInfo, index) => (
+								<Tab
+									cy-test={`create-new-camp-${parserInfo.id}`}
+									id={index}
+									key={parserInfo.id}
+									title={parserInfo?.uploadForm?.tabTitle}
+									panel={
+										!parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (
+											<BlueTeamSourceWarning css={shadowStyle} />
+										) : (
+											<ParserUploadForm parserInfo={parserInfo} onClose={props.onClose} css={shadowStyle} />
+										)
+									}
+								/>
+							))}
 						<Tab
 							cy-test="upload-from-file"
 							id={CampaignTabs.UPLOAD}

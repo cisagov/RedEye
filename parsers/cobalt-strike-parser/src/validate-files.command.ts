@@ -44,8 +44,8 @@ const validate = async (options: ValidateFilesCallbackOptions) => {
 		const serverName = longestPath[longestPath.findIndex((p) => p.match(dateFolder)) - 1];
 		return {
 			servers: [{ name: serverName, fileCount: files.length }],
-			valid: files.map((file) => file.name),
-			invalid: invalidFiles.map((file) => file.name),
+			valid: files.map((file) => file.path.join('/')),
+			invalid: invalidFiles.map((file) => file.path.join('/')),
 		};
 	} else {
 		const validFiles: string[] = [];
@@ -53,12 +53,13 @@ const validate = async (options: ValidateFilesCallbackOptions) => {
 		Object.entries(tree[rootDirectory]).forEach(([key, value]: [string, DirectoryTree]) => {
 			const files = flattenTree(value);
 			servers.push({ name: key.split('/')[0], fileCount: files.length });
-			validFiles.push(...files.map((file) => file.name));
+
+			validFiles.push(...files.map((file) => file.path.join('/')));
 		});
 		// Use the directory trees under root directory as servers
 		return {
 			servers,
-			invalid: invalidFiles.map((file) => file.name),
+			invalid: invalidFiles.map((file) => file.path.join('/')),
 			valid: validFiles,
 		};
 	}

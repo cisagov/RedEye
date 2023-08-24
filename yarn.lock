@@ -4025,17 +4025,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.18.39":
+"@types/node@npm:^16.18.39, @types/node@npm:^16.9.2":
   version: 16.18.40
   resolution: "@types/node@npm:16.18.40"
   checksum: a683930491b4fd7cb2dc7684e32bbeedc4a83fb1949a7b15ea724fbfaa9988cec59091f169a3f1090cb91992caba8c1a7d50315b2c67c6e2579a3788bb09eec4
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^16.9.2":
-  version: 16.18.38
-  resolution: "@types/node@npm:16.18.38"
-  checksum: a3baa141e49ce94486f083eea1240cf38479a73ba663e1bf3f52f85b466125821b6e3ea85ded38fde3901530aca4601291395a50eefcea533a4f3b45171bda28
   languageName: node
   linkType: hard
 

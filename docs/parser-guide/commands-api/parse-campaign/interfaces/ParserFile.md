@@ -23,26 +23,26 @@ The date time the file was created or modified
 **`Example`**
 
 ```ts
-dateTime = new Date('2021-01-01T00:00:00.000Z')
+dateTime = new Date('2021-01-01T00:00:00.000Z');
 ```
 
 #### Defined in
 
-[parser-beacon.ts:137](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L137)
+[parser-beacon.ts:137](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L137)
 
-___
+---
 
 ### fileFlag
 
-• **fileFlag**: ``"DOWNLOAD"`` \| ``"UPLOAD"``
+• **fileFlag**: `"DOWNLOAD"` \| `"UPLOAD"`
 
 Was this file uploaded to the host or downloaded from the host
 
 #### Defined in
 
-[parser-beacon.ts:146](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L146)
+[parser-beacon.ts:146](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L146)
 
-___
+---
 
 ### fileName
 
@@ -53,14 +53,14 @@ The name of the file if the local file name is different from the name of the fi
 **`Example`**
 
 ```ts
-name = 'admin-list.txt'
+name = 'admin-list.txt';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:125](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L125)
+[parser-beacon.ts:125](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L125)
 
-___
+---
 
 ### filePath
 
@@ -71,14 +71,14 @@ Path to the file that RedEye can access
 **`Example`**
 
 ```ts
-filePath = '<directory-of-parser>/files/file.txt'
+filePath = '<directory-of-parser>/files/file.txt';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:131](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L131)
+[parser-beacon.ts:131](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L131)
 
-___
+---
 
 ### md5
 
@@ -88,4 +88,4 @@ The MD5 hash of the file
 
 #### Defined in
 
-[parser-beacon.ts:141](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L141)
+[parser-beacon.ts:141](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L141)

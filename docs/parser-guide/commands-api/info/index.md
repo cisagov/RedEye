@@ -25,7 +25,7 @@
 
 ### UploadValidation
 
-Ƭ **UploadValidation**: { `validate`: [`None`](enums/ValidationMode.md#none) \| [`Parser`](enums/ValidationMode.md#parser)  } \| { `acceptedExtensions`: `string`[] ; `validate`: [`FileExtensions`](enums/ValidationMode.md#fileextensions)  }
+Ƭ **UploadValidation**: { `validate`: [`None`](enums/ValidationMode.md#none) \| [`Parser`](enums/ValidationMode.md#parser) } \| { `acceptedExtensions`: `string`[] ; `validate`: [`FileExtensions`](enums/ValidationMode.md#fileextensions) }
 
 The validation mode for the upload form
 
@@ -33,13 +33,13 @@ The validation mode for the upload form
 
 ```ts
 // No validation, allow uploading any folder or files
-validate = { validate: ValidationMode.None }
+validate = { validate: ValidationMode.None };
 // Only allow files with specific file extensions
-validate = { validate: ValidationMode.FileExtensions, acceptedExtensions: ['txt', 'png', 'jpg'] }
+validate = { validate: ValidationMode.FileExtensions, acceptedExtensions: ['txt', 'png', 'jpg'] };
 // The parser has implemented the 'validate-files' command and will validate the folder of files
-validate = { validate: ValidationMode.Parser }
+validate = { validate: ValidationMode.Parser };
 ```
 
 #### Defined in
 
-[upload-form.ts:76](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L76)
+[upload-form.ts:76](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L76)

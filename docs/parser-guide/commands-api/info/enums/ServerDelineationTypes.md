@@ -13,22 +13,22 @@
 
 ### Database
 
-• **Database** = ``"Database"``
+• **Database** = `"Database"`
 
 server data not in any particular file/folder structure
 
 #### Defined in
 
-[upload-form.ts:54](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L54)
+[upload-form.ts:54](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L54)
 
-___
+---
 
 ### Folder
 
-• **Folder** = ``"Folder"``
+• **Folder** = `"Folder"`
 
 server data seperated into distinct folders
 
 #### Defined in
 
-[upload-form.ts:52](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L52)
+[upload-form.ts:52](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L52)

@@ -124,7 +124,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 						const fileValidationFormData = new FormData();
 						const allFiles = {};
 						for (const file of this.originalFiles) {
-							allFiles[file.name] = createDirectoryFile(file);
+							allFiles[file.webkitRelativePath] = createDirectoryFile(file);
 							fileValidationFormData.append(
 								'file',
 								new File([file.slice()], file.webkitRelativePath.replace(/\//g, ':'), {

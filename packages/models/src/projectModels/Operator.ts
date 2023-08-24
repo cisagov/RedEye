@@ -62,6 +62,7 @@ export class Operator {
 		return initThen(this.commands, async () => {
 			let count = 0;
 			for (const command of this.commands.getItems()) {
+				if (!command.commandGroups.isInitialized()) await command.commandGroups.init({ populate: false });
 				for (const commandGroup of command.commandGroups.getItems()) {
 					if (!commandGroup.annotations.isInitialized()) await commandGroup.annotations.init({ populate: false });
 					count += commandGroup.annotations.count() ?? 0;

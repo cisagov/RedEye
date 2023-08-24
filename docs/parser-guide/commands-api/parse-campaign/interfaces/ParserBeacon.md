@@ -30,14 +30,14 @@ The date time the beacon ran it's last command or was terminated
 **`Example`**
 
 ```ts
-endTime = new Date('2021-01-01T00:00:00.000Z')
+endTime = new Date('2021-01-01T00:00:00.000Z');
 ```
 
 #### Defined in
 
-[parser-beacon.ts:66](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L66)
+[parser-beacon.ts:66](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L66)
 
-___
+---
 
 ### files
 
@@ -63,9 +63,9 @@ files = [
 
 #### Defined in
 
-[parser-beacon.ts:94](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L94)
+[parser-beacon.ts:94](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L94)
 
-___
+---
 
 ### host
 
@@ -77,14 +77,14 @@ This should match the name of a host in the hosts object
 **`Example`**
 
 ```ts
-host = 'DESKTOP-12345'
+host = 'DESKTOP-12345';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:19](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L19)
+[parser-beacon.ts:19](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L19)
 
-___
+---
 
 ### images
 
@@ -99,16 +99,16 @@ images = [
 	{
 		fileType: 'png',
 		filePath: 'local/path/to/image.png',
-		fileName: 'host-desktop-screenshot.png'
-	}
-]
+		fileName: 'host-desktop-screenshot.png',
+	},
+];
 ```
 
 #### Defined in
 
-[parser-beacon.ts:78](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L78)
+[parser-beacon.ts:78](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L78)
 
-___
+---
 
 ### ip
 
@@ -119,14 +119,14 @@ The IP address of the host as reported by the beacon
 **`Example`**
 
 ```ts
-ip = '192.168.23.3'
+ip = '192.168.23.3';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:25](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L25)
+[parser-beacon.ts:25](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L25)
 
-___
+---
 
 ### name
 
@@ -136,9 +136,9 @@ The name of the beacon
 
 #### Defined in
 
-[parser-beacon.ts:7](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L7)
+[parser-beacon.ts:7](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L7)
 
-___
+---
 
 ### port
 
@@ -150,16 +150,16 @@ The port that the beacon is communicating over
 
 ```ts
 // http
-port = 80
+port = 80;
 // https
-port = 443
+port = 443;
 ```
 
 #### Defined in
 
-[parser-beacon.ts:42](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L42)
+[parser-beacon.ts:42](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L42)
 
-___
+---
 
 ### process
 
@@ -170,14 +170,14 @@ The process name of the beacon
 **`Example`**
 
 ```ts
-process = 'explorer.exe'
+process = 'explorer.exe';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:48](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L48)
+[parser-beacon.ts:48](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L48)
 
-___
+---
 
 ### processId
 
@@ -188,14 +188,14 @@ The process identifier of the beacon
 **`Example`**
 
 ```ts
-pid = 1234
+pid = 1234;
 ```
 
 #### Defined in
 
-[parser-beacon.ts:54](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L54)
+[parser-beacon.ts:54](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L54)
 
-___
+---
 
 ### server
 
@@ -206,9 +206,9 @@ This should match the name of a server in the servers object
 
 #### Defined in
 
-[parser-beacon.ts:12](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L12)
+[parser-beacon.ts:12](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L12)
 
-___
+---
 
 ### startTime
 
@@ -219,18 +219,18 @@ The date time the beacon was initialized or ran it's first command
 **`Example`**
 
 ```ts
-startTime = new Date('2021-01-01T00:00:00.000Z')
+startTime = new Date('2021-01-01T00:00:00.000Z');
 ```
 
 #### Defined in
 
-[parser-beacon.ts:60](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L60)
+[parser-beacon.ts:60](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L60)
 
-___
+---
 
 ### type
 
-• `Optional` **type**: ``"http"`` \| ``"https"`` \| ``"smb"`` \| ``"dns"``
+• `Optional` **type**: `"http"` \| `"https"` \| `"smb"` \| `"dns"`
 
 The type of beacon
 
@@ -243,4 +243,4 @@ type = 'http'
 
 #### Defined in
 
-[parser-beacon.ts:33](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L33)
+[parser-beacon.ts:33](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L33)

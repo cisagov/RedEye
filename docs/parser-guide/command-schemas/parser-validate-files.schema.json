@@ -21,14 +21,14 @@
 					}
 				},
 				"valid": {
-					"description": "An array of valid file names",
+					"description": "An array of valid file paths relative to the campaign root directory",
 					"type": "array",
 					"items": {
 						"type": "string"
 					}
 				},
 				"invalid": {
-					"description": "An array of invalid file names",
+					"description": "An array of invalid file paths relative to the campaign root directory",
 					"type": "array",
 					"items": {
 						"type": "string"
