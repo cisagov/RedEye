@@ -1,16 +1,17 @@
 <!-- TOC -->
-* [Intro](#intro)
-* [Basic Requirements](#basic-requirements)
-* [`info`](#info)
-* [`parse-campaign`](#parse-campaign)
-  * [Parsing a single file](#parsing-a-single-file)
-      * [Line 1](#line-1)
-    * [Line 2](#line-2)
-    * [Line 3 & Output](#line-3--output)
-    * [Line 4](#line-4)
-    * [Parsing the log file](#parsing-the-log-file)
-* [Make Parser Executable](#make-parser-executable)
-* [Conclusion](#conclusion)
+
+- [Intro](#intro)
+- [Basic Requirements](#basic-requirements)
+- [`info`](#info)
+- [`parse-campaign`](#parse-campaign)
+  - [Parsing a single file](#parsing-a-single-file)
+    - [Line 1](#line-1)
+    - [Line 2](#line-2)
+    - [Line 3 & Output](#line-3--output)
+    - [Line 4](#line-4)
+    - [Parsing the log file](#parsing-the-log-file)
+- [Make Parser Executable](#make-parser-executable)
+- [Conclusion](#conclusion)
 <!-- TOC -->
 
 # Intro
@@ -43,7 +44,7 @@ Now let's get into the first command RedEye will send to your parser.
 
 # `info`
 
-The `info` command *informs* RedEye on our parsers configuration and customizes our parsers upload form within RedEye's UI. On startup, RedEye will send the `info` command (example: `custom-redeye-parser info`) to each parser it detects (or is configured to use).
+The `info` command _informs_ RedEye on our parsers configuration and customizes our parsers upload form within RedEye's UI. On startup, RedEye will send the `info` command (example: `custom-redeye-parser info`) to each parser it detects (or is configured to use).
 The info our parser needs to send includes the parser ID, display name, and upload form configuration. Here's the `info` command implemented for the `custom-redeye-parser` with some comments to explain each property:
 
 ```typescript
@@ -408,7 +409,7 @@ Now that we've gone over how to identify what data to extract and how to format 
 import fileSystem from 'fs';
 
 function parseLogFile() {
-  const logPath = process.argv[4].replaceAll('"', ""); // Get the path and remove the quotes around it
+	const logPath = process.argv[4].replaceAll('"', ''); // Get the path and remove the quotes around it
 	const logFile = fileSystem.readFileSync(`${logPath}/c2-log-files.txt`, 'utf8'); // Read the log file from the path passed in the command
 	const lines = logFile.split('\n'); // Split the log file into lines
 	const output = {

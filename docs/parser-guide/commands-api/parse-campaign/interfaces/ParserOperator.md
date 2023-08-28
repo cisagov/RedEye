@@ -22,18 +22,18 @@ The date and time the operator last sent a command
 
 ```ts
 // If the operator is still active
-endTime = new Date()
+endTime = new Date();
 // If the operator has never sent a command
-endTime = undefined
+endTime = undefined;
 // If the operator is no longer active
-endTime = new Date('<date of last command>')
+endTime = new Date('<date of last command>');
 ```
 
 #### Defined in
 
-[parser-operator.ts:22](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-operator.ts#L22)
+[parser-operator.ts:22](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-operator.ts#L22)
 
-___
+---
 
 ### name
 
@@ -43,9 +43,9 @@ The name of the operator
 
 #### Defined in
 
-[parser-operator.ts:5](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-operator.ts#L5)
+[parser-operator.ts:5](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-operator.ts#L5)
 
-___
+---
 
 ### startTime
 
@@ -56,9 +56,9 @@ The date and time the operator first sent a command
 **`Example`**
 
 ```ts
-startTime = new Date('<date of first command>')
+startTime = new Date('<date of first command>');
 ```
 
 #### Defined in
 
-[parser-operator.ts:11](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-operator.ts#L11)
+[parser-operator.ts:11](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-operator.ts#L11)

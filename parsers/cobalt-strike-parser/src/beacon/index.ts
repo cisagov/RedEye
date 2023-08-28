@@ -15,7 +15,11 @@ type BeaconCallbackOptions = {
 export const registerBeaconCommand = (program: Command) => {
 	const beaconCommand = program.command('beacon');
 	beaconCommand
-		.addOption(new Option('-d, --databasePath </absolute/path/to/database>').makeOptionMandatory(true))
+		.addOption(
+			new Option('-d, --databasePath </absolute/path/to/database>')
+				.makeOptionMandatory(true)
+				.argParser((value) => value?.replaceAll('"', ''))
+		)
 		.addOption(new Option('-b, --beaconId <string>').makeOptionMandatory(true));
 
 	addSharedCommandOptions(beaconCommand);

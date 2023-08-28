@@ -24,9 +24,9 @@ The Blue team mode is intended to be a read only mode
 
 #### Defined in
 
-[upload-form.ts:15](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L15)
+[upload-form.ts:15](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L15)
 
-___
+---
 
 ### fileDisplay
 
@@ -38,14 +38,14 @@ An object that configures the list of servers/files after upload
 
 ```ts
 // server names are editable
-fileDisplay = { editable: true }
+fileDisplay = { editable: true };
 ```
 
 #### Defined in
 
-[upload-form.ts:47](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L47)
+[upload-form.ts:47](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L47)
 
-___
+---
 
 ### fileUpload
 
@@ -59,25 +59,26 @@ An object that configures the file upload portion of the upload form
 // upload a directory of files that are organized by server name and date in the format: <FOLDER_TO_UPLOAD>/<SERVER_NAME>/<YYYYMMDD>/
 fileUpload = {
 	type: UploadType.Directory,
-	description: 'Upload a directory of files that are organized by server name and date in the format: <FOLDER_TO_UPLOAD>/<SERVER_NAME>/<YYYYMMDD>/',
+	description:
+		'Upload a directory of files that are organized by server name and date in the format: <FOLDER_TO_UPLOAD>/<SERVER_NAME>/<YYYYMMDD>/',
 	example: `Campaign_Folder
 		- Server_Folder_1
 			- 200101
 			- 200102
 			- 200103`,
-	validate: ValidationMode.Parser
-}
+	validate: ValidationMode.Parser,
+};
 ```
 
 #### Defined in
 
-[upload-form.ts:40](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L40)
+[upload-form.ts:40](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L40)
 
-___
+---
 
 ### serverDelineation
 
-• **serverDelineation**: ``"Folder"`` \| ``"Database"``
+• **serverDelineation**: `"Folder"` \| `"Database"`
 
 The type of server delineation used by the parser
 
@@ -85,16 +86,16 @@ The type of server delineation used by the parser
 
 ```ts
 // server data is seperated into distinct folders like 'CAMPAIGN_FOLDER/SERVER_FOLDER/DATE_FOLDER'
-serverDelineation = ServerDelineationTypes.Folder
+serverDelineation = ServerDelineationTypes.Folder;
 // server data is not in any particular file/folder structure
-serverDelineation = ServerDelineationTypes.Database
+serverDelineation = ServerDelineationTypes.Database;
 ```
 
 #### Defined in
 
-[upload-form.ts:24](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L24)
+[upload-form.ts:24](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L24)
 
-___
+---
 
 ### tabTitle
 
@@ -105,9 +106,9 @@ The title of the tab in the upload form
 **`Example`**
 
 ```ts
-tabTitle = 'Upload <C2_NAME> logs'
+tabTitle = 'Upload <C2_NAME> logs';
 ```
 
 #### Defined in
 
-[upload-form.ts:9](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-info/upload-form.ts#L9)
+[upload-form.ts:9](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-info/upload-form.ts#L9)

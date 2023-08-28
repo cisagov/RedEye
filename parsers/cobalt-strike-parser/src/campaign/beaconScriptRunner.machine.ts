@@ -6,6 +6,7 @@ import path from 'path';
 import type { LogLevel } from '../shared/commandOptions';
 
 import type { LoggerInstance } from '../shared/logging';
+import { escapeFilePath } from '@redeye/parser-core';
 
 type BeaconScriptRunnerMachineContext = {
 	beaconId: string;
@@ -76,9 +77,9 @@ export const beaconScriptRunnerMachine = createMachine(
 					const args = [
 						'beacon',
 						`-p`,
-						`${ctx.loggingFolderPath}`,
+						escapeFilePath(ctx.loggingFolderPath),
 						`-d`,
-						`${ctx.databasePath}`,
+						escapeFilePath(ctx.databasePath),
 						`-b`,
 						`${ctx.beaconId}`,
 						`-l`,

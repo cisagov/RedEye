@@ -9,15 +9,15 @@ export interface ParserValidateFiles {
 	 */
 	servers: { name: string; fileCount?: number }[];
 	/**
-	 * An array of valid file names
+	 * An array of valid file paths relative to the campaign root directory
 	 * @example
-	 * valid = ['file1.json', 'file2.json']
+	 * valid = ['/campaign/server-1/file1.json', '/campaign/server-1/file2.json']
 	 */
 	valid: string[];
 	/**
-	 * An array of invalid file names
+	 * An array of invalid file paths relative to the campaign root directory
 	 * @example
-	 * invalid = ['file3.jpg', 'file4.xml']
+	 * invalid = ['/campaign/server-1/file3.jpg', '/campaign/server-1/file4.xml']
 	 */
 	invalid: string[];
 }

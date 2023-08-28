@@ -248,7 +248,7 @@ tasks:
       mergeOutputs: 'replace'
       runInCI: false
   release-mac:
-    command: 'yarn pkg $projectRoot/package.json -t node16-mac -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node18-mac -o @out(0)'
     deps:
       - ~:fetch-pkg-mac
       - ~:build
@@ -260,7 +260,7 @@ tasks:
       runInCI: false
       runFromWorkspaceRoot: true
   release-linux:
-    command: 'yarn pkg $projectRoot/package.json -t node16-linux -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node18-linux -o @out(0)'
     deps:
       - ~:fetch-pkg-linux
       - ~:build
@@ -272,7 +272,7 @@ tasks:
       runInCI: false
       runFromWorkspaceRoot: true
   release-windows:
-    command: 'yarn pkg $projectRoot/package.json -t node16-win -o @out(0)'
+    command: 'yarn pkg $projectRoot/package.json -t node18-win -o @out(0)'
     deps:
       - ~:fetch-pkg-windows
       - ~:build
@@ -286,21 +286,21 @@ tasks:
 
   ## Fetch pkg commands
   fetch-pkg-mac:
-    command: 'yarn pkg-fetch --platform mac --node-range node16'
+    command: 'yarn pkg-fetch --platform mac --node-range node18'
     platform: system
     options:
       runInCI: false
       retryCount: 2
       runFromWorkspaceRoot: true
   fetch-pkg-linux:
-    command: 'yarn pkg-fetch --platform linux --node-range node16'
+    command: 'yarn pkg-fetch --platform linux --node-range node18'
     platform: system
     options:
       runInCI: false
       retryCount: 2
       runFromWorkspaceRoot: true
   fetch-pkg-windows:
-    command: 'yarn pkg-fetch --platform win --node-range node16'
+    command: 'yarn pkg-fetch --platform win --node-range node18'
     platform: system
     options:
       runInCI: false

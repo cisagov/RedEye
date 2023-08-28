@@ -24,14 +24,14 @@ The IP address of the host
 **`Example`**
 
 ```ts
-ip = '192.168.23.0'
+ip = '192.168.23.0';
 ```
 
 #### Defined in
 
-[parser-host.ts:28](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-host.ts#L28)
+[parser-host.ts:28](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-host.ts#L28)
 
-___
+---
 
 ### name
 
@@ -41,9 +41,9 @@ The name of the host
 
 #### Defined in
 
-[parser-host.ts:5](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-host.ts#L5)
+[parser-host.ts:5](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-host.ts#L5)
 
-___
+---
 
 ### os
 
@@ -54,14 +54,14 @@ The operating system of the host
 **`Example`**
 
 ```ts
-os = 'Windows'
+os = 'Windows';
 ```
 
 #### Defined in
 
-[parser-host.ts:16](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-host.ts#L16)
+[parser-host.ts:16](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-host.ts#L16)
 
-___
+---
 
 ### osVersion
 
@@ -72,14 +72,14 @@ The version of the operating system of the host
 **`Example`**
 
 ```ts
-osVersion = '10.0.19041'
+osVersion = '10.0.19041';
 ```
 
 #### Defined in
 
-[parser-host.ts:22](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-host.ts#L22)
+[parser-host.ts:22](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-host.ts#L22)
 
-___
+---
 
 ### server
 
@@ -90,9 +90,9 @@ This should match the name of a server in the servers object
 
 #### Defined in
 
-[parser-host.ts:10](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-host.ts#L10)
+[parser-host.ts:10](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-host.ts#L10)
 
-___
+---
 
 ### type
 
@@ -103,12 +103,12 @@ The type of host
 **`Example`**
 
 ```ts
-type = 'workstation'
-type = 'server'
-type = 'laptop'
-type = 'virtual machine'
+type = 'workstation';
+type = 'server';
+type = 'laptop';
+type = 'virtual machine';
 ```
 
 #### Defined in
 
-[parser-host.ts:37](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-host.ts#L37)
+[parser-host.ts:37](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-host.ts#L37)

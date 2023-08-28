@@ -21,14 +21,14 @@ The name of the image if the local file name is different from the name of the i
 **`Example`**
 
 ```ts
-name = 'host-desktop-screenshot.png'
+name = 'host-desktop-screenshot.png';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:116](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L116)
+[parser-beacon.ts:116](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L116)
 
-___
+---
 
 ### filePath
 
@@ -39,14 +39,14 @@ Path to the image that RedEye can access
 **`Example`**
 
 ```ts
-filePath = '<directory-of-parser>/images/image.png'
+filePath = '<directory-of-parser>/images/image.png';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:110](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L110)
+[parser-beacon.ts:110](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L110)
 
-___
+---
 
 ### fileType
 
@@ -57,9 +57,9 @@ The type of image
 **`Example`**
 
 ```ts
-type = 'png'
+type = 'png';
 ```
 
 #### Defined in
 
-[parser-beacon.ts:104](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-beacon.ts#L104)
+[parser-beacon.ts:104](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-beacon.ts#L104)

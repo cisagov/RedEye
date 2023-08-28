@@ -8,10 +8,12 @@ tasks:
     command: 'tsx ./src/generate-json-schema.ts'
     inputs:
       - '@globs(sources)'
+    outputs:
+      - '/docs/parser-guide/command-schemas/**/*.json'
     options:
       runInCI: false
   create-docs:
-    command: 'noop'
+    command: 'prettier --write $workspaceRoot/docs/parser-guide/**/*.{md,json}'
     deps:
       - 'generate-json-schema'
       - 'output-docs'

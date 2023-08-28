@@ -26,17 +26,17 @@ A key-value pair of beacon names and their metadata
 ```ts
 // If the beacon 'beacon1' was created from server 'server1' on host 'DESKTOP-312' at 2021-01-01T00:00:00 and last checked in at 2021-02-02T00:00:02
 beacons = {
-"beacon1": {
-		name: "beacon1",
-		server: "server1",
-		host: "DESKTOP-312",
-		ip: "192.168.23.2",
-		process: "svchost.exe",
+	beacon1: {
+		name: 'beacon1',
+		server: 'server1',
+		host: 'DESKTOP-312',
+		ip: '192.168.23.2',
+		process: 'svchost.exe',
 		pid: 1234,
 		startTime: new Date('2021-01-01T00:00:00.000Z'),
-		endTime: new Date('2021-02-02T00:00:02.000Z')
-	}
-}
+		endTime: new Date('2021-02-02T00:00:02.000Z'),
+	},
+};
 ```
 
 #### Index signature
@@ -45,9 +45,9 @@ beacons = {
 
 #### Defined in
 
-[index.ts:62](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/index.ts#L62)
+[index.ts:62](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/index.ts#L62)
 
-___
+---
 
 ### commands
 
@@ -60,24 +60,24 @@ A key-value pair of unique command identifiers and commands with inputs and outp
 ```ts
 // If the operator 'admin' sent a command to the beacon 'beacon1' at 2021-01-01T00:00:00
 commands = {
-  "admin-beacon1-2021-01-01T00:00:00": {
-  	operator: "admin",
-  	beacon: "beacon1",
-  	input: {
-  		blob: "shell whoami",
-  		filepath: "C:\\Users\\admin\\Desktop\\command.txt",
-  		lineNumber: 1,
-  		logType: "BEACON"
-  	},
-  	output: {
-  		blob: "admin",
-  		filepath: "C:\\Users\\admin\\Desktop\\command.txt",
-  		lineNumber: 2,
-  		logType: "BEACON"
- 	},
-  	attackIds: ["T1033"]
-  }
-}
+	'admin-beacon1-2021-01-01T00:00:00': {
+		operator: 'admin',
+		beacon: 'beacon1',
+		input: {
+			blob: 'shell whoami',
+			filepath: 'C:\\Users\\admin\\Desktop\\command.txt',
+			lineNumber: 1,
+			logType: 'BEACON',
+		},
+		output: {
+			blob: 'admin',
+			filepath: 'C:\\Users\\admin\\Desktop\\command.txt',
+			lineNumber: 2,
+			logType: 'BEACON',
+		},
+		attackIds: ['T1033'],
+	},
+};
 ```
 
 #### Index signature
@@ -86,9 +86,9 @@ commands = {
 
 #### Defined in
 
-[index.ts:106](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/index.ts#L106)
+[index.ts:106](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/index.ts#L106)
 
-___
+---
 
 ### hosts
 
@@ -101,15 +101,15 @@ A key-value pair of host names and their metadata
 ```ts
 // If the host 'DESKTOP-312' was first discovered or had a beacon spawned by server 'server1' with os 'Windows 10.0.19041'
 hosts = {
-"DESKTOP-312": {
-			name: "DESKTOP-312",
-			server: "server1",
-			os: "Windows",
-			osVersion: "10.0.19041",
-			ip: '192.168.23.2',
-	  	type: 'desktop',
-	  }
-	}
+	'DESKTOP-312': {
+		name: 'DESKTOP-312',
+		server: 'server1',
+		os: 'Windows',
+		osVersion: '10.0.19041',
+		ip: '192.168.23.2',
+		type: 'desktop',
+	},
+};
 ```
 
 #### Index signature
@@ -118,9 +118,9 @@ hosts = {
 
 #### Defined in
 
-[index.ts:41](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/index.ts#L41)
+[index.ts:41](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/index.ts#L41)
 
-___
+---
 
 ### links
 
@@ -133,11 +133,11 @@ A key-value pair of '<from>-<to>' and links from servers to beacons and beacons 
 ```ts
 // If the server 'server1' has a beacon named 'beacon1'
 links = {
-	"server1-beacon1": {
-		from: "server1",
-		to: "beacon1"
-		}
-	}
+	'server1-beacon1': {
+		from: 'server1',
+		to: 'beacon1',
+	},
+};
 ```
 
 #### Index signature
@@ -146,9 +146,9 @@ links = {
 
 #### Defined in
 
-[index.ts:120](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/index.ts#L120)
+[index.ts:120](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/index.ts#L120)
 
-___
+---
 
 ### operators
 
@@ -161,12 +161,12 @@ A key-value pair of operator names and the time range of their first and last co
 ```ts
 // If the operator 'admin' their first command at 2021-01-01T00:00:00 and last command at 2021-02-02T00:00:02
 operators = {
- "admin": {
- 		name: "admin",
- 		startTime: new Date('2021-01-01T00:00:00.000Z'),
- 		endTime: new Date('2021-02-02T00:00:02.000Z'),
- 	}
- }
+	admin: {
+		name: 'admin',
+		startTime: new Date('2021-01-01T00:00:00.000Z'),
+		endTime: new Date('2021-02-02T00:00:02.000Z'),
+	},
+};
 ```
 
 #### Index signature
@@ -175,9 +175,9 @@ operators = {
 
 #### Defined in
 
-[index.ts:78](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/index.ts#L78)
+[index.ts:78](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/index.ts#L78)
 
-___
+---
 
 ### servers
 
@@ -190,11 +190,11 @@ A key-value pair of server names and their metadata
 ```ts
 // If a C2 server was create with name 'server1' and will be communicating over https
 servers = {
-"server1": {
-		name: "server1",
+	server1: {
+		name: 'server1',
 		type: 'https',
-	}
-}
+	},
+};
 ```
 
 #### Index signature
@@ -203,4 +203,4 @@ servers = {
 
 #### Defined in
 
-[index.ts:22](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/index.ts#L22)
+[index.ts:22](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/index.ts#L22)

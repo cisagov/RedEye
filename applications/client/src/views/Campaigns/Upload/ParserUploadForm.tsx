@@ -44,12 +44,13 @@ type ParserUploadFormProps = ComponentProps<'form'> & {
 	parserInfo: ParserInfoModel;
 };
 
-const createDirectoryFile = (file: File): DirectoryFile => ({
-	...file,
-	webkitRelativePath: file.webkitRelativePath,
-	name: file.name,
-	blob: file.slice(),
-});
+const createDirectoryFile = (file: File) =>
+	({
+		...file,
+		webkitRelativePath: file.webkitRelativePath,
+		name: file.name,
+		blob: file.slice(),
+	} as DirectoryFile);
 
 const defaultServer: Servers = {
 	name: '',
@@ -123,7 +124,7 @@ export const ParserUploadForm = observer<ParserUploadFormProps>(({ parserInfo, .
 						const fileValidationFormData = new FormData();
 						const allFiles = {};
 						for (const file of this.originalFiles) {
-							allFiles[file.name] = createDirectoryFile(file);
+							allFiles[file.webkitRelativePath] = createDirectoryFile(file);
 							fileValidationFormData.append(
 								'file',
 								new File([file.slice()], file.webkitRelativePath.replace(/\//g, ':'), {

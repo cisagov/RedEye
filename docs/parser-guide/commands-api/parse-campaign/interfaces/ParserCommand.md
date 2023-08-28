@@ -24,20 +24,20 @@ A list of the MITRE ATT&CK techniques used by the command
 **`Default`**
 
 ```ts
-[]
+[];
 ```
 
 **`Example`**
 
 ```ts
-attackIds = ['T1059', 'T1059.001']
+attackIds = ['T1059', 'T1059.001'];
 ```
 
 #### Defined in
 
-[parser-command.ts:68](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-command.ts#L68)
+[parser-command.ts:68](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-command.ts#L68)
 
-___
+---
 
 ### beacon
 
@@ -49,14 +49,14 @@ Should match the name of a beacon in the beacons object
 **`Example`**
 
 ```ts
-beacon = 'beacon1'
+beacon = 'beacon1';
 ```
 
 #### Defined in
 
-[parser-command.ts:17](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-command.ts#L17)
+[parser-command.ts:17](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-command.ts#L17)
 
-___
+---
 
 ### commandFailed
 
@@ -67,21 +67,21 @@ Whether the command was successful
 **`Default`**
 
 ```ts
-false
+false;
 ```
 
 **`Example`**
 
 ```ts
 // The command output was not found in the logs or the command failed
-commandFailed = true
+commandFailed = true;
 ```
 
 #### Defined in
 
-[parser-command.ts:38](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-command.ts#L38)
+[parser-command.ts:38](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-command.ts#L38)
 
-___
+---
 
 ### input
 
@@ -93,19 +93,19 @@ The input that initialized the command
 
 ```ts
 input = {
- blob: 'ls',
- filepath: '<directory-of-parser>/logs/2023-02-01/log-1.txt',
- lineNumber: 123,
- logType: 'INPUT',
- dateTime: new Date("2021-01-01T00:00:00.000Z")
- }
+	blob: 'ls',
+	filepath: '<directory-of-parser>/logs/2023-02-01/log-1.txt',
+	lineNumber: 123,
+	logType: 'INPUT',
+	dateTime: new Date('2021-01-01T00:00:00.000Z'),
+};
 ```
 
 #### Defined in
 
-[parser-command.ts:30](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-command.ts#L30)
+[parser-command.ts:30](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-command.ts#L30)
 
-___
+---
 
 ### operator
 
@@ -117,14 +117,14 @@ Should match the name of an operator in the operators object
 **`Example`**
 
 ```ts
-operator = 'admin'
+operator = 'admin';
 ```
 
 #### Defined in
 
-[parser-command.ts:10](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-command.ts#L10)
+[parser-command.ts:10](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-command.ts#L10)
 
-___
+---
 
 ### output
 
@@ -141,20 +141,20 @@ output = {
 	filepath: '<directory-of-parser>/logs/2023-02-01/log-1.txt',
 	lineNumber: 123,
 	logType: 'OUTPUT',
-	dateTime: new Date("2021-01-01T00:00:00.000Z")
-}
+	dateTime: new Date('2021-01-01T00:00:00.000Z'),
+};
 // If the command failed
-output = undefined
+output = undefined;
 // or
 output = {
-		blob: 'Unknown command: pwd',
-		filepath: '<directory-of-parser>/logs/2023-02-01/log-1.txt',
-		lineNumber: 123,
-		logType: 'ERROR',
-		dateTime: new Date("2021-01-01T00:00:00.000Z")
-	}
+	blob: 'Unknown command: pwd',
+	filepath: '<directory-of-parser>/logs/2023-02-01/log-1.txt',
+	lineNumber: 123,
+	logType: 'ERROR',
+	dateTime: new Date('2021-01-01T00:00:00.000Z'),
+};
 ```
 
 #### Defined in
 
-[parser-command.ts:61](https://github.com/cisagov/RedEye/blob/9f9475cf/parsers/parser-core/src/parser-output/parser-command.ts#L61)
+[parser-command.ts:61](https://github.com/cisagov/RedEye/blob/bd5dfc45/parsers/parser-core/src/parser-output/parser-command.ts#L61)
