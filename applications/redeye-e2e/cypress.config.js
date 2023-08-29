@@ -5,9 +5,9 @@ const tasks = require('./src/support/tasks');
 const path = require('path');
 
 module.exports = defineConfig({
+	chromeWebSecurity: false,
 	fixturesFolder: path.join(__dirname, 'src', 'fixtures'),
-	modifyObstructiveCode: false,
-	videoUploadOnPasses: false,
+	experimentalModifyObstructiveThirdPartyCode: true,
 	videosFolder: path.join(__dirname, '../../dist/applications/redeye-e2e/videos'),
 	screenshotsFolder: path.join(__dirname, '../../dist/applications/redeye-e2e/screenshots'),
 	failOnStatusCode: false,
@@ -27,5 +27,6 @@ module.exports = defineConfig({
 		excludeSpecPattern: '*.skip.js',
 		defaultCommandTimeout: 15000,
 		trashAssetsBeforeRuns: true,
+		baseUrl: 'http://localhost:3500',
 	},
 });
