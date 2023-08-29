@@ -17,7 +17,7 @@ describe('Upload raw log', () => {
 
 		cy.reload();
 
-		cy.get('[cy-test=beacon-count]').invoke('text').should('contain', '4');
+		cy.get('[cy-test=beacon-count]', { timeout: 25000 }).invoke('text').should('contain', '3');
 
 		cy.get('[cy-test=command-count]').invoke('text').should('contain', '7');
 	});

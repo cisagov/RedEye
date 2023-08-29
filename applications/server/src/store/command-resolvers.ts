@@ -211,35 +211,17 @@ export class CommandTypeCountResolvers {
 		@Arg('hidden', () => Boolean, { defaultValue: false, nullable: true, description: 'Should show hidden values' })
 		hidden: boolean = false
 	): Promise<CommandTypeCount[]> {
-		const em = await connectToProjectEmOrFail(campaignId, ctx);
-		const commands = await em.find(Command, beaconHidden(hidden), {
-			populate: ['commandGroups', 'commandGroups.annotations'],
-		});
-		const countObj = commands.reduce<Record<string, CountObjItem>>((acc, current) => {
-			if (acc[current.inputText]) {
-				acc[current.inputText] = {
-					count: acc[current.inputText].count + 1,
-					beaconIds: [...acc[current.inputText].beaconIds, current.beacon.id],
-					commentsCount: current.commandGroups?.getItems().reduce((commentsCountItem, group) => {
-						if (!commentsCountItem.commandGroupIds.includes(group.id)) {
-							return {
-								commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
-								count: commentsCountItem.count + (group?.annotations?.count() ?? 0),
-							};
-						} else {
-							return {
-								commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
-								count: commentsCountItem.count,
-							};
-						}
-					}, acc[current.inputText].commentsCount),
-				};
-			} else {
-				acc[current.inputText] = {
-					count: 1,
-					beaconIds: [current.beacon.id],
-					commentsCount: current.commandGroups?.getItems().reduce(
-						(commentsCountItem, group) => {
+		try {
+			const em = await connectToProjectEmOrFail(campaignId, ctx);
+			const commands = await em.find(Command, beaconHidden(hidden), {
+				populate: ['commandGroups', 'commandGroups.annotations'],
+			});
+			const countObj = commands.reduce<Record<string, CountObjItem>>((acc, current) => {
+				if (acc[current.inputText]) {
+					acc[current.inputText] = {
+						count: acc[current.inputText].count + 1,
+						beaconIds: [...acc[current.inputText].beaconIds, current.beacon.id],
+						commentsCount: current.commandGroups?.getItems().reduce((commentsCountItem, group) => {
 							if (!commentsCountItem.commandGroupIds.includes(group.id)) {
 								return {
 									commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
@@ -251,21 +233,44 @@ export class CommandTypeCountResolvers {
 									count: commentsCountItem.count,
 								};
 							}
-						},
-						{ commandGroupIds: [], count: 0 } as CommentsCountItem
-					),
-				};
-			}
-			return acc;
-		}, {});
+						}, acc[current.inputText].commentsCount),
+					};
+				} else {
+					acc[current.inputText] = {
+						count: 1,
+						beaconIds: [current.beacon.id],
+						commentsCount: current.commandGroups?.getItems().reduce(
+							(commentsCountItem, group) => {
+								if (!commentsCountItem.commandGroupIds.includes(group.id)) {
+									return {
+										commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
+										count: commentsCountItem.count + (group?.annotations?.count() ?? 0),
+									};
+								} else {
+									return {
+										commandGroupIds: [...commentsCountItem.commandGroupIds, group.id],
+										count: commentsCountItem.count,
+									};
+								}
+							},
+							{ commandGroupIds: [], count: 0 } as CommentsCountItem
+						),
+					};
+				}
+				return acc;
+			}, {});
 
-		return Object.entries(countObj).map(([text, item]) => ({
-			id: text,
-			text,
-			count: item.count,
-			beaconsCount: new Set(item.beaconIds).size,
-			commentsCount: item.commentsCount.count,
-		})) as CommandTypeCount[];
+			return Object.entries(countObj || {}).map(([text, item]) => ({
+				id: text,
+				text,
+				count: item.count,
+				beaconsCount: new Set(item.beaconIds).size,
+				commentsCount: item.commentsCount.count,
+			})) as CommandTypeCount[];
+		} catch (e) {
+			console.error(e);
+			return [];
+		}
 	}
 }
 
