@@ -14,5 +14,6 @@ declare module '*?worker' {
 }
 
 declare global {
+	// eslint-disable-next-line no-var,vars-on-top
 	var Cypress: any | undefined;
 }

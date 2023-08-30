@@ -48,7 +48,9 @@ describe('Hide a Beacon using GraphQL', () => {
 		cy.clickBeaconsTab();
 		const beacs = [];
 		cy.get('[cy-test=beacons-row]')
-			.each(($li) => beacs.push($li.text()))
+			.each(($li) =>
+				beacs.push(`${$li.find('[cy-test=beacon-time]').text()}${$li.find('[cy-test=beacon-display-name]').text()}`)
+			)
 			.then(() => {
 				// cy.log(beacs.join(', '));
 				cy.wrap(beacs).should('deep.equal', [
