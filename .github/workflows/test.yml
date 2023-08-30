@@ -91,7 +91,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           tag: node-${{ matrix.node }}
-          start: yarn start:dev
+          start: yarn start:test-app
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Red Team - Chrome'
@@ -140,7 +140,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           tag: node-${{ matrix.node }}
-          start: yarn start:blue
+          start: yarn start:test-app
           wait-on: 'http://localhost:4000/api/graphql, http://localhost:3500'
           browser: chrome
           group: 'Blue Team - Chrome'
@@ -152,6 +152,7 @@ jobs:
           ci-build-id: ${{ needs.prepare.outputs.uuid }}
         env:
           CYPRESS_PROJECT_ID: '46ahz3'
+          SERVER_BLUE_TEAM: 'true'
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY_BLUE }}
 
   # RedTeamFirefox:

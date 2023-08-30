@@ -139,6 +139,18 @@ tasks:
     options:
       runInCI: false
       runDepsInParallel: false
+  preview-vite:
+    command: 'vite preview --port 3500'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(assets)'
+      - 'vite.config.ts'
+    local: true
+    platform: node
+    deps:
+      - ~:build-vite
+    options:
+      runInCI: false
 
   # Library mode commands
   build-library:

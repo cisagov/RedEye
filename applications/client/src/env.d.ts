@@ -12,3 +12,8 @@ declare module '*?worker' {
 	// eslint-disable-next-line import/no-default-export
 	export default workerConstructor;
 }
+
+declare global {
+	// eslint-disable-next-line no-var,vars-on-top
+	var Cypress: any | undefined;
+}
