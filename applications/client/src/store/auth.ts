@@ -9,7 +9,7 @@ export class Auth extends ExtendedModel(RedEyeModel, {
 	promptAuth: prop<boolean>(false).withSetter(),
 	hasClickedAuthDialog: prop<boolean>(false).withSetter(),
 	user: prop<string>(() => localStorage.getItem('user') ?? ''),
-	serverUrl: prop<string>(() => (import.meta.env.DEV ? defaultServerUrl : '')),
+	serverUrl: prop<string>(() => (import.meta.env.DEV || globalThis.Cypress ? defaultServerUrl : '')),
 }) {
 	get userName(): string | null {
 		return localStorage.getItem('user');
