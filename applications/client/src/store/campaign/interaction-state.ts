@@ -106,7 +106,11 @@ export class InteractionState extends ExtendedModel(() => ({
 				}
 			});
 		}
-		return items;
+		// return items;
+		return (this.appStore?.campaign.timeline.isEnd ? this.appStore?.graphqlStore.hosts : items) as Map<
+			string,
+			HostModel
+		>;
 	}
 
 	getModel(
@@ -163,8 +167,15 @@ export class InteractionState extends ExtendedModel(() => ({
 			} else if (host) {
 				const comp = this.currentHosts.get(host);
 				if (comp) {
-					for (const hostBeacon of comp.beacons) {
-						this.appStore.campaign.timeline?.setBeacon(hostBeacon);
+					for (const hostBeaconId of comp.beaconIds) {
+						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(hostBeaconId));
+					}
+				}
+			} else if (server) {
+				const comp = this.appStore.graphqlStore.servers.get(server);
+				if (comp) {
+					for (const serverBeacon of comp.beacons) {
+						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(serverBeacon.id));
 					}
 				}
 			}
