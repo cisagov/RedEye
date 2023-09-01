@@ -106,11 +106,7 @@ export class InteractionState extends ExtendedModel(() => ({
 				}
 			});
 		}
-		// return items;
-		return (this.appStore?.campaign.timeline.isEnd ? this.appStore?.graphqlStore.hosts : items) as Map<
-			string,
-			HostModel
-		>;
+		return items;
 	}
 
 	getModel(
