@@ -57,7 +57,7 @@ export const invokeParser = <T>(parserName: string, args: string[], loggingFolde
 					if (prefix === ParserMessageTypes.Data) {
 						resolve(JSON.parse(message));
 					} else if (prefix === ParserMessageTypes.Progress) {
-						console.debug({ parserName, prefix, message }); // TODO: Update campaign progress
+						console.log({ parserName, prefix, message }); // TODO: Update campaign progress
 					} else if (prefix === ParserMessageTypes.Log) {
 						if (logger) {
 							logger(JSON.parse(message));
@@ -65,12 +65,12 @@ export const invokeParser = <T>(parserName: string, args: string[], loggingFolde
 							console.log({ parserName, message });
 						}
 					} else if (prefix === ParserMessageTypes.Debug) {
-						console.debug({ parserName, message });
+						console.log({ parserName, message });
 					} else {
-						console.debug({ parserName, data });
+						console.log({ parserName, data });
 					}
 				} else {
-					console.debug('ERROR: invalid stdout', { parserName, data });
+					console.log('ERROR: invalid stdout', { parserName, data });
 				}
 			});
 
@@ -78,7 +78,7 @@ export const invokeParser = <T>(parserName: string, args: string[], loggingFolde
 				rl.close();
 			});
 		} catch (error) {
-			console.debug('ERROR: throw in exec', error);
+			console.log('ERROR: throw in exec', error);
 			reject(error);
 		}
 	});
