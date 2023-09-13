@@ -167,7 +167,7 @@ export const HostOrServerRow = observer<HostOrServerRowProps>(({ host, ...props 
 					}
 				/>
 				{host.cobaltStrikeServer && <Txt muted>Server:</Txt>}
-				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer}>
+				<Txt cy-test="hostName" bold={!!host.cobaltStrikeServer} ellipsize>
 					{host.computedName}
 				</Txt>
 			</RowTitle>
