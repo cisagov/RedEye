@@ -88,7 +88,7 @@ export const graphStyles = css`
 		}
 	}
 	circle {
-		stroke-width: 1px;
+		/* stroke-width: 1px; */
 	}
 
 	.${GCN.groupNode} {
@@ -146,7 +146,6 @@ export const graphStyles = css`
 	.${GCN.softwareNode}, .${GCN.serverNode} {
 		fill: ${GraphTokens.PresentFgColor};
 		stroke: ${GraphTokens.PresentBgColor};
-		r: 4px;
 
 		&.${GCN.past} {
 			fill: ${GraphTokens.PastFgColor};
@@ -157,7 +156,6 @@ export const graphStyles = css`
 
 		&.${GCN.selected} {
 			fill: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
-			r: 5px;
 		}
 		&.${GCN.previewed} {
 			fill: ${GraphTokens.PreviewFgColor};
@@ -165,8 +163,7 @@ export const graphStyles = css`
 		&.${GCN.selectedFocus} {
 			fill: ${GraphTokens.SelectedFocusFgColor};
 			stroke: ${GraphTokens.PreviewFgColor};
-			stroke-width: ${GraphTokens.SelectedThickness};
-			r: 6px;
+			stroke-width: ${GraphTokens.PreviewThickness};
 			filter: drop-shadow(0 0 1px ${CoreTokens.Colors.Black});
 		}
 	}

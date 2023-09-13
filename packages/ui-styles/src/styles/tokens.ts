@@ -224,7 +224,7 @@ const darkThemeGraphAndTimelineCssVars = declareCssVars([
 	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary3],
 	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary1],
 	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentWhite(0.03)],
-	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.6)],
+	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.8)],
 ]);
 
 export const customCssVars = css`
