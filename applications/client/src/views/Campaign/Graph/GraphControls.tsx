@@ -80,14 +80,14 @@ export const GraphControls = observer<GraphControlFunctions & ComponentProps<'di
 										className={[GCN.siblingLink, ...legendItem[2]].join(' ')}
 									/>
 									<circle
-										r={svgStyle.center}
+										r={svgStyle.radius}
 										cx={svgStyle.center}
 										cy={svgStyle.center}
 										css={[legendNodeStyle]}
 										className={[GCN.subNode, GCN.softwareNode, ...legendItem[1]].join(' ')}
 									/>
 									<circle
-										r={svgStyle.center}
+										r={svgStyle.radius}
 										cx={svgStyle.width - svgStyle.center}
 										cy={svgStyle.center}
 										css={[legendNodeStyle]}
@@ -219,6 +219,7 @@ const svgStyle = {
 	height: 24,
 	width: 56,
 	center: 12,
+	radius: 6,
 };
 const legendTitle = css`
 	margin-bottom: 0.5rem;
