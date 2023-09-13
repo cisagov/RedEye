@@ -144,6 +144,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 
 	drawUpdateNodeVisual() {
 		this.nodeSelection.each(updateClassName);
+		this.labelSelection?.each(updateClassName);
+		this.countLabelSelection.each(updateClassName);
 	}
 
 	drawTime() {

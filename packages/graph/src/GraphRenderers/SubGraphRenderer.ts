@@ -99,6 +99,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	drawUpdateNodeVisual() {
+		this.labelSelection?.each(updateClassName);
 		this.nodeSelection.each(updateClassName);
 		this.nodeSelection.selectChildren().remove();
 		this.nodeSelection
