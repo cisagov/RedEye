@@ -4,12 +4,12 @@ import { CampaignLoadingMessage, useStore } from '@redeye/client/store';
 import { CoreTokens, Header, Spacer, ThemeClasses, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useResizeDetector } from 'react-resize-detector';
 import { nodeColorStyles } from './node-colors';
 import { graphStyles } from './graph-styles';
-import { GraphControls } from './GraphControls';
+import { GraphControlFunctions, GraphControls } from './GraphControls';
 import { LoadingOverlay } from './LoadingOverlay';
 
 type GraphProps = ComponentProps<'div'> & {};
@@ -40,14 +40,20 @@ export const Graph = observer<GraphProps>((props) => {
 		}
 	}, [graphRef, store.campaign.isLoading]);
 
-	const zoomControls = useMemo(
+	const [isSimpleForces, setIsSimpleForces] = useState(false);
+
+	const zoomControls: Omit<GraphControlFunctions, 'isSimpleForces'> = useMemo(
 		() => ({
 			zoomIn: () => store.campaign.graph?.zoomIn(),
 			zoomOut: () => store.campaign.graph?.zoomOut(),
 			zoomToFit: () => store.campaign.graph?.zoomToFit(),
 			exportSVG: () => store.campaign.graph?.exportSVG(CoreTokens.Background3),
+			toggleSimpleForces: (on) => {
+				store.campaign.graph?.useForceMode(on ? 'simple' : 'graph');
+				setIsSimpleForces(on);
+			},
 		}),
-		[]
+		[setIsSimpleForces]
 	);
 
 	const currentMoment = store.settings.momentTz(store.campaign.timeline?.scrubberTime as Date);
@@ -79,7 +85,7 @@ export const Graph = observer<GraphProps>((props) => {
 					ref={graphRef}
 					className={store.settings.theme === 'dark' ? ThemeClasses.DARK : ThemeClasses.LIGHT}
 				/>
-				<GraphControls {...zoomControls} css={controlsStyles} />
+				<GraphControls {...zoomControls} isSimpleForces={isSimpleForces} css={controlsStyles} />
 			</ErrorBoundary>
 		</div>
 	);
