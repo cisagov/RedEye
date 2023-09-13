@@ -8,8 +8,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useResizeDetector } from 'react-resize-detector';
 import { nodeColorStyles } from './node-colors';
-import { graphStyles } from './graph-styles';
-import { GraphControlFunctions, GraphControls } from './GraphControls';
+import { graphStyles, showMoreLabelsGraphStyles } from './graph-styles';
+import type { GraphControlFunctions } from './GraphControls';
+import { GraphControls } from './GraphControls';
 import { LoadingOverlay } from './LoadingOverlay';
 
 type GraphProps = ComponentProps<'div'> & {};
@@ -40,9 +41,10 @@ export const Graph = observer<GraphProps>((props) => {
 		}
 	}, [graphRef, store.campaign.isLoading]);
 
+	const [showMoreLabels, setShowMoreLabels] = useState(false);
 	const [isSimpleForces, setIsSimpleForces] = useState(false);
 
-	const zoomControls: Omit<GraphControlFunctions, 'isSimpleForces'> = useMemo(
+	const zoomControls: GraphControlFunctions = useMemo(
 		() => ({
 			zoomIn: () => store.campaign.graph?.zoomIn(),
 			zoomOut: () => store.campaign.graph?.zoomOut(),
@@ -52,8 +54,9 @@ export const Graph = observer<GraphProps>((props) => {
 				store.campaign.graph?.useForceMode(on ? 'simple' : 'graph');
 				setIsSimpleForces(on);
 			},
+			setShowMoreLabels,
 		}),
-		[setIsSimpleForces]
+		[setIsSimpleForces, setShowMoreLabels]
 	);
 
 	const currentMoment = store.settings.momentTz(store.campaign.timeline?.scrubberTime as Date);
@@ -76,16 +79,16 @@ export const Graph = observer<GraphProps>((props) => {
 					<LoadingOverlay />
 				) : null}
 				<svg
-					css={[
-						graphLayoutStyles,
-						graphStyles,
-						nodeColorStyles,
-						// showMoreLabelsGraphStyles
-					]}
+					css={[graphLayoutStyles, graphStyles, nodeColorStyles, showMoreLabels && showMoreLabelsGraphStyles]}
 					ref={graphRef}
 					className={store.settings.theme === 'dark' ? ThemeClasses.DARK : ThemeClasses.LIGHT}
 				/>
-				<GraphControls {...zoomControls} isSimpleForces={isSimpleForces} css={controlsStyles} />
+				<GraphControls
+					{...zoomControls}
+					isSimpleForces={isSimpleForces}
+					showMoreLabels={showMoreLabels}
+					css={controlsStyles}
+				/>
 			</ErrorBoundary>
 		</div>
 	);

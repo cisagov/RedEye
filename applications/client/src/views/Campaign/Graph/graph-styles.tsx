@@ -179,4 +179,11 @@ export const showMoreLabelsGraphStyles = css`
 	.${GCN.superNodeCountLabel}.${GCN.hiddenLabel} {
 		display: none; // but still hide the counts
 	}
+	.${GCN.superGraph} {
+		&.${GCN.selectedParent}, &.${GCN.previewedParent} {
+			.${GCN.hiddenLabel} {
+				fill: ${CoreTokens.TextMuted};
+			}
+		}
+	}
 `;

@@ -1,5 +1,14 @@
 import { Button, ButtonGroup, Classes, Divider } from '@blueprintjs/core';
-import { Add16, CenterSquare16, Close16, Draggable16, Export16, Help16, Subtract16 } from '@carbon/icons-react';
+import {
+	Add16,
+	CenterSquare16,
+	Close16,
+	Export16,
+	Harbor16,
+	Help16,
+	StringText16,
+	Subtract16,
+} from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CarbonIcon } from '@redeye/client/components';
@@ -15,12 +24,24 @@ export type GraphControlFunctions = {
 	zoomOut: () => void;
 	zoomToFit: () => void;
 	exportSVG: () => void;
+	isSimpleForces?: boolean;
 	toggleSimpleForces: (on: boolean) => void;
-	isSimpleForces: boolean;
+	showMoreLabels?: boolean;
+	setShowMoreLabels: (on: boolean) => void;
 };
 
 export const GraphControls = observer<GraphControlFunctions & ComponentProps<'div'>>(
-	({ zoomIn, zoomOut, zoomToFit, exportSVG, toggleSimpleForces, isSimpleForces, ...props }) => {
+	({
+		zoomIn,
+		zoomOut,
+		zoomToFit,
+		exportSVG,
+		isSimpleForces = false,
+		toggleSimpleForces,
+		showMoreLabels = false,
+		setShowMoreLabels,
+		...props
+	}) => {
 		const [isOpen, setIsOpen] = useState(false);
 
 		return (
@@ -88,33 +109,28 @@ export const GraphControls = observer<GraphControlFunctions & ComponentProps<'di
 							title="Settings"
 							minimal
 						/>
-						<GraphControlDivider />
-						<Button
-							active={isSimpleForces}
-							intent={isSimpleForces ? 'primary' : 'none'}
-							icon={<CarbonIcon icon={Draggable16} />}
-							onClick={() => toggleSimpleForces(!isSimpleForces)}
-							// disabled // no-op
-							minimal
-						/>
 					</GraphControlButtonGroup>
 				)}
 				<GraphControlButtonGroup vertical>
-					<Button cy-test="zoom-in" rightIcon={<CarbonIcon icon={Add16} />} onClick={zoomIn} title="Zoom In" minimal />
-					<GraphControlDivider />
 					<Button
-						cy-test="zoom-out"
-						rightIcon={<CarbonIcon icon={Subtract16} />}
-						onClick={zoomOut}
-						title="Zoom Out"
+						active={isSimpleForces}
+						intent={isSimpleForces ? 'primary' : 'none'}
+						rightIcon={<CarbonIcon icon={Harbor16} />}
+						onClick={() => toggleSimpleForces(!isSimpleForces)}
+						title="Anchor Nodes on Drag"
+						text={isOpen && 'Anchor Drag'}
 						minimal
+						alignText="left"
 					/>
 					<GraphControlDivider />
 					<Button
-						cy-test="center-graph"
-						rightIcon={<CarbonIcon icon={CenterSquare16} />}
-						onClick={zoomToFit}
-						title="Zoom To Fit"
+						active={showMoreLabels}
+						intent={showMoreLabels ? 'primary' : 'none'}
+						rightIcon={<CarbonIcon icon={StringText16} />}
+						onClick={() => setShowMoreLabels(!showMoreLabels)}
+						title="Show Labels"
+						alignText="left"
+						text={isOpen && 'Show Labels'}
 						minimal
 					/>
 					<GraphControlDivider />
@@ -123,6 +139,39 @@ export const GraphControls = observer<GraphControlFunctions & ComponentProps<'di
 						rightIcon={<CarbonIcon icon={Export16} />}
 						onClick={exportSVG}
 						title="Export Graph"
+						text={isOpen && 'Export Graph'}
+						alignText="left"
+						minimal
+					/>
+				</GraphControlButtonGroup>
+				<GraphControlButtonGroup vertical>
+					<Button
+						cy-test="zoom-in"
+						rightIcon={<CarbonIcon icon={Add16} />}
+						onClick={zoomIn}
+						title="Zoom In"
+						text={isOpen && 'Zoom In'}
+						alignText="left"
+						minimal
+					/>
+					<GraphControlDivider />
+					<Button
+						cy-test="zoom-out"
+						rightIcon={<CarbonIcon icon={Subtract16} />}
+						onClick={zoomOut}
+						title="Zoom Out"
+						text={isOpen && 'Zoom Out'}
+						alignText="left"
+						minimal
+					/>
+					<GraphControlDivider />
+					<Button
+						cy-test="center-graph"
+						rightIcon={<CarbonIcon icon={CenterSquare16} />}
+						onClick={zoomToFit}
+						title="Zoom To Fit"
+						text={isOpen && 'Zoom To Fit'}
+						alignText="left"
 						minimal
 					/>
 				</GraphControlButtonGroup>
