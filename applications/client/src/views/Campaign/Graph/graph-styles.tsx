@@ -19,15 +19,22 @@ export const graphStyles = css`
 		cursor: pointer;
 		/* &:active { cursor: grabbing; } */
 	}
-	.${GCN.groupNode} {
-		/* pointer-events: none; */ // set in code
-	}
+	/* .${GCN.groupNode} { pointer-events: none; } // set in GroupGraphRenderer */
 	&:not(.${GCN.isZooming}) .${GCN.superNode} {
 		transition: r 0.2s cubic-bezier(0, 1, 0, 1);
 	}
-	.${GCN.occludedLabel}, .${GCN.subNodeNameLabel}:not(.${GCN.selectedFocus}):not(.${GCN.previewedFocus}) {
+
+	/* HIDE LABELS */
+	.${GCN.occludedLabel}, .${GCN.hiddenLabel} {
 		display: none;
 	}
+	.${GCN.subNodeNameLabel} {
+		// &:not(...) is to avoid incorrectly applied syntax error
+		&:not(.${GCN.selectedFocus}):not(.${GCN.previewedFocus}) {
+			display: none;
+		}
+	}
+
 	.${GCN.parentLinkNode} {
 		display: none;
 	}
@@ -162,5 +169,14 @@ export const graphStyles = css`
 			r: 6px;
 			filter: drop-shadow(0 0 1px ${CoreTokens.Colors.Black});
 		}
+	}
+`;
+
+export const showMoreLabelsGraphStyles = css`
+	.${GCN.hiddenLabel} {
+		display: initial; // show more labels
+	}
+	.${GCN.superNodeCountLabel}.${GCN.hiddenLabel} {
+		display: none; // but still hide the counts
 	}
 `;

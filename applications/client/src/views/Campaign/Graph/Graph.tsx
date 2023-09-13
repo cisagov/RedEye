@@ -70,7 +70,12 @@ export const Graph = observer<GraphProps>((props) => {
 					<LoadingOverlay />
 				) : null}
 				<svg
-					css={[graphLayoutStyles, graphStyles, nodeColorStyles]}
+					css={[
+						graphLayoutStyles,
+						graphStyles,
+						nodeColorStyles,
+						// showMoreLabelsGraphStyles
+					]}
 					ref={graphRef}
 					className={store.settings.theme === 'dark' ? ThemeClasses.DARK : ThemeClasses.LIGHT}
 				/>

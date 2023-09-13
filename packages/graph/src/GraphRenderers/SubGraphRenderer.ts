@@ -127,7 +127,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	drawInteraction() {
-		this.labelSelection?.style('display', (d) => (isInteractionRelated(d) ? '' : 'none'));
+		this.labelSelection?.classed(classNames.hiddenLabel, (d) => !isInteractionRelated(d));
 
 		if (isInteractionFocus(this.parentNode!)) {
 			this.showLayout();
