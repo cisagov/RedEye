@@ -74,7 +74,10 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 		const { username, process } = meta;
 		const nameParts: string[] = [];
 		if (this.displayName) nameParts.push(this.displayName);
-		if (process) nameParts.push(process);
+		if (process != null) {
+			const processName = process?.split('\\').pop(); // name, not full filepath
+			if (processName) nameParts.push(processName);
+		}
 		nameParts.push(username || this.beaconName);
 		return nameParts.filter(Boolean).join(' · ');
 	}
