@@ -28,5 +28,5 @@ export const RowTime = observer(({ state: timeStatus, ...props }: TxtProps & { s
 });
 
 export const RowTitle = (props: FlexProps) => (
-	<Flex align="center" gap={4} overflowHidden fill css={{ fontWeight: CoreTokens.FontWeightBold }} {...props} />
+	<Flex align="center" gap={4} css={{ fontWeight: CoreTokens.FontWeightBold }} {...props} />
 );

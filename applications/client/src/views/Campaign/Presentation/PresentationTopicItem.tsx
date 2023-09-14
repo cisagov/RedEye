@@ -4,7 +4,7 @@ import { CarbonIcon } from '@redeye/client/components';
 import type { PresentationItemModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { InfoRow, RowTitle } from '@redeye/client/views';
-import { CoreTokens, HeroButton, Txt, UtilityStyles } from '@redeye/ui-styles';
+import { CoreTokens, HeroButton, UtilityStyles } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 import { IconLabel } from '..';
@@ -47,7 +47,7 @@ export const PresentationTopicItem = observer<PresentationTopicItemProps>(({ pre
 					`}
 					icon={getIcon(presentationItem)}
 				/>
-				<Txt ellipsize>{presentationItem.key}</Txt>
+				{presentationItem.key}
 			</RowTitle>
 			<IconLabel cy-test="count" value={presentationItem.count} icon={Chat16} title="Comments" />
 			<HeroButton

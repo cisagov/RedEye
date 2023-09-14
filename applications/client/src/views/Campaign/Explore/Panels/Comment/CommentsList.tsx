@@ -86,7 +86,6 @@ export const CommentsList = observer<CommentsListProps>(({ sort }) => {
 							bold={['all', 'favorited'].includes(presentationItem.id)}
 							muted={presentationItem.id === 'procedural'}
 							italic={presentationItem.id === 'procedural'}
-							ellipsize
 						>
 							{rowTitle(presentationItem)}
 						</Txt>
