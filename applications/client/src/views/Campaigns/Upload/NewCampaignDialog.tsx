@@ -17,9 +17,11 @@ type NewCampaignDialogProps = ComponentProps<'div'> & {
 	onClose: (...args: any) => void;
 };
 
+const SOURCE_UNSET = '';
+
 export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props }) => {
 	const store = useStore();
-	const [currentUploadOptionValue, setCurrentUploadOptionValue] = useState('');
+	const [currentUploadOptionValue, setCurrentUploadOptionValue] = useState(SOURCE_UNSET);
 
 	const uploadOptions = useMemo(() => {
 		const options: (OptionProps & {
@@ -27,7 +29,7 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 		})[] = [
 			{
 				label: 'Select Source',
-				value: '', // falsy
+				value: SOURCE_UNSET,
 				disabled: true,
 			},
 		];
@@ -80,12 +82,14 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 						/>
 					</FormGroup>
 					<Divider css={{ margin: '0 1.5rem' }} />
-					{!selectedUploadOption?.value ? (
+					{currentUploadOptionValue === SOURCE_UNSET ? (
 						<div css={{ padding: '1.5rem' }}>
 							<Txt italic muted>
 								Select an import source to continue
 							</Txt>
 						</div>
+					) : selectedUploadOption?.parserInfo == null ? (
+						<RedEyeDbUploadForm onClose={props.onClose} />
 					) : !selectedUploadOption?.parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (
 						<div css={{ padding: '1.5rem' }}>
 							<Txt cy-test="bt-warning" running>
@@ -96,10 +100,8 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 								</ExternalLink>
 							</Txt>
 						</div>
-					) : selectedUploadOption?.parserInfo != null ? (
-						<ParserUploadForm parserInfo={selectedUploadOption?.parserInfo} onClose={props.onClose} />
 					) : (
-						<RedEyeDbUploadForm onClose={props.onClose} />
+						<ParserUploadForm parserInfo={selectedUploadOption?.parserInfo} onClose={props.onClose} />
 					)}
 				</div>
 			</ErrorBoundary>
