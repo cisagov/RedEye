@@ -1,5 +1,5 @@
 import { Button, Callout, Collapse, InputGroup, Intent } from '@blueprintjs/core';
-import { ArrowRight16, Password16, Warning20 } from '@carbon/icons-react';
+import { ArrowRight16, CheckmarkOutline16, Password16, Warning20 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, UsernameInput } from '@redeye/client/components';
 import { useStore } from '@redeye/client/store';
@@ -9,147 +9,143 @@ import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FormEvent } from 'react';
 import { createState } from '../mobx-create-state';
+import { Flex, flexChild } from '@redeye/ui-styles';
 
-type LoginFormProps = ComponentProps<'form'> & {
-	submitText?: string;
-};
+type LoginFormProps = ComponentProps<'form'>;
 
 const isDevelop = import.meta.env.DEV;
 
-export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Login', ...props }) => {
+export const LoginForm = observer<LoginFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
 		username: isDevelop ? store.auth.userName || 'dev' : store.auth.userName || '',
 		password: '',
 		passwordFocus: false,
 		loading: false,
+		connected: false,
 		errorMessage: '',
-		*handleSubmit(event: FormEvent<HTMLFormElement>) {
+		*handleConnect(event: FormEvent<HTMLFormElement>) {
 			event.preventDefault();
+			console.log('submit');
+
 			this.loading = true;
-			if (store.appMeta.blueTeam) {
-				store.auth.setUser(this.username);
-				store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
-				if (onSubmit) onSubmit(event);
-			} else {
-				// Make login call
-				const formData = new FormData();
-				formData.append('password', this.password);
-				try {
-					const loginResponse: Response = yield fetch(`${store.auth.serverUrl}/api/login`, {
-						method: 'POST',
-						mode: 'cors',
-						cache: 'no-cache',
-						credentials: 'include',
-						body: formData,
-					});
-					// TODO: could set a state that makes the password and server inputs invalid?
-					this.loading = false;
-					if (loginResponse.status === 401) {
-						if (!this.password) this.errorMessage = 'Password Required';
-						else this.errorMessage = 'Incorrect password';
-					} else if (loginResponse.status === 400 || loginResponse.status > 401)
-						this.errorMessage = 'Error communicating with server';
-					else if (loginResponse.status !== 200) this.errorMessage = 'Error logging in';
-					else {
-						this.errorMessage = '';
-						if (this.username !== store.auth.userName) {
-							window.localStorage.removeItem('pendingComments');
-						}
-						store.auth.setUser(this.username);
-						store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
-						if (onSubmit) onSubmit(event);
-					}
-				} catch (e) {
-					this.loading = false;
+			// if (store.appMeta.blueTeam) {
+			// 	store.auth.setUser(this.username);
+			// 	store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
+			// 	if (onSubmit) onSubmit(event);
+			// } else {
+
+			const formData = new FormData();
+			formData.append('password', this.password);
+			try {
+				const loginResponse: Response = yield fetch(`${store.auth.serverUrl}/api/login`, {
+					method: 'POST',
+					mode: 'cors',
+					cache: 'no-cache',
+					credentials: 'include',
+					body: formData,
+				});
+				this.loading = false;
+				if (loginResponse.status === 401) {
+					if (!this.password) this.errorMessage = 'Password Required';
+					else this.errorMessage = 'Incorrect password';
+				} else if (loginResponse.status === 400 || loginResponse.status > 401) {
 					this.errorMessage = 'Error communicating with server';
+				} else if (loginResponse.status !== 200) {
+					this.errorMessage = 'Error logging in';
+				} else {
+					this.errorMessage = '';
+					this.connected = true;
 				}
+			} catch (e) {
+				this.loading = false;
+				this.errorMessage = 'Error communicating with server';
 			}
+		},
+		handleLogin() {
+			if (this.username !== store.auth.userName) {
+				window.localStorage.removeItem('pendingComments');
+			}
+			store.auth.setUser(this.username);
+			store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
 		},
 	});
 
-	const { data, refetch } = useQuery(
-		['users', state.password],
-		async () => await store.graphqlStore.queryGlobalOperators({ password: state.password }),
-		{
-			enabled: !!state.password && !state.passwordFocus,
-		}
-	);
-
-	console.log({ data });
-	// password input -> connect
-	// select username -> login
-
 	return (
-		<form cy-test="login-form" {...props} onSubmit={state.handleSubmit} autoComplete="on">
-			{!store.appMeta.blueTeam && (
-				<>
-					<InputGroup
-						value={state.password}
-						onChange={(e) => state.update('password', e.target.value)}
-						cy-test="password"
-						autoComplete="password"
-						type="password"
-						name="password"
-						placeholder="server password"
-						css={inputSpacingTightStyle}
-						onFocus={() => state.update('passwordFocus', true)}
-						onBlur={() => state.update('passwordFocus', false)}
-						leftIcon={<CarbonIcon icon={Password16} />}
-						large
+		<form cy-test="login-form" onSubmit={state.handleConnect} autoComplete="on" {...props}>
+			<Flex column gap={4}>
+				{!store.appMeta.blueTeam && (
+					<Flex gap={1}>
+						<InputGroup
+							value={state.password}
+							onChange={(e) => state.update('password', e.target.value)}
+							cy-test="password"
+							autoComplete="password"
+							type="password"
+							name="password"
+							placeholder="server password"
+							css={inputStyle}
+							leftIcon={<CarbonIcon icon={Password16} />}
+							large
+							disabled={state.connected}
+						/>
+						<Button
+							cy-test="connect-btn"
+							text={state.connected ? 'Connected' : 'Connect'}
+							css={buttonStyle}
+							loading={state.loading}
+							disabled={state.connected || state.password.length < 1}
+							type="submit" // {!state.connected ? 'submit' : undefined}
+							intent={!state.connected ? 'primary' : 'none'}
+							rightIcon={<CarbonIcon icon={state.connected ? CheckmarkOutline16 : ArrowRight16} />}
+							large
+							alignText="left"
+						/>
+					</Flex>
+				)}
+				<Flex gap={1}>
+					<UsernameInput
+						cy-test="username"
+						username={state.username}
+						password={state.password}
+						connected={state.connected}
+						// refetch={refetch}
+						// disableCreateUser={!data}
+						// users={data?.globalOperators}
+						onUsernameUpdated={(username) => state.update('username', username)}
+						css={inputStyle}
+						disabled={!state.connected}
 					/>
-				</>
-			)}
-			<UsernameInput
-				cy-test="username"
-				username={state.username}
-				password={state.password}
-				refetch={refetch}
-				disableCreateUser={!data}
-				users={data?.globalOperators}
-				updateUser={(userName) => state.update('username', userName)}
-				css={otherSpacingLooseStyle}
-			/>
-			<Collapse isOpen={!!state.errorMessage}>
-				<Callout
-					css={otherSpacingLooseStyle}
-					intent={Intent.DANGER}
-					icon={<CarbonIcon icon={Warning20} />}
-					children={state.errorMessage}
-				/>
-			</Collapse>
-			<Button
-				cy-test="login-btn"
-				text={submitText}
-				loading={state.loading}
-				intent="primary"
-				css={otherSpacingLooseStyle}
-				disabled={state.username.length < 1}
-				type="submit"
-				rightIcon={<CarbonIcon icon={ArrowRight16} />}
-				large
-			/>
+					<Button
+						cy-test="login-btn"
+						text="Login"
+						intent={state.connected ? 'primary' : 'none'}
+						css={buttonStyle}
+						// type={state.connected ? 'submit' : undefined}
+						disabled={!(state.username.length > 1 && state.connected)}
+						rightIcon={<CarbonIcon icon={ArrowRight16} />}
+						onClick={state.handleLogin}
+						large
+						alignText="left"
+					/>
+				</Flex>
+				{!!state.errorMessage && (
+					<Callout
+						css={inputStyle}
+						intent={Intent.DANGER}
+						icon={<CarbonIcon icon={Warning20} />}
+						children={state.errorMessage}
+					/>
+				)}
+			</Flex>
 		</form>
 	);
 });
 
-const inputSpacingTightStyle = css`
-	margin-bottom: 0.5rem;
+const buttonStyle = css`
+	flex: 0 0 auto;
+	width: 120px;
 `;
-const otherSpacingLooseStyle = css`
-	margin-bottom: 1rem;
+const inputStyle = css`
+	flex: 1 1 auto;
 `;
-// const removeAutofillStyle = css`
-/* // don't think this is a good idea
-box-shadow: rgba(255, 255, 255, 0.4) 0px -1px 0px 0px inset !important;
-background: rgba(255, 255, 255, 0.06);
-input:not(:-webkit-autofill) {
-  background: transparent !important;
-}
-input:-webkit-autofill {
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
-  -webkit-background-image: none !important;
-  -webkit-background-clip: text;
-}
-*/
-// `;

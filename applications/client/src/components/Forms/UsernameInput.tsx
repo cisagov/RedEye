@@ -7,7 +7,7 @@ import { CarbonIcon, createState, escapeRegExpChars } from '@redeye/client/compo
 import type { GlobalOperatorModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
 import { UtilityStyles, Txt, CoreTokens } from '@redeye/ui-styles';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
 
 type UsernameInputProps = Omit<
@@ -16,20 +16,40 @@ type UsernameInputProps = Omit<
 > & {
 	username: string;
 	password: string;
-	disableCreateUser: boolean;
-	refetch: () => any;
-	users?: GlobalOperatorModel[];
-	updateUser: (userName) => void;
+	connected: boolean;
+	// disableCreateUser: boolean;
+	// refetch: () => any;
+	// users?: GlobalOperatorModel[];
+	onUsernameUpdated: (username) => void;
 };
 
 export const UsernameInput = observer<UsernameInputProps>(
-	({ username, password, disableCreateUser, refetch, users = [], updateUser, ...props }) => {
+	({
+		username,
+		password,
+		connected = false,
+		// disableCreateUser,
+		// refetch,
+		// users = [],
+		onUsernameUpdated,
+		...props
+	}) => {
 		const store = useStore();
 
 		const state = createState({
 			active: null as null | GlobalOperatorModel,
 			query: username,
 		});
+
+		const { data, refetch } = useQuery(
+			['users', password],
+			async () => await store.graphqlStore.queryGlobalOperators({ password }),
+			{
+				enabled: connected,
+			}
+		);
+
+		const users = data?.globalOperators;
 
 		const { mutate: addUser } = useMutation(
 			async () =>
@@ -41,91 +61,92 @@ export const UsernameInput = observer<UsernameInputProps>(
 				onSuccess(op) {
 					if (op?.createGlobalOperator) {
 						refetch();
-						updateUser(state.query);
+						onUsernameUpdated(state.query);
 					}
 				},
 			}
 		);
 
 		return (
-			<ClassNames>
-				{({ css: classCss }) => (
-					// for the popoverProps.className
-					<Suggest
-						cy-test="username"
-						openOnKeyDown
-						query={state.query}
-						createNewItemFromQuery={(query) => ({ name: query, id: query } as any)}
-						selectedItem={
-							store.graphqlStore.globalOperators.get(state.query) ||
-							({ name: state.query, id: state.query } as GlobalOperatorModel)
-						}
-						itemPredicate={filterUsers}
-						activeItem={state.active || getCreateNewItem()}
-						onItemSelect={(item) => {
-							state.update('query', item?.name);
-							updateUser(item.name);
-						}}
-						onActiveItemChange={(active) => state.update('active', active)}
-						onQueryChange={(query) => state.update('query', query)}
-						items={users || []}
-						inputValueRenderer={(item) => item.name as string}
-						css={menuParentStyle}
-						fill
-						popoverProps={
-							{
-								minimal: true,
-								popoverClassName: classCss(menuParentStyle),
-							} as any
-						}
-						inputProps={{
-							// value: state.query, // not needed in bp5
-							onBlur: () => updateUser(state.query),
-							type: 'text',
-							name: 'username',
-							autoComplete: 'username',
-							placeholder: 'user',
-							leftIcon: <CarbonIcon icon={User16} />,
-							large: true,
-						}}
-						itemRenderer={(user, { handleClick, modifiers }) => {
-							if (!modifiers.matchesPredicate) return null;
-							return (
-								<MenuItem
-									text={highlightText(user.name as string, state.query)}
-									active={modifiers.active}
-									disabled={modifiers.disabled}
-									// label={user.campaign} // TODO: add campaign the user comes from
-									key={user.name}
-									onClick={handleClick}
-								/>
-							);
-						}}
-						createNewItemRenderer={(_, isActive: boolean) => (
-							<MenuItem
-								icon={<CarbonIcon icon={Add16} />}
-								text="New User"
-								disabled={disableCreateUser || store.graphqlStore.globalOperators.has(state.query)}
-								label={state.query}
-								active={isActive}
-								onClick={() => addUser()}
-								shouldDismissPopover={false}
-								css={newUserStyle}
-							/>
-						)}
-						{...props}
+			// <ClassNames>
+			// {({ css: classCss }) => (
+			// for the popoverProps.className
+			<Suggest
+				cy-test="username"
+				// openOnKeyDown
+				query={state.query}
+				createNewItemFromQuery={(query) => ({ name: query, id: query } as any)}
+				selectedItem={
+					store.graphqlStore.globalOperators.get(state.query) ||
+					({ name: state.query, id: state.query } as GlobalOperatorModel)
+				}
+				itemPredicate={filterUsers}
+				activeItem={state.active || getCreateNewItem()}
+				onItemSelect={(item) => {
+					state.update('query', item?.name);
+					onUsernameUpdated(item.name);
+				}}
+				onActiveItemChange={(active) => state.update('active', active)}
+				onQueryChange={(query) => state.update('query', query)}
+				items={users || []}
+				inputValueRenderer={(item) => item.name as string}
+				// css={menuParentStyle}
+				fill
+				popoverProps={
+					{
+						minimal: true,
+						matchTargetWidth: true,
+						// popoverClassName: classCss(menuParentStyle),
+					} // as any
+				}
+				inputProps={{
+					// value: state.query, // not needed in bp5
+					onBlur: () => onUsernameUpdated(state.query),
+					type: 'text',
+					name: 'username',
+					autoComplete: 'username',
+					placeholder: 'user',
+					leftIcon: <CarbonIcon icon={User16} />,
+					large: true,
+				}}
+				itemRenderer={(user, { handleClick, modifiers }) => {
+					if (!modifiers.matchesPredicate) return null;
+					return (
+						<MenuItem
+							text={highlightText(user.name as string, state.query)}
+							active={modifiers.active}
+							disabled={modifiers.disabled}
+							// label={user.campaign} // TODO: add campaign the user comes from
+							key={user.name}
+							onClick={handleClick}
+						/>
+					);
+				}}
+				createNewItemRenderer={(_, isActive: boolean) => (
+					<MenuItem
+						icon={<CarbonIcon icon={Add16} />}
+						text="New User"
+						// disabled={disableCreateUser || store.graphqlStore.globalOperators.has(state.query)}
+						label={state.query}
+						active={isActive}
+						onClick={() => addUser()}
+						shouldDismissPopover={false}
+						css={newUserStyle}
 					/>
 				)}
-			</ClassNames>
+				{...props}
+			/>
+			// )}
+			// </ClassNames>
 		);
 	}
 );
 
-const menuParentStyle = css`
-	.${Classes.MENU} {
-		min-width: 240px;
-	}
-`;
+// const menuParentStyle = css`
+// 	.${Classes.MENU} {
+// 		min-width: 240px;
+// 	}
+// `;
 
 const newUserStyle = css`
 	border-top: 1px solid ${CoreTokens.BorderMuted};

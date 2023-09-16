@@ -25,7 +25,7 @@ const wrapperStyle = css`
 `;
 const containerStyle = css`
 	margin: 2rem;
-	width: 18rem;
+	width: 400px;
 `;
 
 // eslint-disable-next-line import/no-default-export
