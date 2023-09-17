@@ -76,10 +76,6 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 		}
 	);
 
-	console.log({ data });
-	// password input -> connect
-	// select username -> login
-
 	return (
 		<form cy-test="login-form" {...props} onSubmit={state.handleSubmit} autoComplete="on">
 			{!store.appMeta.blueTeam && (
@@ -100,6 +96,7 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 					/>
 				</>
 			)}
+			{/* ALT APPROACH: provide "not connected to server" message */}
 			<UsernameInput
 				cy-test="username"
 				username={state.username}
@@ -139,17 +136,3 @@ const inputSpacingTightStyle = css`
 const otherSpacingLooseStyle = css`
 	margin-bottom: 1rem;
 `;
-// const removeAutofillStyle = css`
-/* // don't think this is a good idea
-box-shadow: rgba(255, 255, 255, 0.4) 0px -1px 0px 0px inset !important;
-background: rgba(255, 255, 255, 0.06);
-input:not(:-webkit-autofill) {
-  background: transparent !important;
-}
-input:-webkit-autofill {
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
-  -webkit-background-image: none !important;
-  -webkit-background-clip: text;
-}
-*/
-// `;
