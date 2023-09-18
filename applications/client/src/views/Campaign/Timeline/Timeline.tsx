@@ -172,7 +172,6 @@ export const Timeline = observer<TimelineProps>(({ ...props }) => {
 						label="All Time"
 						alignIndicator="right"
 						css={timeSwitchStyles}
-						disabled={store.router.params.view === CampaignViews.PRESENTATION}
 						checked={store.campaign.timeline.isShowingAllTime}
 						onChange={() =>
 							store.campaign.timeline.isShowingAllTime
