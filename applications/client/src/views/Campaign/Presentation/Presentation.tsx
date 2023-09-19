@@ -64,9 +64,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 					path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION_SELECTED}/*`}
 					element={
 						<>
-							<PresentationNavBar
-							// cy-test="presentation-header-bar" // was elsewhere?
-							/>
+							<PresentationNavBar />
 							<StyledScrollBox>
 								<PresentationItem
 									cy-test="presentation-item"
