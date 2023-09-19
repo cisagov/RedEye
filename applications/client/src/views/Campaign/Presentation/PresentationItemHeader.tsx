@@ -1,7 +1,7 @@
 import { dateTimeFormat, timeFormat } from '@redeye/client/components';
 import { createState } from '@redeye/client/components/mobx-create-state';
 import { useStore } from '@redeye/client/store';
-import { Flex, Txt } from '@redeye/ui-styles';
+import { Flex, Header, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -19,9 +19,14 @@ export const PresentationItemHeader = observer<PresentationItemHeaderProps>(({})
 		},
 	});
 
+	const beacons = store.campaign.presentation.currentSlide?.beacons;
+
 	return (
-		<Flex css={{ padding: '2px 1rem' }}>
-			<Txt monospace cy-test="slide-header">
+		<div css={{ padding: '2px 1rem' }}>
+			<Header withMargin>
+				{beacons && beacons.length === 1 ? beacons[0].computedNameWithHost : <Txt italic>Multiple Beacons</Txt>}
+			</Header>
+			<Txt block monospace cy-test="slide-header">
 				{store.campaign.presentation.currentSlide?.minDate ? state.min.format(`ddd ${dateTimeFormat}`) : 'Unknown'}
 				{store.campaign.presentation.currentSlide?.commandIds?.length! > 1 && (
 					<>
@@ -32,6 +37,6 @@ export const PresentationItemHeader = observer<PresentationItemHeaderProps>(({})
 					</>
 				)}
 			</Txt>
-		</Flex>
+		</div>
 	);
 });
