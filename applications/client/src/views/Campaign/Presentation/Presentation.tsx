@@ -83,7 +83,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 					element={
 						<>
 							<Header
-								// cy-test="presentation-header-bar" // was elsewhere?
+								cy-test="presentation-header-bar"
 								medium
 								css={css`
 									margin-bottom: 0;

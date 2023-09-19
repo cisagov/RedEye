@@ -29,7 +29,7 @@ export const PresentationNavBar = observer<HeaderProps>(({}) => {
 		<Flex align="center">
 			<Flex gap={4} align="baseline" overflowHidden fill css={[{ margin: '0 1rem' }, breadcrumbLinkStyle]}>
 				<Header small css={[flexChild.fill, UtilityStyles.textEllipsis, { display: 'inline' }]}>
-					<Breadcrumb cy-test="back-to-presentations" onClick={routeBackToMenu} text="Topics" intent="primary" />
+					<Breadcrumb onClick={routeBackToMenu} text="Topics" intent="primary" />
 					<Spacer>/</Spacer>
 					<Txt cy-test="presentation-name" ellipsize>
 						{store.graphqlStore.presentationItems.get(store.router.params.presentation)?.key}

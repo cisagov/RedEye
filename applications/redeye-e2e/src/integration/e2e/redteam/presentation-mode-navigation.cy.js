@@ -78,7 +78,7 @@ describe('Presentation Mode Navigation', () => {
 		cy.get('[cy-test=next-slide]').click();
 
 		// Verify you are taken back to Presentation list
-		cy.get('[cy-test=presentation-header-bar]').should('contain', 'Select a comment topic to present');
+		cy.get('[cy-test=presentation-header-bar]').should('contain', 'Present a Comment Topic');
 	});
 
 	it('Can navigate to a specific slide using dropdown', () => {
@@ -99,7 +99,7 @@ describe('Presentation Mode Navigation', () => {
 		cy.get('[cy-test=slide-selector]').invoke('text').should('equal', '3');
 	});
 
-	it('Can switch between presentations using the back arrow', () => {
+	it('Can switch between presentations using the breadcrumb menu', () => {
 		// Open campaign
 		cy.selectCampaign(camp);
 
@@ -112,8 +112,8 @@ describe('Presentation Mode Navigation', () => {
 		// Navigate through a few slides
 		cy.get('[cy-test=next-slide]').click().click().click();
 
-		// Click Back button to exit presentation
-		cy.get('[cy-test=back-to-presentations]').click();
+		// Click "Topics" in breadcrumb to exit presentation
+		cy.get('[cy-test=presentation-root]').contains('Topics').click();
 
 		// Open #PrivilegeEscalation presentation
 		cy.get('[cy-test=tag-PrivilegeEscalation]').click();
