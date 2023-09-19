@@ -72,7 +72,7 @@ const PresentationHeaderPart = ({ names, type, ...props }: TxtProps & { names?: 
 				content={
 					<ul css={{ margin: 0, padding: 0, listStyle: 'none' }}>
 						{names.map((name) => (
-							<li>{name}</li>
+							<li key={name}>{name}</li>
 						))}
 					</ul>
 				}
