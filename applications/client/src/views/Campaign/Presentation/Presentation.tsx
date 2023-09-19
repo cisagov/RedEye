@@ -78,7 +78,7 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 							margin: 0.75rem 1rem;
 						`}
 					>
-						Select a comment topic to present
+						Present a Comment Topic
 					</Header>
 				)}
 			</div>
