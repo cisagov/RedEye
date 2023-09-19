@@ -115,6 +115,8 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 							display: flex;
 							justify-content: space-between;
 							align-items: flex-end;
+							flex-wrap: wrap;
+							gap: 4px 12px;
 						`}
 					>
 						<PanelHeader cy-test="log-title" nodeIconProps={{ type: 'beacon' }}>
@@ -123,13 +125,14 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 								Raw Logs
 							</Txt>
 						</PanelHeader>
-						<ButtonGroup>
+						<ButtonGroup css={{ marginLeft: -8 }}>
 							{store.campaign.parsers.includes('cobalt-strike-parser') ? (
 								<Button
 									cy-test="view-log-file"
 									text="View Log File"
 									rightIcon={<CarbonIcon icon={Document16} />}
 									active={state.showLogFile}
+									intent={state.showLogFile ? 'primary' : 'none'}
 									onClick={() => state.update('showLogFile', !state.showLogFile)}
 									minimal
 								/>
@@ -186,9 +189,10 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 
 const logModelStyles = css`
 	max-width: unset;
+	width: calc(100% - 6rem);
 `;
 const preStyles = css`
-	padding: 0.5rem 1rem;
+	padding: 2px 1rem;
 	border-bottom: 1px solid ${CoreTokens.BorderMuted};
 	margin: 0;
 
