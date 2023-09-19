@@ -30,25 +30,16 @@ export class PresentationStore extends ExtendedModel(RedEyeModel, {}) {
 
 	@modelAction async changeIndex(index: number, presentation?: string) {
 		if (this.appStore?.router.params.presentation || presentation) {
-			const currentSlide = presentation
-				? this.appStore?.graphqlStore.presentationItems.get(presentation)?.commandGroups?.[index]?.current
-				: this.selectedItem?.commandGroups?.[index]?.current;
-			const beaconId = currentSlide?.beaconIds?.[(currentSlide?.beaconIds?.length || 1) - 1];
-			const beacon = beaconId && this.appStore?.graphqlStore.beacons.get(beaconId);
-			if (beacon) {
-				this.appStore?.router.updateRoute({
-					path: routes[CampaignViews.PRESENTATION],
-					params: {
-						presentation: presentation || this.selectedItem?.id,
-						slide: `${index + 1}`,
-						currentItem: 'beacon',
-						currentItemId: beacon.id as UUID,
-						activeItem: undefined,
-						activeItemId: undefined,
-					},
-				});
-				this.updateTimeline();
-			}
+			this.appStore?.router.updateRoute({
+				path: routes[CampaignViews.PRESENTATION],
+				params: {
+					presentation: presentation || this.selectedItem?.id,
+					slide: `${index + 1}`,
+					activeItem: undefined,
+					activeItemId: undefined,
+				},
+			});
+			this.updateTimeline();
 		}
 	}
 
@@ -73,6 +64,6 @@ export class PresentationStore extends ExtendedModel(RedEyeModel, {}) {
 			this.appStore?.campaign.timeline.setScrubberTimeAny(this.appStore?.campaign.timeline.endTime);
 		}
 		this.appStore?.campaign?.interactionState.onHoverOut({});
-		this.appStore?.campaign.interactionState.changeSelected();
+		this.appStore?.campaign.interactionState.changeSelected(); //
 	}
 }

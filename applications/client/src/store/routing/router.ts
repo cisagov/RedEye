@@ -26,7 +26,7 @@ export const RedEyeRoutes = {
 	CAMPAIGN: '/campaign/:id',
 	CAMPAIGN_EXPLORE: `${CampaignViews.EXPLORE}/:currentItem/:tab`,
 	CAMPAIGN_PRESENTATION: `${CampaignViews.PRESENTATION}`,
-	CAMPAIGN_PRESENTATION_SELECTED: ':presentation/:slide/:currentItem',
+	CAMPAIGN_PRESENTATION_SELECTED: ':presentation/:slide',
 	CAMPAIGN_SEARCH: `${CampaignViews.SEARCH}`,
 };
 
