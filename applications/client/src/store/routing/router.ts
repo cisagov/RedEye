@@ -37,7 +37,7 @@ export const routes = {
 	[Views.CAMPAIGN]: RedEyeRoutes.CAMPAIGN,
 	[Views.CAMPAIGNS_LIST]: RedEyeRoutes.CAMPAIGNS_LIST,
 	[CampaignViews.EXPLORE]: `${RedEyeRoutes.CAMPAIGN}/:view(${CampaignViews.EXPLORE})/${currentItemParams}/:tab(${tabs})?/${activeItemParams}`,
-	[CampaignViews.PRESENTATION]: `${RedEyeRoutes.CAMPAIGN}/:view(${CampaignViews.PRESENTATION})/:presentation?/:slide?/${currentItemParams}/${activeItemParams}`,
+	[CampaignViews.PRESENTATION]: `${RedEyeRoutes.CAMPAIGN}/:view(${CampaignViews.PRESENTATION})/:presentation?/:slide?/${activeItemParams}`,
 	[CampaignViews.SEARCH]: `${RedEyeRoutes.CAMPAIGN}/:view(${CampaignViews.SEARCH})`,
 };
 
