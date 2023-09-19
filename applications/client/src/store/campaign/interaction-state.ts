@@ -155,33 +155,39 @@ export class InteractionState extends ExtendedModel(() => ({
 
 	@modelAction changeSelected() {
 		if (this.appStore) {
-			const { server, host, operator, beacon, commandType } = this.currentItem?.items || {};
 			this.appStore.campaign.timeline?.selectedBeacons.clear();
 			this.appStore.campaign.timeline?.selectedChainedBeacons.clear();
-			if (beacon) {
-				this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(beacon)); //
-			} else if (host) {
-				const comp = this.currentHosts.get(host);
-				if (comp) {
-					for (const hostBeaconId of comp.beaconIds) {
-						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(hostBeaconId));
-					}
-				}
-			} else if (server) {
-				const comp = this.appStore.graphqlStore.servers.get(server);
-				if (comp) {
-					for (const serverBeacon of comp.beacons) {
-						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(serverBeacon.id));
-					}
-				}
-			}
 			const isPresentation = this.appStore?.router.params.view === CampaignViews.PRESENTATION;
 			if (isPresentation) {
-				// TODO: changeSelected => this.appStore.campaign.timeline?.setBeacon for multiple beacons too
-				const beaconIds = this.appStore?.campaign.presentation.currentSlide?.beacons.map((beacon) => beacon.id);
-				if (beaconIds) this.appStore?.campaign.graph?.graphData.selectNodes(beaconIds);
-				else this.appStore?.campaign.graph?.graphData.clearSelection();
+				const beacons = this.appStore.campaign.presentation.currentSlide?.beacons;
+				const beaconIds = beacons?.map((beacon) => beacon.id);
+				if (beaconIds) {
+					for (const beaconId of beaconIds) {
+						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(beaconId));
+					}
+					this.appStore.campaign.graph?.graphData.selectNodes(beaconIds);
+				} else {
+					this.appStore.campaign.graph?.graphData.clearSelection();
+				}
 			} else {
+				const { server, host, operator, beacon, commandType } = this.currentItem?.items || {};
+				if (beacon) {
+					this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(beacon));
+				} else if (host) {
+					const comp = this.currentHosts.get(host);
+					if (comp) {
+						for (const hostBeaconId of comp.beaconIds) {
+							this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(hostBeaconId));
+						}
+					}
+				} else if (server) {
+					const comp = this.appStore.graphqlStore.servers.get(server);
+					if (comp) {
+						for (const serverBeacon of comp.beacons) {
+							this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(serverBeacon.id));
+						}
+					}
+				}
 				this.setSelectedModels(beacon, host, server, operator, commandType);
 			}
 		}
