@@ -64,6 +64,6 @@ export class PresentationStore extends ExtendedModel(RedEyeModel, {}) {
 			this.appStore?.campaign.timeline.setScrubberTimeAny(this.appStore?.campaign.timeline.endTime);
 		}
 		this.appStore?.campaign?.interactionState.onHoverOut({});
-		this.appStore?.campaign.interactionState.changeSelected(); //
+		this.appStore?.campaign.interactionState.changeSelected();
 	}
 }
