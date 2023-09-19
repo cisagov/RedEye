@@ -7,7 +7,7 @@ import { createState } from '@redeye/client/components/mobx-create-state';
 import type { BeaconModel, CommandModel, LogEntryModel } from '@redeye/client/store';
 import { selectFromLogEntry, useStore } from '@redeye/client/store';
 import { copyText, NavBreadcrumbs, PanelHeader } from '@redeye/client/views';
-import { Txt, CoreTokens, UtilityStyles } from '@redeye/ui-styles';
+import { Txt, CoreTokens, UtilityStyles, Spacer } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { throttle } from 'throttle-debounce';
 import { observer } from 'mobx-react-lite';
@@ -120,9 +120,12 @@ export const RawLogsDialog = observer<RawLogsViewerProps>(({ ...props }) => {
 						`}
 					>
 						<PanelHeader cy-test="log-title" nodeIconProps={{ type: 'beacon' }}>
-							<Txt>{state.beacon?.computedNameWithHost}</Txt>{' '}
-							<Txt disabled normal>
-								Raw Logs
+							<Txt ellipsize>
+								<Txt>{state.beacon?.computedNameWithHost}</Txt>
+								<Spacer>·</Spacer>
+								<Txt disabled normal>
+									Raw Logs
+								</Txt>
 							</Txt>
 						</PanelHeader>
 						<ButtonGroup css={{ marginLeft: -8 }}>
