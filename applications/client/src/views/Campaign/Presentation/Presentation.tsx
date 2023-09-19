@@ -6,7 +6,7 @@ import {
 	RedEyeRoutes,
 	useStore,
 } from '@redeye/client/store';
-import { PresentationItem, PresentationNavBar, PresentationTopicItem, SlideSelector } from '@redeye/client/views';
+import { PresentationItem, PresentationNavBar, PresentationTopicItem } from '@redeye/client/views';
 import { Header, CoreTokens } from '@redeye/ui-styles';
 import { useQuery } from '@tanstack/react-query';
 import { observer } from 'mobx-react-lite';
@@ -54,72 +54,70 @@ const Presentation = observer<PresentationProps>(({ ...props }) => {
 			cy-test="presentation-root"
 			{...props}
 			css={css`
-				/* width: 100%; */
 				display: flex;
 				flex-direction: column;
 				overflow: hidden;
-				/* background-color: var(--dark-gray2); */
 			`}
 		>
-			<div
-				cy-test="presentation-header-bar"
-				css={css`
-					flex: 0 0 auto;
-					border-bottom: 1px solid ${CoreTokens.BorderNormal};
-				`}
-			>
-				{store.campaign.presentation.isPresenting ? (
-					<PresentationNavBar />
-				) : (
-					<Header
-						medium
-						css={css`
-							margin-bottom: 0;
-							margin: 0.75rem 1rem;
-						`}
-					>
-						Present a Comment Topic
-					</Header>
-				)}
-			</div>
-			<ScrollBox css={{ backgroundColor: CoreTokens.Background2 }}>
-				<ScrollChild css={{ padding: '1rem 0 4rem 0' }}>
-					<Routes>
-						<Route
-							path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION_SELECTED}/*`}
-							element={
-								<>
-									<SlideSelector />
-									<PresentationItem
-										cy-test="presentation-item"
-										commandGroupId={
-											store.campaign.presentation.selectedItem?.commandGroups?.[store.campaign.presentation.index]?.id
-										}
-									/>
-								</>
-							}
-						/>
-						<Route
-							path="*"
-							element={
-								<>
-									{data?.presentationItems
-										?.filter(
-											(presentationItem) =>
-												presentationItem.id !== 'procedural' && presentationItem.id.slice(0, 5) !== 'user-'
-										)
-										.map((presentationItem) => (
-											<PresentationTopicItem key={presentationItem.id} presentationItem={presentationItem} />
-										))}
-								</>
-							}
-						/>
-					</Routes>
-				</ScrollChild>
-			</ScrollBox>
+			<Routes>
+				<Route
+					path={`${RedEyeRoutes.CAMPAIGN_PRESENTATION_SELECTED}/*`}
+					element={
+						<>
+							<PresentationNavBar
+							// cy-test="presentation-header-bar" // was elsewhere?
+							/>
+							<StyledScrollBox>
+								<PresentationItem
+									cy-test="presentation-item"
+									commandGroupId={
+										store.campaign.presentation.selectedItem?.commandGroups?.[store.campaign.presentation.index]?.id
+									}
+								/>
+							</StyledScrollBox>
+						</>
+					}
+				/>
+				<Route
+					path="*"
+					element={
+						<>
+							<Header
+								// cy-test="presentation-header-bar" // was elsewhere?
+								medium
+								css={css`
+									margin-bottom: 0;
+									margin: 0.75rem 1rem;
+								`}
+							>
+								Present a Comment Topic
+							</Header>
+							<StyledScrollBox>
+								{data?.presentationItems
+									?.filter(
+										(presentationItem) =>
+											presentationItem.id !== 'procedural' && presentationItem.id.slice(0, 5) !== 'user-'
+									)
+									.map((presentationItem) => (
+										<PresentationTopicItem key={presentationItem.id} presentationItem={presentationItem} />
+									))}
+							</StyledScrollBox>
+						</>
+					}
+				/>
+			</Routes>
 		</div>
 	);
 });
 
 // eslint-disable-next-line import/no-default-export
 export default Presentation;
+
+const StyledScrollBox = ({ children, ...props }: ComponentProps<'div'>) => (
+	<ScrollBox
+		css={{ backgroundColor: CoreTokens.Background2, borderTop: `1px solid ${CoreTokens.BorderNormal}` }}
+		{...props}
+	>
+		<ScrollChild css={{ padding: '1rem 0 4rem 0' }}>{children}</ScrollChild>
+	</ScrollBox>
+);
