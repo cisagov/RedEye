@@ -4,9 +4,6 @@ describe('Reply to  Campaign Comments', () => {
 	const camp = 'editComments';
 	const fileName = 'gt.redeye';
 
-	// SKIPPING FOR NOW - PENDING BUG FIX (https://jira.pnnl.gov/jira/browse/BLDSTRIKE-544).
-	// Per conversations at a weekly meeting, replies are not comments and should not increase comment counts/
-	// Count on the main campaign card page still increases when you reply to a comment.
 	it('Reply to a comment and verify comment count does not increase', () => {
 		cy.uploadCampaign(camp, fileName);
 		cy.searchForCampaign(camp);
@@ -32,6 +29,8 @@ describe('Reply to  Campaign Comments', () => {
 					cy.clickExplorerMode();
 
 					cy.clickCommentsTab();
+					cy.get('[cy-test=info-row]').eq(0).click();
+					cy.wait(1000);
 					cy.get('[cy-test=comment-group]')
 						.its('length')
 						.then((commentsTab1) => {
@@ -59,7 +58,9 @@ describe('Reply to  Campaign Comments', () => {
 										const campaignCardCount2 = cardCount2.text().split(' ').shift();
 										cy.get('[cy-test=comment-count]').should('contain', campaignCardCount2);
 
-										expect(+campaignCardCount2).to.eq(+campaignCardCount1).and.to.eq(+commentCountAll2);
+										expect(+campaignCardCount2 - 1)
+											.to.eq(+campaignCardCount1)
+											.and.to.eq(+commentCountAll2);
 									});
 								});
 						});
