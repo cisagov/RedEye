@@ -31,7 +31,7 @@ tasks:
   open-cy:
     command: 'noop'
     deps:
-      - 'client:start-dev'
+      - 'client:start-vite'
       - 'server:start-dev'
       - 'redeye-e2e:start'
     local: true

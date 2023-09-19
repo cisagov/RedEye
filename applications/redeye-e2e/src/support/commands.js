@@ -1,3 +1,4 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 /* eslint-disable cypress/no-unnecessary-waiting */
 /// <reference types="cypress" />
 import 'cypress-real-events';
@@ -21,7 +22,6 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 	cy.session(
 		user,
 		() => {
-			window.localStorage.setItem('user', 'cypress');
 			cy.request({
 				url: 'http://localhost:4000/api/login',
 				method: 'POST',
@@ -29,6 +29,8 @@ Cypress.Commands.add('loginAPI', (user = 'cypress') => {
 					'content-type': 'multipart/form-data',
 				},
 				body: formData,
+			}).then(() => {
+				window.localStorage.setItem('user', 'cypress');
 			});
 		},
 		{

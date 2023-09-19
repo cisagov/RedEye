@@ -48,14 +48,16 @@ describe('Hide a Beacon using GraphQL', () => {
 		cy.clickBeaconsTab();
 		const beacs = [];
 		cy.get('[cy-test=beacons-row]')
-			.each(($li) => beacs.push($li.text()))
+			.each(($li) =>
+				beacs.push(`${$li.find('[cy-test=beacon-time]').text()}${$li.find('[cy-test=beacon-display-name]').text()}`)
+			)
 			.then(() => {
 				// cy.log(beacs.join(', '));
 				cy.wrap(beacs).should('deep.equal', [
-					'08/17—08/17330588776 · jdoejdoe9',
-					'08/17—08/172146137244 · jdoe *jdoe *9',
-					'08/17—08/17500978634 · SYSTEM *SYSTEM *8',
-					'08/17—08/171042756528 · user01user0114',
+					'08/17—08/17330588776 · jdoe',
+					'08/17—08/172146137244 · jdoe *',
+					'08/17—08/17500978634 · SYSTEM *',
+					'08/17—08/171042756528 · user01',
 				]);
 			});
 	});

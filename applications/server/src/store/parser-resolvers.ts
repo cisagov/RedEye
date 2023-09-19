@@ -6,6 +6,7 @@ import type { GraphQLContext } from '../types';
 export class ParserResolvers {
 	@Query(() => [ParserInfo])
 	async parserInfo(@Ctx() ctx: GraphQLContext): Promise<ParserInfo[]> {
+		console.log('Get parser info', ctx.parserInfo);
 		return Object.values(ctx.parserInfo).map((info) => new ParserInfo(info));
 	}
 }
