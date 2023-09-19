@@ -206,8 +206,8 @@ export class InteractionState extends ExtendedModel(() => ({
 		else this.selectedCommandType = undefined;
 
 		if (beaconId || hostId || serverId) {
-			this.appStore?.campaign.graph?.graphData.selectNode(
-				(beaconId || hostId || this.selectedServer?.maybeCurrent?.serverHost?.id)!,
+			this.appStore?.campaign.graph?.graphData.selectNodes(
+				[(beaconId || hostId || this.selectedServer?.maybeCurrent?.serverHost?.id)!],
 				false
 			);
 		} else {
