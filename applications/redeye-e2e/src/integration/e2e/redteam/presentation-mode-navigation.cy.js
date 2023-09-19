@@ -78,7 +78,7 @@ describe('Presentation Mode Navigation', () => {
 		cy.get('[cy-test=next-slide]').click();
 
 		// Verify you are taken back to Presentation list
-		cy.get('[cy-test=presentation-header-bar]').should('contain', 'Select a comment topic to present');
+		cy.get('[cy-test=presentation-header-bar]').should('contain', 'Present a Comment Topic');
 	});
 
 	it('Can navigate to a specific slide using dropdown', () => {
