@@ -221,7 +221,7 @@ export class SearchStore extends ExtendedModel(() => ({
 		} else if (item instanceof HostModel) {
 			return [item.computedName, item.hostName];
 		} else if (item instanceof BeaconModel) {
-			return [item.computedName, item.computedBeaconName];
+			return [item.computedName];
 		} else if (item instanceof TagModel) {
 			return [item.text];
 		} else if (item instanceof AnnotationModel) {

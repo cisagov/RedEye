@@ -29,6 +29,11 @@ export const findUserNameFromMetaLine = (line: string) => {
 	return findFirstCaptureGroup(regex, line);
 };
 
+export const findProcessFromMetaLine = (line: string) => {
+	const regex = new RegExp(/process:[\s]*([^;]+);/, 'g');
+	return findFirstCaptureGroup(regex, line);
+};
+
 const emptyCommand = '(empty)';
 export const findCommandText = (string: string): string => {
 	if (string) {

@@ -131,8 +131,8 @@ export const BeaconRow = observer<BeaconRowProps>(({ beacon, ...props }) => {
 					shape={beacon.meta?.[0]?.current?.shape || undefined}
 					color={beacon.meta?.[0]?.current?.color || undefined}
 				/>
-				<Txt cy-test="beacon-display-name" normal>
-					{beacon?.computedName || `${beacon.server?.computedName}`}
+				<Txt cy-test="beacon-display-name" normal ellipsize>
+					{beacon?.computedNameWithHost || `${beacon.server?.computedName}`}
 				</Txt>
 			</RowTitle>
 			<FlexSplitter />

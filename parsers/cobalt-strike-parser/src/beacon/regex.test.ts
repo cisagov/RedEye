@@ -5,17 +5,18 @@ import {
 	findUserNameFromMetaLine,
 	findMetadataOrigin,
 	findHostIpFromPath,
+	findProcessFromMetaLine,
 } from './regex';
 
 describe('Metadata lines tests', () => {
 	const unknownFromIpCase =
-		'04/04 17:49:16 [metadata] unknown <- 192.168.202.134; computer: ADAM-PC; user: SYSTEM *; pid: 1012; os: Windows; version: 6.1; beacon arch: x64 (x64)';
+		'04/04 17:49:16 [metadata] unknown <- 192.168.202.134; computer: ADAM-PC; user: SYSTEM *; process: iexplore.exe; pid: 1012; os: Windows; version: 6.1; beacon arch: x64 (x64)';
 
 	const beaconToIpCase =
-		'02/09 22:06:21 [metadata] beacon_91510 -> 192.168.202.144; computer: CLIENT-7-1; user: SYSTEM *; pid: 916; os: Windows; version: 6.1; beacon arch: x86 (x64)';
+		'02/09 22:06:21 [metadata] beacon_91510 -> 192.168.202.144; computer: CLIENT-7-1; user: SYSTEM *; process: RuntimeBroker.exe; pid: 916; os: Windows; version: 6.1; beacon arch: x86 (x64)';
 
 	const ipToIPCase =
-		'04/04 14:17:22 [metadata] 54.333.127.54 <- 206.333.62.109; computer: USD-672; user: jrout; pid: 4264; os: Windows; version: 6.1; beacon arch: x64 (x64)';
+		'04/04 14:17:22 [metadata] 54.333.127.54 <- 206.333.62.109; computer: USD-672; user: jrout; process: rundll32.exe; pid: 4264; os: Windows; version: 6.1; beacon arch: x64 (x64)';
 
 	test('findOsFromMetaLine', () => {
 		expect(findOsFromMetaLine(unknownFromIpCase)).toBe('Windows');
@@ -30,6 +31,11 @@ describe('Metadata lines tests', () => {
 	test('findUserNameFromMetaLine', () => {
 		expect(findUserNameFromMetaLine(unknownFromIpCase)).toBe('SYSTEM *');
 		expect(findUserNameFromMetaLine(beaconToIpCase)).toBe('SYSTEM *');
+	});
+
+	test('findProcessFromMetaLine', () => {
+		expect(findProcessFromMetaLine(unknownFromIpCase)).toBe('iexplore.exe');
+		expect(findProcessFromMetaLine(beaconToIpCase)).toBe('RuntimeBroker.exe');
 	});
 
 	test('findMetadataOrigin', () => {
