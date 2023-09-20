@@ -99,6 +99,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	drawUpdateNodeVisual() {
+		this.labelSelection?.each(updateClassName);
 		this.nodeSelection.each(updateClassName);
 		this.nodeSelection.selectChildren().remove();
 		this.nodeSelection
@@ -127,7 +128,7 @@ export class SubGraphRenderer extends HierarchicalGraphRenderer {
 	}
 
 	drawInteraction() {
-		this.labelSelection?.style('display', (d) => (isInteractionRelated(d) ? '' : 'none'));
+		this.labelSelection?.classed(classNames.hiddenLabel, (d) => !isInteractionRelated(d));
 
 		if (isInteractionFocus(this.parentNode!)) {
 			this.showLayout();
