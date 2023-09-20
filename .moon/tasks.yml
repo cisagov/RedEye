@@ -173,7 +173,7 @@ tasks:
       runDepsInParallel: false
       runInCI: false
   build-client-library:
-    command: 'tsup-node ./src/index.ts --minify --format esm'
+    command: 'tsc --project tsconfig.json --module esnext --sourceMap --outDir @out(0)'
     inputs:
       - '@globs(sources)'
       - '@globs(assets)'
@@ -189,7 +189,7 @@ tasks:
       runDepsInParallel: false
       runInCI: false
   watch-library:
-    command: 'tsup-node ./src/index.ts --watch --clean --minify --format esm'
+    command: 'tsc-watch --project tsconfig.json --module esnext --sourceMap --outDir @out(0)'
     inputs:
       - '@globs(sources)'
       - '@globs(assets)'
@@ -238,7 +238,7 @@ tasks:
   start-node:
     env:
       NODE_ENV: development
-    command: 'tsup-node src --clean --splitting --sourcemap --watch --onSuccess "yarn node --enable-source-maps dist" --ignore-watch "src/**/*.test.ts"'
+    command: 'tsc-watch --project tsconfig.json --module commonjs --sourceMap --outDir dist --onSuccess "yarn node --enable-source-maps dist"'
     inputs:
       - '@globs(sources)'
       - '@globs(tests)'

@@ -1,0 +1,50 @@
+dependsOn:
+  - 'models'
+  - 'parser-core'
+tasks:
+  build:
+    deps:
+      - ~:build-node
+  start-dev:
+    local: true
+    deps:
+      - ^:build
+      - ~:start-node
+    options:
+      runInCI: false
+      runDepsInParallel: false
+  generate-entities:
+    command: 'yarn node --loader ts-node/esm src/generate-entities.ts'
+    deps:
+      - ~:build
+  test:
+    deps:
+      - ~:test-jest
+  release-mac:
+    deps:
+      - ~:build
+    outputs:
+      - /release/mac/parsers/sliver-parser
+    options:
+      runInCI: false
+  release-linux:
+    deps:
+      - ~:build
+    outputs:
+      - /release/linux/parsers/sliver-parser
+    options:
+      runInCI: false
+  release-windows:
+    deps:
+      - ~:build
+    outputs:
+      - /release/windows/parsers/sliver-parser
+    options:
+      runInCI: false
+  release-all:
+    deps:
+      - ~:release-mac
+      - ~:release-linux
+      - ~:release-windows
+    options:
+      runInCI: false
