@@ -2933,12 +2933,13 @@ __metadata:
     "@redeye/migrations": "workspace:*"
     "@redeye/models": "workspace:*"
     "@redeye/parser-core": "workspace:*"
+    "@redeye/sliver-parser": "workspace:*"
   bin:
     server: ./dist/index.js
   languageName: unknown
   linkType: soft
 
-"@redeye/sliver-parser@workspace:parsers/sliver-parser":
+"@redeye/sliver-parser@workspace:*, @redeye/sliver-parser@workspace:parsers/sliver-parser":
   version: 0.0.0-use.local
   resolution: "@redeye/sliver-parser@workspace:parsers/sliver-parser"
   dependencies:

@@ -3,6 +3,7 @@ dependsOn:
   - 'migrations'
   - 'cobalt-strike-parser'
   - 'brute-ratel-parser'
+  - 'sliver-parser'
   - 'parser-core'
 tasks:
   build:

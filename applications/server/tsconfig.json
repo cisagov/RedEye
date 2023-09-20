@@ -31,7 +31,9 @@
 			"@redeye/models": ["../../packages/models/src/index.ts"],
 			"@redeye/models/*": ["../../packages/models/src/*"],
 			"@redeye/parser-core": ["../../parsers/parser-core/src/index.ts"],
-			"@redeye/parser-core/*": ["../../parsers/parser-core/src/*"]
+			"@redeye/parser-core/*": ["../../parsers/parser-core/src/*"],
+			"@redeye/sliver-parser": ["../../parsers/sliver-parser/src/index.ts"],
+			"@redeye/sliver-parser/*": ["../../parsers/sliver-parser/src/*"]
 		}
 	},
 	"references": [
@@ -49,6 +51,9 @@
 		},
 		{
 			"path": "../../parsers/parser-core"
+		},
+		{
+			"path": "../../parsers/sliver-parser"
 		}
 	]
 }
