@@ -1,8 +1,8 @@
 import { Classes, MenuItem } from '@blueprintjs/core';
 import type { ItemPredicate, SuggestProps } from '@blueprintjs/select';
 import { Suggest, getCreateNewItem } from '@blueprintjs/select';
-import { Add16, User16 } from '@carbon/icons-react';
-import { ClassNames, css } from '@emotion/react';
+import { User16, UserFollow16 } from '@carbon/icons-react';
+import { css } from '@emotion/react';
 import { CarbonIcon, createState, escapeRegExpChars } from '@redeye/client/components';
 import type { GlobalOperatorModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -16,14 +16,14 @@ type UsernameInputProps = Omit<
 > & {
 	username: string;
 	password: string;
-	disableCreateUser: boolean;
+	softDisable: boolean;
 	refetch: () => any;
 	users?: GlobalOperatorModel[];
 	updateUser: (userName) => void;
 };
 
 export const UsernameInput = observer<UsernameInputProps>(
-	({ username, password, disableCreateUser, refetch, users = [], updateUser, ...props }) => {
+	({ username, password, softDisable, refetch, users = [], updateUser, ...props }) => {
 		const store = useStore();
 
 		const state = createState({
@@ -73,7 +73,6 @@ export const UsernameInput = observer<UsernameInputProps>(
 					matchTargetWidth: true,
 				}}
 				inputProps={{
-					// value: state.query, // not needed in bp5
 					onBlur: () => updateUser(state.query),
 					type: 'text',
 					name: 'username',
@@ -95,18 +94,30 @@ export const UsernameInput = observer<UsernameInputProps>(
 						/>
 					);
 				}}
-				createNewItemRenderer={(_, isActive: boolean) => (
-					<MenuItem
-						icon={<CarbonIcon icon={Add16} />}
-						text="New User"
-						disabled={disableCreateUser || store.graphqlStore.globalOperators.has(state.query)}
-						label={state.query}
-						active={isActive}
-						onClick={() => addUser()}
-						shouldDismissPopover={false}
-						css={newUserStyle}
-					/>
-				)}
+				createNewItemRenderer={(_, isActive: boolean) =>
+					softDisable ? (
+						<div>
+							<Txt small bold block css={password && { color: CoreTokens.TextIntentDanger }}>
+								{password ? 'Invalid Password' : 'No Password'}
+							</Txt>
+							<Txt small italic muted block>
+								Enter a valid password to see user options
+							</Txt>
+						</div>
+					) : (
+						<MenuItem
+							icon={<CarbonIcon icon={UserFollow16} />}
+							text={state.query}
+							disabled={store.graphqlStore.globalOperators.has(state.query)}
+							label="Add new user"
+							active={isActive}
+							onClick={() => addUser()}
+							shouldDismissPopover={false}
+							intent="primary"
+							css={newUserStyle}
+						/>
+					)
+				}
 				{...props}
 			/>
 		);

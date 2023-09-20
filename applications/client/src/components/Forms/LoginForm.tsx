@@ -96,13 +96,13 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 					/>
 				</>
 			)}
-			{/* ALT APPROACH: provide "not connected to server" message */}
+
 			<UsernameInput
 				cy-test="username"
 				username={state.username}
 				password={state.password}
 				refetch={refetch}
-				disableCreateUser={!data}
+				softDisable={!data}
 				users={data?.globalOperators}
 				updateUser={(userName) => state.update('username', userName)}
 				css={otherSpacingLooseStyle}
