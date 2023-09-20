@@ -19,11 +19,11 @@ type UsernameInputProps = Omit<
 	softDisable: boolean;
 	refetch: () => any;
 	users?: GlobalOperatorModel[];
-	updateUser: (userName) => void;
+	onUsernameUpdate: (username) => void;
 };
 
 export const UsernameInput = observer<UsernameInputProps>(
-	({ username, password, softDisable, refetch, users = [], updateUser, ...props }) => {
+	({ username, password, softDisable, refetch, users = [], onUsernameUpdate, ...props }) => {
 		const store = useStore();
 
 		const state = createState({
@@ -41,7 +41,7 @@ export const UsernameInput = observer<UsernameInputProps>(
 				onSuccess(op) {
 					if (op?.createGlobalOperator) {
 						refetch();
-						updateUser(state.query);
+						onUsernameUpdate(state.query);
 					}
 				},
 			}
@@ -60,10 +60,17 @@ export const UsernameInput = observer<UsernameInputProps>(
 				activeItem={state.activeItem || getCreateNewItem()}
 				onItemSelect={(item) => {
 					state.update('query', item?.name);
-					updateUser(item.name);
+					onUsernameUpdate(item.name);
 				}}
-				onActiveItemChange={(activeItem) => state.update('activeItem', activeItem)}
-				onQueryChange={(query) => state.update('query', query)}
+				onActiveItemChange={(activeItem) => {
+					state.update('activeItem', activeItem);
+					// if there is a plausible matching username, use it.
+					// otherwise, used the typed text
+					onUsernameUpdate(activeItem ? activeItem.name : state.query);
+				}}
+				onQueryChange={(query) => {
+					state.update('query', query);
+				}}
 				items={users || []}
 				inputValueRenderer={(item) => item.name as string}
 				css={menuParentStyle}
@@ -73,7 +80,6 @@ export const UsernameInput = observer<UsernameInputProps>(
 					matchTargetWidth: true,
 				}}
 				inputProps={{
-					onBlur: () => updateUser(state.query),
 					type: 'text',
 					name: 'username',
 					autoComplete: 'username',
@@ -96,9 +102,9 @@ export const UsernameInput = observer<UsernameInputProps>(
 				}}
 				createNewItemRenderer={(_, isActive: boolean) =>
 					softDisable ? (
-						<div>
+						<div css={{ padding: '4px 12px' }}>
 							<Txt small bold block css={password && { color: CoreTokens.TextIntentDanger }}>
-								{password ? 'Invalid Password' : 'No Password'}
+								{password ? 'Invalid Server Password' : 'No Server Password'}
 							</Txt>
 							<Txt small italic muted block>
 								Enter a valid password to see user options

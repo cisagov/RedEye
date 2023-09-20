@@ -1,4 +1,4 @@
-import { Button, Callout, Collapse, InputGroup, Intent } from '@blueprintjs/core';
+import { Button, Callout, InputGroup, Intent } from '@blueprintjs/core';
 import { ArrowRight16, Password16, Warning20 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, UsernameInput } from '@redeye/client/components';
@@ -96,7 +96,6 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 					/>
 				</>
 			)}
-
 			<UsernameInput
 				cy-test="username"
 				username={state.username}
@@ -104,24 +103,24 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 				refetch={refetch}
 				softDisable={!data}
 				users={data?.globalOperators}
-				updateUser={(userName) => state.update('username', userName)}
+				onUsernameUpdate={(username) => state.update('username', username)}
 				css={otherSpacingLooseStyle}
 			/>
-			<Collapse isOpen={!!state.errorMessage}>
+			{!!state.errorMessage && (
 				<Callout
 					css={otherSpacingLooseStyle}
 					intent={Intent.DANGER}
 					icon={<CarbonIcon icon={Warning20} />}
 					children={state.errorMessage}
 				/>
-			</Collapse>
+			)}
 			<Button
 				cy-test="login-btn"
 				text={submitText}
 				loading={state.loading}
 				intent="primary"
 				css={otherSpacingLooseStyle}
-				disabled={state.username.length < 1}
+				disabled={state.username.length < 1 || state.password.length < 1}
 				type="submit"
 				rightIcon={<CarbonIcon icon={ArrowRight16} />}
 				large
