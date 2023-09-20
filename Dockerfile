@@ -1,21 +1,12 @@
 FROM node:18-bullseye as redeye-builder
 
 WORKDIR /app
-COPY ./ ./
 ENV CYPRESS_INSTALL_BINARY=0
-RUN npm install -g pkg
-RUN yarn install --immutable --inline-builds
-RUN curl -fsSL https://moonrepo.dev/install/moon.sh | bash
-RUN moon run server:build client:build cobalt-strike-parser:build
-RUN pkg applications/server/package.json -t node18-mac-x64 -o release/mac/RedEye
-RUN pkg applications/server/package.json -t node18-linux-x64 -o release/linux/RedEye
-RUN pkg applications/server/package.json -t node18-windows-x64 -o release/windows/RedEye
-RUN pkg parsers/cobalt-strike-parser/package.json -t node18-mac-x64 -o release/mac/parsers/cobalt-strike-parser
-RUN pkg parsers/cobalt-strike-parser/package.json -t node18-linux-x64 -o release/linux/parsers/cobalt-strike-parser
-RUN pkg parsers/cobalt-strike-parser/package.json -t node18-windows-x64 -o release/windows/parsers/cobalt-strike-parser
-RUN pkg parsers/brute-ratel-parser/package.json -t node18-mac-x64 -o release/mac/parsers/brute-ratel-parser
-RUN pkg parsers/brute-ratel-parser/package.json -t node18-linux-x64 -o release/linux/parsers/brute-ratel-parser
-RUN pkg parsers/brute-ratel-parser/package.json -t node18-windows-x64 -o release/windows/parsers/brute-ratel-parser
+RUN npm install -g pkg @moonrepo/cli
+COPY ./.moon/docker/workspace .
+RUN moon docker setup
+RUN moon run server:build client:build cobalt-strike-parser:build brute-ratel-parser:build
+RUN yarn node scripts/create-release.mjs
 RUN tar -zcvf release.tar.gz ./release/
 RUN mkdir outputs
 RUN cp release.tar.gz outputs/release.tar.gz

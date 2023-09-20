@@ -63,7 +63,7 @@ const castConfig = (cliArgs: cliArgs): ConfigDefinition => {
 	}
 
 	// Check the parsers folder for available parsers
-	if (overrides.parsers === true) {
+	if (overrides.parsers === true || (overrides.redTeam && overrides.parsers === undefined)) {
 		try {
 			const parserFile = fs.readdirSync(path.join(getRuntimeDir(), 'parsers'), { withFileTypes: true });
 			overrides.parsers = parserFile.filter((file) => file.isFile()).map((file) => file.name);
