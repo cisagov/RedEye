@@ -10,13 +10,11 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FormEvent } from 'react';
 import { createState } from '../mobx-create-state';
 
-type LoginFormProps = ComponentProps<'form'> & {
-	submitText?: string;
-};
+type LoginFormProps = ComponentProps<'form'>;
 
 const isDevelop = import.meta.env.DEV;
 
-export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Login', ...props }) => {
+export const LoginForm = observer<LoginFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
 		username: isDevelop ? store.auth.userName || 'dev' : store.auth.userName || '',
@@ -30,7 +28,6 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 			if (store.appMeta.blueTeam) {
 				store.auth.setUser(this.username);
 				store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
-				if (onSubmit) onSubmit(event);
 			} else {
 				// Make login call
 				const formData = new FormData();
@@ -58,7 +55,6 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 						}
 						store.auth.setUser(this.username);
 						store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
-						if (onSubmit) onSubmit(event);
 					}
 				} catch (e) {
 					this.loading = false;
@@ -116,7 +112,7 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 			)}
 			<Button
 				cy-test="login-btn"
-				text={submitText}
+				text="Login"
 				loading={state.loading}
 				intent="primary"
 				css={otherSpacingLooseStyle}
