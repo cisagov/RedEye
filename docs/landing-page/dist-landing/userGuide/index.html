@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/favicon.svg"
+		/>
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content="Astro v2.8.1" />
+		<title>RedEye</title>
+		<link rel="stylesheet" href="/RedEye/assets/style.css" />
+		<script type="module">
+			document.querySelector('.menu').addEventListener('click', () => {
+				document.querySelector('.nav-links').classList.toggle('expanded');
+			});
+		</script>
+	</head>
+	<body>
+		<header class="astro-3EF6KSR2">
+			<div class="nav-wrapper astro-3EF6KSR2">
+				<nav class="astro-3EF6KSR2">
+					<div class="menu">
+						<span class="line"></span>
+						<span class="line"></span>
+						<span class="line"></span>
+					</div>
+					<div class="nav-links astro-PUX6A34N">
+						<a class="currentTab" href="/RedEye/">Home</a>
+						<a class="currentTab" href="/RedEye/userGuide/">UserGuide</a>
+						<a href="https://github.com/cisagov/RedEye" class="astro-PUX6A34N">Github</a>
+						<a href="https://www.youtube.com/watch?v=b_ARIVl4BkQ" class="astro-PUX6A34N">Intro</a>
+					</div>
+				</nav>
+				<div class="download button astro-3EF6KSR2">
+					<a href="https://github.com/cisagov/RedEye/releases" class="astro-3EF6KSR2">Download</a>
+				</div>
+			</div>
+		</header>
+		<div class="container">
+			<div>
+				<p align="center" width="100%">
+					<source
+						media="(prefers-color-scheme: dark)"
+						srcset="
+							https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/logos/Logo-Dark.png
+						"
+					/>
+					<source
+						media="(prefers-color-scheme: light)"
+						srcset="
+							https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/logos/Logo-Light.png
+						"
+					/>
+					<img
+						width="25%"
+						alt="Redeye Logo"
+						src="https://raw.githubusercontent.com/cisagov/RedEye/2e0279ad4bdc798eb2ee6aa018bcd6ad66079d0e/applications/client/public/logos/Logo-Dark.png"
+					/>
+				</p>
+			</div>
+			<h1 id="redeye-user-guide">RedEye User Guide</h1>
+			<p>
+				RedEye is a visual analytic tool for supporting Red Team operations, analytics, and reporting. A critical aspect
+				of Red Team engagements is to communicate to customers how successful breaches unfold so that they can assess
+				mitigation strategies. Visualizing breaches can be a helpful but time-consuming task. RedEye offers a
+				visualization tool to help Red Teams easily assess complex data for effective decision-making.
+			</p>
+			<p><strong>Table of Contents</strong></p>
+			<ul>
+				<li>
+					<a href="#redeye-user-guide">RedEye User Guide</a>
+					<ul>
+						<li>
+							<a href="#logging-in-creating-new-user"><strong>Logging In/ Creating New User</strong></a>
+						</li>
+						<li>
+							<a href="#campaign-cards"><strong>Campaign Cards</strong></a>
+							<ul>
+								<li>
+									<a href="#uploading-campaigns"><strong>Uploading Campaigns</strong></a>
+									<ul>
+										<li>
+											<a href="#server-folders--multi-server-and-single-server-"
+												>Server Folders (Multi-Server and Single-Server)</a
+											>
+										</li>
+										<li><a href="#database-files">Database Files</a></li>
+									</ul>
+								</li>
+								<li><a href="#filter-existing-campaigns">Filter Existing Campaigns</a></li>
+								<li><a href="#rename--delete--export-campaign">Rename / Delete / Export Campaign</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="#explorer"><strong>Explorer</strong></a>
+							<ul>
+								<li><a href="#hosts-tab">Hosts Tab</a></li>
+								<li><a href="#operators-tab">Operators Tab</a></li>
+								<li><a href="#comments-tab">Comments Tab</a></li>
+								<li>
+									<a href="#beacons-tab">Beacons Tab</a>
+									<ul>
+										<li>
+											<a href="#selecting-beacon-from-list">Selecting Beacon from List</a>
+											<ul>
+												<li><a href="#expanding-raw-logs">Expanding Raw Logs</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a href="#adding-comments-and-tags">Adding Comments and Tags</a>
+									<ul>
+										<li><a href="#adding-new-comments">Adding New Comments</a></li>
+										<li><a href="#multi-command-comment">Multi-Command Comment</a></li>
+										<li><a href="#add-command-to-an-existing-comment">Add command to existing comment</a></li>
+									</ul>
+								</li>
+								<li><a href="#command-types-tab">Command Types Tab</a></li>
+								<li><a href="#timeline">Timeline</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="#settings-modal"><strong>Settings Modal</strong></a>
+							<ul>
+								<li><a href="#timezone">Timezone</a></li>
+								<li><a href="#showhide-beacons">Show/Hide Beacons</a></li>
+								<li>
+									<a href="#graph">Graph</a>
+									<ul>
+										<li><a href="#exporting-graph">Exporting Graph</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#search"><strong>Search</strong></a>
+						</li>
+						<li>
+							<a href="#presentations"><strong>Presentations</strong></a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<p> </p>
+			<h2 id="logging-in-creating-new-user"><strong>Logging In/ Creating New User</strong></h2>
+			<p>To create a new user, type a username in the user textbox, and click ”+ New User” from the dropdown.</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/NewUser.png?raw=true"
+					width="65%"
+					height="75%"
+				/>
+			</p>
+			<h2 id="campaign-cards"><strong>Campaign Cards</strong></h2>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CampaignCards.png?raw=true"
+					width="95%"
+					height="75%"
+				/>
+			</p>
+			<p>
+				Once logged in, you will be directed to the campaign cards screen. This is where you can upload new campaigns,
+				and view a list of your previously uploaded campaigns.
+			</p>
+			<h3 id="uploading-campaigns"><strong>Uploading Campaigns</strong></h3>
+			<p>Redeye provides two ways to upload and visualize your campaign data.</p>
+			<h4 id="server-folders-multi-server-and-single-server">Server Folders (Multi-Server and Single-Server)</h4>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadServerFolders.png?raw=true"
+					width="55%"
+				/>
+			</p>
+			<p>
+				When uploading multi-server or single-server folders, RedEye will automatically remove files that are<br />
+				not necessary. To view a list of all the files that were removed, hover over the “File Removed” icon.
+			</p>
+			<h4 id="database-files">Database Files</h4>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
+			</p>
+			<p>
+				Upload database files ending with .redeye or .sqlite. These are usually campaigns that were previously exported.
+			</p>
+			<h3 id="filter-existing-campaigns">Filter Existing Campaigns</h3>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/FilterCampaigns.png?raw=true"
+					width="85%"
+					height="65%"
+				/>
+			</p>
+			<p>Filter through the list of uploaded campaigns by typing in the input field next to “Add a campaign” button.</p>
+			<h3 id="rename--delete--export-campaign">Rename / Delete / Export Campaign</h3>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/DeleteRenameExport.png?raw=true"
+					width="85%"
+				/>
+			</p>
+			<p>To rename, delete or export the campaign as a database file, click on the “More” icon.</p>
+			<h2 id="explorer"><strong>Explorer</strong></h2>
+			<p>After uploading and selecting a campaign, you will be directed to the Explore Tab.</p>
+			<h3 id="hosts-tab">Hosts Tab</h3>
+			<p>
+				This tab shows the different servers linked to the campaign being viewed, as well as the Cobalt Strike server.
+				Select a host to see all commands executed by the beacons on the server.
+			</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/HostsTab.png?raw=true" width="65%" />
+			</p>
+			<h3 id="operators-tab">Operators Tab</h3>
+			<p>Any operators, along with the number of beacons and commands that it’s associated with will appear here.</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/OperatorsTab.png?raw=true" width="65%" />
+			</p>
+			<h3 id="comments-tab">Comments Tab</h3>
+			<p>
+				All comments, including multi-command comments that have been added to the campaign, will be displayed here.
+				Other functionalities include:
+			</p>
+			<ul>
+				<li>Deleting comments</li>
+				<li>
+					Editing a comment
+					<ul>
+						<li>Add/Remove Tags</li>
+					</ul>
+				</li>
+				<li>Replying to a comment</li>
+				<li>Favoriting a comment</li>
+			</ul>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommentsTab.png?raw=true" width="65%" />
+			</p>
+			<h3 id="beacons-tab">Beacons Tab</h3>
+			<p>
+				All beacons and the total number of commands executed by the beacon are displayed. In addition, any tags, such
+				as Privilege Escalation, Goldenticket, jump, or elevate will be indicated by an icon.
+			</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/BeaconsTab.png?raw=true" width="65%" />
+			</p>
+			<h4 id="selecting-beacon-from-list">Selecting Beacon from List</h4>
+			<p>
+				Select a beacon from the Beacons Tab to find out more information, such as the commands, operators, comments,
+				and metadata that it is associated with.
+			</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/SelectBeacon.png?raw=true" width="55%" />
+			</p>
+			<h5 id="expanding-raw-logs">Expanding Raw Logs</h5>
+			<p>
+				Select a command from the list to view the raw logs executed by the beacon. Here, you’ll be able to see the
+				different types of associated MITRE attacks, as well as the option to copy the log file text.
+			</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RawLogs.png?raw=true" width="100%" />
+			</p>
+			<h3 id="adding-comments-and-tags">Adding Comments and Tags</h3>
+			<h4 id="adding-new-comments">Adding New Comments</h4>
+			<p>
+				Hover over a command and click on the “Add Comment” button to add a new comment.<br />
+				Within the new comment modal, you can favorite this comment, add a tag, and comments about<br />
+				the command.
+			</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddNewCommets.png?raw=true" width="85%" />
+			</p>
+			<h4 id="multi-command-comment">Multi-Command Comment</h4>
+			<p>
+				Use the multi-command comment function to group multiple commands with one comment. Use the checkbox to select
+				one or more comments, then click “Comment on commands”.
+			</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/MultiCommandComment.png?raw=true"
+					width="55%"
+					height="70%"
+				/>
+			</p>
+			<h4 id="add-command-to-an-existing-comment">Add command to an existing comment</h4>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddCommandExistingComment.png?raw=true"
+					width="75%"
+				/>
+			</p>
+			<h3 id="command-types-tab">Command Types Tab</h3>
+			<p>
+				The Command Types tab displays a list of all commands and the number of times the command was executed by the
+				beacons in the campaign.
+			</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true"
+					width="75%"
+				/>
+			</p>
+			<h3 id="timeline">Timeline</h3>
+			<p>The timeline located above the graph provides users the ability to:</p>
+			<ul>
+				<li>Filter the campaign by a time range</li>
+				<li>Display the graph as events occurred.</li>
+				<li>Fast forward / reverse the time</li>
+				<li>Use the scrubber to filter.</li>
+			</ul>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/Timeline.png?raw=true" width="100%" />
+			</p>
+			<h2 id="settings-modal"><strong>Settings Modal</strong></h2>
+			<h3 id="timezone">Timezone</h3>
+			<p>
+				By default, the timezone should be automatically set to appear as your current timezone. To view the campaign in
+				a different timezone, uncheck the “AutoSelect” button and use the drop-down to select your desired timezone.
+			</p>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeTimeZone.png?raw=true" width="85%" />
+			</p>
+			<h3 id="showhide-beacons">Show/Hide Beacons</h3>
+			<p>To display or hide beacons, check or uncheck the “Show Hidden Beacons, Host, and Servers” button.</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHideBeacon.png?raw=true"
+					width="75%"
+				/>
+			</p>
+			<p> </p>
+			<h3 id="graph">Graph</h3>
+			<p>
+				The graph shows how hosts and beacons are connected to the Cobalt Strike server. Hover over the host node to
+				view how the beacons are linked to the host and hover over the beacons inside the host node to see how it’s
+				linked to one another.
+			</p>
+			<p>
+				Clicking on the host node will display a list of all commands, beacons, operators, comments, and metadata about
+				the host. Selecting the beacon node will display all commands, operators, comments, and metadata about the
+				beacon.
+			</p>
+			<p>
+				Use the graph controls located on the right to view graph legends, zoom in and out of the graph, and reset the
+				graph.
+			</p>
+			<h4 id="exporting-graph">Exporting Graph</h4>
+			<p>To export the graph as displayed as an image, simply click the export button.</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/Graph.png?raw=true"
+					width="65%"
+					height="55%"
+				/><img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/GraphControls.png?raw=true" />
+			</p>
+			<h2 id="search"><strong>Search</strong></h2>
+			<p>Search is available from the <code>eyeglass</code> icon in the navigation bar.</p>
+			<p>Search enables:</p>
+			<ul>
+				<li>
+					<p>Full-text search across:</p>
+					<ul>
+						<li>Beacons</li>
+						<li>Hosts</li>
+						<li>Teamservers</li>
+						<li>Operators</li>
+						<li>Comments</li>
+						<li>Commands</li>
+						<li>Command Type</li>
+						<li>Tags</li>
+					</ul>
+				</li>
+				<li>
+					<p>Filtering results in any of the above item types.</p>
+				</li>
+				<li>
+					<p>Sorting results by:</p>
+					<ul>
+						<li>Relevance (ascending and descending)</li>
+						<li>Name (ascending and descending)</li>
+						<li>Type (ascending and descending)</li>
+					</ul>
+				</li>
+			</ul>
+			<p align="center">
+				<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/Search Mode.png?raw=true" width="85%" />
+			</p>
+			<p>Search can be activated from anywhere within a campaign with an OS-specific key combination:</p>
+			<ul>
+				<li>Windows - <code>CTRL + K</code></li>
+				<li>Mac - <code>CMD + K</code></li>
+				<li>Linux - <code>CTRL + K</code></li>
+			</ul>
+			<h2 id="presentations"><strong>Presentations</strong></h2>
+			<p>Presentation mode is available from the <code>presentation</code> icon in the navigation bar.</p>
+			<p>Presentations are a collection of comments and commands ordered by time and grouped by tag.</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/Presentation Selection.png?raw=true"
+					width="85%"
+				/>
+			</p>
+			<p>The first screen is a list of presentations:</p>
+			<ul>
+				<li>The first two are a collection of “All” and “Favorite” comments in the campaign.</li>
+				<li>The remaining are organized by the tags</li>
+			</ul>
+			<p>Clicking on an item in the list will open the presentation</p>
+			<p align="center">
+				<img
+					src="https://github.com/cisagov/RedEye/blob/develop/docs/images/Presentation View.png?raw=true"
+					width="85%"
+				/>
+			</p>
+			<p>Each presentation has “slides” ordered by the time of the command tied to the comment.</p>
+			<p>
+				Move forward in the presentation using the <code>Next</code> button and move backward with the
+				<code>previous arrow</code> button to the left of <code>Next</code>. There is a slide indicator below those
+				controls that allows changing to a specific slide.
+			</p>
+			<p>To return to the presentations list, click the <code>left arrow</code> button at the far left of the panel</p>
+		</div>
+	</body>
+</html>
