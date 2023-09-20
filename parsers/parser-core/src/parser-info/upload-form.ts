@@ -4,7 +4,7 @@ export interface UploadForm {
 	/**
 	 * The title of the tab in the upload form
 	 * @example
-	 * tabTitle = 'Upload <C2_NAME> logs'
+	 * tabTitle = '<C2_NAME>'
 	 */
 	tabTitle: string;
 	/**

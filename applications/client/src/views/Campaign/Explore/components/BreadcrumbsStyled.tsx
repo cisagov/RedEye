@@ -37,6 +37,30 @@ export type BreadcrumbsStyledProps = {
 	muted?: boolean;
 };
 
+export const breadcrumbLinkStyle = ({ muted }: BreadcrumbsStyledProps) => css`
+	.${Classes.BREADCRUMB} {
+		display: inline;
+		font-size: inherit;
+	}
+
+	a.${Classes.BREADCRUMB} {
+		color: ${CoreTokens.TextMuted};
+		${!muted &&
+		css`
+			font-weight: ${CoreTokens.FontWeightBold};
+			color: ${CoreTokens.TextLink};
+		`};
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.${Classes.BREADCRUMB_CURRENT} {
+		color: ${CoreTokens.TextMuted};
+	}
+`;
+
 export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProps>`
 	/* ${UtilityStyles.textMeta} */
 
@@ -64,28 +88,7 @@ export const BreadcrumbsStyled = styled(BreadcrumbsSimple)<BreadcrumbsStyledProp
 			`}
 	}
 
-	.${Classes.BREADCRUMB} {
-		display: inline;
-		font-size: inherit;
-	}
-
-	a.${Classes.BREADCRUMB} {
-		color: ${CoreTokens.TextMuted};
-		${({ muted }) =>
-			!muted &&
-			css`
-				font-weight: ${CoreTokens.FontWeightBold};
-				color: ${CoreTokens.TextLink};
-			`};
-
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-
-	.${Classes.BREADCRUMB_CURRENT} {
-		color: ${CoreTokens.TextMuted};
-	}
+	${({ muted }) => breadcrumbLinkStyle({ muted })}
 
 	.${Classes.OVERFLOW_LIST_SPACER} {
 		// this is used by OverflowList to measure and adjust layout...

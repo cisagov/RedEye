@@ -126,7 +126,7 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 			.attr('id', assignIdLabel)
 			.each(updateClassName)
 			.classed(classNames.superNodeNameLabel, true)
-			.style('display', 'none') // start hidden
+			.classed(classNames.hiddenLabel, true) // start hidden
 			.text(createLabel);
 
 		this.countLabelSelection = this.rootGroupSelection
@@ -144,6 +144,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 
 	drawUpdateNodeVisual() {
 		this.nodeSelection.each(updateClassName);
+		this.labelSelection?.each(updateClassName);
+		this.countLabelSelection.each(updateClassName);
 	}
 
 	drawTime() {
@@ -177,8 +179,8 @@ export class SuperGraphRenderer extends HierarchicalGraphRenderer {
 
 	drawInteraction() {
 		this.drawDynamicLayout();
-		this.countLabelSelection?.style('display', (d) => (isInteractionFocus(d) ? 'none' : ''));
-		this.labelSelection?.style('display', (d) => (isInteractionRelated(d) ? '' : 'none'));
+		this.countLabelSelection?.classed(classNames.hiddenLabel, (d) => isInteractionFocus(d));
+		this.labelSelection?.classed(classNames.hiddenLabel, (d) => !isInteractionRelated(d));
 		super.drawInteraction();
 		this.graphSelection.selectChildren<any, HierarchicalGraphNode | HierarchicalGraphLink>().sort(interactionSort);
 	}

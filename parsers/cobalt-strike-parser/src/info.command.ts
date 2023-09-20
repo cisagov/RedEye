@@ -23,7 +23,7 @@ const aboutInfo: ParserInfo = {
 	uploadForm: {
 		serverDelineation: ServerDelineationTypes.Folder,
 		enabledInBlueTeam: false,
-		tabTitle: 'Upload Cobalt Strike logs',
+		tabTitle: 'Cobalt Strike',
 		fileUpload: {
 			type: UploadType.Directory,
 			validate: ValidationMode.Parser,

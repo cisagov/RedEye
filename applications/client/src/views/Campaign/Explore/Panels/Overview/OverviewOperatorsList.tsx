@@ -2,7 +2,7 @@ import { createSorter, dateShortFormat, isDefined, semanticIcons, VirtualizedLis
 import type { OperatorModel, SortType } from '@redeye/client/store';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { defaultInfoRowHeight, IconLabel, InfoRow, MessageRow, RowTime, RowTitle } from '@redeye/client/views';
-import { FlexSplitter } from '@redeye/ui-styles';
+import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -26,7 +26,9 @@ export const OverviewOperatorsList = observer<OverviewProps>(({ sort }) => {
 							{store.settings.momentTz(operator.startTime)?.format(dateShortFormat)}&mdash;
 							{store.settings.momentTz(operator.endTime)?.format(dateShortFormat)}
 						</RowTime>
-						<RowTitle>{operator.name}</RowTitle>
+						<RowTitle>
+							<Txt ellipsize>{operator.name}</Txt>
+						</RowTitle>
 						<FlexSplitter />
 						<IconLabel
 							cy-test="row-command-count"

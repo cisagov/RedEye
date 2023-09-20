@@ -35,7 +35,7 @@ export interface ParserInfo {
 	 * @example
 	 * // upload a directory of files that are organized by server name and date in the format: <FOLDER_TO_UPLOAD>/<SERVER_NAME>/<YYYYMMDD>/
 	 * uploadForm = {
-	 * 	tabTitle: 'Upload <C2_NAME> logs',
+	 * 	tabTitle: '<C2_NAME>',
 	 * 		enabledInBlueTeam: false,
 	 * 		serverDelineation: ServerDelineationTypes.Folder,
 	 * 		fileUpload: {

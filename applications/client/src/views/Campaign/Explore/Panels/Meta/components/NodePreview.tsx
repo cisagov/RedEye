@@ -11,7 +11,7 @@ type NodePreviewProps = FlexProps &
 	};
 
 export const NodePreview = observer<NodePreviewProps>(({ type, shape, text, color = 'default', size: _, ...props }) => (
-	<Flex align="center" gap="0.5ch" css={{ color: nodeColor[color].token }} {...props}>
+	<Flex align="center" gap="0.5ch" css={{ color: nodeColor[color].fgToken }} {...props}>
 		<NodeIcon {...{ type, shape, color }} />
 		{text && <Txt>– {text === 'color' ? color : shape}</Txt>}
 	</Flex>

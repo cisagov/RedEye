@@ -237,6 +237,7 @@ export const classNames = {
 	superNodeNameLabel: 'superNodeNameLabel',
 	subNodeNameLabel: 'subNodeNameLabel',
 	occludedLabel: 'occludedLabel',
+	hiddenLabel: 'hiddenLabel',
 
 	// Simulation Nodes & Links //
 	keyNode: 'keyNode',
