@@ -23,7 +23,7 @@ const aboutInfo: ParserInfo = {
 	uploadForm: {
 		serverDelineation: ServerDelineationTypes.Database,
 		enabledInBlueTeam: false,
-		tabTitle: 'Upload Brute Ratel logs',
+		tabTitle: 'Brute Ratel',
 		fileUpload: {
 			type: UploadType.Directory,
 			validate: ValidationMode.Parser,

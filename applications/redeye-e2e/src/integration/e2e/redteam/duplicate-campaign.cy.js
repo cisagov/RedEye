@@ -16,7 +16,7 @@ describe('Duplicate Campaign', () => {
 
 		// Upload another campaign with the same name
 		cy.get('[cy-test=add-campaign-btn]').click();
-		cy.get('[cy-test=upload-from-file]').click();
+		cy.get('[cy-test=create-new-camp]').select(3);
 		cy.get('[cy-test=new-camp-name]').click().type(camp);
 		cy.fixture(fileName, { encoding: null }).as('myFixture');
 		cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
