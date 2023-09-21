@@ -1,6 +1,4 @@
-# RedEye
-
-Red Team C2 Log Visualization
+# **RedEye**: Red Team C2 Log Visualization
 
 <p align="center">
 <img alt="RedEye Screenshot" src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedEye-Hero-Screenshot.png?raw=true" width="100%"/>
@@ -14,7 +12,9 @@ RedEye can assist an operator to efficiently:
 - Display and evaluate complex assessment data to enable effective decision making.
 - Gain a clearer understanding of the attack path taken and the hosts compromised during a Red Team assessment or penetration test.
 
-Red Team: [![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&style=flat&logo=cypress)](https://cloud.cypress.io/projects/rsybgk/runs) | Blue Team: [![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs)
+| **Red Team** | **Blue Team** |
+|:------------:|:-------------:|
+| [![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&style=flat&logo=cypress)](https://cloud.cypress.io/projects/rsybgk/runs) | [![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs) |
 
 ---
 
@@ -24,25 +24,26 @@ This GitHub repository is no longer under active development. We'll review commu
 
 ---
 
-## [User Guide](https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md)
-
-Follow along with the [User Guide](https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md) to learn about RedEye's feature set.
-
----
-
 ## Quick start
 
 1. **Download** the latest RedEye binaries for your OS[\*](#platform-support) from the [Releases](https://github.com/cisagov/RedEye/releases) page.
-   2. **Pick a mode** and **Run the server**
-     - [ **Red Team mode**](#red-team) enables the full feature set: upload C2 logs, explore data, and create presentations. To start the server in Red Team mode, run the following in a terminal. _You must provide a password to run in RedTeam mode._
-     ```
-       ./RedEye --redTeam --password <your_password>
-     ```
-     - [**Blue Team mode**](#blue-team) (default) enables a simplified, read-only UI for reviewing campaigns exported by a Red Team. To start the server in Blue Team mode. Double-click on the 'RedEye' executable or run `./RedEye` from the command line.
+2. **Pick a mode** and **Run the server**
+   - [ **Red Team mode**](#red-team) enables the full feature set: upload C2 logs, explore data, and create presentations. _You must provide a password to run in Red Team mode._ To start the server in Red Team mode, run the following in a terminal.
+		```
+    	./RedEye --redTeam --password <your_password>
+		```
+   - [**Blue Team mode**](#blue-team) (default) enables a simplified, read-only UI for reviewing campaigns exported by a Red Team. To start the server in Blue Team mode, run the following in a terminal.
+		```
+    	./RedEye   # Or simplify double-click the "RedEye" executable 
+		```
 3. **Use the web app** in a browser at http://127.0.0.1:4000. The RedEye binary runs as a server in a terminal window and will automatically open the web app UI your default browser. You must close the terminal window to quit the RedEye server.
 4. Try importing the [gt.redeye](https://github.com/cisagov/RedEye/raw/develop/applications/redeye-e2e/src/fixtures/gt.redeye) example dataset to get started. Or try a different [example dataset](#example-datasets).
 
 _**MacOS Issue** - When running RedEye for the first time, you may get a "not verified" error. You must go to "System Preferences" > "Security & Privacy" > "General" and click "Open Anyway." More info on the [Apple support page](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/)._
+
+### Follow the [User Guide](https://github.com/cisagov/RedEye/blob/develop/docs/UserGuide.md) to learn about RedEye's feature set.
+
+---
 
 ## Red Team & Blue Team Modes
 
