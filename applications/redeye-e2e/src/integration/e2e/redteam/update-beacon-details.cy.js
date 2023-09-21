@@ -13,7 +13,7 @@ describe('Update Beacon details', () => {
 	const newBeaconName = 'Beacon 1';
 	const newTOD = '08/17/20 13:33'; // could fail based on browser timezone // use moment.tz.guess() to offset?
 
-	it('Rename a beacon and change time of death', () => {
+	it.only('Rename a beacon and change time of death', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name, go go Beacons tab, select Beacon
@@ -31,7 +31,7 @@ describe('Update Beacon details', () => {
 			});
 
 		cy.get('[cy-test=beacon-time-of-death]')
-			.find('.bp4-input')
+			.find('.bp5-input')
 			.invoke('attr', 'value')
 			.then((tod1) => {
 				origTOD = tod1;
@@ -62,7 +62,7 @@ describe('Update Beacon details', () => {
 
 		// Verify new TOD persisted
 		cy.get('[cy-test=beacon-time-of-death]')
-			.find('.bp4-input')
+			.find('.bp5-input')
 			.invoke('attr', 'value')
 			.then((tod2) => {
 				updatedTOD = tod2;

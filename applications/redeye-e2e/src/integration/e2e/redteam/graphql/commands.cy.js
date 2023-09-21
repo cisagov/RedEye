@@ -68,9 +68,9 @@ describe('Query Commands & CommandsIds', () => {
 					cy.log(res1.body);
 				});
 			});
+			cy.returnToCampaignCard();
+
+			cy.deleteCampaign(camp);
 		});
 	});
-	// cy.returnToCampaignCard();
-
-	// cy.deleteCampaign(camp);
 });
