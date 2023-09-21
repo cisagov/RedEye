@@ -96,6 +96,13 @@ export const Explore = observer<InfoProps>(({ ...props }) => {
 		}
 	});
 
+	useEffect(() => {
+		if (store.campaign.timeline.endTime) {
+			store.campaign.timeline.setScrubberTimeAny(store.campaign.timeline.endTime);
+			store.campaign.timeline.showAllTime();
+		}
+	}, [store.router.params.presentation]);
+
 	useEffect(
 		() =>
 			autorun(() => {

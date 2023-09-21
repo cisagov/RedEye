@@ -126,6 +126,7 @@ export const RedEyeDbUploadForm = observer<RedEyeDbUploadFormProps>(({ ...props 
 						inputProps={inputProps}
 						text={state.fileData ? state.fileName : 'No file selected'}
 						large
+						fill
 					/>
 				</FormGroup>
 			</DialogBodyEx>

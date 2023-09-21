@@ -162,6 +162,7 @@ export const GraphTokens = {
 	PresentBgColor: `var(--PresentBgColor)`,
 	// PresentDasharray: // none,
 
+	// OVERRIDDEN BELOW //
 	FutureFgColor: `var(--FutureFgColor)`,
 	FutureBgColor: `var(--FutureBgColor)`,
 	FutureDasharray: '0px 6px', // Dotted
@@ -179,6 +180,11 @@ export const GraphTokens = {
 	TextOutlineColor: `var(--TextOutlineColor)`,
 };
 
+// Simplify Graph Colors by using the same for Past & Future //
+GraphTokens.FutureFgColor = GraphTokens.PastFgColor;
+GraphTokens.FutureBgColor = GraphTokens.PastBgColor;
+GraphTokens.FutureDasharray = GraphTokens.PastDasharray;
+
 const lightThemeGraphAndTimelineCssVars = declareCssVars([
 	[TimelineTokens.PresentBgTimeline, CoreTokens.Colors.Gray2],
 	[TimelineTokens.PastBgTimeline, CoreTokens.Colors.LightGray2],
@@ -190,8 +196,8 @@ const lightThemeGraphAndTimelineCssVars = declareCssVars([
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.White],
 	[GraphTokens.PastFgColor, CoreTokens.Colors.LightGray2],
 	[GraphTokens.PastBgColor, CoreTokens.Colors.LightGray4],
-	[GraphTokens.FutureFgColor, CoreTokens.Colors.White],
-	[GraphTokens.FutureBgColor, CoreTokens.Colors.LightGray5],
+	// [GraphTokens.FutureFgColor, CoreTokens.Colors.White],
+	// [GraphTokens.FutureBgColor, CoreTokens.Colors.LightGray5],
 	[GraphTokens.SelectedFgColor, CoreTokens.Colors.Gray2],
 	[GraphTokens.PreviewFgColor, CoreTokens.Colors.DarkGray5],
 	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary4],
@@ -211,14 +217,14 @@ const darkThemeGraphAndTimelineCssVars = declareCssVars([
 	[GraphTokens.PresentBgColor, CoreTokens.Colors.DarkGray3],
 	[GraphTokens.PastFgColor, CoreTokens.Colors.DarkGray5],
 	[GraphTokens.PastBgColor, CoreTokens.Colors.DarkGray2],
-	[GraphTokens.FutureFgColor, CoreTokens.Colors.Black], // Black?
-	[GraphTokens.FutureBgColor, CoreTokens.Colors.DarkGray2], // DarkGray2?
+	// [GraphTokens.FutureFgColor, CoreTokens.Colors.Black], // Black?
+	// [GraphTokens.FutureBgColor, CoreTokens.Colors.DarkGray2], // DarkGray2?
 	[GraphTokens.SelectedFgColor, CoreTokens.Colors.LightGray1],
 	[GraphTokens.PreviewFgColor, CoreTokens.Colors.White],
 	[GraphTokens.SelectedFocusFgColor, CoreTokens.Intent.Primary3],
 	[GraphTokens.SelectedFocusBgColor, CoreTokens.Intent.Primary1],
 	[GraphTokens.GroupNodeStrokeColor, CoreTokens.transparentWhite(0.03)],
-	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.6)],
+	[GraphTokens.TextOutlineColor, CoreTokens.transparentBlack(0.8)],
 ]);
 
 export const customCssVars = css`

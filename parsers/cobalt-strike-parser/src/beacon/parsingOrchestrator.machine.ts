@@ -14,6 +14,7 @@ import {
 	findCommandText,
 	findMetadataOrigin,
 	findAttackIds,
+	findProcessFromMetaLine,
 } from './regex';
 import { identifyCommandGroupings } from './identifyCommandGroupings';
 import { processUploadCommand } from './processUploadCommand';
@@ -151,6 +152,7 @@ export const parsingOrchestratorMachine = createMachine(
 								beacon: metadataLog.beacon as Beacon,
 								ip,
 								username: findUserNameFromMetaLine(metadataLog.blob),
+								process: findProcessFromMetaLine(metadataLog.blob),
 								startTime: ctx.logEntries[0].dateTime,
 								endTime: ctx.logEntries[ctx.logEntries.length - 1].dateTime,
 								origin: findMetadataOrigin(metadataLog.blob),

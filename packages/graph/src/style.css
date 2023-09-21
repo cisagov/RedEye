@@ -56,6 +56,9 @@ text {
 .subNodeNameLabel:not(.selectedFocus):not(.previewedFocus) {
 	opacity: 0.1;
 }
+.hiddenLabel {
+	display: none;
+}
 
 .graphRoot {
 	cursor: grab;

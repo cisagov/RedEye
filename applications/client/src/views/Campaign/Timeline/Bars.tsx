@@ -78,7 +78,9 @@ export const Bars = observer<BarsProps>(({ xScale, bars, start, end, dimensions,
 								ref={ref}
 								{...(targetProps as any)} // :(
 								onMouseDown={() => {
-									store.campaign?.timeline.setScrubberTimeAny(bar.end);
+									if (!store.router.params.presentation) {
+										store.campaign?.timeline.setScrubberTimeAny(bar.end);
+									}
 								}}
 							>
 								{bar.beaconCount && (

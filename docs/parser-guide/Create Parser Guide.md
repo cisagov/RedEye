@@ -59,9 +59,9 @@ function info() {
 
 			// Configures the upload form in the RedEye client for the parser
 			uploadForm: {
-				serverDelineation: 'Database', // How our C2 data is seperated, by folders of files or database/config file
+				serverDelineation: 'Database', // How our C2 data is separated, by folders of files or database/config file
 				enabledInBlueTeam: false, // Whether the parser is enabled for Blue Team users
-				tabTitle: 'Upload C2 Log Files', // The title of the upload tab
+				tabTitle: 'C2 Framework', // The title of the upload option in the selection menu
 				fileUpload: {
 					type: 'Directory', // The type of upload, is it a single file or a directory
 					validate: 'None', // How to validate the files uploaded, more on this later
@@ -82,7 +82,7 @@ if (process.argv[2] === 'info') {
 }
 ```
 
-If you put this code in a file (for the example, we called our file `custom-redeye-parser`), make it executable, and place it in `parsers` folder; You can start RedEye (with "parsers" set to true RedEye's `config.json`) and see our parser available in the upload tab.
+If you put this code in a file (for the example, we called our file `custom-redeye-parser`), make it executable, and place it in `parsers` folder; You can start RedEye (with "parsers" set to true RedEye's `config.json`) and see our parser available in the "Add Campaign" dialog's Source options.
 
 ![Upload Tab](./custom-parser-upload-tab.png)
 

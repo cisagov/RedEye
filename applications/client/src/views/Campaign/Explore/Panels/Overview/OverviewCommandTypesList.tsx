@@ -2,7 +2,7 @@ import { createSorter, isDefined, semanticIcons, VirtualizedList } from '@redeye
 import type { CommandTypeCountModel, SortType } from '@redeye/client/store';
 import { SortDirection, useStore } from '@redeye/client/store';
 import { defaultInfoRowHeight, IconLabel, InfoRow, MessageRow, RowTitle } from '@redeye/client/views';
-import { FlexSplitter } from '@redeye/ui-styles';
+import { FlexSplitter, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -22,7 +22,9 @@ export const OverviewCommandTypesList = observer<OverviewProps>(({ sort }) => {
 			) : (
 				commandTypes.map((commandTypeCount) => (
 					<InfoRow cy-test="commands" key={commandTypeCount.id} onClick={() => commandTypeCount.select()}>
-						<RowTitle>{commandTypeCount.text}</RowTitle>
+						<RowTitle>
+							<Txt ellipsize>{commandTypeCount.text}</Txt>
+						</RowTitle>
 						<FlexSplitter />
 						<IconLabel
 							cy-test="row-command-count"

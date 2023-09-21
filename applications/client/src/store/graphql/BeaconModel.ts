@@ -3,7 +3,7 @@ import { routes } from '@redeye/client/store';
 import { TimeStatus } from '@redeye/client/types/timeline';
 import { computed } from 'mobx';
 import { ExtendedModel, getRoot, model, modelAction } from 'mobx-keystone';
-import { CurrentItem, UUID, CampaignViews, Tabs } from '../../types';
+import { CampaignViews, Tabs, CurrentItem, UUID } from '../../types';
 import { BeaconModelBase } from './BeaconModel.base';
 import type { OperatorModel } from './OperatorModel';
 import type { ServerModel } from './ServerModel';
@@ -65,25 +65,20 @@ export class BeaconModel extends ExtendedModel(BeaconModelBase, {}) {
 		return operators;
 	}
 
-	@computed get computedBeaconName(): string {
-		const meta = this.meta[0]?.current;
-		if (!meta) return this.displayName ?? this.beaconName;
-		const {
-			// id,
-			// pid,
-			username,
-			// ip
-			// process, // 'test.exe';
-			// listener, // 'http';
-		} = meta;
-		// return [process, username].join(' · '); // <- TODO!
-		return [this.displayName ?? this.beaconName, username].filter(Boolean).join(' · ');
-	}
-
 	@computed get computedName(): string {
-		// TODO: Fix beacon.displayName and reinstate next line
-		// return this.displayName ?? this.computedBeaconName;
-		return this.computedBeaconName;
+		const meta = this.meta[0]?.current;
+		if (!meta) {
+			return this.displayName ?? this.beaconName;
+		}
+		const { username, process } = meta;
+		const nameParts: string[] = [];
+		if (this.displayName) nameParts.push(this.displayName);
+		if (process != null) {
+			const processName = process?.split('\\').pop(); // name, not full filepath
+			if (processName) nameParts.push(processName);
+		}
+		nameParts.push(username || this.beaconName);
+		return nameParts.filter(Boolean).join(' · ');
 	}
 
 	@computed get computedNameWithHost() {

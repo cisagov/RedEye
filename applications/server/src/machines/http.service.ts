@@ -89,9 +89,17 @@ const createServer = async ({
 		introspection: !production,
 	};
 
+	let parsersInfo = {};
+
+	try {
+		parsersInfo = await parserInfo(ctx.config.parsers);
+	} catch (e) {
+		console.log('Error retrieving parser info ', e);
+	}
+
 	const endpointContext: EndpointContext = {
 		config: ctx.config,
-		parserInfo: await parserInfo(ctx.config.parsers),
+		parserInfo: parsersInfo,
 		cm: ctx.cm,
 		messengerMachine: ctx.messagingService,
 	};
