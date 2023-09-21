@@ -66,7 +66,7 @@ Redeye provides three ways to upload and visualize your campaign data.
 #### Cobalt Strike
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadServerFolders.png?raw=true" width="55%" />
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadCobaltStrike.png?raw=true" width="55%" />
 </p>
 
 When uploading multi-server or single-server folders, RedEye will automatically remove files that are\
@@ -75,7 +75,7 @@ not necessary. To view a list of all the files that were removed, hover over the
 #### Brute Ratel
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadBruteRatel.png?raw=true" width="55%" />
 </p>
 
 Upload, parse and visualize your Brute Ratel campaigns with this option.
@@ -83,7 +83,7 @@ Upload, parse and visualize your Brute Ratel campaigns with this option.
 #### .Redeye File
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadRedEyeFile.png?raw=true" width="55%" />
 </p>
 
 Upload database files ending with .redeye or .sqlite. These are usually campaigns that were previously exported.
