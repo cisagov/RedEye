@@ -12,12 +12,10 @@ import { createState } from '../mobx-create-state';
 
 type LoginFormProps = ComponentProps<'form'>;
 
-const isDevelop = import.meta.env.DEV;
-
 export const LoginForm = observer<LoginFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
-		username: isDevelop ? store.auth.userName || 'dev' : store.auth.userName || '',
+		username: store.auth.userName || '',
 		password: '',
 		passwordFocus: false,
 		loading: false,
