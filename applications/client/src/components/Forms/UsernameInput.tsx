@@ -100,29 +100,32 @@ export const UsernameInput = observer<UsernameInputProps>(
 						/>
 					);
 				}}
-				createNewItemRenderer={(_, isActive: boolean) =>
-					softDisable ? (
-						<div css={{ padding: '4px 12px' }}>
-							<Txt small bold block css={password && { color: CoreTokens.TextIntentDanger }}>
-								{password ? 'Invalid Server Password' : 'No Server Password'}
-							</Txt>
-							<Txt small italic muted block>
-								Enter a valid password to see user options
-							</Txt>
-						</div>
-					) : (
-						<MenuItem
-							icon={<CarbonIcon icon={UserFollow16} />}
-							text={state.query}
-							disabled={store.graphqlStore.globalOperators.has(state.query)}
-							label="Add new user"
-							active={isActive}
-							onClick={() => addUser()}
-							shouldDismissPopover={false}
-							intent="primary"
-							css={newUserStyle}
-						/>
-					)
+				createNewItemRenderer={
+					store.appMeta.blueTeam
+						? undefined
+						: (_, isActive: boolean) =>
+								softDisable ? (
+									<div css={{ padding: '4px 12px' }}>
+										<Txt small bold block css={password && { color: CoreTokens.TextIntentDanger }}>
+											{password ? 'Invalid Server Password' : 'No Server Password'}
+										</Txt>
+										<Txt small italic muted block>
+											Enter a valid password to see user options
+										</Txt>
+									</div>
+								) : (
+									<MenuItem
+										icon={<CarbonIcon icon={UserFollow16} />}
+										text={state.query}
+										disabled={store.graphqlStore.globalOperators.has(state.query)}
+										label="Add new user"
+										active={isActive}
+										onClick={() => addUser()}
+										shouldDismissPopover={false}
+										intent="primary"
+										css={newUserStyle}
+									/>
+								)
 				}
 				{...props}
 			/>

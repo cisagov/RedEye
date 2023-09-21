@@ -114,7 +114,7 @@ export const LoginForm = observer<LoginFormProps>(({ ...props }) => {
 				loading={state.loading}
 				intent="primary"
 				css={otherSpacingLooseStyle}
-				disabled={state.username.length < 1 || state.password.length < 1}
+				disabled={state.username.length < 1 || (state.password.length < 1 && !store.appMeta.blueTeam)}
 				type="submit"
 				rightIcon={<CarbonIcon icon={ArrowRight16} />}
 				large
