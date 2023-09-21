@@ -179,7 +179,7 @@ Within the new comment modal, you can favorite this comment, add a tag, and comm
 the command.
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddNewCommets.png?raw=true" width="85%"/>
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddNewComments.png?raw=true" width="85%"/>
 </p>
 
 #### Multi-Command Comment
@@ -227,7 +227,21 @@ To display or hide beacons, check or uncheck the "Show Hidden Beacons, Host, and
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHideBeacon.png?raw=true"  width="75%"/>
 </p>
 
-&nbsp;
+### Light Theme
+
+This toggle enables light theme mode for RedEye.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/LightThemeMode.png?raw=true"  width="75%"/>
+</p>
+
+### Redacted Screenshot Mode
+
+When toggled, RedEye makes text unreadable in order to provide secure screenshots.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedactedScreenShot.png?raw=true"  width="75%"/>
+</p>
 
 ### Graph
 
