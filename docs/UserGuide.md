@@ -61,9 +61,9 @@ Once logged in, you will be directed to the campaign cards screen. This is where
 
 ### **Uploading Campaigns**
 
-Redeye provides two ways to upload and visualize your campaign data.
+Redeye provides three ways to upload and visualize your campaign data.
 
-#### Server Folders (Multi\-Server and Single\-Server)
+#### Cobalt Strike
 
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadServerFolders.png?raw=true" width="55%" />
@@ -72,7 +72,15 @@ Redeye provides two ways to upload and visualize your campaign data.
 When uploading multi-server or single-server folders, RedEye will automatically remove files that are\
 not necessary. To view a list of all the files that were removed, hover over the "File Removed" icon.
 
-#### Database Files
+#### Brute Ratel
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
+</p>
+
+Upload, parse and visualize your Brute Ratel campaigns with this option.
+
+#### .Redeye File
 
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
@@ -138,6 +146,14 @@ All beacons and the total number of commands executed by the beacon are displaye
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/BeaconsTab.png?raw=true" width="65%"/>
 </p>
 
+### Command Types Tab
+
+The Command Types tab displays a list of all commands and the number of times the command was executed by the beacons in the campaign.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true" width="75%"/>
+</p>
+
 #### Selecting Beacon from List
 
 Select a beacon from the Beacons Tab to find out more information, such as the commands, operators, comments, and metadata that it is associated with.
@@ -163,7 +179,7 @@ Within the new comment modal, you can favorite this comment, add a tag, and comm
 the command.
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddNewCommets.png?raw=true" width="85%"/>
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddNewComments.png?raw=true" width="85%"/>
 </p>
 
 #### Multi-Command Comment
@@ -178,14 +194,6 @@ Use the multi-command comment function to group multiple commands with one comme
 
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/AddCommandExistingComment.png?raw=true" width="75%"/>
-</p>
-
-### Command Types Tab
-
-The Command Types tab displays a list of all commands and the number of times the command was executed by the beacons in the campaign.
-
-<p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true" width="75%"/>
 </p>
 
 ### Timeline
@@ -219,7 +227,21 @@ To display or hide beacons, check or uncheck the "Show Hidden Beacons, Host, and
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHideBeacon.png?raw=true"  width="75%"/>
 </p>
 
-&nbsp;
+### Light Theme
+
+This toggle enables light theme mode for RedEye.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/LightThemeMode.png?raw=true"  width="75%"/>
+</p>
+
+### Redacted Screenshot Mode
+
+When toggled, RedEye makes text unreadable in order to provide secure screenshots.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedactedScreenShot.png?raw=true"  width="75%"/>
+</p>
 
 ### Graph
 
