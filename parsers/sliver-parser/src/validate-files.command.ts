@@ -43,6 +43,7 @@ const validate = async (options: ValidateFilesCallbackOptions): Promise<ParserVa
 		new Set((await sliverDbORM.em.find(Beacons, {})).map((beacon) => beacon.activeC2)),
 		(server) => ({ name: server! })
 	);
+	await sliverDbORM.close(true);
 	return { servers, valid: validFiles, invalid: invalidFiles };
 };
 

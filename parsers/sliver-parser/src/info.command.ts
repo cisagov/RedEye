@@ -23,7 +23,7 @@ const aboutInfo: ParserInfo = {
 	uploadForm: {
 		serverDelineation: ServerDelineationTypes.Database,
 		enabledInBlueTeam: false,
-		tabTitle: 'Upload Sliver logs',
+		tabTitle: 'Sliver',
 		fileUpload: {
 			type: UploadType.Directory,
 			validate: ValidationMode.Parser,

@@ -49,6 +49,7 @@ export async function parseSliverFiles(rootDir: string): Promise<ParserOutput> {
 	const hosts = await parseHosts(orm, beaconsByHost);
 	const servers = await parseServers(orm);
 	const operators = await parseOperators(orm);
+	await orm.close(true);
 
 	return {
 		commands: Object.entries(commands).reduce((acc, [key, value]) => {
