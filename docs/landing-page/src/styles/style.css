@@ -1,5 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&display=swap');
+
+:root {
+	color-scheme: dark;
+}
+
 html {
-	font-family: sans-serif;
+	font-family: 'IBM Plex Sans', sans-serif;
+}
+
+code,
+pre {
+	font-family: 'IBM Plex Mono', Menlo, Consolas, monospace;
 }
 
 body {
@@ -8,7 +19,13 @@ body {
 	line-height: 1.5;
 	background-color: hsl(0, 0%, 12%);
 	color: white;
-	max-width: 1200px;
+	max-width: 1000px;
+}
+
+pre {
+	font-size: 14px;
+	padding: 8px 16px;
+	border-radius: 2px;
 }
 
 .container {
@@ -26,8 +43,22 @@ a {
 }
 
 h1 {
-	margin: 1rem 0;
 	font-size: 2.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 1em;
+	margin-top: 0.5em;
+}
+
+hr {
+	margin: 2em 0;
+	opacity: 0.2;
 }
 
 /* button styles */
@@ -37,7 +68,7 @@ h1 {
 	text-decoration: none;
 	color: white !important;
 	padding: 0.25rem 0.75rem;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 .button a:hover {
 	background-color: hsl(219, 90%, 39%);
@@ -63,6 +94,10 @@ h1 {
 	background-color: hsl(0, 0%, 31%);
 }
 
+.nav-wrapper {
+	margin: 0 -1rem;
+}
+
 .nav-links {
 	width: 100%;
 	top: 5rem;
@@ -76,9 +111,10 @@ h1 {
 	text-align: center;
 	padding: 10px 0;
 	color: hsl(0, 0%, 31%);
-	font-size: 1.2rem;
-	font-weight: bold;
+	font-size: 16px;
+	letter-spacing: 0.15ch;
 	text-transform: uppercase;
+	font-weight: bold;
 }
 
 .nav-links a:hover {
