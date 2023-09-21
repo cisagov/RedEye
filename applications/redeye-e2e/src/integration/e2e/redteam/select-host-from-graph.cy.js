@@ -12,7 +12,7 @@ describe('Testing of graph', () => {
 		if (Cypress.isBrowser({ family: 'chromium' })) {
 			cy.get('[cy-test=graphNode]').eq(1).click({ force: true });
 
-			cy.wait(1000);
+			cy.wait(2000);
 
 			cy.get('[cy-test=panel-header]').should('contain.text', 'COMPUTER02');
 
@@ -24,7 +24,7 @@ describe('Testing of graph', () => {
 		if (Cypress.isBrowser('firefox')) {
 			cy.get('[cy-test=graphNode]').eq(0).click({ force: true });
 
-			cy.wait(1000);
+			cy.wait(2000);
 
 			cy.get('[cy-test=panel-header]').should('contain.text', 'COMPUTER02');
 

@@ -43,7 +43,7 @@ describe('Update Beacon details', () => {
 
 		// Change TOD and save
 		cy.get('input[type=text]').eq(1).click().clear().type(newTOD);
-		cy.wait(500);
+		cy.wait(1000);
 		cy.get('[cy-test=save-beacon-time-of-death]').click();
 		cy.wait(500);
 
