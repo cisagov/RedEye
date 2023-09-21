@@ -19,15 +19,22 @@ export const graphStyles = css`
 		cursor: pointer;
 		/* &:active { cursor: grabbing; } */
 	}
-	.${GCN.groupNode} {
-		/* pointer-events: none; */ // set in code
-	}
+	/* .${GCN.groupNode} { pointer-events: none; } // set in GroupGraphRenderer */
 	&:not(.${GCN.isZooming}) .${GCN.superNode} {
 		transition: r 0.2s cubic-bezier(0, 1, 0, 1);
 	}
-	.${GCN.occludedLabel}, .${GCN.subNodeNameLabel}:not(.${GCN.selectedFocus}):not(.${GCN.previewedFocus}) {
+
+	/* HIDE LABELS */
+	.${GCN.occludedLabel}, .${GCN.hiddenLabel} {
 		display: none;
 	}
+	.${GCN.subNodeNameLabel} {
+		// &:not(...) is to avoid incorrectly applied syntax error
+		&:not(.${GCN.selectedFocus}):not(.${GCN.previewedFocus}) {
+			display: none;
+		}
+	}
+
 	.${GCN.parentLinkNode} {
 		display: none;
 	}
@@ -81,7 +88,7 @@ export const graphStyles = css`
 		}
 	}
 	circle {
-		stroke-width: 1px;
+		/* stroke-width: 1px; */
 	}
 
 	.${GCN.groupNode} {
@@ -139,7 +146,6 @@ export const graphStyles = css`
 	.${GCN.softwareNode}, .${GCN.serverNode} {
 		fill: ${GraphTokens.PresentFgColor};
 		stroke: ${GraphTokens.PresentBgColor};
-		r: 4px;
 
 		&.${GCN.past} {
 			fill: ${GraphTokens.PastFgColor};
@@ -150,7 +156,6 @@ export const graphStyles = css`
 
 		&.${GCN.selected} {
 			fill: ${GraphTokens.PreviewFgColor}; // not GraphTokens.SelectedFgColor
-			r: 5px;
 		}
 		&.${GCN.previewed} {
 			fill: ${GraphTokens.PreviewFgColor};
@@ -158,9 +163,24 @@ export const graphStyles = css`
 		&.${GCN.selectedFocus} {
 			fill: ${GraphTokens.SelectedFocusFgColor};
 			stroke: ${GraphTokens.PreviewFgColor};
-			stroke-width: ${GraphTokens.SelectedThickness};
-			r: 6px;
+			stroke-width: ${GraphTokens.PreviewThickness};
 			filter: drop-shadow(0 0 1px ${CoreTokens.Colors.Black});
+		}
+	}
+`;
+
+export const showMoreLabelsGraphStyles = css`
+	.${GCN.hiddenLabel} {
+		display: initial; // show more labels
+	}
+	.${GCN.superNodeCountLabel}.${GCN.hiddenLabel} {
+		display: none; // but still hide the counts
+	}
+	.${GCN.superGraph} {
+		&.${GCN.selectedParent}, &.${GCN.previewedParent} {
+			.${GCN.hiddenLabel} {
+				fill: ${CoreTokens.TextMuted};
+			}
 		}
 	}
 `;

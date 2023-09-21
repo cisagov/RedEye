@@ -4,11 +4,12 @@ import { CampaignLoadingMessage, useStore } from '@redeye/client/store';
 import { CoreTokens, Header, Spacer, ThemeClasses, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useResizeDetector } from 'react-resize-detector';
 import { nodeColorStyles } from './node-colors';
-import { graphStyles } from './graph-styles';
+import { graphStyles, showMoreLabelsGraphStyles } from './graph-styles';
+import type { GraphControlFunctions } from './GraphControls';
 import { GraphControls } from './GraphControls';
 import { LoadingOverlay } from './LoadingOverlay';
 
@@ -40,14 +41,22 @@ export const Graph = observer<GraphProps>((props) => {
 		}
 	}, [graphRef, store.campaign.isLoading]);
 
-	const zoomControls = useMemo(
+	const [showMoreLabels, setShowMoreLabels] = useState(false);
+	const [isSimpleForces, setIsSimpleForces] = useState(false);
+
+	const zoomControls: GraphControlFunctions = useMemo(
 		() => ({
 			zoomIn: () => store.campaign.graph?.zoomIn(),
 			zoomOut: () => store.campaign.graph?.zoomOut(),
 			zoomToFit: () => store.campaign.graph?.zoomToFit(),
 			exportSVG: () => store.campaign.graph?.exportSVG(CoreTokens.Background3),
+			toggleSimpleForces: (on) => {
+				store.campaign.graph?.useForceMode(on ? 'simple' : 'graph');
+				setIsSimpleForces(on);
+			},
+			setShowMoreLabels,
 		}),
-		[]
+		[setIsSimpleForces, setShowMoreLabels]
 	);
 
 	const currentMoment = store.settings.momentTz(store.campaign.timeline?.scrubberTime as Date);
@@ -70,11 +79,16 @@ export const Graph = observer<GraphProps>((props) => {
 					<LoadingOverlay />
 				) : null}
 				<svg
-					css={[graphLayoutStyles, graphStyles, nodeColorStyles]}
+					css={[graphLayoutStyles, graphStyles, nodeColorStyles, showMoreLabels && showMoreLabelsGraphStyles]}
 					ref={graphRef}
 					className={store.settings.theme === 'dark' ? ThemeClasses.DARK : ThemeClasses.LIGHT}
 				/>
-				<GraphControls {...zoomControls} css={controlsStyles} />
+				<GraphControls
+					{...zoomControls}
+					isSimpleForces={isSimpleForces}
+					showMoreLabels={showMoreLabels}
+					css={controlsStyles}
+				/>
 			</ErrorBoundary>
 		</div>
 	);

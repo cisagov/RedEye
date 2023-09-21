@@ -4,9 +4,7 @@ describe('Verify Blue Team Version', () => {
 	it('Should Only See Upload from File', () => {
 		cy.get('[cy-test=add-campaign-btn]').click();
 
-		cy.get('[cy-test=upload-from-file]').should('be.visible');
-
-		cy.get('[cy-test=create-new-camp-cobalt-strike-parser]').click();
+		cy.get('[cy-test=create-new-camp]').select(1);
 
 		cy.get('[cy-test=bt-warning]')
 			.should('be.visible')

@@ -162,6 +162,7 @@ describe('Timeline tests', () => {
 						const day = timelineDay;
 						const timelineDate = month.concat('/').concat(day);
 
+						cy.wait(1000);
 						cy.get('[cy-test=command-date-time]').each(($date) => {
 							expect($date.text()).to.contain(timelineDate);
 						});

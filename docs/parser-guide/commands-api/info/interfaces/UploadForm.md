@@ -106,7 +106,7 @@ The title of the tab in the upload form
 **`Example`**
 
 ```ts
-tabTitle = 'Upload <C2_NAME> logs';
+tabTitle = '<C2_NAME>';
 ```
 
 #### Defined in

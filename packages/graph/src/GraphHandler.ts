@@ -21,7 +21,7 @@ import { SuperGraphRenderer } from './GraphRenderers/SuperGraphRenderer';
 import type { HierarchicalGraphRenderer } from './GraphRenderers/HierarchicalGraphRenderer';
 import { textOcclusion, textOcclusionSort } from './GraphRenderers/textOcclusion';
 import { initializeTesting, noOp } from './utils';
-import { NodeShape } from './GraphRenderers/polygon-utils';
+import type { NodeShape } from './GraphRenderers/polygon-utils';
 
 /** The root graph handler for all subgraphs and interactions */
 export class GraphHandler {
@@ -65,8 +65,7 @@ export class GraphHandler {
 			previouslyParsedGraphData,
 		});
 
-		this.svg = d3Select(element)
-			//
+		this.svg = d3Select(element) //
 			.html('')
 			.classed([classNames.graphRoot, 'dotGrid'].join(' '), true);
 		this.resize();
@@ -354,12 +353,19 @@ export class GraphHandler {
 		*/
 	}
 
-	useGraphForces() {
-		this.graphRoot.callChildrenRecursively('useGraphForces');
-	}
-	useSimpleForces() {
-		this.graphRoot.callChildrenRecursively('useSimpleForces');
+	forceMode: ForceMode = 'graph';
+	useForceMode(mode: ForceMode) {
+		if (mode === 'simple') {
+			this.graphRoot.callChildrenRecursively('useSimpleForces');
+			this.forceMode = 'simple';
+		} else {
+			// if (mode === 'graph') {
+			this.graphRoot.callChildrenRecursively('useGraphForces');
+			this.forceMode = 'graph';
+		}
 	}
 
 	static scaleRadius = (zk: number) => Math.min(zk, (zk - 1) * 0.3 + 1);
 }
+
+type ForceMode = 'graph' | 'simple';

@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, Divider, Intent } from '@blueprintjs/core';
-import { ArrowLeft16, SkipBack16, SkipForward16 } from '@carbon/icons-react';
+import { Breadcrumb, Button, ButtonGroup, Intent } from '@blueprintjs/core';
+import { SkipBack16, SkipForward16 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon } from '@redeye/client/components';
 import { routes, useStore } from '@redeye/client/store';
 import { CampaignViews } from '@redeye/client/types';
-import { Header } from '@redeye/ui-styles';
+import { SlideSelector, breadcrumbLinkStyle } from '@redeye/client/views';
+import { Flex, Header, Spacer, Txt, UtilityStyles, flexChild } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
 
@@ -25,42 +26,19 @@ export const PresentationNavBar = observer<HeaderProps>(({}) => {
 		store.campaign.presentation.index >= (store.campaign.presentation.selectedItem?.commandGroups?.length || 1) - 1;
 
 	return (
-		<div
-			css={css`
-				display: flex;
-				justify-content: space-between;
-				/* align-items: center; */
-			`}
-		>
-			<div
-				css={css`
-					display: flex;
-					align-items: center;
-					margin: 0 1rem;
-				`}
-			>
-				<Button
-					cy-test="back-to-presentations"
-					icon={<CarbonIcon icon={ArrowLeft16} />}
-					minimal
-					onClick={routeBackToMenu}
-				/>
-				<Divider
-					css={css`
-						height: 1rem;
-						margin: 0 1rem 0 0.5rem;
-					`}
-				/>
-				<Header cy-test="presentation-name" small>
-					{store.graphqlStore.presentationItems.get(store.router.params.presentation)?.key}
+		<Flex align="center">
+			<Flex gap={4} align="baseline" overflowHidden fill css={[{ margin: '0 1rem' }, breadcrumbLinkStyle]}>
+				<Header small css={[flexChild.fill, UtilityStyles.textEllipsis, { display: 'inline' }]}>
+					<Breadcrumb onClick={routeBackToMenu} text="Topics" intent="primary" />
+					<Spacer>/</Spacer>
+					<Txt cy-test="presentation-name" ellipsize>
+						{store.graphqlStore.presentationItems.get(store.router.params.presentation)?.key}
+					</Txt>
 				</Header>
-			</div>
-			<ButtonGroup
-				large
-				css={css`
-					/* height: 100%; */
-				`}
-			>
+				<SlideSelector css={flexChild.fixed} />
+			</Flex>
+
+			<ButtonGroup large>
 				<Button
 					cy-test="previous-slide"
 					icon={<CarbonIcon icon={SkipBack16} />}
@@ -85,6 +63,6 @@ export const PresentationNavBar = observer<HeaderProps>(({}) => {
 					]}
 				/>
 			</ButtonGroup>
-		</div>
+		</Flex>
 	);
 });
