@@ -23,7 +23,7 @@ export const getPaths = (store: AppStore, { server, host, beacon }: any): (strin
 		return [
 			store.graphqlStore.servers.get(server)?.computedName,
 			store.graphqlStore.hosts.get(host)?.computedName,
-			store.graphqlStore.hosts.get(beacon)?.computedName,
+			store.graphqlStore.beacons.get(beacon)?.computedName,
 		];
 	}
 	if (host)
