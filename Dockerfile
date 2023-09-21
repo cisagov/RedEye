@@ -1,11 +1,12 @@
 FROM node:18-bullseye as redeye-builder
 
 WORKDIR /app
+COPY ./ ./
 ENV CYPRESS_INSTALL_BINARY=0
-RUN npm install -g pkg @moonrepo/cli
-COPY ./.moon/docker/workspace .
-RUN moon docker setup
-RUN moon run server:build client:build cobalt-strike-parser:build brute-ratel-parser:build
+RUN npm install -g pkg
+RUN yarn add rimraf
+RUN yarn install --immutable --inline-builds
+RUN yarn moon run server:build client:build
 RUN yarn node scripts/create-release.mjs
 RUN tar -zcvf release.tar.gz ./release/
 RUN mkdir outputs
