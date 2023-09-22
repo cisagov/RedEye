@@ -121,7 +121,7 @@ hr {
 	color: white;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 570px) {
 	.expanded {
 		display: flex;
 		align-items: start;
@@ -130,7 +130,7 @@ hr {
 	}
 }
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 570px) {
 	.nav-links {
 		display: flex;
 		position: static;
