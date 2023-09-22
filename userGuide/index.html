@@ -49,8 +49,9 @@
 <ul>
 <li><a href="#uploading-campaigns"><strong>Uploading Campaigns</strong></a>
 <ul>
-<li><a href="#server-folders--multi-server-and-single-server-">Server Folders (Multi-Server and Single-Server)</a></li>
-<li><a href="#database-files">Database Files</a></li>
+<li><a href="#cobalt-strike">Cobalt Strike</a></li>
+<li><a href="#brute-ratel">Brute Ratel</a></li>
+<li><a href="#.redeye-file">.redeye File</a></li>
 </ul>
 </li>
 <li><a href="#filter-existing-campaigns">Filter Existing Campaigns</a></li>
@@ -59,12 +60,17 @@
 </li>
 <li><a href="#explorer"><strong>Explorer</strong></a>
 <ul>
-<li><a href="#hosts-tab">Hosts Tab</a></li>
+<li><a href="#hosts-tab">Hosts Tab</a>
+<ul>
+<li><a href="#changing-host-color">Changing Host Color</a></li>
+</ul>
+</li>
 <li><a href="#operators-tab">Operators Tab</a></li>
 <li><a href="#comments-tab">Comments Tab</a></li>
 <li><a href="#beacons-tab">Beacons Tab</a>
 <ul>
-<li><a href="#selecting-beacon-from-list">Selecting Beacon from List</a>
+<li><a href="#selecting-beacon-from-list">Selecting Beacon from List</a></li>
+<li><a href="#changing-beacon-color-and-shape">Changing Beacon Color and Shape</a>
 <ul>
 <li><a href="#expanding-raw-logs">Expanding Raw Logs</a></li>
 </ul>
@@ -86,6 +92,8 @@
 <ul>
 <li><a href="#timezone">Timezone</a></li>
 <li><a href="#showhide-beacons">Show/Hide Beacons</a></li>
+<li><a href="#light-theme">Light Theme</a></li>
+<li><a href="#redacted-screenshot-mode">Redacted Screenshot Mode</a></li>
 <li><a href="#graph">Graph</a>
 <ul>
 <li><a href="#exporting-graph">Exporting Graph</a></li>
@@ -113,18 +121,18 @@
 <p>Redeye provides three ways to upload and visualize your campaign data.</p>
 <h4 id="cobalt-strike">Cobalt Strike</h4>
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadServerFolders.png?raw=true" width="55%">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadCobaltStrike.png?raw=true" width="55%">
 </p>
-<p>When uploading multi-server or single-server folders, RedEye will automatically remove files that are<br>
+<p>With the Cobalt Strike option selecte and uploading multi-server or single-server folders, RedEye will automatically remove files that are<br>
 not necessary. To view a list of all the files that were removed, hover over the “File Removed” icon.</p>
 <h4 id="brute-ratel">Brute Ratel</h4>
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadBruteRatel.png?raw=true" width="55%">
 </p>
 <p>Upload, parse and visualize your Brute Ratel campaigns with this option.</p>
-<h4 id="redeye-file">.Redeye File</h4>
+<h4 id="redeye-file">.redeye File</h4>
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadRedEyeFile.png?raw=true" width="55%">
 </p>
 <p>Upload database files ending with .redeye or .sqlite. These are usually campaigns that were previously exported.</p>
 <h3 id="filter-existing-campaigns">Filter Existing Campaigns</h3>
@@ -143,6 +151,11 @@ not necessary. To view a list of all the files that were removed, hover over the
 <p>This tab shows the different servers linked to the campaign being viewed, as well as the Cobalt Strike server. Select a host to see all commands executed by the beacons on the server.</p>
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/HostsTab.png?raw=true" width="65%">
+</p>
+<h4 id="changing-host-color">Changing Host Color</h4>
+<p>To change the color and shape of how a host appears in the graph, click on the “Details Tab” after selecting a host.</p>
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHostColor.png?raw=true" width="65%">
 </p>
 <h3 id="operators-tab">Operators Tab</h3>
 <p>Any operators, along with the number of beacons and commands that it’s associated with will appear here.</p>
@@ -169,15 +182,20 @@ not necessary. To view a list of all the files that were removed, hover over the
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/BeaconsTab.png?raw=true" width="65%">
 </p>
-<h3 id="command-types-tab">Command Types Tab</h3>
-<p>The Command Types tab displays a list of all commands and the number of times the command was executed by the beacons in the campaign.</p>
-<p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true" width="75%">
-</p>
-<h4 id="selecting-beacon-from-list">Selecting Beacon from List</h4>
+<h4 id="selecting-beacon-from-list">Selecting Beacon From List</h4>
 <p>Select a beacon from the Beacons Tab to find out more information, such as the commands, operators, comments, and metadata that it is associated with.</p>
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/SelectBeacon.png?raw=true" width="55%">
+</p>
+<h4 id="changing-beacon-color-and-shape">Changing Beacon Color and Shape</h4>
+<p>To change the color and shape of how a beacon appears in the graph, click on the “Details Tab” after selecting a beacon.</p>
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UpdateBeaconColorShape.png?raw=true" width="65%">
+</p>
+<h3 id="command-types-tab">Command Types Tab</h3>
+<p>The Command Types tab displays a list of all commands and the number of times the command was executed by the beacons in the campaign.</p>
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true" width="60%">
 </p>
 <h5 id="expanding-raw-logs">Expanding Raw Logs</h5>
 <p>Select a command from the list to view the raw logs executed by the beacon. Here, you’ll be able to see the different types of associated MITRE attacks, as well as the option to copy the log file text.</p>
@@ -195,7 +213,7 @@ the command.</p>
 <h4 id="multi-command-comment">Multi-Command Comment</h4>
 <p>Use the multi-command comment function to group multiple commands with one comment. Use the checkbox to select one or more comments, then click “Comment on commands”.</p>
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/MultiCommandComment.png?raw=true" width="55%" height="70%">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/MultiCommandComment.png?raw=true" width="55%" height="60%">
 </p>
 <h4 id="add-command-to-an-existing-comment">Add command to an existing comment</h4>
 <p align="center">
@@ -221,7 +239,7 @@ the command.</p>
 <h3 id="showhide-beacons">Show/Hide Beacons</h3>
 <p>To display or hide beacons, check or uncheck the “Show Hidden Beacons, Host, and Servers” button.</p>
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHideBeacon.png?raw=true" width="75%">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ShowHideBeacon.png?raw=true" width="75%">
 </p>
 <h3 id="light-theme">Light Theme</h3>
 <p>This toggle enables light theme mode for RedEye.</p>
