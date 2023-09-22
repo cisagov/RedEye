@@ -1,8 +1,8 @@
 import { Classes, MenuItem } from '@blueprintjs/core';
 import type { ItemPredicate, SuggestProps } from '@blueprintjs/select';
 import { Suggest, getCreateNewItem } from '@blueprintjs/select';
-import { Add16, User16 } from '@carbon/icons-react';
-import { ClassNames, css } from '@emotion/react';
+import { User16, UserFollow16 } from '@carbon/icons-react';
+import { css } from '@emotion/react';
 import { CarbonIcon, createState, escapeRegExpChars } from '@redeye/client/components';
 import type { GlobalOperatorModel } from '@redeye/client/store';
 import { useStore } from '@redeye/client/store';
@@ -16,18 +16,18 @@ type UsernameInputProps = Omit<
 > & {
 	username: string;
 	password: string;
-	disableCreateUser: boolean;
+	softDisable: boolean;
 	refetch: () => any;
 	users?: GlobalOperatorModel[];
-	updateUser: (userName) => void;
+	onUsernameUpdate: (username) => void;
 };
 
 export const UsernameInput = observer<UsernameInputProps>(
-	({ username, password, disableCreateUser, refetch, users = [], updateUser, ...props }) => {
+	({ username, password, softDisable, refetch, users = [], onUsernameUpdate, ...props }) => {
 		const store = useStore();
 
 		const state = createState({
-			active: null as null | GlobalOperatorModel,
+			activeItem: null as null | GlobalOperatorModel,
 			query: username,
 		});
 
@@ -41,82 +41,94 @@ export const UsernameInput = observer<UsernameInputProps>(
 				onSuccess(op) {
 					if (op?.createGlobalOperator) {
 						refetch();
-						updateUser(state.query);
+						onUsernameUpdate(state.query);
 					}
 				},
 			}
 		);
 
 		return (
-			<ClassNames>
-				{({ css: classCss }) => (
-					// for the popoverProps.className
-					<Suggest
-						cy-test="username"
-						openOnKeyDown
-						query={state.query}
-						createNewItemFromQuery={(query) => ({ name: query, id: query } as any)}
-						selectedItem={
-							store.graphqlStore.globalOperators.get(state.query) ||
-							({ name: state.query, id: state.query } as GlobalOperatorModel)
-						}
-						itemPredicate={filterUsers}
-						activeItem={state.active || getCreateNewItem()}
-						onItemSelect={(item) => {
-							state.update('query', item?.name);
-							updateUser(item.name);
-						}}
-						onActiveItemChange={(active) => state.update('active', active)}
-						onQueryChange={(query) => state.update('query', query)}
-						items={users || []}
-						inputValueRenderer={(item) => item.name as string}
-						css={menuParentStyle}
-						fill
-						popoverProps={
-							{
-								minimal: true,
-								popoverClassName: classCss(menuParentStyle),
-							} as any
-						}
-						inputProps={{
-							// value: state.query, // not needed in bp5
-							onBlur: () => updateUser(state.query),
-							type: 'text',
-							name: 'username',
-							autoComplete: 'username',
-							placeholder: 'user',
-							leftIcon: <CarbonIcon icon={User16} />,
-							large: true,
-						}}
-						itemRenderer={(user, { handleClick, modifiers }) => {
-							if (!modifiers.matchesPredicate) return null;
-							return (
-								<MenuItem
-									text={highlightText(user.name as string, state.query)}
-									active={modifiers.active}
-									disabled={modifiers.disabled}
-									// label={user.campaign} // TODO: add campaign the user comes from
-									key={user.name}
-									onClick={handleClick}
-								/>
-							);
-						}}
-						createNewItemRenderer={(_, isActive: boolean) => (
-							<MenuItem
-								icon={<CarbonIcon icon={Add16} />}
-								text="New User"
-								disabled={disableCreateUser || store.graphqlStore.globalOperators.has(state.query)}
-								label={state.query}
-								active={isActive}
-								onClick={() => addUser()}
-								shouldDismissPopover={false}
-								css={newUserStyle}
-							/>
-						)}
-						{...props}
-					/>
-				)}
-			</ClassNames>
+			<Suggest
+				cy-test="username"
+				query={state.query}
+				createNewItemFromQuery={(query) => ({ name: query, id: query } as any)}
+				selectedItem={
+					store.graphqlStore.globalOperators.get(state.query) ||
+					({ name: state.query, id: state.query } as GlobalOperatorModel)
+				}
+				itemPredicate={filterUsers}
+				activeItem={state.activeItem || getCreateNewItem()}
+				onItemSelect={(item) => {
+					state.update('query', item?.name);
+					onUsernameUpdate(item.name);
+				}}
+				onActiveItemChange={(activeItem) => {
+					state.update('activeItem', activeItem);
+					// if there is a plausible matching username, use it.
+					// otherwise, used the typed text
+					onUsernameUpdate(activeItem ? activeItem.name : state.query);
+				}}
+				onQueryChange={(query) => {
+					state.update('query', query);
+				}}
+				items={users || []}
+				inputValueRenderer={(item) => item.name as string}
+				css={menuParentStyle}
+				fill
+				popoverProps={{
+					minimal: true,
+					matchTargetWidth: true,
+				}}
+				inputProps={{
+					type: 'text',
+					name: 'username',
+					autoComplete: 'username',
+					placeholder: 'user',
+					leftIcon: <CarbonIcon icon={User16} />,
+					large: true,
+				}}
+				itemRenderer={(user, { handleClick, modifiers }) => {
+					if (!modifiers.matchesPredicate) return null;
+					return (
+						<MenuItem
+							text={highlightText(user.name as string, state.query)}
+							active={modifiers.active}
+							disabled={modifiers.disabled}
+							// label={user.campaign} // TODO: add campaign the user comes from
+							key={user.name}
+							onClick={handleClick}
+						/>
+					);
+				}}
+				createNewItemRenderer={
+					store.appMeta.blueTeam
+						? undefined
+						: (_, isActive: boolean) =>
+								softDisable ? (
+									<div css={{ padding: '4px 12px' }}>
+										<Txt small bold block css={password && { color: CoreTokens.TextIntentDanger }}>
+											{password ? 'Invalid Server Password' : 'No Server Password'}
+										</Txt>
+										<Txt small italic muted block>
+											Enter a valid password to see user options
+										</Txt>
+									</div>
+								) : (
+									<MenuItem
+										icon={<CarbonIcon icon={UserFollow16} />}
+										text={state.query}
+										disabled={store.graphqlStore.globalOperators.has(state.query)}
+										label="Add new user"
+										active={isActive}
+										onClick={() => addUser()}
+										shouldDismissPopover={false}
+										intent="primary"
+										css={newUserStyle}
+									/>
+								)
+				}
+				{...props}
+			/>
 		);
 	}
 );
