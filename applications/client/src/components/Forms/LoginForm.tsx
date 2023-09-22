@@ -1,4 +1,4 @@
-import { Button, Callout, Collapse, InputGroup, Intent } from '@blueprintjs/core';
+import { Button, Callout, InputGroup, Intent } from '@blueprintjs/core';
 import { ArrowRight16, Password16, Warning20 } from '@carbon/icons-react';
 import { css } from '@emotion/react';
 import { CarbonIcon, UsernameInput } from '@redeye/client/components';
@@ -10,16 +10,12 @@ import { observer } from 'mobx-react-lite';
 import type { ComponentProps, FormEvent } from 'react';
 import { createState } from '../mobx-create-state';
 
-type LoginFormProps = ComponentProps<'form'> & {
-	submitText?: string;
-};
+type LoginFormProps = ComponentProps<'form'>;
 
-const isDevelop = import.meta.env.DEV;
-
-export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Login', ...props }) => {
+export const LoginForm = observer<LoginFormProps>(({ ...props }) => {
 	const store = useStore();
 	const state = createState({
-		username: isDevelop ? store.auth.userName || 'dev' : store.auth.userName || '',
+		username: store.auth.userName || '',
 		password: '',
 		passwordFocus: false,
 		loading: false,
@@ -30,7 +26,6 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 			if (store.appMeta.blueTeam) {
 				store.auth.setUser(this.username);
 				store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
-				if (onSubmit) onSubmit(event);
 			} else {
 				// Make login call
 				const formData = new FormData();
@@ -58,7 +53,6 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 						}
 						store.auth.setUser(this.username);
 						store.router.updateRoute({ path: routes[Views.CAMPAIGNS_LIST], params: { id: 'all' } });
-						if (onSubmit) onSubmit(event);
 					}
 				} catch (e) {
 					this.loading = false;
@@ -101,26 +95,26 @@ export const LoginForm = observer<LoginFormProps>(({ onSubmit, submitText = 'Log
 				username={state.username}
 				password={state.password}
 				refetch={refetch}
-				disableCreateUser={!data}
+				softDisable={!data}
 				users={data?.globalOperators}
-				updateUser={(userName) => state.update('username', userName)}
+				onUsernameUpdate={(username) => state.update('username', username)}
 				css={otherSpacingLooseStyle}
 			/>
-			<Collapse isOpen={!!state.errorMessage}>
+			{!!state.errorMessage && (
 				<Callout
 					css={otherSpacingLooseStyle}
 					intent={Intent.DANGER}
 					icon={<CarbonIcon icon={Warning20} />}
 					children={state.errorMessage}
 				/>
-			</Collapse>
+			)}
 			<Button
 				cy-test="login-btn"
-				text={submitText}
+				text="Login"
 				loading={state.loading}
 				intent="primary"
 				css={otherSpacingLooseStyle}
-				disabled={state.username.length < 1}
+				disabled={state.username.length < 1 || (state.password.length < 1 && !store.appMeta.blueTeam)}
 				type="submit"
 				rightIcon={<CarbonIcon icon={ArrowRight16} />}
 				large
@@ -135,17 +129,3 @@ const inputSpacingTightStyle = css`
 const otherSpacingLooseStyle = css`
 	margin-bottom: 1rem;
 `;
-// const removeAutofillStyle = css`
-/* // don't think this is a good idea
-box-shadow: rgba(255, 255, 255, 0.4) 0px -1px 0px 0px inset !important;
-background: rgba(255, 255, 255, 0.06);
-input:not(:-webkit-autofill) {
-  background: transparent !important;
-}
-input:-webkit-autofill {
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.96);
-  -webkit-background-image: none !important;
-  -webkit-background-clip: text;
-}
-*/
-// `;

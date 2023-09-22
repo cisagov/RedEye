@@ -66,7 +66,7 @@ Redeye provides three ways to upload and visualize your campaign data.
 #### Cobalt Strike
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadServerFolders.png?raw=true" width="55%" />
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadCobaltStrike.png?raw=true" width="55%" />
 </p>
 
 When uploading multi-server or single-server folders, RedEye will automatically remove files that are\
@@ -75,7 +75,7 @@ not necessary. To view a list of all the files that were removed, hover over the
 #### Brute Ratel
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadBruteRatel.png?raw=true" width="55%" />
 </p>
 
 Upload, parse and visualize your Brute Ratel campaigns with this option.
@@ -83,7 +83,7 @@ Upload, parse and visualize your Brute Ratel campaigns with this option.
 #### .Redeye File
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadDBFiles.png?raw=true" width="55%" />
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadRedEyeFile.png?raw=true" width="55%" />
 </p>
 
 Upload database files ending with .redeye or .sqlite. These are usually campaigns that were previously exported.
@@ -116,6 +116,14 @@ This tab shows the different servers linked to the campaign being viewed, as wel
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/HostsTab.png?raw=true" width="65%"/>
 </p>
 
+#### Changing Host Color
+
+To change the color and shape of how a host appears in the graph, click on the "Details Tab" after selecting a host.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHostColor.png?raw=true" width="65%" />
+</p>
+
 ### Operators Tab
 
 Any operators, along with the number of beacons and commands that it's associated with will appear here.
@@ -146,20 +154,28 @@ All beacons and the total number of commands executed by the beacon are displaye
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/BeaconsTab.png?raw=true" width="65%"/>
 </p>
 
-### Command Types Tab
-
-The Command Types tab displays a list of all commands and the number of times the command was executed by the beacons in the campaign.
-
-<p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true" width="75%"/>
-</p>
-
-#### Selecting Beacon from List
+#### Selecting Beacon From List
 
 Select a beacon from the Beacons Tab to find out more information, such as the commands, operators, comments, and metadata that it is associated with.
 
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/SelectBeacon.png?raw=true" width="55%" />
+</p>
+
+#### Changing Beacon Color and Shape
+
+To change the color and shape of how a beacon appears in the graph, click on the "Details Tab" after selecting a beacon.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UpdateBeaconColorShape.png?raw=true" width="65%"/>
+</p>
+
+### Command Types Tab
+
+The Command Types tab displays a list of all commands and the number of times the command was executed by the beacons in the campaign.
+
+<p align="center">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/CommandTypesTab.png?raw=true" width="60%"/>
 </p>
 
 ##### Expanding Raw Logs
@@ -187,7 +203,7 @@ the command.
 Use the multi-command comment function to group multiple commands with one comment. Use the checkbox to select one or more comments, then click "Comment on commands".
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/MultiCommandComment.png?raw=true" width="55%" height="70%">
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/MultiCommandComment.png?raw=true" width="55%" height="60%">
 </p>
 
 #### Add command to an existing comment
@@ -224,7 +240,7 @@ By default, the timezone should be automatically set to appear as your current t
 To display or hide beacons, check or uncheck the "Show Hidden Beacons, Host, and Servers" button.
 
 <p align="center">
-<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ChangeHideBeacon.png?raw=true"  width="75%"/>
+<img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/ShowHideBeacon.png?raw=true"  width="75%"/>
 </p>
 
 ### Light Theme
