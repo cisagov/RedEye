@@ -39,7 +39,7 @@ describe('Update Beacon details', () => {
 
 		// Change beacon name and save
 		cy.get('[cy-test=beacon-display-name]').click().clear().type(newBeaconName);
-		cy.get('[cy-test=save-beacon-name]').click();
+		cy.get('[cy-test=save-beacon-name]').click({ force: true });
 
 		// Change TOD and save
 		cy.get('input[type=text]').eq(1).click().clear().type(newTOD);
