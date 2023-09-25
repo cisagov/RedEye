@@ -71,7 +71,7 @@ Cypress.Commands.add('addMultiCommandComment', () => {
 Cypress.Commands.add('beaconClick', (id) => {
 	cy.wait(1000);
 	return cy.window().then((win) => {
-		win.graph.graphData.selectNode(id);
+		win.graph.graphData.selectNode([id]);
 	});
 });
 

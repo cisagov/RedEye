@@ -128,12 +128,12 @@ Type `./Redeye -h` to view the options
 ```
 
 you can also configure the server parameters in a `config.json` file that sits next to the `RedEye` binary
-```json
+```json5
 
 {
 	"password": "937038570",
 	"redTeam": true,
-	"parsers": ["cobalt-strike-parser", "brute-ratel-parser"]
+	"parsers": ["cobalt-strike-parser", "brute-ratel-parser"] // or true/false
 }
 ```
 

@@ -16,16 +16,19 @@ RedEye is a visual analytic tool for supporting Red Team operations, analytics, 
   - [**Logging In/ Creating New User**](#logging-in-creating-new-user)
   - [**Campaign Cards**](#campaign-cards)
     - [**Uploading Campaigns**](#uploading-campaigns)
-      - [Server Folders (Multi-Server and Single-Server)](#server-folders--multi-server-and-single-server-)
-      - [Database Files](#database-files)
+      - [Cobalt Strike](#cobalt-strike)
+      - [Brute Ratel](#brute-ratel)
+      - [.redeye File](#.redeye-file)
     - [Filter Existing Campaigns](#filter-existing-campaigns)
     - [Rename / Delete / Export Campaign](#rename--delete--export-campaign)
   - [**Explorer**](#explorer)
     - [Hosts Tab](#hosts-tab)
+      - [Changing Host Color](#changing-host-color)
     - [Operators Tab](#operators-tab)
     - [Comments Tab](#comments-tab)
     - [Beacons Tab](#beacons-tab)
       - [Selecting Beacon from List](#selecting-beacon-from-list)
+      - [Changing Beacon Color and Shape](#changing-beacon-color-and-shape)
         - [Expanding Raw Logs](#expanding-raw-logs)
     - [Adding Comments and Tags](#adding-comments-and-tags)
       - [Adding New Comments](#adding-new-comments)
@@ -36,6 +39,8 @@ RedEye is a visual analytic tool for supporting Red Team operations, analytics, 
   - [**Settings Modal**](#settings-modal)
     - [Timezone](#timezone)
     - [Show/Hide Beacons](#showhide-beacons)
+    - [Light Theme](#light-theme)
+    - [Redacted Screenshot Mode](#redacted-screenshot-mode)
     - [Graph](#graph)
       - [Exporting Graph](#exporting-graph)
   - [**Search**](#search)
@@ -69,7 +74,7 @@ Redeye provides three ways to upload and visualize your campaign data.
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadCobaltStrike.png?raw=true" width="55%" />
 </p>
 
-When uploading multi-server or single-server folders, RedEye will automatically remove files that are\
+With the Cobalt Strike option selecte and uploading multi-server or single-server folders, RedEye will automatically remove files that are\
 not necessary. To view a list of all the files that were removed, hover over the "File Removed" icon.
 
 #### Brute Ratel
@@ -80,7 +85,7 @@ not necessary. To view a list of all the files that were removed, hover over the
 
 Upload, parse and visualize your Brute Ratel campaigns with this option.
 
-#### .Redeye File
+#### .redeye File
 
 <p align="center">
 <img src="https://github.com/cisagov/RedEye/blob/develop/docs/images/UploadRedEyeFile.png?raw=true" width="55%" />

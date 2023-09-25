@@ -292,7 +292,8 @@ export class GraphHandler {
 
 	clickNode(_event: PointerEvent, node: HierarchicalGraphNode) {
 		if (node.selectedFocus) this.graphData.clearSelection();
-		else this.graphData.selectNode(node);
+		// else if (_event.metaKey) this.graphData.addNodeToSelection(node);
+		else this.graphData.selectNodes([node]);
 	}
 	mouseOverNode(_event: PointerEvent, node: HierarchicalGraphNode) {
 		if (!this.dragState.isDragging) this.graphData.previewNode(node);
