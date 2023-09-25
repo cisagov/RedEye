@@ -4,7 +4,10 @@ fileGroups:
     - 'src/**/*'
     - 'astro.config.*'
 tasks:
-  # Production build
+  astro:
+    command: 'astro'
+    local: true
+    # Production build
   build:
     command: 'astro build'
     inputs:
