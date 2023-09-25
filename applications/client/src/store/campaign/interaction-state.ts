@@ -44,7 +44,7 @@ export class InteractionState extends ExtendedModel(() => ({
 })) {
 	protected onAttachedToRootStore(rootStore: any): (() => void) | void {
 		return reaction(
-			() => [rootStore.router.params.currentItemId, !!rootStore.campaign.graph],
+			() => [rootStore.router.params.currentItemId, rootStore.router.params.slide, !!rootStore.campaign.graph],
 			() => {
 				this.changeSelected();
 			},
@@ -155,27 +155,41 @@ export class InteractionState extends ExtendedModel(() => ({
 
 	@modelAction changeSelected() {
 		if (this.appStore) {
-			const { server, host, operator, beacon, commandType } = this.currentItem?.items || {};
 			this.appStore.campaign.timeline?.selectedBeacons.clear();
 			this.appStore.campaign.timeline?.selectedChainedBeacons.clear();
-			if (beacon) {
-				this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(beacon));
-			} else if (host) {
-				const comp = this.currentHosts.get(host);
-				if (comp) {
-					for (const hostBeaconId of comp.beaconIds) {
-						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(hostBeaconId));
+			const isPresentation = this.appStore?.router.params.view === CampaignViews.PRESENTATION;
+			if (isPresentation) {
+				const beacons = this.appStore.campaign.presentation.currentSlide?.beacons;
+				const beaconIds = beacons?.map((beacon) => beacon.id);
+				if (beaconIds) {
+					for (const beaconId of beaconIds) {
+						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(beaconId));
+					}
+					this.appStore.campaign.graph?.graphData.selectNodes(beaconIds);
+				} else {
+					this.appStore.campaign.graph?.graphData.clearSelection();
+				}
+			} else {
+				const { server, host, operator, beacon, commandType } = this.currentItem?.items || {};
+				if (beacon) {
+					this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(beacon));
+				} else if (host) {
+					const comp = this.currentHosts.get(host);
+					if (comp) {
+						for (const hostBeaconId of comp.beaconIds) {
+							this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(hostBeaconId));
+						}
+					}
+				} else if (server) {
+					const comp = this.appStore.graphqlStore.servers.get(server);
+					if (comp) {
+						for (const serverBeacon of comp.beacons) {
+							this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(serverBeacon.id));
+						}
 					}
 				}
-			} else if (server) {
-				const comp = this.appStore.graphqlStore.servers.get(server);
-				if (comp) {
-					for (const serverBeacon of comp.beacons) {
-						this.appStore.campaign.timeline?.setBeacon(this.currentBeacons.get(serverBeacon.id));
-					}
-				}
+				this.setSelectedModels(beacon, host, server, operator, commandType);
 			}
-			this.setSelectedModels(beacon, host, server, operator, commandType);
 		}
 	}
 
@@ -206,8 +220,8 @@ export class InteractionState extends ExtendedModel(() => ({
 		else this.selectedCommandType = undefined;
 
 		if (beaconId || hostId || serverId) {
-			this.appStore?.campaign.graph?.graphData.selectNode(
-				(beaconId || hostId || this.selectedServer?.maybeCurrent?.serverHost?.id)!,
+			this.appStore?.campaign.graph?.graphData.selectNodes(
+				[(beaconId || hostId || this.selectedServer?.maybeCurrent?.serverHost?.id)!],
 				false
 			);
 		} else {

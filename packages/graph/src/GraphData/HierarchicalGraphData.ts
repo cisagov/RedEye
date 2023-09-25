@@ -335,12 +335,15 @@ export class HierarchicalGraphData {
 		}
 	}
 
-	selectNode(node: HierarchicalGraphNode | string, fireEvent = true) {
-		const _node = typeof node === 'string' ? this.allNodes.get(node) : node;
-		if (!_node) return;
+	selectNodes(nodes: (HierarchicalGraphNode | string)[], fireEvent = true) {
 		this.clearSelection(false);
-		this.addNodeToSelection(_node, false);
-		if (fireEvent) this.onSelectionChange(_node, Array.from(this.selectionSet));
+		for (let i = 0; i < nodes.length; i++) {
+			const node = nodes[i];
+			const _node = typeof node === 'string' ? this.allNodes.get(node) : node;
+			if (!_node) return;
+			this.addNodeToSelection(_node, false);
+			if (fireEvent) this.onSelectionChange(_node, Array.from(this.selectionSet));
+		}
 	}
 	addNodeToSelection(node: HierarchicalGraphNode, fireEvent = true) {
 		this.addToSet(node, 'selection');
