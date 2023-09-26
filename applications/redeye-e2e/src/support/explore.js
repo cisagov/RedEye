@@ -144,6 +144,11 @@ Cypress.Commands.add('selectHostByName', (campaignName) => {
 	cy.get('[cy-test=hostName]').contains(campaignName).click();
 });
 
+// SELECT SPECIFIC BEACON IN LIST
+Cypress.Commands.add('selectBeacon', (index) => {
+	cy.get('[data-test-id=virtuoso-item-list] [cy-test=beacons-row]').eq(index).click();
+});
+
 // *******************************************
 // TIMELINE ACTIONS
 // *******************************************
@@ -200,6 +205,11 @@ Cypress.Commands.add('filterToBeacons', () => {
 // FILTER TO COMMANDS
 Cypress.Commands.add('filterToCommands', () => {
 	cy.get('[cy-test=Commands]').click();
+});
+
+// FILTER TO COMMAND TYPE
+Cypress.Commands.add('filterToCommandType', () => {
+	cy.get('[cy-test="Command Type"]').click();
 });
 
 // FILTER TO HOSTS

@@ -13,26 +13,26 @@ describe('Selecting Host Via Graph', () => {
 			//Host Win-10-02
 
 			cy.get('[cy-test=graph]').within((g) => {
-				cy.wrap(g).find('[cy-test=graphNode]').eq(2).click({ force: true });
+				cy.get('[id=COMPUTER03]').click({ force: true });
 			});
 			cy.wait(1000);
 
 			cy.get('[cy-test=panel-header]').should('contain.text', 'COMPUTER03');
 
 			// //return to main page
-			cy.get('[cy-test=return-campaign-menu').click();
+			cy.returnToCampaignCard();
 		}
 
 		if (Cypress.isBrowser('firefox')) {
 			cy.get('[cy-test=graph]').within((g) => {
-				cy.wrap(g).find('[cy-test=graphNode]').eq(1).click({ force: true });
+				cy.get('[id=COMPUTER03]').click({ force: true });
 			});
 			cy.wait(1000);
 
 			cy.get('[cy-test=panel-header]').should('contain.text', 'COMPUTER03');
 
 			// //return to main page
-			cy.get('[cy-test=return-campaign-menu').click();
+			cy.returnToCampaignCard();
 		}
 	});
 

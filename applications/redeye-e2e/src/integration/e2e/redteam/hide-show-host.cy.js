@@ -12,9 +12,7 @@ describe('Hide a host', () => {
 	const camp = 'hideshowhost';
 	const fileName = 'gt.redeye';
 
-	// Skipping first test for now - it is failing in Cypress (although fine when repeating the steps manually), which causes the following tests to fail as well.
-	// Since manual testing passes, will come back to the Cypress test later.
-	it.skip('Hide host via Details tab using toggle in left nav panel', () => {
+	it('Hide host via Details tab using toggle in left nav panel', () => {
 		cy.uploadCampaign(camp, fileName);
 
 		// Search for new campaign by name
@@ -52,7 +50,7 @@ describe('Hide a host', () => {
 	});
 
 	it('Hide host via Details tab using toggle on main page', () => {
-		cy.uploadCampaign(camp, fileName);
+		// cy.uploadCampaign(camp, fileName);
 
 		// Search for campaign by name and open
 		cy.selectCampaign(camp);
