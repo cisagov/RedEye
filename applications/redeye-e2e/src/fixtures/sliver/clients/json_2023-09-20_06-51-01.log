@@ -1,0 +1,19 @@
+{"time":"2023-09-20T06:51:01.285066093Z","level":"DEBUG","msg":"http","type":"command"}
+{"time":"2023-09-20T06:51:01.28839426Z","level":"INFO","msg":"Starting HTTP :80 listener ...\n"}
+{"time":"2023-09-20T06:51:01.391682177Z","level":"INFO","msg":"Successfully started job #1\n"}
+{"time":"2023-09-20T06:51:18.725030504Z","level":"INFO","msg":"Beacon fcefd6d0 BURNING_OXEN - 10.0.0.2:55844 (2c6ab9987174) - linux/amd64 - Wed, 20 Sep 2023 06:51:18 UTC","type":"event"}
+{"time":"2023-09-20T06:51:26.687264841Z","level":"DEBUG","msg":"use fcefd6d0","type":"command"}
+{"time":"2023-09-20T06:51:26.694869049Z","level":"INFO","msg":"Active beacon BURNING_OXEN (fcefd6d0-f246-419a-8634-eb0804d4275b)\n"}
+{"time":"2023-09-20T06:51:29.390068884Z","level":"DEBUG","msg":"ls","type":"command"}
+{"time":"2023-09-20T06:51:29.414300301Z","level":"INFO","msg":"Tasked beacon BURNING_OXEN (1802352b)"}
+{"time":"2023-09-20T06:51:57.145476008Z","level":"DEBUG","msg":"tasks","type":"command"}
+{"time":"2023-09-20T06:51:57.154961425Z","level":"INFO","msg":" ID         State     Message Type   Created                         Sent   Completed "}
+{"time":"2023-09-20T06:51:57.155117758Z","level":"INFO","msg":"========== ========= ============== =============================== ====== ==========="}
+{"time":"2023-09-20T06:51:57.155136216Z","level":"INFO","msg":" 1802352b   \u001b[1mpending\u001b[0m   Ls             Wed, 20 Sep 2023 06:51:29 UTC                    "}
+{"time":"2023-09-20T06:51:57.155158466Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}
+{"time":"2023-09-20T06:52:35.213722262Z","level":"INFO","msg":"BURNING_OXEN completed task 1802352b","type":"event"}
+{"time":"2023-09-20T06:52:35.216409804Z","level":"INFO","msg":"\r\u001b[2K\r"}
+{"time":"2023-09-20T06:52:35.217814054Z","level":"INFO","msg":"/home/sliver (13 items, 69.6 MiB)"}
+{"time":"2023-09-20T06:52:35.218980137Z","level":"INFO","msg":"================================="}
+{"time":"2023-09-20T06:52:35.219900554Z","level":"INFO","msg":"drwxr-xr-x  :sliver  .cache          <dir>     Wed Sep 20 00:50:07 +0000 2023\ndrwxr-xr-x  :sliver  .config         <dir>     Wed Sep 20 00:49:29 +0000 2023\ndrwxr-xr-x  :sliver  .msf4           <dir>     Sun Sep 10 03:09:01 +0000 2023\ndrwx------  :sliver  .sliver         <dir>     Wed Sep 20 06:52:35 +0000 2023\ndrwx------  :sliver  .sliver-client  <dir>     Wed Sep 20 00:50:01 +0000 2023\n-rwx------  :sliver  BORING_SCORN    17.6 MiB  Wed Sep 20 00:50:21 +0000 2023\n-rwx------  :sliver  BURNING_OXEN    17.4 MiB  Wed Sep 20 00:55:59 +0000 2023\n-rwx------  :sliver  EARLY_QUESTION  17.2 MiB  Wed Sep 20 03:21:16 +0000 2023\n-rw-r--r--  :sliver  run.sh          99 B      Wed Sep 20 01:19:37 +0000 2023\n-rw-r--r--  :sliver  run2.sh         174 B     Wed Sep 20 01:25:16 +0000 2023\n-rw-r--r--  :sliver  run3.sh         61 B      Wed Sep 20 01:25:29 +0000 2023\n-rw-r--r--  :sliver  run5.sh         52 B      Wed Sep 20 01:27:26 +0000 2023\n-rwx------  :sliver  TIRED_GUN       17.5 MiB  Wed Sep 20 00:50:43 +0000 2023\n"}
+{"time":"2023-09-20T06:52:35.221062887Z","level":"INFO","msg":"%!(EXTRA []interface {}=[])"}

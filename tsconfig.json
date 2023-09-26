@@ -40,6 +40,9 @@
 		},
 		{
 			"path": "parsers/parser-core"
+		},
+		{
+			"path": "parsers/sliver-parser"
 		}
 	]
 }

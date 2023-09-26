@@ -18,6 +18,7 @@
 		"@redeye/cobalt-strike-parser": "workspace:*",
 		"@redeye/migrations": "workspace:*",
 		"@redeye/models": "workspace:*",
-		"@redeye/parser-core": "workspace:*"
+		"@redeye/parser-core": "workspace:*",
+		"@redeye/sliver-parser": "workspace:*"
 	}
 }
