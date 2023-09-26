@@ -1,0 +1,19 @@
+{
+	"name": "@redeye/sliver-parser",
+	"version": "0.0.1-alpha.0",
+	"bin": "./dist/index.js",
+	"pkg": {
+		"assets": [
+			"../../node_modules/better-sqlite3/**/*.*",
+			"../../../node_modules/better-sqlite3/**/*.*"
+		],
+		"compress": "GZip"
+	},
+	"files": [
+		"dist"
+	],
+	"dependencies": {
+		"@redeye/models": "workspace:*",
+		"@redeye/parser-core": "workspace:*"
+	}
+}

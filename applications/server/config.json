@@ -4,6 +4,6 @@
 	"secret": "supertopsecretdonttellanyone",
 	"redTeam": true,
 	"databaseMode": "DEV_PERSIST",
-	"parsers": ["cobalt-strike-parser", "brute-ratel-parser"],
+	"parsers": ["sliver-parser", "cobalt-strike-parser", "brute-ratel-parser"],
 	"production": false
 }

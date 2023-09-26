@@ -1,9 +1,5 @@
 dependsOn:
   - 'models'
-  - 'migrations'
-  - 'cobalt-strike-parser'
-  - 'brute-ratel-parser'
-  - 'sliver-parser'
   - 'parser-core'
 tasks:
   build:
@@ -17,41 +13,32 @@ tasks:
     options:
       runInCI: false
       runDepsInParallel: false
-  start-blue:
-    local: true
+  generate-entities:
+    command: 'yarn node --loader ts-node/esm src/generate-entities.ts'
     deps:
-      - ^:build
-      - ~:start-node
-    options:
-      runInCI: false
-      runDepsInParallel: false
-      envFile: '.env.blue'
-      cache: false
-    env:
-      SERVER_BLUE_TEAM: 'true'
-
+      - ~:build
+  test:
+    deps:
+      - ~:test-jest
   release-mac:
     deps:
-      - client:build
       - ~:build
     outputs:
-      - /release/mac/RedEye
+      - /release/mac/parsers/sliver-parser
     options:
       runInCI: false
   release-linux:
     deps:
-      - client:build
       - ~:build
     outputs:
-      - /release/linux/RedEye
+      - /release/linux/parsers/sliver-parser
     options:
       runInCI: false
   release-windows:
     deps:
-      - client:build
       - ~:build
     outputs:
-      - /release/windows/RedEye
+      - /release/windows/parsers/sliver-parser
     options:
       runInCI: false
   release-all:
@@ -61,6 +48,3 @@ tasks:
       - ~:release-windows
     options:
       runInCI: false
-  test:
-    deps:
-      - ~:test-jest

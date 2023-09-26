@@ -24,10 +24,12 @@ export class Server {
 		name,
 		id,
 		parsingPath,
+		displayName,
 	}: Pick<Server, 'name' | 'parsingPath'> & Partial<Pick<Server, 'id' | 'displayName'>>) {
 		this.id = id ?? randomUUID();
 		this.name = name;
 		this.parsingPath = parsingPath;
+		this.displayName = displayName;
 	}
 
 	@Field(() => String)

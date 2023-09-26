@@ -16,7 +16,11 @@ export const withTempDir = async <T>(fn: (dir: string) => T) => {
 		return await fn(dir);
 	} finally {
 		setTimeout(() => {
-			fs.rm(dir, { recursive: true, force: true });
+			try {
+				fs.rm(dir, { recursive: true, force: true });
+			} catch (e) {
+				console.log('Error deleting temp directory', e);
+			}
 		}, 5000);
 	}
 };

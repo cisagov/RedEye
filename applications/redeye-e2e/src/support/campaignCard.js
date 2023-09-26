@@ -37,7 +37,7 @@ Cypress.Commands.add('clickAboutOnCampaignCard', () => {
 //UPLOAD CAMPAIGN DB FILE
 Cypress.Commands.add('uploadCampaign', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').click();
-	cy.get('[cy-test=create-new-camp]').select(3);
+	cy.get('[cy-test=create-new-camp]').select(4);
 	cy.get('[cy-test=new-camp-name]').click().type(camp);
 	cy.fixture(fileName, { encoding: null }).as('myFixture');
 	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
@@ -58,7 +58,7 @@ Cypress.Commands.add('uploadFolder', (camp, fileName) => {
 //UPLOAD CAMPAIGN DB FILE
 Cypress.Commands.add('uploadCampaignBlue', (camp, fileName) => {
 	cy.get('[cy-test=add-campaign-btn]').click();
-	cy.get('[cy-test=create-new-camp]').select(3);
+	cy.get('[cy-test=create-new-camp]').select(4);
 	cy.get('[cy-test=new-camp-name]').click().type(camp);
 	cy.fixture(fileName, { encoding: null }).as('myFixture');
 	cy.get('[cy-test=browse-for-file]').selectFile('@myFixture');
