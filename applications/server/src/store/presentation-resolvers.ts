@@ -1,6 +1,6 @@
 import type { EntityManager } from '@mikro-orm/core';
 import { Arg, Authorized, Ctx, Field, InputType, ObjectType, Query, Resolver, registerEnumType } from 'type-graphql';
-import { CommandGroup, Link, Server, Tag } from '@redeye/models';
+import { CommandGroup, GenerationType, Link, Server, Tag } from '@redeye/models';
 import { beaconHidden } from './utils/hidden-entities-helper';
 import { connectToProjectEmOrFail } from './utils/project-db';
 import type { GraphQLContext } from '../types';
@@ -304,7 +304,10 @@ export class PresentationResolvers {
 			// procedural comments
 			const proceduralComments = await em.find(
 				CommandGroup,
-				{ annotations: { generation: 'PROCEDURAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+				{
+					annotations: { generation: GenerationType.PROCEDURAL },
+					...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}),
+				},
 				{
 					populate: ['commands', 'annotations'],
 					orderBy,
@@ -336,7 +339,10 @@ export class PresentationResolvers {
 		let commandsByUser: PresentationItem[] = [];
 		const manualComments = await em.find(
 			CommandGroup,
-			{ annotations: { generation: 'MANUAL' }, ...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}) },
+			{
+				annotations: { generation: GenerationType.MANUAL },
+				...(!hidden ? { commands: { ...beaconHidden(hidden) } } : {}),
+			},
 			{
 				populate: ['commands', 'annotations'],
 				orderBy,

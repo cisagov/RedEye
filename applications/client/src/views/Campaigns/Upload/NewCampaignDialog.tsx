@@ -1,12 +1,11 @@
 import type { OptionProps } from '@blueprintjs/core';
 import { Divider, FormGroup, HTMLSelect } from '@blueprintjs/core';
 import { css } from '@emotion/react';
-import { DialogEx, ErrorFallback } from '@redeye/client/components';
+import { DialogEx, ErrorFallback, createState } from '@redeye/client/components';
 import { RedEyeDbUploadForm } from '@redeye/client/views';
 import { CoreTokens, ExternalLink, Header, Txt } from '@redeye/ui-styles';
 import { observer } from 'mobx-react-lite';
 import type { ComponentProps } from 'react';
-import { useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import type { ParserInfoModel } from '../../../store';
 import { useStore } from '../../../store';
@@ -21,41 +20,38 @@ const SOURCE_UNSET = '';
 
 export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props }) => {
 	const store = useStore();
-	const [currentUploadOptionValue, setCurrentUploadOptionValue] = useState(SOURCE_UNSET);
+	const state = createState({
+		currentUploadOptionValue: SOURCE_UNSET as string,
+		get uploadOptions() {
+			const options: (OptionProps & {
+				parserInfo?: ParserInfoModel;
+			})[] = [
+				{
+					label: 'Select Source',
+					value: SOURCE_UNSET,
+					disabled: true,
+				},
+			];
 
-	const uploadOptions = useMemo(() => {
-		const options: (OptionProps & {
-			parserInfo?: ParserInfoModel;
-		})[] = [
-			{
-				label: 'Select Source',
-				value: SOURCE_UNSET,
-				disabled: true,
-			},
-		];
-
-		options.push(
-			...Array.from(store.graphqlStore.parserInfos.values())
-				.sort((a) => (a.name.includes('Cobalt') ? -1 : 1))
-				.map((parserInfo) => ({
+			options.push(
+				...Array.from(store.graphqlStore.parserInfos.values(), (parserInfo) => ({
 					label: parserInfo?.uploadForm?.tabTitle,
 					value: parserInfo.id,
 					parserInfo,
-				}))
-		);
+				})).sort((a) => (a.parserInfo.name.toLowerCase().includes('cobalt') ? -1 : 1))
+			);
 
-		options.push({
-			label: '.redeye file',
-			value: 'redeye-file',
-		});
+			options.push({
+				label: '.redeye file',
+				value: 'redeye-file',
+			});
 
-		return options;
-	}, [store.graphqlStore.parserInfos.values()]);
-
-	const selectedUploadOption = useMemo(
-		() => uploadOptions.find((option) => option.value === currentUploadOptionValue),
-		[uploadOptions, currentUploadOptionValue]
-	);
+			return options;
+		},
+		get selectedUploadOption() {
+			return this.uploadOptions.find((option) => option.value === this.currentUploadOptionValue);
+		},
+	});
 
 	return (
 		<DialogEx
@@ -73,24 +69,24 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 					<FormGroup css={{ padding: '1rem 1.5rem 1.5rem 1.5rem', margin: 0 }} label="Source">
 						<HTMLSelect
 							cy-test="create-new-camp" // <- was {`create-new-camp-${parserInfo.id}`}
-							value={currentUploadOptionValue}
-							css={!currentUploadOptionValue && htmlSelectPlaceholderStyle}
-							options={uploadOptions}
-							onChange={(e) => setCurrentUploadOptionValue(e.target.value)}
+							value={state.currentUploadOptionValue}
+							css={!state.currentUploadOptionValue && htmlSelectPlaceholderStyle}
+							options={state.uploadOptions}
+							onChange={(e) => state.update('currentUploadOptionValue', e.target.value)}
 							fill
 							large
 						/>
 					</FormGroup>
 					<Divider css={{ margin: '0 1.5rem' }} />
-					{currentUploadOptionValue === SOURCE_UNSET ? (
+					{state.currentUploadOptionValue === SOURCE_UNSET ? (
 						<div css={{ padding: '1.5rem' }}>
 							<Txt italic muted>
 								Select an import source to continue
 							</Txt>
 						</div>
-					) : selectedUploadOption?.parserInfo == null ? (
+					) : state.selectedUploadOption?.parserInfo == null ? (
 						<RedEyeDbUploadForm onClose={props.onClose} />
-					) : !selectedUploadOption?.parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (
+					) : !state.selectedUploadOption?.parserInfo?.uploadForm?.enabledInBlueTeam && store.appMeta.blueTeam ? (
 						<div css={{ padding: '1.5rem' }}>
 							<Txt cy-test="bt-warning" running>
 								This upload source is not available in BlueTeam mode.
@@ -101,7 +97,7 @@ export const NewCampaignDialog = observer<NewCampaignDialogProps>(({ ...props })
 							</Txt>
 						</div>
 					) : (
-						<ParserUploadForm parserInfo={selectedUploadOption?.parserInfo} onClose={props.onClose} />
+						<ParserUploadForm parserInfo={state.selectedUploadOption?.parserInfo} onClose={props.onClose} />
 					)}
 				</div>
 			</ErrorBoundary>

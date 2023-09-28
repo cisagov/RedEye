@@ -1,12 +1,34 @@
-import { resolve, join } from 'node:path';
+import { resolve } from 'node:path';
 import { readdir } from 'node:fs/promises';
-import childProc from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
+import { parseArgs } from 'node:util';
+import {exec as pkgExec} from 'pkg'
 
-const exec = promisify(childProc.exec);
+const {
+	values: {
+		/** @type {string} */
+		nodeVersion,
+		/** @type {['all'] | ('mac' | 'linux' | 'windows' | 'mac-arm')[]} */
+		os
+	},
+} = parseArgs({
+	options: {
+		nodeVersion: {
+			type: "string",
+			short: "n",
+			default: "18.15.0",
+		},
+		os: {
+			type: "string",
+			multiple: true,
+			default: ["all"],
+			short: "o",
+		},
+	},
+});
 
-const NODE_VER = 'node18';
+
+const NODE_VER = nodeVersion;
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const rootDir = resolve(__dirname, '..');
@@ -14,10 +36,22 @@ const releaseDir = resolve(rootDir, 'release');
 
 
 const OS_ARCH = {
-	mac: 'macos-x64',
-	linux: 'linux-x64',
-	windows: 'win-x64',
-	'mac-arm': 'macos-arm64',
+	mac: {
+		platform: 'macos',
+		arch: 'x64',
+	},
+	linux: {
+		platform: 'linux',
+		arch: 'x64',
+	},
+	windows: {
+		platform: 'windows',
+		arch: 'x64',
+	},
+	// 'mac-arm': {
+	// 	platform: 'macos',
+	// 	arch: 'arm64',
+	// },
 };
 
 const PARSERS = [];
@@ -30,11 +64,16 @@ const PROJECTS = [
 	{ path: 'applications/server/package.json', out: 'RedEye' },
 	...PARSERS.map((parser) => ({ path: `parsers/${parser}`, out: `parsers/${parser}` })),
 ];
-
+const isAllOS = os.includes('all');
 for (const [OS, PKG_KEY] of Object.entries(OS_ARCH)) {
+	if (!isAllOS && !os.includes(OS)) {
+		continue;
+	}
+	console.log('Building for: ', OS)
 	for (const project of PROJECTS) {
-		await exec(
-			`yarn pkg ${project.path} -t ${NODE_VER}-${PKG_KEY} -o ${resolve(releaseDir, `RedEye-${OS}`, project.out)}`
+		console.log('\tBuilding: ', project.path)
+		await pkgExec(
+			[project.path, '-t', `node${NODE_VER}-${PKG_KEY.platform}-${PKG_KEY.arch}`,  '-o', resolve(releaseDir, `RedEye-${OS}`, project.out)]
 		);
 	}
 }

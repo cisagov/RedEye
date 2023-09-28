@@ -1,5 +1,4 @@
 import { CampaignViews } from '@redeye/client/types';
-import type { UUID } from '@redeye/client/types/uuid';
 import { computed } from 'mobx';
 import { ExtendedModel, model, modelAction } from 'mobx-keystone';
 import type { PresentationCommandGroupModel, PresentationItemModel } from '../graphql';
