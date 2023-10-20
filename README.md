@@ -1,4 +1,11 @@
 # **RedEye**: Red Team C2 Log Visualization
+---
+
+## ⚠️ This Repo Currently in Maintenance Mode ⚠️
+
+This GitHub repository is no longer under active development. We'll review community issues and pull requests for bug fixes, but won't consider any new feature additions.
+
+---
 
 <p align="center">
 <img alt="RedEye Screenshot" src="https://github.com/cisagov/RedEye/blob/develop/docs/images/RedEye-Hero-Screenshot.png?raw=true" width="100%"/>
@@ -16,13 +23,6 @@ RedEye can assist an operator to efficiently:
 |:------------:|:-------------:|
 | [![Red Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/rsybgk&style=flat&logo=cypress)](https://cloud.cypress.io/projects/rsybgk/runs) | [![Blue Team](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/46ahz3&style=flat&logo=cypress)](https://cloud.cypress.io/projects/46ahz3/runs) |
 
----
-
-## ⚠️ This Repo Currently in Maintenance Mode ⚠️
-
-This GitHub repository is no longer under active development. We'll review community issues and pull requests for bug fixes, but won't consider any new feature additions.
-
----
 
 ## Quick start
 
